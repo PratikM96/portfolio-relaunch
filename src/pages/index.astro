@@ -12,6 +12,7 @@ import Base from '../layouts/Base.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import DisciplineStrip from '../components/DisciplineStrip.astro';
 import WorkIndex from '../components/WorkIndex.astro';
+import StatFigure from '../components/StatFigure.astro';
 
 const CDN = 'https://cdn.mehtapratik.com';
 
@@ -19,20 +20,20 @@ const CDN = 'https://cdn.mehtapratik.com';
 
 <Base
   title="Pratik Mehta · Creative & Marketing Strategist"
-  description="Creative, social, and performance, built as one system. One connected practice across brand, social, content, UI/UX, motion, and performance."
+  description="I build creative, social, and performance as one system. Creative & Marketing Strategist in New York, with an AI-forward workflow."
 >
   {/* SPLIT HERO */}
   <section class="hero">
     <div class="hero-inner">
       <div>
         <div class="kick rev">Open to creative or marketing leadership roles · New York</div>
-        <h1 class="rev">Creative, social, and performance, built as <span class="signal">one system.</span></h1>
-        <p class="lead rev">One connected practice across brand, social, content, UI/UX, motion, and performance, instead of separate hand-offs, and accountable to what the work does after it ships.</p>
-        <div class="cta rev"><a class="btn btn-p" href="/work">See the work</a><a class="btn btn-g" href="/contact">Start a conversation</a></div>
+        <h1 class="rev">I build creative, social, and performance as <span class="signal">one system.</span></h1>
+        <p class="lead rev">I connect the making of the creative to the marketing system that makes it perform, and own it from the idea to what it does after it ships.</p>
+        <div class="cta rev"><a class="btn btn-p" href="/work">See the work →</a><a class="btn btn-g" href="/contact">Start a conversation →</a></div>
       </div>
       <figure class="hero-figure rev">
         <div class="frame"><span class="tagm">Featured · Client</span><img src={`${CDN}/covers/sportime-clubs-cover.webp`} alt="SPORTIME Clubs" /></div>
-        <figcaption class="figcap"><span>SPORTIME Clubs · Brand, campaign, motion</span><span>№ 01</span></figcaption>
+        <figcaption class="figcap"><span>SPORTIME Clubs · brand, content, motion</span><span>№ 01</span></figcaption>
       </figure>
     </div>
   </section>
@@ -51,9 +52,9 @@ const CDN = 'https://cdn.mehtapratik.com';
           <div class="meta">
             <div>
               <h3 class="h3">SPORTIME Clubs</h3>
-              <p>Brand and content across tennis and pickleball, and the marketing built around a $75M facility expansion.</p>
+              <p>A video-first content engine across tennis, pickleball, and a $75M expansion. 11.7M cross-platform impressions in a year.</p>
             </div>
-            <div class="disc">Brand /<br>Campaign /<br>Motion /<br>Photo</div>
+            <div class="disc">Brand /<br>Social /<br>Content /<br>Motion /<br>Photo</div>
           </div>
         </a>
         <a class="tile t-feat" href="/work/the-ninth">
@@ -62,18 +63,18 @@ const CDN = 'https://cdn.mehtapratik.com';
           <div class="meta">
             <div>
               <h3 class="h3">The Ninth</h3>
-              <p>A self-initiated esports membership concept, built as one multi-surface product system.</p>
+              <p>A self-initiated esports membership system built around Cloud9, brand through product, with a live AI moment-clipper at the center.</p>
             </div>
             <div class="disc">Brand /<br>UI/UX /<br>AI /<br>Motion</div>
           </div>
         </a>
       </div>
-      {/* General practice-level metrics — placeholders until the real numbers come from System Master. Case-study-specific stats live on each case study, not here. */}
+      {/* General practice-level metrics (career totals from System Master). 11.7M lives in card_A above. */}
       <div class="stat-row">
-        <div class="tile t-stat"><div class="fig">00.0</div><div class="lab">General metric · placeholder</div></div>
-        <div class="tile t-stat"><div class="fig">00.0</div><div class="lab">General metric · placeholder</div></div>
-        <div class="tile t-stat"><div class="fig">00.0</div><div class="lab">General metric · placeholder</div></div>
-        <div class="tile t-stat"><div class="fig">00.0</div><div class="lab">General metric · placeholder</div></div>
+        <div class="tile t-stat"><div class="fig"><StatFigure value="10+" unit=" yrs" /></div><div class="lab">creative & marketing</div></div>
+        <div class="tile t-stat"><div class="fig"><StatFigure value="20+" /></div><div class="lab">brands & organizations</div></div>
+        <div class="tile t-stat"><div class="fig"><StatFigure value="75+" /></div><div class="lab">campaigns launched</div></div>
+        <div class="tile t-stat"><div class="fig"><StatFigure value="10K+" /></div><div class="lab">design assets produced</div></div>
       </div>
     </div>
   </section>
@@ -83,20 +84,20 @@ const CDN = 'https://cdn.mehtapratik.com';
 
   {/* MODULES — the practice, documented */}
   <section class="block">
-    <SectionLabel code="03" title="The practice, documented" />
+    <SectionLabel code="03" title="The practice" />
     <div class="duo">
       <a class="mod rev" id="brand" href="/brand">
         <div class="k">One System · brand</div>
-        <h3 class="h2">The brand, built like a product</h3>
-        <p>Tokens, components, voice, and a logo that closes on a single node. A working reference, and a case study of the thinking behind it.</p>
+        <h3 class="h2">One system, end to end.</h3>
+        <p>The brand, the work, and the thinking run on the same logic: built like a system, accountable to what it does after it ships.</p>
         <span class="go">See the brand system →</span>
       </a>
       <a class="mod mod-about rev" id="about" href="/about">
         <img class="face" src={`${CDN}/about/about-headshot-01.webp`} alt="Pratik Mehta" loading="lazy" />
         <div class="about-body">
-          <div class="k">About · the short version</div>
-          <h3 class="h2">Engineer turned creative</h3>
-          <p>Trained in code, moved to design, kept there by marketing because it made the work accountable to an audience.</p>
+          <div class="k">About</div>
+          <h3 class="h2">Engineer turned creative.</h3>
+          <p>I started in computer science and kept moving toward the people the work is actually for, through design, into marketing. Now I build creative, social, and performance as one connected system.</p>
           <span class="go">More about the practice →</span>
         </div>
       </a>
@@ -106,7 +107,10 @@ const CDN = 'https://cdn.mehtapratik.com';
   {/* JOURNAL */}
   <section class="block" id="journal">
     <SectionLabel code="04" title="Journal" />
-    <p class="jr-empty rev">Notes on systems, brand, and AI. First posts after launch.</p>
+    <div class="jr-empty rev">
+      <span class="jr-tag">[ Coming soon ]</span>
+      <p>Notes on systems, brand, and AI. The first posts go up after launch.</p>
+    </div>
   </section>
 
   {/* CLOSE */}
@@ -114,7 +118,7 @@ const CDN = 'https://cdn.mehtapratik.com';
     <div class="rev">
       <h2 class="big">Open to the right role.</h2>
       <div class="avail">Open to creative or marketing leadership roles · New York</div>
-      <div class="cta"><a class="btn btn-p" href="mailto:mehtadpratik@gmail.com">Start a conversation</a><a class="btn btn-g" href="/work">See the work</a></div>
+      <div class="cta"><a class="btn btn-p" href="/contact">Start a conversation →</a><a class="btn btn-g" href="/work">See the work →</a></div>
     </div>
   </section>
 </Base>
@@ -160,7 +164,7 @@ const CDN = 'https://cdn.mehtapratik.com';
   .badge.concept { background: var(--badge-concept-bg); color: var(--badge-concept-tx); border: 1px solid var(--border-strong); }
 
   .t-stat { padding: 22px; display: flex; flex-direction: column; justify-content: center; gap: 10px; min-height: 132px; }
-  .t-stat .fig { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 3vw, 42px); line-height: 1; letter-spacing: -0.02em; color: var(--text-muted); }
+  .t-stat .fig { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 3vw, 42px); line-height: 1; letter-spacing: -0.02em; color: var(--text); }
   .t-stat .lab { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); line-height: 1.5; max-width: 24ch; }
 
   /* ===== MODULES ===== */
@@ -171,13 +175,19 @@ const CDN = 'https://cdn.mehtapratik.com';
   .mod p { font-size: 14px; color: var(--text-secondary); max-width: 46ch; margin-top: 10px; }
   .mod .go { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text); margin-top: auto; padding-top: 22px; }
   /* About module: portrait headshot shown larger and side-by-side, cropped square (in-system) instead of a tiny vertical thumb */
-  .mod-about { flex-direction: row; align-items: center; gap: 24px; }
-  .mod-about .face { width: 150px; aspect-ratio: var(--ratio-square); height: auto; object-fit: cover; border-radius: var(--radius-md); flex: none; }
+  /* image matches the height of the text column beside it (stretches, no fixed aspect) */
+  .mod-about { flex-direction: row; align-items: stretch; gap: 24px; }
+  .mod-about .face { width: 160px; object-fit: cover; border-radius: var(--radius-md); flex: none; }
   .mod-about .about-body { flex: 1; display: flex; flex-direction: column; }
-  @media (max-width: 560px) { .mod-about { flex-direction: column; align-items: flex-start; gap: 18px; } }
+  @media (max-width: 560px) {
+    .mod-about { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .mod-about .face { width: 140px; aspect-ratio: var(--ratio-square); }
+  }
 
   /* ===== JOURNAL ===== */
-  .jr-empty { font-size: 16px; color: var(--text-secondary); border-top: 1px solid var(--border); padding-top: 24px; max-width: 52ch; }
+  .jr-empty { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 48px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .jr-empty .jr-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); }
+  .jr-empty p { font-size: 18px; color: var(--text-secondary); }
 
   /* ===== CLOSE ===== */
   .close { padding: 110px 0; }

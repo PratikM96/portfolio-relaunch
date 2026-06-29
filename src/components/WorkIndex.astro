@@ -11,11 +11,13 @@
 import { getCollection } from 'astro:content';
 import SectionLabel from './SectionLabel.astro';
 
-// Canonical list from the collection. Sorted featured-first, then by title.
-const entries = (await getCollection('work')).sort((a, b) => {
-  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
-  return a.data.title.localeCompare(b.data.title);
-});
+// Curated "Selected work" for the home index. The Featured section above already
+// showcases SPORTIME (client) and The Ninth (concept), so they're omitted here.
+// The full set lives on /work (linked via "View all").
+const SELECTED = ['dealnews', 'raa', 'agency-fiveeighty', 'level', 'wisp'];
+const all = await getCollection('work');
+const bySlug = new Map(all.map((e) => [e.data.slug, e]));
+const entries = SELECTED.map((slug) => bySlug.get(slug)).filter((e) => e !== undefined);
 
 // In the index, a year range collapses to its earliest year (e.g. 2023—2024 -> 2023).
 // The full range stays on the case-study page itself.
@@ -34,14 +36,11 @@ const projects = entries.map((e, i) => ({
   desc: e.data.lede,
 }));
 
-// Discipline facet values, in first-seen order across the collection.
-const disciplines = [...new Set(entries.flatMap((e) => e.data.disciplines))];
-
 const first = projects[0]!;
 ---
 
 <section class="block" id="work">
-  <SectionLabel code="02" title="The work · one index" more={{ href: '/work', label: 'View all →' }} />
+  <SectionLabel code="02" title="Selected work" more={{ href: '/work', label: 'View all →' }} />
 
   <div class="idx-filter" role="group" aria-label="Filter work">
     <div class="fg" data-facet="type">
@@ -49,13 +48,6 @@ const first = projects[0]!;
       <button class="active" data-type="all" aria-pressed="true">All</button>
       <button data-type="client" aria-pressed="false">Client</button>
       <button data-type="concept" aria-pressed="false">Concept</button>
-    </div>
-    <div class="fg" data-facet="disc">
-      <span class="fl">Discipline</span>
-      <button class="active" data-disc="all" aria-pressed="true">All</button>
-      {disciplines.map((dsc) => (
-        <button data-disc={dsc} aria-pressed="false">{dsc}</button>
-      ))}
     </div>
   </div>
 
@@ -189,6 +181,7 @@ const first = projects[0]!;
   .idx-row { padding: 20px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: padding-left .2s var(--ease-standard); }
   /* filtered-out rows: override the explicit display:grid above so [hidden] takes effect */
   .idx-row[hidden] { display: none; }
+  .idx-row:last-of-type { border-bottom: none; }
   .idx-row:hover, .idx-row.active { padding-left: 10px; }
   .idx-row .ix { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
   .idx-row.active .ix { color: var(--accent-text); }

@@ -23,13 +23,13 @@ const meta = (p: (typeof posts)[number]) =>
 
 <Base
   title="Journal · Pratik Mehta"
-  description="Working notes on building creative as a system, distinctiveness, and where AI actually changes the work."
+  description="Working notes on building creative as a system, what makes work distinctive, and where AI actually changes the job."
   activeNav="journal"
 >
   <header class="phead">
-    <div class="k">[ Journal ] · notes on systems, brand, and AI</div>
-    <h1 class="rev">Working notes,<br />not hot takes.</h1>
-    <p class="rev">Short pieces on building creative as a system, distinctiveness, and where AI actually changes the work.</p>
+    <div class="k">[ Journal ] · on systems, brand, and AI</div>
+    <h1 class="rev">Working notes,<br />not <span class="signal">hot takes.</span></h1>
+    <p class="rev">Short pieces on building creative as a system, what makes work distinctive, and where AI actually changes the job, not where it's just hype.</p>
   </header>
 
   <div class="jr-body">
@@ -37,7 +37,7 @@ const meta = (p: (typeof posts)[number]) =>
     posts.length === 0 ? (
       <div class="jr-empty rev">
         <span class="jr-tag">[ Coming soon ]</span>
-        <p>The first notes publish after launch.</p>
+        <p>The first notes go up after launch.</p>
       </div>
     ) : (
       <Fragment>

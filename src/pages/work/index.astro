@@ -29,8 +29,17 @@ const yearRange =
       : `${allYears[0]}—${allYears.at(-1)}`;
 const count = entries.length;
 
-// Filter token for a facet value, e.g. "UI/UX" -> "uiux".
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+// Consolidated discipline filters (6 buckets). A project matches a bucket if any
+// of its raw disciplines is a member of that bucket.
+const buckets = [
+  { label: 'Brand', token: 'brand', members: ['Brand', 'Strategy', 'Leadership'] },
+  { label: 'Social & Content', token: 'social', members: ['Social', 'Content', 'Paid'] },
+  { label: 'UI/UX', token: 'uiux', members: ['UI/UX', 'Product'] },
+  { label: 'Motion', token: 'motion', members: ['Motion', 'Video', 'Broadcast'] },
+  { label: 'AI', token: 'ai', members: ['AI'] },
+  { label: 'Production', token: 'production', members: ['Print', 'Environmental', 'Photo', 'Photography', 'Event', 'Digital', 'Design'] },
+];
+const bucketsFor = (disc: string[]) => buckets.filter((b) => disc.some((d) => b.members.includes(d)));
 
 const projects = entries.map((e, i) => ({
   n: String(i + 1).padStart(2, '0'),
@@ -42,19 +51,18 @@ const projects = entries.map((e, i) => ({
   href: `/work/${e.data.slug}`,
   cover: e.data.cover,
   lede: e.data.lede,
-  tags: [e.data.type, ...e.data.disciplines.map(norm)].join(' '),
+  tags: [e.data.type, ...bucketsFor(e.data.disciplines).map((b) => b.token)].join(' '),
   featured: e.data.featured,
 }));
 
 const featured = projects.filter((p) => p.featured);
-const disciplines = [...new Set(entries.flatMap((e) => e.data.disciplines))];
 const first = projects[0]!;
 ---
 
 <Base title="Work · Pratik Mehta" description="Client and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work">
   <header class="phead">
     <div class="k">[ Work ] · {count} {count === 1 ? 'project' : 'projects'} · {yearRange}</div>
-    <h1 class="rev">The work,<br />as one index.</h1>
+    <h1 class="rev">The work,<br />as <span class="signal">one index.</span></h1>
     <p class="rev">Client and concept, filterable by type and discipline. Pick the two or three that answer your question. Each one opens to a full case study.</p>
   </header>
 
@@ -88,8 +96,8 @@ const first = projects[0]!;
     <button data-f="client">Client</button>
     <button data-f="concept">Concept</button>
     <span class="div"></span>
-    {disciplines.map((d) => (
-      <button data-f={norm(d)}>{d}</button>
+    {buckets.map((b) => (
+      <button data-f={b.token}>{b.label}</button>
     ))}
   </div>
 

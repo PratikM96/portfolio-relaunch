@@ -145,7 +145,7 @@ img { display: block; max-width: 100%; }
 /* ===== CONTENT SCAFFOLD + shared primitives ===== */
 .stage { margin-left: var(--rail); min-height: 100vh; }
 .pad { padding: 0 64px; }
-.block { padding: 96px 0; border-top: 1px solid var(--border); }
+.block { padding: 96px 0; }
 .blabel { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
 .blabel .c { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent-text); }
 .blabel .t { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
