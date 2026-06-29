@@ -1,0 +1,52 @@
+---
+/**
+ * ProofBox.astro — the single proof block for EVERY case study (client or
+ * concept). One uniform stat style: a grid of proof figures (value + optional
+ * accent unit) plus an optional note line. There is no metric-vs-scope split —
+ * any entry's `proof.figures` render identically. Replaces ResultBox + ScopeBox.
+ */
+type Figure = { value: string; unit?: string; label: string };
+interface Props {
+  figures: Figure[];
+  /** Optional caption/rationale under the figures. */
+  note?: { label: string; text: string };
+}
+const { figures, note } = Astro.props;
+---
+
+<div class="cs-proof rev">
+  <div class="grid">
+    {
+      figures.map((f) => (
+        <div class="r">
+          <div class="f">{f.value}{f.unit && <span class="u">{f.unit}</span>}</div>
+          <div class="l">{f.label}</div>
+        </div>
+      ))
+    }
+  </div>
+  {note && (
+    <div class="cs-note">
+      <div class="m-label">{note.label}</div>
+      <p>{note.text}</p>
+    </div>
+  )}
+</div>
+
+<style>
+  .cs-proof { border: 1px solid var(--border-strong); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
+  .cs-proof .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+  /* container-query sizing so the figure scales to the cell and never wraps;
+     the unit is a smaller secondary run so long word-units fit on one line */
+  .cs-proof .r { background: var(--surface); padding: 30px 24px; container-type: inline-size; }
+  .cs-proof .r .f { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 22cqi, 50px); letter-spacing: -0.025em; line-height: 1; white-space: nowrap; }
+  .cs-proof .r .f .u { font-size: 0.5em; color: var(--accent-text); margin-left: 0.06em; }
+  /* description: max two lines */
+  .cs-proof .r .l { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); margin-top: 12px; line-height: 1.5; max-width: 24ch; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .cs-note { padding: 30px 28px; border-top: 1px solid var(--border); }
+  .cs-note .m-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+  .cs-note p { font-size: 16px; line-height: 1.6; color: var(--text-secondary); max-width: 66ch; }
+
+  @media (max-width: 1100px) { .cs-proof .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .cs-proof .grid { grid-template-columns: 1fr; } }
+</style>

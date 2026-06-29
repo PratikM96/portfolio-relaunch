@@ -17,7 +17,7 @@ hero:
   - { k: 'Role', v: 'Marketing Manager' }
   - { k: 'Disciplines', v: 'Brand · Social · Content · Motion · Photo' }
   - { k: 'Timeframe', v: '2023—2024 · one year' }
-  - { k: 'Headline result', v: '11.7', metric: true, unit: 'M' }
+  - { k: 'Headline result', v: '11.7', stat: true, unit: 'M' }
 
 problem:
   prose:
@@ -76,12 +76,12 @@ reflection:
     - { type: 'stat', label: 'Compounding', value: '16.8', unit: 'K', desc: 'Net new followers in the same year, from the same system.' }
     - { type: 'note', label: 'How it ran', text: 'A content lead in each club, producing to one central strategy.' }
 
-next: { kicker: 'Next case study · Concept', title: 'The Ninth', href: '/#work' }
+next: { kicker: 'Next case study · Concept', title: 'The Ninth', href: '/work/the-ninth' }
 
-metric: { value: '11.7M', label: 'Cross-platform impressions in one year' }
-proofMetrics:
-  - { value: '11.7', unit: 'M', label: 'Cross-platform impressions in one year' }
-  - { value: '16.8', unit: 'K', label: 'Net new followers in one year' }
-  - { value: '+510', unit: '%', label: 'Instagram publishing volume' }
-  - { value: '+2,115', unit: '%', label: 'Reels output' }
+proof:
+  figures:
+    - { value: '11.7', unit: 'M', label: 'Cross-platform impressions in one year' }
+    - { value: '16.8', unit: 'K', label: 'Net new followers in one year' }
+    - { value: '+510', unit: '%', label: 'Instagram publishing volume' }
+    - { value: '+2,115', unit: '%', label: 'Reels output' }
 ---

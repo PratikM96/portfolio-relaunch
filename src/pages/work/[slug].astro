@@ -5,9 +5,10 @@
  * and structure come entirely from the entry data, so SPORTIME (client) and
  * The Ninth (concept) render identically to the hand-built pages they replace.
  *
- * The only type-driven branches: the hero badge class, the rail Type line, the
- * proof box (ResultBox vs ScopeBox), and the optional EmbeddedDemo. Orange stays
- * reserved for verified client results; concept data is neutral throughout.
+ * Proof is one uniform ProofBox for every entry (no metric-vs-scope split); the
+ * guardrail is simply "at least one proof figure". The only type-driven bits left
+ * are cosmetic: the hero badge class and the rail Type line. The optional
+ * EmbeddedDemo renders whenever `demo` is present.
  */
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
@@ -18,8 +19,7 @@ import MarginRail from '../../components/MarginRail.astro';
 import SysFlow from '../../components/SysFlow.astro';
 import Decisions from '../../components/Decisions.astro';
 import OutputGrid from '../../components/OutputGrid.astro';
-import ResultBox from '../../components/ResultBox.astro';
-import ScopeBox from '../../components/ScopeBox.astro';
+import ProofBox from '../../components/ProofBox.astro';
 import EmbeddedDemo from '../../components/EmbeddedDemo.astro';
 
 export const getStaticPaths = (async () => {
@@ -141,11 +141,7 @@ const outputTiles = d.output.tiles.map((t) => ({
   {/* PROOF */}
   <section class="cs-sec" id="proof">
     <CaseSectionHead no="05" title="Proof" />
-    {isClient ? (
-      <ResultBox metrics={d.proofMetrics!} />
-    ) : (
-      <ScopeBox figures={d.scope!} rationale={d.rationale!} />
-    )}
+    <ProofBox figures={d.proof.figures} note={d.proof.note} />
   </section>
 
   {/* REFLECTION + NEXT */}

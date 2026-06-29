@@ -18,7 +18,7 @@ hero:
   - { k: 'Role', v: 'Concept, brand & product, end to end' }
   - { k: 'Disciplines', v: 'Brand · UI/UX · AI · Motion' }
   - { k: 'Type', v: 'Self-initiated · 2026' }
-  - { k: 'Scope', v: '40', scope: true, unit: ' screens' }
+  - { k: 'Scope', v: '40', stat: true, unit: ' screens' }
 
 problem:
   prose:
@@ -77,14 +77,15 @@ reflection:
 
 next: { kicker: 'Next case study · Client', title: 'SPORTIME Clubs', href: '/work/sportime-clubs' }
 
-scope:
-  - { value: '40', label: 'Screens designed across the membership product' }
-  - { value: '5', label: 'Live views: app, clipper, broadcast, social, brand' }
-  - { value: '3', label: 'Membership tiers' }
-  - { value: '8', label: 'AI-assisted features, led by the moment-clipper' }
-rationale:
-  label: 'Why it exists · what it proves'
-  text: 'The Ninth is self-initiated. The figures above are scope, what was designed and built, not performance. No audience, engagement, or revenue results are claimed for speculative work. What it demonstrates is range: a full product brand taken from zero to a working, multi-view demo, with the AI moment-clipper as its centerpiece.'
+proof:
+  figures:
+    - { value: '40', unit: ' screens', label: 'Designed across the membership product' }
+    - { value: '5', unit: ' views', label: 'App, clipper, broadcast, social, brand' }
+    - { value: '3', unit: ' tiers', label: 'Membership' }
+    - { value: '8', unit: ' features', label: 'AI-assisted, led by the moment-clipper' }
+  note:
+    label: 'Why it exists · what it proves'
+    text: 'The Ninth is self-initiated. The figures above are scope, what was designed and built, not performance. No audience, engagement, or revenue results are claimed for speculative work. What it demonstrates is range: a full product brand taken from zero to a working, multi-view demo, with the AI moment-clipper as its centerpiece.'
 demo:
   project: 'the-ninth'
   heading: 'Live demo · The Ninth'

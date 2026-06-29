@@ -78,8 +78,7 @@ const work = defineCollection({
         z.object({
           k: z.string(),
           v: z.string(),
-          metric: z.boolean().optional(), // accent unit (verified result)
-          scope: z.boolean().optional(), // neutral unit (concept scope count)
+          stat: z.boolean().optional(), // render v as a large proof figure (+ optional unit)
           unit: z.string().optional(),
         }),
       ),
@@ -108,17 +107,16 @@ const work = defineCollection({
       reflection: proseSection,
       next: z.object({ kicker: z.string(), title: z.string(), href: z.string() }),
 
-      // --- proof (guardrail fields + display data) ---
-      // client work MUST carry a verified headline metric; concept MUST carry scope.
-      metric: z.object({ value: z.string(), label: z.string() }).optional(),
-      scope: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
-      // client proof box: the verified metric row (testimonials removed site-wide)
-      proofMetrics: z
-        .array(z.object({ value: z.string(), unit: z.string().optional(), label: z.string() }))
-        .optional(),
-      // concept proof box: rationale line (no results claimed)
-      rationale: z.object({ label: z.string(), text: z.string() }).optional(),
-      // concept embedded demo: tabbed island linking to /concepts/[project]/
+      // --- proof (one uniform shape for every entry; no metric vs scope split) ---
+      // Every entry must carry at least one proof figure. The non-empty `figures`
+      // array IS the guardrail — the build fails only if an entry has no proof.
+      proof: z.object({
+        figures: z
+          .array(z.object({ value: z.string(), unit: z.string().optional(), label: z.string() }))
+          .min(1, 'every entry needs at least one proof value'),
+        note: z.object({ label: z.string(), text: z.string() }).optional(),
+      }),
+      // embedded demo: tabbed island linking to /concepts/[project]/
       demo: z
         .object({
           project: z.string(),
@@ -138,9 +136,6 @@ const work = defineCollection({
           ),
         })
         .optional(),
-    })
-    .refine((d) => (d.type === 'client' ? !!d.metric : !!d.scope), {
-      message: 'client needs a verified metric; concept needs scope',
     }),
 });
 

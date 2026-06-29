@@ -1,22 +1,16 @@
 ---
 /**
  * Scoreboard.astro — the case-study hero board: a 4-up grid of cells.
- * A cell can be a plain meta cell or a `metric` cell (display figure with an
- * accent unit). For client work the metric carries the verified headline
- * result; concept work would carry a scope figure (neutral, no unit accent).
+ * A cell is either a plain meta cell or a `stat` cell: one uniform proof style
+ * (large display figure + optional accent unit), the same for every entry.
+ * There is no metric-vs-scope distinction.
  */
 type Cell = {
   k: string;
   v: string;
-  /** Render as a large display figure with an ACCENT unit (verified client metric). */
-  metric?: boolean;
-  /**
-   * Render as a large display figure with a NEUTRAL unit (concept scope count,
-   * e.g. "5 surfaces"). Orange stays reserved for real results, so scope never
-   * uses the accent treatment.
-   */
-  scope?: boolean;
-  /** Unit suffix (e.g. "M", "%", "surfaces") — metric/scope cells only. */
+  /** Render `v` as a large proof figure (with an optional accent unit). */
+  stat?: boolean;
+  /** Unit suffix (e.g. "M", "%", "screens") — stat cells only. */
   unit?: string;
 };
 interface Props {
@@ -28,11 +22,11 @@ const { cells } = Astro.props;
 <div class="sb-board rev">
   {
     cells.map((c) => (
-      <div class:list={['sb-cell', c.metric && 'metric', c.scope && 'scope']}>
+      <div class:list={['sb-cell', c.stat && 'stat']}>
         <div class="k">{c.k}</div>
         <div class="v">
           {c.v}
-          {(c.metric || c.scope) && c.unit && <span class="u">{c.unit}</span>}
+          {c.stat && c.unit && <span class="u">{c.unit}</span>}
         </div>
       </div>
     ))
@@ -45,14 +39,12 @@ const { cells } = Astro.props;
     background: var(--border); border: 1px solid var(--border);
     border-radius: var(--radius-md); overflow: hidden; margin-top: 48px;
   }
-  .sb-cell { background: var(--surface); padding: 22px 20px; }
+  .sb-cell { background: var(--surface); padding: 22px 20px; container-type: inline-size; }
   .sb-cell .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
   .sb-cell .v { font-family: var(--font-sans); font-weight: 600; font-size: 16px; color: var(--text); line-height: 1.35; }
-  .sb-cell.metric .v { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 3vw, 34px); letter-spacing: -0.02em; }
-  .sb-cell.metric .v .u { color: var(--accent-text); }
-  /* scope cell: a count of what was built, kept neutral so orange stays reserved for real results */
-  .sb-cell.scope .v { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 3vw, 34px); letter-spacing: -0.02em; color: var(--text); }
-  .sb-cell.scope .v .u { color: var(--text-muted); }
+  /* stat figure scales to the cell (container query) and stays on one line; unit is a smaller secondary run */
+  .sb-cell.stat .v { font-family: var(--font-display); font-weight: 700; font-size: clamp(22px, 16cqi, 34px); letter-spacing: -0.02em; white-space: nowrap; }
+  .sb-cell.stat .v .u { font-size: 0.55em; color: var(--accent-text); margin-left: 0.05em; }
 
   @media (max-width: 1100px) { .sb-board { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .sb-board { grid-template-columns: 1fr; } }
