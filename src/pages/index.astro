@@ -1,0 +1,236 @@
+---
+/**
+ * Home — One System portfolio.
+ * Ported from _reference/home-design-v5-converged.html. Chrome (console rail,
+ * footer, theme, fonts) lives in Base.astro. Repeated pieces are extracted to
+ * components; hero / bento / modules / journal / close stay inline here.
+ *
+ * ALL body copy is placeholder until Phase 4 (CLAUDE.md). No metrics, clients,
+ * roles, or claims are invented; text matches the approved mockup verbatim.
+ */
+import Base from '../layouts/Base.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import DisciplineStrip from '../components/DisciplineStrip.astro';
+import WorkIndex from '../components/WorkIndex.astro';
+
+const CDN = 'https://cdn.mehtapratik.com';
+
+// Journal teasers (placeholder until the content collection lands).
+const posts = [
+  { title: 'The Machine-Readable Brand', meta: 'Brand systems · May 9 · 5 min' },
+  { title: 'Distinctiveness Is the Only Moat Left', meta: 'Brand systems · May 4 · 5 min' },
+  { title: 'What 11.7M Impressions Taught Me About Content That Compounds', meta: 'SPORTIME · Apr 24 · 5 min' },
+];
+---
+
+<Base
+  title="Pratik Mehta — Creative & Marketing Strategist"
+  description="Creative, social, and performance, built as one system. One connected practice across brand, social, content, UI/UX, motion, and performance."
+>
+  {/* SPLIT HERO */}
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="kick rev"><span class="n"></span>Open to creative or marketing leadership roles · New York</div>
+        <h1 class="rev">Creative, social, and performance, built as <span class="signal">one system.</span></h1>
+        <p class="lead rev">One connected practice across brand, social, content, UI/UX, motion, and performance, instead of separate hand-offs, and accountable to what the work does after it ships.</p>
+        <div class="cta rev"><a class="btn btn-p" href="#work">See the work</a><a class="btn btn-g" href="#contact">Start a conversation</a></div>
+      </div>
+      <figure class="hero-figure rev">
+        <div class="frame"><span class="tagm">Featured · Client</span><img src={`${CDN}/covers/sportime-clubs-cover.webp`} alt="SPORTIME Clubs" /></div>
+        <figcaption class="figcap"><span>SPORTIME Clubs · Brand, campaign, motion</span><span>№ 01</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  {/* DISCIPLINES STRIP */}
+  <DisciplineStrip />
+
+  {/* BENTO — featured */}
+  <section class="block" id="featured">
+    <SectionLabel code="01" title="Featured" />
+    <div class="bento rev">
+      <a class="tile t-feat" href="#work">
+        <span class="badge client">Client</span>
+        <div class="img"><img src={`${CDN}/covers/sportime-clubs-cover.webp`} alt="SPORTIME Clubs" loading="lazy" /></div>
+        <div class="meta">
+          <div>
+            <h3 class="h3">SPORTIME Clubs</h3>
+            <p>Brand and content across tennis and pickleball, and the marketing built around a $75M facility expansion.</p>
+          </div>
+          <div class="disc">Brand /<br>Campaign /<br>Motion /<br>Photo</div>
+        </div>
+      </a>
+      <div class="tile t-stat t-stat1"><div class="fig">11.7<span class="u">M</span></div><div class="lab">Cross-platform impressions in a year at SPORTIME</div></div>
+      <a class="tile t-ninth" href="#work">
+        <span class="badge concept">Concept</span>
+        <div class="img"><img src={`${CDN}/covers/the-ninth-cover.webp`} alt="The Ninth" loading="lazy" /></div>
+        <div class="meta"><h3 class="h3">The Ninth</h3><span class="mono">Esports · self-initiated</span></div>
+      </a>
+      <div class="tile t-stat t-stat2"><div class="fig">16.8<span class="u">K</span></div><div class="lab">Net new followers / yr · Instagram publishing +510%, Reels +2,115%</div></div>
+      <div class="tile t-quote"><div class="mk">"</div><p>His range set him apart: he ran the social side and the design side in parallel without dropping quality on either.</p><div class="who">DealNews</div></div>
+    </div>
+  </section>
+
+  {/* WORK INDEX */}
+  <WorkIndex />
+
+  {/* MODULES — the practice, documented */}
+  <section class="block">
+    <SectionLabel code="03" title="The practice, documented" />
+    <div class="duo">
+      <a class="mod rev" id="brand" href="#brand">
+        <div class="k">One System · brand</div>
+        <h3 class="h2">The brand, built like a product</h3>
+        <p>Tokens, components, voice, and a logo that closes on a single node. A working reference, and a case study of the thinking behind it.</p>
+        <span class="go">See the brand system →</span>
+      </a>
+      <a class="mod rev" id="about" href="#about">
+        <img class="face" src={`${CDN}/about/about-headshot-01.webp`} alt="Pratik Mehta" loading="lazy" />
+        <div class="k">About · the short version</div>
+        <h3 class="h2">Engineer turned creative</h3>
+        <p>Trained in code, moved to design, kept there by marketing because it made the work accountable to an audience.</p>
+        <span class="go">More about the practice →</span>
+      </a>
+    </div>
+  </section>
+
+  {/* JOURNAL */}
+  <section class="block" id="journal">
+    <SectionLabel code="04" title="Journal" more={{ href: '#journal', label: 'All writing →' }} />
+    <div class="jr rev">
+      {posts.map((p) => (
+        <a href="#journal"><span class="t">{p.title}</span><span class="m">{p.meta}</span></a>
+      ))}
+    </div>
+  </section>
+
+  {/* CLOSE */}
+  <section class="close" id="contact">
+    <div class="rev">
+      <h2 class="big">Open to the right role.</h2>
+      <div class="avail"><span class="n"></span>Open to creative or marketing leadership roles · New York</div>
+      <div class="cta"><a class="btn btn-p" href="mailto:mehtadpratik@gmail.com">Start a conversation</a><a class="btn btn-g" href="#work">See the work</a></div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Reveal-on-scroll for .rev elements (across the page + child components).
+  const io = new IntersectionObserver(
+    (es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }),
+    { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
+  );
+  document.querySelectorAll('.rev').forEach((el) => io.observe(el));
+
+  // Console-rail active state, driven by which section is in view.
+  const secs = ['work', 'about', 'brand', 'journal', 'contact']
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+  const navs = [...document.querySelectorAll<HTMLAnchorElement>('#rail-nav a')];
+  const spy = new IntersectionObserver(
+    (es) => es.forEach((e) => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navs.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      }
+    }),
+    { rootMargin: '-40% 0px -55% 0px' },
+  );
+  secs.forEach((s) => spy.observe(s));
+</script>
+
+<style>
+  /* ===== SPLIT HERO ===== */
+  .hero { min-height: 100vh; display: flex; align-items: center; padding: 64px 0; }
+  .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: stretch; width: 100%; }
+  .hero-inner > div { display: flex; flex-direction: column; justify-content: center; }
+  .hero .kick { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 26px; display: flex; align-items: center; gap: 10px; }
+  .hero .kick .n { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--accent-fill); flex: none; }
+  .hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(38px, 5vw, 68px); line-height: 0.96; letter-spacing: -0.03em; margin: 0; }
+  .hero .lead { margin-top: 26px; }
+  .hero .cta { margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-figure { position: relative; display: flex; flex-direction: column; height: 100%; }
+  .hero-figure .frame { flex: 1; border: 1px solid var(--img-frame); border-radius: var(--radius-lg); overflow: hidden; min-height: 400px; background: var(--surface); }
+  .hero-figure .frame img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-figure .tagm { position: absolute; top: 16px; left: 16px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--accent-fill); color: var(--on-accent); padding: 5px 9px; border-radius: var(--radius-none); }
+  .hero-figure .figcap { display: flex; justify-content: space-between; margin-top: 12px; }
+  .hero-figure .figcap span { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); }
+
+  /* ===== BENTO ===== */
+  .bento {
+    display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(150px, auto); gap: 16px;
+    grid-template-areas: "feat feat feat stat1" "feat feat feat ninth" "quote stat2 stat2 ninth";
+  }
+  .tile { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); overflow: hidden; position: relative; transition: border-color .2s var(--ease-standard); }
+  .tile:hover { border-color: var(--border-strong); }
+  .t-feat { grid-area: feat; display: flex; flex-direction: column; }
+  .t-feat .img { flex: 1; min-height: 280px; overflow: hidden; }
+  .t-feat .img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
+  .t-feat:hover .img img { transform: scale(1.03); }
+  .t-feat .meta { padding: 20px; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+  .t-feat .meta p { font-size: 13.5px; color: var(--text-secondary); margin-top: 8px; max-width: 44ch; }
+  .t-feat .meta .disc { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
+  .badge { position: absolute; top: 16px; left: 16px; z-index: 2; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 8px; border-radius: var(--radius-none); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .badge.client { background: rgba(255, 90, 31, .16); color: var(--accent-300); border: 1px solid rgba(255, 90, 31, .35); }
+  .badge.concept { background: var(--badge-concept-bg); color: var(--badge-concept-tx); border: 1px solid var(--border-strong); }
+  .t-stat { padding: 22px; display: flex; flex-direction: column; justify-content: space-between; }
+  .t-stat1 { grid-area: stat1; }
+  .t-stat2 { grid-area: stat2; }
+  .t-stat .fig { font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 3.4vw, 44px); line-height: 1; letter-spacing: -0.02em; }
+  .t-stat .fig .u { color: var(--accent-text); }
+  .t-stat .lab { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); line-height: 1.5; max-width: 26ch; }
+  .t-ninth { grid-area: ninth; display: flex; flex-direction: column; }
+  .t-ninth .img { flex: 1; min-height: 150px; overflow: hidden; }
+  .t-ninth .img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
+  .t-ninth:hover .img img { transform: scale(1.03); }
+  .t-ninth .meta { padding: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .t-quote { grid-area: quote; padding: 22px; display: flex; flex-direction: column; justify-content: center; }
+  .t-quote .mk { font-family: var(--font-display); font-size: 34px; color: var(--accent-text); line-height: .4; height: 18px; }
+  .t-quote p { font-size: 13px; line-height: 1.5; color: var(--text-secondary); margin: 14px 0 12px; }
+  .t-quote .who { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+
+  /* ===== MODULES ===== */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .mod { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 28px; display: flex; flex-direction: column; transition: border-color .2s var(--ease-standard); }
+  .mod:hover { border-color: var(--border-strong); }
+  .mod .k { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 18px; }
+  .mod p { font-size: 14px; color: var(--text-secondary); max-width: 46ch; margin-top: 10px; }
+  .mod .go { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text); margin-top: auto; padding-top: 22px; }
+  .mod .face { width: 60px; height: 74px; object-fit: cover; border-radius: var(--radius-sm); filter: grayscale(1); transition: filter .32s var(--ease-standard); margin-bottom: 18px; }
+  .mod:hover .face { filter: grayscale(0); }
+
+  /* ===== JOURNAL ===== */
+  .jr { display: flex; flex-direction: column; }
+  .jr a { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--border); transition: padding-left .2s var(--ease-standard); }
+  .jr a:first-child { border-top: 1px solid var(--border); }
+  .jr a:hover { padding-left: 10px; }
+  .jr .t { font-family: var(--font-sans); font-weight: 600; font-size: 18px; color: var(--text-secondary); transition: color .2s var(--ease-standard); }
+  .jr a:hover .t { color: var(--text); }
+  .jr .m { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; }
+
+  /* ===== CLOSE ===== */
+  .close { padding: 110px 0; }
+  .close .big { font-family: var(--font-display); font-weight: 700; font-size: clamp(38px, 5.6vw, 68px); line-height: 0.98; letter-spacing: -0.03em; max-width: 14ch; margin-bottom: 22px; }
+  .close .avail { display: flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 34px; }
+  .close .avail .n { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--accent-fill); }
+  .close .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ===== responsive ===== */
+  @media (max-width: 1100px) {
+    .hero { min-height: auto; padding: 48px 0; }
+    .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+    .hero-inner > div { justify-content: flex-start; }
+    .hero-figure { height: auto; }
+    .hero-figure .frame { flex: none; aspect-ratio: 16/10; min-height: 0; }
+    .bento { grid-template-columns: repeat(2, 1fr); grid-template-areas: "feat feat" "feat feat" "stat1 ninth" "stat2 stat2" "quote quote"; }
+  }
+  @media (max-width: 900px) {
+    .duo { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .bento { grid-template-columns: 1fr; grid-template-areas: "feat" "stat1" "ninth" "stat2" "quote"; }
+  }
+</style>

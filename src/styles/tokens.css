@@ -1,0 +1,147 @@
+/* =============================================================
+   ONE SYSTEM — design tokens (single source of truth)
+   mehtapratik.com
+
+   Mirrors the brand kit's Design-Tokens/one-system-tokens.css
+   (the brand guidelines are the source of truth for token naming
+   and values): the warm neutral ramp, the full signal-orange
+   accent scale, state colors, type families + weights, the type
+   scale, spacing, grid, radius, and motion tokens.
+
+   On top of the brand file this adds ONLY:
+   - the self-hosted Berkeley Mono (TX-02) @font-face blocks,
+   - 'JetBrains Mono' as a network-failure fallback in --font-mono
+     (per CLAUDE.md; the brand stack omits it),
+   - site-specific tokens not in the brand kit: --rail (console rail
+     width), --badge-concept-bg/-tx (concept badge), --img-frame.
+
+   Theme: LIGHT is the :root default; DARK applies via the OS media
+   query (until a manual choice) and via [data-theme="dark"], which
+   the no-flash script in Base.astro sets before paint.
+
+   Brand rules encoded here (see CLAUDE.md):
+   - Signal orange (--accent-fill) is used once per surface, one
+     job, RESERVED for real results. Concept scope + neutral data
+     never use it.
+   - Orange text is --accent-700 on light, --accent-400 on dark,
+     NEVER --accent-500.
+   ============================================================= */
+
+/* ===== Self-hosted system font: Berkeley Mono (TX-02), from R2 ===== */
+@font-face {
+  font-family: 'Berkeley Mono';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.mehtapratik.com/Fonts/TX-02/WOFF2/TX-02-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Berkeley Mono';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.mehtapratik.com/Fonts/TX-02/WOFF2/TX-02-Medium.woff2') format('woff2');
+}
+
+:root {
+  /* --- Neutral · warm ramp --- */
+  --n-0: #FBFAF6;  --n-50: #F4F2EB;  --n-100: #EAE7DE; --n-200: #DBD8CD;
+  --n-300: #C6C2B5; --n-400: #A6A294; --n-500: #847F72; --n-550: #6E6A5D;
+  --n-600: #615D52; --n-700: #46433B; --n-800: #2B2924; --n-900: #171713; --n-950: #0B0B0A;
+
+  /* --- Accent · signal orange --- */
+  --accent-50: #FFEDE6;  --accent-100: #FFD6C6; --accent-200: #FFB89F; --accent-300: #FF8F66;
+  --accent-400: #FF7038; --accent-500: #FF5A1F; --accent-600: #E8480F; --accent-700: #C13A0A;
+  --accent-800: #8F2B08; --accent-900: #5C1C06;
+
+  /* --- State · fills/indicators + accessible text variants --- */
+  --success: #2E9E5B; --success-text: #1C7B43;
+  --warning: #E8A317; --warning-text: #8A5E08;
+  --danger: #C8201C;  --danger-text: #C8201C;
+  /* info maps to neutral — use --text-secondary */
+
+  /* --- Semantic surfaces · LIGHT (default) --- */
+  --bg: var(--n-50);
+  --surface: var(--n-0);
+  --surface-raised: #FFFFFF;
+  --border: var(--n-200);
+  --border-strong: var(--n-300);
+  --text: var(--n-950);
+  --text-secondary: var(--n-600);   /* 5.9:1 on --bg · AA */
+  --text-muted: var(--n-550);       /* 4.8:1 on --bg · AA */
+  --accent-fill: var(--accent-500);
+  --accent-text: var(--accent-700); /* orange text on light · 4.8:1 · NEVER accent-500 as text */
+  --on-accent: var(--n-950);        /* ink on orange fill · 6.3:1 · NEVER white for normal text */
+
+  /* --- Type families + weights --- */
+  --font-display: "Clash Display", system-ui, sans-serif;        /* hero / display only */
+  --font-sans: "Clash Grotesk", system-ui, sans-serif;           /* headings + body */
+  --font-mono: "Berkeley Mono", "JetBrains Mono", ui-monospace, monospace; /* TX-02 · labels / data / code */
+  --weight-regular: 400; --weight-semibold: 600; --weight-bold: 700;
+
+  /* --- Type scale (size / line-height / tracking) --- */
+  --display-xl-size: 64px; --display-xl-lh: 1.0;  --display-xl-track: -0.03em;
+  --display-l-size: 48px;  --display-l-lh: 1.05;  --display-l-track: -0.025em;
+  --h1-size: 36px; --h1-lh: 1.1;  --h1-track: -0.02em;
+  --h2-size: 28px; --h2-lh: 1.15; --h2-track: -0.02em;
+  --h3-size: 22px; --h3-lh: 1.25; --h3-track: -0.015em;
+  --body-lead-size: 18px; --body-lead-lh: 1.6;
+  --body-size: 16px; --body-lh: 1.65;
+  --body-sm-size: 14px; --body-sm-lh: 1.6;
+  --label-size: 12px; --label-lh: 1.4; --label-track: 0.08em;
+  --caption-size: 13px; --caption-lh: 1.5; --caption-track: 0.02em;
+  --code-size: 11px; --code-lh: 1.4; --code-track: 0.06em;
+
+  /* --- Spacing · 4px base --- */
+  --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
+  --space-lg: 24px; --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px;
+  --space-4xl: 96px; --space-5xl: 128px;
+  --baseline: 4px;
+
+  /* --- Grid · desktop (tablet: 8 col/24/32 · mobile: 4 col/16/20) --- */
+  --grid-cols: 12; --grid-max-width: 1200px; --grid-gutter: 24px; --grid-margin: 64px;
+
+  /* --- Radius --- */
+  --radius-none: 0; --radius-sm: 4px; --radius-md: 8px;
+  --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
+
+  /* --- Motion --- */
+  --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 320ms; --dur-deliberate: 500ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);  /* entrances / most */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);      /* exits · faster out */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);  /* moves that leave and arrive */
+
+  /* --- Site additions (not in the brand kit) --- */
+  --rail: 264px;                          /* console rail width */
+  --badge-concept-bg: rgba(244, 242, 235, .7);
+  --badge-concept-tx: var(--n-900);
+  --img-frame: var(--n-200);
+}
+
+/* ===== Semantic surfaces · DARK ===== */
+/* Follows the OS until a manual choice is stored (no [data-theme]). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: var(--n-950); --surface: var(--n-900); --surface-raised: var(--n-800);
+    --border: var(--n-800); --border-strong: var(--n-700);
+    --text: var(--n-50); --text-secondary: var(--n-400); --text-muted: var(--n-500);
+    --accent-text: var(--accent-400);
+    --success-text: #4FD08A; --warning-text: #F5C24B; --danger-text: #F06A66;
+    /* site additions */
+    --badge-concept-bg: rgba(11, 11, 10, .6);
+    --badge-concept-tx: var(--n-200);
+    --img-frame: var(--border-strong);
+  }
+}
+/* Manual override (set by the no-flash script in Base.astro). */
+[data-theme="dark"] {
+  --bg: var(--n-950); --surface: var(--n-900); --surface-raised: var(--n-800);
+  --border: var(--n-800); --border-strong: var(--n-700);
+  --text: var(--n-50); --text-secondary: var(--n-400); --text-muted: var(--n-500);
+  --accent-text: var(--accent-400);
+  --success-text: #4FD08A; --warning-text: #F5C24B; --danger-text: #F06A66;
+  /* site additions */
+  --badge-concept-bg: rgba(11, 11, 10, .6);
+  --badge-concept-tx: var(--n-200);
+  --img-frame: var(--border-strong);
+}

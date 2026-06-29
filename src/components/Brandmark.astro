@@ -1,0 +1,59 @@
+---
+/**
+ * Brandmark.astro — the official One System logomark.
+ *
+ * Geometry is the exact `mark-full` SVG from the brand system (Logos/svg).
+ * It is the rounded-bracket that closes on a single node.
+ *
+ * Theming: the bracket is drawn with `currentColor` (set to --text), so it
+ * renders as the ink mark on light surfaces and the paper mark on dark
+ * surfaces automatically — reproducing the official -ink / -paper split with
+ * a single asset. The node is always signal orange (--accent), per brand.
+ *
+ * Brand rule not enforced here: on an orange fill the whole mark must go
+ * mono-ink (the node would vanish). Don't place this component on an accent
+ * surface; use the mono mark there instead.
+ */
+interface Props {
+  /** Square render size in px. Brand floor is 24px; below that use the favicon cut. */
+  size?: number;
+  class?: string;
+  /** Accessible label. Set to undefined when a sibling already names the brand. */
+  title?: string | undefined;
+}
+
+const { size = 26, class: className, title = 'Pratik Mehta' } = Astro.props;
+const labelled = title !== undefined;
+---
+
+<svg
+  class:list={['brandmark', className]}
+  width={size}
+  height={size}
+  viewBox="0 0 100 100"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  role={labelled ? 'img' : 'presentation'}
+  aria-label={labelled ? title : undefined}
+  aria-hidden={labelled ? undefined : 'true'}
+>
+  <path
+    d="M0 80.7339L0 34.5872C0 32.0537 2.05374 30 4.58716 30C7.12057 30 9.17431 32.0537 9.17431 34.5872V80.7339C9.17431 84.9314 10.212 87.2347 11.4804 88.516C12.7405 89.7886 14.9943 90.8257 19.1191 90.8257H80.8809C85.0057 90.8257 87.2595 89.7886 88.5196 88.516C89.788 87.2347 90.8257 84.9314 90.8257 80.7339V19.2661C90.8257 15.0686 89.788 12.7653 88.5196 11.484C87.2595 10.2114 85.0057 9.17434 80.8809 9.17431H34.5872C32.0537 9.17431 30 7.12057 30 4.58716C30 2.05374 32.0537 0 34.5872 0L80.8809 0C86.4437 2.36463e-05 91.4562 1.4096 95.0401 5.02974C98.6155 8.64141 100 13.6777 100 19.2661V80.7339C100 86.3223 98.6155 91.3586 95.0401 94.9703C91.4562 98.5904 86.4437 100 80.8809 100H19.1191C13.5564 100 8.54469 98.5903 4.96076 94.9703C1.38519 91.3586 0 86.3225 0 80.7339Z"
+    fill="currentColor"
+  ></path>
+  <path
+    class="node"
+    d="M10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20Z"
+  ></path>
+</svg>
+
+<style>
+  .brandmark {
+    display: block;
+    color: var(--text);
+    flex: none;
+  }
+  .brandmark .node {
+    fill: var(--accent-fill);
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+/**
+ * SectionLabel.astro — the canonical section header.
+ * `[ 0N ]` (accent mono) + uppercase mono title + either a flex rule line
+ * or a right-aligned "more" link. Used once per home section.
+ */
+interface Props {
+  /** Two-digit section index, e.g. "01". Rendered as `[ 01 ]`. */
+  code: string;
+  title: string;
+  /** When set, renders a right-aligned link instead of the rule line. */
+  more?: { href: string; label: string };
+}
+
+const { code, title, more } = Astro.props;
+---
+
+<div class="blabel">
+  <span class="c">[ {code} ]</span>
+  <span class="t">{title}</span>
+  {
+    more ? (
+      <Fragment>
+        <span class="grow" />
+        <a class="more" href={more.href}>{more.label}</a>
+      </Fragment>
+    ) : (
+      <span class="rule" />
+    )
+  }
+</div>

@@ -1,0 +1,25 @@
+# reference mockups (visual source, not shipped)
+_reference/
+
+# dependencies
+node_modules/
+
+# build output
+dist/
+
+# astro
+.astro/
+
+# cloudflare
+.wrangler/
+
+# env / secrets
+.env
+.env.production
+.dev.vars
+
+# os / editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*

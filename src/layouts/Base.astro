@@ -1,0 +1,201 @@
+---
+/**
+ * Base.astro — site-wide layout chrome for mehtapratik.com (One System).
+ *
+ * Owns: the <head> (no-flash theme script, font preconnects + links,
+ * token + global CSS), the console rail (live NY clock + theme toggle),
+ * the mobile bar, the footer, and the site-wide theme/clock scripts.
+ * Theme lives here so it is consistent across every page.
+ *
+ * Page content is slotted into .stage > .pad, with the footer appended
+ * after it (matching the v5 reference structure).
+ */
+import '../styles/tokens.css';
+import '../styles/global.css';
+import Brandmark from '../components/Brandmark.astro';
+
+interface Props {
+  /** <title> text. Falls back to the brand line. */
+  title?: string;
+  /** <meta name="description">. Optional. */
+  description?: string;
+  /** Rail nav item to mark active (href without the leading '#'). */
+  activeNav?: string;
+}
+
+const {
+  title = 'Pratik Mehta — Creative & Marketing Strategist',
+  description,
+  activeNav = 'work',
+} = Astro.props;
+
+// Console rail nav — home-section anchors for now (single-page home).
+// Becomes real routes (/work, /about, ...) as those pages land.
+const nav = [
+  { ix: '01', label: 'Work', href: '#work' },
+  { ix: '02', label: 'About', href: '#about' },
+  { ix: '03', label: 'Brand', href: '#brand' },
+  { ix: '04', label: 'Journal', href: '#journal' },
+  { ix: '05', label: 'Contact', href: '#contact' },
+];
+
+const year = 2026; // static; avoids per-request Date() in the worker
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+
+    {/* Favicon bundle (One System brand). Files live in /public, served at root. */}
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Pratik" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    {/* no-flash: set theme before paint */}
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('pm-theme');
+          if (!t) {
+            t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+
+    {/* Fonts. Berkeley Mono @font-face is in tokens.css; the head links
+        below load Clash (Fontshare) + JetBrains Mono fallback (Google). */}
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=clash-grotesk@400,600,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    {/* CONSOLE RAIL */}
+    <aside class="console">
+      <a class="brand" href="#top" aria-label="Pratik Mehta — home">
+        <Brandmark size={26} title={undefined} />
+        <span class="wm">Pratik<br />Mehta</span>
+      </a>
+      <div class="role">Creative &amp;<br />Marketing Strategist</div>
+      <nav id="rail-nav">
+        {
+          nav.map((n) => (
+            <a href={n.href} class={n.href === `#${activeNav}` ? 'active' : undefined}>
+              <span class="ix">{n.ix}</span>
+              {n.label}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="spacer"></div>
+      <div class="readout">
+        <div class="status"><span class="dot"></span>Open to roles</div>
+        <div class="line"><span>Loc</span><b>New York</b></div>
+        <div class="line"><span>Local</span><b id="clock">—</b></div>
+        <div class="line theme-line">
+          <span>Theme</span>
+          <span class="tg" role="group" aria-label="Color theme">
+            <button data-set="dark" aria-pressed="true">Dark</button>
+            <span class="sep">·</span>
+            <button data-set="light" aria-pressed="false">Light</button>
+          </span>
+        </div>
+      </div>
+    </aside>
+
+    {/* MOBILE BAR */}
+    <div class="console-mobile">
+      <a class="brand" href="#top" aria-label="Pratik Mehta — home">
+        <Brandmark size={18} title={undefined} />
+        <span>Pratik Mehta</span>
+      </a>
+      <div class="mr">
+        <a href="#work">Work</a><a href="#contact">Contact</a>
+        <span class="tg" role="group" aria-label="Color theme">
+          <button data-set="dark" aria-pressed="true">Dark</button>
+          <span class="sep">·</span>
+          <button data-set="light" aria-pressed="false">Light</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="stage" id="top">
+      <div class="pad">
+        <slot />
+
+        <div class="foot">
+          <span class="mono">© {year} Pratik Mehta · One system, end to end</span>
+          <div class="fl">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#brand">Brand</a>
+            <a href="#journal">Journal</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Site-wide: theme toggle (persisted) + live NY clock */}
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        var themeBtns = Array.prototype.slice.call(document.querySelectorAll('[data-set]'));
+        function applyTheme(t) {
+          root.setAttribute('data-theme', t);
+          themeBtns.forEach(function (b) {
+            b.setAttribute('aria-pressed', String(b.dataset.set === t));
+          });
+          try { localStorage.setItem('pm-theme', t); } catch (e) {}
+        }
+        themeBtns.forEach(function (b) {
+          b.addEventListener('click', function () { applyTheme(b.dataset.set); });
+        });
+        applyTheme(root.getAttribute('data-theme') || 'dark');
+
+        // follow live OS theme, but only until the visitor makes a manual choice
+        try {
+          var mq = window.matchMedia('(prefers-color-scheme: light)');
+          mq.addEventListener('change', function (e) {
+            var chosen = null;
+            try { chosen = localStorage.getItem('pm-theme'); } catch (_) {}
+            if (!chosen) {
+              root.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+              themeBtns.forEach(function (b) {
+                b.setAttribute('aria-pressed', String(b.dataset.set === root.getAttribute('data-theme')));
+              });
+            }
+          });
+        } catch (e) {}
+
+        // live NY clock
+        var clk = document.getElementById('clock');
+        var tick = function () {
+          try {
+            clk.textContent = new Date().toLocaleTimeString('en-US', {
+              timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit',
+            });
+          } catch (e) { clk.textContent = '—'; }
+        };
+        if (clk) { tick(); setInterval(tick, 30000); }
+      })();
+    </script>
+  </body>
+</html>
