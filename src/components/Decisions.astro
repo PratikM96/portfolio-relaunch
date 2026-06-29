@@ -1,0 +1,37 @@
+---
+/**
+ * Decisions.astro — the numbered key-decisions list. Each decision pairs a big
+ * accent number with a title + rationale.
+ */
+type Decision = { n: string; title: string; text: string };
+interface Props {
+  decisions: Decision[];
+}
+const { decisions } = Astro.props;
+---
+
+<div class="decisions rev">
+  {
+    decisions.map((d) => (
+      <div class="decision">
+        <div class="dn">{d.n}</div>
+        <div>
+          <h3>{d.title}</h3>
+          <p>{d.text}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .decisions { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+  .decision { display: grid; grid-template-columns: 64px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--border); align-items: start; }
+  .decision .dn { font-family: var(--font-display); font-weight: 700; font-size: 32px; letter-spacing: -0.02em; color: var(--accent-text); line-height: 1; }
+  .decision h3 { font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: -0.02em; margin-bottom: 12px; line-height: 1.1; }
+  .decision p { font-size: 15.5px; line-height: 1.6; color: var(--text-secondary); max-width: 64ch; }
+
+  @media (max-width: 900px) {
+    .decision { grid-template-columns: 1fr; gap: 10px; }
+  }
+</style>

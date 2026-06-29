@@ -1,0 +1,232 @@
+---
+/**
+ * SPORTIME Clubs — client case study (template proof).
+ * Ported from _reference/case-study-template-v1.html. Uses the Base
+ * case-study rail variant (section nav + scoreboard) and the case-study
+ * components. Generalizes to /work/[slug] + a content collection once proven.
+ *
+ * Copy + the verified SPORTIME metrics are kept exactly as in the mockup.
+ * Nothing is invented. ResultBox metrics + testimonial are verified facts.
+ */
+import Base from '../../layouts/Base.astro';
+import CaseSectionHead from '../../components/CaseSectionHead.astro';
+import Scoreboard from '../../components/Scoreboard.astro';
+import MarginRail from '../../components/MarginRail.astro';
+import SysFlow from '../../components/SysFlow.astro';
+import Decisions from '../../components/Decisions.astro';
+import OutputGrid from '../../components/OutputGrid.astro';
+import ResultBox from '../../components/ResultBox.astro';
+
+const CDN = 'https://cdn.mehtapratik.com';
+
+// --- Rail (case-study variant) ---
+const sections = [
+  { ix: '01', label: 'Problem', href: '#problem' },
+  { ix: '02', label: 'System', href: '#system' },
+  { ix: '03', label: 'Decisions', href: '#decisions' },
+  { ix: '04', label: 'Output', href: '#output' },
+  { ix: '05', label: 'Proof', href: '#proof' },
+];
+const scoreboard = [
+  { k: 'Type', v: 'Client', client: true },
+  { k: 'Role', v: 'Marketing lead · creative direction' },
+  { k: 'Year', v: '2023—2024' },
+];
+
+// --- Hero scoreboard cells ---
+const heroCells = [
+  { k: 'Role', v: 'Marketing lead, creative direction' },
+  { k: 'Disciplines', v: 'Brand · Social · Content · Motion · Photo' },
+  { k: 'Timeframe', v: '2023—2024 · one year' },
+  { k: 'Headline result', v: '11.7', metric: true, unit: 'M' },
+];
+
+// --- System steps ---
+const sysSteps = [
+  { ix: '01', title: 'Brand foundation', text: 'One identity, with distinct content lanes for tennis and pickleball so each reads as itself.' },
+  { ix: '02', title: 'Content engine', text: 'Repeatable templates and motion systems so volume could scale without rebuilding each time.' },
+  { ix: '03', title: 'Channel structure', text: 'A lead in each club producing to one central strategy, consistent across locations.' },
+  { ix: '04', title: 'Reporting loop', text: 'Performance read weekly and fed back into the next cycle of the engine.' },
+];
+
+// --- Decisions ---
+const decisions = [
+  { n: '01', title: 'One brand, two lanes', text: 'Keep tennis and pickleball under a single system rather than spinning up a second brand, so growth in one compounds the other instead of fragmenting the audience.' },
+  { n: '02', title: 'Build the engine, not the post', text: 'Invest first in repeatable templates and motion systems. The payoff was throughput: output could multiply without a matching multiplier in hours.' },
+  { n: '03', title: 'Distribute production, centralize direction', text: 'A lead in each club made the content, working to one shared strategy. Local relevance, one coherent brand.' },
+  { n: '04', title: 'Hold it to the numbers', text: 'Read performance on a weekly loop and let it steer the calendar, so creative stayed accountable to reach and growth rather than taste alone.' },
+];
+
+// --- Output tiles ---
+const outputTiles = [
+  { wide: true, img: `${CDN}/covers/sportime-clubs-cover.webp`, alt: 'Championship key art', caption: 'Club championships · key art system' },
+  { ph: 'Asset · social system', caption: 'Pickleball content lane' },
+  { ph: 'Asset · motion frames', caption: 'Reels · motion templates' },
+  { ph: 'Asset · photo', caption: 'Club photography' },
+  { ph: 'Asset · campaign wall', caption: 'Tournament campaign · multi-club rollout' },
+];
+const outputNote = 'Placeholder tiles represent the asset families. Real media populates from R2 (webp / mov) at build time.';
+
+// --- Proof (verified) ---
+const proofMetrics = [
+  { value: '11.7', unit: 'M', label: 'Cross-platform impressions in one year' },
+  { value: '16.8', unit: 'K', label: 'Net new followers in one year' },
+  { value: '+510', unit: '%', label: 'Instagram publishing volume' },
+  { value: '+2,115', unit: '%', label: 'Reels output' },
+];
+const testimonial = {
+  quote: 'He ran our marketing end to end and built the creative structure across our clubs, with a lead in each working to his strategy. He drove 11.7M cross-platform impressions in a year.',
+  source: 'SPORTIME Clubs',
+};
+---
+
+<Base
+  variant="case-study"
+  title="SPORTIME Clubs — Case study · Pratik Mehta"
+  description="Brand and content built as one system across tennis and a fast-growing pickleball audience, run over multiple clubs with a content engine made to scale. 11.7M cross-platform impressions in a year."
+  sections={sections}
+  scoreboard={scoreboard}
+  back={{ href: '/#work', label: '← Index · all work' }}
+>
+  {/* SCOREBOARD HERO */}
+  <header class="cs-hero">
+    <span class="badge client rev">Client · Brand &amp; Content</span>
+    <h1 class="rev">SPORTIME Clubs</h1>
+    <p class="descr rev">Brand and content built as one system across tennis and a fast-growing pickleball audience, run over multiple clubs with a content engine made to scale.</p>
+    <Scoreboard cells={heroCells} />
+    <div class="cs-wall rev">
+      <img src={`${CDN}/covers/sportime-clubs-cover.webp`} alt="SPORTIME Clubs campaign system" />
+      <span class="cap">Club championships system · 2023</span>
+    </div>
+  </header>
+
+  {/* PROBLEM */}
+  <section class="cs-sec" id="problem">
+    <CaseSectionHead no="01" title="Problem" />
+    <div class="cs-body rev">
+      <div class="cs-main prose">
+        <p><strong>One brand, several clubs, and two very different racquet audiences.</strong> SPORTIME runs across tennis and an exploding pickleball community, and the content had to hold one identity while speaking to each sport in its own register, location by location.</p>
+        <p>The constraint was throughput. The calendar moved faster than a one-off, hand-built post-by-post approach could keep up with, and the work needed to scale across clubs without losing a shared look or splitting into two disconnected brands.</p>
+      </div>
+      <MarginRail
+        modules={[
+          {
+            type: 'meta',
+            label: 'The brief, in short',
+            rows: [
+              { k: 'Audience', v: 'Tennis + pickleball, across multiple clubs' },
+              { k: 'Mandate', v: 'One brand, two sports, no split' },
+              { k: 'Pressure', v: 'Calendar throughput at scale' },
+            ],
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  {/* SYSTEM */}
+  <section class="cs-sec" id="system">
+    <CaseSectionHead no="02" title="System" />
+    <div class="cs-body rev" style="margin-bottom:48px">
+      <div class="cs-main prose">
+        <p>Instead of a content backlog, the answer was a system: a shared brand foundation feeding a repeatable production engine, distributed to a per-club channel structure, with a reporting loop that fed back into what got made next.</p>
+      </div>
+      <MarginRail
+        modules={[
+          {
+            type: 'stat',
+            label: 'What the engine unlocked',
+            value: '+2,115',
+            unit: '%',
+            desc: 'Reels output once the system existed, without a matching jump in hours.',
+          },
+        ]}
+      />
+    </div>
+    <SysFlow steps={sysSteps} />
+  </section>
+
+  {/* DECISIONS */}
+  <section class="cs-sec" id="decisions">
+    <CaseSectionHead no="03" title="Decisions" />
+    <div class="cs-body rev" style="margin-bottom:40px">
+      <div class="cs-main prose">
+        <p>Four choices shaped the system more than anything else, each one trading a familiar habit for something that would compound.</p>
+      </div>
+      <MarginRail
+        modules={[
+          { type: 'quote', quote: 'Build the engine, not the post.', who: 'Operating principle' },
+        ]}
+      />
+    </div>
+    <Decisions decisions={decisions} />
+  </section>
+
+  {/* OUTPUT */}
+  <section class="cs-sec" id="output">
+    <CaseSectionHead no="04" title="Output" />
+    <OutputGrid tiles={outputTiles} note={outputNote} />
+  </section>
+
+  {/* PROOF */}
+  <section class="cs-sec" id="proof">
+    <CaseSectionHead no="05" title="Proof" />
+    <ResultBox metrics={proofMetrics} testimonial={testimonial} />
+  </section>
+
+  {/* REFLECTION + NEXT */}
+  <section class="cs-sec">
+    <CaseSectionHead no="06" title="Reflection" />
+    <div class="cs-body rev">
+      <div class="cs-main sb-reflect">
+        <p>The win was not a single campaign, it was the engine. Once the system existed, volume stopped trading off against consistency, and the brand could move at the pace its calendar actually demanded.</p>
+      </div>
+      <MarginRail
+        modules={[
+          { type: 'stat', label: 'Compounding', value: '16.8', unit: 'K', desc: 'Net new followers in the same year, from the same system.' },
+          { type: 'note', label: 'How it ran', text: 'A content lead in each club, producing to one central strategy.' },
+        ]}
+      />
+    </div>
+    <div class="cs-next">
+      <a href="/#work">
+        <div><div class="k">Next case study · Concept</div><div class="t">The Ninth</div></div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ===== SCOREBOARD HERO ===== */
+  .cs-hero { padding: 96px 0 56px; }
+  .badge { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 10px; border-radius: var(--radius-none); display: inline-block; }
+  .badge.client { background: rgba(255, 90, 31, .14); color: var(--accent-text); border: 1px solid rgba(255, 90, 31, .4); }
+  .cs-hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(44px, 6.5vw, 86px); line-height: 0.95; letter-spacing: -0.035em; margin: 22px 0 0; }
+  .cs-hero .descr { font-size: 20px; line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: 26px; }
+  .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: 48px; aspect-ratio: 16/8; background: var(--surface); }
+  .cs-wall img { width: 100%; height: 100%; object-fit: cover; }
+  .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: 5px 10px; border-radius: var(--radius-none); }
+
+  /* ===== SECTIONS / PROSE / BODY ===== */
+  .cs-sec { padding: 96px 0; border-top: 1px solid var(--border); }
+  .prose { max-width: 68ch; }
+  .prose p { font-size: 17px; line-height: 1.66; color: var(--text-secondary); margin-bottom: 18px; }
+  .prose p strong { color: var(--text); font-weight: 600; }
+  .cs-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: start; }
+  .cs-main { max-width: 68ch; }
+
+  /* ===== REFLECTION + NEXT ===== */
+  .sb-reflect { max-width: 64ch; }
+  .sb-reflect p { font-size: 17px; line-height: 1.66; color: var(--text-secondary); }
+  .cs-next { border-top: 1px solid var(--border); margin-top: 72px; }
+  .cs-next a { display: flex; align-items: center; justify-content: space-between; padding: 48px 0; gap: 24px; transition: padding-left .25s var(--ease-standard); }
+  .cs-next a:hover { padding-left: 12px; }
+  .cs-next .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+  .cs-next .t { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 4vw, 46px); letter-spacing: -0.03em; line-height: 1; margin-top: 10px; }
+  .cs-next .arrow { font-family: var(--font-display); font-size: 34px; color: var(--accent-text); }
+
+  /* ===== responsive ===== */
+  @media (max-width: 1100px) { .cs-body { grid-template-columns: 1fr; gap: 32px; } }
+  @media (max-width: 900px) { .cs-hero { padding: 64px 0 40px; } }
+</style>

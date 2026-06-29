@@ -2,35 +2,57 @@
 /**
  * Base.astro — site-wide layout chrome for mehtapratik.com (One System).
  *
- * Owns: the <head> (no-flash theme script, font preconnects + links,
- * token + global CSS), the console rail (live NY clock + theme toggle),
- * the mobile bar, the footer, and the site-wide theme/clock scripts.
- * Theme lives here so it is consistent across every page.
+ * Owns: the <head> (no-flash theme script, font wiring, token + global CSS),
+ * the console rail, the mobile bar, the footer, and the site-wide scripts
+ * (theme toggle, NY clock, generic reveal-on-scroll, generic rail scroll-spy).
  *
- * Page content is slotted into .stage > .pad, with the footer appended
- * after it (matching the v5 reference structure).
+ * The rail has two variants, selected by `variant`:
+ *   - 'default'     — home/site chrome: stacked brandmark, role, numbered site
+ *                     nav, readout (status + location + live clock + theme).
+ *   - 'case-study'  — horizontal brandmark, back link, section-index nav
+ *                     (scroll-spy), persistent project scoreboard + theme.
+ * Everything else (mobile bar, footer, scripts) is shared, so the case study
+ * is a prop variant of the rail, not a separate copy.
+ *
+ * Page content is slotted into .stage > .pad, footer appended after.
  */
 import '../styles/tokens.css';
 import '../styles/global.css';
 import Brandmark from '../components/Brandmark.astro';
+
+type RailSection = { ix: string; label: string; href: string };
+type ScoreLine = { k: string; v: string; client?: boolean };
 
 interface Props {
   /** <title> text. Falls back to the brand line. */
   title?: string;
   /** <meta name="description">. Optional. */
   description?: string;
-  /** Rail nav item to mark active (href without the leading '#'). */
+  /** Rail mode. */
+  variant?: 'default' | 'case-study';
+  /** default rail: nav item to mark active (href without leading '#'). */
   activeNav?: string;
+  /** case-study rail: section-index nav items (also drives scroll-spy). */
+  sections?: RailSection[];
+  /** case-study rail: persistent project scoreboard (Type/Role/Year). */
+  scoreboard?: ScoreLine[];
+  /** case-study rail + mobile: back link to the work index. */
+  back?: { href: string; label: string };
 }
 
 const {
   title = 'Pratik Mehta — Creative & Marketing Strategist',
   description,
+  variant = 'default',
   activeNav = 'work',
+  sections = [],
+  scoreboard = [],
+  back = { href: '/#work', label: '← Index · all work' },
 } = Astro.props;
 
-// Console rail nav — home-section anchors for now (single-page home).
-// Becomes real routes (/work, /about, ...) as those pages land.
+const isCase = variant === 'case-study';
+
+// Default rail nav — home-section anchors for now (single-page home).
 const nav = [
   { ix: '01', label: 'Work', href: '#work' },
   { ix: '02', label: 'About', href: '#about' },
@@ -88,46 +110,90 @@ const year = 2026; // static; avoids per-request Date() in the worker
 
   <body>
     {/* CONSOLE RAIL */}
-    <aside class="console">
-      <a class="brand" href="#top" aria-label="Pratik Mehta — home">
-        <Brandmark size={26} title={undefined} />
-        <span class="wm">Pratik<br />Mehta</span>
-      </a>
-      <div class="role">Creative &amp;<br />Marketing Strategist</div>
-      <nav id="rail-nav">
-        {
-          nav.map((n) => (
-            <a href={n.href} class={n.href === `#${activeNav}` ? 'active' : undefined}>
-              <span class="ix">{n.ix}</span>
-              {n.label}
+    <aside class:list={['console', isCase && 'cs']}>
+      {
+        isCase ? (
+          <Fragment>
+            <a class="brand" href="/" aria-label="Pratik Mehta — home">
+              <Brandmark size={22} title={undefined} />
+              <span class="wm">Pratik Mehta</span>
             </a>
-          ))
-        }
-      </nav>
-      <div class="spacer"></div>
-      <div class="readout">
-        <div class="status"><span class="dot"></span>Open to roles</div>
-        <div class="line"><span>Loc</span><b>New York</b></div>
-        <div class="line"><span>Local</span><b id="clock">—</b></div>
-        <div class="line theme-line">
-          <span>Theme</span>
-          <span class="tg" role="group" aria-label="Color theme">
-            <button data-set="dark" aria-pressed="true">Dark</button>
-            <span class="sep">·</span>
-            <button data-set="light" aria-pressed="false">Light</button>
-          </span>
-        </div>
-      </div>
+            <a class="back" href={back.href}>{back.label}</a>
+            <nav class="cs-nav" id="cs-nav">
+              {sections.map((s, i) => (
+                <a href={s.href} class:list={[i === 0 && 'active']}>
+                  <span class="ix">{s.ix}</span>
+                  {s.label}
+                </a>
+              ))}
+            </nav>
+            <div class="spacer" />
+            <div class="scoreboard">
+              {scoreboard.map((l) => (
+                <div class="line">
+                  <span class="k">{l.k}</span>
+                  <span class:list={['v', l.client && 'client']}>{l.v}</span>
+                </div>
+              ))}
+              <div class="tg" role="group" aria-label="Color theme">
+                <span class="tgk">Theme</span>
+                <button data-set="dark" aria-pressed="true">Dark</button>
+                <span class="sep">·</span>
+                <button data-set="light" aria-pressed="false">Light</button>
+              </div>
+            </div>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <a class="brand" href="#top" aria-label="Pratik Mehta — home">
+              <Brandmark size={26} title={undefined} />
+              <span class="wm">Pratik<br />Mehta</span>
+            </a>
+            <div class="role">Creative &amp;<br />Marketing Strategist</div>
+            <nav id="rail-nav">
+              {nav.map((n) => (
+                <a href={n.href} class={n.href === `#${activeNav}` ? 'active' : undefined}>
+                  <span class="ix">{n.ix}</span>
+                  {n.label}
+                </a>
+              ))}
+            </nav>
+            <div class="spacer" />
+            <div class="readout">
+              <div class="status"><span class="dot" />Open to roles</div>
+              <div class="line"><span>Loc</span><b>New York</b></div>
+              <div class="line"><span>Local</span><b id="clock">—</b></div>
+              <div class="line theme-line">
+                <span>Theme</span>
+                <span class="tg" role="group" aria-label="Color theme">
+                  <button data-set="dark" aria-pressed="true">Dark</button>
+                  <span class="sep">·</span>
+                  <button data-set="light" aria-pressed="false">Light</button>
+                </span>
+              </div>
+            </div>
+          </Fragment>
+        )
+      }
     </aside>
 
     {/* MOBILE BAR */}
     <div class="console-mobile">
-      <a class="brand" href="#top" aria-label="Pratik Mehta — home">
+      <a class="brand" href={isCase ? '/' : '#top'} aria-label="Pratik Mehta — home">
         <Brandmark size={18} title={undefined} />
         <span>Pratik Mehta</span>
       </a>
       <div class="mr">
-        <a href="#work">Work</a><a href="#contact">Contact</a>
+        {
+          isCase ? (
+            <a href={back.href}>← Work</a>
+          ) : (
+            <Fragment>
+              <a href="#work">Work</a>
+              <a href="#contact">Contact</a>
+            </Fragment>
+          )
+        }
         <span class="tg" role="group" aria-label="Color theme">
           <button data-set="dark" aria-pressed="true">Dark</button>
           <span class="sep">·</span>
@@ -143,17 +209,17 @@ const year = 2026; // static; avoids per-request Date() in the worker
         <div class="foot">
           <span class="mono">© {year} Pratik Mehta · One system, end to end</span>
           <div class="fl">
-            <a href="#work">Work</a>
-            <a href="#about">About</a>
-            <a href="#brand">Brand</a>
-            <a href="#journal">Journal</a>
-            <a href="#contact">Contact</a>
+            <a href="/#work">Work</a>
+            <a href="/#about">About</a>
+            <a href="/#brand">Brand</a>
+            <a href="/#journal">Journal</a>
+            <a href="/#contact">Contact</a>
           </div>
         </div>
       </div>
     </div>
 
-    {/* Site-wide: theme toggle (persisted) + live NY clock */}
+    {/* Site-wide: theme toggle + NY clock + reveal-on-scroll + rail scroll-spy */}
     <script is:inline>
       (function () {
         var root = document.documentElement;
@@ -185,7 +251,7 @@ const year = 2026; // static; avoids per-request Date() in the worker
           });
         } catch (e) {}
 
-        // live NY clock
+        // live NY clock (only present on the default rail)
         var clk = document.getElementById('clock');
         var tick = function () {
           try {
@@ -195,6 +261,35 @@ const year = 2026; // static; avoids per-request Date() in the worker
           } catch (e) { clk.textContent = '—'; }
         };
         if (clk) { tick(); setInterval(tick, 30000); }
+
+        // reveal-on-scroll for any .rev element on the page
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+        Array.prototype.slice.call(document.querySelectorAll('.rev')).forEach(function (el) { io.observe(el); });
+
+        // rail scroll-spy — generic over whichever rail nav exists
+        var navLinks = Array.prototype.slice.call(document.querySelectorAll('#rail-nav a, #cs-nav a'));
+        if (navLinks.length) {
+          var ids = navLinks
+            .map(function (a) { return (a.getAttribute('href') || '').replace(/^#/, ''); })
+            .filter(function (id) { return id && id.charAt(0) !== '/'; });
+          var secs = ids.map(function (id) { return document.getElementById(id); })
+            .filter(function (el) { return el; });
+          var spy = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              if (e.isIntersecting) {
+                var id = e.target.id;
+                navLinks.forEach(function (a) {
+                  a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+                });
+              }
+            });
+          }, { rootMargin: '-35% 0px -55% 0px' });
+          secs.forEach(function (s) { spy.observe(s); });
+        }
       })();
     </script>
   </body>

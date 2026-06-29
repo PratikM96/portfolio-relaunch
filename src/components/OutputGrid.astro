@@ -1,0 +1,55 @@
+---
+/**
+ * OutputGrid.astro — the output gallery. Tiles can be `wide` (span 2) and
+ * either show a real image or a placeholder label until media lands from R2.
+ */
+type Tile = {
+  wide?: boolean;
+  /** Real image URL. If omitted, `ph` placeholder text renders instead. */
+  img?: string;
+  alt?: string;
+  /** Placeholder label for asset families not yet populated. */
+  ph?: string;
+  caption: string;
+};
+interface Props {
+  tiles: Tile[];
+  note?: string;
+}
+const { tiles, note } = Astro.props;
+---
+
+<div class="out-grid rev">
+  {
+    tiles.map((t) => (
+      <div class:list={['out-tile', t.wide && 'wide']}>
+        <div class="im">
+          {t.img ? <img src={t.img} alt={t.alt ?? ''} loading="lazy" /> : <span class="ph">{t.ph}</span>}
+        </div>
+        <div class="oc">{t.caption}</div>
+      </div>
+    ))
+  }
+</div>
+{note && <p class="out-note">{note}</p>}
+
+<style>
+  .out-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .out-tile { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
+  .out-tile .im { aspect-ratio: 4/3; overflow: hidden; background: var(--surface-raised); display: flex; align-items: center; justify-content: center; }
+  .out-tile .im img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
+  .out-tile:hover .im img { transform: scale(1.03); }
+  .out-tile .im .ph { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+  .out-tile .oc { padding: 14px 16px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); }
+  .out-tile.wide { grid-column: span 2; }
+  .out-note { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); margin-top: 18px; }
+
+  @media (max-width: 1100px) {
+    .out-grid { grid-template-columns: repeat(2, 1fr); }
+    .out-tile.wide { grid-column: span 2; }
+  }
+  @media (max-width: 560px) {
+    .out-grid { grid-template-columns: 1fr; }
+    .out-tile.wide { grid-column: span 1; }
+  }
+</style>

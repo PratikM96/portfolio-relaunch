@@ -1,0 +1,50 @@
+---
+/**
+ * Scoreboard.astro — the case-study hero board: a 4-up grid of cells.
+ * A cell can be a plain meta cell or a `metric` cell (display figure with an
+ * accent unit). For client work the metric carries the verified headline
+ * result; concept work would carry a scope figure (neutral, no unit accent).
+ */
+type Cell = {
+  k: string;
+  v: string;
+  /** Render as a large display figure (headline metric). */
+  metric?: boolean;
+  /** Accent unit suffix (e.g. "M", "%") — metric cells only. */
+  unit?: string;
+};
+interface Props {
+  cells: Cell[];
+}
+const { cells } = Astro.props;
+---
+
+<div class="sb-board rev">
+  {
+    cells.map((c) => (
+      <div class:list={['sb-cell', c.metric && 'metric']}>
+        <div class="k">{c.k}</div>
+        <div class="v">
+          {c.v}
+          {c.metric && c.unit && <span class="u">{c.unit}</span>}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .sb-board {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    border-radius: var(--radius-md); overflow: hidden; margin-top: 48px;
+  }
+  .sb-cell { background: var(--surface); padding: 22px 20px; }
+  .sb-cell .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+  .sb-cell .v { font-family: var(--font-sans); font-weight: 600; font-size: 16px; color: var(--text); line-height: 1.35; }
+  .sb-cell.metric .v { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 3vw, 34px); letter-spacing: -0.02em; }
+  .sb-cell.metric .v .u { color: var(--accent-text); }
+
+  @media (max-width: 1100px) { .sb-board { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .sb-board { grid-template-columns: 1fr; } }
+</style>

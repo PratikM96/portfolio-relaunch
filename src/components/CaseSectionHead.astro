@@ -1,0 +1,24 @@
+---
+/**
+ * CaseSectionHead.astro — case-study section header: `[ 0N ]` + uppercase
+ * tracked title + flex rule line. Distinct from the home SectionLabel.
+ */
+interface Props {
+  no: string;
+  title: string;
+}
+const { no, title } = Astro.props;
+---
+
+<div class="cs-head">
+  <span class="no">[ {no} ]</span>
+  <h2>{title}</h2>
+  <span class="rule"></span>
+</div>
+
+<style>
+  .cs-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px; }
+  .cs-head .no { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; color: var(--accent-text); }
+  .cs-head h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(13px, 2vw, 15px); letter-spacing: 0.16em; text-transform: uppercase; }
+  .cs-head .rule { flex: 1; height: 1px; background: var(--border); }
+</style>

@@ -115,33 +115,6 @@ const posts = [
   </section>
 </Base>
 
-<script>
-  // Reveal-on-scroll for .rev elements (across the page + child components).
-  const io = new IntersectionObserver(
-    (es) => es.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    }),
-    { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
-  );
-  document.querySelectorAll('.rev').forEach((el) => io.observe(el));
-
-  // Console-rail active state, driven by which section is in view.
-  const secs = ['work', 'about', 'brand', 'journal', 'contact']
-    .map((id) => document.getElementById(id))
-    .filter((el): el is HTMLElement => el !== null);
-  const navs = [...document.querySelectorAll<HTMLAnchorElement>('#rail-nav a')];
-  const spy = new IntersectionObserver(
-    (es) => es.forEach((e) => {
-      if (e.isIntersecting) {
-        const id = e.target.id;
-        navs.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-      }
-    }),
-    { rootMargin: '-40% 0px -55% 0px' },
-  );
-  secs.forEach((s) => spy.observe(s));
-</script>
-
 <style>
   /* ===== SPLIT HERO ===== */
   .hero { min-height: 100vh; display: flex; align-items: center; padding: 64px 0; }

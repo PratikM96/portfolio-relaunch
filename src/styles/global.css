@@ -105,6 +105,34 @@ img { display: block; max-width: 100%; }
 }
 .tg .sep { color: var(--text-muted); opacity: .5; }
 
+/* ===== CONSOLE RAIL — case-study variant (section nav + scoreboard) ===== */
+.console.cs .brand { flex-direction: row; align-items: center; gap: 8px; }
+.console .back {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--text-secondary); margin-top: 22px;
+  display: flex; align-items: center; gap: 7px; transition: color .2s var(--ease-standard);
+}
+.console .back:hover { color: var(--text); }
+.console .cs-nav { margin-top: 34px; display: flex; flex-direction: column; gap: 1px; }
+.console .cs-nav a {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em;
+  color: var(--text-secondary); padding: 7px 0;
+  display: flex; align-items: baseline; gap: 11px; transition: color .2s var(--ease-standard);
+}
+.console .cs-nav a .ix { font-size: 10px; color: var(--text-muted); width: 18px; }
+.console .cs-nav a:hover, .console .cs-nav a.active { color: var(--text); }
+.console .cs-nav a.active .ix { color: var(--accent-text); }
+.console .scoreboard {
+  border-top: 1px solid var(--border); padding-top: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.console .scoreboard .line { display: flex; flex-direction: column; gap: 3px; }
+.console .scoreboard .line .k { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); }
+.console .scoreboard .line .v { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.02em; color: var(--text-secondary); }
+.console .scoreboard .line .v.client { color: var(--accent-text); }
+.console.cs .scoreboard .tg { margin-top: 14px; }
+.tg .tgk { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); margin-right: 2px; }
+
 .console-mobile { display: none; }
 
 /* ===== CONTENT SCAFFOLD + shared primitives ===== */
