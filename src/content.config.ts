@@ -139,4 +139,27 @@ const work = defineCollection({
     }),
 });
 
-export const collections = { work };
+/**
+ * `journal` — notes on systems, brand, and AI. Empty until launch (posts are
+ * written post-launch); the index + article template render from this collection
+ * so adding a markdown file under src/content/journal/ ships a new post.
+ */
+const journal = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/journal' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    excerpt: z.string(),
+    topic: z.string().optional(), // rail/meta topic line, e.g. "Brand systems · AI"
+    tags: z.array(z.string()).default([]),
+    readingTime: z.string().optional(), // e.g. "5 min"
+    cover: z.string().url().optional(),
+    coverAlt: z.string().optional(),
+    pullquote: z.string().optional(), // optional margin pull-quote
+    related: z.string().optional(), // optional margin "Related" note
+    featured: z.boolean().default(false), // surfaces as the lead post
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { work, journal };

@@ -1,0 +1,112 @@
+---
+/**
+ * Journal article template — /journal/[slug]. Ported from _reference/blog-post.html.
+ * Renders a post from the `journal` collection: header, optional cover, the markdown
+ * body, and an optional margin (pull-quote + related note). Reuses the case-study
+ * rail variant (back link + meta lines), so no new Base variant is needed.
+ *
+ * Generates no pages until the first post lands under src/content/journal/.
+ */
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('journal');
+  return posts
+    .filter((p) => !p.data.draft)
+    .map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const d = post.data;
+const { Content } = await render(post);
+
+const fmt = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+const scoreboard = [
+  d.topic && { k: 'Topic', v: d.topic },
+  { k: 'Published', v: fmt(d.date) },
+  d.readingTime && { k: 'Read', v: d.readingTime },
+].filter(Boolean);
+
+const metaLine = [fmt(d.date), d.readingTime].filter(Boolean).join(' · ');
+---
+
+<Base
+  variant="case-study"
+  title={`${d.title} · Journal · Pratik Mehta`}
+  description={d.excerpt}
+  sections={[]}
+  scoreboard={scoreboard}
+  back={{ href: '/journal', label: '← Journal · all writing' }}
+>
+  <header class="ahead">
+    {d.tags.length > 0 && (
+      <div class="cats">
+        {d.tags.map((t, i) => (
+          <span class:list={['tag', i === d.tags.length - 1 && 'acc']}>{t}</span>
+        ))}
+      </div>
+    )}
+    <h1 class="rev">{d.title}</h1>
+    <div class="m">{metaLine}</div>
+  </header>
+
+  {d.cover && (
+    <div class="cover rev"><img src={d.cover} alt={d.coverAlt ?? ''} /></div>
+  )}
+
+  <article class="article">
+    <div class="amain rev">
+      <Content />
+    </div>
+    {(d.pullquote || d.related) && (
+      <aside class="amargin rev">
+        {d.pullquote && <div class="m-quote"><p>{d.pullquote}</p></div>}
+        {d.related && <div class="m-note"><div class="k">Related</div><p>{d.related}</p></div>}
+      </aside>
+    )}
+  </article>
+</Base>
+
+<style>
+  .ahead { padding: 104px 0 48px; max-width: 74ch; }
+  .ahead .cats { display: flex; gap: 8px; margin-bottom: 24px; }
+  .ahead h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(38px, 5vw, 68px); line-height: .96; letter-spacing: -.03em; }
+  .ahead .m { font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); margin-top: 24px; }
+
+  .tag { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: 4px 8px; }
+  .tag.acc { color: var(--accent-text); border-color: rgba(255, 90, 31, .4); }
+
+  .cover { border: 1px solid var(--img-frame); border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: var(--ratio-wide); margin-bottom: 64px; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; }
+
+  .article { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 56px; align-items: start; padding-bottom: 96px; }
+  .amain { max-width: 70ch; }
+  /* body copy comes from the post markdown — style the rendered elements globally */
+  .amain :global(p) { font-size: 18px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 22px; }
+  .amain :global(p:first-child) { font-size: 21px; line-height: 1.6; color: var(--text); }
+  .amain :global(h2) { font-family: var(--font-display); font-weight: 600; font-size: 26px; letter-spacing: -.02em; margin: 44px 0 16px; }
+  .amain :global(h3) { font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: -.015em; margin: 32px 0 12px; }
+  .amain :global(strong) { color: var(--text); font-weight: 600; }
+  .amain :global(a) { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
+  .amain :global(ul), .amain :global(ol) { margin: 0 0 22px 20px; color: var(--text-secondary); }
+  .amain :global(li) { margin-bottom: 8px; line-height: 1.6; }
+  .amain :global(blockquote) { border-left: 2px solid var(--accent-fill); padding-left: 20px; margin: 0 0 22px; color: var(--text); font-family: var(--font-display); font-weight: 600; }
+
+  .amargin { display: flex; flex-direction: column; gap: 22px; position: sticky; top: 48px; }
+  .m-quote { border-top: 1px solid var(--border-strong); padding-top: 16px; }
+  .m-quote p { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.25; letter-spacing: -.015em; color: var(--text); }
+  .m-note { border-left: 2px solid var(--border-strong); padding-left: 16px; }
+  .m-note .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+  .m-note p { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); }
+
+  @media (max-width: 1000px) {
+    .article { grid-template-columns: 1fr; gap: 28px; }
+    .amargin { position: static; flex-direction: row; flex-wrap: wrap; }
+    .amargin > * { flex: 1; min-width: 220px; }
+  }
+  @media (max-width: 900px) { .ahead { padding: 56px 0 32px; } }
+</style>
