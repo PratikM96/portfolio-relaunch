@@ -51,6 +51,9 @@ const {
 } = Astro.props;
 
 const isCase = variant === 'case-study';
+// Mobile drawer reuses the full site nav; case studies live under /work, so
+// highlight Work there since they don't pass an explicit activeNav.
+const drawerActive = isCase ? 'work' : activeNav;
 
 // Default rail nav — real page routes. `id` drives the active state per page
 // (set via the `activeNav` prop), so each page highlights only its own item.
@@ -181,22 +184,47 @@ const year = 2026; // static; avoids per-request Date() in the worker
         <Brandmark size={18} title={undefined} />
         <span>Pratik Mehta</span>
       </a>
-      <div class="mr">
-        {
-          isCase ? (
-            <a href={back.href}>← Work</a>
-          ) : (
-            <Fragment>
-              <a href="/work">Work</a>
-              <a href="/contact">Contact</a>
-            </Fragment>
-          )
-        }
-        <span class="tg" role="group" aria-label="Color theme">
-          <button data-set="dark" aria-pressed="true">Dark</button>
-          <span class="sep">·</span>
-          <button data-set="light" aria-pressed="false">Light</button>
-        </span>
+      <button
+        class="menu-btn"
+        id="menu-open"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-drawer"
+      >
+        {/* 2×2 node grid — echoes the brandmark's node geometry */}
+        <span /><span /><span /><span />
+      </button>
+    </div>
+
+    {/* MOBILE DRAWER — full-screen nav (only rendered ≤900px) */}
+    <div class="m-drawer" id="mobile-drawer" aria-hidden="true">
+      <div class="m-drawer-head">
+        <a class="brand" href="/" aria-label="Pratik Mehta — home">
+          <Brandmark size={18} title={undefined} />
+          <span>Pratik Mehta</span>
+        </a>
+        <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
+      </div>
+      <nav class="m-nav">
+        {nav.map((n) => (
+          <a href={n.href} class={n.id === drawerActive ? 'active' : undefined}>
+            <span class="ix">{n.ix}</span>
+            {n.label}
+          </a>
+        ))}
+        <a href="/resume"><span class="ix">07</span>Resume</a>
+      </nav>
+      <div class="m-readout">
+        <div class="status"><span class="dot" />Open to roles</div>
+        <div class="line"><span>Loc</span><b>New York</b></div>
+        <div class="line theme-line">
+          <span>Theme</span>
+          <span class="tg" role="group" aria-label="Color theme">
+            <button data-set="dark" aria-pressed="true">Dark</button>
+            <span class="sep">·</span>
+            <button data-set="light" aria-pressed="false">Light</button>
+          </span>
+        </div>
       </div>
     </div>
 
@@ -249,6 +277,29 @@ const year = 2026; // static; avoids per-request Date() in the worker
             }
           });
         } catch (e) {}
+
+        // mobile drawer: open/close, Escape, body scroll-lock
+        var drawer = document.getElementById('mobile-drawer');
+        var openBtn = document.getElementById('menu-open');
+        var closeBtn = document.getElementById('menu-close');
+        function setMenu(open) {
+          if (!drawer) return;
+          drawer.classList.toggle('open', open);
+          drawer.setAttribute('aria-hidden', String(!open));
+          if (openBtn) openBtn.setAttribute('aria-expanded', String(open));
+          document.body.classList.toggle('menu-open', open);
+        }
+        if (openBtn) openBtn.addEventListener('click', function () { setMenu(true); });
+        if (closeBtn) closeBtn.addEventListener('click', function () { setMenu(false); });
+        if (drawer) {
+          // close when a nav link is tapped (same-page hashes won't reload)
+          Array.prototype.slice.call(drawer.querySelectorAll('.m-nav a')).forEach(function (a) {
+            a.addEventListener('click', function () { setMenu(false); });
+          });
+        }
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') setMenu(false);
+        });
 
         // live NY clock (only present on the default rail)
         var clk = document.getElementById('clock');
