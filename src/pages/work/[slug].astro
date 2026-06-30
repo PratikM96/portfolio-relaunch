@@ -93,10 +93,27 @@ const outputTiles = d.output.tiles.map((t) => ({
     <p class="descr rev">{d.lede}</p>
     {d.disclosure && <p class="cs-disclosure rev">{d.disclosure}</p>}
     <Scoreboard cells={d.hero} />
-    <div class="cs-wall rev">
-      {d.cover ? <img src={d.cover} alt={d.coverAlt} /> : <div class="ph-fill ph-bg ph-16x9" />}
-      <span class="cap">{d.coverCaption}</span>
-    </div>
+    {d.heroVideo ? (
+      <div class="cs-wall rev" data-cs-video>
+        <video
+          poster={d.heroVideo.poster}
+          width="1920" height="1080"
+          playsinline preload="none" aria-label={d.coverAlt}
+        >
+          <source src={d.heroVideo.webm} type="video/webm" />
+          <source src={d.heroVideo.mp4} type="video/mp4" />
+        </video>
+        <button class="cs-video-play" type="button" aria-label={`Play the ${d.title} video`}>
+          <span class="tri" aria-hidden="true"></span>
+        </button>
+        <span class="cap">{d.coverCaption}</span>
+      </div>
+    ) : (
+      <div class="cs-wall rev">
+        {d.cover ? <img src={d.cover} alt={d.coverAlt} /> : <div class="ph-fill ph-bg ph-16x9" />}
+        <span class="cap">{d.coverCaption}</span>
+      </div>
+    )}
   </header>
 
   {/* PROBLEM */}
@@ -193,8 +210,18 @@ const outputTiles = d.output.tiles.map((t) => ({
   /* non-affiliation disclosure — a visible bordered notice, not a footnote */
   .cs-disclosure { margin-top: 24px; padding: 11px 16px; border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 11.5px; line-height: 1.5; letter-spacing: 0.02em; color: var(--text-secondary); max-width: 64ch; }
   .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: 48px; aspect-ratio: var(--ratio-wide); background: var(--surface); }
-  .cs-wall img { width: 100%; height: 100%; object-fit: cover; }
+  .cs-wall img,
+  .cs-wall video { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: 5px 10px; border-radius: var(--radius-none); }
+
+  /* click-to-play hero video: poster + centered play button until first play,
+     then native controls take over. Has audio, so it never autoplays. */
+  .cs-video-play { position: absolute; inset: 0; width: 100%; height: 100%; display: grid; place-items: center; border: 0; background: rgba(11, 11, 10, .28); cursor: pointer; transition: background .25s var(--ease-standard); }
+  .cs-video-play:hover { background: rgba(11, 11, 10, .16); }
+  .cs-video-play::before { content: ""; position: absolute; width: 78px; height: 78px; border-radius: var(--radius-full); background: #fff; box-shadow: 0 8px 28px rgba(0, 0, 0, .34); transition: transform .25s var(--ease-standard); }
+  .cs-video-play:hover::before { transform: scale(1.06); }
+  .cs-video-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 13px 0 13px 22px; border-color: transparent transparent transparent #0b0b0a; margin-left: 6px; }
+  .cs-wall.is-playing .cs-video-play, .cs-wall.is-playing .cap { display: none; }
 
   /* ===== SECTIONS / PROSE / BODY ===== */
   .cs-sec { padding: 96px 0; }
@@ -218,3 +245,19 @@ const outputTiles = d.output.tiles.map((t) => ({
   @media (max-width: 1100px) { .cs-body { grid-template-columns: 1fr; gap: 32px; } }
   @media (max-width: 900px) { .cs-hero { padding: 64px 0 40px; } }
 </style>
+
+<script>
+  // Click-to-play hero video: first click plays with sound and hands off to the
+  // browser's native controls. Re-shows the play overlay if it ends or is paused.
+  document.querySelectorAll('[data-cs-video]').forEach((wall) => {
+    const video = wall.querySelector('video');
+    const btn = wall.querySelector('.cs-video-play');
+    if (!video || !btn) return;
+    btn.addEventListener('click', () => {
+      video.controls = true;
+      wall.classList.add('is-playing');
+      video.play();
+    });
+    video.addEventListener('ended', () => wall.classList.remove('is-playing'));
+  });
+</script>

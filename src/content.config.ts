@@ -75,6 +75,16 @@ const work = defineCollection({
       disclosure: z.string().optional(),
       coverAlt: z.string(),
       coverCaption: z.string(),
+      // Optional click-to-play hero video for the scoreboard wall. Root-relative
+      // paths under /hero (served same-origin by the Worker), webm + mp4 + a
+      // poster still. When present it replaces the cover image / placeholder.
+      heroVideo: z
+        .object({
+          webm: z.string(),
+          mp4: z.string(),
+          poster: z.string(),
+        })
+        .optional(),
       hero: z.array(
         z.object({
           k: z.string(),
