@@ -19,8 +19,8 @@ const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
 // Chronological work history (Resume Master). Each role is its own entry.
 const experience = [
   {
-    title: 'Independent Creative Systems Practice',
-    org: 'Self-directed · AI-assisted creative systems practice',
+    title: 'Creative Technologist',
+    org: 'Self-directed',
     meta: 'New York',
     when: 'Apr 2024 — Present',
     bullets: [
@@ -29,7 +29,6 @@ const experience = [
       'Built concept systems spanning product screens, AI-assisted feature models, motion states, brand and UI components, campaign routes, and content structures across gaming, tech, and live media use cases.',
       'Supported select small brand and marketing projects for local companies and online brands, using the period to test practical AI-assisted workflows in real creative contexts.',
     ],
-    note: 'The Ninth · Level · WISP are self-initiated, not client work',
   },
   {
     title: 'Marketing Manager',
@@ -110,7 +109,6 @@ const experience = [
       'Founded a dedicated 5-person design team as demand grew beyond core marketing, setting workflows, standards, and mentorship before handing off the function.',
       'Created social media assets and supported paid marketing campaigns across social, print, and Google Ads.',
     ],
-    note: 'Self-initiated nonprofit, built and handed off',
   },
   {
     title: 'Marketing Manager',
@@ -160,47 +158,52 @@ const concepts = [
 
 // Generic practice-level metrics (career totals, not a single client).
 const metrics = [
-  { v: '10+', u: '', l: 'cross-channel experience' },
+  { v: '10+', u: '', l: 'years of cross-channel experience' },
   { v: '20+', u: '', l: 'brands and partners' },
   { v: '10,000+', u: '', l: 'assets produced' },
   { v: '190+', u: '', l: 'video and motion assets produced' },
 ];
 
 const expertise = [
-  'Brand Strategy', 'Creative Direction', 'Social Media Strategy', 'Content Systems',
-  'Video-First Creative', 'Motion Graphics', 'Campaign Strategy', 'Performance Marketing',
-  'Marketing Analytics', 'UI/UX', 'AI-Assisted Production', 'Team Direction',
+  'Brand Strategy', 'Creative Direction', 'Production Design', 'Social & Content',
+  'UI/UX', 'Motion & Video', 'Performance Marketing', 'AI Workflow', 'Team Leadership',
 ];
 const toolsCreative = [
   'Figma', 'Photoshop', 'Illustrator', 'InDesign', 'After Effects', 'Premiere Pro',
-  'DaVinci Resolve', 'Cinema 4D', 'Framer', 'Webflow', 'Shopify', 'WordPress', 'HTML/CSS', 'Git',
+  'Framer', 'Webflow', 'WordPress', 'HTML/CSS', 'Git',
 ];
 const toolsMarketing = [
-  'Meta Ads', 'Google Ads', 'GA4', 'Google Tag Manager', 'Looker Studio', 'Tableau', 'SQL',
-  'HubSpot', 'Klaviyo', 'Mailchimp', 'Sprout Social', 'Hootsuite', 'ChatGPT', 'Claude',
-  'Firefly', 'Midjourney', 'Runway', 'Sora', 'ElevenLabs', 'Descript',
+  'Meta Ads', 'Google Ads', 'GA4', 'Tableau', 'SQL',
+  'HubSpot', 'Klaviyo', 'Mailchimp', 'SMMP', 'Claude',
+  'Firefly', 'Midjourney', 'Runway', 'Sora', 'ElevenLabs',
 ];
 ---
 
 <Base
   title="Resume · Pratik Mehta"
-  description="Pratik Mehta — creative marketing lead with 10+ years across brand, social, content, motion, UI/UX, and performance, built as one connected system."
+  description="Pratik Mehta, creative marketing lead with 10+ years across brand, social, content, motion, UI/UX, and performance, built as one connected system."
   activeNav="resume"
 >
   <header class="rhead">
-    <div class="k rev">[ Resume ]</div>
-    <h1 class="rev">Pratik Mehta</h1>
-    <div class="sub rev">Creative &amp; Marketing Strategist · Brand · Social · Content · UI/UX · Motion · Performance</div>
-    <div class="hrow rev">
-      <div class="contact">
-        <a href="mailto:mehtadpratik@gmail.com">mehtadpratik@gmail.com</a>
-        <span>New York</span>
-        <a href={LINKEDIN} target="_blank" rel="noopener">LinkedIn</a>
-        <a href="/">mehtapratik.com</a>
-      </div>
-      <a class="btn btn-p dl" href={PDF}>Download PDF ↓</a>
+    <div class="page-kicker rev">[ Resume ]</div>
+    <div class="rhead-row rev">
+      <h1 class="page-h1">Pratik Mehta</h1>
+      <span class="rhead-loc">New York</span>
+      <div class="sub">Creative &amp; Marketing Strategist · Brand · Social · Content · UI/UX · Motion · Performance</div>
+      <div class="rhead-links"><a href="mailto:mehtadpratik@gmail.com">mehtadpratik@gmail.com</a> · <a href={LINKEDIN} target="_blank" rel="noopener">LinkedIn</a></div>
     </div>
   </header>
+
+  {/* BY THE NUMBERS — practice totals + resume download */}
+  <section class="rnumbers rev">
+    <div class="rmet">
+      {metrics.map((m) => (
+        <div class="c"><div class="f"><StatFigure value={m.v} unit={m.u} /></div><div class="l">{m.l}</div></div>
+      ))}
+      <a class="c c-dl" href={PDF}>Download PDF ↓</a>
+      <div class="src">Across the practice, brand to performance</div>
+    </div>
+  </section>
 
   <div class="rgrid">
     <div class="rmain">
@@ -217,15 +220,12 @@ const toolsMarketing = [
           experience.map((x) => (
             <div class="exp">
               <div class="top">
-                <div>
-                  <h3>{x.title}</h3>
-                  <div class="org">{x.org}</div>
-                  {x.meta && <div class="emeta">{x.meta}</div>}
-                </div>
+                <h3>{x.title}</h3>
+                <div class="org">{x.org}</div>
+                {x.meta && <div class="emeta">{x.meta}</div>}
                 <div class="when">{x.when}</div>
               </div>
               <ul>{x.bullets.map((b) => <li set:html={b} />)}</ul>
-              {x.note && <span class="conceptnote">{x.note}</span>}
             </div>
           ))
         }
@@ -239,11 +239,9 @@ const toolsMarketing = [
           concepts.map((c) => (
             <div class="exp">
               <div class="top">
-                <div>
-                  <h3>{c.title}</h3>
-                  <div class="org">{c.sub}</div>
-                  <div class="emeta">{c.disc}</div>
-                </div>
+                <h3>{c.title}</h3>
+                <div class="org">{c.sub}</div>
+                <div class="emeta">{c.disc}</div>
                 <div class="when">{c.when}</div>
               </div>
               <ul>{c.bullets.map((b) => <li>{b}</li>)}</ul>
@@ -252,29 +250,19 @@ const toolsMarketing = [
         }
       </section>
 
-      {/* BY THE NUMBERS — practice-level totals */}
-      <section class="rsec rev">
-        <div class="blabel"><span class="c">[ 04 ]</span><span class="t">By the numbers</span><span class="rule"></span></div>
-        <div class="rmet">
-          {metrics.map((m) => (
-            <div class="c"><div class="f"><StatFigure value={m.v} unit={m.u} /></div><div class="l">{m.l}</div></div>
-          ))}
-          <div class="src">Across the practice, brand to performance</div>
-        </div>
-      </section>
     </div>
 
     <aside class="raside rev">
       <div class="rblock">
-        <h4>Education</h4>
+        <div class="blabel"><span class="c">[ 04 ]</span><span class="t">Education</span><span class="rule"></span></div>
         <div class="edu"><div class="d">B.S. Computer Science</div><div class="s">New York University · 2014 — 2017</div></div>
       </div>
       <div class="rblock">
-        <h4>Expertise</h4>
-        <div class="skg"><div class="kk">Creative &amp; Marketing</div><div class="chips">{expertise.map((x) => <span>{x}</span>)}</div></div>
+        <div class="blabel"><span class="c">[ 05 ]</span><span class="t">Expertise</span><span class="rule"></span></div>
+        <div class="chips">{expertise.map((x) => <span>{x}</span>)}</div>
       </div>
       <div class="rblock">
-        <h4>Tools</h4>
+        <div class="blabel"><span class="c">[ 06 ]</span><span class="t">Tools</span><span class="rule"></span></div>
         <div class="skills">
           <div class="skg"><div class="kk">Design, Video &amp; Product</div><div class="chips">{toolsCreative.map((x) => <span>{x}</span>)}</div></div>
           <div class="skg"><div class="kk">Marketing, Analytics &amp; AI</div><div class="chips">{toolsMarketing.map((x) => <span>{x}</span>)}</div></div>
@@ -285,16 +273,15 @@ const toolsMarketing = [
 </Base>
 
 <style>
-  /* header */
-  .rhead { padding: 104px 0 40px; border-bottom: 1px solid var(--border); }
-  .rhead .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 22px; }
-  .rhead h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(38px, 5vw, 68px); line-height: .96; letter-spacing: -.03em; }
-  .rhead .sub { font-family: var(--font-mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-secondary); margin-top: 18px; }
-  .rhead .hrow { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-top: 18px; }
-  .rhead .contact { display: flex; flex-wrap: wrap; gap: 18px; }
-  .rhead .contact a, .rhead .contact span { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .03em; color: var(--text-secondary); }
-  .rhead .contact a:hover { color: var(--accent-text); }
-  .rhead .dl { flex: none; }
+  /* header: name + title on the left, location/contact aligned on the right */
+  .rhead { padding: 104px 0 36px; }
+  .rhead-row { display: grid; grid-template-columns: 1fr auto; column-gap: 32px; row-gap: 14px; align-items: baseline; }
+  .rhead .sub { font-family: var(--font-mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-secondary); }
+  .rhead-loc, .rhead-links { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .03em; color: var(--text-secondary); text-align: right; justify-self: end; }
+  .rhead-links a:hover { color: var(--accent-text); }
+
+  /* by-the-numbers band (sits directly under the header) */
+  .rnumbers { margin-bottom: 8px; }
 
   /* layout */
   .rgrid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 64px; padding: 56px 0 96px; align-items: start; }
@@ -308,27 +295,30 @@ const toolsMarketing = [
   /* experience */
   .exp { padding-bottom: 28px; margin-bottom: 28px; border-bottom: 1px solid var(--border); }
   .exp:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-  .exp .top { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; flex-wrap: wrap; }
+  /* title + date on row 1, org + type/location on row 2 (date and meta align right) */
+  .exp .top { display: grid; grid-template-columns: 1fr auto; column-gap: 20px; row-gap: 4px; align-items: baseline; }
   .exp h3 { font-family: var(--font-display); font-weight: 600; font-size: 21px; letter-spacing: -.02em; }
-  .exp .org { font-family: var(--font-sans); font-weight: 500; font-size: 15px; color: var(--accent-text); margin-top: 4px; }
-  .exp .emeta { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); margin-top: 6px; }
-  .exp .when { font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }
+  .exp .org { font-family: var(--font-sans); font-weight: 500; font-size: 15px; color: var(--accent-text); justify-self: end; text-align: right; }
+  .exp .emeta { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); }
+  .exp .when { font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; justify-self: end; text-align: right; }
   .exp ul { list-style: none; margin-top: 14px; display: flex; flex-direction: column; gap: 9px; }
   .exp li { font-size: 14.5px; line-height: 1.55; color: var(--text-secondary); padding-left: 18px; position: relative; }
-  .exp li::before { content: "—"; position: absolute; left: 0; color: var(--text-muted); }
+  .exp li::before { content: "•"; position: absolute; left: 0; color: var(--text-secondary); }
   .exp li :global(b) { color: var(--text); font-weight: 600; }
-  .exp .conceptnote { font-family: var(--font-mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: 3px 7px; display: inline-block; margin-top: 14px; }
 
   /* metrics band */
-  .rmet { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+  .rmet { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
   .rmet .c { background: var(--surface); padding: 20px; }
-  .rmet .f { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 2.6vw, 30px); letter-spacing: -.02em; line-height: 1; }
+  .rmet .f { font-family: var(--font-display); font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -.02em; line-height: 1; }
   .rmet .l { font-size: 11.5px; line-height: 1.45; color: var(--text-secondary); margin-top: 9px; }
+  /* download cell: a metric-cell-sized CTA on the far right of the band */
+  .rmet .c-dl { display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--text); background: var(--surface); transition: color .2s var(--ease-standard), background .2s var(--ease-standard); }
+  .rmet .c-dl:hover { color: var(--on-accent); background: var(--accent-fill); }
   .rmet .src { grid-column: 1 / -1; background: var(--surface); padding: 12px 20px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); }
 
-  /* aside */
-  .raside { position: sticky; top: 40px; display: flex; flex-direction: column; gap: 34px; }
-  .rblock h4 { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  /* aside: sticky beside the main column, headers match the section labels */
+  .raside { position: sticky; top: 40px; align-self: start; display: flex; flex-direction: column; gap: 34px; }
+  .raside .blabel { margin-bottom: 16px; }
   .rblock .edu .d { font-family: var(--font-sans); font-weight: 600; font-size: 16px; letter-spacing: -.01em; }
   .rblock .edu .s { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
   .skills { display: flex; flex-direction: column; gap: 18px; }
@@ -343,6 +333,10 @@ const toolsMarketing = [
     .raside { position: static; }
     .rmet { grid-template-columns: repeat(2, 1fr); }
   }
-  @media (max-width: 900px) { .rhead { padding: 56px 0 32px; } }
+  @media (max-width: 900px) {
+    .rhead { padding: 56px 0 40px; }
+    .rhead-row { grid-template-columns: 1fr; row-gap: 8px; }
+    .rhead-loc, .rhead-links { text-align: left; justify-self: start; }
+  }
   @media (max-width: 560px) { .exp .when { text-align: left; } }
 </style>

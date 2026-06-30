@@ -47,7 +47,7 @@ const {
   activeNav = 'home',
   sections = [],
   scoreboard = [],
-  back = { href: '/#work', label: '← Index · all work' },
+  back = { href: '/work', label: '← Index · all work' },
 } = Astro.props;
 
 const isCase = variant === 'case-study';
@@ -167,7 +167,7 @@ const year = 2026; // static; avoids per-request Date() in the worker
             <div class="readout">
               <div class="status"><span class="dot" />Open to roles</div>
               <div class="line"><span>Loc</span><b>New York</b></div>
-              <div class="line"><span>Local</span><b id="clock">—</b></div>
+              <div class="line"><span>Local</span><b id="clock">··</b></div>
               <div class="line theme-line">
                 <span>Theme</span>
                 <span class="tg" role="group" aria-label="Color theme">
@@ -264,7 +264,7 @@ const year = 2026; // static; avoids per-request Date() in the worker
             clk.textContent = new Date().toLocaleTimeString('en-US', {
               timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit',
             });
-          } catch (e) { clk.textContent = '—'; }
+          } catch (e) { clk.textContent = '··'; }
         };
         if (clk) { tick(); setInterval(tick, 30000); }
 

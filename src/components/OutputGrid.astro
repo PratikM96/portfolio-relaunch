@@ -1,15 +1,16 @@
 ---
 /**
  * OutputGrid.astro — the output gallery. Tiles can be `wide` (span 2) and
- * either show a real image or a placeholder label until media lands from R2.
+ * either show a real image or a ratio-matched placeholder image (16:9 wide,
+ * 4:3 standard) until media lands from R2.
  */
 type Tile = {
   /** Feature tile: spans the full row as a banner (no dangling column). */
   wide?: boolean;
-  /** Real image URL. If omitted, `ph` placeholder text renders instead. */
+  /** Real image URL. If omitted, a ratio-matched placeholder image renders. */
   img?: string;
   alt?: string;
-  /** Placeholder label for asset families not yet populated. */
+  /** Short label used as the placeholder image's alt text. */
   ph?: string;
   caption: string;
 };
@@ -25,7 +26,9 @@ const { tiles, note } = Astro.props;
     tiles.map((t) => (
       <div class:list={['out-tile', t.wide && 'wide']}>
         <div class="im">
-          {t.img ? <img src={t.img} alt={t.alt ?? ''} loading="lazy" /> : <span class="ph">{t.ph}</span>}
+          {t.img
+            ? <img src={t.img} alt={t.alt ?? ''} loading="lazy" />
+            : <div class:list={['ph-fill', 'ph-bg', t.wide ? 'ph-16x9' : 'ph-4x3']} />}
         </div>
         <div class="oc">{t.caption}</div>
       </div>
@@ -42,7 +45,6 @@ const { tiles, note } = Astro.props;
   .out-tile.wide .im { aspect-ratio: var(--ratio-wide); }
   .out-tile .im img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
   .out-tile:hover .im img { transform: scale(1.03); }
-  .out-tile .im .ph { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
   .out-tile .oc { padding: 14px 16px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); }
   /* span every column at any breakpoint, so a feature tile never leaves a dangling column */
   .out-tile.wide { grid-column: 1 / -1; }

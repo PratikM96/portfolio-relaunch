@@ -11,6 +11,7 @@
  */
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import WorkIndex from '../../components/WorkIndex.astro';
 
 const entries = (await getCollection('work')).sort((a, b) => {
   if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
@@ -29,40 +30,25 @@ const yearRange =
       : `${allYears[0]}—${allYears.at(-1)}`;
 const count = entries.length;
 
-// Consolidated discipline filters (6 buckets). A project matches a bucket if any
-// of its raw disciplines is a member of that bucket.
-const buckets = [
-  { label: 'Brand', token: 'brand', members: ['Brand', 'Strategy', 'Leadership'] },
-  { label: 'Social & Content', token: 'social', members: ['Social', 'Content', 'Paid'] },
-  { label: 'UI/UX', token: 'uiux', members: ['UI/UX', 'Product'] },
-  { label: 'Motion', token: 'motion', members: ['Motion', 'Video', 'Broadcast'] },
-  { label: 'AI', token: 'ai', members: ['AI'] },
-  { label: 'Production', token: 'production', members: ['Print', 'Environmental', 'Photo', 'Photography', 'Event', 'Digital', 'Design'] },
-];
-const bucketsFor = (disc: string[]) => buckets.filter((b) => disc.some((d) => b.members.includes(d)));
-
-const projects = entries.map((e, i) => ({
-  n: String(i + 1).padStart(2, '0'),
-  name: e.data.title,
-  type: e.data.type,
-  disc: e.data.disciplines.slice(0, 2).join(' · '),
-  discLines: e.data.disciplines.slice(0, 3),
-  year: earliestYear(e.data.year),
-  href: `/work/${e.data.slug}`,
-  cover: e.data.cover,
-  lede: e.data.lede,
-  tags: [e.data.type, ...bucketsFor(e.data.disciplines).map((b) => b.token)].join(' '),
-  featured: e.data.featured,
-}));
-
-const featured = projects.filter((p) => p.featured);
-const first = projects[0]!;
+// Featured pair, shown above the shared index. The index itself (filter buckets,
+// table, sticky preview) lives in the WorkIndex component, used here and on home.
+const featured = entries
+  .filter((e) => e.data.featured)
+  .map((e) => ({
+    name: e.data.title,
+    type: e.data.type,
+    href: `/work/${e.data.slug}`,
+    cover: e.data.cover,
+    year: earliestYear(e.data.year),
+    lede: e.data.lede,
+    discLines: e.data.disciplines.slice(0, 3),
+  }));
 ---
 
 <Base title="Work · Pratik Mehta" description="Client and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work">
   <header class="phead">
-    <div class="k">[ Work ] · {count} {count === 1 ? 'project' : 'projects'} · {yearRange}</div>
-    <h1 class="rev">The work,<br />as <span class="signal">one index.</span></h1>
+    <div class="page-kicker">[ Work ] · {count} {count === 1 ? 'project' : 'projects'} · {yearRange}</div>
+    <h1 class="rev page-h1">The work,<br />as <span class="signal">one index.</span></h1>
     <p class="rev">Client and concept, filterable by type and discipline. Pick the two or three that answer your question. Each one opens to a full case study.</p>
   </header>
 
@@ -71,7 +57,7 @@ const first = projects[0]!;
     {featured.map((p) => (
       <a class="fcard" href={p.href}>
         <span class:list={['badge', p.type === 'client' ? 'client' : 'concept']}>{p.type === 'client' ? 'Client' : 'Concept'}</span>
-        <div class="im"><img src={p.cover} alt={p.name} /></div>
+        <div class="im">{p.cover ? <img src={p.cover} alt={p.name} /> : <div class="ph-fill ph-bg ph-16x10" />}</div>
         <div class="meta">
           <div>
             <h3>{p.name}</h3>
@@ -88,55 +74,13 @@ const first = projects[0]!;
     ))}
   </section>
 
-  {/* filters */}
-  <div class="filters" id="filters">
-    <span class="fl-k">Filter</span>
-    <button class="on" data-f="all">All</button>
-    <span class="div"></span>
-    <button data-f="client">Client</button>
-    <button data-f="concept">Concept</button>
-    <span class="div"></span>
-    {buckets.map((b) => (
-      <button data-f={b.token}>{b.label}</button>
-    ))}
-  </div>
-
-  {/* index + preview */}
-  <div class="index-wrap">
-    <div class="idx" id="idx">
-      <div class="idx-head"><span>#</span><span>Project</span><span>Discipline</span><span>Year</span></div>
-      {projects.map((p, i) => (
-        <a
-          class:list={['idx-row', i === 0 && 'active']}
-          href={p.href}
-          data-tags={p.tags}
-          data-img={p.cover}
-          data-t={p.name}
-          data-d={p.lede}
-        >
-          <span class="ix">{p.n}</span>
-          <span class="nm">
-            <b>{p.name}</b>
-            <span class:list={['ty', p.type === 'client' && 'client']}>{p.type === 'client' ? 'Client' : 'Concept'}</span>
-          </span>
-          <span class="disc">{p.disc}</span>
-          <span class="yr">{p.year}</span>
-        </a>
-      ))}
-    </div>
-    <div class="preview">
-      <div class="pv-img" id="pv-img"></div>
-      <div class="pv-meta"><div class="pv-t" id="pv-t">{first.name}</div><div class="pv-d" id="pv-d">{first.lede}</div></div>
-      <a class="pv-open" id="pv-open" href={first.href}>Open case study →</a>
-    </div>
-  </div>
+  {/* shared filterable index + sticky preview (also used on the home) */}
+  <WorkIndex entries={entries} disciplines stickyFilter />
 </Base>
 
 <style>
   /* page head */
   .phead { padding: 104px 0 64px; }
-  .phead .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 22px; }
-  .phead h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(38px, 5vw, 68px); line-height: .96; letter-spacing: -.03em; }
   .phead p { font-size: 18px; line-height: 1.5; color: var(--text-secondary); max-width: 56ch; margin-top: 24px; }
 
   /* featured pair */
@@ -155,105 +99,10 @@ const first = projects[0]!;
   .badge.client { background: rgba(255, 90, 31, .16); color: var(--accent-300); border: 1px solid rgba(255, 90, 31, .35); }
   .badge.concept { background: var(--badge-concept-bg); color: var(--badge-concept-tx); border: 1px solid var(--border-strong); }
 
-  /* filter bar */
-  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 24px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 20; }
-  .filters .fl-k { font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin-right: 6px; }
-  .filters button { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); background: none; border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: 7px 12px; cursor: pointer; transition: color .2s var(--ease-standard), border-color .2s var(--ease-standard), background .2s var(--ease-standard); }
-  .filters button:hover { color: var(--text); }
-  .filters button.on { color: var(--on-accent); background: var(--accent-fill); border-color: var(--accent-fill); }
-  .filters .div { width: 1px; height: 20px; background: var(--border-strong); margin: 0 4px; }
-
-  /* index + preview */
-  .index-wrap { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; padding: 24px 0 96px; }
-  .idx-head, .idx-row { display: grid; grid-template-columns: 34px 1.5fr .9fr 56px; gap: 16px; align-items: center; }
-  .idx-head { padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .idx-head span { font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); }
-  .idx-head span:last-child { text-align: right; }
-  .idx-row { padding: 20px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: padding-left .2s var(--ease-standard); }
-  .idx-row:hover, .idx-row.active { padding-left: 10px; }
-  .idx-row .ix { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
-  .idx-row.active .ix { color: var(--accent-text); }
-  .idx-row .nm { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .idx-row .nm b { font-family: var(--font-sans); font-weight: 600; font-size: 20px; letter-spacing: -.015em; color: var(--text-secondary); transition: color .2s var(--ease-standard); }
-  .idx-row:hover .nm b, .idx-row.active .nm b { color: var(--text); }
-  .idx-row .nm .ty { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 6px; border-radius: var(--radius-none); border: 1px solid var(--border-strong); color: var(--text-muted); }
-  .idx-row .nm .ty.client { color: var(--accent-text); border-color: rgba(255, 90, 31, .35); }
-  .idx-row .disc { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); }
-  .idx-row .yr { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); text-align: right; }
-  .idx-row.hidden { display: none; }
-  .preview { position: sticky; top: 96px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
-  .preview .pv-img { aspect-ratio: var(--ratio-classic); position: relative; background: var(--surface-raised); }
-  .preview .pv-img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .32s var(--ease-standard); }
-  .preview .pv-img :global(img.show) { opacity: 1; }
-  .preview .pv-meta { padding: 18px; }
-  .preview .pv-meta .pv-t { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -.02em; }
-  .preview .pv-meta .pv-d { font-family: var(--font-sans); font-size: 13.5px; color: var(--text-secondary); margin-top: 10px; line-height: 1.55; }
-  .preview .pv-open { display: block; border-top: 1px solid var(--border); padding: 14px 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-secondary); }
-  .preview .pv-open:hover { color: var(--accent-text); }
-
   @media (max-width: 1100px) {
     .feat { grid-template-columns: 1fr; }
-    .index-wrap { grid-template-columns: 1fr; }
-    .preview { display: none; }
   }
   @media (max-width: 900px) {
     .phead { padding: 56px 0 40px; }
   }
-  @media (max-width: 560px) {
-    .idx-head { display: none; }
-    .idx-row { grid-template-columns: 24px 1fr; gap: 10px; }
-    .idx-row .disc, .idx-row .yr { display: none; }
-  }
 </style>
-
-<script>
-  // Index -> sticky preview + single-select filter (type or discipline).
-  const rows = [...document.querySelectorAll<HTMLAnchorElement>('.idx-row')];
-  const pvImg = document.getElementById('pv-img');
-  const pvT = document.getElementById('pv-t');
-  const pvD = document.getElementById('pv-d');
-  const pvOpen = document.getElementById('pv-open');
-  const imgs: Record<string, HTMLImageElement> = {};
-
-  function setPreview(r: HTMLAnchorElement) {
-    if (!pvImg || !pvT || !pvD) return;
-    rows.forEach((x) => x.classList.remove('active'));
-    r.classList.add('active');
-    const src = r.dataset.img;
-    if (src && !imgs[src]) {
-      const im = new Image();
-      im.src = src;
-      im.alt = r.dataset.t ?? '';
-      pvImg.appendChild(im);
-      imgs[src] = im;
-    }
-    pvImg.querySelectorAll('img').forEach((i) => i.classList.remove('show'));
-    if (src) requestAnimationFrame(() => imgs[src]!.classList.add('show'));
-    pvT.textContent = r.dataset.t ?? '';
-    pvD.textContent = r.dataset.d ?? '';
-    const href = r.getAttribute('href');
-    if (pvOpen && href && href !== '#') pvOpen.setAttribute('href', href);
-  }
-
-  rows.forEach((r) => {
-    r.addEventListener('mouseenter', () => setPreview(r));
-    r.addEventListener('focus', () => setPreview(r));
-  });
-  if (rows[0]) setPreview(rows[0]);
-
-  const fbtns = [...document.querySelectorAll<HTMLButtonElement>('#filters button')];
-  fbtns.forEach((b) => {
-    b.addEventListener('click', () => {
-      fbtns.forEach((x) => x.classList.remove('on'));
-      b.classList.add('on');
-      const f = b.dataset.f ?? 'all';
-      let firstVisible: HTMLAnchorElement | null = null;
-      rows.forEach((r) => {
-        const ok = f === 'all' || (r.dataset.tags ?? '').split(' ').includes(f);
-        r.classList.toggle('hidden', !ok);
-        if (ok && !firstVisible) firstVisible = r;
-      });
-      if (firstVisible) setPreview(firstVisible);
-    });
-  });
-</script>

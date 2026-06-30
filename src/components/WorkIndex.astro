@@ -1,27 +1,40 @@
 ---
 /**
- * WorkIndex.astro — the single, filterable work index with a sticky live
- * preview pane. Hover/focus a row to swap the preview image + meta; use the
- * filter bar to narrow by the client/concept facet and by discipline.
+ * WorkIndex.astro — the shared filterable work index: a filter bar, the index
+ * table, and a sticky live preview pane. Used by BOTH the home "Selected work"
+ * section and the full /work page, so the two never drift apart.
  *
- * Data is sourced from the `work` content collection (the canonical list), so
- * the index reflects the real case studies and links straight to /work/[slug].
- * Client vs concept is a typed facet on each row, never a separate section.
+ * Props:
+ *   entries       the work entries to render (caller curates/sorts them)
+ *   disciplines   show the 6 discipline bucket filters (default: type only)
+ *   stickyFilter  pin the filter bar on scroll (on for /work, off for the home)
+ *
+ * The caller owns the surrounding chrome (the home wraps this in a section +
+ * SectionLabel; /work puts its page head + featured pair above it).
  */
-import { getCollection } from 'astro:content';
-import SectionLabel from './SectionLabel.astro';
+import type { CollectionEntry } from 'astro:content';
 
-// Curated "Selected work" for the home index. The Featured section above already
-// showcases SPORTIME (client) and The Ninth (concept), so they're omitted here.
-// The full set lives on /work (linked via "View all").
-const SELECTED = ['dealnews', 'raa', 'agency-fiveeighty', 'level', 'wisp'];
-const all = await getCollection('work');
-const bySlug = new Map(all.map((e) => [e.data.slug, e]));
-const entries = SELECTED.map((slug) => bySlug.get(slug)).filter((e) => e !== undefined);
+interface Props {
+  entries: CollectionEntry<'work'>[];
+  disciplines?: boolean;
+  stickyFilter?: boolean;
+}
+const { entries, disciplines = false, stickyFilter = false } = Astro.props;
 
-// In the index, a year range collapses to its earliest year (e.g. 2023—2024 -> 2023).
-// The full range stays on the case-study page itself.
+// In the index, a year range collapses to its earliest year (e.g. 2023-2024 -> 2023).
 const earliestYear = (y: string) => y.match(/\d{4}/g)?.at(0) ?? y;
+
+// Consolidated discipline filters (6 buckets). A project matches a bucket if any
+// of its raw disciplines is a member of that bucket.
+const buckets = [
+  { label: 'Brand', token: 'brand', members: ['Brand', 'Strategy', 'Leadership'] },
+  { label: 'Social & Content', token: 'social', members: ['Social', 'Content', 'Paid'] },
+  { label: 'UI/UX', token: 'uiux', members: ['UI/UX', 'Product'] },
+  { label: 'Motion', token: 'motion', members: ['Motion', 'Video', 'Broadcast'] },
+  { label: 'AI', token: 'ai', members: ['AI'] },
+  { label: 'Production', token: 'production', members: ['Print', 'Environmental', 'Photo', 'Photography', 'Event', 'Digital', 'Design'] },
+];
+const bucketsFor = (disc: string[]) => buckets.filter((b) => disc.some((d) => b.members.includes(d)));
 
 const projects = entries.map((e, i) => ({
   n: String(i + 1).padStart(2, '0'),
@@ -31,83 +44,74 @@ const projects = entries.map((e, i) => ({
   year: earliestYear(e.data.year),
   href: `/work/${e.data.slug}`,
   cover: e.data.cover,
-  disciplines: e.data.disciplines,
-  // preview shows the one-sentence description, not a disciplines + category repeat
-  desc: e.data.lede,
+  lede: e.data.lede,
+  tags: [e.data.type, ...bucketsFor(e.data.disciplines).map((b) => b.token)].join(' '),
 }));
-
 const first = projects[0]!;
 ---
 
-<section class="block" id="work">
-  <SectionLabel code="02" title="Selected work" more={{ href: '/work', label: 'View all →' }} />
+<div class:list={['filters', stickyFilter && 'sticky']} id="filters">
+  <span class="fl-k">Filter</span>
+  <button class="on" data-f="all">All</button>
+  <span class="div"></span>
+  <button data-f="client">Client</button>
+  <button data-f="concept">Concept</button>
+  {disciplines && (
+    <Fragment>
+      <span class="div"></span>
+      {buckets.map((b) => <button data-f={b.token}>{b.label}</button>)}
+    </Fragment>
+  )}
+</div>
 
-  <div class="idx-filter" role="group" aria-label="Filter work">
-    <div class="fg" data-facet="type">
-      <span class="fl">Type</span>
-      <button class="active" data-type="all" aria-pressed="true">All</button>
-      <button data-type="client" aria-pressed="false">Client</button>
-      <button data-type="concept" aria-pressed="false">Concept</button>
-    </div>
+<div class:list={['index-wrap', stickyFilter && 'has-sticky-filter']}>
+  <div class="idx" id="idx">
+    <div class="idx-head"><span>#</span><span>Project</span><span>Discipline</span><span>Year</span></div>
+    {projects.map((p, i) => (
+      <a
+        class:list={['idx-row', i === 0 && 'active']}
+        href={p.href}
+        data-tags={p.tags}
+        data-img={p.cover}
+        data-t={p.name}
+        data-d={p.lede}
+      >
+        <span class="ix">{p.n}</span>
+        <span class="nm">
+          <b>{p.name}</b>
+          <span class:list={['ty', p.type === 'client' && 'client']}>{p.type === 'client' ? 'Client' : 'Concept'}</span>
+        </span>
+        <span class="disc">{p.disc}</span>
+        <span class="yr">{p.year}</span>
+      </a>
+    ))}
+    <div class="idx-empty" hidden>No work matches that filter.</div>
   </div>
-
-  <div class="index-wrap">
-    <div class="idx">
-      <div class="idx-head"><span>#</span><span>Project</span><span>Discipline</span><span>Year</span></div>
-      {
-        projects.map((p, i) => (
-          <a
-            class:list={['idx-row', i === 0 && 'active']}
-            href={p.href}
-            data-img={p.cover}
-            data-t={p.name}
-            data-d={p.desc}
-            data-type={p.type}
-            data-disc={p.disciplines.join('|')}
-          >
-            <span class="ix">{p.n}</span>
-            <span class="nm">
-              <b>{p.name}</b>
-              <span class:list={['ty', p.type === 'client' && 'client']}>
-                {p.type === 'client' ? 'Client' : 'Concept'}
-              </span>
-            </span>
-            <span class="disc">{p.disc}</span>
-            <span class="yr">{p.year}</span>
-          </a>
-        ))
-      }
-      <div class="idx-empty" hidden>No work matches that filter.</div>
-    </div>
-    <div class="preview">
-      <div class="pv-img" id="pv-img"></div>
-      <div class="pv-meta">
-        <div class="pv-t" id="pv-t">{first.name}</div>
-        <div class="pv-d" id="pv-d">{first.desc}</div>
-      </div>
-    </div>
+  <div class="preview">
+    <div class="pv-img ph-bg ph-4x3" id="pv-img"></div>
+    <div class="pv-meta"><div class="pv-t" id="pv-t">{first.name}</div><div class="pv-d" id="pv-d">{first.lede}</div></div>
+    <a class="pv-open" id="pv-open" href={first.href}>Open case study →</a>
   </div>
-</section>
+</div>
 
 <script>
-  // Work index -> sticky preview + facet/discipline filtering.
+  // Index -> sticky preview + single-select filter (type or discipline token).
   const rows = [...document.querySelectorAll<HTMLAnchorElement>('.idx-row')];
   const pvImg = document.getElementById('pv-img');
   const pvT = document.getElementById('pv-t');
   const pvD = document.getElementById('pv-d');
+  const pvOpen = document.getElementById('pv-open');
   const empty = document.querySelector<HTMLElement>('.idx-empty');
   const imgs: Record<string, HTMLImageElement> = {};
-
-  let facetType = 'all';
-  let facetDisc = 'all';
 
   function setPreview(r: HTMLAnchorElement) {
     if (!pvImg || !pvT || !pvD) return;
     rows.forEach((x) => x.classList.remove('active'));
     r.classList.add('active');
+    // text always updates; the image swap is guarded so empty placeholder
+    // covers don't block the meta from changing on hover
     const src = r.dataset.img;
-    if (!src) return;
-    if (!imgs[src]) {
+    if (src && !imgs[src]) {
       const im = new Image();
       im.src = src;
       im.alt = r.dataset.t ?? '';
@@ -115,90 +119,82 @@ const first = projects[0]!;
       imgs[src] = im;
     }
     pvImg.querySelectorAll('img').forEach((i) => i.classList.remove('show'));
-    requestAnimationFrame(() => imgs[src]!.classList.add('show'));
+    if (src) requestAnimationFrame(() => imgs[src]!.classList.add('show'));
     pvT.textContent = r.dataset.t ?? '';
     pvD.textContent = r.dataset.d ?? '';
+    const href = r.getAttribute('href');
+    if (pvOpen && href && href !== '#') pvOpen.setAttribute('href', href);
   }
-
-  function matches(r: HTMLAnchorElement) {
-    const typeOk = facetType === 'all' || r.dataset.type === facetType;
-    const discOk = facetDisc === 'all' || (r.dataset.disc ?? '').split('|').includes(facetDisc);
-    return typeOk && discOk;
-  }
-
-  function applyFilter() {
-    let firstVisible: HTMLAnchorElement | null = null;
-    rows.forEach((r) => {
-      const ok = matches(r);
-      r.hidden = !ok;
-      if (ok && !firstVisible) firstVisible = r;
-    });
-    if (empty) empty.hidden = !!firstVisible;
-    if (firstVisible) setPreview(firstVisible);
-  }
-
-  // Filter button wiring: each group is single-select.
-  document.querySelectorAll<HTMLElement>('.idx-filter .fg').forEach((group) => {
-    const btns = [...group.querySelectorAll<HTMLButtonElement>('button')];
-    btns.forEach((b) => {
-      b.addEventListener('click', () => {
-        btns.forEach((x) => {
-          x.classList.remove('active');
-          x.setAttribute('aria-pressed', 'false');
-        });
-        b.classList.add('active');
-        b.setAttribute('aria-pressed', 'true');
-        if (group.dataset.facet === 'type') facetType = b.dataset.type ?? 'all';
-        else facetDisc = b.dataset.disc ?? 'all';
-        applyFilter();
-      });
-    });
-  });
 
   rows.forEach((r) => {
     r.addEventListener('mouseenter', () => setPreview(r));
     r.addEventListener('focus', () => setPreview(r));
   });
   if (rows[0]) setPreview(rows[0]);
+
+  const fbtns = [...document.querySelectorAll<HTMLButtonElement>('#filters button')];
+  fbtns.forEach((b) => {
+    b.addEventListener('click', () => {
+      fbtns.forEach((x) => x.classList.remove('on'));
+      b.classList.add('on');
+      const f = b.dataset.f ?? 'all';
+      let firstVisible: HTMLAnchorElement | null = null;
+      rows.forEach((r) => {
+        const ok = f === 'all' || (r.dataset.tags ?? '').split(' ').includes(f);
+        r.classList.toggle('hidden', !ok);
+        if (ok && !firstVisible) firstVisible = r;
+      });
+      if (empty) empty.hidden = !!firstVisible;
+      if (firstVisible) setPreview(firstVisible);
+    });
+  });
 </script>
 
 <style>
-  /* ===== filter bar ===== */
-  .idx-filter { display: flex; flex-wrap: wrap; gap: 28px; margin-bottom: 18px; }
-  .idx-filter .fg { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .idx-filter .fl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-right: 2px; }
-  .idx-filter button { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); background: none; border: 1px solid var(--border); padding: 5px 10px; border-radius: var(--radius-none); cursor: pointer; transition: color .2s var(--ease-standard), border-color .2s var(--ease-standard); }
-  .idx-filter button:hover { color: var(--text-secondary); border-color: var(--border-strong); }
-  .idx-filter button.active { color: var(--text); border-color: var(--text-muted); }
-  .idx-empty { padding: 28px 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); }
+  /* ===== filter bar (sticky only when the caller asks, e.g. /work) ===== */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 24px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .filters.sticky { position: sticky; top: 0; background: var(--bg); z-index: 20; }
+  .filters .fl-k { font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin-right: 6px; }
+  .filters button { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); background: none; border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: 7px 12px; cursor: pointer; transition: color .2s var(--ease-standard), border-color .2s var(--ease-standard), background .2s var(--ease-standard); }
+  .filters button:hover { color: var(--text); }
+  .filters button.on { color: var(--on-accent); background: var(--accent-fill); border-color: var(--accent-fill); }
+  .filters .div { width: 1px; height: 20px; background: var(--border-strong); margin: 0 4px; }
 
-  .index-wrap { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; }
-  .idx-head, .idx-row { display: grid; grid-template-columns: 34px 1.6fr 0.8fr 60px; gap: 16px; align-items: center; }
+  /* ===== index + preview ===== */
+  .index-wrap { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; padding: 24px 0 0; }
+  /* on /work the index is the last thing before the footer, so it owns the gap;
+     on the home the wrapping .block section already provides it */
+  .index-wrap.has-sticky-filter { padding-bottom: 96px; }
+  .idx-head, .idx-row { display: grid; grid-template-columns: 34px 1.5fr .9fr 56px; gap: 16px; align-items: center; }
   .idx-head { padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .idx-head span { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
-  /* right-align the Year header to match the right-aligned year values */
+  .idx-head span { font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); }
   .idx-head span:last-child { text-align: right; }
   .idx-row { padding: 20px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: padding-left .2s var(--ease-standard); }
-  /* filtered-out rows: override the explicit display:grid above so [hidden] takes effect */
-  .idx-row[hidden] { display: none; }
+  .idx-row.hidden { display: none; }
   .idx-row:last-of-type { border-bottom: none; }
   .idx-row:hover, .idx-row.active { padding-left: 10px; }
   .idx-row .ix { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
   .idx-row.active .ix { color: var(--accent-text); }
   .idx-row .nm { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .idx-row .nm b { font-family: var(--font-sans); font-weight: 600; font-size: 20px; letter-spacing: -0.015em; color: var(--text-secondary); transition: color .2s var(--ease-standard); }
+  .idx-row .nm b { font-family: var(--font-sans); font-weight: 600; font-size: 20px; letter-spacing: -.015em; color: var(--text-secondary); transition: color .2s var(--ease-standard); }
   .idx-row:hover .nm b, .idx-row.active .nm b { color: var(--text); }
-  .idx-row .nm .ty { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 6px; border-radius: var(--radius-none); border: 1px solid var(--border-strong); color: var(--text-muted); }
+  .idx-row .nm .ty { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 6px; border-radius: var(--radius-none); border: 1px solid var(--border-strong); color: var(--text-muted); }
   .idx-row .nm .ty.client { color: var(--accent-text); border-color: rgba(255, 90, 31, .35); }
-  .idx-row .disc { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+  .idx-row .disc { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); }
   .idx-row .yr { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); text-align: right; }
+  .idx-empty { padding: 28px 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); }
+
   .preview { position: sticky; top: 40px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
-  .preview .pv-img { aspect-ratio: var(--ratio-classic); overflow: hidden; position: relative; background: var(--surface-raised); }
+  /* a sticky filter bar sits at the top, so push the preview down to clear it */
+  .has-sticky-filter .preview { top: 96px; }
+  .preview .pv-img { aspect-ratio: var(--ratio-classic); position: relative; }
   .preview .pv-img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .32s var(--ease-standard); }
   .preview .pv-img :global(img.show) { opacity: 1; }
   .preview .pv-meta { padding: 18px; }
-  .preview .pv-meta .pv-t { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -0.02em; }
+  .preview .pv-meta .pv-t { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -.02em; }
   .preview .pv-meta .pv-d { font-family: var(--font-sans); font-size: 13.5px; color: var(--text-secondary); margin-top: 10px; line-height: 1.55; }
+  .preview .pv-open { display: block; border-top: 1px solid var(--border); padding: 14px 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-secondary); }
+  .preview .pv-open:hover { color: var(--accent-text); }
 
   @media (max-width: 1100px) {
     .index-wrap { grid-template-columns: 1fr; }

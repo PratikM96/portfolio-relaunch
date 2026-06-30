@@ -84,7 +84,7 @@ const outputTiles = d.output.tiles.map((t) => ({
   description={d.description}
   sections={sections}
   scoreboard={scoreboard}
-  back={{ href: '/#work', label: '← Index · all work' }}
+  back={{ href: '/work', label: '← Index · all work' }}
 >
   {/* SCOREBOARD HERO */}
   <header class="cs-hero">
@@ -94,7 +94,7 @@ const outputTiles = d.output.tiles.map((t) => ({
     {d.disclosure && <p class="cs-disclosure rev">{d.disclosure}</p>}
     <Scoreboard cells={d.hero} />
     <div class="cs-wall rev">
-      <img src={d.cover} alt={d.coverAlt} />
+      {d.cover ? <img src={d.cover} alt={d.coverAlt} /> : <div class="ph-fill ph-bg ph-16x9" />}
       <span class="cap">{d.coverCaption}</span>
     </div>
   </header>

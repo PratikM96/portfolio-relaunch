@@ -48,8 +48,8 @@ const active = tabs[activeIndex] ?? tabs[0];
       ))
     }
   </div>
-  <a class="estage" href={active.href} aria-label={`Open the ${active.label} view`}>
-    <img class="estage-img" src={active.img} alt={alt} />
+  <a class="estage ph-bg ph-16x9" href={active.href} aria-label={`Open the ${active.label} view`}>
+    {active.img && <img class="estage-img" src={active.img} alt={alt} />}
     <div class="scrim"><span class="cap estage-cap">{active.cap}</span></div>
     <span class="estage-go">Open ↗</span>
   </a>
@@ -66,7 +66,7 @@ const active = tabs[activeIndex] ?? tabs[0];
   .embed .etabs .etab { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); background: none; border: none; border-bottom: 2px solid transparent; padding: 13px 18px; cursor: pointer; white-space: nowrap; transition: color .2s var(--ease-standard), border-color .2s var(--ease-standard); }
   .embed .etabs .etab:hover { color: var(--text-secondary); }
   .embed .etabs .etab.on { color: var(--text); border-bottom-color: var(--accent-fill); }
-  .embed .estage { position: relative; display: block; aspect-ratio: var(--ratio-wide); background: var(--surface-raised); overflow: hidden; }
+  .embed .estage { position: relative; display: block; aspect-ratio: var(--ratio-wide); overflow: hidden; }
   .embed .estage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
   .embed .estage:hover img { transform: scale(1.02); }
   .embed .estage .scrim { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 18px; background: linear-gradient(0deg, rgba(11, 11, 10, .6), transparent 55%); pointer-events: none; }
