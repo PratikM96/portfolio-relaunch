@@ -67,6 +67,14 @@ Canonical heading system (match across all pages):
 - **Concept microsites** (`/concepts/[project]/[view]`) are embedded proof inside case studies, not a parallel front door. Each has its own brand/CSS.
 - Journal: notes on systems, brand, AI.
 
+## Hero video system (case-study cover wall)
+Each case study can carry one click-to-play hero video in the scoreboard wall. It is **convention-located by slug** so adding one is mechanical, never a path edit. Full encode recipe and per-study checklist live in **`docs/hero-pipeline.md`**.
+- **Served files (committed):** `public/hero/<slug>/hero_1080.webm` + `hero_1080.mp4` + `poster.webp`. Home page is the same shape at `public/hero/home/`.
+- **Masters (NOT in repo):** the 4K ProRes masters live on Google Drive at `Career-Systems/01-Brand/Animations/`. Web deliverables are transcoded from a local copy of the master with FFmpeg. The repo never holds a master; `_reference/hero-video/<slug>/` (gitignored) is only optional local staging for the compressed mp4/webm/poster.
+- **Opt-in:** set `heroVideo: true` in the entry frontmatter. The `[slug].astro` template derives the three paths from the slug; no paths in content. Omitted/false → cover image or placeholder, unchanged.
+- **Behavior:** poster + centered play button, **no autoplay** (case-study heroes have audio); first click hands off to native controls. Files must stay under Cloudflare's 25 MiB per-file cap (1080p, CRF-tuned).
+- Filenames are a contract: exactly `hero_1080.webm`, `hero_1080.mp4`, `poster.webp` inside the slug folder. A typo = silent 404, so don't improvise names.
+
 ## Verified facts (locked — never alter)
 - B.S. Computer Science, NYU. Email mehtadpratik@gmail.com. New York. "Open to creative or marketing leadership roles."
 - Client work also: DealNews, Richard Attias & Associates, Pipeline Medical, Agency FiveEighty, The Forest Road Company, SR Love & Care (self-initiated nonprofit, built team 5→15+, handed off).

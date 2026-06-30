@@ -48,6 +48,17 @@ const csNext = {
 };
 const isClient = d.type === 'client';
 
+// Hero video (optional): files are convention-located by slug, so a case study
+// opts in with `heroVideo: true` and drops the three files in /hero/<slug>/.
+// See docs/hero-pipeline.md for the encode recipe and naming contract.
+const heroVideo = d.heroVideo
+  ? {
+      webm: `/hero/${d.slug}/hero_1080.webm`,
+      mp4: `/hero/${d.slug}/hero_1080.mp4`,
+      poster: `/hero/${d.slug}/poster.webp`,
+    }
+  : null;
+
 // Rail (case-study variant) — section nav is constant; scoreboard derives from facet + role/year.
 const sections = [
   { ix: '01', label: 'Problem', href: '#problem' },
@@ -93,15 +104,15 @@ const outputTiles = d.output.tiles.map((t) => ({
     <p class="descr rev">{d.lede}</p>
     {d.disclosure && <p class="cs-disclosure rev">{d.disclosure}</p>}
     <Scoreboard cells={d.hero} />
-    {d.heroVideo ? (
+    {heroVideo ? (
       <div class="cs-wall rev" data-cs-video>
         <video
-          poster={d.heroVideo.poster}
+          poster={heroVideo.poster}
           width="1920" height="1080"
           playsinline preload="none" aria-label={d.coverAlt}
         >
-          <source src={d.heroVideo.webm} type="video/webm" />
-          <source src={d.heroVideo.mp4} type="video/mp4" />
+          <source src={heroVideo.webm} type="video/webm" />
+          <source src={heroVideo.mp4} type="video/mp4" />
         </video>
         <button class="cs-video-play" type="button" aria-label={`Play the ${d.title} video`}>
           <span class="tri" aria-hidden="true"></span>
