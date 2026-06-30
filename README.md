@@ -6,7 +6,7 @@ Pratik Mehta's personal portfolio, built on the **One System** brand. Brand, soc
 
 - **Astro 7** (TypeScript)
 - **Cloudflare Workers** for page serving, via `@astrojs/cloudflare`
-- **Cloudflare R2** for media and fonts only, served from `cdn.mehtapratik.com`. Page source lives in this repo; that line stays clean.
+- **All assets self-hosted in this repo**, served same-origin by the Worker (which edge-caches globally). No external CDN. Images go in `src/assets/` (run through Astro's image pipeline); files that can't be processed (video, fonts, favicons) go in `public/`. Only web-optimized deliverables are committed; raw masters stay in `_reference/` (gitignored).
 
 ## Getting started
 
@@ -28,12 +28,14 @@ src/
   content.config.ts# zod schemas + the build guardrail
   pages/           # routes: home, /work, /work/[slug], /about, /resume, /brand, /journal, /contact
   components/      # shared pieces (WorkIndex, Scoreboard, ProofBox, OutputGrid, ...)
-  layouts/Base.astro# site chrome: rail, footer, theme toggle, fonts
+  layouts/Base.astro# site chrome: rail, footer, theme toggle, font preloads
   styles/
-    tokens.css     # design tokens (mirrors the brand kit) + Berkeley Mono @font-face
+    tokens.css     # design tokens (mirrors the brand kit) + all @font-face blocks
     global.css     # reset, shared primitives, site chrome
 public/
-  placeholders/    # themed dark/light placeholder images, used until real media lands on R2
+  fonts/           # self-hosted woff2 (Berkeley Mono, Clash Display, Clash Grotesk)
+  hero/            # home hero animation (webm + mp4 + webp poster)
+  placeholders/    # themed dark/light placeholder images, used until real media lands
 ```
 
 ## Adding a case study

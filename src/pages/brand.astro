@@ -11,11 +11,11 @@
  * The guidelines' Formats section (social / reel / lower-third mockups) is not
  * yet ported; masters live in Figma. Chrome from Base.astro / global.css.
  */
-import fs from 'node:fs';
 import Base from '../layouts/Base.astro';
 import Brandmark from '../components/Brandmark.astro';
-
-const tokensCss = fs.readFileSync(new URL('../styles/tokens.css', import.meta.url), 'utf-8');
+// Token file read as a raw string at build time (Vite ?raw) — no node:fs,
+// so the page bundles cleanly for the Cloudflare Worker runtime.
+import tokensCss from '../styles/tokens.css?raw';
 const tokenValue = (name: string) => {
   const m = tokensCss.match(new RegExp(`${name}\\s*:\\s*([^;]+);`));
   return m ? m[1].trim() : '';
