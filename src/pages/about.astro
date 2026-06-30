@@ -7,7 +7,9 @@
  *
  * ALL body copy is placeholder until Phase 4 (CLAUDE.md). Nothing invented.
  */
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import headshot from '../assets/headshot-4x5.jpg';
 ---
 
 <Base
@@ -23,7 +25,7 @@ import Base from '../layouts/Base.astro';
       <p class="rev">I started in computer science and kept following the path toward the people the work was for, through design and into marketing. The systems habit stayed with me, now pointed at things an audience actually sees.</p>
       <div class="btn-row rev"><a class="btn btn-p" href="/resume">View resume →</a><a class="btn btn-g" href="/work">See the work →</a></div>
     </div>
-    <figure class="portrait rev"><div class="ph-fill ph-bg ph-4x5"></div></figure>
+    <figure class="portrait rev"><Image src={headshot} alt="Pratik Mehta" width={900} format="webp" /></figure>
   </section>
 
   {/* THE PATH */}

@@ -70,9 +70,8 @@ Canonical heading system (match across all pages):
 ## Verified facts (locked — never alter)
 - B.S. Computer Science, NYU. Email mehtadpratik@gmail.com. New York. "Open to creative or marketing leadership roles."
 - Client work also: DealNews, Richard Attias & Associates, Pipeline Medical, Agency FiveEighty, The Forest Road Company, SR Love & Care (self-initiated nonprofit, built team 5→15+, handed off).
-- Covers + headshot are not in the repo yet (still placeholders). When added they live in `src/assets/` (Astro image pipeline) and are referenced by import, never a CDN URL. Naming: `{slug}-cover.webp`; headshot `about-headshot-01.webp`.
+- Headshot is in the repo (`src/assets/headshot-4x5.jpg`, a 1400px web-master; raw masters stay in gitignored `_reference/images/`), imported via Astro `<Image>` (downscaled webp) into the About portrait + home about module. Covers are still placeholders; when added they go in `src/assets/` (imported, never a CDN URL), named `{slug}-cover.webp`. Build-time image optimization requires the Cloudflare adapter's `imageService: 'compile'` (set in astro.config) so Sharp runs at build for the static pages.
 
 ## Current TODOs / placeholders (do not treat as final)
-- Resume PDF download is placeholder.
 - Output-section interior screens are placeholder tiles.
 - Concept microsites for live demos need to be added.

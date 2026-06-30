@@ -9,7 +9,9 @@
  * roles, or claims are invented; text matches the approved mockup verbatim.
  */
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import headshot from '../assets/headshot-4x5.jpg';
 import SectionLabel from '../components/SectionLabel.astro';
 import DisciplineStrip from '../components/DisciplineStrip.astro';
 import WorkIndex from '../components/WorkIndex.astro';
@@ -118,7 +120,7 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
         <span class="go">See the brand system →</span>
       </a>
       <a class="mod mod-about rev" id="about" href="/about">
-        <div class="face ph-bg ph-4x5"></div>
+        <div class="face"><Image src={headshot} alt="Pratik Mehta" width={360} format="webp" /></div>
         <div class="about-body">
           <div class="k">About</div>
           <h3 class="h2">Engineer turned creative.</h3>
@@ -271,7 +273,8 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
   /* About module: portrait headshot shown larger and side-by-side, cropped square (in-system) instead of a tiny vertical thumb */
   /* image matches the height of the text column beside it (stretches, no fixed aspect) */
   .mod-about { flex-direction: row; align-items: stretch; gap: 24px; }
-  .mod-about .face { width: 160px; object-fit: cover; border-radius: var(--radius-md); flex: none; }
+  .mod-about .face { width: 160px; border-radius: var(--radius-md); flex: none; overflow: hidden; }
+  .mod-about .face img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .mod-about .about-body { flex: 1; display: flex; flex-direction: column; }
   @media (max-width: 560px) {
     .mod-about { flex-direction: column; align-items: flex-start; gap: 18px; }

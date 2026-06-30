@@ -17,5 +17,8 @@ const isDev = process.argv.includes('dev');
 
 export default defineConfig({
   output: 'static',
-  adapter: isDev ? undefined : cloudflare(),
+  // imageService: 'compile' = optimize images with Sharp at BUILD time for the
+  // prerendered (static) pages, instead of the adapter's passthrough default.
+  // Safe here because every page is static; no Sharp runs in the Worker.
+  adapter: isDev ? undefined : cloudflare({ imageService: 'compile' }),
 });
