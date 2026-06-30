@@ -69,13 +69,10 @@ Canonical heading system (match across all pages):
 
 ## Verified facts (locked — never alter)
 - B.S. Computer Science, NYU. Email mehtadpratik@gmail.com. New York. "Open to creative or marketing leadership roles."
-- SPORTIME Clubs (client, 2023–24): 11.7M cross-platform impressions/yr, 16.8K net new followers/yr, IG publishing +510%, Reels +2,115%. Testimonial verified. A content lead in each club to one central strategy.
-- The Ninth = self-initiated esports membership concept, 5 surfaces (app, clipper, broadcast, social, brand).
 - Client work also: DealNews, Richard Attias & Associates, Pipeline Medical, Agency FiveEighty, The Forest Road Company, SR Love & Care (self-initiated nonprofit, built team 5→15+, handed off).
 - Covers + headshot are not in the repo yet (still placeholders). When added they live in `src/assets/` (Astro image pipeline) and are referenced by import, never a CDN URL. Naming: `{slug}-cover.webp`; headshot `about-headshot-01.webp`.
 
 ## Current TODOs / placeholders (do not treat as final)
-- ALL body copy is placeholder until Phase 4.
-- Resume titles, dates, and the 2016–2023 grouping are placeholders → replace from Resume Master.
-- Resume PDF download and LinkedIn URLs are placeholders.
+- Resume PDF download is placeholder.
 - Output-section interior screens are placeholder tiles.
+- Concept microsites for live demos need to be added.
