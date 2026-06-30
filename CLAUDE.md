@@ -19,7 +19,7 @@ Pratik Mehta's personal portfolio, rebuilt from scratch in **Astro**, launching 
 ## Non-negotiable content rules
 - **Never invent** metrics, clients, roles, revenue, awards, responsibilities, outcomes, or claims. If a fact is missing or uncertain, say so and leave a clear TODO. Do not fill gaps with plausible-sounding numbers.
 - **Self-initiated concepts** (The Ninth, Level, WISP) are NOT client work. Label them as concepts everywhere. They carry **scope, never performance results**.
-- **Apr 2024 to present** = "Independent Creative Systems Practice" / "AI-assisted creative systems practice". Not a company, agency, traditional full-time role, or AI consultancy.
+- **Apr 2024 to present** = practice framing "Independent Creative Systems Practice" / "AI-assisted creative systems practice" (not a company, agency, traditional full-time role, or AI consultancy). The **resume + case-study role title for this period is "Creative Technologist" at org "Self-directed"** (locked; the site is source of truth, masters sync to match). The overall identity stays "Creative & Marketing Strategist" / "Creative Marketing Lead".
 - Source-of-truth docs govern everything: **System Master** (positioning, voice, proof logic), **Resume Master** (titles, dates, metrics), **Brand Visual Reference** (tokens), **IA-Master-mehtapratik.md** (structure). Consult before proposing.
 
 ## Voice (external-facing copy)
@@ -72,11 +72,10 @@ Canonical heading system (match across all pages):
 - SPORTIME Clubs (client, 2023–24): 11.7M cross-platform impressions/yr, 16.8K net new followers/yr, IG publishing +510%, Reels +2,115%. Testimonial verified. A content lead in each club to one central strategy.
 - The Ninth = self-initiated esports membership concept, 5 surfaces (app, clipper, broadcast, social, brand).
 - Client work also: DealNews, Richard Attias & Associates, Pipeline Medical, Agency FiveEighty, The Forest Road Company, SR Love & Care (self-initiated nonprofit, built team 5→15+, handed off).
-- Covers: `https://cdn.mehtapratik.com/covers/{slug}-cover.webp`. Headshot: `https://cdn.mehtapratik.com/about/about-headshot-01.webp`.
+- Covers + headshot are not in the repo yet (still placeholders). When added they live in `src/assets/` (Astro image pipeline) and are referenced by import, never a CDN URL. Naming: `{slug}-cover.webp`; headshot `about-headshot-01.webp`.
 
 ## Current TODOs / placeholders (do not treat as final)
 - ALL body copy is placeholder until Phase 4.
 - Resume titles, dates, and the 2016–2023 grouping are placeholders → replace from Resume Master.
 - Resume PDF download and LinkedIn URLs are placeholders.
 - Output-section interior screens are placeholder tiles.
-- **Brand guidelines docs (Drive) need a weight-policy fix:** the "weights 400/600/700 only" rule applies to the Clash families (Display, Grotesk). Berkeley Mono (TX-02) ships Regular 400 + Medium 500, and the UI intentionally uses **Berkeley Mono Medium (500)** for emphasis labels (e.g. the primary button). Update `one-system-brand-guidelines.html` + the README to state mono = 400/500, so the docs match the build.

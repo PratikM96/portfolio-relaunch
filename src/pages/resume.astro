@@ -151,7 +151,7 @@ const concepts = [
     disc: 'UI/UX · AI · Motion',
     bullets: [
       'Built a real-time AI host presence for live and streamed formats, combining interaction logic, interface design, prompt behavior, and motion.',
-      'Designed 12 core screens, 3 live/streamed use cases, over 50 prompt/response patterns, and 6 motion states.',
+      'Designed 12 core screens, 3 live/streamed use cases, over 50 prompt/response patterns, and 7 motion states.',
     ],
   },
 ];
@@ -174,7 +174,7 @@ const toolsCreative = [
 ];
 const toolsMarketing = [
   'Meta Ads', 'Google Ads', 'GA4', 'Tableau', 'SQL',
-  'HubSpot', 'Klaviyo', 'Mailchimp', 'SMMP', 'Claude',
+  'HubSpot', 'Klaviyo', 'Mailchimp', 'Sprout', 'Claude',
   'Firefly', 'Midjourney', 'Runway', 'Sora', 'ElevenLabs',
 ];
 ---
@@ -234,7 +234,6 @@ const toolsMarketing = [
       {/* SELF-INITIATED SYSTEMS */}
       <section class="rsec rev">
         <div class="blabel"><span class="c">[ 03 ]</span><span class="t">Self-initiated systems · concepts</span><span class="rule"></span></div>
-        <p class="rsec-note">Self-initiated concept systems. These carry scope and direction, not client performance results.</p>
         {
           concepts.map((c) => (
             <div class="exp">
@@ -287,9 +286,9 @@ const toolsMarketing = [
   .rgrid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 64px; padding: 56px 0 96px; align-items: start; }
   .rmain { min-width: 0; }
   .rsec { margin-bottom: 56px; }
-  /* section intro caption (e.g. the concept scope disclaimer) — sits under the label */
-  .rsec-note { font-size: 13.5px; line-height: 1.5; color: var(--text-muted); margin: -8px 0 28px; max-width: 62ch; }
-  .summary { font-size: 18px; line-height: 1.6; color: var(--text-secondary); max-width: 66ch; }
+  /* shared reading measure so the summary and the experience/concept bullets
+     line up to one column width (rem, not ch, so the two font sizes align) */
+  .summary { font-size: 18px; line-height: 1.6; color: var(--text-secondary); max-width: 48rem; }
   .summary strong { color: var(--text); font-weight: 600; }
 
   /* experience */
@@ -301,7 +300,7 @@ const toolsMarketing = [
   .exp .org { font-family: var(--font-sans); font-weight: 500; font-size: 15px; color: var(--accent-text); justify-self: end; text-align: right; }
   .exp .emeta { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); }
   .exp .when { font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; justify-self: end; text-align: right; }
-  .exp ul { list-style: none; margin-top: 14px; display: flex; flex-direction: column; gap: 9px; }
+  .exp ul { list-style: none; margin-top: 14px; display: flex; flex-direction: column; gap: 9px; max-width: 48rem; }
   .exp li { font-size: 14.5px; line-height: 1.55; color: var(--text-secondary); padding-left: 18px; position: relative; }
   .exp li::before { content: "•"; position: absolute; left: 0; color: var(--text-secondary); }
   .exp li :global(b) { color: var(--text); font-weight: 600; }

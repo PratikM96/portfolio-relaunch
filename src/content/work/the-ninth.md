@@ -88,7 +88,7 @@ next: { kicker: "Next case study · Client", title: "SPORTIME Clubs", href: "/wo
 
 proof:
   figures:
-    - { value: "30+", label: "UI screens" }
+    - { value: "40+", label: "UI screens" }
     - { value: "5+", label: "views" }
     - { value: "3+", label: "membership tiers" }
     - { value: "8+", label: "features added" }

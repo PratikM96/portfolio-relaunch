@@ -105,7 +105,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     <div class="ty"><div class="k">display · Clash Display 700<br />-3%</div><div class="v disp" style="font-size:clamp(36px,5vw,56px)">One system<span class="signal">.</span></div></div>
     <div class="ty"><div class="k">h1 · Clash Grotesk 700<br />-2%</div><div class="v" style="font-weight:700;font-size:36px;letter-spacing:-0.02em">Creative as one system</div></div>
     <div class="ty"><div class="k">h3 · Clash Grotesk 600</div><div class="v" style="font-weight:600;font-size:22px;letter-spacing:-0.015em">Selected work</div></div>
-    <div class="ty"><div class="k">body · Clash Grotesk 400<br />lh 1.65</div><div class="v" style="font-size:16px;line-height:1.65;color:var(--text-secondary)">I hold the whole thing in one head, so the work stays coherent and the loop closes.</div></div>
+    <div class="ty"><div class="k">body · Clash Grotesk 400<br />lh 1.65</div><div class="v" style="font-size:16px;line-height:1.65;color:var(--text-secondary)">The work stays coherent and the loop closes.</div></div>
     <div class="ty"><div class="k">label · TX-02<br />+8% / uppercase</div><div class="v mono" style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase">Brand · Social · Performance</div></div>
     <div class="ty"><div class="k">emphasis · TX-02 Medium 500</div><div class="v mono" style="font-size:12px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase">View work</div></div>
   </section>
@@ -142,6 +142,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
         <div class="s-row"><div class="s-lab">{s.name} · {tokenValue(s.token)}</div><div class="s-bar" style={`width: var(${s.token})`}></div></div>
       ))}
     </div>
+    <div class="grid-demo" aria-hidden="true">{Array.from({ length: 12 }).map(() => (<div class="gcol"></div>))}</div>
     <div class="mono muted gridnote">{px('--grid-cols')} columns · max {px('--grid-max-width')} · gutter {px('--grid-gutter')} · margin {px('--grid-margin')}</div>
     <div class="subhead" style="margin-top:36px">Radius</div>
     <div class="r-row">
@@ -187,10 +188,75 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     </table>
   </section>
 
-  {/* 08 VOICE */}
+  {/* 08 FORMATS */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 08 ]</span><span class="t">Voice · source: System Master</span><span class="rule"></span></div>
-    <p class="intro">Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. No inflated claims, no buzzwords, no unsupported proof.</p>
+    <div class="blabel"><span class="c">[ 08 ]</span><span class="t">Formats · the brand, in format</span><span class="rule"></span></div>
+    <p class="intro">How the system shows up as social posts, reel frames, and a lower-third. Placeholder content at true export dimensions, rendered live so the mockups re-theme with the page.</p>
+
+    <div class="subhead">Social · 1080 × 1080</div>
+    <div class="fmt-stage">
+      <div class="unit">
+        <div class="fr w360"><div class="b1x1 bg-paper"><div class="fmt-pad">
+          <div class="kick k-acc">// placeholder label</div>
+          <div class="fmt-disp t-ink" style="font-size:128px;line-height:0.98">One system,<br />end to end<span class="t-acc">.</span></div>
+          <div class="ffoot"><div class="foot2 k-mut">mehtapratik.com</div><Brandmark size={104} title={undefined} class="fmt-mk-ink" /></div>
+        </div></div></div>
+        <div class="spec"><b>feed</b> · statement</div>
+      </div>
+      <div class="unit">
+        <div class="fr w360"><div class="b1x1 bg-ink"><div class="fmt-pad">
+          <div class="kick k-acc">// placeholder label</div>
+          <div class="fmt-disp t-paper" style="font-size:104px;line-height:1.0">Placeholder<br />headline goes<br />right here<span class="t-acc">.</span></div>
+          <div class="ffoot"><div class="foot2 k-paper">@pratikm96</div><Brandmark size={104} title={undefined} class="fmt-mk-paper" /></div>
+        </div></div></div>
+        <div class="spec"><b>feed</b> · inverted</div>
+      </div>
+      <div class="unit">
+        <div class="fr w360"><div class="b1x1 bg-paper"><div class="fmt-pad">
+          <div class="kick k-mut">metric · placeholder</div>
+          <div><div class="fmt-disp t-acc" style="font-size:240px;line-height:0.9">00.0</div><div class="kick k-ink" style="font-size:30px;margin-top:16px">metric label goes here</div></div>
+          <div class="ffoot"><div class="foot2 k-mut">mehtapratik.com</div><Brandmark size={104} title={undefined} class="fmt-mk-ink" /></div>
+        </div></div></div>
+        <div class="spec"><b>feed</b> · data</div>
+      </div>
+    </div>
+
+    <div class="subhead">Reel / story · 1080 × 1920</div>
+    <div class="fmt-stage">
+      <div class="unit">
+        <div class="fr w270"><div class="b9x16 bg-ink"><div class="fmt-pad fmt-pad-v" style="justify-content:space-between">
+          <div class="kick k-acc">reel · intro frame</div>
+          <div><div class="fmt-disp t-paper" style="font-size:150px;line-height:0.96">Built,<br />not<br />briefed<span class="t-acc">.</span></div><div class="rule8" style="margin-top:40px"></div></div>
+          <div class="ffoot"><div class="foot2 k-paper" style="line-height:1.5">placeholder<br />caption line</div><Brandmark size={104} title={undefined} class="fmt-mk-paper" /></div>
+        </div></div></div>
+        <div class="spec"><b>reel</b> · intro</div>
+      </div>
+      <div class="unit">
+        <div class="fr w270"><div class="b9x16 bg-accent"><div class="fmt-pad fmt-pad-v" style="justify-content:space-between">
+          <div class="kick k-ink">end card</div>
+          <div class="fmt-disp t-ink" style="font-size:140px;line-height:0.96">Let's<br />build<span style="opacity:0.55">.</span></div>
+          <div class="ffoot"><div class="foot2 t-ink" style="line-height:1.5">mehtapratik.com<br />@pratikm96</div><Brandmark size={104} title={undefined} class="fmt-mk-mono" /></div>
+        </div></div></div>
+        <div class="spec"><b>reel</b> · end card · accent surface → mono mark</div>
+      </div>
+    </div>
+
+    <div class="subhead">Lower-third · 1920 × 1080</div>
+    <div class="fmt-stage">
+      <div class="unit">
+        <div class="fr w480"><div class="b16x9 lt-bg">
+          <div class="lt-ph">▢ video placeholder</div>
+          <div class="lt-bar"><div class="lt-edge"></div><div class="lt-box"><div class="lt-name">Pratik Mehta</div><div class="lt-title">Creative &amp; Marketing Strategist</div></div></div>
+        </div></div>
+        <div class="spec"><b>caption</b> · over video</div>
+      </div>
+    </div>
+  </section>
+
+  {/* 09 VOICE */}
+  <section class="bsec">
+    <div class="blabel"><span class="c">[ 09 ]</span><span class="t">Voice · source: System Master</span><span class="rule"></span></div>
+    <p class="intro">Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. No inflated claims, no buzzwords, no unsupported proof. No em or en dashes.</p>
     <div class="voice rev">
       <div class="vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
       <div class="vcol dont-col"><div class="h">Don't</div><ul><li>Inflate or overclaim</li><li>Reach for buzzwords</li><li>Over-polish into AI-speak</li><li>Imply concepts are client work</li></ul></div>
@@ -246,10 +312,10 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .d-rotate :global(.brandmark) { transform: rotate(15deg); }
   .d-onaccent { background: var(--accent-fill); padding: 14px; border-radius: var(--radius-md); display: flex; }
 
-  /* type */
-  .ty { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-top: 1px solid var(--border); flex-wrap: wrap; }
-  .ty .k { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); width: 220px; flex-shrink: 0; line-height: 1.5; }
-  .ty .v { flex: 1; min-width: 240px; color: var(--text); }
+  /* type — fixed label column + specimen, baseline-aligned, no flex-wrap drop */
+  .ty { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 28px; align-items: center; padding: 18px 0; border-top: 1px solid var(--border); }
+  .ty .k { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+  .ty .v { min-width: 0; color: var(--text); }
   .ty .v.disp { font-family: var(--font-display); font-weight: 700; letter-spacing: -.03em; line-height: 1; }
 
   /* color */
@@ -268,6 +334,9 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .s-row { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
   .s-lab { font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); width: 128px; flex-shrink: 0; }
   .s-bar { height: 14px; background: var(--accent-fill); border-radius: 2px; }
+  /* 12-column grid demo (matches the brand guidelines Layout section) */
+  .grid-demo { display: flex; gap: 6px; padding: 0 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); height: 96px; margin-top: 28px; }
+  .gcol { flex: 1; background: rgba(255, 90, 31, .10); border-left: 1px solid var(--accent-fill); border-right: 1px solid var(--accent-fill); }
   .gridnote { font-size: 10.5px; margin-top: 10px; }
   .r-row { display: flex; gap: 18px; flex-wrap: wrap; }
   .r-box { width: 60px; height: 60px; background: var(--surface); border: 1.5px solid var(--text); }
@@ -302,10 +371,54 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .vcol li { font-size: 14px; color: var(--text-secondary); padding-left: 16px; position: relative; }
   .vcol li::before { content: "·"; position: absolute; left: 2px; color: var(--accent-text); }
 
+  /* formats — live mockups at true export dimensions (scaled previews) */
+  .fmt-stage { display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start; }
+  .unit { display: flex; flex-direction: column; gap: 11px; }
+  .spec { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); letter-spacing: .03em; }
+  .spec b { color: var(--text); font-weight: 400; }
+  .fr { overflow: hidden; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+  .w360 { width: 340px; height: 340px; }
+  .w270 { width: 255px; height: 453px; }
+  .w480 { width: 440px; height: 247px; }
+  .b1x1 { width: 1080px; height: 1080px; transform-origin: top left; transform: scale(.31481); }
+  .b9x16 { width: 1080px; height: 1920px; transform-origin: top left; transform: scale(.236); }
+  .b16x9 { width: 1920px; height: 1080px; transform-origin: top left; transform: scale(.22917); }
+  .bg-paper { background: var(--n-50); }
+  .bg-ink { background: var(--n-950); }
+  .bg-accent { background: var(--accent-fill); }
+  .fmt-pad { padding: 80px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+  .fmt-pad-v { padding: 96px 80px; }
+  .ffoot { display: flex; justify-content: space-between; align-items: flex-end; }
+  .kick { font-family: var(--font-mono); font-size: 26px; letter-spacing: .1em; text-transform: uppercase; }
+  .k-acc { color: var(--accent-fill); }
+  .k-ink { color: var(--n-950); }
+  .k-mut { color: var(--n-500); }
+  .k-paper { color: var(--n-400); }
+  .fmt-disp { font-family: var(--font-display); font-weight: 700; letter-spacing: -.03em; }
+  .t-ink { color: var(--n-950); }
+  .t-paper { color: var(--n-50); }
+  .t-acc { color: var(--accent-fill); }
+  .foot2 { font-family: var(--font-mono); font-size: 24px; letter-spacing: .04em; }
+  .rule8 { height: 8px; width: 200px; background: var(--accent-fill); }
+  /* lower-third caption mockup */
+  .lt-bg { background: repeating-linear-gradient(135deg, #C6C2B5 0 40px, #BDB9AC 40px 80px); position: relative; }
+  .lt-ph { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-mono); font-size: 32px; color: #7A7567; letter-spacing: .06em; }
+  .lt-bar { position: absolute; left: 90px; bottom: 120px; display: flex; align-items: stretch; }
+  .lt-edge { width: 10px; background: var(--accent-fill); }
+  .lt-box { background: rgba(11, 11, 10, .82); padding: 34px 48px 34px 40px; }
+  .lt-name { font-family: var(--font-sans); font-weight: 600; font-size: 62px; letter-spacing: -.01em; color: var(--n-50); line-height: 1; }
+  .lt-title { font-family: var(--font-mono); font-size: 28px; color: #C6C2B5; margin-top: 14px; letter-spacing: .04em; }
+  /* mockup mark color variants (override Brandmark's default ink/accent) */
+  :global(.fmt-mk-ink) { color: var(--n-950) !important; }
+  :global(.fmt-mk-paper) { color: var(--n-50) !important; }
+  :global(.fmt-mk-mono) { color: var(--n-950) !important; }
+  :global(.fmt-mk-mono .node) { fill: var(--n-950) !important; }
+
   @media (max-width: 1000px) {
     .logoset, .panels, .rules, .voice { grid-template-columns: 1fr; }
     .dont { grid-template-columns: 1fr 1fr; }
-    .fspec, .ty .k { width: 100%; }
+    .fspec { width: 100%; }
+    .ty { grid-template-columns: 1fr; gap: 8px; }
   }
   @media (max-width: 900px) { .bhero { padding: 56px 0 0; } }
   @media (max-width: 560px) { .dont { grid-template-columns: 1fr; } }
