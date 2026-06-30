@@ -8,8 +8,9 @@
  *
  * Source of truth: One-System-Brand-Guidelines v1.0. Voice rules come from
  * System Master (the brand doc defers voice to it; summarized per CLAUDE.md).
- * The guidelines' Formats section (social / reel / lower-third mockups) is not
- * yet ported; masters live in Figma. Chrome from Base.astro / global.css.
+ * The Formats section (social / reel / lower-third) is ported as live mockups
+ * rendered from tokens at true export dimensions. Chrome from Base.astro /
+ * global.css.
  */
 import Base from '../layouts/Base.astro';
 import Brandmark from '../components/Brandmark.astro';
@@ -261,7 +262,6 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
       <div class="vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
       <div class="vcol dont-col"><div class="h">Don't</div><ul><li>Inflate or overclaim</li><li>Reach for buzzwords</li><li>Over-polish into AI-speak</li><li>Imply concepts are client work</li></ul></div>
     </div>
-    <div class="cap" style="margin-top:18px">The guidelines' Formats section (social, reel, and lower-third masters) is not yet ported; production masters live in Figma.</div>
   </section>
 </Base>
 
@@ -421,5 +421,15 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     .ty { grid-template-columns: 1fr; gap: 8px; }
   }
   @media (max-width: 900px) { .bhero { padding: 56px 0 0; } }
-  @media (max-width: 560px) { .dont { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) {
+    .dont { grid-template-columns: 1fr; }
+    /* Formats: the mockups are fixed export-pixel designs shrunk by a fixed
+       transform into fixed-width wrappers, so they don't reflow on phones and
+       the 1920-wide lower-third overran the column. Shrink wrapper + scale in
+       lockstep so every format fits a ~320px-wide screen (content ≈ 280px). */
+    .fmt-stage { gap: 20px; }
+    .w360 { width: 260px; height: 260px; } .b1x1 { transform: scale(.24074); }
+    .w270 { width: 220px; height: 391px; } .b9x16 { transform: scale(.2037); }
+    .w480 { width: 260px; height: 146px; } .b16x9 { transform: scale(.13542); }
+  }
 </style>
