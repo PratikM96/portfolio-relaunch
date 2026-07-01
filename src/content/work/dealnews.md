@@ -11,6 +11,7 @@ disciplines: [Brand, Social, Design, Paid]
 cover: "" # [NEEDS: cover image url]
 coverAlt: "DealNews in-house social and design"
 coverCaption: "DealNews · in-house social, paid, and design"
+heroVideo: true # files at /hero/dealnews/ (see docs/hero-pipeline.md)
 featured: false
 description: "Social, paid media, and in-house design across web, app, and marketing collateral for an ecommerce deals brand."
 badge: "Client · Social & Design"

@@ -102,7 +102,7 @@ falls back to the cover image / placeholder as before.
 | Slug                | Hero video |
 | ------------------- | ---------- |
 | sportime-clubs      | done       |
-| dealnews            | pending    |
+| dealnews            | done       |
 | raa                 | pending    |
 | agency-fiveeighty   | done       |
 | pipeline-medical    | pending    |
