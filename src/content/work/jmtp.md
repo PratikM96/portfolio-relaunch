@@ -11,6 +11,7 @@ disciplines: [Photography, Video, Event]
 cover: "" # [NEEDS: cover image url]
 coverAlt: "Johnny Mac Tennis Project fundraiser production"
 coverCaption: "Johnny Mac Tennis Project · fundraiser production"
+heroVideo: true # files at /hero/jmtp/ (see docs/hero-pipeline.md)
 featured: false
 description: "Photography, video, and event production for the Johnny Mac Tennis Project, SPORTIME's nonprofit."
 badge: "Client · Photo, Video & Event"

@@ -108,7 +108,7 @@ falls back to the cover image / placeholder as before.
 | pipeline-medical    | pending    |
 | frc                 | pending    |
 | sr-love-and-care    | pending    |
-| jmtp                | pending    |
+| jmtp                | done       |
 | the-ninth           | pending    |
 | level               | pending    |
 | wisp                | pending    |
