@@ -104,7 +104,7 @@ falls back to the cover image / placeholder as before.
 | sportime-clubs      | done       |
 | dealnews            | pending    |
 | raa                 | pending    |
-| agency-fiveeighty   | pending    |
+| agency-fiveeighty   | done       |
 | pipeline-medical    | pending    |
 | frc                 | pending    |
 | sr-love-and-care    | pending    |

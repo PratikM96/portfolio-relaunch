@@ -10,6 +10,7 @@ disciplines: [Motion, Broadcast, Design]
 cover: "" # [NEEDS: cover image url]
 coverAlt: "Broadcast motion and title sequences"
 coverCaption: "Agency FiveEighty · broadcast motion"
+heroVideo: true # files at /hero/agency-fiveeighty/ (see docs/hero-pipeline.md)
 featured: false
 description: "Broadcast motion and title sequences for agency campaigns including Spectrum, the New York Jets, and Coca-Cola."
 badge: "Client · Motion & Broadcast"
