@@ -8,6 +8,8 @@ role: Marketing and Design Team Lead
 year: "2016-2020"
 disciplines: [Social, Design, Leadership]
 cover: "" # [NEEDS: cover image url]
+cardVideo: true # hover-to-play clip at /wc/sr-love-and-care/ (see docs/work-card-video.md)
+cardVideoLight: true # light-theme export exists at /wc/sr-love-and-care/card-light.*
 coverAlt: "Volunteer marketing and design team"
 coverCaption: "SR Love and Care · volunteer team"
 featured: false

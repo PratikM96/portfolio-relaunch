@@ -39,6 +39,8 @@ const featured = entries
     type: e.data.type,
     href: `/work/${e.data.slug}`,
     cover: e.data.cover,
+    video: e.data.cardVideo ? e.data.slug : '',
+    videoLight: e.data.cardVideo ? e.data.cardVideoLight : false,
     year: earliestYear(e.data.year),
     lede: e.data.lede,
     discLines: e.data.disciplines.slice(0, 3),
@@ -57,7 +59,15 @@ const featured = entries
     {featured.map((p) => (
       <a class="fcard" href={p.href}>
         <span class:list={['badge', p.type === 'client' ? 'client' : 'concept']}>{p.type === 'client' ? 'Client' : 'Concept'}</span>
-        <div class="im">{p.cover ? <img src={p.cover} alt={p.name} /> : <div class="ph-fill ph-bg ph-16x10" />}</div>
+        <div class="im">
+          {p.cover ? <img src={p.cover} alt={p.name} /> : <div class="ph-fill ph-bg ph-16x10" />}
+          {p.video && (
+            <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.video} data-light={String(p.videoLight)} poster={`/wc/${p.video}/poster.webp`}>
+              <source src={`/wc/${p.video}/card.webm`} type="video/webm" />
+              <source src={`/wc/${p.video}/card.mp4`} type="video/mp4" />
+            </video>
+          )}
+        </div>
         <div class="meta">
           <div>
             <h3>{p.name}</h3>
@@ -78,6 +88,34 @@ const featured = entries
   <WorkIndex entries={entries} disciplines stickyFilter />
 </Base>
 
+<script>
+  import { applyCardSources, onThemeChange } from '../../scripts/card-video';
+
+  // Featured cards: play the hover-to-play clip on pointer enter, pause + reset
+  // on leave. Muted/looping, so no gesture needed; skipped under reduced motion.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vids: HTMLVideoElement[] = [];
+  document.querySelectorAll<HTMLElement>('.fcard').forEach((card) => {
+    const v = card.querySelector('video');
+    if (!v) return;
+    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
+    vids.push(v);
+    card.addEventListener('mouseenter', () => { if (!reduce) v.play().catch(() => {}); });
+    // load() resets the element and re-displays the poster (the resolved logo),
+    // so leaving mid-animation snaps back to the poster instead of freezing on
+    // whatever frame it happened to be on.
+    card.addEventListener('mouseleave', () => { v.pause(); v.load(); });
+  });
+
+  // On theme flip, re-point each clip at the matching variant (no-op until a
+  // light export exists for that slug).
+  onThemeChange(() => vids.forEach((v) => {
+    const wasPlaying = !v.paused;
+    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
+    if (wasPlaying && !reduce) v.play().catch(() => {});
+  }));
+</script>
+
 <style>
   /* page head */
   .phead { padding: 104px 0 64px; }
@@ -87,9 +125,12 @@ const featured = entries
   .feat { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-bottom: 72px; }
   .fcard { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); display: block; transition: border-color .2s var(--ease-standard); }
   .fcard:hover { border-color: var(--border-strong); }
-  .fcard .im { aspect-ratio: var(--ratio-landscape); overflow: hidden; }
+  .fcard .im { aspect-ratio: var(--ratio-landscape); overflow: hidden; position: relative; }
   .fcard .im img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
   .fcard:hover .im img { transform: scale(1.03); }
+  /* card clip sits over the cover, showing its resolved-logo poster; plays on hover */
+  .fcard-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
+  .fcard:hover .fcard-video { transform: scale(1.03); }
   .fcard .meta { padding: 20px; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
   .fcard h3 { font-family: var(--font-display); font-weight: 600; font-size: 23px; letter-spacing: -.02em; }
   .fcard .yr { font-family: var(--font-mono); font-size: 12px; color: var(--accent-text); margin-top: 6px; display: block; }

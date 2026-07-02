@@ -8,6 +8,8 @@ role: Social Media Director
 year: "2022"
 disciplines: [Social, Paid, Content, Strategy]
 cover: "" # [NEEDS: cover image url]
+cardVideo: true # hover-to-play clip at /wc/frc/ (see docs/work-card-video.md)
+cardVideoLight: true # light-theme export exists at /wc/frc/card-light.*
 coverAlt: "Forest Road social campaigns"
 coverCaption: "The Forest Road Company · B2B social"
 featured: false

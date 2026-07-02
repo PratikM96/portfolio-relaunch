@@ -8,6 +8,8 @@ role: Graphic and Motion Designer (Internship)
 year: "2018-2019"
 disciplines: [Motion, Broadcast, Design]
 cover: "" # [NEEDS: cover image url]
+cardVideo: true # hover-to-play clip at /wc/agency-fiveeighty/ (see docs/work-card-video.md)
+cardVideoLight: true # light-theme export exists at /wc/agency-fiveeighty/card-light.*
 coverAlt: "Broadcast motion and title sequences"
 coverCaption: "Agency FiveEighty · broadcast motion"
 heroVideo: true # files at /hero/agency-fiveeighty/ (see docs/hero-pipeline.md)

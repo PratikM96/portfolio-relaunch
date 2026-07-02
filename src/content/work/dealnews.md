@@ -9,6 +9,8 @@ role: Social and Graphic Manager
 year: "2020-2022"
 disciplines: [Brand, Social, Design, Paid]
 cover: "" # [NEEDS: cover image url]
+cardVideo: true # hover-to-play clip at /wc/dealnews/ (see docs/work-card-video.md)
+cardVideoLight: true # light-theme export exists at /wc/dealnews/card-light.*
 coverAlt: "DealNews in-house social and design"
 coverCaption: "DealNews · in-house social, paid, and design"
 heroVideo: true # files at /hero/dealnews/ (see docs/hero-pipeline.md)

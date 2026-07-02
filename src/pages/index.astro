@@ -72,7 +72,13 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
       <div class="feat-row">
         <a class="tile t-feat" href="/work/sportime-clubs">
           <span class="badge client">Client</span>
-          <div class="img"><div class="ph-fill ph-bg ph-16x9"></div></div>
+          <div class="img">
+            <div class="ph-fill ph-bg ph-16x9"></div>
+            <video class="tile-video" muted loop playsinline preload="none" data-slug="sportime-clubs" data-light="true" poster="/wc/sportime-clubs/poster.webp">
+              <source src="/wc/sportime-clubs/card.webm" type="video/webm" />
+              <source src="/wc/sportime-clubs/card.mp4" type="video/mp4" />
+            </video>
+          </div>
           <div class="meta">
             <div>
               <h3 class="h3">SPORTIME Clubs</h3>
@@ -198,6 +204,32 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
   </section>
 </Base>
 
+<script>
+  import { applyCardSources, onThemeChange } from '../scripts/card-video';
+
+  // Bento featured tiles: hover-to-play card clip, snap back to poster on leave.
+  // Mirrors the /work featured-pair behavior; the hero video above has its own
+  // click-to-play controller and is untouched.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vids: HTMLVideoElement[] = [];
+  document.querySelectorAll<HTMLElement>('.t-feat').forEach((tile) => {
+    const v = tile.querySelector<HTMLVideoElement>('.tile-video');
+    if (!v) return;
+    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
+    vids.push(v);
+    tile.addEventListener('mouseenter', () => { if (!reduce) v.play().catch(() => {}); });
+    tile.addEventListener('mouseleave', () => { v.pause(); v.load(); });
+  });
+
+  // On theme flip, re-point each clip at the matching variant (no-op until a
+  // light export exists for that slug).
+  onThemeChange(() => vids.forEach((v) => {
+    const wasPlaying = !v.paused;
+    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
+    if (wasPlaying && !reduce) v.play().catch(() => {});
+  }));
+</script>
+
 <style>
   /* ===== SPLIT HERO ===== */
   .hero { min-height: 100vh; display: flex; align-items: center; padding: 64px 0; }
@@ -249,9 +281,12 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
   .tile:hover { border-color: var(--border-strong); }
 
   .t-feat { display: flex; flex-direction: column; }
-  .t-feat .img { aspect-ratio: var(--ratio-wide); overflow: hidden; }
+  .t-feat .img { aspect-ratio: var(--ratio-wide); overflow: hidden; position: relative; }
   .t-feat .img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
   .t-feat:hover .img img { transform: scale(1.03); }
+  /* hover-to-play clip over the tile cover; poster (resolved logo) shows at rest */
+  .tile-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
+  .t-feat:hover .tile-video { transform: scale(1.03); }
   .t-feat .meta { padding: 20px; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
   .t-feat .meta p { font-size: 13.5px; color: var(--text-secondary); margin-top: 8px; max-width: 38ch; }
   .t-feat .meta .disc { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }

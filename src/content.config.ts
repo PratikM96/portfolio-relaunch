@@ -82,6 +82,17 @@ const work = defineCollection({
       // same-origin by the Worker); the template derives the paths. When true
       // it replaces the cover image / placeholder. See docs/hero-pipeline.md.
       heroVideo: z.boolean().default(false),
+      // Set true when a case study has a hover-to-play logo animation for the
+      // work index. Three files are convention-located by slug at
+      // /wc/<slug>/{card.webm,card.mp4,poster.webp} (served same-origin); the
+      // WorkIndex + featured cards derive the paths. Muted, looping, no audio,
+      // preload="none" (only the poster loads until hover). Falls back to the
+      // cover image / placeholder when false. See docs/work-card-video.md.
+      cardVideo: z.boolean().default(false),
+      // Set true once a light-theme export exists for the card clip
+      // (/wc/<slug>/{card-light.webm,card-light.mp4,poster-light.webp}). Until
+      // then the light theme reuses the dark clip. Meaningless without cardVideo.
+      cardVideoLight: z.boolean().default(false),
       hero: z.array(
         z.object({
           k: z.string(),

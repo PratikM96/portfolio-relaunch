@@ -45,6 +45,10 @@ const projects = entries.map((e, i) => ({
   href: `/work/${e.data.slug}`,
   cover: e.data.cover,
   lede: e.data.lede,
+  // slug of a hover-to-play card animation (/wc/<slug>/…), or '' when the entry
+  // has no clip; the preview pane derives poster + sources from it.
+  video: e.data.cardVideo ? e.data.slug : '',
+  videoLight: e.data.cardVideo ? e.data.cardVideoLight : false,
   tags: [e.data.type, ...bucketsFor(e.data.disciplines).map((b) => b.token)].join(' '),
 }));
 const first = projects[0]!;
@@ -73,6 +77,8 @@ const first = projects[0]!;
         href={p.href}
         data-tags={p.tags}
         data-img={p.cover}
+        data-video={p.video}
+        data-video-light={String(p.videoLight)}
         data-t={p.name}
         data-d={p.lede}
       >
@@ -88,26 +94,50 @@ const first = projects[0]!;
     <div class="idx-empty" hidden>No work matches that filter.</div>
   </div>
   <div class="preview">
-    <div class="pv-img ph-bg ph-4x3" id="pv-img"></div>
+    <div class="pv-img ph-bg ph-4x3" id="pv-img">
+      <video id="pv-video" class="pv-video" muted loop playsinline preload="none"></video>
+    </div>
     <div class="pv-meta"><div class="pv-t" id="pv-t">{first.name}</div><div class="pv-d" id="pv-d">{first.lede}</div></div>
     <a class="pv-open" id="pv-open" href={first.href}>Open case study →</a>
   </div>
 </div>
 
 <script>
+  import { applyCardSources, onThemeChange } from '../scripts/card-video';
+
   // Index -> sticky preview + single-select filter (type or discipline token).
   const rows = [...document.querySelectorAll<HTMLAnchorElement>('.idx-row')];
   const pvImg = document.getElementById('pv-img');
   const pvT = document.getElementById('pv-t');
   const pvD = document.getElementById('pv-d');
   const pvOpen = document.getElementById('pv-open');
+  const pvVideo = document.getElementById('pv-video') as HTMLVideoElement | null;
   const empty = document.querySelector<HTMLElement>('.idx-empty');
   const imgs: Record<string, HTMLImageElement> = {};
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function setPreview(r: HTMLAnchorElement) {
     if (!pvImg || !pvT || !pvD) return;
     rows.forEach((x) => x.classList.remove('active'));
     r.classList.add('active');
+    // A row can carry a hover-to-play clip (data-video=slug); when it does the
+    // <video> plays over the cover. preload="none" means nothing but the poster
+    // loads until we lazily wire sources on first select. Rows without a clip
+    // hide/pause the shared element so the cover image shows through.
+    const slug = r.dataset.video;
+    if (pvVideo) {
+      if (slug) {
+        applyCardSources(pvVideo, slug, r.dataset.videoLight === 'true');
+        pvVideo.classList.add('show');
+        if (!reduceMotion) {
+          pvVideo.currentTime = 0;
+          pvVideo.play().catch(() => {});
+        }
+      } else {
+        pvVideo.classList.remove('show');
+        pvVideo.pause();
+      }
+    }
     // text always updates; the image swap is guarded so empty placeholder
     // covers don't block the meta from changing on hover
     const src = r.dataset.img;
@@ -131,6 +161,16 @@ const first = projects[0]!;
     r.addEventListener('focus', () => setPreview(r));
   });
   if (rows[0]) setPreview(rows[0]);
+
+  // On theme flip, re-point the active preview clip at the matching variant.
+  onThemeChange(() => {
+    const active = document.querySelector<HTMLAnchorElement>('.idx-row.active');
+    if (pvVideo && active?.dataset.video) {
+      const wasPlaying = !pvVideo.paused;
+      applyCardSources(pvVideo, active.dataset.video, active.dataset.videoLight === 'true');
+      if (wasPlaying && !reduceMotion) pvVideo.play().catch(() => {});
+    }
+  });
 
   const fbtns = [...document.querySelectorAll<HTMLButtonElement>('#filters button')];
   fbtns.forEach((b) => {
@@ -187,9 +227,12 @@ const first = projects[0]!;
   .preview { position: sticky; top: 40px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
   /* a sticky filter bar sits at the top, so push the preview down to clear it */
   .has-sticky-filter .preview { top: 96px; }
-  .preview .pv-img { aspect-ratio: var(--ratio-classic); position: relative; }
+  .preview .pv-img { aspect-ratio: var(--ratio-wide); position: relative; }
   .preview .pv-img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .32s var(--ease-standard); }
   .preview .pv-img :global(img.show) { opacity: 1; }
+  /* hover-to-play clip sits above the cover image; only visible for rows that carry one */
+  .preview .pv-img .pv-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; z-index: 1; pointer-events: none; transition: opacity .32s var(--ease-standard); }
+  .preview .pv-img .pv-video.show { opacity: 1; }
   .preview .pv-meta { padding: 18px; }
   .preview .pv-meta .pv-t { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -.02em; }
   .preview .pv-meta .pv-d { font-family: var(--font-sans); font-size: 13.5px; color: var(--text-secondary); margin-top: 10px; line-height: 1.55; }

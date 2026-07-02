@@ -9,6 +9,8 @@ role: Marketing Manager, SPORTIME
 year: "2023-2024"
 disciplines: [Photography, Video, Event]
 cover: "" # [NEEDS: cover image url]
+cardVideo: true # hover-to-play clip at /wc/jmtp/ (see docs/work-card-video.md)
+cardVideoLight: true # light-theme export exists at /wc/jmtp/card-light.*
 coverAlt: "Johnny Mac Tennis Project fundraiser production"
 coverCaption: "Johnny Mac Tennis Project · fundraiser production"
 heroVideo: true # files at /hero/jmtp/ (see docs/hero-pipeline.md)

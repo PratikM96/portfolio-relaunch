@@ -9,6 +9,8 @@ role: Designer (Internship)
 year: "2017"
 disciplines: [Brand, UI/UX, Product]
 cover: "" # [NEEDS: cover image url]
+cardVideo: true # hover-to-play clip at /wc/pipeline-medical/ (see docs/work-card-video.md)
+cardVideoLight: true # light-theme export exists at /wc/pipeline-medical/card-light.*
 coverAlt: "Pipeline Medical brand and marketplace"
 coverCaption: "Pipeline Medical · brand & B2B marketplace"
 heroVideo: true # files at /hero/pipeline-medical/ (see docs/hero-pipeline.md)

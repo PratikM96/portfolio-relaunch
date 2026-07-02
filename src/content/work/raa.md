@@ -9,6 +9,8 @@ role: Associate Designer
 year: "2019"
 disciplines: [Print, Environmental, Digital, Brand]
 cover: "" # [NEEDS: cover image url]
+cardVideo: true # hover-to-play clip at /wc/raa/ (see docs/work-card-video.md)
+cardVideoLight: true # light-theme export exists at /wc/raa/card-light.*
 coverAlt: "FII 2019 design platform"
 coverCaption: "FII 2019 · design platform"
 heroVideo: true # files at /hero/raa/ (see docs/hero-pipeline.md)
