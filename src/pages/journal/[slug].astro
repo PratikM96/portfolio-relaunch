@@ -29,7 +29,7 @@ const scoreboard = [
   d.topic && { k: 'Topic', v: d.topic },
   { k: 'Published', v: fmt(d.date) },
   d.readingTime && { k: 'Read', v: d.readingTime },
-].filter(Boolean);
+].filter((x): x is { k: string; v: string } => Boolean(x));
 
 const metaLine = [fmt(d.date), d.readingTime].filter(Boolean).join(' · ');
 ---

@@ -143,24 +143,25 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
   {/* Hero animation: loop + pause off-screen + click-to-toggle + reduced-motion */}
   <script>
     (function () {
-      var btn = document.querySelector('[data-hero-video]');
+      const btn = document.querySelector('[data-hero-video]');
       if (!btn) return;
-      var video = btn.querySelector('video');
+      const video = btn.querySelector('video');
+      if (!video) return;
       var chip = btn.querySelector('.hero-video-state');
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
       var userPaused = false; // explicit click choice — overrides auto-resume
       var inView = true;
 
-      function sync() {
+      const sync = function () {
         var playing = !video.paused;
         btn.setAttribute('aria-pressed', String(playing));
         if (chip) chip.textContent = playing ? '❚❚ Pause' : '▶ Play';
-      }
-      function autoPlay() {
+      };
+      const autoPlay = function () {
         if (userPaused || reduce.matches || !inView) return;
         var p = video.play();
         if (p && p.catch) p.catch(function () {});
-      }
+      };
 
       // reduced motion: never autoplay, rest on the poster still
       if (reduce.matches) { video.removeAttribute('autoplay'); video.pause(); }
