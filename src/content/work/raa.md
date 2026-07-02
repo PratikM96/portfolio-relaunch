@@ -11,6 +11,7 @@ disciplines: [Print, Environmental, Digital, Brand]
 cover: "" # [NEEDS: cover image url]
 coverAlt: "FII 2019 design platform"
 coverCaption: "FII 2019 · design platform"
+heroVideo: true # files at /hero/raa/ (see docs/hero-pipeline.md)
 featured: false
 description: "Environmental, print, and digital production for the FII 2019 global forum, around 300 digital assets across 5 asset families."
 badge: "Client · Production Design"

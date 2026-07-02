@@ -103,7 +103,7 @@ falls back to the cover image / placeholder as before.
 | ------------------- | ---------- |
 | sportime-clubs      | done       |
 | dealnews            | done       |
-| raa                 | pending    |
+| raa                 | done       |
 | agency-fiveeighty   | done       |
 | pipeline-medical    | done       |
 | frc                 | pending    |
