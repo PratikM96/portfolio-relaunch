@@ -12,8 +12,9 @@ autoplay on pointer hover only.
 - **Opt-in:** set `cardVideo: true` in the entry frontmatter. Templates derive
   the three paths from the slug — no paths in content. Omitted/false falls back
   to the cover image / placeholder, unchanged.
-- **Filenames are a contract:** exactly `card.webm`, `card.mp4`, `poster.webp`.
-  A typo is a silent 404.
+- **Filenames are a contract:** exactly `card.webm`, `card.mp4`, `poster.webp`,
+  plus `card-light.webm` / `card-light.mp4` / `poster-light.webp` when a light
+  variant exists (see Light mode). A typo is a silent 404.
 - **Masters (NOT in repo):** 4K ProRes exports live in gitignored
   `_reference/wc-animations/`; the After Effects project is
   `_reference/wc-animations/animation-master/`. The repo only holds the
@@ -31,18 +32,24 @@ SPORTIME). If a bento tile ever gains a clip, mirror the `.tile-video` block.
 
 ## Behavior
 
-`muted loop playsinline preload="none"`. Only the ~10 KB poster loads up front;
-the clip downloads on first hover. `mouseenter` → `play()`; `mouseleave` →
-`pause()` + `load()` (re-shows the poster = the resolved-logo last frame, so
-leaving mid-animation never freezes on an awkward frame). Skipped under
-`prefers-reduced-motion` (poster only). The preview pane loops, so it isn't
-reset on leave.
+`muted loop playsinline preload="none"`, so nothing but the ~10 KB active-theme
+poster loads until a clip is actually played. Two interaction modes:
+
+- **Featured pair (/work) and bento tile (home):** hover-to-play. Poster at rest;
+  `mouseenter` → `play()`, `mouseleave` → `pause()` + `load()` (re-shows the
+  poster = the resolved-logo last frame, so leaving mid-animation never freezes on
+  an awkward frame).
+- **Index preview pane:** plays whichever row is active. The first row is active on
+  load, so if it's a card entry its clip autoplays (and loads) immediately;
+  hovering another row swaps + plays it. It loops, so it isn't reset on leave.
+
+Skipped under `prefers-reduced-motion` (poster only) everywhere.
 
 ## Encode recipe
 
 720p is oversampled for the render sizes (preview 380px, cards ~600px), so files
-land at 50-200 KB. The poster is pulled from the **last** frame (the resolved
-logo). From the repo root, per master:
+land at 50-250 KB (webm smaller, mp4 fallback larger). The poster is pulled from
+the **last** frame (the resolved logo). From the repo root, per master:
 
 ```bash
 SRC=_reference/wc-animations/<stem>_2160.mov

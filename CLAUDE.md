@@ -75,6 +75,14 @@ Each case study can carry one click-to-play hero video in the scoreboard wall. I
 - **Behavior:** poster + centered play button, **no autoplay** (case-study heroes have audio); first click hands off to native controls. Files must stay under Cloudflare's 25 MiB per-file cap (1080p, CRF-tuned).
 - Filenames are a contract: exactly `hero_1080.webm`, `hero_1080.mp4`, `poster.webp` inside the slug folder. A typo = silent 404, so don't improvise names.
 
+## Work-card hover video system (index + featured covers)
+Client case studies carry a short, muted, looping logo animation that plays on hover in the work index, standing in for the still-unshot static cover. **Convention-located by slug**; full encode recipe + slug map live in **`docs/work-card-video.md`**. This is distinct from the hero system: card clips are small, silent, and autoplay on hover; hero clips are large, click-to-play, and carry audio.
+- **Served files (committed):** `public/wc/<slug>/card.webm` + `card.mp4` + `poster.webp`, plus `card-light.webm` / `card-light.mp4` / `poster-light.webp` light-theme siblings. 720p, ~50-250 KB per clip (webm smaller, mp4 fallback larger); render sizes are small, so 720p is already oversampled.
+- **Masters (NOT in repo):** ProRes exports staged in gitignored `_reference/wc-animations/` (dark) and `_reference/wc-animations/light/` (light); the After Effects project is `animation-master/`. Web deliverables are transcoded with FFmpeg; the repo never holds a master.
+- **Opt-in:** `cardVideo: true` opts an entry in; `cardVideoLight: true` enables its light variant. Templates derive paths from the slug; no paths in content. Three surfaces read the flag: the shared index preview pane (`WorkIndex.astro`), the `/work` featured pair, and the hardcoded home bento tile (light opt-in there is `data-light="true"` on the `.tile-video`, not frontmatter).
+- **Behavior:** poster (the resolved-logo last frame) at rest; `preload="none"` so only the ~10 KB active-theme poster loads until a clip plays. The `/work` featured pair and home bento tile are hover-to-play (mouseenter plays muted, mouseleave reloads to poster); the shared index preview pane plays whichever row is active, so its first row autoplays on load. Theme selection + live reswap via `src/scripts/card-video.ts` keyed on `[data-theme]`. Reduced-motion → poster only.
+- Filenames are a contract: exactly `card.webm`, `card.mp4`, `poster.webp` (+ `-light` siblings). A typo = silent 404, so don't improvise names.
+
 ## Verified facts (locked — never alter)
 - B.S. Computer Science, NYU. Email mehtadpratik@gmail.com. New York. "Open to creative or marketing leadership roles."
 - Client work also: DealNews, Richard Attias & Associates, Pipeline Medical, Agency FiveEighty, The Forest Road Company, SR Love & Care (self-initiated nonprofit, built team 5→15+, handed off).
@@ -83,3 +91,4 @@ Each case study can carry one click-to-play hero video in the scoreboard wall. I
 ## Current TODOs / placeholders (do not treat as final)
 - Output-section interior screens are placeholder tiles.
 - Concept microsites for live demos need to be added.
+- The three concept entries (level, the-ninth, wisp) have no work-card hover animation; they fall back to placeholder tiles. Static cover images (`{slug}-cover.webp`) are still unshot for every entry.

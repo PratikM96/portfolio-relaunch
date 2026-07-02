@@ -4,6 +4,9 @@ How to produce and wire the click-to-play hero video that sits in a case study's
 scoreboard wall. The system is **convention over configuration**: name the files
 right, drop them in the slug folder, flip one flag. No code or path edits per study.
 
+For the small, silent, hover-to-play logo animations on the work index (a
+separate system), see `docs/work-card-video.md`.
+
 ## The contract (do not improvise names)
 
 **Served files (committed) — one folder per case study:**

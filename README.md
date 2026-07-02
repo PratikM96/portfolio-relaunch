@@ -29,18 +29,25 @@ src/
   pages/           # routes: home, /work, /work/[slug], /about, /resume, /brand, /journal, /contact
   components/      # shared pieces (WorkIndex, Scoreboard, ProofBox, OutputGrid, ...)
   layouts/Base.astro# site chrome: rail, footer, theme toggle, font preloads
+  scripts/         # small client-side helpers (e.g. card-video theme swap)
   styles/
     tokens.css     # design tokens (mirrors the brand kit) + all @font-face blocks
     global.css     # reset, shared primitives, site chrome
 public/
   fonts/           # self-hosted woff2 (Berkeley Mono, Clash Display, Clash Grotesk)
-  hero/            # home hero animation (webm + mp4 + webp poster)
+  hero/            # case-study + home hero videos, by slug (webm + mp4 + webp poster)
+  wc/              # work-card hover animations, by slug (dark + light: card/poster + -light)
   placeholders/    # themed dark/light placeholder images, used until real media lands
+docs/
+  hero-pipeline.md   # hero video encode recipe + per-study checklist
+  work-card-video.md # work-card hover animation recipe + slug map
 ```
 
 ## Adding a case study
 
 Drop a markdown file in `src/content/work/`. The frontmatter is typed and validated by `src/content.config.ts`; the build fails if an entry is missing required fields (every entry needs at least one proof figure). The same template renders both client and concept work. Client proof is a verified metric; concept proof is scope only, never performance results.
+
+Optional per-entry media is opt-in and convention-located by slug (no paths in content): `heroVideo: true` adds a click-to-play case-study hero, and `cardVideo: true` (plus `cardVideoLight: true` for a light-theme variant) adds a hover-to-play logo animation on the work index. See `docs/hero-pipeline.md` and `docs/work-card-video.md` for the encode recipes.
 
 ## Design system
 
