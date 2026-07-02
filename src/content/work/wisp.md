@@ -1,8 +1,6 @@
 ---
 # WISP - content entry (refit to real schema). Drop-in for src/content/work/wisp.md
 # Concept, self-initiated. role = Creative Technologist. Own invented brand. Scripted demo, not a live model.
-# ⚑ STATES DISCREPANCY: live demo shows 7 presence states; Resume Master says "6 motion states." Used the demo's 7
-#   (the real artifact). Flagged for Pratik to reconcile the master. No em/en dashes.
 title: WISP
 slug: wisp
 type: concept

@@ -19,7 +19,7 @@ and loops, since it has no audio - see `src/pages/index.astro`).
 
 **Masters — NOT in the repo:**
 
-The 4K ProRes masters live on Google Drive at `Career-Systems/01-Brand/Animations/`.
+The 4K ProRes masters live on Google Drive at `Career-System/01-Brand/Animations/`.
 You transcode the web deliverables from a local copy of the master (Drive desktop
 sync, or download it for the encode). The repo never holds a master. If you want a
 local backup of the compressed outputs, `_reference/hero-video/<slug>/` is the spot
@@ -38,7 +38,7 @@ Export a visually-lossless master, do no scaling here (that happens in Step 2):
 - Keep native **3840x2160 / 30 fps / Progressive / Square pixels** (Match Source).
 - Check **Use Maximum Render Quality** and **Render at Maximum Depth**.
 - Audio **Uncompressed (PCM) 48 kHz 24-bit**.
-- Save the master to Google Drive at `Career-Systems/01-Brand/Animations/`
+- Save the master to Google Drive at `Career-System/01-Brand/Animations/`
   (e.g. `<slug>-master_2160.mov`).
 
 ## Step 2 - transcode the web deliverables (FFmpeg)

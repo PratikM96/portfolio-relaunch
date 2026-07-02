@@ -11,8 +11,8 @@ import cloudflare from '@astrojs/cloudflare';
 // The adapter is intentionally NOT applied during `astro dev`: Astro 7's dev
 // server runs requests through the Cloudflare workerd sandbox, whose runtime
 // lacks Node's `process` global, which crashes Astro's JSON logger and turns
-// every page into a 500. Dev needs none of the adapter's Worker bindings (R2
-// is read over plain CDN URLs), so dev uses the standard Node Vite server.
+// every page into a 500. Dev needs none of the adapter's Worker bindings, so
+// dev uses the standard Node Vite server.
 const isDev = process.argv.includes('dev');
 
 export default defineConfig({

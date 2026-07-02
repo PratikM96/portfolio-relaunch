@@ -20,10 +20,10 @@ Pratik Mehta's personal portfolio, rebuilt from scratch in **Astro**, launching 
 - **Never invent** metrics, clients, roles, revenue, awards, responsibilities, outcomes, or claims. If a fact is missing or uncertain, say so and leave a clear TODO. Do not fill gaps with plausible-sounding numbers.
 - **Self-initiated concepts** (The Ninth, Level, WISP) are NOT client work. Label them as concepts everywhere. They carry **scope, never performance results**.
 - **Apr 2024 to present** = practice framing "Independent Creative Systems Practice" / "AI-assisted creative systems practice" (not a company, agency, traditional full-time role, or AI consultancy). The **resume + case-study role title for this period is "Creative Technologist" at org "Self-directed"** (locked; the site is source of truth, masters sync to match). The overall identity stays "Creative & Marketing Strategist" / "Creative Marketing Lead".
-- Source-of-truth docs govern everything: **System Master** (positioning, voice, proof logic), **Resume Master** (titles, dates, metrics), **Brand Visual Reference** (tokens), **IA-Master-mehtapratik.md** (structure). Consult before proposing.
+- Source-of-truth docs govern everything: **System Master** (positioning, voice, proof logic), **Resume Master** (titles, dates, metrics), **One-System-Brand-Guidelines (brand kit)** (tokens), **IA-Master** (structure). Consult before proposing.
 
 ## Voice (external-facing copy)
-Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. **No em dashes or en dashes.** No inflated claims, no buzzwords, no unsupported proof.
+Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. **No em or en dashes in external-facing copy, except date ranges.** No inflated claims, no buzzwords, no unsupported proof.
 
 ## One System design tokens (single source of truth → `src/styles/tokens.css`)
 Neutral ramp (warm): `--n-0:#FBFAF6 --n-50:#F4F2EB --n-100:#EAE7DE --n-200:#DBD8CD --n-300:#C6C2B5 --n-400:#A6A294 --n-500:#847F72 --n-550:#6E6A5D --n-600:#615D52 --n-700:#46433B --n-800:#2B2924 --n-900:#171713 --n-950:#0B0B0A`
@@ -70,7 +70,7 @@ Canonical heading system (match across all pages):
 ## Hero video system (case-study cover wall)
 Each case study can carry one click-to-play hero video in the scoreboard wall. It is **convention-located by slug** so adding one is mechanical, never a path edit. Full encode recipe and per-study checklist live in **`docs/hero-pipeline.md`**.
 - **Served files (committed):** `public/hero/<slug>/hero_1080.webm` + `hero_1080.mp4` + `poster.webp`. Home page is the same shape at `public/hero/home/`.
-- **Masters (NOT in repo):** the 4K ProRes masters live on Google Drive at `Career-Systems/01-Brand/Animations/`. Web deliverables are transcoded from a local copy of the master with FFmpeg. The repo never holds a master; `_reference/hero-video/<slug>/` (gitignored) is only optional local staging for the compressed mp4/webm/poster.
+- **Masters (NOT in repo):** the 4K ProRes masters live on Google Drive at `Career-System/01-Brand/Animations/`. Web deliverables are transcoded from a local copy of the master with FFmpeg. The repo never holds a master; `_reference/hero-video/<slug>/` (gitignored) is only optional local staging for the compressed mp4/webm/poster.
 - **Opt-in:** set `heroVideo: true` in the entry frontmatter. The `[slug].astro` template derives the three paths from the slug; no paths in content. Omitted/false → cover image or placeholder, unchanged.
 - **Behavior:** poster + centered play button, **no autoplay** (case-study heroes have audio); first click hands off to native controls. Files must stay under Cloudflare's 25 MiB per-file cap (1080p, CRF-tuned).
 - Filenames are a contract: exactly `hero_1080.webm`, `hero_1080.mp4`, `poster.webp` inside the slug folder. A typo = silent 404, so don't improvise names.

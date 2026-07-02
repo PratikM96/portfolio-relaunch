@@ -52,7 +52,7 @@ Builds and deploys go to the **staging** Worker / `*.workers.dev` URL only. The 
 
 ## Operating contract
 
-`CLAUDE.md` is the source of truth for stack, deploy safety, content rules, voice, and design tokens. Read it before any work. Source-of-truth docs (System Master, Resume Master, Brand Visual Reference, IA Master) govern positioning, facts, and structure.
+`CLAUDE.md` is the source of truth for stack, deploy safety, content rules, voice, and design tokens. Read it before any work. Source-of-truth docs (System Master, Resume Master, One-System-Brand-Guidelines (brand kit), IA-Master) govern positioning, facts, and structure.
 
 ## License
 
