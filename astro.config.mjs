@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
 
 // One System portfolio — deploys to the STAGING Cloudflare Worker only.
 // The live domain (mehtapratik.com) is served by the OLD deployment; never target it here.
@@ -17,6 +18,14 @@ const isDev = process.argv.includes('dev');
 
 export default defineConfig({
   output: 'static',
+  // Canonical production URL. The site currently deploys to the staging Worker,
+  // but mehtapratik.com is where it lands at the manual cutover, so canonical
+  // links and the sitemap describe that domain. This is a config string only;
+  // it does not change WHERE the build deploys (still staging / *.workers.dev).
+  site: 'https://mehtapratik.com',
+  // @astrojs/sitemap reads `site` and emits /sitemap-index.xml + /sitemap-0.xml
+  // over the static routes at build.
+  integrations: [sitemap()],
   // imageService: 'compile' = optimize images with Sharp at BUILD time for the
   // prerendered (static) pages, instead of the adapter's passthrough default.
   // Safe here because every page is static; no Sharp runs in the Worker.

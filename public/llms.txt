@@ -1,0 +1,32 @@
+# Pratik Mehta
+
+> Personal portfolio of Pratik Mehta, a creative and marketing strategist working across brand, social, content, UI/UX, motion, and performance as one connected system. Built on the One System brand. New York. Open to creative or marketing leadership roles.
+
+## Site
+
+- [Home](https://mehtapratik.com/): The practice, featured work, and how the pieces connect.
+- [Work](https://mehtapratik.com/work): Full case-study index, filterable by client and concept.
+- [About](https://mehtapratik.com/about): Background, approach, and the One System practice.
+- [Resume](https://mehtapratik.com/resume): Full work history, self-initiated systems, education, and tools.
+- [Brand](https://mehtapratik.com/brand): The One System brand reference (tokens, type, logo, formats).
+- [Journal](https://mehtapratik.com/journal): Notes on systems, brand, and AI.
+- [Contact](https://mehtapratik.com/contact): Ways to get in touch.
+
+## Work (case studies)
+
+- [SPORTIME Clubs](https://mehtapratik.com/work/sportime-clubs): A video-first content engine across tennis, pickleball, and a $75M expansion. Client.
+- [DealNews](https://mehtapratik.com/work/dealnews): In-house social, paid, and design for an ecommerce deals brand. Client.
+- [Richard Attias & Associates](https://mehtapratik.com/work/raa): Environmental, print, and digital production for the FII 2019 global forum. Client.
+- [Pipeline Medical](https://mehtapratik.com/work/pipeline-medical): Brand and a B2B supplier marketplace built from zero, logo system through procurement screens. Client.
+- [The Forest Road Company](https://mehtapratik.com/work/frc): Social direction, paid campaigns, and executive reporting for a media-finance firm. Client.
+- [Johnny Mac Tennis Project](https://mehtapratik.com/work/jmtp): Photography, video, and event production for SPORTIME's nonprofit. Client.
+- [Agency FiveEighty](https://mehtapratik.com/work/agency-fiveeighty): Broadcast motion and title sequences for agency campaigns. Client.
+- [SR Love and Care](https://mehtapratik.com/work/sr-love-and-care): Built, scaled, and handed off a volunteer marketing and design team. Client, volunteer.
+- [The Ninth](https://mehtapratik.com/work/the-ninth): Self-initiated esports membership system, brand through product, with a live AI moment-clipper. Concept.
+- [Level](https://mehtapratik.com/work/level): Self-initiated prediction-market concept built around responsible use and product trust. Concept.
+- [WISP](https://mehtapratik.com/work/wisp): Self-initiated concept for a faceless live AI host presence. Concept.
+
+## Notes
+
+- Self-initiated concepts (The Ninth, Level, WISP) are not client work. They carry scope, never performance results.
+- Client case studies carry verified metrics; concept case studies carry scope and rationale only.

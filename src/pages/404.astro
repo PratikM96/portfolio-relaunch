@@ -1,0 +1,37 @@
+---
+/**
+ * 404 — not found. On-brand, uses Base chrome + existing tokens only.
+ * Astro's static build emits this as /404.html; Cloudflare serves it on any
+ * unmatched route. Kept intentionally simple: a system-layer code line, a
+ * headline, and routes back into the site.
+ */
+import Base from '../layouts/Base.astro';
+
+// No nav item is "active" on a 404.
+---
+
+<Base
+  title="404 · Not found · Pratik Mehta"
+  description="That page could not be found."
+  activeNav=""
+>
+  <section class="nf">
+    <div class="nf-inner rev">
+      <div class="page-kicker">[ 404 ]</div>
+      <h1 class="page-h1">This page is off the system.</h1>
+      <p class="nf-copy">The page you were after does not exist, or it moved. Everything still connects from here.</p>
+      <div class="btn-row">
+        <a class="btn btn-p" href="/">Back home →</a>
+        <a class="btn btn-g" href="/work">See the work →</a>
+        <a class="btn btn-g" href="/contact">Start a conversation →</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { display: flex; align-items: center; min-height: 62vh; padding: 96px 0; }
+  .nf-inner { max-width: 40rem; }
+  .nf-copy { font-size: 18px; line-height: 1.6; color: var(--text-secondary); margin: 20px 0 32px; max-width: 34rem; }
+  @media (max-width: 900px) { .nf { min-height: 52vh; padding: 64px 0; } }
+</style>

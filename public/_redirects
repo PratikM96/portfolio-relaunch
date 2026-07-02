@@ -1,0 +1,3 @@
+# Cloudflare _redirects. One rule per line: <from> <to> <status>.
+# Legacy /blog/* paths from the old site map to the new /journal/ route.
+/blog/* /journal/:splat 301
