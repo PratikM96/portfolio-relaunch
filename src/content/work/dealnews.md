@@ -82,7 +82,7 @@ reflection:
       label: "Landing pages"
       value: "7"
       unit: "%"
-      desc: "median conversion where measured"
+      desc: "median conversion"
     - type: note
       label: "How it ran"
       text: "One owner, every surface."
