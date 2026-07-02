@@ -11,6 +11,7 @@ disciplines: [Brand, UI/UX, Product]
 cover: "" # [NEEDS: cover image url]
 coverAlt: "Pipeline Medical brand and marketplace"
 coverCaption: "Pipeline Medical · brand & B2B marketplace"
+heroVideo: true # files at /hero/pipeline-medical/ (see docs/hero-pipeline.md)
 featured: false
 description: "Brand and a B2B supplier marketplace built from zero, logo system, core procurement screens, and developer handoff."
 badge: "Client · Brand & Product"

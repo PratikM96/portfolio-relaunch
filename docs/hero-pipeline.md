@@ -105,7 +105,7 @@ falls back to the cover image / placeholder as before.
 | dealnews            | done       |
 | raa                 | pending    |
 | agency-fiveeighty   | done       |
-| pipeline-medical    | pending    |
+| pipeline-medical    | done       |
 | frc                 | pending    |
 | sr-love-and-care    | pending    |
 | jmtp                | done       |
