@@ -40,7 +40,7 @@ system:
   prose:
     - lead: "One system, brand to product to broadcast to feed."
       text: "One brand system feeds five connected surfaces: the membership app, an AI moment-clipper, a broadcast overlay package, a social content engine, and the brand guidelines that hold it together."
-    - text: "The product runs on a daily loop, watch, predict, belong, climb, so membership stays active between events. Three paid tiers sit above open access, topping out at Inner Nine, earned, not sold."
+    - text: "The product runs on a daily loop, watch, predict, belong, climb, so membership stays active between events. Paid membership climbs through 3+ tiers above open access, topping out at Inner Nine, earned, not sold."
   margin:
     - type: note
       label: "Scope, not result"
