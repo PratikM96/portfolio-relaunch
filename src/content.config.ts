@@ -9,9 +9,10 @@ import { glob } from 'astro/loaders';
  * so /work/[slug] can render the SPORTIME (client) and The Ninth (concept)
  * pages identically from data. A required field that is missing or wrong-shaped
  * FAILS THE BUILD rather than shipping empty:
- *   - type 'client' MUST carry a verified headline `metric`
- *   - type 'concept' MUST carry `scope`
- * enforced by the .refine() at the bottom.
+ *   - every entry MUST carry at least one proof figure (proof.figures.min(1))
+ *   - type 'concept' MUST carry a non-empty `disclosure` (self-initiated /
+ *     non-affiliation label), enforced by the .refine() at the bottom so the
+ *     labeling can never be omitted.
  */
 
 // A margin-rail module — mirrors MarginRail.astro's prop union exactly.
@@ -144,7 +145,14 @@ const work = defineCollection({
           ),
         })
         .optional(),
-    }),
+    })
+    // Concept work must always carry its self-initiated / non-affiliation
+    // disclosure. Making it required for type 'concept' means the labeling can
+    // never be silently dropped from a concept case study.
+    .refine(
+      (d) => d.type !== 'concept' || (typeof d.disclosure === 'string' && d.disclosure.trim().length > 0),
+      { message: 'concept entries must carry a non-empty `disclosure`', path: ['disclosure'] },
+    ),
 });
 
 /**
