@@ -1,9 +1,13 @@
 # Cloudflare _headers — security + caching defaults.
 # The @astrojs/cloudflare adapter APPENDS its own immutable rule for /_astro/*
 # to this file at build, so hashed asset caching is handled there; the rules
-# below cover everything else. No Content-Security-Policy yet: a strict CSP
-# would break the inline no-flash theme script and the hero/rail inline
-# scripts without a nonce/hash pass. Add a report-only policy first if wanted.
+# below cover everything else. The CSP below is REPORT-ONLY: it reports
+# violations to the console without enforcing, so nothing breaks. It allows the
+# inline theme/consent/demo scripts and inline style attributes via
+# 'unsafe-inline' (acceptable on a static, no-user-input site) while locking
+# external sources to self + Google Analytics. To enforce, rename the header to
+# Content-Security-Policy; to drop 'unsafe-inline' from script-src, hash the
+# inline scripts (or add a nonce via SSR) and wire a report-to endpoint.
 
 /*
   X-Content-Type-Options: nosniff
@@ -11,6 +15,7 @@
   X-Frame-Options: DENY
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; upgrade-insecure-requests
 
 # Self-hosted fonts are content-hashed at the filename level and never change.
 /fonts/*
