@@ -44,6 +44,8 @@ interface Props {
   ogType?: string;
   /** Emit a robots noindex directive (e.g. the 404 page). */
   noindex?: boolean;
+  /** Extra JSON-LD @graph nodes (CreativeWork, BlogPosting, BreadcrumbList) merged with the site Person + WebSite. */
+  schema?: Record<string, unknown>[];
 }
 
 const {
@@ -57,6 +59,7 @@ const {
   image = '/og/default.png',
   ogType = 'website',
   noindex = false,
+  schema = [],
 } = Astro.props;
 
 const isCase = variant === 'case-study';
@@ -81,6 +84,35 @@ const year = 2026; // static; avoids per-request Date() in the worker
 // domain, so these read mehtapratik.com even when the build is served from staging.
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
+
+// Structured data: a site-wide Person + WebSite graph, plus any per-page nodes
+// (CreativeWork / BlogPosting / BreadcrumbList) passed via the `schema` prop.
+const origin = Astro.site ? Astro.site.origin : 'https://mehtapratik.com';
+const ldGraph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${origin}/#pratik`,
+      name: 'Pratik Mehta',
+      url: `${origin}/`,
+      jobTitle: 'Creative & Marketing Strategist',
+      email: 'mailto:mehtadpratik@gmail.com',
+      image: `${origin}/og/default.png`,
+      address: { '@type': 'PostalAddress', addressLocality: 'New York', addressRegion: 'NY', addressCountry: 'US' },
+      alumniOf: { '@type': 'CollegeOrUniversity', name: 'New York University' },
+      sameAs: ['https://linkedin.com/in/pratikm96', 'https://instagram.com/pratikm96', 'https://x.com/pratikm96'],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${origin}/#website`,
+      name: 'Pratik Mehta',
+      url: `${origin}/`,
+      publisher: { '@id': `${origin}/#pratik` },
+    },
+    ...schema,
+  ],
+};
 ---
 
 <!doctype html>
@@ -114,6 +146,8 @@ const ogImage = new URL(image, Astro.site).href;
     {/* Browser UI tint per theme */}
     <meta name="theme-color" content="#0B0B0A" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#FBFAF6" media="(prefers-color-scheme: light)" />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(ldGraph)} />
 
     {/* Favicon bundle (One System brand). Files live in /public, served at root. */}
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />

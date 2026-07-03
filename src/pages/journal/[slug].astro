@@ -32,12 +32,40 @@ const scoreboard = [
 ].filter((x): x is { k: string; v: string } => Boolean(x));
 
 const metaLine = [fmt(d.date), d.readingTime].filter(Boolean).join(' · ');
+
+// Structured data — BlogPosting + breadcrumb.
+const origin = Astro.site ? Astro.site.origin : 'https://mehtapratik.com';
+const postUrl = `${origin}/journal/${post.id}`;
+const schema = [
+  {
+    '@type': 'BlogPosting',
+    '@id': `${postUrl}#post`,
+    headline: d.title,
+    description: d.excerpt,
+    url: postUrl,
+    image: `${origin}/og/journal.png`,
+    datePublished: d.date.toISOString(),
+    author: { '@id': `${origin}/#pratik` },
+    publisher: { '@id': `${origin}/#pratik` },
+    keywords: d.tags.join(', '),
+    isPartOf: { '@id': `${origin}/#website` },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
+      { '@type': 'ListItem', position: 2, name: 'Journal', item: `${origin}/journal` },
+      { '@type': 'ListItem', position: 3, name: d.title },
+    ],
+  },
+];
 ---
 
 <Base
   variant="case-study"
   image="/og/journal.png"
   ogType="article"
+  schema={schema}
   title={`${d.title} · Journal · Pratik Mehta`}
   description={d.excerpt}
   sections={[]}
