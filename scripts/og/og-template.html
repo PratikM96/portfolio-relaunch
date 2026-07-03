@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  /* Self-hosted brand faces, loaded from the repo for the render */
+  @font-face{font-family:'Clash Display';font-weight:700;src:url('file:///C:/Users/Pratik%20Mehta/Documents/Projects/mehtapratik-site/public/fonts/ClashDisplay-Bold.woff2') format('woff2')}
+  @font-face{font-family:'Clash Display';font-weight:600;src:url('file:///C:/Users/Pratik%20Mehta/Documents/Projects/mehtapratik-site/public/fonts/ClashDisplay-Semibold.woff2') format('woff2')}
+  @font-face{font-family:'Berkeley Mono';font-weight:400;src:url('file:///C:/Users/Pratik%20Mehta/Documents/Projects/mehtapratik-site/public/fonts/TX-02-Regular.woff2') format('woff2')}
+  @font-face{font-family:'Berkeley Mono';font-weight:500;src:url('file:///C:/Users/Pratik%20Mehta/Documents/Projects/mehtapratik-site/public/fonts/TX-02-Medium.woff2') format('woff2')}
+  @font-face{font-family:'Array';font-weight:700;src:url('file:///C:/Users/Pratik%20Mehta/Documents/Projects/mehtapratik-site/public/concepts/the-ninth/fonts/Array-Bold.woff2') format('woff2')}
+  @font-face{font-family:'Zodiak';font-weight:600;src:url('file:///C:/Users/Pratik%20Mehta/Documents/Projects/mehtapratik-site/public/concepts/level/fonts/Zodiak-Variable.woff2') format('woff2')}
+  @font-face{font-family:'Sentient';font-weight:500;src:url('file:///C:/Users/Pratik%20Mehta/Documents/Projects/mehtapratik-site/public/concepts/wisp/fonts/Sentient-Variable.woff2') format('woff2')}
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+
+  /* One System (master) — default */
+  body{
+    --bg:#0B0B0A; --text:#EAE7DE; --muted:#8F8B7E; --faint:#615D52;
+    --accent:#FF7038; --line:rgba(234,231,222,.14);
+    --disp:'Clash Display',system-ui,sans-serif; --dw:700;
+    --mono:'Berkeley Mono',ui-monospace,monospace;
+  }
+  body[data-brand="the-ninth"]{
+    --bg:#F4F8FB; --text:#07142B; --muted:#5A7189; --faint:#93AAC0;
+    --accent:#29ABE2; --line:#DCEAF6; --disp:'Array',system-ui,sans-serif; --dw:700;
+  }
+  body[data-brand="level"]{
+    --bg:#0E0F12; --text:#EBE6DB; --muted:#8C8E96; --faint:#5A5C63;
+    --accent:#F2A436; --line:rgba(235,230,219,.14); --disp:'Zodiak',Georgia,serif; --dw:600;
+  }
+  body[data-brand="wisp"]{
+    --bg:#140C09; --text:#FFEBD2; --muted:#C9A488; --faint:#8C7460;
+    --accent:#E9703F; --line:rgba(201,164,136,.18); --disp:'Sentient',Georgia,serif; --dw:500;
+  }
+
+  .card{width:1200px;height:630px;background:var(--bg);color:var(--text);
+    padding:66px 76px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+
+  .top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+  .mark{display:flex;align-items:center;gap:14px}
+  .glyph{width:34px;height:34px;border:2px solid var(--text);border-radius:8px;position:relative;flex:none}
+  .glyph::after{content:"";position:absolute;top:5px;left:5px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .site{font-family:var(--mono);font-size:17px;letter-spacing:.02em;color:var(--text)}
+  .badge{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:7px 15px}
+
+  .mid{flex:1;position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;gap:22px}
+  .kick{font-family:var(--mono);font-size:16px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .title-box{max-width:1048px;max-height:362px;display:flex;align-items:center}
+  .title{font-family:var(--disp);font-weight:var(--dw);line-height:.98;letter-spacing:-.015em;font-size:92px}
+
+  .bottom{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+  .meta{font-family:var(--mono);font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .accent-dot{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+  .accent-dot i{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="top">
+      <div class="mark"><span class="glyph"></span><span class="site">mehtapratik.com</span></div>
+      <span class="badge" id="badge">CASE STUDY</span>
+    </div>
+    <div class="mid">
+      <div class="kick" id="kick">KICKER</div>
+      <div class="title-box"><h1 class="title" id="title">Title</h1></div>
+    </div>
+    <div class="bottom">
+      <div class="meta" id="meta">META</div>
+      <div class="accent-dot"><i></i> <span id="tag">One System</span></div>
+    </div>
+  </div>
+
+<script>
+  (function(){
+    var p = new URLSearchParams(location.search);
+    var brand = p.get('brand') || 'onesystem';
+    if(brand !== 'onesystem') document.body.setAttribute('data-brand', brand);
+    var title = p.get('title') || 'Untitled';
+    var kick = p.get('kick') || '';
+    var meta = p.get('meta') || '';
+    var badge = p.get('badge') || '';
+    document.getElementById('title').textContent = title;
+    document.getElementById('kick').textContent = kick;
+    document.getElementById('meta').textContent = meta;
+    if(p.get('tag')) document.getElementById('tag').textContent = p.get('tag');
+    var badgeEl = document.getElementById('badge');
+    if(badge){ badgeEl.textContent = badge; } else { badgeEl.style.display='none'; }
+
+    // Auto-fit: shrink the title until it fits its box (width + height).
+    function fit(){
+      var t = document.getElementById('title');
+      var box = t.parentNode;
+      var size = 92, min = 34;
+      t.style.fontSize = size + 'px';
+      while(size > min && (t.scrollWidth > box.clientWidth || t.scrollHeight > box.clientHeight)){
+        size -= 2; t.style.fontSize = size + 'px';
+      }
+      document.documentElement.setAttribute('data-fit','done');
+    }
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fit); } else { window.addEventListener('load', fit); }
+  })();
+</script>
+</body>
+</html>

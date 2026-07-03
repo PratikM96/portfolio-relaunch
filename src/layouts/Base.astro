@@ -38,6 +38,12 @@ interface Props {
   scoreboard?: ScoreLine[];
   /** case-study rail + mobile: back link to the work index. */
   back?: { href: string; label: string };
+  /** OG/Twitter share image, root-relative; resolved to an absolute URL. Defaults to /og/default.png. */
+  image?: string;
+  /** og:type — 'website' (default) | 'article' | 'profile'. */
+  ogType?: string;
+  /** Emit a robots noindex directive (e.g. the 404 page). */
+  noindex?: boolean;
 }
 
 const {
@@ -48,6 +54,9 @@ const {
   sections = [],
   scoreboard = [],
   back = { href: '/work', label: '← Index · all work' },
+  image = '/og/default.png',
+  ogType = 'website',
+  noindex = false,
 } = Astro.props;
 
 const isCase = variant === 'case-study';
@@ -67,6 +76,11 @@ const nav = [
 ];
 
 const year = 2026; // static; avoids per-request Date() in the worker
+
+// Absolute URLs for canonical + share cards. Astro.site is the production
+// domain, so these read mehtapratik.com even when the build is served from staging.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
 ---
 
 <!doctype html>
@@ -76,6 +90,30 @@ const year = 2026; // static; avoids per-request Date() in the worker
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    {/* Open Graph + Twitter share cards. Image is a same-origin /og/*.png at
+        1200x630; each page passes its own via the `image` prop, default otherwise. */}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Pratik Mehta" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@pratikm96" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImage} />
+
+    {/* Browser UI tint per theme */}
+    <meta name="theme-color" content="#0B0B0A" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FBFAF6" media="(prefers-color-scheme: light)" />
 
     {/* Favicon bundle (One System brand). Files live in /public, served at root. */}
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
