@@ -49,7 +49,7 @@ const active = tabs[activeIndex] ?? tabs[0];
     }
   </div>
   <a class="estage ph-bg ph-16x9" href={active.href} aria-label={`Open the ${active.label} view`}>
-    {active.img && <img class="estage-img" src={active.img} alt={alt} />}
+    {active.img && <img class="estage-img" src={active.img} alt={active.cap} />}
     <div class="scrim"><span class="cap estage-cap">{active.cap}</span></div>
     <span class="estage-go">Open ↗</span>
   </a>
@@ -89,6 +89,7 @@ const active = tabs[activeIndex] ?? tabs[0];
         tab.classList.add('on');
         if (cap) cap.textContent = tab.dataset.cap;
         if (img && tab.dataset.img) img.src = tab.dataset.img;
+        if (img) img.alt = tab.dataset.cap || '';
         if (stage) stage.setAttribute('href', tab.getAttribute('href'));
       }
       tabs.forEach(function (tab) {

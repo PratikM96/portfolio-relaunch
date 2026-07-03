@@ -183,6 +183,7 @@
   .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;}
   @media(max-width:720px){.grid2{grid-template-columns:1fr;}}
   footer{padding:60px 0 90px;border-top:1px solid var(--line);color:var(--ink-dim);font-size:.82rem;}
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>

@@ -57,7 +57,7 @@ const metaLine = [fmt(d.date), d.readingTime].filter(Boolean).join(' · ');
   </header>
 
   {d.cover && (
-    <div class="cover rev"><img src={d.cover} alt={d.coverAlt ?? ''} /></div>
+    <div class="cover rev"><img src={d.cover} alt={d.coverAlt ?? d.title} /></div>
   )}
 
   <article class="article">

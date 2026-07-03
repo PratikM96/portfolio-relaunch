@@ -45,7 +45,7 @@ const meta = (p: (typeof posts)[number]) =>
         {lead && (
           <a class="lead-post rev" href={`/journal/${lead.id}`}>
             {lead.data.cover && (
-              <div class="im"><img src={lead.data.cover} alt={lead.data.coverAlt ?? ''} /></div>
+              <div class="im"><img src={lead.data.cover} alt={lead.data.coverAlt ?? lead.data.title} /></div>
             )}
             <div class="body">
               <div class="cats">

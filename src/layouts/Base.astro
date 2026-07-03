@@ -145,6 +145,11 @@ const ogImage = new URL(image, Astro.site).href;
   </head>
 
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <style>
+      .skip-link { position: fixed; top: 10px; left: 10px; z-index: 99999; padding: 10px 16px; border-radius: 8px; background: var(--surface-raised); color: var(--text); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; transform: translateY(-160%); transition: transform 0.18s var(--ease-standard); }
+      .skip-link:focus { transform: none; outline: 2px solid var(--accent-fill); outline-offset: 2px; }
+    </style>
     {/* CONSOLE RAIL */}
     <aside class:list={['console', isCase && 'cs']}>
       {
@@ -268,9 +273,11 @@ const ogImage = new URL(image, Astro.site).href;
 
     <div class="stage" id="top">
       <div class="pad">
-        <slot />
+        <main id="main">
+          <slot />
+        </main>
 
-        <div class="foot">
+        <footer class="foot">
           <span class="mono">© {year} Pratik Mehta · One system, end to end</span>
           <div class="fl">
             <a href="/work">Work</a>
@@ -280,7 +287,7 @@ const ogImage = new URL(image, Astro.site).href;
             <a href="/journal">Journal</a>
             <a href="/contact">Contact</a>
           </div>
-        </div>
+        </footer>
       </div>
     </div>
 

@@ -19,3 +19,9 @@
 # Hero video + poster are versioned by slug folder; cache hard.
 /hero/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Work-card + output-gallery clips are also slug-versioned and never mutate.
+/wc/*
+  Cache-Control: public, max-age=31536000, immutable
+/ov/*
+  Cache-Control: public, max-age=31536000, immutable
