@@ -77,8 +77,10 @@ Most stems match their slug; two don't:
 | `sportime-wc`          | `sportime-clubs`   |
 | `srlc-wc`              | `sr-love-and-care` |
 
-The three concepts (`level`, `the-ninth`, `wisp`) have no animation and keep
-their placeholders.
+The three concepts (`level`, `the-ninth`, `wisp`) now have dark + light
+animations too. Their light masters break the `-light` convention: they are
+`light/<slug>-wc_2160.mov` (same stem as dark, just in the `light/` dir), not
+`<slug>-wc-light_2160.mov` like the clients.
 
 ## Light mode (built)
 

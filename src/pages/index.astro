@@ -89,7 +89,13 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
         </a>
         <a class="tile t-feat" href="/work/the-ninth">
           <span class="badge concept">Concept</span>
-          <div class="img"><div class="ph-fill ph-bg ph-16x9"></div></div>
+          <div class="img">
+            <div class="ph-fill ph-bg ph-16x9"></div>
+            <video class="tile-video" muted loop playsinline preload="none" data-slug="the-ninth" data-light="true" poster="/wc/the-ninth/poster.webp">
+              <source src="/wc/the-ninth/card.webm" type="video/webm" />
+              <source src="/wc/the-ninth/card.mp4" type="video/mp4" />
+            </video>
+          </div>
           <div class="meta">
             <div>
               <h3 class="h3">The Ninth</h3>

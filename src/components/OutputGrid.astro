@@ -25,7 +25,7 @@ type Block =
   | { kind: 'flyer'; label?: string; ratio?: '3:4' | '9:16'; cols?: number; fit?: 'cover' | 'contain'; bg?: 'surface' | 'paper'; items: Still[] }
   | { kind: 'gallery'; label?: string; ratio?: '3:2' | '4:3' | '16:9' | '1:1' | '2:1'; cols?: number; fit?: 'cover' | 'contain'; bg?: 'surface' | 'paper'; items: Still[] }
   | { kind: 'longpage'; cols?: number; height?: number; chrome?: 'browser' | 'plain'; items: (Still & { chrome?: 'browser' | 'plain' })[] }
-  | { kind: 'video'; audio?: boolean; cols?: number; items: { clip: string; alt?: string; caption?: string }[] };
+  | { kind: 'video'; audio?: boolean; ratio?: '16:9' | '1:1' | '9:16' | '4:5'; cols?: number; items: { clip: string; audio?: boolean; alt?: string; caption?: string }[] };
 
 // Legacy tile shape.
 type Tile = { wide?: boolean; img?: string; alt?: string; ph?: string; caption: string };
@@ -190,27 +190,29 @@ const clipSrc = (clip: string) => ({
         }
         // video
         const vcols = Math.min(3, Math.max(1, b.cols ?? 1));
+        const vr = { '16:9': 'r-16x9', '1:1': 'r-1x1', '9:16': 'r-9x16', '4:5': 'r-4x5' }[b.ratio ?? '16:9'];
         return (
           <div class="blk blk-video" style={`--cols:${vcols}`}>
             {b.items.map((it) => {
               const s = clipSrc(it.clip);
+              const withAudio = it.audio ?? b.audio; // per-item override of the block default
               return (
-                <figure class="vid" data-ov-video data-audio={b.audio ? 'true' : 'false'}>
-                  <div class="im r-16x9">
+                <figure class="vid" data-ov-video data-audio={withAudio ? 'true' : 'false'}>
+                  <div class:list={['im', vr]}>
                     <video
                       poster={s.poster}
                       width="1920"
                       height="1080"
                       playsinline
                       preload="none"
-                      muted={!b.audio}
-                      loop={!b.audio}
+                      muted={!withAudio}
+                      loop={!withAudio}
                       aria-label={it.alt ?? it.caption ?? ''}
                     >
                       <source src={s.webm} type="video/webm" />
                       <source src={s.mp4} type="video/mp4" />
                     </video>
-                    {b.audio && (
+                    {withAudio && (
                       <button class="ov-play" type="button" aria-label="Play video">
                         <span class="tri" aria-hidden="true" />
                       </button>
@@ -266,6 +268,7 @@ const clipSrc = (clip: string) => ({
   .r-3x2 { aspect-ratio: 3 / 2; }
   .r-4x3 { aspect-ratio: 4 / 3; }
   .r-2x1 { aspect-ratio: 2 / 1; }
+  .r-4x5 { aspect-ratio: 4 / 5; }
 
   /* placeholders (ratio-matched, no asset yet) */
   .ph { width: 100%; height: 100%; background: repeating-linear-gradient(45deg, var(--surface-raised), var(--surface-raised) 10px, var(--surface) 10px, var(--surface) 20px); }

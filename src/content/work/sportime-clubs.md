@@ -77,16 +77,16 @@ output:
           alt: "SPORTIME video-first social system across clubs"
           caption: "Video-first social system across 25+ accounts"
     - kind: video
-      audio: true
+      ratio: "16:9"
       cols: 1
       items:
-        - { clip: head-boom, alt: "SPORTIME tennis brand film", caption: "Tennis brand film" }
+        - { clip: tennis-header, alt: "SPORTIME tennis header motion", caption: "Tennis header" }
     - kind: video
-      audio: false
+      ratio: "1:1"
       cols: 2
       items:
+        - { clip: head-boom, alt: "SPORTIME tennis brand film", caption: "Tennis brand film" }
         - { clip: wilson, alt: "SPORTIME tennis motion", caption: "Tennis motion" }
-        - { clip: tennis-header, alt: "SPORTIME tennis header motion", caption: "Tennis header" }
     - kind: social
       label: "Social · tennis, pickleball, JMTA"
       cols: 4

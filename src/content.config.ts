@@ -124,11 +124,13 @@ const outputBlocks = (image: SchemaContext['image']) => {
       // Video — muted loop (plays in view) or audio (click-to-play). Slug-located.
       z.object({
         kind: z.literal('video'),
-        audio: z.boolean().default(false),
+        audio: z.boolean().default(false), // block default; per-item `audio` overrides
+        ratio: z.enum(['16:9', '1:1', '9:16', '4:5']).default('16:9'),
         cols: z.number().int().min(1).max(3).default(1),
         items: z.array(
           z.object({
             clip: z.string(), // /ov/<case-slug>/<clip>.{webm,mp4} + <clip>-poster.webp
+            audio: z.boolean().optional(), // overrides the block default for this clip
             alt: z.string().optional(),
             caption: z.string().optional(),
           }),
