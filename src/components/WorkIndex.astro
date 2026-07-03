@@ -54,16 +54,17 @@ const projects = entries.map((e, i) => ({
 const first = projects[0]!;
 ---
 
-<div class:list={['filters', stickyFilter && 'sticky']} id="filters">
+<div class:list={['filters', stickyFilter && 'sticky']} id="filters" role="group" aria-label="Filter work">
   <span class="fl-k">Filter</span>
-  <button class="on" data-f="all">All</button>
+  <span id="fstatus" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></span>
+  <button class="on" data-f="all" aria-pressed="true">All</button>
   <span class="div"></span>
-  <button data-f="client">Client</button>
-  <button data-f="concept">Concept</button>
+  <button data-f="client" aria-pressed="false">Client</button>
+  <button data-f="concept" aria-pressed="false">Concept</button>
   {disciplines && (
     <Fragment>
       <span class="div"></span>
-      {buckets.map((b) => <button data-f={b.token}>{b.label}</button>)}
+      {buckets.map((b) => <button data-f={b.token} aria-pressed="false">{b.label}</button>)}
     </Fragment>
   )}
 </div>
@@ -175,8 +176,9 @@ const first = projects[0]!;
   const fbtns = [...document.querySelectorAll<HTMLButtonElement>('#filters button')];
   fbtns.forEach((b) => {
     b.addEventListener('click', () => {
-      fbtns.forEach((x) => x.classList.remove('on'));
+      fbtns.forEach((x) => { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); });
       b.classList.add('on');
+      b.setAttribute('aria-pressed', 'true');
       const f = b.dataset.f ?? 'all';
       let firstVisible: HTMLAnchorElement | null = null;
       rows.forEach((r) => {
@@ -185,6 +187,11 @@ const first = projects[0]!;
         if (ok && !firstVisible) firstVisible = r;
       });
       if (empty) empty.hidden = !!firstVisible;
+      const status = document.getElementById('fstatus');
+      if (status) {
+        const n = rows.filter((r) => !r.classList.contains('hidden')).length;
+        status.textContent = n + (n === 1 ? ' project shown' : ' projects shown');
+      }
       if (firstVisible) setPreview(firstVisible);
     });
   });

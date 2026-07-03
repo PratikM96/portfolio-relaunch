@@ -60,7 +60,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 01 FOUNDATION */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 01 ]</span><span class="t">Foundation · the spine</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 01 ]</span><h2 class="t">Foundation · the spine</h2><span class="rule"></span></div>
     <p class="intro">Creative built like a system and accountable to what it does after it ships. The breadth is the proof of the idea, not a separate selling point.</p>
     <div class="frow" style="border-top:none">
       <div class="fspec">tagline</div>
@@ -72,7 +72,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 02 LOGO */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 02 ]</span><span class="t">Logo · the loop</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 02 ]</span><h2 class="t">Logo · the loop</h2><span class="rule"></span></div>
     <p class="intro">One continuous stroke that closes on the orange node: the system, end to end, as a mark. Default to the primary lockup. The wordmark carries the circular period; the lockups don't.</p>
     <div class="logoset rev">
       <div class="tile"><div class="lockrow"><Brandmark size={52} title={undefined} /><span class="wm">Pratik Mehta</span></div></div>
@@ -102,7 +102,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 03 TYPE */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 03 ]</span><span class="t">Type · three faces, one system</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Type · three faces, one system</h2><span class="rule"></span></div>
     <p class="intro">Clash Display carries the hero. Clash Grotesk carries headings and body. Berkeley Mono (TX-02) carries the system layer: labels, data, and code. The Clash families use 400, 600, and 700. Berkeley Mono uses 400 Regular and 500 Medium, with Medium reserved for emphasis labels such as the primary button.</p>
     <div class="ty"><div class="k">display · Clash Display 700<br />-3%</div><div class="v disp" style="font-size:clamp(36px,5vw,56px)">One system<span class="signal">.</span></div></div>
     <div class="ty"><div class="k">h1 · Clash Grotesk 700<br />-2%</div><div class="v" style="font-weight:700;font-size:36px;letter-spacing:-0.02em">Creative as one system</div></div>
@@ -114,7 +114,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 04 COLOR */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 04 ]</span><span class="t">Color · warm monochrome, one accent</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 04 ]</span><h2 class="t">Color · warm monochrome, one accent</h2><span class="rule"></span></div>
     <p class="intro">A warm neutral ramp from paper to ink, a single signal-orange accent, and a restrained state set. Both light and dark are first-class.</p>
     <div class="subhead">Neutral · warm ramp</div>
     <div class="ramp">
@@ -137,7 +137,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 05 LAYOUT */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 05 ]</span><span class="t">Layout · a 4px base</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 05 ]</span><h2 class="t">Layout · a 4px base</h2><span class="rule"></span></div>
     <p class="intro">Everything measures from a 4px unit. Layout is a {px('--grid-cols')}-column grid, max-width {px('--grid-max-width')}, {px('--grid-gutter')} gutters, {px('--grid-margin')} margins. Radius base is {px('--radius-md')}px; the mono system layer uses sharp 0 corners.</p>
     <div class="scale">
       {spacing.map((s) => (
@@ -156,7 +156,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 06 MOTION */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 06 ]</span><span class="t">Motion · functional, not decorative</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 06 ]</span><h2 class="t">Motion · functional, not decorative</h2><span class="rule"></span></div>
     <p class="intro">Quick and confident. One ease-out curve, four durations, short travel, no bounce. Reels inherit this: cuts over fades, snap transitions.</p>
     <div class="motion">
       <div class="durs">
@@ -171,7 +171,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 07 ACCESSIBILITY */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 07 ]</span><span class="t">Accessibility · tuned to WCAG AA</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 07 ]</span><h2 class="t">Accessibility · tuned to WCAG AA</h2><span class="rule"></span></div>
     <p class="intro">The single orange signal can't sit on top of itself. Three rules carry most of it.</p>
     <div class="rules rev">
       <div class="rule-card"><div class="rule-k">Orange text</div><div class="rule-b">On light, orange text is accent-700 (#{hex('--accent-700')}), never 500. On dark, accent-400.</div></div>
@@ -192,7 +192,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 08 FORMATS */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 08 ]</span><span class="t">Formats · the brand, in format</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 08 ]</span><h2 class="t">Formats · the brand, in format</h2><span class="rule"></span></div>
     <p class="intro">How the system shows up as social posts, reel frames, and a lower-third. Placeholder content at true export dimensions, rendered live so the mockups re-theme with the page.</p>
 
     <div class="subhead">Social · 1080 × 1080</div>
@@ -257,7 +257,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 09 VOICE */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 09 ]</span><span class="t">Voice · source: System Master</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 09 ]</span><h2 class="t">Voice · source: System Master</h2><span class="rule"></span></div>
     <p class="intro">Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. No inflated claims, no buzzwords, no unsupported proof. No em or en dashes.</p>
     <div class="voice rev">
       <div class="vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
