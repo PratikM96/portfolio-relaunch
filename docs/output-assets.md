@@ -1,0 +1,117 @@
+# Output gallery pipeline
+
+The case-study **Output** section (`§04`) is an ordered list of typed **blocks**.
+Each block is one asset family rendered by its own rule, so a 1:1 social grid, a
+16:9 mockup, and a tall scrolling website never share one cropped uniform grid.
+Rendered by `OutputGrid.astro`, driven by `output.blocks` in each work entry.
+
+This is distinct from the two video systems: **hero** (`docs/hero-pipeline.md`,
+click-to-play, audio, scoreboard wall) and **work-card** (`docs/work-card-video.md`,
+hover loops on the index). Output video is a third, in-gallery use.
+
+## Authoring model (`output.blocks`)
+
+An ordered array — blocks render top to bottom in the order listed. Every still's
+`img` is optional: omit it and a ratio-matched placeholder renders until the
+asset lands. `blocks` supersedes the legacy `tiles` model; an entry uses one or
+the other (`blocks` wins when both are present). Example (DealNews):
+
+```yaml
+output:
+  blocks:
+    - kind: mockup            # flagship leads the section
+      flagship: true
+      items:
+        - img: ../../assets/work/dealnews/flagship.webp        # light / base
+          imgDark: ../../assets/work/dealnews/flagship-dark.webp
+          alt: "DealNews in-house design across social, email, paid, and web"
+          caption: "In-house design system · social, paid, email, web"
+    - kind: longpage          # websites, 2-up, browser chrome
+      cols: 2
+      height: 620
+      chrome: browser          # block default (per-item override allowed)
+      items:
+        - { img: ../../assets/work/dealnews/website-marketplace.webp, caption: "Marketplace site" }
+        - { img: ../../assets/work/dealnews/website-2.webp, caption: "Landing page" }
+    - kind: longpage          # infographics, 3-up, plain frames
+      cols: 3
+      height: 560
+      items:                   # chrome omitted -> default 'plain'
+        - { img: ../../assets/work/dealnews/infographic-buying.webp, caption: "Buying behaviors" }
+        - { img: ../../assets/work/dealnews/infographic-2.webp, caption: "Editorial infographic" }
+        - { img: ../../assets/work/dealnews/infographic-3.webp, caption: "Editorial infographic" }
+    - kind: social            # square posts, shown whole
+      label: "Social"
+      cols: 4
+      items:
+        - { img: ../../assets/work/dealnews/social-1.webp, alt: "DealNews social post" }
+        # …
+    - kind: video             # muted loop, plays when scrolled into view
+      audio: false
+      items:
+        - { clip: home, alt: "Website motion study", caption: "Website motion" }
+  note: "Optional mono footnote under the gallery."
+```
+
+## Block kinds
+
+| kind | layout | source ratio | notes |
+|------|--------|--------------|-------|
+| `mockup` | full-width 16:9, or `cols: '2'` | 16:9 | `flagship: true` for the lead. Theme-aware: `img` (light) + `imgDark`. |
+| `social` | `cols` 2–4 grid, whole | 1:1 | optional `label`. |
+| `flyer` | `cols` 2–4 grid, portrait | `ratio: '3:4'` or `'9:16'` | flyers / stories. optional `label`. |
+| `gallery` | `cols` 2–4 grid, cropped | `ratio: '3:2'/'4:3'/'16:9'/'1:1'/'2:1'` | landscape photos, single-screen web shots, banners. optional `label`. |
+| `longpage` | capped internal-scroll frames, **N-up** (`cols` 1–3) | tall | one family per block (websites `cols:2`, infographics `cols:3`). `chrome: 'browser'`/`'plain'` is a block default with per-item override; `height` px (≈560–640) applies to every frame. Collapses to 1-up under 900px. |
+| `video` | full-width 16:9, or `cols: '2'` | 16:9 | `audio:false` muted loop (plays in view) / `audio:true` click-to-play. |
+
+## Asset pipeline
+
+**Stills** live in `src/assets/work/<slug>/` and are referenced by relative path
+from the entry `.md` (`../../assets/work/<slug>/…`). They go through Astro's
+content `image()` helper → `<Image>` renders build-time webp, a responsive
+`srcset`, and intrinsic dims (no CLS). Only web-optimized deliverables are
+committed; masters stay in gitignored `_reference/`.
+
+Export caps (source webp, before Astro re-optimizes per width):
+
+- **mockup** — 2160p (3840×2160) master → cap **1600w**, webp q82 (~85 KB).
+  Two files: `flagship.webp` (light/base) + `flagship-dark.webp`.
+- **social** — cap **1000w**, webp q82 (~40–70 KB).
+- **flyer** — cap **1000w**, webp q82.
+- **longpage** — cap **1400w**, webp q82. Keep under ~600 KB even when very tall;
+  drop quality to q78 for the longest infographics.
+
+```bash
+# still → capped webp (adjust scale per kind)
+ffmpeg -y -i in.png -vf scale=1600:-2 -c:v libwebp -quality 82 out.webp
+```
+
+**Video** is convention-located by slug — no paths in content. Files:
+`public/ov/<case-slug>/<clip>.webm` + `<clip>.mp4` + `<clip>-poster.webp`.
+`OutputGrid` derives the paths from the entry slug + the block item's `clip`.
+720p, under Cloudflare's 25 MiB per-file cap; muted loops carry no audio track.
+
+```bash
+IN=master.mp4; OUT=public/ov/<slug>
+ffmpeg -y -i "$IN" -vf scale=1280:-2 -an -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 "$OUT/<clip>.webm"
+ffmpeg -y -i "$IN" -vf scale=1280:-2 -an -c:v libx264 -crf 26 -preset veryfast -movflags +faststart -pix_fmt yuv420p "$OUT/<clip>.mp4"
+ffmpeg -y -ss 0 -i "$IN" -vf scale=1280:-2 -frames:v 1 -c:v libwebp -quality 82 "$OUT/<clip>-poster.webp"
+```
+
+## Performance
+
+The whole gallery sits below the fold, so it never touches LCP. Stills are
+`loading="lazy"`; videos are `preload="none"` (nothing but the poster loads until
+in view). Muted loops play/pause via `IntersectionObserver`; reduced-motion keeps
+them on the poster. Long pages scroll *inside* a capped frame, so a 12000px asset
+never runs away with page height or payload.
+
+Theme-aware mockups render both variants and toggle via CSS on `[data-theme]`
+(no flash, no JS). Tradeoff: both variants can download. Acceptable at ~85 KB
+each, below the fold — revisit with a JS src-swap (à la `card-video.ts`) only if a
+case study stacks many themed mockups.
+
+## Filenames are a contract
+
+Video: exactly `<clip>.webm`, `<clip>.mp4`, `<clip>-poster.webp` under
+`public/ov/<slug>/`. A typo is a silent 404 — don't improvise names.

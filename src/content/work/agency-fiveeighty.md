@@ -66,12 +66,45 @@ decisions:
     - { n: "04", title: "Deliver in every format", text: "10+ formats per campaign meant designing for the full distribution." }
 
 output:
-  tiles:
-    - { span: wide, ph: "Broadcast motion + titles", caption: "Broadcast motion & title sequences" }
-    - { span: standard, ph: "Cutdowns", caption: "Cutdowns across ratios" }
-    - { span: standard, ph: "Campaign formats", caption: "Full format set per campaign" }
-    - { span: standard, ph: "Client work", caption: "Spectrum, NY Jets, Coca-Cola, FISLL" }
-  note: "Placeholder tiles represent agency campaign work; real assets to drop in."
+  blocks:
+    - kind: mockup
+      flagship: true
+      items:
+        - img: ../../assets/work/agency-fiveeighty/flagship.webp
+          imgDark: ../../assets/work/agency-fiveeighty/flagship-dark.webp
+          alt: "Agency FiveEighty broadcast motion and campaign work"
+          caption: "Broadcast motion, titles, and campaign work"
+    - kind: video
+      audio: true
+      cols: 1
+      items:
+        - { clip: workout, alt: "Broadcast campaign spot", caption: "Broadcast spot" }
+    - kind: video
+      audio: false
+      cols: 3
+      items:
+        - { clip: glitch, alt: "FISLL brand animation", caption: "FISLL animation" }
+        - { clip: google, alt: "FISLL brand animation", caption: "FISLL animation" }
+        - { clip: netflix, alt: "FISLL brand animation", caption: "FISLL animation" }
+    - kind: gallery
+      label: "NY Jets · web"
+      ratio: "16:9"
+      cols: 2
+      items:
+        - { img: ../../assets/work/agency-fiveeighty/web-jets-game.webp, alt: "NY Jets game-day web experience" }
+        - { img: ../../assets/work/agency-fiveeighty/web-jets-pigskin.webp, alt: "NY Jets Pigskin web experience" }
+    - kind: gallery
+      label: "FISLL · event"
+      ratio: "3:2"
+      cols: 3
+      items:
+        - { img: ../../assets/work/agency-fiveeighty/photo-event-1.webp, alt: "FISLL event" }
+        - { img: ../../assets/work/agency-fiveeighty/photo-event-2.webp, alt: "FISLL event" }
+        - { img: ../../assets/work/agency-fiveeighty/photo-event-3.webp, alt: "FISLL event" }
+        - { img: ../../assets/work/agency-fiveeighty/photo-event-4.webp, alt: "FISLL event" }
+        - { img: ../../assets/work/agency-fiveeighty/photo-event-5.webp, alt: "FISLL event" }
+        - { img: ../../assets/work/agency-fiveeighty/photo-event-6.webp, alt: "FISLL event" }
+  note: "Selected agency campaign work."
 
 reflection:
   prose:

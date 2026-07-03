@@ -67,12 +67,41 @@ decisions:
     - { n: "04", title: "Round out the launch", text: "Display ads, social, and buyer-education collateral supported it into market." }
 
 output:
-  tiles:
-    - { span: wide, ph: "Brand identity system", caption: "Brand identity · from zero" }
-    - { span: standard, ph: "Procurement screens", caption: "Procurement UI · bulk & repeat" }
-    - { span: standard, ph: "UI components", caption: "UI components" }
-    - { span: standard, ph: "Launch collateral", caption: "Display, social, buyer education" }
-  note: "Placeholder tiles represent the work; real assets to drop in."
+  blocks:
+    - kind: mockup
+      flagship: true
+      items:
+        - img: ../../assets/work/pipeline-medical/flagship.webp
+          imgDark: ../../assets/work/pipeline-medical/flagship-dark.webp
+          alt: "Pipeline Medical brand identity and procurement platform"
+          caption: "Brand identity, platform, and launch collateral"
+    - kind: longpage
+      cols: 1
+      height: 640
+      chrome: browser
+      items:
+        - { img: ../../assets/work/pipeline-medical/web-1.webp, alt: "Pipeline Medical storefront home page" }
+    - kind: gallery
+      label: "Distribution flow"
+      ratio: "4:3"
+      cols: 1
+      fit: contain
+      items:
+        - { img: ../../assets/work/pipeline-medical/flyer-2.webp, alt: "Pipeline Medical distribution flow chart" }
+    - kind: flyer
+      label: "Capabilities one-sheet"
+      ratio: "3:4"
+      cols: 2
+      items:
+        - { img: ../../assets/work/pipeline-medical/flyer-3.webp, alt: "Pipeline Medical capabilities one-sheet" }
+    - kind: gallery
+      label: "Social"
+      ratio: "16:9"
+      cols: 2
+      items:
+        - { img: ../../assets/work/pipeline-medical/social-1.webp, alt: "Pipeline Medical social" }
+        - { img: ../../assets/work/pipeline-medical/social-2.webp, alt: "Pipeline Medical social" }
+  note: "Selected launch work."
 
 reflection:
   prose:

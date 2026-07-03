@@ -69,12 +69,38 @@ decisions:
     - { n: "04", title: "Hold up on-site", text: "On-site days meant the work survived the real room, not just the comp." }
 
 output:
-  tiles:
-    - { span: wide, ph: "FII 2019 platform", caption: "FII 2019 · digital, print, environmental" }
-    - { span: standard, ph: "Environmental + signage", caption: "Environmental & signage" }
-    - { span: standard, ph: "Print program", caption: "Print · 50+ pages" }
-    - { span: standard, ph: "Asset families", caption: "Asset families · one system" }
-  note: "Placeholder tiles represent the asset families; real assets to drop in."
+  blocks:
+    - kind: mockup
+      flagship: true
+      items:
+        - img: ../../assets/work/raa/flagship.webp
+          imgDark: ../../assets/work/raa/flagship-dark.webp
+          alt: "Richard Attias & Associates FII event system"
+          caption: "FII event system · digital, print, environmental"
+    - kind: video
+      audio: true
+      cols: 1
+      items:
+        - { clip: fii-highlights, alt: "FII highlights reel", caption: "FII · highlights reel" }
+    - kind: gallery
+      label: "Event coverage"
+      ratio: "16:9"
+      cols: 2
+      items:
+        - { img: ../../assets/work/raa/photo-summit-1.webp, alt: "Summit stage" }
+        - { img: ../../assets/work/raa/photo-summit-2.webp, alt: "Summit stage" }
+        - { img: ../../assets/work/raa/photo-summit-3.webp, alt: "Summit stage" }
+        - { img: ../../assets/work/raa/photo-summit-4.webp, alt: "Summit stage" }
+    - kind: flyer
+      label: "FII · key visuals"
+      ratio: "9:16"
+      cols: 4
+      items:
+        - { img: ../../assets/work/raa/fii-1.webp, alt: "FII key visual" }
+        - { img: ../../assets/work/raa/fii-2.webp, alt: "FII key visual" }
+        - { img: ../../assets/work/raa/fii-3.webp, alt: "FII key visual" }
+        - { img: ../../assets/work/raa/fii-4.webp, alt: "FII key visual" }
+  note: "Selected FII program work."
 
 reflection:
   prose:

@@ -68,13 +68,62 @@ decisions:
     - { n: "04", title: "Hold it to the numbers", text: "Read performance weekly and let it steer the calendar." }
 
 output:
-  tiles:
-    - { span: wide, ph: "Video-first social · 25+ accounts", caption: "Video-first social system · 25+ accounts" }
-    - { span: standard, ph: "Pickleball vertical", caption: "SPORTIME Pickleball · vertical launch" }
-    - { span: standard, ph: "JMTA expansion creative", caption: "$75M JMTA expansion · campaign creative" }
-    - { span: standard, ph: "Multi-club content", caption: "Multi-club content · one brand" }
-    - { span: standard, ph: "VBC shoots + ads", caption: "VBC · volleyball club shoots + ads" }
-  note: "Placeholder tiles represent the asset families; real assets to drop in."
+  blocks:
+    - kind: mockup
+      flagship: true
+      items:
+        - img: ../../assets/work/sportime-clubs/flagship.webp
+          imgDark: ../../assets/work/sportime-clubs/flagship-dark.webp
+          alt: "SPORTIME video-first social system across clubs"
+          caption: "Video-first social system across 25+ accounts"
+    - kind: video
+      audio: true
+      cols: 1
+      items:
+        - { clip: head-boom, alt: "SPORTIME tennis brand film", caption: "Tennis brand film" }
+    - kind: video
+      audio: false
+      cols: 2
+      items:
+        - { clip: wilson, alt: "SPORTIME tennis motion", caption: "Tennis motion" }
+        - { clip: tennis-header, alt: "SPORTIME tennis header motion", caption: "Tennis header" }
+    - kind: social
+      label: "Social · tennis, pickleball, JMTA"
+      cols: 4
+      items:
+        - { img: ../../assets/work/sportime-clubs/soc-1.webp, alt: "SPORTIME tennis social" }
+        - { img: ../../assets/work/sportime-clubs/soc-2.webp, alt: "SPORTIME tennis social" }
+        - { img: ../../assets/work/sportime-clubs/soc-3.webp, alt: "SPORTIME tennis social" }
+        - { img: ../../assets/work/sportime-clubs/soc-4.webp, alt: "SPORTIME tennis social" }
+        - { img: ../../assets/work/sportime-clubs/soc-5.webp, alt: "SPORTIME Pickleball social" }
+        - { img: ../../assets/work/sportime-clubs/soc-6.webp, alt: "SPORTIME Pickleball social" }
+        - { img: ../../assets/work/sportime-clubs/soc-7.webp, alt: "JMTA social" }
+        - { img: ../../assets/work/sportime-clubs/soc-8.webp, alt: "JMTA social" }
+    - kind: flyer
+      label: "Flyers"
+      ratio: "3:4"
+      cols: 3
+      items:
+        - { img: ../../assets/work/sportime-clubs/flyer-1.webp, alt: "SPORTIME tennis flyer" }
+        - { img: ../../assets/work/sportime-clubs/flyer-2.webp, alt: "SPORTIME tennis flyer" }
+        - { img: ../../assets/work/sportime-clubs/flyer-3.webp, alt: "SPORTIME Pickleball flyer" }
+        - { img: ../../assets/work/sportime-clubs/flyer-4.webp, alt: "SPORTIME Pickleball flyer" }
+        - { img: ../../assets/work/sportime-clubs/flyer-5.webp, alt: "JMTA flyer" }
+        - { img: ../../assets/work/sportime-clubs/flyer-6.webp, alt: "JMTA flyer" }
+    - kind: gallery
+      label: "Facilities + VBC"
+      ratio: "3:2"
+      cols: 4
+      items:
+        - { img: ../../assets/work/sportime-clubs/photo-1.webp, alt: "SPORTIME facility" }
+        - { img: ../../assets/work/sportime-clubs/photo-2.webp, alt: "SPORTIME facility" }
+        - { img: ../../assets/work/sportime-clubs/photo-3.webp, alt: "SPORTIME facility" }
+        - { img: ../../assets/work/sportime-clubs/photo-4.webp, alt: "SPORTIME facility" }
+        - { img: ../../assets/work/sportime-clubs/photo-5.webp, alt: "SPORTIME facility" }
+        - { img: ../../assets/work/sportime-clubs/photo-6.webp, alt: "JMTA facility" }
+        - { img: ../../assets/work/sportime-clubs/photo-7.webp, alt: "SPORTIME VBC" }
+        - { img: ../../assets/work/sportime-clubs/photo-8.webp, alt: "SPORTIME VBC" }
+  note: "Selected work across the SPORTIME club network."
 
 reflection:
   prose:

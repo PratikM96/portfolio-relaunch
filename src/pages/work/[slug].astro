@@ -59,14 +59,29 @@ const heroVideo = d.heroVideo
     }
   : null;
 
-// Rail (case-study variant) — section nav is constant; scoreboard derives from facet + role/year.
-const sections = [
-  { ix: '01', label: 'Problem', href: '#problem' },
-  { ix: '02', label: 'System', href: '#system' },
-  { ix: '03', label: 'Decisions', href: '#decisions' },
-  { ix: '04', label: 'Output', href: '#output' },
-  { ix: '05', label: 'Proof', href: '#proof' },
-];
+// Output gallery: prefer the typed `blocks` model; fall back to legacy `tiles`.
+// The whole section is optional — an entry with neither (e.g. frc, whose only
+// asset is its hero film) drops the §Output section and its rail entry, and the
+// spine renumbers so there's no gap.
+const outputBlocks = d.output?.blocks;
+const outputTiles = d.output?.tiles?.map((t) => ({
+  wide: t.span === 'wide',
+  img: t.img,
+  alt: t.alt,
+  ph: t.ph,
+  caption: t.caption,
+}));
+const hasOutput = !!(outputBlocks?.length || outputTiles?.length);
+
+// Rail (case-study variant) — spine numbered dynamically so Output can drop out.
+const spine = ['problem', 'system', 'decisions', ...(hasOutput ? ['output'] : []), 'proof', 'reflection'];
+const no = (id: string) => String(spine.indexOf(id) + 1).padStart(2, '0');
+const spineLabel: Record<string, string> = {
+  problem: 'Problem', system: 'System', decisions: 'Decisions', output: 'Output', proof: 'Proof',
+};
+const sections = spine
+  .filter((id) => id !== 'reflection')
+  .map((id) => ({ ix: no(id), label: spineLabel[id], href: `#${id}` }));
 // A year range (more than one 4-digit year) pluralizes the rail label.
 const isYearRange = (d.year.match(/\d{4}/g)?.length ?? 0) > 1;
 const scoreboard = [
@@ -79,14 +94,6 @@ const pageTitle = isClient
   ? `${d.title} · Case study · Pratik Mehta`
   : `${d.title} · Case study · concept · Pratik Mehta`;
 
-// Output tiles: map the data-driven `span` onto OutputGrid's `wide` flag.
-const outputTiles = d.output.tiles.map((t) => ({
-  wide: t.span === 'wide',
-  img: t.img,
-  alt: t.alt,
-  ph: t.ph,
-  caption: t.caption,
-}));
 ---
 
 <Base
@@ -129,7 +136,7 @@ const outputTiles = d.output.tiles.map((t) => ({
 
   {/* PROBLEM */}
   <section class="cs-sec" id="problem">
-    <CaseSectionHead no="01" title="Problem" />
+    <CaseSectionHead no={no('problem')} title="Problem" />
     <div class="cs-body rev">
       <div class="cs-main prose">
         {d.problem.prose.map((p) => (
@@ -142,7 +149,7 @@ const outputTiles = d.output.tiles.map((t) => ({
 
   {/* SYSTEM */}
   <section class="cs-sec" id="system">
-    <CaseSectionHead no="02" title="System" />
+    <CaseSectionHead no={no('system')} title="System" />
     <div class="cs-body rev" style="margin-bottom:48px">
       <div class="cs-main prose">
         {d.system.prose.map((p) => (
@@ -156,7 +163,7 @@ const outputTiles = d.output.tiles.map((t) => ({
 
   {/* DECISIONS */}
   <section class="cs-sec" id="decisions">
-    <CaseSectionHead no="03" title="Decisions" />
+    <CaseSectionHead no={no('decisions')} title="Decisions" />
     <div class="cs-body rev" style="margin-bottom:40px">
       <div class="cs-main prose">
         {d.decisions.prose.map((p) => (
@@ -168,30 +175,32 @@ const outputTiles = d.output.tiles.map((t) => ({
     <Decisions decisions={d.decisions.items} />
   </section>
 
-  {/* OUTPUT */}
-  <section class="cs-sec" id="output">
-    <CaseSectionHead no="04" title="Output" />
-    <OutputGrid tiles={outputTiles} note={d.output.note} />
-    {d.demo && (
-      <EmbeddedDemo
-        heading={d.demo.heading}
-        tabs={d.demo.tabs}
-        openHref={`/concepts/${d.demo.project}/`}
-        foot={d.demo.foot}
-        alt={d.demo.alt}
-      />
-    )}
-  </section>
+  {/* OUTPUT (optional — omitted when an entry has no output assets) */}
+  {hasOutput && (
+    <section class="cs-sec" id="output">
+      <CaseSectionHead no={no('output')} title="Output" />
+      <OutputGrid slug={d.slug} blocks={outputBlocks} tiles={outputTiles} note={d.output?.note} />
+      {d.demo && (
+        <EmbeddedDemo
+          heading={d.demo.heading}
+          tabs={d.demo.tabs}
+          openHref={`/concepts/${d.demo.project}/`}
+          foot={d.demo.foot}
+          alt={d.demo.alt}
+        />
+      )}
+    </section>
+  )}
 
   {/* PROOF */}
   <section class="cs-sec" id="proof">
-    <CaseSectionHead no="05" title="Proof" />
+    <CaseSectionHead no={no('proof')} title="Proof" />
     <ProofBox figures={d.proof.figures} note={d.proof.note} />
   </section>
 
   {/* REFLECTION + NEXT */}
   <section class="cs-sec">
-    <CaseSectionHead no="06" title="Reflection" />
+    <CaseSectionHead no={no('reflection')} title="Reflection" />
     <div class="cs-body rev">
       <div class="cs-main sb-reflect">
         {d.reflection.prose.map((p) => (

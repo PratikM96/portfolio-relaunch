@@ -1,53 +1,327 @@
 ---
 /**
- * OutputGrid.astro — the output gallery. Tiles can be `wide` (span 2) and
- * either show a real image or a ratio-matched placeholder image (16:9 wide,
- * 4:3 standard) until media lands from R2.
+ * OutputGrid.astro — the case-study output gallery.
+ *
+ * Two models coexist:
+ *  - `blocks` (current): an ORDERED list of typed blocks. Each block is one asset
+ *    family rendered by its own rule, so a 1:1 social grid, a 16:9 mockup, and a
+ *    tall scrolling website never share one cropped uniform grid. Stills are
+ *    optimized ImageMetadata (Astro `<Image>`: build-time webp, responsive
+ *    srcset, intrinsic dims → no CLS). Long pages scroll INSIDE a capped frame so
+ *    a 12000px asset never runs away with the page or the payload. Videos are
+ *    convention-located by slug and never fetch until in view (`preload="none"`).
+ *  - `tiles` (legacy): the old uniform 3-up cover-cropped grid, kept so
+ *    un-migrated entries still render. `blocks` wins when both are present.
+ *
+ * See docs/output-assets.md for the per-kind export caps and the video contract.
  */
-type Tile = {
-  /** Feature tile: spans the full row as a banner (no dangling column). */
-  wide?: boolean;
-  /** Real image URL. If omitted, a ratio-matched placeholder image renders. */
-  img?: string;
-  alt?: string;
-  /** Short label used as the placeholder image's alt text. */
-  ph?: string;
-  caption: string;
-};
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+type Still = { img?: ImageMetadata; imgDark?: ImageMetadata; alt?: string; ph?: string; caption?: string };
+type Block =
+  | { kind: 'mockup'; flagship?: boolean; cols?: number; items: Still[] }
+  | { kind: 'social'; label?: string; cols?: number; items: Still[] }
+  | { kind: 'flyer'; label?: string; ratio?: '3:4' | '9:16'; cols?: number; fit?: 'cover' | 'contain'; bg?: 'surface' | 'paper'; items: Still[] }
+  | { kind: 'gallery'; label?: string; ratio?: '3:2' | '4:3' | '16:9' | '1:1' | '2:1'; cols?: number; fit?: 'cover' | 'contain'; bg?: 'surface' | 'paper'; items: Still[] }
+  | { kind: 'longpage'; cols?: number; height?: number; chrome?: 'browser' | 'plain'; items: (Still & { chrome?: 'browser' | 'plain' })[] }
+  | { kind: 'video'; audio?: boolean; cols?: number; items: { clip: string; alt?: string; caption?: string }[] };
+
+// Legacy tile shape.
+type Tile = { wide?: boolean; img?: string; alt?: string; ph?: string; caption: string };
+
 interface Props {
-  tiles: Tile[];
+  slug: string;
+  blocks?: Block[];
+  tiles?: Tile[];
   note?: string;
 }
-const { tiles, note } = Astro.props;
+const { slug, blocks, tiles, note } = Astro.props;
+
+// Responsive width ladders per surface (kept small — output is below the fold).
+const W = {
+  full: [768, 1100, 1600],
+  half: [480, 700, 900],
+  third: [320, 420, 560],
+  quarter: [260, 340, 440],
+  long: [900, 1200, 1400],
+};
+const sizesFor = (cols: number) =>
+  cols <= 1
+    ? '(max-width: 1100px) 100vw, 1100px'
+    : `(max-width: 560px) 100vw, (max-width: 1100px) 50vw, ${Math.round(100 / cols)}vw`;
+
+// Video paths are derived from the case slug + clip name — no paths in content.
+const clipSrc = (clip: string) => ({
+  webm: `/ov/${slug}/${clip}.webm`,
+  mp4: `/ov/${slug}/${clip}.mp4`,
+  poster: `/ov/${slug}/${clip}-poster.webp`,
+});
 ---
 
-<div class="out-grid rev">
-  {
-    tiles.map((t) => (
-      <div class:list={['out-tile', t.wide && 'wide']}>
-        <div class="im">
-          {t.img
-            ? <img src={t.img} alt={t.alt ?? ''} loading="lazy" />
-            : <div class:list={['ph-fill', 'ph-bg', t.wide ? 'ph-16x9' : 'ph-4x3']} />}
+{
+  blocks ? (
+    <div class="out rev">
+      {blocks.map((b) => {
+        if (b.kind === 'mockup') {
+          const two = b.cols === 2 && !b.flagship;
+          return (
+            <div class:list={['blk', 'blk-mockup', two && 'cols-2']}>
+              {b.items.map((it) => (
+                <figure class="mock">
+                  <div class="im r-16x9">
+                    {!it.img ? (
+                      <div class="ph ph-16x9" data-ph={it.ph} />
+                    ) : it.imgDark ? (
+                      // theme-aware pair: dark shows by default, light swaps in via CSS
+                      <>
+                        <Image class="m-dark" src={it.imgDark} alt={it.alt ?? ''} widths={two ? W.half : W.full} sizes={sizesFor(two ? 2 : 1)} loading="lazy" />
+                        <Image class="m-light" src={it.img} alt={it.alt ?? ''} widths={two ? W.half : W.full} sizes={sizesFor(two ? 2 : 1)} loading="lazy" />
+                      </>
+                    ) : (
+                      <Image src={it.img} alt={it.alt ?? ''} widths={two ? W.half : W.full} sizes={sizesFor(two ? 2 : 1)} loading="lazy" />
+                    )}
+                  </div>
+                  {it.caption && <figcaption>{it.caption}</figcaption>}
+                </figure>
+              ))}
+            </div>
+          );
+        }
+        if (b.kind === 'social') {
+          const cols = b.cols ?? 3;
+          return (
+            <div class="blk blk-social">
+              {b.label && <p class="blk-label">{b.label}</p>}
+              <div class="grid" style={`--cols:${cols}`}>
+                {b.items.map((it) => (
+                  <figure class="cell">
+                    <div class="im r-1x1">
+                      {it.img ? (
+                        <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
+                      ) : (
+                        <div class="ph ph-1x1" data-ph={it.ph} />
+                      )}
+                    </div>
+                    {it.caption && <figcaption>{it.caption}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            </div>
+          );
+        }
+        if (b.kind === 'flyer') {
+          const cols = b.cols ?? 3;
+          const rClass = b.ratio === '9:16' ? 'r-9x16' : 'r-3x4';
+          const phClass = b.ratio === '9:16' ? 'ph-9x16' : 'ph-3x4';
+          return (
+            <div class="blk blk-flyer">
+              {b.label && <p class="blk-label">{b.label}</p>}
+              <div class="grid" style={`--cols:${cols}`}>
+                {b.items.map((it) => (
+                  <figure class="cell">
+                    <div class:list={['im', rClass, b.fit === 'contain' && 'fit-contain', b.bg === 'paper' && 'bg-paper']}>
+                      {it.img ? (
+                        <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
+                      ) : (
+                        <div class:list={['ph', phClass]} data-ph={it.ph} />
+                      )}
+                    </div>
+                    {it.caption && <figcaption>{it.caption}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            </div>
+          );
+        }
+        if (b.kind === 'gallery') {
+          const cols = b.cols ?? 3;
+          const rClass = { '3:2': 'r-3x2', '4:3': 'r-4x3', '16:9': 'r-16x9', '1:1': 'r-1x1', '2:1': 'r-2x1' }[b.ratio ?? '3:2'];
+          return (
+            <div class="blk blk-gallery">
+              {b.label && <p class="blk-label">{b.label}</p>}
+              <div class="grid" style={`--cols:${cols}`}>
+                {b.items.map((it) => (
+                  <figure class="cell">
+                    <div class:list={['im', rClass, b.fit === 'contain' && 'fit-contain', b.bg === 'paper' && 'bg-paper']}>
+                      {it.img ? (
+                        <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
+                      ) : (
+                        <div class="ph" data-ph={it.ph} />
+                      )}
+                    </div>
+                    {it.caption && <figcaption>{it.caption}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            </div>
+          );
+        }
+        if (b.kind === 'longpage') {
+          const h = b.height ?? 600;
+          const cols = Math.min(3, Math.max(1, b.cols ?? 2));
+          const lpWidths = cols >= 3 ? W.third : cols === 2 ? W.half : W.long;
+          return (
+            <div class="blk blk-long" style={`--cols:${cols}`}>
+              {b.items.map((it) => {
+                const chrome = it.chrome ?? b.chrome ?? 'plain';
+                return (
+                  <figure class="long">
+                    <div class:list={['lp-frame', chrome === 'browser' && 'has-chrome']} style={`--h:${h}px`}>
+                      {chrome === 'browser' && (
+                        <div class="lp-bar" aria-hidden="true">
+                          <span class="dot" /><span class="dot" /><span class="dot" />
+                        </div>
+                      )}
+                      <div class="lp-scroll">
+                        {it.img ? (
+                          <Image src={it.img} alt={it.alt ?? ''} widths={lpWidths} sizes={sizesFor(cols)} loading="lazy" />
+                        ) : (
+                          <div class="ph ph-long" data-ph={it.ph} />
+                        )}
+                      </div>
+                    </div>
+                    {it.caption && <figcaption>{it.caption} <span class="hint">· scroll to explore</span></figcaption>}
+                  </figure>
+                );
+              })}
+            </div>
+          );
+        }
+        // video
+        const vcols = Math.min(3, Math.max(1, b.cols ?? 1));
+        return (
+          <div class="blk blk-video" style={`--cols:${vcols}`}>
+            {b.items.map((it) => {
+              const s = clipSrc(it.clip);
+              return (
+                <figure class="vid" data-ov-video data-audio={b.audio ? 'true' : 'false'}>
+                  <div class="im r-16x9">
+                    <video
+                      poster={s.poster}
+                      width="1920"
+                      height="1080"
+                      playsinline
+                      preload="none"
+                      muted={!b.audio}
+                      loop={!b.audio}
+                      aria-label={it.alt ?? it.caption ?? ''}
+                    >
+                      <source src={s.webm} type="video/webm" />
+                      <source src={s.mp4} type="video/mp4" />
+                    </video>
+                    {b.audio && (
+                      <button class="ov-play" type="button" aria-label="Play video">
+                        <span class="tri" aria-hidden="true" />
+                      </button>
+                    )}
+                  </div>
+                  {it.caption && <figcaption>{it.caption}</figcaption>}
+                </figure>
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+  ) : (
+    // ===== legacy uniform-grid fallback =====
+    <div class="out-grid rev">
+      {(tiles ?? []).map((t) => (
+        <div class:list={['out-tile', t.wide && 'wide']}>
+          <div class="im">
+            {t.img ? <img src={t.img} alt={t.alt ?? ''} loading="lazy" /> : <div class:list={['ph-fill', 'ph-bg', t.wide ? 'ph-16x9' : 'ph-4x3']} />}
+          </div>
+          <div class="oc">{t.caption}</div>
         </div>
-        <div class="oc">{t.caption}</div>
-      </div>
-    ))
-  }
-</div>
+      ))}
+    </div>
+  )
+}
 {note && <p class="out-note">{note}</p>}
 
 <style>
+  /* ===== typed blocks ===== */
+  .out { display: flex; flex-direction: column; gap: 56px; }
+  .blk-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin: 0 0 16px; }
+
+  /* shared media frame + caption */
+  .out .im { position: relative; overflow: hidden; border: 1px solid var(--img-frame); border-radius: var(--radius-lg); background: var(--surface-raised); }
+  .out figcaption { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); margin-top: 10px; }
+  .out figcaption .hint { color: var(--accent-text); }
+  .out figure { margin: 0; }
+  .out .im :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* contain: show a whole artwork (infographic, document) without cropping */
+  .out .im.fit-contain { padding: 12px; }
+  .out .im.fit-contain :global(img) { object-fit: contain; }
+  /* paper: a warm-white card behind transparent / edge-light artwork so it
+     doesn't read as broken on a dark surface. --n-0 is theme-independent. */
+  .out .im.bg-paper { background: var(--n-0); }
+
+  /* aspect boxes */
+  .r-16x9 { aspect-ratio: 16 / 9; }
+  .r-1x1 { aspect-ratio: 1 / 1; }
+  .r-3x4 { aspect-ratio: 3 / 4; }
+  .r-9x16 { aspect-ratio: 9 / 16; }
+  .r-3x2 { aspect-ratio: 3 / 2; }
+  .r-4x3 { aspect-ratio: 4 / 3; }
+  .r-2x1 { aspect-ratio: 2 / 1; }
+
+  /* placeholders (ratio-matched, no asset yet) */
+  .ph { width: 100%; height: 100%; background: repeating-linear-gradient(45deg, var(--surface-raised), var(--surface-raised) 10px, var(--surface) 10px, var(--surface) 20px); }
+
+  /* mockup block — full-width 16:9, or 2-up */
+  .blk-mockup { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .blk-mockup.cols-2 { grid-template-columns: 1fr 1fr; }
+
+  /* theme-aware mockup pair: dark is the default; light swaps in under
+     [data-theme='light']. No JS, no flash — the theme attribute is set before
+     paint by the no-flash script in <head>. Anchored on the scoped `.im` with
+     :global() descendants because the class sits on an <Image>'s rendered <img>,
+     which does not carry this component's scope attribute. */
+  .im :global(.m-light) { display: none; }
+  :global(html[data-theme='light']) .im :global(.m-dark) { display: none; }
+  :global(html[data-theme='light']) .im :global(.m-light) { display: block; }
+
+  /* social / flyer grids */
+  .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: 16px; }
+
+  /* longpage — capped internal-scroll frames, laid out N-up */
+  .blk-long { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: 16px; align-items: start; }
+  .lp-frame { border: 1px solid var(--img-frame); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface-raised); }
+  .lp-frame.has-chrome { border-radius: var(--radius-lg); }
+  .lp-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: var(--surface); border-bottom: 1px solid var(--img-frame); }
+  .lp-bar .dot { width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--border-strong); }
+  .lp-scroll { height: var(--h, 600px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  .lp-scroll :global(img) { width: 100%; height: auto; display: block; }
+  .ph-long { min-height: 1600px; }
+
+  /* video block */
+  .blk-video { display: grid; grid-template-columns: repeat(var(--cols, 1), 1fr); gap: 16px; }
+  .out .vid video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ov-play { position: absolute; inset: 0; display: grid; place-items: center; border: 0; background: rgba(11, 11, 10, 0.24); cursor: pointer; transition: background 0.25s var(--ease-standard); }
+  .ov-play:hover { background: rgba(11, 11, 10, 0.14); }
+  .ov-play::before { content: ''; position: absolute; width: 64px; height: 64px; border-radius: var(--radius-full); background: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); }
+  .ov-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #0b0b0a; margin-left: 5px; }
+  .vid.is-playing .ov-play { display: none; }
+
+  @media (max-width: 900px) {
+    .blk-mockup.cols-2, .blk-long, .blk-video { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ===== legacy uniform grid (unchanged) ===== */
   .out-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .out-tile { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
   .out-tile .im { aspect-ratio: var(--ratio-classic); overflow: hidden; background: var(--surface-raised); display: flex; align-items: center; justify-content: center; }
-  /* feature tiles span the full row — own row, no height mismatch beside singles. 16/9 so assets are easy to design for */
   .out-tile.wide .im { aspect-ratio: var(--ratio-wide); }
-  .out-tile .im img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
+  .out-tile .im img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-standard); }
   .out-tile:hover .im img { transform: scale(1.03); }
   .out-tile .oc { padding: 14px 16px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); }
-  /* span every column at any breakpoint, so a feature tile never leaves a dangling column */
   .out-tile.wide { grid-column: 1 / -1; }
+
   .out-note { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); margin-top: 18px; }
 
   @media (max-width: 1100px) {
@@ -56,4 +330,47 @@ const { tiles, note } = Astro.props;
   @media (max-width: 560px) {
     .out-grid { grid-template-columns: 1fr; }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .out-tile:hover .im img { transform: none; }
+  }
 </style>
+
+<script>
+  // Output video behavior. Muted loops autoplay/pause via IntersectionObserver
+  // (nothing fetches until in view — preload="none"); reduced-motion keeps them
+  // on the poster. Audio clips are click-to-play and hand off to native controls.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const loops: HTMLVideoElement[] = [];
+  document.querySelectorAll<HTMLElement>('[data-ov-video]').forEach((fig) => {
+    const video = fig.querySelector('video');
+    if (!video) return;
+
+    if (fig.dataset.audio === 'true') {
+      const btn = fig.querySelector('.ov-play');
+      btn?.addEventListener('click', () => {
+        video.controls = true;
+        fig.classList.add('is-playing');
+        video.play();
+      });
+      video.addEventListener('ended', () => fig.classList.remove('is-playing'));
+      return;
+    }
+    if (!reduce) loops.push(video);
+  });
+
+  if (loops.length) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        }
+      },
+      { threshold: 0.25 },
+    );
+    loops.forEach((v) => io.observe(v));
+  }
+</script>

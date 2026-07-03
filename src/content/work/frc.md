@@ -8,9 +8,13 @@ role: Social Media Director
 year: "2022"
 disciplines: [Social, Paid, Content, Strategy]
 cover: "" # [NEEDS: cover image url]
+# The brand history film is FRC's only deliverable, so it plays in the hero wall
+# (below the scoreboard) and the entry carries no Output section. Files at
+# /hero/frc/{hero_1080.webm,hero_1080.mp4,poster.webp}. See docs/hero-pipeline.md.
+heroVideo: true
 cardVideo: true # hover-to-play clip at /wc/frc/ (see docs/work-card-video.md)
 cardVideoLight: true # light-theme export exists at /wc/frc/card-light.*
-coverAlt: "Forest Road social campaigns"
+coverAlt: "Forest Road Company brand history film"
 coverCaption: "The Forest Road Company · B2B social"
 featured: false
 description: "Social media direction, paid campaigns, and executive reporting for a media-finance firm."
@@ -64,13 +68,8 @@ decisions:
     - { n: "03", title: "Report up, in their language", text: "Performance became recommendations leadership could act on." }
     - { n: "04", title: "Pair paid with daily presence", text: "LinkedIn paid drove leads while daily X kept the brand present." }
 
-output:
-  tiles:
-    - { span: wide, ph: "Still + video campaigns", caption: "Still & video social campaigns" }
-    - { span: standard, ph: "LinkedIn paid", caption: "LinkedIn Sponsored + Lead Gen" }
-    - { span: standard, ph: "Daily X content", caption: "Daily X presence" }
-    - { span: standard, ph: "Reporting", caption: "Tracking-to-recommendation reporting" }
-  note: "Placeholder tiles represent the work; real assets to drop in."
+# No output section — the brand history film is the only asset and plays in the
+# hero wall (heroVideo above). The template drops §Output + its rail entry.
 
 reflection:
   prose:

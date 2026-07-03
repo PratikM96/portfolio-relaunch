@@ -69,12 +69,47 @@ decisions:
     - { n: "04", title: "Let performance steer", text: "Email, paid, and landing-page numbers fed back into what got made." }
 
 output:
-  tiles:
-    - { span: wide, ph: "In-house design across surfaces", caption: "In-house design · social, paid, email, web" }
-    - { span: standard, ph: "Paid search", caption: "Paid search · efficiency-tuned" }
-    - { span: standard, ph: "Email program", caption: "Email · deals cadence" }
-    - { span: standard, ph: "Landing pages + app", caption: "Landing pages + app surfaces" }
-  note: "Placeholder tiles represent the work; real assets to drop in."
+  blocks:
+    - kind: mockup
+      flagship: true
+      items:
+        - img: ../../assets/work/dealnews/flagship.webp
+          imgDark: ../../assets/work/dealnews/flagship-dark.webp
+          alt: "DealNews in-house design across social, email, paid, and web"
+          caption: "In-house design system · social, paid, email, web"
+    - kind: longpage          # websites, 2-up, browser chrome
+      cols: 2
+      height: 620
+      chrome: browser
+      items:
+        - img: ../../assets/work/dealnews/website-marketplace.webp
+          alt: "DealNews Marketplace marketing site, full scrolling page"
+          caption: "Marketplace marketing site"
+        - img: ../../assets/work/dealnews/website-2.webp
+          alt: "DealNews landing page, full scrolling page"
+          caption: "Campaign landing page"
+    - kind: longpage          # infographics, 3-up, plain frames
+      cols: 3
+      height: 560
+      items:
+        - img: ../../assets/work/dealnews/infographic-buying.webp
+          alt: "DealNews editorial infographic on online buying behaviors"
+          caption: "Buying behaviors"
+        - img: ../../assets/work/dealnews/infographic-2.webp
+          alt: "DealNews editorial infographic"
+          caption: "Editorial infographic"
+        - img: ../../assets/work/dealnews/infographic-3.webp
+          alt: "DealNews editorial infographic"
+          caption: "Editorial infographic"
+    - kind: social
+      label: "Social"
+      cols: 4
+      items:
+        - { img: ../../assets/work/dealnews/social-1.webp, alt: "DealNews social post" }
+        - { img: ../../assets/work/dealnews/social-2.webp, alt: "DealNews social post" }
+        - { img: ../../assets/work/dealnews/social-3.webp, alt: "DealNews social post" }
+        - { img: ../../assets/work/dealnews/social-4.webp, alt: "DealNews social post" }
+  note: "DealNews assets, first pass. Flagship mockup pending."
 
 reflection:
   prose:

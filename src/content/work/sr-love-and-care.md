@@ -64,11 +64,61 @@ decisions:
     - { n: "03", title: "Design for handoff", text: "Workflows and mentorship meant it survived the founder leaving." }
 
 output:
-  tiles:
-    - { span: wide, ph: "Volunteer team + design unit", caption: "Volunteer team · grown and handed off" }
-    - { span: standard, ph: "Social assets", caption: "Social campaign assets" }
-    - { span: standard, ph: "Paid campaigns", caption: "Social, print, Google Ads" }
-  note: "Placeholder tiles; real assets to drop in."
+  blocks:
+    - kind: mockup
+      flagship: true
+      items:
+        - img: ../../assets/work/sr-love-and-care/flagship.webp
+          imgDark: ../../assets/work/sr-love-and-care/flagship-dark.webp
+          alt: "SR Love & Care relief campaign work"
+          caption: "Relief campaign · social, print, and video"
+    - kind: video
+      audio: true
+      cols: 1
+      items:
+        - { clip: recap, alt: "SR Love & Care campaign recap", caption: "Campaign recap" }
+    - kind: video
+      audio: false
+      cols: 2
+      items:
+        - { clip: intro, alt: "SR Love & Care title animation", caption: "Title animation" }
+        - { clip: outro, alt: "SR Love & Care outro animation", caption: "Outro animation" }
+    - kind: social
+      label: "Social"
+      cols: 3
+      items:
+        - { img: ../../assets/work/sr-love-and-care/soc-1.webp, alt: "SR Love & Care relief social" }
+        - { img: ../../assets/work/sr-love-and-care/soc-2.webp, alt: "SR Love & Care relief social" }
+        - { img: ../../assets/work/sr-love-and-care/soc-3.webp, alt: "SR Love & Care relief social" }
+    - kind: flyer
+      label: "Print"
+      ratio: "3:4"
+      cols: 3
+      items:
+        - { img: ../../assets/work/sr-love-and-care/flyer-1.webp, alt: "SR Love & Care flyer" }
+        - { img: ../../assets/work/sr-love-and-care/flyer-2.webp, alt: "SR Love & Care flyer" }
+        - { img: ../../assets/work/sr-love-and-care/flyer-3.webp, alt: "SR Love & Care flyer" }
+    - kind: flyer
+      label: "Relief packet"
+      ratio: "3:4"
+      cols: 4
+      fit: contain
+      bg: paper
+      items:
+        - { img: ../../assets/work/sr-love-and-care/packet-1.webp, alt: "Relief packet page" }
+        - { img: ../../assets/work/sr-love-and-care/packet-2.webp, alt: "Relief packet page" }
+        - { img: ../../assets/work/sr-love-and-care/packet-3.webp, alt: "Relief packet page" }
+        - { img: ../../assets/work/sr-love-and-care/packet-4.webp, alt: "Relief packet page" }
+    - kind: gallery
+      label: "Posters"
+      ratio: "2:1"
+      cols: 2
+      items:
+        - { img: ../../assets/work/sr-love-and-care/poster-1.webp, alt: "SR Love & Care poster" }
+        - { img: ../../assets/work/sr-love-and-care/poster-2.webp, alt: "SR Love & Care poster" }
+        - { img: ../../assets/work/sr-love-and-care/poster-3.webp, alt: "SR Love & Care poster" }
+        - { img: ../../assets/work/sr-love-and-care/poster-4.webp, alt: "SR Love & Care poster" }
+  note: "Selected relief-campaign work."
 
 reflection:
   prose:

@@ -66,11 +66,33 @@ decisions:
     - { n: "03", title: "Shoot wide, finish tight", text: "Capture everything live, then retouch and cut down to the strongest, finished set." }
 
 output:
-  tiles:
-    - { span: wide, ph: "Fundraiser photography", caption: "Fundraiser photography" }
-    - { span: standard, ph: "Event video", caption: "Event video" }
-    - { span: standard, ph: "Event graphics", caption: "Event graphics" }
-  note: "Placeholder tiles; real assets to drop in once selected."
+  blocks:
+    - kind: mockup
+      flagship: true
+      items:
+        - img: ../../assets/work/jmtp/flagship.webp
+          imgDark: ../../assets/work/jmtp/flagship-dark.webp
+          alt: "JMTP event marketing, content, and photography"
+          caption: "Event marketing, content, and photography"
+    - kind: social
+      label: "Social"
+      cols: 3
+      items:
+        - { img: ../../assets/work/jmtp/soc-comedy-1.webp, alt: "Comedy Night social post" }
+        - { img: ../../assets/work/jmtp/soc-comedy-2.webp, alt: "Comedy Night social post" }
+        - { img: ../../assets/work/jmtp/soc-proam.webp, alt: "Pro-Am social post" }
+    - kind: gallery
+      label: "Event photography"
+      ratio: "3:2"
+      cols: 3
+      items:
+        - { img: ../../assets/work/jmtp/photo-comedy-1.webp, alt: "Comedy Night" }
+        - { img: ../../assets/work/jmtp/photo-comedy-2.webp, alt: "Comedy Night" }
+        - { img: ../../assets/work/jmtp/photo-proam-1.webp, alt: "Pro-Am" }
+        - { img: ../../assets/work/jmtp/photo-proam-2.webp, alt: "Pro-Am" }
+        - { img: ../../assets/work/jmtp/photo-proam-3.webp, alt: "Pro-Am" }
+        - { img: ../../assets/work/jmtp/photo-proam-4.webp, alt: "Pro-Am" }
+  note: "Selected event work."
 
 reflection:
   prose:

@@ -1,4 +1,4 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, z, type SchemaContext } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 /**
@@ -50,9 +50,102 @@ const proseSection = z.object({
   margin: z.array(marginModule).default([]),
 });
 
+/**
+ * Output blocks — the typed case-study output gallery. The section is an ORDERED
+ * list of blocks; each block is one asset family rendered by its own rule, so a
+ * 1:1 social grid, a 16:9 mockup, and a tall scrolling website never share one
+ * cropped grid. A factory (not a const) because the still `img` uses Astro's
+ * `image()` helper, which only exists inside the schema function. `img` is
+ * optional everywhere: omit it and a ratio-matched placeholder renders until the
+ * real asset lands. Video is convention-located by slug (no paths in content):
+ * /ov/<case-slug>/<clip>.{webm,mp4} + <clip>-poster.webp. See docs/output-assets.md.
+ */
+const outputBlocks = (image: SchemaContext['image']) => {
+  const still = z.object({
+    img: image().optional(), // optimized local asset (light/base); omit -> placeholder
+    // Optional dark-theme sibling. When present the still is theme-aware: `img`
+    // shows in light, `imgDark` in dark (mockups mainly — they carry a themed
+    // background). Omit for assets that read the same in both themes.
+    imgDark: image().optional(),
+    alt: z.string().optional(),
+    ph: z.string().optional(), // placeholder label until the asset lands
+    caption: z.string().optional(),
+  });
+  return z.array(
+    z.discriminatedUnion('kind', [
+      // Mockups / flagship — 16:9, full-width or 2-up. `flagship` leads the section.
+      z.object({
+        kind: z.literal('mockup'),
+        flagship: z.boolean().default(false),
+        cols: z.number().int().min(1).max(2).default(1),
+        items: z.array(still),
+      }),
+      // Social posts — square, shown whole (never cropped).
+      z.object({
+        kind: z.literal('social'),
+        label: z.string().optional(),
+        cols: z.number().int().min(2).max(4).default(3),
+        items: z.array(still),
+      }),
+      // Flyers / stories — portrait grid. `fit: contain` + `bg: paper` shows a
+      // whole document on a paper card (for transparent/edge-light artwork).
+      z.object({
+        kind: z.literal('flyer'),
+        label: z.string().optional(),
+        ratio: z.enum(['3:4', '9:16']).default('3:4'),
+        cols: z.number().int().min(1).max(4).default(3),
+        fit: z.enum(['cover', 'contain']).default('cover'),
+        bg: z.enum(['surface', 'paper']).default('surface'),
+        items: z.array(still),
+      }),
+      // Photos & single-screen web shots — landscape/square grid. `fit: contain`
+      // shows a whole landscape artwork (e.g. an infographic) without cropping.
+      z.object({
+        kind: z.literal('gallery'),
+        label: z.string().optional(),
+        ratio: z.enum(['3:2', '4:3', '16:9', '1:1', '2:1']).default('3:2'),
+        cols: z.number().int().min(1).max(4).default(3),
+        fit: z.enum(['cover', 'contain']).default('cover'),
+        bg: z.enum(['surface', 'paper']).default('surface'),
+        items: z.array(still),
+      }),
+      // Long pages (websites, tall infographics) — capped internal-scroll frames,
+      // laid out N-up so tall/narrow assets aren't stretched full width. One block
+      // per family: e.g. websites at `cols: 2`, infographics at `cols: 3`. `chrome`
+      // is a block default (all frames in a block are the same family) with an
+      // optional per-item override.
+      z.object({
+        kind: z.literal('longpage'),
+        cols: z.number().int().min(1).max(3).default(2),
+        height: z.number().int().default(600), // px viewport height of each frame
+        chrome: z.enum(['browser', 'plain']).default('plain'),
+        items: z.array(still.extend({ chrome: z.enum(['browser', 'plain']).optional() })),
+      }),
+      // Video — muted loop (plays in view) or audio (click-to-play). Slug-located.
+      z.object({
+        kind: z.literal('video'),
+        audio: z.boolean().default(false),
+        cols: z.number().int().min(1).max(3).default(1),
+        items: z.array(
+          z.object({
+            clip: z.string(), // /ov/<case-slug>/<clip>.{webm,mp4} + <clip>-poster.webp
+            alt: z.string().optional(),
+            caption: z.string().optional(),
+          }),
+        ),
+      }),
+    ]),
+  );
+};
+
 const work = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/work' }),
-  schema: z
+  // `image()` (Astro's content-image helper) lets a frontmatter path resolve to
+  // an optimized ImageMetadata (build-time webp, responsive widths, intrinsic
+  // dims). Output stills use it so real assets never ship unoptimized. See
+  // docs/output-assets.md.
+  schema: ({ image }) =>
+    z
     .object({
       // --- identity / facet (build-spec core) ---
       title: z.string(),
@@ -110,20 +203,32 @@ const work = defineCollection({
       decisions: proseSection.extend({
         items: z.array(z.object({ n: z.string(), title: z.string(), text: z.string() })),
       }),
-      output: z.object({
-        tiles: z.array(
-          z.object({
-            // data-driven grid span: a 'wide' asset takes its own full-width row
-            span: z.enum(['standard', 'wide']).default('standard'),
-            img: z.string().url().or(z.literal('')).optional(), // "" or omitted -> placeholder tile
+      // Output gallery. New entries use the typed `blocks` model (one asset
+      // family per block, each rendered by its own rule); `tiles` is the legacy
+      // uniform-grid model kept so un-migrated entries still build. Exactly one
+      // is used per entry — `blocks` wins when present. The whole section is
+      // OPTIONAL: an entry with no output (e.g. frc, whose only asset is its hero
+      // film) omits it and the template drops the §Output section + rail entry.
+      // See docs/output-assets.md.
+      output: z
+        .object({
+          blocks: outputBlocks(image).optional(),
+          tiles: z
+            .array(
+              z.object({
+                // data-driven grid span: a 'wide' asset takes its own full-width row
+                span: z.enum(['standard', 'wide']).default('standard'),
+                img: z.string().url().or(z.literal('')).optional(), // "" or omitted -> placeholder tile
 
-            alt: z.string().optional(),
-            ph: z.string().optional(),
-            caption: z.string(),
-          }),
-        ),
-        note: z.string().optional(),
-      }),
+                alt: z.string().optional(),
+                ph: z.string().optional(),
+                caption: z.string(),
+              }),
+            )
+            .optional(),
+          note: z.string().optional(),
+        })
+        .optional(),
       reflection: proseSection,
       next: z.object({ kicker: z.string(), title: z.string(), href: z.string() }),
 

@@ -83,12 +83,20 @@ Client case studies carry a short, muted, looping logo animation that plays on h
 - **Behavior:** poster (the resolved-logo last frame) at rest; `preload="none"` so only the ~10 KB active-theme poster loads until a clip plays. The `/work` featured pair and home bento tile are hover-to-play (mouseenter plays muted, mouseleave reloads to poster); the shared index preview pane plays whichever row is active, so its first row autoplays on load. Theme selection + live reswap via `src/scripts/card-video.ts` keyed on `[data-theme]`. Reduced-motion → poster only.
 - Filenames are a contract: exactly `card.webm`, `card.mp4`, `poster.webp` (+ `-light` siblings). A typo = silent 404, so don't improvise names.
 
+## Output gallery system (case-study §04)
+The Output section is an ordered list of typed **blocks** (`output.blocks`), each one asset family rendered by its own rule so a 1:1 social grid, a 16:9 mockup, and a tall scrolling website never share one cropped grid. Rendered by `OutputGrid.astro`. Full recipe + export caps live in **`docs/output-assets.md`**.
+- **Block kinds:** `mockup` (16:9 flagship / 2-up), `social` (1:1 grid), `flyer` (3:4 or 9:16 portrait grid), `gallery` (cropped landscape/square grid for photos, single-screen web shots, banners — `ratio` 3:2/4:3/16:9/1:1/2:1), `longpage` (websites + tall infographics in capped **internal-scroll frames**, laid out **N-up** — `cols` 1–3, one family per block, e.g. websites 2-up / infographics 3-up — with block-default `chrome: browser|plain`), `video` (in-gallery clip — `audio:true` click-to-play, `audio:false` muted loop, `cols` 1–3).
+- **Stills** go in `src/assets/work/<slug>/`, referenced by relative path and run through Astro's content `image()` helper → `<Image>` (build-time webp, responsive `srcset`, intrinsic dims / no CLS). Every `img` is optional → ratio-matched placeholder until it lands. Masters stay in `_reference/`.
+- **Mockups are theme-aware:** `img` (light/base) + `imgDark`; the pair swaps via CSS on `[data-theme]`, no flash. 2160p master → cap 1600w webp.
+- **Video** is convention-located by slug like hero/card: `public/ov/<slug>/<clip>.{webm,mp4}` + `<clip>-poster.webp`. `audio:false` = muted loop that plays on scroll-into-view (`preload="none"`, IntersectionObserver, reduced-motion → poster); `audio:true` = click-to-play. Under the 25 MiB cap.
+- Legacy `output.tiles` (uniform cover-cropped grid) still renders for un-migrated entries; `blocks` wins when both exist. DealNews is migrated; the rest are pending.
+
 ## Verified facts (locked — never alter)
 - B.S. Computer Science, NYU. Email mehtadpratik@gmail.com. New York. "Open to creative or marketing leadership roles."
 - Client work also: DealNews, Richard Attias & Associates, Pipeline Medical, Agency FiveEighty, The Forest Road Company, SR Love & Care (self-initiated nonprofit, built team 5→15+, handed off).
 - Headshot is in the repo (`src/assets/headshot-4x5.jpg`, a 1400px web-master; raw masters stay in gitignored `_reference/images/`), imported via Astro `<Image>` (downscaled webp) into the About portrait + home about module. Covers are still placeholders; when added they go in `src/assets/` (imported, never a CDN URL), named `{slug}-cover.webp`. Build-time image optimization requires the Cloudflare adapter's `imageService: 'compile'` (set in astro.config) so Sharp runs at build for the static pages.
 
 ## Current TODOs / placeholders (do not treat as final)
-- Output-section interior screens are placeholder tiles.
+- Output gallery: all client case studies are migrated to the typed `blocks` model with real assets (DealNews, agency-fiveeighty, jmtp, pipeline-medical, raa, sr-love-and-care, sportime-clubs, plus frc which is a single featured brand film). SPORTIME is a curated subset of its ~90 assets. The three concept entries (level, the-ninth, wisp) still use legacy placeholder `tiles`. SPORTIME's Proof still needs its verified metrics confirmed from the 2023 social-reports PDFs (not yet mined).
 - Concept microsites for live demos need to be added.
 - The three concept entries (level, the-ninth, wisp) have no work-card hover animation; they fall back to placeholder tiles. Static cover images (`{slug}-cover.webp`) are still unshot for every entry.
