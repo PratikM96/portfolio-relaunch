@@ -17,7 +17,7 @@
   // OLD production worker. Rename only when you intend to replace it.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "portfolio-relaunch",
-  "compatibility_date": "2026-07-03",
+  "compatibility_date": "2026-07-02",
   "assets": {
     "directory": "./dist/client"
   }
