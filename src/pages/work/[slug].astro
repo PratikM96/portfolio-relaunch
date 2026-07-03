@@ -72,9 +72,17 @@ const outputTiles = d.output?.tiles?.map((t) => ({
   caption: t.caption,
 }));
 const hasOutput = !!(outputBlocks?.length || outputTiles?.length);
+// Concepts carry no output stills — their only §Output content is the live-demo
+// launcher. The section (and its rail entry) appears whenever there are output
+// assets OR a demo, and the OutputGrid itself renders only when assets exist.
+const hasDemo = !!d.demo;
+const hasOutputSection = hasOutput || hasDemo;
+// Hero cover wall: shown only for a real cover image or hero video. Concepts have
+// neither, so the empty placeholder wall (16:9 box + caption) is dropped for them.
+const showHeroWall = isClient || !!heroVideo || !!d.cover;
 
 // Rail (case-study variant) — spine numbered dynamically so Output can drop out.
-const spine = ['problem', 'system', 'decisions', ...(hasOutput ? ['output'] : []), 'proof', 'reflection'];
+const spine = ['problem', 'system', 'decisions', ...(hasOutputSection ? ['output'] : []), 'proof', 'reflection'];
 const no = (id: string) => String(spine.indexOf(id) + 1).padStart(2, '0');
 const spineLabel: Record<string, string> = {
   problem: 'Problem', system: 'System', decisions: 'Decisions', output: 'Output', proof: 'Proof',
@@ -111,7 +119,7 @@ const pageTitle = isClient
     <p class="descr rev">{d.lede}</p>
     {d.disclosure && <p class="cs-disclosure rev">{d.disclosure}</p>}
     <Scoreboard cells={d.hero} />
-    {heroVideo ? (
+    {showHeroWall && (heroVideo ? (
       <div class="cs-wall rev" data-cs-video>
         <video
           poster={heroVideo.poster}
@@ -131,7 +139,7 @@ const pageTitle = isClient
         {d.cover ? <img src={d.cover} alt={d.coverAlt} /> : <div class="ph-fill ph-bg ph-16x9" />}
         <span class="cap">{d.coverCaption}</span>
       </div>
-    )}
+    ))}
   </header>
 
   {/* PROBLEM */}
@@ -175,11 +183,14 @@ const pageTitle = isClient
     <Decisions decisions={d.decisions.items} />
   </section>
 
-  {/* OUTPUT (optional — omitted when an entry has no output assets) */}
-  {hasOutput && (
+  {/* OUTPUT (optional — omitted when an entry has neither output assets nor a
+      demo). Concepts render this section with only the live-demo launcher. */}
+  {hasOutputSection && (
     <section class="cs-sec" id="output">
       <CaseSectionHead no={no('output')} title="Output" />
-      <OutputGrid slug={d.slug} blocks={outputBlocks} tiles={outputTiles} note={d.output?.note} />
+      {hasOutput && (
+        <OutputGrid slug={d.slug} blocks={outputBlocks} tiles={outputTiles} note={d.output?.note} />
+      )}
       {d.demo && (
         <EmbeddedDemo
           heading={d.demo.heading}

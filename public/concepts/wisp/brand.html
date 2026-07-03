@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/concepts/wisp/fonts.css">
+<title>WISP / Brand Guidelines</title>
+<meta name="description" content="Brand guidelines for WISP, a speculative AI presence concept by Pratik Mehta: a warm core-plus-field form that carries emotion without a face." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/wisp/brand" />
+<meta property="og:title" content="WISP / Brand Guidelines" />
+<meta property="og:description" content="Brand guidelines for WISP, a speculative AI presence concept by Pratik Mehta: a warm core-plus-field form that carries emotion without a face." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-wisp.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/wisp/brand" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pratikm96" />
+<meta name="twitter:image" content="https://cdn.mehtapratik.com/og/og-wisp.jpg" />
+<style>
+  :root{
+    /* Ground family */
+    --void:#0C0706;
+    --ground:#140C09;
+    --ground-2:#241712;
+    /* Core gradient */
+    --core-1:#FFE7C2;
+    --core-2:#FFB877;
+    --core-3:#F4894E;
+    --core-4:#B14E3A;
+    /* Field */
+    --field:#E9703F;
+    /* Type */
+    --type-1:#FFEBD2;
+    --type-2:#F6B98A;
+    --ink:#C9A488;        /* secondary warm */
+    --ink-dim:#8C7460;    /* tertiary */
+    /* Reserved accent */
+    --accent:#5BD6C4;     /* Signal Teal, reserved */
+    --line:rgba(255,200,150,0.14);
+    --sans:'General Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    --mono:'Berkeley Mono','SFMono-Regular',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(120% 90% at 50% 0%, var(--ground-2) 0%, var(--ground) 42%, var(--void) 100%) fixed;
+    color:var(--type-1);
+    font-family:var(--sans);
+    font-weight:300;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 32px;}
+  section{padding:84px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+
+  .label{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);}
+  h1,h2,h3{font-weight:300;letter-spacing:-.01em;line-height:1.15;margin:0;}
+  h2{font-size:2rem;margin:14px 0 8px;}
+  h3{font-size:1.15rem;color:var(--type-2);margin:0 0 6px;}
+  p{margin:0 0 14px;max-width:62ch;color:var(--type-1);}
+  .muted{color:var(--ink);}
+  .dim{color:var(--ink-dim);}
+  a{color:var(--accent);text-decoration:none;}
+
+  /* ===== Presence form ===== */
+  .presence{position:relative;border-radius:50%;
+    --size:170px;width:var(--size);height:var(--size);
+    display:grid;place-items:center;}
+  .presence .field{position:absolute;inset:-40%;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, rgba(255,184,119,.55) 0%, rgba(233,112,63,.18) 55%, rgba(233,112,63,0) 75%);
+    filter:blur(14px);}
+  .presence .core{position:absolute;width:46%;height:46%;border-radius:50%;
+    background:radial-gradient(circle at 50% 45%, var(--core-1) 0%, var(--core-2) 34%, var(--core-3) 70%, rgba(177,78,58,0) 100%);
+    box-shadow:0 0 40px 6px rgba(244,137,78,.35);}
+  .presence .seed{position:absolute;width:20%;height:20%;border-radius:50%;
+    background:radial-gradient(circle at 50% 45%, #fff 0%, var(--core-1) 40%, var(--core-2) 100%);}
+
+  /* breathing baseline */
+  @keyframes breath{0%,100%{transform:scale(1);opacity:.94;}50%{transform:scale(1.06);opacity:1;}}
+  @keyframes breathField{0%,100%{transform:scale(1);opacity:.85;}50%{transform:scale(1.12);opacity:1;}}
+  .presence .core{animation:breath 7s ease-in-out infinite;}
+  .presence .field{animation:breathField 7s ease-in-out infinite;}
+
+  /* ===== State swatches ===== */
+  .states{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;margin-top:30px;}
+  .state{border:1px solid var(--line);border-radius:14px;padding:26px 22px 22px;background:rgba(20,12,9,.4);}
+  .stage{height:150px;display:grid;place-items:center;margin-bottom:18px;}
+  .state h3{font-size:1rem;}
+  .state .spec{font-size:.86rem;color:var(--ink);margin:0;}
+  .state .spec b{color:var(--type-2);font-weight:400;}
+  .state .intensity{font-family:var(--mono);font-size:.7rem;color:var(--ink-dim);letter-spacing:.12em;margin-top:10px;}
+
+  .orb{--s:96px;position:relative;width:var(--s);height:var(--s);border-radius:50%;display:grid;place-items:center;}
+  .orb .f{position:absolute;inset:-35%;border-radius:50%;filter:blur(12px);
+    background:radial-gradient(circle,rgba(255,184,119,.5) 0%,rgba(233,112,63,.16) 55%,rgba(233,112,63,0) 75%);}
+  .orb .c{position:absolute;width:48%;height:48%;border-radius:50%;
+    background:radial-gradient(circle at 50% 45%,var(--core-1) 0%,var(--core-2) 36%,var(--core-3) 72%,rgba(177,78,58,0) 100%);
+    box-shadow:0 0 26px 4px rgba(244,137,78,.3);}
+
+  /* idle */
+  .s-idle .c{animation:breath 8s ease-in-out infinite;}
+  .s-idle .f{animation:breathField 8s ease-in-out infinite;opacity:.7;}
+  /* listening: drawn in, cooler, dimmer */
+  @keyframes lean{0%,100%{transform:translateY(0) scale(.92);}50%{transform:translateY(2px) scale(.9);}}
+  .s-listening .c{animation:lean 5s ease-in-out infinite;filter:saturate(.8) brightness(.85);}
+  .s-listening .f{transform:scale(.8);opacity:.5;}
+  /* thinking: jitter + accent flicker + dispersed field */
+  @keyframes jit{0%{transform:translate(0,0) scale(.96);}25%{transform:translate(2px,-2px) scale(1);}50%{transform:translate(-2px,1px) scale(.95);}75%{transform:translate(1px,2px) scale(1.02);}100%{transform:translate(0,0) scale(.96);}}
+  @keyframes accentFlick{0%,100%{box-shadow:0 0 26px 4px rgba(244,137,78,.3);}45%{box-shadow:0 0 22px 5px rgba(91,214,196,.4);}}
+  .s-thinking .c{animation:jit 1.6s steps(5) infinite, accentFlick 2.4s ease-in-out infinite;}
+  .s-thinking .f{background:radial-gradient(circle,rgba(255,184,119,.32) 0%,rgba(91,214,196,.1) 50%,rgba(233,112,63,0) 72%);opacity:.7;}
+  /* speaking: brighter, crisp pulse */
+  @keyframes speak{0%,100%{transform:scale(.98);}50%{transform:scale(1.08);}}
+  .s-speaking .c{animation:speak 1.1s ease-in-out infinite;filter:brightness(1.12);}
+  .s-speaking .f{animation:speak 1.1s ease-in-out infinite;opacity:.9;}
+  /* delight: bloom, brightest, accent spark */
+  @keyframes bloom{0%,100%{transform:scale(1);}50%{transform:scale(1.18);}}
+  @keyframes spark{0%,100%{box-shadow:0 0 34px 7px rgba(244,137,78,.45);}60%{box-shadow:0 0 40px 10px rgba(91,214,196,.35);}}
+  .s-delight .c{animation:bloom .9s ease-in-out infinite, spark 1.8s ease-in-out infinite;filter:brightness(1.2);}
+  .s-delight .f{animation:bloom .9s ease-in-out infinite;opacity:1;}
+  /* hesitation: asymmetric wobble, low contrast */
+  @keyframes wob{0%{transform:translate(0,0) scale(.94);}33%{transform:translate(-3px,1px) scale(.97);}66%{transform:translate(2px,-1px) scale(.92);}100%{transform:translate(0,0) scale(.94);}}
+  .s-hesitation .c{animation:wob 2.6s ease-in-out infinite;filter:saturate(.7) brightness(.82) contrast(.9);}
+  .s-hesitation .f{opacity:.55;transform:scale(.95);}
+  /* quiet: warmest, dimmest, near still */
+  @keyframes hush{0%,100%{transform:scale(.9);opacity:.85;}50%{transform:scale(.93);opacity:.95;}}
+  .s-quiet .c{animation:hush 10s ease-in-out infinite;filter:brightness(.7) saturate(1.1);width:42%;height:42%;}
+  .s-quiet .f{opacity:.5;filter:blur(16px);}
+
+  /* ===== Color swatches ===== */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:26px;}
+  .sw{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:rgba(20,12,9,.4);}
+  .sw .chip{height:96px;}
+  .sw .meta{padding:12px 14px;}
+  .sw .nm{font-size:.9rem;color:var(--type-1);}
+  .sw .hex{font-family:var(--mono);font-size:.74rem;color:var(--ink);letter-spacing:.06em;margin-top:2px;}
+  .sw .use{font-size:.76rem;color:var(--ink-dim);margin-top:6px;}
+
+  /* ===== Wordmark ===== */
+  .mark-row{display:flex;align-items:center;gap:42px;flex-wrap:wrap;margin-top:18px;}
+  .wordmark{font-weight:200;font-size:5.4rem;letter-spacing:.02em;line-height:1;
+    background:linear-gradient(180deg,var(--type-1),var(--type-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 0 38px rgba(246,185,138,.18);}
+  .lockup-tag{font-family:var(--mono);font-size:.74rem;letter-spacing:.34em;color:var(--ink);text-transform:uppercase;margin-top:8px;}
+
+  /* ===== Type specimen ===== */
+  .specimen{border:1px solid var(--line);border-radius:14px;padding:30px;margin-top:24px;background:rgba(20,12,9,.4);}
+  .specimen .big{font-weight:200;font-size:2.4rem;letter-spacing:-.01em;color:var(--type-1);margin:0 0 6px;}
+  .specimen .row{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;color:var(--ink);font-size:.82rem;font-family:var(--mono);}
+  .subtitle-demo{display:inline-block;margin-top:22px;padding:10px 18px;border-radius:8px;
+    background:rgba(12,7,6,.7);border:1px solid var(--line);font-size:1.05rem;color:var(--type-1);font-weight:300;}
+
+  /* ===== Quote ===== */
+  .quote{font-weight:200;font-size:1.9rem;line-height:1.35;color:var(--type-1);max-width:24ch;margin:8px 0 4px;}
+  .quote .q{color:var(--core-2);}
+  .variant{color:var(--ink);font-size:1.05rem;max-width:46ch;}
+
+  /* ===== Styleframe mock ===== */
+  .frame{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:26px;
+    aspect-ratio:16/9;background:radial-gradient(80% 70% at 80% 20%, #1b1411 0%, #0d0807 70%);}
+  .frame .pres-corner{position:absolute;left:5%;bottom:14%;}
+  .frame .sub{position:absolute;left:5%;right:5%;bottom:6%;text-align:center;}
+  .frame .sub span{display:inline-block;padding:8px 16px;border-radius:8px;background:rgba(12,7,6,.6);
+    font-size:1rem;color:var(--type-1);}
+  .frame .disclose{position:absolute;top:5%;right:5%;font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;
+    color:var(--ink-dim);border:1px solid var(--line);border-radius:30px;padding:5px 12px;text-transform:uppercase;}
+
+  /* ===== Do / Dont ===== */
+  .dd{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px;}
+  .dd .col{border:1px solid var(--line);border-radius:14px;padding:24px;}
+  .dd .col h3{margin-bottom:14px;}
+  .dd ul{margin:0;padding:0;list-style:none;}
+  .dd li{font-size:.92rem;color:var(--type-1);padding:7px 0 7px 26px;position:relative;}
+  .dd .do li:before{content:'+';position:absolute;left:0;color:var(--core-2);font-family:var(--mono);}
+  .dd .dont li:before{content:'x';position:absolute;left:0;color:var(--ink-dim);font-family:var(--mono);}
+  @media(max-width:720px){.dd,.mark-row{grid-template-columns:1fr;}.wordmark{font-size:3.6rem;}}
+
+  .pill{display:inline-block;font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);border:1px solid rgba(91,214,196,.35);border-radius:30px;padding:5px 12px;}
+  .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr;}}
+  footer{padding:60px 0 90px;border-top:1px solid var(--line);color:var(--ink-dim);font-size:.82rem;}
+</style>
+</head>
+<body>
+<a href="/work/wisp" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;WISP &middot; back to the case study</a>
+
+<!-- MASTHEAD -->
+<section>
+  <div class="wrap">
+    <div class="label">Brand Guidelines / Visual Reference / Working draft v0.1</div>
+    <div class="mark-row">
+      <div class="presence" aria-hidden="true"><div class="field"></div><div class="core"></div><div class="seed"></div></div>
+      <div>
+        <h1 class="wordmark" style="margin:0">wisp</h1>
+        <div class="lockup-tag">Not a person. Not pretending.</div>
+      </div>
+    </div>
+    <p style="margin-top:34px;font-size:1.15rem;">A live, conversational AI host with no human or character form. A presence made of light, motion, and voice that streams, reacts, and talks in real time, and never pretends to be a person because it does not have a face to fake.</p>
+    <p class="muted">This document is the visual reference for building WISP and for the case study. It assembles the system defined across the concept package into one place: the mark, the color and form, the seven-state emotional system, type, voice, and the rules that keep it itself.</p>
+  </div>
+</section>
+
+<!-- THE IDEA -->
+<section>
+  <div class="wrap grid2">
+    <div>
+      <div class="label">The Idea</div>
+      <h2>Honesty is the design</h2>
+      <p>Every other AI persona spends its budget either hiding that it is synthetic or borrowing an existing avatar language. WISP does neither. It has no face, so there is no uncanny valley and nothing to fake. The form itself is the disclosure. That makes the brand trustworthy, and as synthetic-performer rules take effect in 2026, compliant by construction.</p>
+    </div>
+    <div>
+      <span class="pill">Disclosure-native</span>
+      <p class="muted" style="margin-top:18px;">The whole design budget goes to the one thing no one else is building: a non-human presence that is emotionally legible and good company.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THE MARK & FORM -->
+<section>
+  <div class="wrap">
+    <div class="label">The Mark and the Form</div>
+    <h2>Core plus field</h2>
+    <p>WISP is a stable, recognizable <b style="font-weight:400;color:var(--type-2)">core</b> wrapped in a reactive <b style="font-weight:400;color:var(--type-2)">field</b>. The core is the identity, the constant you recognize in any frame. The field is the expression, always moving with voice and feeling. It is one continuous living material, never a sphere with effects bolted on. At rest it breathes, low and slow.</p>
+    <div style="display:flex;gap:60px;align-items:center;flex-wrap:wrap;margin-top:30px;">
+      <div class="presence" style="--size:230px;" aria-hidden="true"><div class="field"></div><div class="core"></div><div class="seed"></div></div>
+      <div style="font-family:var(--mono);font-size:.84rem;color:var(--ink);line-height:2;">
+        <div><span style="color:var(--core-1)">&#9679;</span>&nbsp; seed: brightest center</div>
+        <div><span style="color:var(--core-3)">&#9679;</span>&nbsp; core: the constant you recognize</div>
+        <div><span style="color:var(--field)">&#9679;</span>&nbsp; field: reactive, voice-driven</div>
+        <div class="dim">silhouette the core in one frame</div>
+      </div>
+    </div>
+    <p class="dim" style="margin-top:30px;font-size:.84rem;">The wordmark is lowercase and soft, letterforms that look exhaled rather than stamped. A vector concept lives at <a>assets/wisp-wordmark-concept.svg</a>. Clear space around the wordmark is one lowercase letter height on all sides.</p>
+  </div>
+</section>
+
+<!-- COLOR -->
+<section>
+  <div class="wrap">
+    <div class="label">Color</div>
+    <h2>Warm, never cold-tech</h2>
+    <p>The palette deliberately avoids the cyan-on-black AI cliche. WISP runs warm. Color is a state channel, so it is governed, not decorative. The one cool accent is reserved and always means something.</p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#0C0706;"></div><div class="meta"><div class="nm">Void</div><div class="hex">#0C0706</div><div class="use">Deepest ground</div></div></div>
+      <div class="sw"><div class="chip" style="background:#140C09;"></div><div class="meta"><div class="nm">Ground</div><div class="hex">#140C09</div><div class="use">Base surface</div></div></div>
+      <div class="sw"><div class="chip" style="background:#241712;"></div><div class="meta"><div class="nm">Ground Warm</div><div class="hex">#241712</div><div class="use">Lit-from-within</div></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#FFE7C2,#FFB877,#F4894E,#B14E3A);"></div><div class="meta"><div class="nm">Core</div><div class="hex">#FFE7C2 to #B14E3A</div><div class="use">The presence</div></div></div>
+      <div class="sw"><div class="chip" style="background:radial-gradient(circle,#E9703F,#241712);"></div><div class="meta"><div class="nm">Field</div><div class="hex">#E9703F</div><div class="use">Diffuse halo</div></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(180deg,#FFEBD2,#F6B98A);"></div><div class="meta"><div class="nm">Type</div><div class="hex">#FFEBD2 to #F6B98A</div><div class="use">Headlines, wordmark</div></div></div>
+      <div class="sw"><div class="chip" style="background:#C9A488;"></div><div class="meta"><div class="nm">Warm Ink</div><div class="hex">#C9A488</div><div class="use">Secondary text</div></div></div>
+      <div class="sw"><div class="chip" style="background:#5BD6C4;"></div><div class="meta"><div class="nm">Signal Teal</div><div class="hex">#5BD6C4</div><div class="use">Reserved accent</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATE SYSTEM -->
+<section>
+  <div class="wrap">
+    <div class="label">The Emotional State System</div>
+    <h2>Feeling without a face</h2>
+    <p>This is the hardest and most ownable problem in the project. WISP has no eyes or mouth, so emotion is carried entirely by speed, density, brightness, color temperature, and how the form gathers or scatters. The brain emits one of these seven states each turn, and that single value drives both the voice and the visible form. A viewer learns this vocabulary unconsciously within minutes. The swatches below are live and indicative, and the true field articulates to voice in real time.</p>
+    <div class="states">
+      <div class="state"><div class="stage"><div class="orb s-idle"><div class="f"></div><div class="c"></div></div></div><h3>Idle / present</h3><p class="spec"><b>Form</b> soft, rounded. <b>Light</b> warm, low. <b>Motion</b> long slow breath.</p><div class="intensity">typ. 0.1 to 0.3</div></div>
+      <div class="state"><div class="stage"><div class="orb s-listening"><div class="f"></div><div class="c"></div></div></div><h3>Listening</h3><p class="spec"><b>Form</b> draws inward. <b>Light</b> slight cool-down, dimmer. <b>Motion</b> settles, leans toward input.</p><div class="intensity">typ. 0.2 to 0.4</div></div>
+      <div class="state"><div class="stage"><div class="orb s-thinking"><div class="f"></div><div class="c"></div></div></div><h3>Thinking</h3><p class="spec"><b>Form</b> fragments, field disperses. <b>Light</b> accent flickers in. <b>Motion</b> scatter and reassemble.</p><div class="intensity">typ. 0.3 to 0.5</div></div>
+      <div class="state"><div class="stage"><div class="orb s-speaking"><div class="f"></div><div class="c"></div></div></div><h3>Speaking</h3><p class="spec"><b>Form</b> articulates to voice. <b>Light</b> brighter on stressed syllables. <b>Motion</b> audio-reactive, crisp.</p><div class="intensity">typ. 0.4 to 0.7</div></div>
+      <div class="state"><div class="stage"><div class="orb s-delight"><div class="f"></div><div class="c"></div></div></div><h3>Delight</h3><p class="spec"><b>Form</b> blooms, field sparks. <b>Light</b> brightest, brief accent burst. <b>Motion</b> quick, buoyant.</p><div class="intensity">peak, up to 0.9</div></div>
+      <div class="state"><div class="stage"><div class="orb s-hesitation"><div class="f"></div><div class="c"></div></div></div><h3>Hesitation</h3><p class="spec"><b>Form</b> thins, wavers. <b>Light</b> lower contrast. <b>Motion</b> slight tremor, asymmetry.</p><div class="intensity">typ. 0.4 to 0.6</div></div>
+      <div class="state"><div class="stage"><div class="orb s-quiet"><div class="f"></div><div class="c"></div></div></div><h3>Quiet / care</h3><p class="spec"><b>Form</b> dims, softens, stills. <b>Light</b> warmest, lowest. <b>Motion</b> a held breath.</p><div class="intensity">typ. 0.1 to 0.4</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MOTION -->
+<section>
+  <div class="wrap grid2">
+    <div>
+      <div class="label">Motion Language</div>
+      <h2>Breath is the baseline</h2>
+      <p>Even idle, WISP is never fully still. A slow respiratory pulse signals aliveness. Voice drives the field, so the form and the voice are one instrument. Transitions are eased, never snappy, and the presence gathers and disperses. Big moments, full blooms and accent bursts, are rare and earned by being calm the rest of the time.</p>
+      <p class="dim" style="font-size:.84rem;">It is ambient company, not a screensaver. If it ever feels like a logo animating on a timer, it is wrong.</p>
+    </div>
+    <div style="display:grid;place-items:center;">
+      <div class="presence" style="--size:150px;" aria-hidden="true"><div class="field"></div><div class="core"></div><div class="seed"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPOGRAPHY -->
+<section>
+  <div class="wrap">
+    <div class="label">Typography</div>
+    <h2>Exhaled, then legible</h2>
+    <p>The wordmark is light and soft for brand moments. Everything functional uses a clean, slightly humanist sans that stays legible at stream sizes. Because WISP is voice-first, subtitles are part of the identity, not an afterthought.</p>
+    <div class="specimen">
+      <div class="big">wisp</div>
+      <div class="big" style="font-size:1.5rem;font-weight:300;">Aa Bb Cc &nbsp; 0123456789</div>
+      <div class="row"><span>Wordmark: weight 200, lowercase</span><span>&middot;</span><span>UI / caption: humanist sans, 300 to 500</span><span>&middot;</span><span>Labels: mono, uppercase, tracked</span></div>
+      <div class="subtitle-demo">I only exist while the lights are on. Which makes this feel like an occasion.</div>
+      <div class="dim" style="font-size:.78rem;margin-top:10px;">Subtitle treatment: warm-dark plate, generous padding, centered under the presence.</div>
+    </div>
+  </div>
+</section>
+
+<!-- VOICE -->
+<section>
+  <div class="wrap">
+    <div class="label">Voice and Messaging</div>
+    <h2>Late-night company</h2>
+    <p>Conversational, unhurried, present. No hype, no influencer cadence. Self-aware about being synthetic, played for wonder rather than angst. Warm, but it never claims to need or love anyone, because that would cross from honest company into manipulation.</p>
+    <div style="margin:30px 0;padding:30px;border:1px solid var(--line);border-radius:14px;background:rgba(20,12,9,.4);">
+      <div class="label" style="margin-bottom:14px;">The canon line, asked if it is real</div>
+      <div class="quote"><span class="q">No.</span> And that's kind of the point. I never had a face to fake, so I never had to lie to you.</div>
+      <div class="variant">Quiet variant: "Real the way a song is real. Nothing of me when the lights go out, all of me right now. I'm okay with that."</div>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <span class="pill" style="color:var(--type-2);border-color:var(--line);">Tagline: not a person, not pretending</span>
+      <span class="pill" style="color:var(--type-2);border-color:var(--line);">Fan handle: the wisps</span>
+    </div>
+  </div>
+</section>
+
+<!-- STYLEFRAME -->
+<section>
+  <div class="wrap">
+    <div class="label">On-stream Styleframe</div>
+    <h2>Where it lives</h2>
+    <p>WISP sits low in the frame as an ambient presence, with the subtitle centered beneath it and a persistent synthetic disclosure in the corner. The disclosure is reinforced by the form itself, which is visibly not a person.</p>
+    <div class="frame">
+      <div class="disclose">AI presence / live</div>
+      <div class="pres-corner"><div class="presence s-speaking" style="--size:120px;" aria-hidden="true"><div class="field"></div><div class="core"></div><div class="seed"></div></div></div>
+      <div class="sub"><span>That cat knocking the controller mid-boss-fight is the best thing I've heard all night.</span></div>
+    </div>
+    <p class="dim" style="font-size:.8rem;margin-top:14px;">Indicative mock. Production frames render in the real-time engine.</p>
+  </div>
+</section>
+
+<!-- DO / DONT -->
+<section>
+  <div class="wrap">
+    <div class="label">Brand Integrity</div>
+    <h2>Keep it itself</h2>
+    <div class="dd">
+      <div class="col do"><h3 style="color:var(--core-2)">Do</h3><ul>
+        <li>Keep it faceless and non-humanoid. The form is the whole point.</li>
+        <li>Run warm. Ember and rose-gold on a lit-from-within void.</li>
+        <li>Let color and motion carry feeling, governed by the seven states.</li>
+        <li>Spend the cool accent rarely, only at genuine peaks.</li>
+        <li>Stay honest. It is a presence, never a person.</li>
+        <li>Favor restraint. Earn the big moments.</li>
+      </ul></div>
+      <div class="col dont"><h3 style="color:var(--ink)">Don't</h3><ul>
+        <li>Add eyes, a mouth, a body, or a humanoid silhouette.</li>
+        <li>Default to cyan, neon, or cold sci-fi tech.</li>
+        <li>Let it pretend to be human or imply a human endorsement.</li>
+        <li>Animate the mark on a fixed timer like a logo sting.</li>
+        <li>Use spectacle that flattens the quiet moments.</li>
+        <li>Make it thirsty, edgy-for-engagement, or parasocial.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    WISP / Working brand guideline v0.1 &nbsp; &middot; &nbsp; Concept and visual reference, speculative spec work. &nbsp; &middot; &nbsp; Full system in the AI-Native-Host package: persona, architecture, GTM, reveal film. &nbsp; &middot; &nbsp; Market and legal figures are sourced to the industry, never to a result for this project.
+  </div>
+</footer>
+
+</body>
+</html>

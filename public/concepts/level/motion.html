@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/concepts/level/fonts.css">
+<title>Level, Motion Explainers</title>
+<meta name="description" content="Four looping motion explainers for Level, a speculative prediction market concept by Pratik Mehta, animating probability with quiet restraint." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/level/motion" />
+<meta property="og:title" content="Level, Motion Explainers" />
+<meta property="og:description" content="Four looping motion explainers for Level, a speculative prediction market concept by Pratik Mehta, animating probability with quiet restraint." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-level.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/level/motion" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pratikm96" />
+<meta name="twitter:image" content="https://cdn.mehtapratik.com/og/og-level.jpg" />
+<style>
+  :root{
+    --ink:#16181C; --ink-900:#0E0F12; --ink-700:#23262D; --ink-600:#2E323A;
+    --bone:#EBE6DB; --bone-100:#F5F1E8;
+    --signal:#F2A436; --ember:#C9742A;
+    --slate:#8C8E96; --slate-d:#6A6C73; --stop:#C0463E;
+    --line:rgba(235,230,219,0.13);
+    --disp:"Zodiak", Georgia, serif;
+    --text:"Supreme", system-ui, sans-serif;
+    --data:"Berkeley Mono", ui-monospace, monospace;
+    --settle:cubic-bezier(.22,.7,.2,1);
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  body{padding-top:28px;background:var(--ink-900); color:var(--bone); font-family:var(--text); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px}
+  h1,h2,h3,h4{font-family:var(--disp); font-weight:500; letter-spacing:-0.005em; line-height:1.08}
+  .eyebrow{font-family:var(--data); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--signal); margin-bottom:14px}
+  p{color:var(--bone); opacity:0.86; max-width:64ch}
+  .muted{color:var(--slate)}
+
+  .top{position:sticky; top:28px; z-index:5; background:rgba(14,15,18,0.86); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex; align-items:center; justify-content:space-between; height:60px}
+  .mark{display:inline-flex; flex-direction:column; gap:5px}
+  .mark .word{font-family:var(--disp); font-weight:500; font-size:21px; color:var(--bone); line-height:1}
+  .mark .datum{height:3px; width:100%; background:var(--bone); border-radius:2px; position:relative}
+  .mark .datum::after{content:""; position:absolute; left:50%; transform:translateX(-50%); top:-2px; width:8px; height:7px; background:var(--signal); border-radius:2px}
+  .top .meta{font-family:var(--data); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--slate)}
+
+  .intro{padding:72px 0 18px}
+  .intro h1{font-size:42px; margin-bottom:16px; max-width:17ch}
+
+  .principles{padding:14px 0 30px}
+  .pgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  @media(max-width:720px){.pgrid{grid-template-columns:1fr}}
+  .card{background:var(--ink-700); border:1px solid var(--line); border-radius:14px; padding:18px 20px}
+  .card h4{font-size:16px; margin-bottom:6px}
+  .card p{font-size:13.5px; color:var(--slate); opacity:1}
+
+  .gallery{padding:18px 0 10px; display:grid; grid-template-columns:1fr 1fr; gap:24px}
+  @media(max-width:760px){.gallery{grid-template-columns:1fr}}
+  .demo{border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--ink)}
+  .stage{height:236px; padding:24px; display:flex; flex-direction:column; justify-content:center; gap:14px; position:relative}
+  .cap{padding:16px 20px 20px; border-top:1px solid var(--line)}
+  .cap .n{font-family:var(--disp); font-weight:500; font-size:18px}
+  .cap .d{font-size:13.5px; color:var(--slate); margin-top:5px; line-height:1.5}
+  .ptag{font-family:var(--data); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--signal); margin-top:10px; display:inline-block}
+
+  .q{font-family:var(--disp); font-size:17px; color:var(--bone)}
+  .sub{font-family:var(--data); font-size:11px; color:var(--slate)}
+  .big{font-family:var(--data); font-weight:600; font-size:54px; color:var(--signal); letter-spacing:-0.01em; line-height:1}
+  .track{height:8px; border-radius:5px; background:var(--ink-600); overflow:hidden}
+  .track > span{display:block; height:100%; width:0%; background:var(--signal); border-radius:5px; transition:width 1.15s var(--settle)}
+  .track.bone > span{background:var(--bone)}
+
+  .scaleline{position:relative; height:8px; border-radius:5px; background:var(--ink-600)}
+  .scaleline .fill{position:absolute; left:0; top:0; bottom:0; width:62%; background:var(--ink-600); border-radius:5px}
+  .marker{position:absolute; top:-7px; left:62%; width:3px; height:22px; background:var(--signal); border-radius:2px; transform:translateX(-50%); transition:left 1.2s var(--settle)}
+  .feed{font-family:var(--data); font-size:12px; color:var(--slate); min-height:18px; transition:opacity .5s ease}
+
+  .resrow{display:flex; gap:10px}
+  .resbar{flex:1; border:1px solid var(--line); border-radius:11px; padding:11px 13px}
+  .resbar .k{font-family:var(--disp); font-weight:500; font-size:15px; color:var(--bone)}
+  .resbar .v{font-family:var(--data); font-size:13px; color:var(--slate); margin-top:2px}
+  .resbar.win{border-color:var(--bone)}
+  .resbar.win .v{color:var(--bone)}
+  .restag{font-family:var(--data); font-size:12px; color:var(--slate); min-height:16px; transition:opacity .5s ease}
+
+  .vialwrap{display:flex; flex-direction:column; align-items:center; gap:16px}
+  .vial{width:210px; height:30px; border:1px solid var(--line); border-radius:999px; background:var(--ink-700); position:relative}
+  .vial .mid{position:absolute; left:50%; top:5px; bottom:5px; width:1px; background:var(--line)}
+  .vbubble{position:absolute; top:4px; width:20px; height:20px; border-radius:50%; background:var(--signal); left:calc(50% - 10px)}
+  .levelword{display:inline-flex; flex-direction:column; align-items:center; gap:6px}
+  .levelword .w{font-family:var(--disp); font-weight:500; font-size:24px; color:var(--bone)}
+  .levelword .d{height:3px; width:100%; background:var(--bone); border-radius:2px; position:relative}
+  .levelword .d::after{content:""; position:absolute; left:50%; transform:translateX(-50%); top:-2px; width:8px; height:7px; background:var(--signal); border-radius:2px}
+
+  @keyframes settleLoop{
+    0%{left:calc(50% - 10px)} 8%{left:26%} 26%{left:66%} 44%{left:40%} 60%{left:calc(50% - 10px)} 100%{left:calc(50% - 10px)}
+  }
+  .anim .vbubble{animation:settleLoop 6s var(--settle) infinite}
+
+  footer{padding:48px 0 80px; border-top:1px solid var(--line); color:var(--slate); font-size:13px; margin-top:24px}
+  footer code{font-family:var(--data); font-size:12.5px; color:var(--bone)}
+
+  @media (prefers-reduced-motion: reduce){
+    .track > span, .marker{transition:none}
+    .anim .vbubble{animation:none}
+  }
+</style>
+</head>
+<body><a href="/work/level" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;Level &middot; back to the case study</a>
+
+<div class="top"><div class="wrap">
+  <span class="mark"><span class="word">Level</span><span class="datum"></span></span>
+  <span class="meta">Motion explainers</span>
+</div></div>
+
+<header class="intro"><div class="wrap">
+  <div class="eyebrow">07 / Motion</div>
+  <h1>Motion that teaches, and settles.</h1>
+  <p>Four live explainers. They do the work the brand promises, making a probability legible, and they move the way Level moves: easing to rest, never flashing, with the same restraint on a loss as a win. They are built to loop quietly, and they honor reduced-motion settings.</p>
+</div></header>
+
+<section class="principles"><div class="wrap">
+  <div class="pgrid">
+    <div class="card"><h4>Settle to level</h4><p>Transitions decelerate and come to a calm stop, like a bubble finding level. Nothing snaps or bounces.</p></div>
+    <div class="card"><h4>The index moves last</h4><p>When data changes, the amber marker eases to its new place so the shift is legible, not alarming.</p></div>
+    <div class="card"><h4>No celebration</h4><p>A win and a loss resolve with identical restraint. No confetti, no reward for the act of staking.</p></div>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="gallery">
+
+  <div class="demo">
+    <div class="stage">
+      <div class="q">Will the home side win?</div>
+      <div class="big" id="a-num">0%</div>
+      <div class="track"><span id="a-bar"></span></div>
+      <div class="sub">implied chance, Yes</div>
+    </div>
+    <div class="cap">
+      <div class="n">Reading a probability</div>
+      <div class="d">62% means the market puts this at 62 in 100, a chance, not a promise. The bar fills and holds, and it does not race.</div>
+      <span class="ptag">Decelerate to rest</span>
+    </div>
+  </div>
+
+  <div class="demo">
+    <div class="stage">
+      <div class="q">The market moves with the money.</div>
+      <div class="big" id="b-num" style="font-size:40px">62%</div>
+      <div class="scaleline"><span class="marker" id="b-marker"></span></div>
+      <div class="feed" id="b-feed">opening line</div>
+    </div>
+    <div class="cap">
+      <div class="n">How a market moves</div>
+      <div class="d">News and money shift the probability. The amber index eases into each new position after the change, moving last and smoothly rather than jumping.</div>
+      <span class="ptag">The index moves last</span>
+    </div>
+  </div>
+
+  <div class="demo">
+    <div class="stage">
+      <div class="sub" id="c-tag">at full time, it resolves</div>
+      <div class="resrow">
+        <div class="resbar" id="c-yes"><div class="k">Yes</div><div class="v" id="c-yesv">62%</div></div>
+        <div class="resbar" id="c-no"><div class="k">No</div><div class="v" id="c-nov">38%</div></div>
+      </div>
+      <div class="restag" id="c-res">a draw or a loss both count as No</div>
+    </div>
+    <div class="cap">
+      <div class="n">How it resolves</div>
+      <div class="d">At full time the market settles to one side. A win and a loss get the same calm treatment, with the resolved side in plain bone and no celebration either way.</div>
+      <span class="ptag">No celebration</span>
+    </div>
+  </div>
+
+  <div class="demo">
+    <div class="stage">
+      <div class="vialwrap">
+        <div class="vial anim" id="d-vial"><span class="mid"></span><span class="vbubble"></span></div>
+        <div class="levelword"><span class="w">Level</span><span class="d"></span></div>
+      </div>
+    </div>
+    <div class="cap">
+      <div class="n">It settles to level</div>
+      <div class="d">The brand's motion DNA. Nudged off true, the index always eases back and comes to rest dead level. Every transition in the product carries this feel.</div>
+      <span class="ptag">Settle to level</span>
+    </div>
+  </div>
+
+</div></div>
+
+<footer><div class="wrap">
+  Level is a speculative concept by Pratik Mehta. These are design motion studies, not a working product, and not affiliated with any exchange. Figures shown are illustrative. Industry data referenced across this project is drawn from cited public research; projected outcomes are objectives, not results.
+</div></footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function easeOutCubic(k){ return 1 - Math.pow(1-k, 3); }
+  function tween(el, from, to, dur){
+    if(reduce){ el.textContent = Math.round(to) + '%'; return; }
+    var t0 = performance.now();
+    function frame(t){
+      var k = Math.min(1, (t - t0) / dur);
+      el.textContent = Math.round(from + (to - from) * easeOutCubic(k)) + '%';
+      if(k < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // A. Reading a probability
+  var aNum = document.getElementById('a-num'), aBar = document.getElementById('a-bar');
+  function aLoop(){
+    tween(aNum, 0, 62, 1000);
+    aBar.style.transition = ''; aBar.style.opacity = '1'; aBar.style.width = '62%';
+    if(reduce){ aNum.textContent = '62%'; return; }
+    setTimeout(function(){
+      aBar.style.opacity = '0';
+      setTimeout(function(){
+        aBar.style.transition = 'none'; aBar.style.width = '0%'; aNum.textContent = '0%';
+        requestAnimationFrame(function(){ aBar.style.transition = ''; });
+      }, 500);
+    }, 3200);
+  }
+  aLoop(); if(!reduce) setInterval(aLoop, 4600);
+
+  // B. How a market moves
+  var bNum = document.getElementById('b-num'), bMark = document.getElementById('b-marker'), bFeed = document.getElementById('b-feed');
+  var steps = [
+    {v:62, t:'opening line'},
+    {v:57, t:'money in on No'},
+    {v:64, t:'key player ruled in'},
+    {v:60, t:'late support, both sides'},
+    {v:62, t:'holding steady'}
+  ];
+  var bi = 0;
+  function bLoop(){
+    var s = steps[bi];
+    bFeed.style.opacity = '0';
+    setTimeout(function(){ bFeed.textContent = s.t; bFeed.style.opacity = '1'; }, 260);
+    setTimeout(function(){
+      bMark.style.left = s.v + '%';
+      tween(bNum, parseInt(bNum.textContent,10) || s.v, s.v, 900);
+    }, 520);
+    bi = (bi + 1) % steps.length;
+  }
+  bLoop(); if(!reduce) setInterval(bLoop, 2400);
+
+  // C. How it resolves
+  var cYes = document.getElementById('c-yes'), cNo = document.getElementById('c-no');
+  var cYesV = document.getElementById('c-yesv'), cNoV = document.getElementById('c-nov');
+  var cRes = document.getElementById('c-res'), cTag = document.getElementById('c-tag');
+  var toYes = true;
+  function cReset(){
+    cYes.classList.remove('win'); cNo.classList.remove('win');
+    cYesV.textContent = '62%'; cNoV.textContent = '38%';
+    cTag.textContent = 'at full time, it resolves';
+    cRes.style.opacity = '1'; cRes.textContent = 'a draw or a loss both count as No';
+  }
+  function cLoop(){
+    cReset();
+    if(reduce) return;
+    setTimeout(function(){ cTag.textContent = 'full time'; cRes.style.opacity = '0'; }, 1500);
+    setTimeout(function(){
+      if(toYes){ cYes.classList.add('win'); cYesV.textContent = 'settled'; cNoV.textContent = '0%'; }
+      else { cNo.classList.add('win'); cNoV.textContent = 'settled'; cYesV.textContent = '0%'; }
+      cRes.textContent = toYes ? 'resolved Yes' : 'resolved No';
+      cRes.style.opacity = '1';
+      toYes = !toYes;
+    }, 2100);
+  }
+  cLoop(); if(!reduce) setInterval(cLoop, 4400);
+})();
+</script>
+
+</body>
+</html>

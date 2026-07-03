@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/concepts/level/fonts.css">
+<title>Level, Explain This Market</title>
+<meta name="description" content="Interactive demo of Level's market explainer, a speculative concept by Pratik Mehta: a scripted assistant that gates staking until the basics are clear." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/level/explainer" />
+<meta property="og:title" content="Level, Explain This Market" />
+<meta property="og:description" content="Interactive demo of Level's market explainer, a speculative concept by Pratik Mehta: a scripted assistant that gates staking until the basics are clear." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-level.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/level/explainer" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pratikm96" />
+<meta name="twitter:image" content="https://cdn.mehtapratik.com/og/og-level.jpg" />
+<style>
+  :root{
+    --ink:#16181C; --ink-900:#0E0F12; --ink-700:#23262D; --ink-600:#2E323A;
+    --bone:#EBE6DB; --bone-100:#F5F1E8;
+    --signal:#F2A436; --ember:#C9742A;
+    --slate:#8C8E96; --slate-d:#6A6C73; --stop:#C0463E;
+    --line:rgba(235,230,219,0.13);
+    --disp:"Zodiak", Georgia, serif;
+    --text:"Supreme", system-ui, sans-serif;
+    --data:"Berkeley Mono", ui-monospace, monospace;
+    --settle:cubic-bezier(.22,.7,.2,1);
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{padding-top:28px;background:var(--ink-900); color:var(--bone); font-family:var(--text); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px}
+  h1,h2,h3{font-family:var(--disp); font-weight:500; letter-spacing:-0.005em; line-height:1.1}
+  .eyebrow{font-family:var(--data); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--signal); margin-bottom:14px}
+  p{color:var(--bone); opacity:0.86; max-width:64ch}
+  .muted{color:var(--slate)}
+
+  .top{position:sticky; top:28px; z-index:5; background:rgba(14,15,18,0.86); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex; align-items:center; justify-content:space-between; height:60px}
+  .mark{display:inline-flex; flex-direction:column; gap:5px}
+  .mark .word{font-family:var(--disp); font-weight:500; font-size:21px; color:var(--bone); line-height:1}
+  .mark .datum{height:3px; width:100%; background:var(--bone); border-radius:2px; position:relative}
+  .mark .datum::after{content:""; position:absolute; left:50%; transform:translateX(-50%); top:-2px; width:8px; height:7px; background:var(--signal); border-radius:2px}
+  .top .meta{font-family:var(--data); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--slate)}
+
+  .intro{padding:64px 0 22px}
+  .intro h1{font-size:40px; margin-bottom:16px; max-width:18ch}
+
+  .layout{display:grid; grid-template-columns:400px 1fr; gap:34px; align-items:start; padding-bottom:40px}
+  @media(max-width:820px){.layout{grid-template-columns:1fr; max-width:420px}}
+
+  .panel{border:1px solid var(--line); border-radius:24px; background:var(--ink); overflow:hidden; display:flex; flex-direction:column; height:648px}
+  .ph{display:flex; align-items:center; justify-content:space-between; padding:15px 17px 13px; border-bottom:1px solid var(--line)}
+  .ph .t{font-family:var(--disp); font-weight:500; font-size:17px}
+  .ph .chip{font-family:var(--data); font-size:10.5px; color:var(--signal); border:1px solid rgba(242,164,54,0.42); border-radius:999px; padding:4px 9px}
+
+  .ctx{padding:13px 17px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .ctx .q{font-family:var(--disp); font-size:15px; color:var(--bone); line-height:1.2}
+  .ctx .p{font-family:var(--data); font-weight:600; font-size:24px; color:var(--signal); flex:none}
+
+  .sel{display:flex; gap:6px; padding:11px 17px 4px}
+  .sel span{font-family:var(--text); font-size:12px; padding:5px 11px; border-radius:999px; border:1px solid var(--line); color:var(--slate); cursor:pointer}
+  .sel span.on{color:var(--ink); background:var(--bone); border-color:var(--bone)}
+
+  .feed{flex:1; overflow-y:auto; padding:14px 17px; display:flex; flex-direction:column; gap:10px}
+  .msg{font-size:13.5px; line-height:1.5; max-width:86%}
+  .msg.bot{background:var(--ink-700); border:1px solid var(--line); border-radius:13px; border-top-left-radius:5px; padding:11px 13px; color:var(--bone); opacity:0.95; align-self:flex-start}
+  .msg.you{border:1px solid var(--line); border-radius:13px; border-top-right-radius:5px; padding:9px 13px; color:var(--slate); align-self:flex-end}
+  .msg.bot .ev{display:block; font-family:var(--data); font-size:11.5px; color:var(--slate); border-left:2px solid var(--signal); padding-left:9px; margin-top:8px; line-height:1.5}
+  .typing{align-self:flex-start; color:var(--slate); font-family:var(--data); font-size:13px; letter-spacing:0.1em}
+
+  .chips{display:flex; gap:7px; flex-wrap:wrap; padding:10px 17px 4px; border-top:1px solid var(--line)}
+  .chips span{font-family:var(--text); font-size:12px; padding:6px 11px; border-radius:999px; border:1px solid var(--line); color:var(--bone); cursor:pointer; white-space:nowrap}
+  .chips span:hover{border-color:var(--signal); color:var(--signal)}
+
+  .inrow{display:flex; gap:8px; padding:8px 17px 10px}
+  .inrow input{flex:1; font-family:var(--text); font-size:13.5px; color:var(--bone); background:var(--ink-700); border:1px solid var(--line); border-radius:10px; padding:10px 12px}
+  .inrow input::placeholder{color:var(--slate-d)}
+  .inrow button{font-family:var(--text); font-weight:500; font-size:13px; color:var(--bone); background:transparent; border:1px solid var(--line); border-radius:10px; padding:0 14px; cursor:pointer}
+
+  .gate{padding:11px 17px 16px; border-top:1px solid var(--line)}
+  .ghint{display:flex; gap:14px; font-family:var(--data); font-size:11px; color:var(--slate); margin-bottom:11px}
+  .ghint .c{display:inline-flex; align-items:center; gap:6px}
+  .ghint .c .b{width:13px; height:13px; border-radius:4px; border:1px solid var(--slate-d); display:inline-block; position:relative}
+  .ghint .c.done{color:var(--bone)}
+  .ghint .c.done .b{background:var(--signal); border-color:var(--signal)}
+  .ghint .c.done .b::after{content:""; position:absolute; left:4px; top:1px; width:4px; height:7px; border:solid var(--ink); border-width:0 2px 2px 0; transform:rotate(40deg)}
+  .stake{display:block; width:100%; text-align:center; font-family:var(--text); font-weight:500; font-size:15px; padding:13px; border-radius:12px; border:1px solid var(--line); background:transparent; color:var(--slate-d); cursor:not-allowed; transition:all .3s var(--settle)}
+  .stake.on{background:var(--signal); color:#2A1B05; border-color:var(--signal); cursor:pointer}
+
+  aside h3{font-size:20px; margin-bottom:10px}
+  aside .card{background:var(--ink-700); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-top:14px}
+  aside .card h4{font-family:var(--disp); font-weight:500; font-size:15px; margin-bottom:6px}
+  aside .card p{font-size:13.5px; color:var(--slate); opacity:1}
+  aside ul{list-style:none; margin-top:6px}
+  aside ul li{position:relative; padding:8px 0 8px 22px; font-size:13.5px; color:var(--bone); opacity:0.86; border-bottom:1px solid var(--line)}
+  aside ul li::before{content:""; position:absolute; left:0; top:16px; width:10px; height:3px; border-radius:2px; background:var(--signal)}
+
+  footer{padding:46px 0 80px; border-top:1px solid var(--line); color:var(--slate); font-size:13px}
+  footer code{font-family:var(--data); font-size:12.5px; color:var(--bone)}
+</style>
+</head>
+<body><a href="/work/level" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;Level &middot; back to the case study</a>
+
+<div class="top"><div class="wrap">
+  <span class="mark"><span class="word">Level</span><span class="datum"></span></span>
+  <span class="meta">Explain this market, interactive</span>
+</div></div>
+
+<header class="intro"><div class="wrap">
+  <div class="eyebrow">08 / AI in the product</div>
+  <h1>Understand it first. Then stake.</h1>
+  <p>This is the assistant at the center of Level. Pick a market and ask it anything in plain language. It answers the way the brand talks, and it is also the gate. The stake button stays locked until you have the basics: what the number means and what it resolves on. It is a scripted in-character engine, not a live model, built to show the interaction.</p>
+</div></header>
+
+<div class="wrap"><div class="layout">
+
+  <div class="panel">
+    <div class="ph"><span class="t">Explain this market</span><span class="chip" id="limit">$20 left today</span></div>
+    <div class="ctx"><span class="q" id="ctx-q"></span><span class="p" id="ctx-p"></span></div>
+    <div class="sel" id="sel"></div>
+    <div class="feed" id="feed" aria-live="polite"></div>
+    <div class="chips" id="chips"></div>
+    <div class="inrow">
+      <input id="input" type="text" placeholder="Ask anything, plainly" aria-label="Ask the assistant" autocomplete="off" />
+      <button id="send">Ask</button>
+    </div>
+    <div class="gate">
+      <div class="ghint">
+        <span class="c" id="g-mean"><span class="b"></span> what the number means</span>
+        <span class="c" id="g-res"><span class="b"></span> what it resolves on</span>
+      </div>
+      <button class="stake" id="stake">Understand the market to continue</button>
+    </div>
+  </div>
+
+  <aside>
+    <h3>What this proves</h3>
+    <p style="font-size:14.5px">Legibility as harm reduction, made interactive. In a category that hides the odds behind a polished interface, Level puts a teacher in front of the stake. The gate is the point: you cannot stake on a market you have not understood.</p>
+    <div class="card">
+      <h4>The gate</h4>
+      <p>The stake button only unlocks once you have asked what the probability means and what the market resolves on. It is a one-time gate per market type in the real product, not a nag.</p>
+    </div>
+    <div class="card">
+      <h4>In Level's voice</h4>
+      <ul>
+        <li>Plain language, never jargon or hype.</li>
+        <li>Names the risk honestly, never sells a sure thing.</li>
+        <li>Shows the evidence behind the number, with the fee up front.</li>
+        <li>Calm. It will tell you when something is not worth it.</li>
+      </ul>
+    </div>
+    <p class="muted" style="font-size:13px; margin-top:16px">Try: "what does 62% mean", "what does it resolve on", "is this a sure thing", "what are the fees".</p>
+  </aside>
+
+</div></div>
+
+<footer><div class="wrap">
+  Level is a speculative concept by Pratik Mehta. The assistant is a scripted demo, not a live model or a working product, and not affiliated with any exchange. Figures shown are illustrative. Industry data referenced across this project is drawn from cited public research; projected outcomes are objectives, not results.
+</div></footer>
+
+<script>
+(function(){
+  var markets = [
+    {
+      tab:"Match", q:"Will the home side win tonight?", p:62, yes:"the home win", fee:"1.5%",
+      resolve:"the final score at full time tonight, 8:00pm. A draw or an away win both count as No.",
+      no:"a draw or an away win, currently 38%",
+      evidence:"Home unbeaten in their last 6, the key striker passed fit this morning, and the away side is on a back-to-back with travel."
+    },
+    {
+      tab:"Goals", q:"Over 2.5 goals in the derby?", p:44, yes:"3 or more goals", fee:"1.5%",
+      resolve:"the total goals by both teams at full time. 3 or more is Yes, 2 or fewer is No. Extra time does not count.",
+      no:"2 goals or fewer, currently 56%",
+      evidence:"These two average 2.8 goals combined this season, but derbies tend to tighten up, and rain is forecast at kickoff."
+    },
+    {
+      tab:"Series", q:"Will the series go to a game 7?", p:38, yes:"a game 7", fee:"1.5%",
+      resolve:"whether the playoff series reaches a seventh game. It is Yes only if the series goes the full distance.",
+      no:"the series ending in 6 games or fewer, currently 62%",
+      evidence:"The series is tied 2-2 and home teams have held serve so far, but the favorite can still close it out in game 6."
+    }
+  ];
+
+  var cur = 0, asked = {mean:false, res:false}, busy = false;
+  var feed = document.getElementById('feed'), chipsEl = document.getElementById('chips'), selEl = document.getElementById('sel');
+  var ctxQ = document.getElementById('ctx-q'), ctxP = document.getElementById('ctx-p');
+  var gMean = document.getElementById('g-mean'), gRes = document.getElementById('g-res'), stake = document.getElementById('stake');
+  var input = document.getElementById('input'), send = document.getElementById('send');
+
+  function m(){ return markets[cur]; }
+
+  function answer(intent){
+    var k = m();
+    switch(intent){
+      case 'meaning': return {t:"<b>"+k.p+"%</b> means the market, the people staking right now, put "+k.yes+" at a "+k.p+" in 100 chance. It is a live read, not a promise, and it moves as money and news come in."};
+      case 'resolve': return {t:"It resolves on "+k.resolve+" The fee is "+k.fee+", taken from winnings and shown before you confirm."};
+      case 'evidence': return {t:"Here is the read behind the number: "+k.evidence, ev:"None of that is a guarantee. It is why the number sits where it does."};
+      case 'fee': return {t:"The fee is "+k.fee+" on winnings, shown before you confirm. No hidden spread, no surprise at settlement."};
+      case 'risk': return {t:"Nothing here is a sure thing, and most people lose over time. At "+k.p+"%, this still misses about "+(100-k.p)+" times in 100. Only stake what you would be fine losing."};
+      case 'no': return {t:"No is everything that is not "+k.yes+": "+k.no+". You can stake either side."};
+      default: return {t:"I can explain what the number means, what it resolves on, the evidence behind it, or the fees. Which one?"};
+    }
+  }
+
+  function parse(s){
+    s = ' ' + s.toLowerCase() + ' ';
+    if(/(mean|percent|%|chance|probab|odds|\b\d\d\b)/.test(s)) return 'meaning';
+    if(/(resolve|settle|count|decide|when|full time|finish|end\b)/.test(s)) return 'resolve';
+    if(/(evidence|why|reason|because|behind|read\b|stat)/.test(s)) return 'evidence';
+    if(/(fee|cost|charge|cut|spread|price|commission)/.test(s)) return 'fee';
+    if(/(sure|guarantee|safe|risk|lose|loss|certain|worth)/.test(s)) return 'risk';
+    if(/( no | draw |other side|against|opposite)/.test(s)) return 'no';
+    return 'fallback';
+  }
+
+  function bubble(text, who, ev){
+    var d = document.createElement('div');
+    d.className = 'msg ' + who;
+    d.innerHTML = text + (ev ? '<span class="ev">'+ev+'</span>' : '');
+    feed.appendChild(d);
+    feed.scrollTop = feed.scrollHeight;
+    return d;
+  }
+
+  function reply(intent){
+    if(busy) return;
+    busy = true;
+    var a = answer(intent);
+    var t = document.createElement('div'); t.className = 'typing'; t.textContent = '. . .';
+    feed.appendChild(t); feed.scrollTop = feed.scrollHeight;
+    setTimeout(function(){
+      feed.removeChild(t);
+      bubble(a.t, 'bot', a.ev);
+      if(intent === 'meaning') asked.mean = true;
+      if(intent === 'resolve') asked.res = true;
+      updateGate();
+      busy = false;
+    }, 480);
+  }
+
+  function ask(intent, label){
+    bubble(label, 'you');
+    reply(intent);
+  }
+
+  function updateGate(){
+    gMean.classList.toggle('done', asked.mean);
+    gRes.classList.toggle('done', asked.res);
+    if(asked.mean && asked.res){
+      stake.classList.add('on');
+      stake.textContent = 'You have the basics. Continue to stake $5';
+      stake.disabled = false;
+    } else {
+      stake.classList.remove('on');
+      stake.textContent = 'Understand the market to continue';
+      stake.disabled = true;
+    }
+  }
+
+  var chipDefs = [
+    {i:'meaning', l:function(){return "What does "+m().p+"% mean?";}},
+    {i:'resolve', l:function(){return "What does it resolve on?";}},
+    {i:'evidence', l:function(){return "What's the evidence?";}},
+    {i:'risk', l:function(){return "Is this a sure thing?";}},
+    {i:'fee', l:function(){return "What are the fees?";}}
+  ];
+
+  function renderChips(){
+    chipsEl.innerHTML = '';
+    chipDefs.forEach(function(c){
+      var s = document.createElement('span');
+      s.textContent = c.l();
+      s.onclick = function(){ ask(c.i, c.l()); };
+      chipsEl.appendChild(s);
+    });
+  }
+
+  function loadMarket(i){
+    cur = i; asked = {mean:false, res:false}; busy = false;
+    feed.innerHTML = '';
+    ctxQ.textContent = m().q; ctxP.textContent = m().p + '%';
+    Array.prototype.forEach.call(selEl.children, function(c, idx){ c.classList.toggle('on', idx === i); });
+    renderChips();
+    updateGate();
+    bubble("Before you stake on this one, ask me anything. What the number means, what it resolves on, the evidence, the fees. No rush.", 'bot');
+  }
+
+  markets.forEach(function(mk, i){
+    var s = document.createElement('span'); s.textContent = mk.tab;
+    s.onclick = function(){ loadMarket(i); };
+    selEl.appendChild(s);
+  });
+
+  function submit(){
+    var v = input.value.trim();
+    if(!v || busy) return;
+    input.value = '';
+    bubble(v, 'you');
+    reply(parse(v));
+  }
+  send.onclick = submit;
+  input.addEventListener('keydown', function(e){ if(e.key === 'Enter') submit(); });
+
+  stake.onclick = function(){
+    if(stake.disabled) return;
+    bubble("Nice. You understood the market before staking, which is the whole point. This is where the stake flow would open.", 'bot');
+    stake.textContent = 'Stake flow (demo)';
+  };
+
+  loadMarket(0);
+})();
+</script>
+
+</body>
+</html>

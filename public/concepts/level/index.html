@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/concepts/level/fonts.css">
+<title>Level, live demo</title>
+<meta name="description" content="Level, a self-initiated responsible prediction-market concept by Pratik Mehta: four live views built around restraint and product trust." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/level/" />
+<meta property="og:title" content="Level, live demo" />
+<meta property="og:description" content="A self-initiated prediction-market concept built around restraint and product trust. Four live views." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-level.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/level/" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<style>
+  :root{
+    --ink:#16181C;--ink-900:#0E0F12;--ink-700:#23262D;--ink-600:#2E323A;
+    --bone:#EBE6DB;--bone-100:#F5F1E8;--signal:#F2A436;--ember:#C9742A;
+    --slate:#8C8E96;--slate-d:#6A6C73;--line:rgba(235,230,219,0.13);
+    --disp:"Zodiak", Georgia, serif;
+    --text:"Supreme", system-ui, sans-serif;
+    --data:"Berkeley Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ink-900);color:var(--bone);font-family:var(--text);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px;margin:0 auto;padding:88px 28px 96px}
+  .kicker{font-family:var(--data);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);margin-bottom:16px;display:inline-block}
+  h1{font-family:var(--disp);font-weight:500;letter-spacing:-.005em;line-height:1.02;font-size:clamp(38px,6vw,66px);margin:0}
+  .lede{max-width:60ch;margin:20px 0 0;font-size:16.5px;color:var(--bone);opacity:.86}
+  .disclose{margin-top:18px;font-family:var(--data);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate)}
+  .grid{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{position:relative;display:flex;flex-direction:column;gap:8px;background:var(--ink-700);border:1px solid var(--line);border-radius:14px;padding:22px 22px 20px;text-decoration:none;color:inherit;transition:border-color .25s,transform .25s cubic-bezier(.22,.7,.2,1)}
+  .card:hover{transform:translateY(-3px);border-color:var(--slate-d)}
+  .card.feat{grid-column:span 2;border-color:rgba(242,164,54,.4)}
+  .card .vl{font-family:var(--disp);font-weight:500;font-size:21px;color:var(--bone)}
+  .card.feat .vl{font-size:26px}
+  .card .vc{font-size:13.5px;color:var(--slate)}
+  .card .go{margin-top:6px;font-family:var(--data);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--signal)}
+  .card.feat .badge{position:absolute;top:22px;right:22px;font-family:var(--data);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--signal);border:1px solid rgba(242,164,54,.4);border-radius:999px;padding:4px 10px}
+  .backlink{display:inline-flex;align-items:center;gap:8px;margin-top:40px;font-family:var(--data);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bone);text-decoration:none}
+  .backlink:hover{color:var(--signal)}
+  .foot{margin-top:26px;font-size:13px;color:var(--slate);max-width:720px}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}.card.feat{grid-column:span 1}}
+</style>
+</head>
+<body>
+<a href="/work/level" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;Level &middot; back to the case study</a>
+
+<main class="wrap">
+  <span class="kicker">Live demo &middot; Level</span>
+  <h1>Four live views.</h1>
+  <p class="lede">A prediction-market app built around restraint, where understanding the bet is the product, not the thrill of it.</p>
+  <div class="disclose">Self-initiated concept &middot; its own invented brand, not a real product</div>
+
+  <div class="grid">
+    <a class="card feat" href="/concepts/level/explainer">
+      <span class="badge">Centerpiece</span>
+      <span class="vl">Explainer</span>
+      <span class="vc">Explain this market &middot; understanding gates the stake (scripted, not a live model)</span>
+      <span class="go">Open &#8599;</span>
+    </a>
+    <a class="card" href="/concepts/level/app">
+      <span class="vl">App</span>
+      <span class="vc">Limits on by default, restraint by design</span>
+      <span class="go">Open &#8599;</span>
+    </a>
+    <a class="card" href="/concepts/level/motion">
+      <span class="vl">Motion</span>
+      <span class="vc">Probability made legible, no celebration</span>
+      <span class="go">Open &#8599;</span>
+    </a>
+    <a class="card" href="/concepts/level/brand">
+      <span class="vl">Brand</span>
+      <span class="vc">The restraint system</span>
+      <span class="go">Open &#8599;</span>
+    </a>
+  </div>
+
+  <a class="backlink" href="/work/level">&#8592; Back to the case study</a>
+  <p class="foot">Level is a self-initiated concept and its own invented brand. The explainer is a scripted demonstration, not a live model. Figures across this project describe scope, not outcomes.</p>
+</main>
+</body>
+</html>

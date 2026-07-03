@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<title>The Ninth, Brand Guidelines</title>
+<meta name="description" content="Brand guidelines for The Ninth, a speculative Cloud9 membership concept by Pratik Mehta: how the sub-brand looks, sounds, and behaves." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/brand" />
+<meta property="og:title" content="The Ninth, Brand Guidelines" />
+<meta property="og:description" content="Brand guidelines for The Ninth, a speculative Cloud9 membership concept by Pratik Mehta: how the sub-brand looks, sounds, and behaves." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-the-ninth.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/the-ninth/brand" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pratikm96" />
+<meta name="twitter:image" content="https://cdn.mehtapratik.com/og/og-the-ninth.jpg" />
+<style>
+  :root{
+    --c9:#29ABE2;--ink:#07142B;--blue-deep:#1B6FA8;--cloud:#F4F8FB;
+    --mist:#AEC3D4;--frost:#DCEAF6;--line:#DCE6EE;--paper:#fff;
+    --disp:'Array',ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif;
+    --text:'Satoshi',ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .shell{display:grid;grid-template-columns:236px 1fr;max-width:1180px;margin:0 auto}
+
+  /* side nav */
+  nav.side{position:sticky;top:0;height:100vh;padding:40px 22px;border-right:1px solid var(--line);overflow:auto}
+  nav .brand{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:18px;line-height:1.1}
+  nav .brand small{display:block;font-size:9.5px;letter-spacing:.3em;color:var(--mist);margin-top:8px;font-weight:500}
+  nav ul{list-style:none;margin:34px 0 0;padding:0}
+  nav li a{display:block;font-family:var(--disp);font-size:12.5px;letter-spacing:.04em;color:#54677a;text-decoration:none;padding:8px 0;border-bottom:1px solid transparent}
+  nav li a:hover{color:var(--ink)}
+  nav li a .ix{color:var(--mist);margin-right:10px;font-weight:600}
+
+  main{padding:56px 56px 120px;min-width:0}
+  .hero h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(40px,7vw,80px);line-height:.92;margin:0}
+  .hero .sub{font-family:var(--disp);font-size:13px;letter-spacing:.36em;color:var(--mist);margin-top:16px}
+  .hero .lede{max-width:600px;font-size:17px;color:#2c3e52;margin-top:24px}
+  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:26px}
+
+  section.s{padding-top:64px;margin-top:64px;border-top:1px solid var(--line)}
+  .s .kx{font-family:var(--disp);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--c9);margin:0 0 6px}
+  .s h2{font-family:var(--disp);font-weight:600;font-size:30px;letter-spacing:.01em;margin:0 0 8px}
+  .s .intro{max-width:660px;color:#3a4d60;margin:0 0 30px}
+  h3{font-family:var(--disp);font-weight:600;font-size:16px;letter-spacing:.02em;margin:34px 0 14px}
+  p{margin:0 0 14px}
+
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--paper);padding:30px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .center{display:flex;align-items:center;justify-content:center}
+  .muted{color:#54677a;font-size:14px}
+  .cap{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);margin-top:14px}
+
+  /* color */
+  .pal{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .sw{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#fff}
+  .sw .chip{height:104px;position:relative}
+  .sw .meta{padding:14px 16px}
+  .sw .nm{font-family:var(--disp);font-weight:600;font-size:14px}
+  .sw .role{font-size:12.5px;color:#54677a;margin-top:3px;line-height:1.45}
+  .sw .hex{font-family:var(--disp);font-size:12px;color:var(--mist);letter-spacing:.05em;margin-top:8px}
+  .ratio{display:flex;height:42px;border-radius:10px;overflow:hidden;margin:18px 0 6px;border:1px solid var(--line)}
+  .ratio span{display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.06em;color:#fff;font-family:var(--disp)}
+
+  table.spec{width:100%;border-collapse:collapse;font-size:14px}
+  table.spec th,table.spec td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:baseline}
+  table.spec th{font-family:var(--disp);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);font-weight:600}
+  table.spec td.x{font-family:var(--disp);color:var(--mist);white-space:nowrap}
+
+  .pass{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.08em;padding:3px 9px;border-radius:999px;font-weight:600}
+  .pass.ok{background:#E6F4EC;color:#1c7a47}
+  .pass.no{background:#FBEAEA;color:#a23535}
+  .pass.lg{background:#FDF4E3;color:#9a6a14}
+
+  /* do / dont */
+  .dd{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .do,.dont{border-radius:14px;padding:22px 24px;border:1px solid var(--line)}
+  .do{background:#F2FAF5;border-color:#cfe9da}
+  .dont{background:#FCF3F3;border-color:#eed4d4}
+  .do h4,.dont h4{font-family:var(--disp);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px}
+  .do h4{color:#1c7a47}.dont h4{color:#a23535}
+  .do ul,.dont ul{margin:0;padding-left:18px}
+  .do li,.dont li{margin:7px 0;font-size:14px;color:#33485b}
+
+  .voice{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .pr{border:1px solid var(--line);border-radius:14px;background:#fff;padding:22px 24px}
+  .pr .n{font-family:var(--disp);color:var(--mist);font-weight:600;font-size:13px}
+  .pr h4{font-family:var(--disp);font-weight:600;font-size:17px;margin:6px 0 8px}
+  .pr p{font-size:14px;color:#3a4d60;margin:0}
+  .pr .ex{margin-top:14px;font-size:13.5px;border-left:2px solid var(--c9);padding-left:12px;color:#2c3e52}
+  .pr .ex b{color:var(--mist);font-weight:600}
+
+  .words{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .words span{font-family:var(--disp);font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:#33485b}
+
+  .mo{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .mo .pr{padding:20px}
+
+  .anat{display:grid;grid-template-columns:300px 1fr;gap:30px;align-items:center}
+  .anat ol{margin:0;padding-left:20px;columns:1}
+  .anat li{margin:10px 0;font-size:14px;color:#33485b}
+  .anat li b{font-family:var(--disp);font-weight:600;color:var(--ink)}
+  svg.card{width:100%;height:auto;display:block;border-radius:16px;box-shadow:0 18px 40px -22px rgba(7,20,43,.5)}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:36px}
+  .cardwrap{display:flex;flex-direction:column;gap:12px}
+  .cardwrap .cardcap{font-size:12px;color:var(--mist);letter-spacing:.04em;text-align:center}
+  .cardwrap .cardcap b{display:block;font-family:var(--disp);color:var(--ink);font-weight:600;font-size:13px;letter-spacing:.02em;margin-bottom:2px}
+
+  .foot{margin-top:80px;padding-top:22px;border-top:1px solid var(--line);color:var(--mist);font-size:13px;max-width:780px}
+
+  @media(max-width:900px){
+    .shell{grid-template-columns:1fr}
+    nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);display:flex;flex-direction:column}
+    nav ul{display:flex;flex-wrap:wrap;gap:4px 18px}
+    nav li a{border-bottom:0;padding:4px 0}
+    main{padding:40px 24px 90px}
+    .grid2,.dd,.voice,.anat{grid-template-columns:1fr}
+    .pal,.grid3,.mo,.cards{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body><a href="/work/the-ninth" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;The Ninth &middot; back to the case study</a>
+<!-- reusable cloud silhouette -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="cloud" viewBox="0 0 120 60">
+    <circle cx="34" cy="38" r="20"/><circle cx="62" cy="27" r="27"/><circle cx="90" cy="38" r="20"/>
+    <rect x="16" y="40" width="90" height="20" rx="10"/>
+  </symbol>
+</svg>
+
+<div class="shell">
+
+  <nav class="side">
+    <div class="brand">The Ninth<small>BRAND GUIDELINES</small></div>
+    <ul>
+      <li><a href="#idea"><span class="ix">01</span>The idea</a></li>
+      <li><a href="#logo"><span class="ix">02</span>Logo</a></li>
+      <li><a href="#lockup"><span class="ix">03</span>Cloud9 lockup</a></li>
+      <li><a href="#color"><span class="ix">04</span>Color</a></li>
+      <li><a href="#type"><span class="ix">05</span>Typography</a></li>
+      <li><a href="#voice"><span class="ix">06</span>Tone of voice</a></li>
+      <li><a href="#art"><span class="ix">07</span>Art direction</a></li>
+      <li><a href="#motion"><span class="ix">08</span>Motion</a></li>
+      <li><a href="#card"><span class="ix">09</span>Member card</a></li>
+      <li><a href="#gov"><span class="ix">10</span>Governance</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <span class="tag">Speculative concept &middot; Cloud9 membership OS</span>
+      <h1>The Ninth</h1>
+      <div class="sub">BRAND GUIDELINES &middot; V1</div>
+      <p class="lede">The membership you join, not the merch you buy. These guidelines define how The Ninth looks, sounds, and behaves as an additive sub-brand under Cloud9. One principle holds it together: <b>altitude</b>. Everything climbs toward cloud nine.</p>
+    </div>
+
+    <!-- 01 IDEA -->
+    <section class="s" id="idea">
+      <p class="kx">01</p>
+      <h2>The idea</h2>
+      <p class="intro">Cloud9 has elite brand equity and one of the few esports identities with real staying power. What it has never built is a year-round home for the fandom. The Ninth is that home: a membership that turns watching into belonging, where status is earned and access is real.</p>
+      <div class="grid2">
+        <div class="card">
+          <h3 style="margin-top:0">Positioning</h3>
+          <p class="muted">The Ninth turns Cloud9 fandom into a place, not a purchase. Status is earned, access is real, and the brand a fan already wears becomes somewhere they log into every day.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">The altitude principle</h3>
+          <p class="muted">The whole system is a climb. The higher you go, the closer you get to cloud nine, from the daytime blue Cloud9 already owns up to the night sky above the clouds. Hierarchy, color, motion, and status all move in one direction: up.</p>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:18px"><b style="color:var(--ink);font-family:var(--disp);font-weight:600">The governing constraint.</b> Cloud9 wins by being calm, premium, and fashion-credible, the deliberate opposite of the screaming-gamer register. The Ninth holds that line everywhere, closer to a members' club or a fashion house than a game launcher.</p>
+    </section>
+
+    <!-- 02 LOGO -->
+    <section class="s" id="logo">
+      <p class="kx">02</p>
+      <h2>Logo</h2>
+      <p class="intro">Two assets. The <b>wordmark</b> for full-presence use, and the <b>IX monogram</b>, the Roman nine, for compact and stamped use. The monogram reads premium, foils cleanly on the member card, and quietly carries the nine from the Cloud9 mark.</p>
+
+      <div class="grid2">
+        <div class="card center" style="min-height:180px">
+          <div style="text-align:center">
+            <div style="font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:40px">The Ninth</div>
+            <div class="cap">Primary wordmark &middot; Space Grotesk 700</div>
+          </div>
+        </div>
+        <div class="card center" style="min-height:180px">
+          <div style="text-align:center">
+            <div style="font-family:var(--disp);font-weight:700;letter-spacing:.06em;font-size:70px;color:var(--c9)">IX</div>
+            <div class="cap">Monogram &middot; the Roman nine</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Construction and clearspace</h3>
+      <p class="muted">Clearspace equals <b>x</b>, the cap height of the monogram, on all four sides. Never crowd the mark closer than x. The grid below shows the monogram on its baseline with the x unit marked.</p>
+      <div class="grid2">
+        <div class="card center">
+          <svg viewBox="0 0 320 200" width="100%" xmlns="http://www.w3.org/2000/svg" aria-label="Monogram construction grid">
+            <defs><pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#EAF1F7" stroke-width="1"/></pattern></defs>
+            <rect x="40" y="30" width="240" height="140" fill="url(#g)" stroke="#E1EAF1"/>
+            <text x="160" y="135" text-anchor="middle" font-family="'Array',sans-serif" font-weight="700" font-size="92" letter-spacing="4" fill="#07142B">IX</text>
+            <line x1="40" y1="60" x2="280" y2="60" stroke="#29ABE2" stroke-width="1" stroke-dasharray="4 4"/>
+            <line x1="40" y1="138" x2="280" y2="138" stroke="#29ABE2" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="50" y="54" font-family="'Satoshi',sans-serif" font-size="10" fill="#29ABE2">cap line</text>
+            <text x="50" y="152" font-family="'Satoshi',sans-serif" font-size="10" fill="#29ABE2">baseline</text>
+            <line x1="296" y1="60" x2="296" y2="138" stroke="#AEC3D4" stroke-width="1"/>
+            <text x="304" y="103" font-family="'Array',sans-serif" font-size="14" fill="#54677a">x</text>
+          </svg>
+        </div>
+        <div class="card center">
+          <svg viewBox="0 0 320 200" width="100%" xmlns="http://www.w3.org/2000/svg" aria-label="Clearspace diagram">
+            <rect x="36" y="36" width="248" height="128" fill="none" stroke="#AEC3D4" stroke-width="1" stroke-dasharray="5 5"/>
+            <rect x="86" y="70" width="148" height="60" fill="none" stroke="#EAF1F7"/>
+            <text x="160" y="120" text-anchor="middle" font-family="'Array',sans-serif" font-weight="700" font-size="56" letter-spacing="3" fill="#07142B">IX</text>
+            <line x1="60" y1="36" x2="60" y2="70" stroke="#29ABE2" stroke-dasharray="3 3"/><text x="64" y="58" font-family="'Satoshi',sans-serif" font-size="10" fill="#29ABE2">x</text>
+            <line x1="260" y1="130" x2="260" y2="164" stroke="#29ABE2" stroke-dasharray="3 3"/><text x="264" y="152" font-family="'Satoshi',sans-serif" font-size="10" fill="#29ABE2">x</text>
+            <text x="160" y="186" text-anchor="middle" class="muted" font-family="'Satoshi',sans-serif" font-size="11" fill="#AEC3D4">clearspace = x on all sides</text>
+          </svg>
+        </div>
+      </div>
+
+      <h3>Minimum size and color</h3>
+      <table class="spec">
+        <tr><th>Asset</th><th>Min digital</th><th>Min print</th><th>On light</th><th>On dark</th></tr>
+        <tr><td>Wordmark</td><td class="x">80px wide</td><td class="x">18mm</td><td>Altitude Night</td><td>Cloud White</td></tr>
+        <tr><td>Monogram IX</td><td class="x">24px</td><td class="x">7mm</td><td>Altitude Night or Cloud9 Blue</td><td>Cloud White or Frost*</td></tr>
+      </table>
+      <p class="muted" style="margin-top:10px;font-size:13px">*The Frost iridescent treatment is reserved for the Inner Nine tier only. Never apply it to general-use marks.</p>
+
+      <h3>Misuse</h3>
+      <div class="dd">
+        <div class="do">
+          <h4>Do</h4>
+          <ul>
+            <li>Keep the wordmark neutral: ink on light, white on dark.</li>
+            <li>Give it clearspace of x, always.</li>
+            <li>Use the monogram for small, stamped, or social-avatar contexts.</li>
+          </ul>
+        </div>
+        <div class="dont">
+          <h4>Don't</h4>
+          <ul>
+            <li>Recolor the wordmark to Cloud9 Blue. Blue is an accent, not the logo.</li>
+            <li>Stretch, skew, outline, or add glow, shadow, or bevel.</li>
+            <li>Place on busy imagery without a scrim, or apply the Frost treatment outside Inner Nine.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 LOCKUP -->
+    <section class="s" id="lockup">
+      <p class="kx">03</p>
+      <h2>Cloud9 lockup</h2>
+      <p class="intro">The Ninth is an <b>additive membership sub-brand under Cloud9</b>, never a replacement for it. In any co-branded context, use the endorsement lockup. The Cloud9 master logo is never restyled. The tie between the brands is the shared blue, #29ABE2.</p>
+      <div class="grid2">
+        <div class="card center" style="min-height:160px">
+          <div style="text-align:center">
+            <div style="font-family:var(--disp);font-weight:600;font-size:26px;letter-spacing:.02em"><span style="color:var(--c9)">Cloud9</span> <span style="color:var(--mist);font-weight:400">/</span> The Ninth</div>
+            <div class="cap">Co-mark, equal weight</div>
+          </div>
+        </div>
+        <div class="card center" style="min-height:160px">
+          <div style="text-align:center">
+            <div style="font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:30px">The Ninth</div>
+            <div style="font-family:var(--text);font-size:13px;letter-spacing:.04em;color:#54677a;margin-top:8px">a Cloud9 membership</div>
+            <div class="cap">Endorsement, descriptor lockup</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 COLOR -->
+    <section class="s" id="color">
+      <p class="kx">04</p>
+      <h2>Color</h2>
+      <p class="intro">Anchored on the Cloud9 blue and built as an altitude gradient: cloud white, brand blue, climb blue, and the altitude night reserved for the summit. No warm accents. The premium signal at the top is Frost, not gold.</p>
+      <div class="pal">
+        <div class="sw"><div class="chip" style="background:#F4F8FB;border-bottom:1px solid #e7eef4"></div><div class="meta"><div class="nm">Cloud White</div><div class="role">Primary surface. The default page.</div><div class="hex">#F4F8FB</div></div></div>
+        <div class="sw"><div class="chip" style="background:#07142B"></div><div class="meta"><div class="nm">Altitude Night</div><div class="role">Primary ink. Dark surfaces and premium moments.</div><div class="hex">#07142B</div></div></div>
+        <div class="sw"><div class="chip" style="background:#29ABE2"></div><div class="meta"><div class="nm">Cloud9 Blue</div><div class="role">Brand accent. Key actions, links, large display fills.</div><div class="hex">#29ABE2</div></div></div>
+        <div class="sw"><div class="chip" style="background:#1B6FA8"></div><div class="meta"><div class="nm">Climb Blue</div><div class="role">Secondary. Gradients, hover, accessible text on light.</div><div class="hex">#1B6FA8</div></div></div>
+        <div class="sw"><div class="chip" style="background:#AEC3D4"></div><div class="meta"><div class="nm">Mist</div><div class="role">Tertiary text, hairlines, captions.</div><div class="hex">#AEC3D4</div></div></div>
+        <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#DCEAF6,#C9D2FF 55%,#EAD9FF)"></div><div class="meta"><div class="nm">Frost</div><div class="role">Inner Nine only. Iridescent grail treatment, never general UI.</div><div class="hex">iridescent</div></div></div>
+      </div>
+
+      <h3>Usage ratio</h3>
+      <div class="ratio">
+        <span style="background:#F4F8FB;color:#54677a;flex:60">60 &middot; surface</span>
+        <span style="background:#07142B;flex:25">25 &middot; ink</span>
+        <span style="background:#29ABE2;flex:15">15 &middot; accent</span>
+      </div>
+      <p class="muted" style="font-size:13px">Let the page breathe. Blue is a punctuation color, never a flood.</p>
+
+      <h3>Contrast and accessibility</h3>
+      <p class="muted">Cloud9 Blue is a brand accent, not a body-text color. The honest rule: use Altitude Night for text on light, Cloud White or Frost for text on dark, and reserve the brand blue for fills, large display, and UI accents where it passes.</p>
+      <table class="spec">
+        <tr><th>Pairing</th><th>Use for</th><th>WCAG</th></tr>
+        <tr><td>Altitude Night on Cloud White</td><td>Body, headings, the default</td><td><span class="pass ok">AAA</span></td></tr>
+        <tr><td>Climb Blue on Cloud White</td><td>Links, secondary text</td><td><span class="pass ok">AA</span></td></tr>
+        <tr><td>Cloud9 Blue on Cloud White</td><td>Large display, UI fills, icons only</td><td><span class="pass lg">Large / non-text</span></td></tr>
+        <tr><td>Cloud White on Altitude Night</td><td>Dark surfaces, Inner Nine</td><td><span class="pass ok">AAA</span></td></tr>
+        <tr><td>Cloud9 Blue for small body text</td><td>Do not</td><td><span class="pass no">Fails</span></td></tr>
+      </table>
+    </section>
+
+    <!-- 05 TYPE -->
+    <section class="s" id="type">
+      <p class="kx">05</p>
+      <h2>Typography</h2>
+      <p class="intro">Two typefaces. <b>Space Grotesk</b> for display and marks, calm and modern with a slight character. <b>Inter</b> for everything readable. Both are open-source, which keeps the system buildable across web and product.</p>
+      <div class="card">
+        <table class="spec">
+          <tr><th>Style</th><th>Face / weight</th><th>Size / tracking</th><th>Use</th></tr>
+          <tr><td><span style="font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:26px">Display</span></td><td class="x">Space Grotesk 700</td><td class="x">44 to 104px &middot; .04em</td><td>Wordmark, hero</td></tr>
+          <tr><td><span style="font-family:var(--disp);font-weight:600;font-size:22px">Heading</span></td><td class="x">Space Grotesk 600</td><td class="x">26 to 30px &middot; .01em</td><td>Section titles</td></tr>
+          <tr><td><span style="font-family:var(--disp);font-weight:500;font-size:17px">Subhead</span></td><td class="x">Space Grotesk 500</td><td class="x">16 to 20px</td><td>Lead-ins, labels</td></tr>
+          <tr><td><span style="font-family:var(--text);font-size:16px">Body copy</span></td><td class="x">Inter 400 / 500</td><td class="x">16 to 17px &middot; 1.6</td><td>Paragraphs, UI</td></tr>
+          <tr><td><span style="font-family:var(--disp);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#54677a">Caption</span></td><td class="x">Space Grotesk 500</td><td class="x">11 to 13px &middot; .14em &middot; caps</td><td>Tags, meta, tiers</td></tr>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:16px;font-size:13px"><b style="font-family:var(--disp);color:var(--ink)">Rules.</b> Headers in sentence case, only the wordmark and captions go uppercase. Tabular numerals for tiers and member indices. One accent color per view. Never letter-space the body.</p>
+    </section>
+
+    <!-- 06 VOICE -->
+    <section class="s" id="voice">
+      <p class="kx">06</p>
+      <h2>Tone of voice</h2>
+      <p class="intro">Calm at altitude. The Ninth never shouts. Confidence is quiet, the wit is dry, and the fan comes first in every sentence. If a line feels like a hype drop or a casino, it is wrong.</p>
+      <div class="voice">
+        <div class="pr"><div class="n">01</div><h4>Calm at altitude</h4><p>Confidence without volume. No exclamation stacks, no caps-lock, no countdown-clock urgency.</p><div class="ex"><b>Yes:</b> You are in. Welcome to the Ninth.<br><b>No:</b> UNLOCK INSANE MEMBER PERKS NOW</div></div>
+        <div class="pr"><div class="n">02</div><h4>Earned, not hyped</h4><p>We talk about belonging and access, never FOMO. Status is something you climbed to, not something we sold you.</p><div class="ex"><b>Yes:</b> The Inner Nine is earned, not bought.<br><b>No:</b> Buy your way to VIP today</div></div>
+        <div class="pr"><div class="n">03</div><h4>Fan first, org second</h4><p>Lead with what the fan gets. The org and the upsell come after the belonging, never before it.</p><div class="ex"><b>Yes:</b> Never miss your team's moment.<br><b>No:</b> Drive recurring revenue with tiers</div></div>
+        <div class="pr"><div class="n">04</div><h4>Dry wit, never cringe</h4><p>It is in on the joke and light on its feet, never trying too hard, and it reads closer to a good caption than a hype man.</p><div class="ex"><b>Yes:</b> Cloud nine, year round.<br><b>No:</b> LET'S GOOO C9 NATION GG</div></div>
+      </div>
+      <h3>Word list</h3>
+      <div class="grid2">
+        <div><p class="muted" style="font-size:13px;margin-bottom:4px">Say</p><div class="words"><span>member</span><span>belong</span><span>access</span><span>climb</span><span>altitude</span><span>the Inner Nine</span><span>drop</span><span>real</span></div></div>
+        <div><p class="muted" style="font-size:13px;margin-bottom:4px">Avoid</p><div class="words"><span>VIP</span><span>unlock insane</span><span>hype</span><span>grind / XP</span><span>whale</span><span>NFT</span><span>GG / LET'S GO</span><span>limited time only</span></div></div>
+      </div>
+    </section>
+
+    <!-- 07 ART -->
+    <section class="s" id="art">
+      <p class="kx">07</p>
+      <h2>Art direction</h2>
+      <p class="intro">One world: sky and cloud, read as an altitude gradient from daytime to night. Aerial, atmospheric, premium, with air around everything. The opposite of neon RGB esports energy.</p>
+      <div class="grid3">
+        <div class="card"><svg viewBox="0 0 200 120" width="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="a1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE6F8"/><stop offset="1" stop-color="#F4F8FB"/></linearGradient></defs><rect width="200" height="120" rx="10" fill="url(#a1)"/><use href="#cloud" x="20" y="74" width="100" height="48" fill="#fff" opacity=".95"/><use href="#cloud" x="100" y="84" width="110" height="50" fill="#fff" opacity=".85"/></svg><div class="cap">Daytime &middot; Open, Member</div></div>
+        <div class="card"><svg viewBox="0 0 200 120" width="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="a2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B6FA8"/><stop offset="1" stop-color="#0C2E4E"/></linearGradient></defs><rect width="200" height="120" rx="10" fill="url(#a2)"/><circle cx="150" cy="34" r="1.6" fill="#CFE6F6"/><circle cx="170" cy="56" r="1.2" fill="#CFE6F6"/><use href="#cloud" x="10" y="90" width="120" height="46" fill="#29ABE2" opacity=".4"/></svg><div class="cap">Dusk &middot; Insider</div></div>
+        <div class="card"><svg viewBox="0 0 200 120" width="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="a3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1A33"/><stop offset="1" stop-color="#05101F"/></linearGradient><linearGradient id="fr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCEAF6"/><stop offset=".5" stop-color="#C9D2FF"/><stop offset="1" stop-color="#EAD9FF"/></linearGradient></defs><rect width="200" height="120" rx="10" fill="url(#a3)"/><g fill="#DCEAF6"><circle cx="40" cy="30" r="1"/><circle cx="90" cy="22" r="1.2"/><circle cx="150" cy="34" r="1"/><circle cx="170" cy="20" r=".8"/></g><use href="#cloud" x="0" y="92" width="130" height="44" fill="#6A7EA6" opacity=".5"/><text x="160" y="40" font-family="'Array',sans-serif" font-weight="700" font-size="20" fill="url(#fr)">IX</text></svg><div class="cap">Night &middot; Inner Nine</div></div>
+      </div>
+      <h3>Photography</h3>
+      <p class="muted">Players and fans shot clean and premium, with breathing room and a cool grade. Think a fashion lookbook that happens to be about a team, not a tournament key-art blowout. Generative tools (Midjourney) set the cloud-and-altitude world fast as a methodology layer, then the deliverables are designed and art-directed by hand.</p>
+      <div class="dd" style="margin-top:18px">
+        <div class="do"><h4>Do</h4><ul><li>Air, atmosphere, cool tones, restraint.</li><li>Altitude gradient as the connective tissue.</li><li>Premium, fashion-forward framing.</li></ul></div>
+        <div class="dont"><h4>Don't</h4><ul><li>Neon RGB, lens flares, fire, smoke.</li><li>Aggressive diagonal "gamer" energy or clutter.</li><li>Stock-looking hype crowds or screaming faces.</li></ul></div>
+      </div>
+    </section>
+
+    <!-- 08 MOTION -->
+    <section class="s" id="motion">
+      <p class="kx">08</p>
+      <h2>Motion</h2>
+      <p class="intro">One rule: everything ascends and eases. The brand moves like air, not like a fighting game. Calm, never frantic, with weight at the top of the climb.</p>
+      <div class="mo">
+        <div class="pr"><div class="n">Rise</div><h4>Enter from below</h4><p>Cards, alerts, and surfaces drift up into place, the way you rise through cloud. Never drop in or snap.</p></div>
+        <div class="pr"><div class="n">Ease</div><h4>Soft, no bounce</h4><p>Ease-out, 240 to 400ms. No elastic bounce, no overshoot. Premium reads as controlled.</p></div>
+        <div class="pr"><div class="n">Summit</div><h4>Frost shimmer</h4><p>Reserved for Inner Nine. A slow iridescent pass across the grail card on level-up. Used once, not looped.</p></div>
+      </div>
+      <p class="muted" style="margin-top:18px"><b style="font-family:var(--disp);color:var(--ink)">The moment-alert behavior.</b> When the AI clipper catches a moment, the alert card rises from the bottom edge like a cloud cresting, settles, and holds. It is a calm tap on the shoulder, never a jarring buzz. The motion is the brand promise: we tell you when to look up.</p>
+    </section>
+
+    <!-- 09 CARD -->
+    <section class="s" id="card">
+      <p class="kx">09</p>
+      <h2>The member card</h2>
+      <p class="intro">The spine of the identity and the hero object: a collectible, fashion-grade pass that levels visibly as a fan climbs. The card rises through the sky: Open sits in the clouds, Member in clear daytime blue, Insider at dusk, and Inner Nine in the night above the clouds with a frost IX. The grail you cannot buy.</p>
+
+      <div class="cards">
+        <!-- OPEN -->
+        <div class="cardwrap">
+          <svg class="card" viewBox="0 0 260 364" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Open tier card">
+            <defs><linearGradient id="gOpen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EAF3FA"/></linearGradient></defs>
+            <rect x="1" y="1" width="258" height="362" rx="18" fill="url(#gOpen)" stroke="#D4E2EC"/>
+            <text x="22" y="40" font-family="'Array',sans-serif" font-size="11" letter-spacing="3" fill="#9DB4C6">THE NINTH</text>
+            <text x="238" y="40" text-anchor="end" font-family="'Array',sans-serif" font-weight="700" font-size="15" fill="#C2D2DE">I</text>
+            <use href="#cloud" x="-26" y="286" width="172" height="86" fill="#E4EFF6"/>
+            <use href="#cloud" x="116" y="294" width="188" height="92" fill="#E9F2F9"/>
+            <use href="#cloud" x="-12" y="308" width="152" height="78" fill="#FFFFFF"/>
+            <use href="#cloud" x="120" y="314" width="172" height="84" fill="#FFFFFF"/>
+            <use href="#cloud" x="-20" y="128" width="78" height="40" fill="#F0F7FB" opacity="0.85"/>
+            <use href="#cloud" x="140" y="50" width="72" height="37" fill="#EFF6FB" opacity="0.9"/>
+            <text x="22" y="206" font-family="'Array',sans-serif" font-weight="700" font-size="34" fill="#1B6FA8">Open</text>
+            <text x="22" y="230" font-family="'Satoshi',sans-serif" font-size="11" letter-spacing="2" fill="#9DB4C6">VISITOR</text>
+            <text x="22" y="332" font-family="'Satoshi',sans-serif" font-size="12" fill="#7D95A8">@yourhandle</text>
+            <text x="238" y="332" text-anchor="end" font-family="'Array',sans-serif" font-size="12" fill="#A9BECD">01 / 09</text>
+          </svg>
+          <div class="cardcap"><b>Open</b>In the clouds &middot; free</div>
+        </div>
+        <!-- MEMBER -->
+        <div class="cardwrap">
+          <svg class="card" viewBox="0 0 260 364" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Member tier card">
+            <defs><linearGradient id="gMem" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3FBCEC"/><stop offset="1" stop-color="#229AD0"/></linearGradient></defs>
+            <rect x="1" y="1" width="258" height="362" rx="18" fill="url(#gMem)" stroke="#1E8FC4"/>
+            <text x="22" y="40" font-family="'Array',sans-serif" font-size="11" letter-spacing="3" fill="#DBF1FB">THE NINTH</text>
+            <text x="238" y="40" text-anchor="end" font-family="'Array',sans-serif" font-weight="700" font-size="15" fill="#EAF8FF">II</text>
+            <use href="#cloud" x="-18" y="300" width="152" height="76" fill="#FFFFFF" opacity="0.18"/>
+            <use href="#cloud" x="122" y="312" width="166" height="78" fill="#FFFFFF" opacity="0.14"/>
+            <use href="#cloud" x="166" y="62" width="74" height="37" fill="#FFFFFF" opacity="0.16"/>
+            <text x="22" y="206" font-family="'Array',sans-serif" font-weight="700" font-size="34" fill="#ffffff">Member</text>
+            <text x="22" y="230" font-family="'Satoshi',sans-serif" font-size="11" letter-spacing="2" fill="#DBF1FB">IN THE CLUB</text>
+            <text x="22" y="332" font-family="'Satoshi',sans-serif" font-size="12" fill="#EAF8FF">@yourhandle</text>
+            <text x="238" y="332" text-anchor="end" font-family="'Array',sans-serif" font-size="12" fill="#EAF8FF">02 / 09</text>
+          </svg>
+          <div class="cardcap"><b>Member</b>Clear daytime &middot; bought</div>
+        </div>
+        <!-- INSIDER -->
+        <div class="cardwrap">
+          <svg class="card" viewBox="0 0 260 364" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Insider tier card">
+            <defs><linearGradient id="gIns" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B6FA8"/><stop offset="1" stop-color="#0C2E4E"/></linearGradient></defs>
+            <rect x="1" y="1" width="258" height="362" rx="18" fill="url(#gIns)" stroke="#0A2740"/>
+            <text x="22" y="40" font-family="'Array',sans-serif" font-size="11" letter-spacing="3" fill="#9FC6E2">THE NINTH</text>
+            <text x="238" y="40" text-anchor="end" font-family="'Array',sans-serif" font-weight="700" font-size="15" fill="#CFE6F6">III</text>
+            <use href="#cloud" x="-24" y="320" width="162" height="66" fill="#2E7FB4" opacity="0.5"/>
+            <use href="#cloud" x="118" y="328" width="174" height="64" fill="#3C8BC0" opacity="0.42"/>
+            <use href="#cloud" x="60" y="332" width="120" height="44" fill="#5AA3CE" opacity="0.3"/>
+            <circle cx="206" cy="86" r="2" fill="#CFE6F6" opacity=".8"/>
+            <circle cx="226" cy="120" r="1.4" fill="#CFE6F6" opacity=".7"/>
+            <circle cx="58" cy="100" r="1.3" fill="#CFE6F6" opacity=".6"/>
+            <text x="22" y="206" font-family="'Array',sans-serif" font-weight="700" font-size="32" fill="#EAF4FB">Insider</text>
+            <text x="22" y="230" font-family="'Satoshi',sans-serif" font-size="11" letter-spacing="2" fill="#9FC6E2">RECOGNIZED</text>
+            <text x="22" y="332" font-family="'Satoshi',sans-serif" font-size="12" fill="#CFE6F6">@yourhandle</text>
+            <text x="238" y="332" text-anchor="end" font-family="'Array',sans-serif" font-size="12" fill="#9FC6E2">03 / 09</text>
+          </svg>
+          <div class="cardcap"><b>Insider</b>Dusk &middot; bought or earned</div>
+        </div>
+        <!-- INNER NINE -->
+        <div class="cardwrap">
+          <svg class="card" viewBox="0 0 260 364" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Inner Nine tier card">
+            <defs>
+              <linearGradient id="gIN2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1A33"/><stop offset="1" stop-color="#05101F"/></linearGradient>
+              <linearGradient id="frost2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCEAF6"/><stop offset="0.5" stop-color="#C9D2FF"/><stop offset="1" stop-color="#EAD9FF"/></linearGradient>
+              <radialGradient id="aurora2" cx="0.5" cy="0.18" r="0.7"><stop offset="0" stop-color="#29ABE2" stop-opacity=".34"/><stop offset="1" stop-color="#29ABE2" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect x="1" y="1" width="258" height="362" rx="18" fill="url(#gIN2)" stroke="#1A2D4A"/>
+            <rect x="1" y="1" width="258" height="362" rx="18" fill="url(#aurora2)"/>
+            <g fill="#DCEAF6"><circle cx="40" cy="60" r="1.2" opacity=".9"/><circle cx="92" cy="44" r="0.9" opacity=".7"/><circle cx="150" cy="72" r="1" opacity=".8"/><circle cx="206" cy="52" r="1.3" opacity=".9"/><circle cx="224" cy="96" r="0.8" opacity=".6"/><circle cx="64" cy="104" r="0.8" opacity=".6"/><circle cx="180" cy="118" r="1" opacity=".75"/><circle cx="120" cy="100" r="0.7" opacity=".55"/></g>
+            <use href="#cloud" x="-34" y="330" width="184" height="58" fill="#52688F" opacity="0.55"/>
+            <use href="#cloud" x="112" y="334" width="194" height="56" fill="#6A7EA6" opacity="0.45"/>
+            <use href="#cloud" x="30" y="333" width="132" height="46" fill="#BFD0E6" opacity="0.32"/>
+            <text x="238" y="40" text-anchor="end" font-family="'Array',sans-serif" font-weight="700" font-size="16" fill="url(#frost2)">IX</text>
+            <text x="22" y="40" font-family="'Array',sans-serif" font-size="11" letter-spacing="3" fill="#8FA7C4">THE NINTH</text>
+            <text x="130" y="176" text-anchor="middle" font-family="'Array',sans-serif" font-weight="700" font-size="78" fill="url(#frost2)" opacity=".9">IX</text>
+            <text x="22" y="232" font-family="'Array',sans-serif" font-weight="700" font-size="27" fill="#F2F7FC">Inner Nine</text>
+            <text x="22" y="254" font-family="'Satoshi',sans-serif" font-size="11" letter-spacing="2" fill="#8FA7C4">EARNED, NOT SOLD</text>
+            <line x1="22" y1="300" x2="238" y2="300" stroke="#24395A" stroke-width="1"/>
+            <text x="22" y="332" font-family="'Satoshi',sans-serif" font-size="12" fill="#C9D6E6">@yourhandle</text>
+            <text x="238" y="332" text-anchor="end" font-family="'Array',sans-serif" font-size="12" fill="url(#frost2)">09 / 09</text>
+          </svg>
+          <div class="cardcap"><b>Inner Nine</b>Above the clouds &middot; earned</div>
+        </div>
+      </div>
+
+      <h3>Anatomy</h3>
+      <div class="anat">
+        <svg class="card" viewBox="0 0 260 364" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Inner Nine member card anatomy">
+          <defs>
+            <linearGradient id="gIN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1A33"/><stop offset="1" stop-color="#05101F"/></linearGradient>
+            <linearGradient id="frost" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCEAF6"/><stop offset=".5" stop-color="#C9D2FF"/><stop offset="1" stop-color="#EAD9FF"/></linearGradient>
+            <radialGradient id="aur" cx="0.5" cy="0.18" r="0.7"><stop offset="0" stop-color="#29ABE2" stop-opacity=".34"/><stop offset="1" stop-color="#29ABE2" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect x="1" y="1" width="258" height="362" rx="18" fill="url(#gIN)" stroke="#1A2D4A"/>
+          <rect x="1" y="1" width="258" height="362" rx="18" fill="url(#aur)"/>
+          <g fill="#DCEAF6"><circle cx="40" cy="60" r="1.2"/><circle cx="92" cy="44" r=".9"/><circle cx="150" cy="72" r="1"/><circle cx="206" cy="52" r="1.3"/><circle cx="64" cy="104" r=".8"/></g>
+          <use href="#cloud" x="-34" y="330" width="184" height="58" fill="#52688F" opacity=".55"/>
+          <use href="#cloud" x="112" y="334" width="194" height="56" fill="#6A7EA6" opacity=".45"/>
+          <text x="22" y="40" font-family="'Array',sans-serif" font-size="11" letter-spacing="3" fill="#8FA7C4">THE NINTH</text>
+          <text x="238" y="40" text-anchor="end" font-family="'Array',sans-serif" font-weight="700" font-size="16" fill="url(#frost)">IX</text>
+          <text x="130" y="176" text-anchor="middle" font-family="'Array',sans-serif" font-weight="700" font-size="78" fill="url(#frost)" opacity=".9">IX</text>
+          <text x="22" y="232" font-family="'Array',sans-serif" font-weight="700" font-size="27" fill="#F2F7FC">Inner Nine</text>
+          <text x="22" y="254" font-family="'Satoshi',sans-serif" font-size="11" letter-spacing="2" fill="#8FA7C4">EARNED, NOT SOLD</text>
+          <line x1="22" y1="300" x2="238" y2="300" stroke="#24395A" stroke-width="1"/>
+          <text x="22" y="332" font-family="'Satoshi',sans-serif" font-size="12" fill="#C9D6E6">@yourhandle</text>
+          <text x="238" y="332" text-anchor="end" font-family="'Array',sans-serif" font-size="12" fill="url(#frost)">09 / 09</text>
+        </svg>
+        <ol>
+          <li><b>Wordmark.</b> Top-left, neutral, always present.</li>
+          <li><b>Tier numeral.</b> Roman, top-right. I, II, III, IX. Frost only at Inner Nine.</li>
+          <li><b>Altitude treatment.</b> The card's sky tells the tier: clouds, daytime blue, dusk, or night above the cloud sea.</li>
+          <li><b>Tier name.</b> The status, in Space Grotesk.</li>
+          <li><b>Status line.</b> One phrase of belonging, not a perk list.</li>
+          <li><b>Member handle.</b> The fan, named. The card is theirs.</li>
+          <li><b>Member index.</b> Position out of nine, tabular numerals. Scarcity that reads as honor, not a price.</li>
+          <li><b>Frost grail mark.</b> The large IX, Inner Nine only. The thing you cannot buy.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 10 GOV -->
+    <section class="s" id="gov">
+      <p class="kx">10</p>
+      <h2>Governance</h2>
+      <p class="intro">How The Ninth sits under Cloud9, and the rules that keep it credible.</p>
+      <div class="grid2">
+        <div class="card"><h3 style="margin-top:0">Relationship</h3><p class="muted">The Ninth is an additive membership layer, not a rebrand. The Cloud9 master logo is never altered. The brands are tied by the shared blue and joined only through the approved endorsement lockup.</p></div>
+        <div class="card"><h3 style="margin-top:0">The one rule that protects it</h3><p class="muted">The summit is earned, never sold. Inner Nine cannot be purchased. Break that and The Ninth becomes the pay-to-flex pass it was built to replace.</p></div>
+      </div>
+    </section>
+
+    <p class="foot">The Ninth is a speculative concept anchored to Cloud9 for portfolio purposes. It is not affiliated with or endorsed by Cloud9. The Cloud9 blue (#29ABE2) is referenced as the anchor for a new sub-brand layer; the Cloud9 master logo is not used or restyled here. Industry figures behind this work are gathered June 2026 and sourced in the research file. No figure describes Pratik Mehta's own results. Typefaces: Space Grotesk and Inter, both open-source.</p>
+
+  </main>
+</div>
+</body>
+</html>

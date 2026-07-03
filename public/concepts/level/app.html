@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/concepts/level/fonts.css">
+<title>Level, App UI</title>
+<meta name="description" content="Speculative app UI for Level, a prediction market concept by Pratik Mehta: phone-first screens with plain-percent odds and limits on by default." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/level/app" />
+<meta property="og:title" content="Level, App UI" />
+<meta property="og:description" content="Speculative app UI for Level, a prediction market concept by Pratik Mehta: phone-first screens with plain-percent odds and limits on by default." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-level.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/level/app" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pratikm96" />
+<meta name="twitter:image" content="https://cdn.mehtapratik.com/og/og-level.jpg" />
+<style>
+  :root{
+    --ink:#16181C; --ink-900:#0E0F12; --ink-700:#23262D; --ink-600:#2E323A;
+    --bone:#EBE6DB; --bone-100:#F5F1E8;
+    --signal:#F2A436; --ember:#C9742A;
+    --slate:#8C8E96; --slate-d:#6A6C73; --stop:#C0463E;
+    --line:rgba(235,230,219,0.13);
+    --disp:"Zodiak", Georgia, serif;
+    --text:"Supreme", system-ui, sans-serif;
+    --data:"Berkeley Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  body{padding-top:28px;background:var(--ink-900); color:var(--bone); font-family:var(--text); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px}
+  h1,h2,h3{font-family:var(--disp); font-weight:500; letter-spacing:-0.005em; line-height:1.08}
+  .eyebrow{font-family:var(--data); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--signal); margin-bottom:14px}
+  p{color:var(--bone); opacity:0.86; max-width:64ch}
+
+  .top{position:sticky; top:28px; z-index:5; background:rgba(14,15,18,0.86); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex; align-items:center; justify-content:space-between; height:60px}
+  .mark{display:inline-flex; flex-direction:column; gap:5px}
+  .mark .word{font-family:var(--disp); font-weight:500; font-size:21px; color:var(--bone); line-height:1}
+  .mark .datum{height:3px; width:100%; background:var(--bone); border-radius:2px; position:relative}
+  .mark .datum::after{content:""; position:absolute; left:50%; transform:translateX(-50%); top:-2px; width:8px; height:7px; background:var(--signal); border-radius:2px}
+  .top .meta{font-family:var(--data); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--slate)}
+
+  .intro{padding:72px 0 26px}
+  .intro h1{font-size:42px; margin-bottom:16px; max-width:18ch}
+  .intro .eyebrow{margin-bottom:18px}
+
+  .group{padding:34px 0}
+  .group > .wrap > .ghd{display:flex; align-items:baseline; gap:14px; margin-bottom:26px; border-top:1px solid var(--line); padding-top:30px}
+  .group .ghd h2{font-size:25px}
+  .group .ghd .gn{font-family:var(--data); font-size:13px; color:var(--slate)}
+
+  .gallery{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:34px 26px}
+  .cell{}
+  .cap{margin-top:15px}
+  .cap .n{font-family:var(--disp); font-weight:500; font-size:16px; color:var(--bone)}
+  .cap .d{font-size:13px; color:var(--slate); margin-top:4px; line-height:1.5}
+
+  /* device */
+  .phone{width:288px; margin:0 auto; background:#000; border:1px solid var(--line); border-radius:36px; padding:9px}
+  .screen{background:var(--ink); border-radius:28px; height:600px; overflow:hidden; display:flex; flex-direction:column; position:relative}
+  .sbar{display:flex; justify-content:space-between; align-items:center; padding:13px 18px 4px; font-family:var(--data); font-size:11px; color:var(--slate)}
+  .sbar .r{display:flex; gap:5px; align-items:center}
+  .sbar .sig{width:6px; height:6px; border-radius:50%; background:var(--signal)}
+  .app{flex:1; padding:8px 16px 14px; display:flex; flex-direction:column; gap:12px; overflow:hidden}
+  .ah{display:flex; justify-content:space-between; align-items:center}
+  .ah .t{font-family:var(--disp); font-weight:500; font-size:21px; color:var(--bone)}
+  .ah .back{font-family:var(--data); font-size:12px; color:var(--slate)}
+  .chip{font-family:var(--data); font-size:10.5px; color:var(--slate); border:1px solid var(--line); border-radius:999px; padding:4px 9px; white-space:nowrap}
+  .chip.amber{color:var(--signal); border-color:rgba(242,164,54,0.42)}
+  .chip.dot::before{content:""; display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--signal); margin-right:5px; vertical-align:1px}
+  .search{font-family:var(--text); font-size:13px; color:var(--slate); background:var(--ink-700); border:1px solid var(--line); border-radius:10px; padding:9px 12px}
+  .seg{display:flex; gap:7px}
+  .seg span{font-family:var(--text); font-size:12px; padding:5px 11px; border-radius:999px; border:1px solid var(--line); color:var(--slate)}
+  .seg span.on{color:var(--ink); background:var(--bone); border-color:var(--bone)}
+
+  .mk{background:var(--ink-700); border:1px solid var(--line); border-radius:13px; padding:12px 13px}
+  .mk .q{font-family:var(--disp); font-size:15px; color:var(--bone); line-height:1.2; margin-bottom:9px}
+  .mk .r{display:flex; justify-content:space-between; align-items:flex-end}
+  .mk .p{font-family:var(--data); font-weight:600; font-size:19px; color:var(--signal)}
+  .mk .meta{font-family:var(--data); font-size:10px; color:var(--slate)}
+  .barmini{height:5px; background:var(--ink-600); border-radius:3px; margin:8px 0 0; overflow:hidden}
+  .barmini > span{display:block; height:100%; background:var(--signal); border-radius:3px}
+  .barmini.n > span{background:#5F6168}
+
+  .hero-q{font-family:var(--disp); font-size:21px; color:var(--bone); line-height:1.15}
+  .hero-sub{font-family:var(--data); font-size:11px; color:var(--slate)}
+  .prob{display:flex; align-items:baseline; gap:8px}
+  .prob .big{font-family:var(--data); font-weight:600; font-size:50px; color:var(--signal); letter-spacing:-0.01em}
+  .prob .lbl{font-size:12px; color:var(--slate)}
+  .yn{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .opt{border:1px solid var(--line); border-radius:11px; padding:12px; display:flex; align-items:center; justify-content:space-between}
+  .opt .k{font-family:var(--disp); font-weight:500; font-size:16px; color:var(--bone)}
+  .opt .v{font-family:var(--data); font-size:13px; color:var(--slate)}
+  .opt.sel{border-color:var(--signal); box-shadow:inset 0 0 0 1px var(--signal)}
+  .opt.sel .v{color:var(--signal)}
+
+  .row{display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--line)}
+  .row:last-child{border-bottom:none}
+  .row .k{font-size:13.5px; color:var(--bone); opacity:0.9}
+  .row .k small{display:block; color:var(--slate); font-size:11px; opacity:1}
+  .row .v{font-family:var(--data); font-size:13px; color:var(--slate)}
+  .row .v.amber{color:var(--signal)}
+  .row .v.stop{color:var(--stop)}
+
+  .pbtn{display:block; text-align:center; font-family:var(--text); font-weight:500; font-size:15px; padding:13px; border-radius:12px}
+  .pbtn.amber{background:var(--signal); color:#2A1B05}
+  .pbtn.bone{background:var(--bone); color:var(--ink)}
+  .pbtn.ghost{border:1px solid var(--line); color:var(--bone)}
+  .pbtn.stop{border:1px solid rgba(192,70,62,0.5); color:#E08079}
+  .spacer{margin-top:auto}
+
+  .note{font-size:11.5px; color:var(--slate); line-height:1.45}
+  .bubble{background:var(--ink-700); border:1px solid var(--line); border-radius:13px; padding:12px 13px; font-size:13px; line-height:1.5; color:var(--bone); opacity:0.92}
+  .bubble.you{background:transparent; border-color:var(--line); color:var(--slate); align-self:flex-end; max-width:80%}
+  .ev{font-family:var(--data); font-size:11px; color:var(--slate); border-left:2px solid var(--signal); padding-left:9px; line-height:1.5}
+  .stake-amt{font-family:var(--data); font-weight:600; font-size:40px; color:var(--bone); text-align:center; letter-spacing:-0.01em}
+  .keypad{display:grid; grid-template-columns:repeat(3,1fr); gap:6px}
+  .keypad span{font-family:var(--data); font-size:17px; text-align:center; padding:9px 0; color:var(--bone); border-radius:8px; border:1px solid var(--line)}
+
+  .center{display:flex; flex-direction:column; align-items:center; text-align:center; justify-content:center; flex:1; gap:14px; padding:0 6px}
+  .center .big-n{font-family:var(--data); font-weight:600; font-size:34px; color:var(--bone)}
+  .badge{font-family:var(--data); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--signal); border:1px solid rgba(242,164,54,0.42); border-radius:999px; padding:5px 11px; display:inline-block}
+
+  .tabs{display:flex; justify-content:space-around; align-items:center; padding:10px 0 2px; border-top:1px solid var(--line)}
+  .tabs i{width:7px; height:7px; border-radius:50%; background:var(--slate-d); display:block}
+  .tabs i.on{background:var(--signal)}
+
+  footer{padding:48px 0 80px; border-top:1px solid var(--line); color:var(--slate); font-size:13px; margin-top:20px}
+  footer code{font-family:var(--data); font-size:12.5px; color:var(--bone)}
+</style>
+</head>
+<body><a href="/work/level" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;Level &middot; back to the case study</a>
+
+<div class="top"><div class="wrap">
+  <span class="mark"><span class="word">Level</span><span class="datum"></span></span>
+  <span class="meta">App, phone-first</span>
+</div></div>
+
+<header class="intro"><div class="wrap">
+  <div class="eyebrow">06 / Product</div>
+  <h1>The product carries the position.</h1>
+  <p>A phone-first walk through the core flow: find a market, understand it, stake with friction, and stay in control. The responsible-use system from the spec is built into the screens, not bolted on after. Amber stays disciplined, outcomes stay neutral, and the limit travels with the user the whole way.</p>
+</div></header>
+
+<div class="group"><div class="wrap">
+  <div class="ghd"><span class="gn">A</span><h2>Getting started, honestly</h2></div>
+  <div class="gallery">
+
+    <div class="cell">
+      <div class="phone"><div class="screen">
+        <div class="sbar"><span>9:41</span><span class="r"><span class="sig"></span>Level</span></div>
+        <div class="app">
+          <div style="margin-top:6px"><span class="badge">Starter mode, 18 to 20</span></div>
+          <h3 style="font-size:23px; margin-top:6px">First, the honest part.</h3>
+          <p style="font-size:13.5px; opacity:0.84">Real money on real outcomes. Most people lose over time. We will set your limits before you place anything, and you can lower them any time, instantly.</p>
+          <div class="mk" style="margin-top:4px">
+            <div class="row"><span class="k">Daily deposit limit</span><span class="v amber">$25</span></div>
+            <div class="row"><span class="k">Daily loss limit</span><span class="v amber">$20</span></div>
+            <div class="row"><span class="k">Session reminder</span><span class="v">every 30 min</span></div>
+          </div>
+          <p class="note">Limits are on by default. Raising one takes a day to take effect. Lowering is instant.</p>
+          <div class="spacer"></div>
+          <span class="pbtn bone">Set my limits and continue</span>
+        </div>
+      </div></div>
+      <div class="cap"><div class="n">Onboarding</div><div class="d">Protection is the first move, not a buried setting. The defaults protect, so the user opts out rather than in.</div></div>
+    </div>
+
+  </div>
+</div></div>
+
+<div class="group"><div class="wrap">
+  <div class="ghd"><span class="gn">B</span><h2>Find a market, understand it</h2></div>
+  <div class="gallery">
+
+    <div class="cell">
+      <div class="phone"><div class="screen">
+        <div class="sbar"><span>9:41</span><span class="r"><span class="sig"></span>Level</span></div>
+        <div class="app">
+          <div class="ah"><span class="t">Today</span><span class="chip amber">$20 left today</span></div>
+          <div class="search">Search markets</div>
+          <div class="seg"><span class="on">Sports</span><span>Live</span><span>Closing</span></div>
+          <div class="mk">
+            <div class="q">Will the home side win tonight?</div>
+            <div class="r"><span class="p">62%</span><span class="meta">resolves 8:00pm &middot; fee 1.5%</span></div>
+            <div class="barmini"><span style="width:62%"></span></div>
+          </div>
+          <div class="mk">
+            <div class="q">Over 2.5 goals in the derby?</div>
+            <div class="r"><span class="p">44%</span><span class="meta">resolves 10:00pm &middot; fee 1.5%</span></div>
+            <div class="barmini"><span style="width:44%"></span></div>
+          </div>
+          <div class="mk">
+            <div class="q">Will the series go to a game 7?</div>
+            <div class="r"><span class="p">38%</span><span class="meta">resolves Sun &middot; fee 1.5%</span></div>
+            <div class="barmini"><span style="width:38%"></span></div>
+          </div>
+          <div class="tabs"><i class="on"></i><i></i><i></i><i></i></div>
+        </div>
+      </div></div>
+      <div class="cap"><div class="n">Discovery</div><div class="d">Sports-forward feed, calm cards. The limit chip rides in the header, fees on every market, no urgency banners.</div></div>
+    </div>
+
+    <div class="cell">
+      <div class="phone"><div class="screen">
+        <div class="sbar"><span>9:41</span><span class="r"><span class="sig"></span>Level</span></div>
+        <div class="app">
+          <div class="ah"><span class="back">&lt; Today</span><span class="chip dot">Live</span></div>
+          <div class="hero-q">Will the home side win tonight?</div>
+          <div class="hero-sub">resolves at full time, 8:00pm &middot; fee 1.5%</div>
+          <div class="prob"><span class="big">62%</span><span class="lbl">implied chance, Yes</span></div>
+          <div class="barmini" style="height:7px"><span style="width:62%"></span></div>
+          <div class="yn">
+            <div class="opt sel"><span class="k">Yes</span><span class="v">62%</span></div>
+            <div class="opt"><span class="k">No</span><span class="v">38%</span></div>
+          </div>
+          <div class="bubble" style="display:flex; gap:10px; align-items:center; padding:11px 13px">
+            <span class="sig" style="flex:none"></span>
+            <span style="font-size:12.5px">New here? Let me explain this market before you stake.</span>
+          </div>
+          <div class="spacer"></div>
+          <span class="pbtn bone">Continue to stake</span>
+          <p class="note" style="text-align:center">Yes and No stay neutral. Amber only marks your choice.</p>
+        </div>
+      </div></div>
+      <div class="cap"><div class="n">Market detail</div><div class="d">Probability leads in plain percent. Outcomes are not green and red. The explainer is offered before the stake, not after.</div></div>
+    </div>
+
+    <div class="cell">
+      <div class="phone"><div class="screen">
+        <div class="sbar"><span>9:41</span><span class="r"><span class="sig"></span>Level</span></div>
+        <div class="app">
+          <div class="ah"><span class="t" style="font-size:18px">Explain this market</span><span class="back">close</span></div>
+          <div class="bubble you">What does 62% actually mean here?</div>
+          <div class="bubble">It means the market, the crowd of people staking, currently puts the home win at a 62 in 100 chance. It is not a guarantee, and it moves as money and news come in.</div>
+          <div class="bubble">It resolves on the final score at full time. A draw or a loss both count as No.</div>
+          <div class="ev">Why: home unbeaten in 6, key striker fit, away side on a back-to-back. Source lines update live.</div>
+          <div class="spacer"></div>
+          <span class="pbtn ghost">Got it, back to the market</span>
+          <p class="note" style="text-align:center">First time on a market type, this runs before the stake screen.</p>
+        </div>
+      </div></div>
+      <div class="cap"><div class="n">Explain this market</div><div class="d">The AI assistant, plain-language probability plus the evidence. Understand-before-you-stake, designed as a one-time gate, not a nag.</div></div>
+    </div>
+
+  </div>
+</div></div>
+
+<div class="group"><div class="wrap">
+  <div class="ghd"><span class="gn">C</span><h2>Stake, with friction that protects</h2></div>
+  <div class="gallery">
+
+    <div class="cell">
+      <div class="phone"><div class="screen">
+        <div class="sbar"><span>9:41</span><span class="r"><span class="sig"></span>Level</span></div>
+        <div class="app">
+          <div class="ah"><span class="back">&lt; Market</span><span class="chip">Yes &middot; 62%</span></div>
+          <div style="text-align:center; margin-top:6px"><span class="hero-sub">Your stake</span></div>
+          <div class="stake-amt">$5.00</div>
+          <div class="mk" style="padding:11px 13px">
+            <div class="row"><span class="k">To win if Yes</span><span class="v">$8.06</span></div>
+            <div class="row"><span class="k">Fee, 1.5%</span><span class="v">$0.08</span></div>
+            <div class="row"><span class="k">Your net today<small>across all markets</small></span><span class="v stop">-$12.40</span></div>
+            <div class="row"><span class="k">Loss limit left</span><span class="v amber">$7.60</span></div>
+          </div>
+          <div class="keypad" style="margin-top:2px">
+            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+          </div>
+          <div class="spacer"></div>
+          <span class="pbtn amber">Confirm $5 on Yes</span>
+        </div>
+      </div></div>
+      <div class="cap"><div class="n">Stake, confirm</div><div class="d">The honest number is the one in view: your real net today, not just the potential win. There is one amber action, the confirm, and the loss-limit headroom stays shown.</div></div>
+    </div>
+
+    <div class="cell">
+      <div class="phone"><div class="screen">
+        <div class="sbar"><span>9:41</span><span class="r"><span class="sig"></span>Level</span></div>
+        <div class="app">
+          <div class="center">
+            <span class="badge">A quick check-in</span>
+            <h3 style="font-size:24px; max-width:15ch">You are near your limit for today.</h3>
+            <div>
+              <div class="big-n stop">-$12.40</div>
+              <div class="note">net today, $7.60 of your loss limit left</div>
+            </div>
+            <p style="font-size:13px; opacity:0.82; max-width:24ch">No pressure either way. A lot of people find this a good place to stop.</p>
+          </div>
+          <span class="pbtn bone">Stop for today</span>
+          <span class="pbtn ghost" style="margin-top:9px">Keep going, $7.60 left</span>
+        </div>
+      </div></div>
+      <div class="cap"><div class="n">Nearing-limit check-in</div><div class="d">Friction at the dangerous moment, framed as the user's own control. The calm option is the prominent one; continuing is allowed, not pushed.</div></div>
+    </div>
+
+  </div>
+</div></div>
+
+<div class="group"><div class="wrap">
+  <div class="ghd"><span class="gn">D</span><h2>Stay in control</h2></div>
+  <div class="gallery">
+
+    <div class="cell">
+      <div class="phone"><div class="screen">
+        <div class="sbar"><span>9:41</span><span class="r"><span class="sig"></span>Level</span></div>
+        <div class="app">
+          <div class="ah"><span class="t">Control</span><span class="chip">Starter</span></div>
+          <div class="mk" style="padding:6px 13px">
+            <div class="row"><span class="k">Daily deposit limit</span><span class="v amber">$25</span></div>
+            <div class="row"><span class="k">Daily loss limit</span><span class="v amber">$20</span></div>
+            <div class="row"><span class="k">Session reminder</span><span class="v">30 min</span></div>
+            <div class="row"><span class="k">Time on app today</span><span class="v">22 min</span></div>
+          </div>
+          <h3 style="font-size:15px; margin-top:2px">Take a break</h3>
+          <div class="seg"><span>24 hours</span><span>7 days</span><span>30 days</span></div>
+          <div class="row" style="border:none; padding-top:6px"><span class="k stop" style="color:#E08079">Self-exclude</span><span class="v stop">choose how long</span></div>
+          <div class="spacer"></div>
+          <span class="pbtn stop">Get support</span>
+          <p class="note" style="text-align:center">One tap to pause. No retention offer, no friction to leave.</p>
+        </div>
+      </div></div>
+      <div class="cap"><div class="n">Control center</div><div class="d">Limits, session time, and self-exclusion sit together, plainly. Red appears only here, where it means stop, never on an ordinary loss.</div></div>
+    </div>
+
+    <div class="cell">
+      <div class="phone"><div class="screen">
+        <div class="sbar"><span>9:41</span><span class="r"><span class="sig"></span>Level</span></div>
+        <div class="app">
+          <div class="ah"><span class="t">Positions</span><span class="chip">22 min today</span></div>
+          <div class="mk" style="padding:11px 13px; text-align:center">
+            <div class="hero-sub">Net today, all markets</div>
+            <div class="big-n stop" style="font-size:30px; margin-top:4px">-$12.40</div>
+          </div>
+          <div class="mk">
+            <div class="row" style="border:none; padding:5px 0"><span class="k">Home side to win<small>open, resolves 8:00pm</small></span><span class="v amber">62%</span></div>
+          </div>
+          <div class="mk">
+            <div class="row" style="border:none; padding:5px 0"><span class="k">Over 2.5 goals<small>settled, No</small></span><span class="v">-$5.00</span></div>
+          </div>
+          <div class="mk">
+            <div class="row" style="border:none; padding:5px 0"><span class="k">Series to game 7<small>settled, Yes</small></span><span class="v">+$3.20</span></div>
+          </div>
+          <div class="tabs"><i></i><i></i><i class="on"></i><i></i></div>
+        </div>
+      </div></div>
+      <div class="cap"><div class="n">Positions, honest ledger</div><div class="d">Net is the headline, and wins and losses get equal weight in the same neutral style. No confetti, no celebration screen on a win.</div></div>
+    </div>
+
+  </div>
+</div></div>
+
+<footer><div class="wrap">
+  Level is a speculative concept by Pratik Mehta. Screens are design mockups, not a working product, and not affiliated with any exchange. Figures shown are illustrative. Market and industry data referenced across this project is drawn from cited public research; projected outcomes are objectives, not results.
+</div></footer>
+
+</body>
+</html>

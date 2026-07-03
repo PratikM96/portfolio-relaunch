@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/concepts/wisp/fonts.css">
+<title>WISP, live demo</title>
+<meta name="description" content="WISP, a self-initiated concept by Pratik Mehta for a faceless warm AI host: a live presence demo and its brand system." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/wisp/" />
+<meta property="og:title" content="WISP, live demo" />
+<meta property="og:description" content="A self-initiated concept for a faceless, warm AI host. A live presence demo and its brand system." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-wisp.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/wisp/" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<style>
+  :root{
+    --void:#0C0706;--ground:#140C09;--ground-2:#241712;
+    --type-1:#FFEBD2;--type-2:#F6B98A;--ink:#C9A488;--ink-dim:#8C7460;
+    --field:#E9703F;--accent:#5BD6C4;--core-1:#FFE7C2;
+    --line:rgba(201,164,136,0.16);
+    --serif:'Sentient',Georgia,serif;
+    --sans:'General Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    --mono:'Berkeley Mono',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ground);color:var(--type-1);font-family:var(--sans);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:88px 28px 96px}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--field);margin-bottom:18px;display:inline-block}
+  h1{font-family:var(--serif);font-weight:300;letter-spacing:.01em;line-height:1.04;font-size:clamp(38px,6vw,64px);margin:0;color:var(--type-1)}
+  .lede{max-width:56ch;margin:20px 0 0;font-size:16.5px;color:var(--type-2)}
+  .disclose{margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+  .grid{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{position:relative;display:flex;flex-direction:column;gap:9px;background:var(--ground-2);border:1px solid var(--line);border-radius:16px;padding:24px 24px 22px;text-decoration:none;color:inherit;transition:border-color .3s,transform .3s cubic-bezier(.22,.7,.2,1)}
+  .card:hover{transform:translateY(-3px);border-color:var(--field)}
+  .card.feat{grid-column:span 2;border-color:rgba(233,112,63,.4)}
+  .card .vl{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--type-1)}
+  .card.feat .vl{font-size:26px}
+  .card .vc{font-size:13.5px;color:var(--ink)}
+  .card .go{margin-top:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--field)}
+  .card.feat .badge{position:absolute;top:24px;right:24px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(91,214,196,.4);border-radius:999px;padding:4px 10px}
+  .backlink{display:inline-flex;align-items:center;gap:8px;margin-top:40px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--type-2);text-decoration:none}
+  .backlink:hover{color:var(--field)}
+  .foot{margin-top:26px;font-size:13px;color:var(--ink-dim);max-width:680px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}.card.feat{grid-column:span 1}}
+</style>
+</head>
+<body>
+<a href="/work/wisp" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;WISP &middot; back to the case study</a>
+
+<main class="wrap">
+  <span class="kicker">Live demo &middot; WISP</span>
+  <h1>Presence,<br>not a face.</h1>
+  <p class="lede">A live AI host with presence and no face, built to feel like something is there without pretending to be someone.</p>
+  <div class="disclose">Self-initiated concept &middot; a scripted demonstration, not a live AI model</div>
+
+  <div class="grid">
+    <a class="card feat" href="/concepts/wisp/demo">
+      <span class="badge">Live</span>
+      <span class="vl">Demo</span>
+      <span class="vc">Live presence &middot; type to it and it moves through its seven states</span>
+      <span class="go">Open &#8599;</span>
+    </a>
+    <a class="card" href="/concepts/wisp/brand">
+      <span class="vl">Brand</span>
+      <span class="vc">The presence system, warm not cold-tech</span>
+      <span class="go">Open &#8599;</span>
+    </a>
+  </div>
+
+  <a class="backlink" href="/work/wisp">&#8592; Back to the case study</a>
+  <p class="foot">WISP is a self-initiated concept and its own brand. The demo is a scripted presentation of an interaction model, not a live AI product.</p>
+</main>
+</body>
+</html>

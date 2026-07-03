@@ -63,14 +63,6 @@ decisions:
     - { n: "03", title: "Seven states, one mechanic", text: "A small, legible emotional vocabulary reads instantly." }
     - { n: "04", title: "Warm, not cold-tech", text: "A live host has to feel inviting to sit with." }
 
-output:
-  tiles:
-    - { span: wide, ph: "Seven-state presence", caption: "Presence · seven emotional states" }
-    - { span: standard, ph: "Live demo", caption: "Live demo · type and it reacts" }
-    - { span: standard, ph: "Motion states", caption: "Motion · breath and intensity" }
-    - { span: wide, ph: "Warm brand system", caption: "Brand · warm, not cold-tech" }
-  note: "Placeholder tiles represent the system; live views linked below."
-
 reflection:
   prose:
     - text: "WISP is about interaction design for AI presence, the part most AI products skip. It shows how presence, motion, and honesty combine into something that feels live and usable on screen, without faking a human to get there."
@@ -96,6 +88,6 @@ demo:
   heading: "Live demo · WISP"
   foot: "Type to it and the presence reacts. A scripted demonstration, not a live model."
   tabs:
-    - { label: Demo, cap: "Live presence · type and it moves through its states", href: "/concepts/wisp/demo", featured: true }
-    - { label: Brand, cap: "Brand · the presence system, warm not cold-tech", href: "/concepts/wisp/brand" }
+    - { img: "/concepts/wisp/preview-demo.webp", label: Demo, cap: "Live presence · type and it moves through its states", href: "/concepts/wisp/demo", featured: true }
+    - { img: "/concepts/wisp/preview-brand.webp", label: Brand, cap: "Brand · the presence system, warm not cold-tech", href: "/concepts/wisp/brand" }
 ---

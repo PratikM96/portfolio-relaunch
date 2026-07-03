@@ -254,7 +254,7 @@ const work = defineCollection({
             z.object({
               label: z.string(),
               cap: z.string(),
-              img: z.string().url().or(z.literal('')).optional(), // preview image, supplied later
+              img: z.string().optional(), // preview image: root-relative same-origin path (/concepts/<slug>/preview-<view>.webp), or omitted -> placeholder
               href: z.string(),
               featured: z.boolean().optional(),
             }),

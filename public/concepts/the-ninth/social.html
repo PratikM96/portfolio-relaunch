@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<title>The Ninth, Social Content Engine (Phase 5)</title>
+<meta name="description" content="Social content engine for The Ninth, a speculative esports concept by Pratik Mehta: one match becomes a week of output, AI drafted and human steered." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/social" />
+<meta property="og:title" content="The Ninth, Social Content Engine (Phase 5)" />
+<meta property="og:description" content="Social content engine for The Ninth, a speculative esports concept by Pratik Mehta: one match becomes a week of output, AI drafted and human steered." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-the-ninth.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/the-ninth/social" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pratikm96" />
+<meta name="twitter:image" content="https://cdn.mehtapratik.com/og/og-the-ninth.jpg" />
+<style>
+  :root{
+    --c9:#29ABE2;--ink:#07142B;--blue-deep:#1B6FA8;--cloud:#F4F8FB;
+    --mist:#AEC3D4;--frost:#DCEAF6;--line:#E4ECF3;
+    --player:#46C7B8;--ctype:#5B6B82;
+    --disp:'Array',ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif;
+    --text:'Satoshi',ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:54px 32px 96px}
+  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
+  h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(30px,5vw,52px);line-height:.94;margin:0}
+  h1 small{display:block;font-size:12px;letter-spacing:.34em;color:var(--mist);margin-top:13px;font-weight:500}
+  .lede{max-width:660px;margin:22px 0 0;font-size:16px;color:#2c3e52}
+  .lede b{color:var(--ink);font-weight:600}
+  .kx{font-family:var(--disp);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--c9);margin:0 0 6px}
+  h2{font-family:var(--disp);font-weight:600;font-size:24px;margin:0 0 8px}
+  .sec{margin-top:60px;border-top:1px solid var(--line);padding-top:46px}
+  .intro{max-width:680px;color:#3a4d60;margin:0 0 26px}
+
+  /* pipeline */
+  .pipe{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+  .node{flex:1;min-width:150px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px 16px}
+  .node .n{font-family:var(--disp);font-size:10px;letter-spacing:.12em;color:var(--mist)}
+  .node .t{font-family:var(--disp);font-weight:600;font-size:15px;margin:5px 0 4px}
+  .node .d{font-size:12.5px;color:#54677a}
+  .node.ai{background:linear-gradient(135deg,#0b1322,#15324d);border-color:#15324d}
+  .node.ai .t{color:#fff}.node.ai .d{color:#9fc3da}.node.ai .n{color:#7fa8c8}
+  .node .ixm{display:inline-flex;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);align-items:center;justify-content:center;color:#1a2d4a;font-family:var(--disp);font-weight:700;font-size:10px;margin-bottom:8px}
+  .arrow{align-self:center;color:var(--mist);font-family:var(--disp);font-size:18px}
+
+  /* portfolio */
+  .port{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .pc{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+  .pc .bar{height:6px}
+  .pc .in{padding:18px 18px}
+  .pc .role{font-family:var(--disp);font-weight:600;font-size:16px}
+  .pc .cnt{font-family:var(--disp);font-size:12px;color:#54677a;margin:3px 0 10px}
+  .pc .d{font-size:13px;color:#3a4d60}
+  .pc .cad{margin-top:12px;font-family:var(--disp);font-size:11px;letter-spacing:.04em;color:var(--ink);background:#f1f6fa;border-radius:8px;padding:7px 10px;display:inline-block}
+
+  /* templates */
+  .tpls{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .tw{display:flex;flex-direction:column;gap:8px}
+  .tpl{width:100%;aspect-ratio:9/16;border-radius:12px;overflow:hidden;position:relative;color:#fff;box-shadow:0 14px 28px -18px rgba(7,20,43,.5)}
+  .tpl .cnr{position:absolute;top:8px;left:8px;font-family:var(--disp);font-size:7px;letter-spacing:.12em;color:#fff;opacity:.85}
+  .tpl .ix{position:absolute;top:7px;right:8px;font-family:var(--disp);font-weight:700;font-size:10px}
+  .tpl .mid{position:absolute;left:9px;right:9px;top:50%;transform:translateY(-50%)}
+  .tpl .lab{font-family:var(--disp);font-size:8px;letter-spacing:.14em;opacity:.85}
+  .tpl .big{font-family:var(--disp);font-weight:700;line-height:1.02;letter-spacing:.01em}
+  .tpl .bot{position:absolute;left:9px;right:9px;bottom:9px;font-size:8.5px;color:rgba(255,255,255,.8)}
+  .tw .cap{font-size:11px;color:#54677a;text-align:center}
+  .tw .cap b{display:block;font-family:var(--disp);color:var(--ink);font-weight:600;font-size:12px}
+
+  /* sample week */
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:16px;font-size:12px;color:#54677a}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:9px}
+  .day{border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 9px;display:flex;flex-direction:column}
+  .day.peak{border-color:var(--c9);box-shadow:0 0 0 1px var(--c9) inset}
+  .day .dn{font-family:var(--disp);font-weight:600;font-size:12px}
+  .day .ph{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--mist);margin:1px 0 8px;font-family:var(--disp)}
+  .day .ph.hot{color:var(--c9)}
+  .chip{height:8px;border-radius:99px;margin-bottom:5px}
+  .day .ctot{margin-top:auto;padding-top:8px;font-family:var(--disp);font-size:11px;color:#54677a}
+  .day .ctot b{color:var(--ink);font-weight:600}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+  .card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px 22px}
+  .card h4{font-family:var(--disp);font-weight:600;font-size:15px;margin:0 0 8px}
+  .card p{font-size:13.5px;color:#3a4d60;margin:0}
+  .card .gate{font-family:var(--disp);font-size:12px;color:var(--ink);background:#f1f6fa;border-radius:9px;padding:9px 12px;margin-top:12px}
+
+  .refs{margin-top:26px;font-size:12.5px;color:#54677a}
+  .refs a{color:var(--blue-deep);text-decoration:none}
+  .foot{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--mist);font-size:13px;max-width:800px}
+  @media(max-width:900px){.port{grid-template-columns:1fr}.tpls{grid-template-columns:repeat(3,1fr)}.two{grid-template-columns:1fr}.week{grid-template-columns:repeat(7,1fr);gap:5px}.day{padding:7px 5px}}
+  @media(max-width:560px){.tpls{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body><a href="/work/the-ninth" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;The Ninth &middot; back to the case study</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="cloud" viewBox="0 0 120 60"><circle cx="34" cy="38" r="20"/><circle cx="62" cy="27" r="27"/><circle cx="90" cy="38" r="20"/><rect x="16" y="40" width="90" height="20" rx="10"/></symbol>
+</svg>
+
+<div class="wrap">
+  <span class="tag">Speculative concept &middot; Phase 5 &middot; social content engine</span>
+  <h1>One match in, a week out.<small>THE NINTH &middot; SOCIAL CONTENT ENGINE</small></h1>
+  <p class="lede">Not a posting schedule, a system. One match produces a week of cross-platform output across a managed account portfolio, drafted by the same AI that powers the app's clipper and steered by a human for taste and voice. The result reaches far more fans than a single official account at the same production cost. <b>Vertical-first, because 56% of esports viewing is mobile.</b></p>
+
+  <!-- PIPELINE -->
+  <div class="sec" style="border-top:0;margin-top:40px;padding-top:0">
+    <p class="kx">The pipeline</p>
+    <h2>From one match to a portfolio</h2>
+    <p class="intro">The engine is a funnel. The clipper built in Phase 3 is its source: each broadcast day yields 10 to 25 clip-worthy moments. The AI drafts platform-native variants per template, a human approves and tunes voice, and the set fans out across the account portfolio on an event-driven cadence.</p>
+    <div class="pipe">
+      <div class="node"><div class="n">SOURCE</div><div class="t">One match</div><div class="d">30 to 100 min of broadcast and player POV footage.</div></div>
+      <span class="arrow">&rsaquo;</span>
+      <div class="node ai"><div class="ixm">IX</div><div class="t">Clipper detects</div><div class="d">10 to 25 moments, auto-cut and tagged.</div></div>
+      <span class="arrow">&rsaquo;</span>
+      <div class="node ai"><div class="ixm">IX</div><div class="t">AI drafts variants</div><div class="d">Per template, per platform, per account voice.</div></div>
+      <span class="arrow">&rsaquo;</span>
+      <div class="node"><div class="n">HUMAN</div><div class="t">Approve and tune</div><div class="d">Taste, voice, spoiler timing. The gate.</div></div>
+      <span class="arrow">&rsaquo;</span>
+      <div class="node"><div class="n">OUTPUT</div><div class="t">Portfolio fan-out</div><div class="d">Hero, player, and content-type accounts.</div></div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="sec">
+    <p class="kx">The model</p>
+    <h2>A managed account portfolio</h2>
+    <p class="intro">The strategic shift: orgs no longer run one official account, they run a portfolio of them. Algorithmic coverage from many accounts reaches 5 to 20x a single account at similar cost. Each tier has its own role, polish, and cadence.</p>
+    <div class="port">
+      <div class="pc"><div class="bar" style="background:var(--c9)"></div><div class="in"><div class="role">Hero accounts</div><div class="cnt">1 to 2 per platform</div><div class="d">The official voice. Highest polish: results, announcements, the title bumper, brand films. Calm and premium, never spammy.</div><div class="cad">1 to 2 posts / day</div></div></div>
+      <div class="pc"><div class="bar" style="background:var(--player)"></div><div class="in"><div class="role">Player-perspective</div><div class="cnt">5 to 10 per platform</div><div class="d">Per-star POV: match clips, stream highlights, personality. Where the casual fan who follows a player, not a league, actually lives.</div><div class="cad">2 to 4 posts / day</div></div></div>
+      <div class="pc"><div class="bar" style="background:var(--ctype)"></div><div class="in"><div class="role">Content-type</div><div class="cnt">5 to 8 per platform</div><div class="d">Format-specific: highlights, lore, behind-the-scenes, and dry-wit banter kept in Cloud9's voice, witty not toxic.</div><div class="cad">2 to 4 posts / day</div></div></div>
+    </div>
+  </div>
+
+  <!-- TEMPLATES -->
+  <div class="sec">
+    <p class="kx">The kit</p>
+    <h2>Template set</h2>
+    <p class="intro">Vertical-first for mobile, each also exporting square for feed. Every template carries the altitude system, with frost rationed to member moments. The AI fills them and the templates hold the brand, so output stays on-system at volume.</p>
+    <div class="tpls">
+
+      <div class="tw">
+        <div class="tpl" style="background:linear-gradient(180deg,#3FBCEC,#1B6FA8)">
+          <span class="cnr">THE NINTH</span><span class="ix" style="color:#EAF8FF">II</span>
+          <div class="mid"><div class="lab">MATCHDAY &middot; LCS</div><div class="big" style="font-size:18px;margin-top:4px">CLOUD9<br><span style="opacity:.7;font-size:12px">vs Team Liquid</span></div></div>
+          <div class="bot">Sat &middot; 5:00 PM PT</div>
+        </div>
+        <div class="cap"><b>Matchday</b>Hero</div>
+      </div>
+
+      <div class="tw">
+        <div class="tpl" style="background:radial-gradient(120% 80% at 50% 0%,#16324b,#070f1d)">
+          <span class="cnr" style="color:#9fc3da">THE NINTH</span>
+          <span class="ix" style="background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);color:#1a2d4a;border-radius:5px;padding:2px 5px">IX</span>
+          <div class="mid"><div class="lab" style="color:#8fa7c4">MOMENT &middot; AUTO-CLIP</div><div class="big" style="font-size:15px;margin-top:4px">Blaber flips the fight</div></div>
+          <div class="bot" style="color:#9fb2c4">0:12 &middot; share to the room</div>
+        </div>
+        <div class="cap"><b>Moment clip</b>Player / content</div>
+      </div>
+
+      <div class="tw">
+        <div class="tpl" style="background:linear-gradient(180deg,#0C2E4E,#071726)">
+          <span class="cnr" style="color:#9fc3da">PLAYER</span><span class="ix" style="color:#7fd0f0">C9</span>
+          <div class="mid"><div class="big" style="font-size:20px">BLABER</div><div class="lab" style="color:#9fc3da;margin-top:3px">JUNGLE</div><div style="font-family:var(--disp);font-size:11px;color:#7fd0f0;margin-top:8px">4 / 1 / 7 &middot; 62% KP</div></div>
+          <div class="bot" style="color:#9fb2c4">Player of the match</div>
+        </div>
+        <div class="cap"><b>Player spotlight</b>Player</div>
+      </div>
+
+      <div class="tw">
+        <div class="tpl" style="background:linear-gradient(180deg,#BFE6F8,#1B6FA8)">
+          <span class="cnr" style="color:#0a3350">THE NINTH</span><span class="ix" style="color:#fff">II</span>
+          <div class="mid"><div class="lab" style="color:#0a3350">RESULT</div><div class="big" style="font-size:30px;color:#07142B;margin-top:2px">3-1</div><div style="font-family:var(--disp);font-size:11px;color:#0a3350;margin-top:4px">Cloud9 take the series</div></div>
+        </div>
+        <div class="cap"><b>Result reaction</b>Hero</div>
+      </div>
+
+      <div class="tw">
+        <div class="tpl" style="background:radial-gradient(120% 80% at 50% 0%,#0B1A33,#05101F)">
+          <span class="cnr" style="color:#8fa7c4">INNER NINE</span>
+          <span class="ix" style="background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);color:#1a2d4a;border-radius:5px;padding:2px 5px">IX</span>
+          <div class="mid" style="text-align:center"><div style="width:34px;height:34px;border-radius:8px;margin:0 auto 8px;background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff)"></div><div class="lab" style="color:#bcd6ea">WELCOME</div><div class="big" style="font-size:15px;margin-top:3px">@nine_lives</div></div>
+          <div class="bot" style="color:#8fa7c4;text-align:center">to the inner circle</div>
+        </div>
+        <div class="cap"><b>Member milestone</b>Content / hero</div>
+      </div>
+
+      <div class="tw">
+        <div class="tpl" style="background:linear-gradient(180deg,#2E7FB4,#0C2E4E)">
+          <span class="cnr">DROP</span><span class="ix" style="color:#EAF8FF">II</span>
+          <div class="mid"><div class="lab">MEMBERS FIRST</div><div class="big" style="font-size:18px;margin-top:4px">Altitude Tee</div></div>
+          <div class="bot">Friday &middot; members get 24h early</div>
+        </div>
+        <div class="cap"><b>Drop announce</b>Hero</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SAMPLE WEEK -->
+  <div class="sec">
+    <p class="kx">The output</p>
+    <h2>A sample week from one match</h2>
+    <p class="intro">The match lands Saturday. The week ramps toward it and decays after, all sourced from that one event. Cadence is event-driven, not flat, and the post mix shifts by phase. Bars show post volume by account type.</p>
+    <div class="legend">
+      <span><i style="background:var(--c9)"></i>Hero</span>
+      <span><i style="background:var(--player)"></i>Player-perspective</span>
+      <span><i style="background:var(--ctype)"></i>Content-type</span>
+    </div>
+    <div class="week">
+      <div class="day"><div class="dn">Mon</div><div class="ph">Off-week</div>
+        <div class="chip" style="background:var(--c9);width:50%"></div>
+        <div class="chip" style="background:var(--player);width:80%"></div>
+        <div class="chip" style="background:var(--ctype);width:70%"></div>
+        <div class="ctot"><b>~9</b> posts</div></div>
+      <div class="day"><div class="dn">Tue</div><div class="ph">Off-week</div>
+        <div class="chip" style="background:var(--c9);width:50%"></div>
+        <div class="chip" style="background:var(--player);width:75%"></div>
+        <div class="chip" style="background:var(--ctype);width:80%"></div>
+        <div class="ctot"><b>~10</b> posts</div></div>
+      <div class="day"><div class="dn">Wed</div><div class="ph hot">Pre-match</div>
+        <div class="chip" style="background:var(--c9);width:65%"></div>
+        <div class="chip" style="background:var(--player);width:90%"></div>
+        <div class="chip" style="background:var(--ctype);width:85%"></div>
+        <div class="ctot"><b>~13</b> posts</div></div>
+      <div class="day"><div class="dn">Thu</div><div class="ph hot">Pre-match</div>
+        <div class="chip" style="background:var(--c9);width:70%"></div>
+        <div class="chip" style="background:var(--player);width:95%"></div>
+        <div class="chip" style="background:var(--ctype);width:90%"></div>
+        <div class="ctot"><b>~15</b> posts</div></div>
+      <div class="day"><div class="dn">Fri</div><div class="ph hot">Pre-match</div>
+        <div class="chip" style="background:var(--c9);width:80%"></div>
+        <div class="chip" style="background:var(--player);width:95%"></div>
+        <div class="chip" style="background:var(--ctype);width:95%"></div>
+        <div class="ctot"><b>~17</b> posts</div></div>
+      <div class="day peak"><div class="dn">Sat</div><div class="ph hot">Match day</div>
+        <div class="chip" style="background:var(--c9);width:100%"></div>
+        <div class="chip" style="background:var(--player);width:100%"></div>
+        <div class="chip" style="background:var(--ctype);width:100%"></div>
+        <div class="ctot"><b>~26</b> posts</div></div>
+      <div class="day"><div class="dn">Sun</div><div class="ph hot">Post-match</div>
+        <div class="chip" style="background:var(--c9);width:70%"></div>
+        <div class="chip" style="background:var(--player);width:100%"></div>
+        <div class="chip" style="background:var(--ctype);width:95%"></div>
+        <div class="ctot"><b>~20</b> posts</div></div>
+    </div>
+    <p class="intro" style="margin-top:18px">Saturday peaks with matchday graphics, spoiler-timed live clips, the result reaction, and player POV. Sunday is the fan-out: the clipper's moments cut down for every player and content account, member shout-outs, and a recap carousel. Mid-week the same match's footage becomes lore, behind-the-scenes, and the drop teaser. One event yields a week of native content, with no day left empty.</p>
+  </div>
+
+  <!-- AI VS TASTE -->
+  <div class="sec">
+    <p class="kx">The logic</p>
+    <h2>Where AI assists, where taste leads</h2>
+    <div class="two">
+      <div class="card"><h4>AI does the volume</h4><p>Detection of moments, first-draft cut-downs, per-platform reframing, caption variants, and alt-text. The work that does not scale by hand is exactly the work the template plus model handles, which is what makes a portfolio of this size affordable.</p><div class="gate">Input: one match. Output: a draft set, tagged and templated.</div></div>
+      <div class="card"><h4>Humans steer the brand</h4><p>Voice, the dry wit, spoiler timing, what not to post, and which moment actually deserves the hero account. Nothing publishes without a human gate. The AI proposes and a person with taste disposes, which is how the calm-premium register survives at volume.</p><div class="gate">The approval gate is the brand's quality control, not a formality.</div></div>
+    </div>
+  </div>
+
+  <p class="refs">Sources: <a href="https://www.conbersa.ai/learn/esports-team-tiktok-distribution">esports multi-account TikTok distribution (Conbersa)</a>, <a href="https://www.eslfaceitgroup.com/press/esl-faceit-group-debuts-first-ever-esports-vertical-stream-co-developed-with-tiktok-to-reach-the-next-generation-of-esports-fans/">esports vertical stream with TikTok (ESL FACEIT Group)</a>, <a href="https://www.airops.com/blog/ai-workflows-content-repurposing">AI content repurposing, one asset to dozens (AirOps)</a>.</p>
+
+  <p class="foot">The Ninth is a speculative concept anchored to Cloud9 for portfolio purposes, not affiliated with or endorsed by Cloud9. Account counts and post volumes reflect 2026 esports social benchmarks, shown as objectives, not Cloud9's actual figures. Players and members shown are illustrative. No outcome here describes Pratik Mehta's own results.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<title>The Ninth, Membership App (Phase 2)</title>
+<meta name="description" content="Mobile-first membership app UI for The Ninth, a speculative esports concept by Pratik Mehta, built around one loop: watch, predict, belong, climb." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/app" />
+<meta property="og:title" content="The Ninth, Membership App (Phase 2)" />
+<meta property="og:description" content="Mobile-first membership app UI for The Ninth, a speculative esports concept by Pratik Mehta, built around one loop: watch, predict, belong, climb." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-the-ninth.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/the-ninth/app" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pratikm96" />
+<meta name="twitter:image" content="https://cdn.mehtapratik.com/og/og-the-ninth.jpg" />
+<style>
+  :root{
+    --c9:#29ABE2;--ink:#07142B;--blue-deep:#1B6FA8;--cloud:#F4F8FB;
+    --mist:#AEC3D4;--frost:#DCEAF6;--line:#E4ECF3;--paper:#fff;
+    --disp:'Array',ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif;
+    --text:'Satoshi',ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:60px 32px 110px}
+  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:24px}
+  h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(34px,6vw,62px);line-height:.94;margin:0}
+  h1 small{display:block;font-size:13px;letter-spacing:.36em;color:var(--mist);margin-top:14px;font-weight:500}
+  .lede{max-width:660px;margin:24px 0 0;font-size:17px;color:#2c3e52}
+  .lede b{color:var(--ink);font-weight:600}
+
+  .band{margin-top:40px;border:1px solid var(--line);border-radius:16px;background:var(--paper);padding:26px 28px}
+  .band h3{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:.02em;margin:0 0 14px}
+  .ia{display:flex;flex-wrap:wrap;gap:8px}
+  .ia span{font-family:var(--disp);font-size:12.5px;color:#33485b;border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+  .ia span b{color:var(--c9);font-weight:600;margin-right:6px}
+  .added{margin-top:16px;font-size:13.5px;color:#54677a}
+  .added b{font-family:var(--disp);color:var(--ink);font-weight:600}
+
+  .screens{display:grid;grid-template-columns:repeat(3,1fr);gap:46px 30px;margin-top:56px;justify-items:center}
+
+  /* phone */
+  .unit{width:300px}
+  .phone{width:300px;background:#0b1322;border-radius:42px;padding:9px;box-shadow:0 34px 60px -34px rgba(7,20,43,.55)}
+  .screen{position:relative;height:624px;background:var(--cloud);border-radius:34px;overflow:hidden;display:flex;flex-direction:column}
+  .sb{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:11px;font-weight:600;color:var(--ink);flex:none}
+  .sb .dots{display:flex;gap:3px;align-items:center}
+  .sb .dots i{width:4px;height:4px;border-radius:50%;background:var(--ink);display:block;opacity:.7}
+  .body{flex:1;overflow:hidden;position:relative}
+  .pad{padding:6px 16px 14px}
+
+  /* tab bar */
+  .tabs{flex:none;height:58px;background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding-bottom:4px}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:3px;color:#9fb2c4;font-size:9px;letter-spacing:.04em;font-family:var(--disp)}
+  .tab svg{width:21px;height:21px;display:block}
+  .tab.on{color:var(--c9)}
+
+  .cap{width:300px;text-align:center;margin-top:16px}
+  .cap b{display:block;font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.02em}
+  .cap span{font-size:12.5px;color:#54677a}
+  .cap .who{display:inline-block;margin-top:7px;font-family:var(--disp);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--c9);border:1px solid #cfe6f4;border-radius:999px;padding:3px 9px}
+
+  /* in-app components */
+  .hd{display:flex;align-items:center;justify-content:space-between;padding:4px 0 12px}
+  .hd .hi{font-family:var(--disp);font-weight:600;font-size:17px}
+  .chip{font-family:var(--disp);font-size:10px;letter-spacing:.06em;background:#eaf6fc;color:var(--blue-deep);border-radius:999px;padding:5px 10px;font-weight:600;white-space:nowrap}
+  .chip.dk{background:var(--ink);color:#fff}
+  .ttl{font-family:var(--disp);font-weight:600;font-size:20px;margin:2px 0 12px}
+
+  .cardx{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+  .cardx.tint{background:linear-gradient(135deg,#eaf7fd,#f5fbfe);border-color:#d6ecf8}
+  .row{display:flex;align-items:center;gap:10px}
+  .between{display:flex;align-items:center;justify-content:space-between}
+  .kx{font-family:var(--disp);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+  .big{font-family:var(--disp);font-weight:600;font-size:15px}
+  .sm{font-size:12px;color:#54677a}
+  .xsm{font-size:11px;color:#7d93a6}
+  .btn{display:block;text-align:center;background:var(--c9);color:#fff;font-family:var(--disp);font-weight:600;font-size:13px;border-radius:11px;padding:11px;margin-top:4px}
+  .btn.dk{background:var(--ink)}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+  .bar{height:7px;border-radius:99px;background:#e7eef4;overflow:hidden;margin:8px 0}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--c9),var(--blue-deep))}
+  .av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#9fd4ef,#3f9fd0);border:1.5px solid #fff;flex:none}
+  .avs{display:flex}.avs .av{margin-left:-8px}.avs .av:first-child{margin-left:0}
+  .pill{font-family:var(--disp);font-size:9px;letter-spacing:.05em;border-radius:999px;padding:2px 7px;font-weight:600}
+  .pill.m{background:#eaf6fc;color:var(--blue-deep)}
+  .pill.i{background:#e7edf6;color:#34507a}
+  .pill.ix{background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);color:#1a2d4a}
+  .lock{opacity:.6}
+  .gap{height:10px}
+  .opt{font-family:var(--disp);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:#33485b;display:inline-flex;align-items:center;gap:6px;margin:0 6px 8px 0}
+  .opt.on{background:#eaf6fc;border-color:var(--c9);color:var(--blue-deep)}
+  .opt .av{width:18px;height:18px}
+  .nav{display:flex;align-items:center;gap:10px;padding:4px 0 12px}
+  .nav .bk{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .nav .bk svg{width:14px;height:14px}
+  .nav .t{font-family:var(--disp);font-weight:600;font-size:16px}
+  .nav .r{margin-left:auto;font-family:var(--disp);font-size:11px;color:var(--c9)}
+  .lr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 2px;border-bottom:1px solid var(--line)}
+  .lr:last-child{border-bottom:0}
+  .lr .lt{font-size:13.5px;color:var(--ink)}
+  .lr .ls{font-size:11px;color:#7d93a6;margin-top:2px}
+  .lr .chev{color:#b8c8d6}
+  .tg{width:38px;height:22px;border-radius:99px;background:#d8e2ea;position:relative;flex:none}
+  .tg::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
+  .tg.on{background:var(--c9)}
+  .tg.on::after{left:18px}
+  .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:8px}
+  .seg span{flex:1;text-align:center;font-family:var(--disp);font-size:11px;padding:7px 4px;color:#54677a}
+  .seg span.on{background:var(--c9);color:#fff}
+  .field{margin-bottom:11px}
+  .field label{display:block;margin-bottom:5px}
+  .field .in{border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:13px;color:var(--ink);background:#fff}
+  .field .in.mut{color:#7d93a6}
+
+  .foot{margin-top:74px;padding-top:22px;border-top:1px solid var(--line);color:var(--mist);font-size:13px;max-width:780px}
+  @media(max-width:980px){.screens{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:680px){.screens{grid-template-columns:1fr}.ia{gap:6px}}
+</style>
+</head>
+<body><a href="/work/the-ninth" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;The Ninth &middot; back to the case study</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="cloud" viewBox="0 0 120 60"><circle cx="34" cy="38" r="20"/><circle cx="62" cy="27" r="27"/><circle cx="90" cy="38" r="20"/><rect x="16" y="40" width="90" height="20" rx="10"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-watch" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></symbol>
+  <symbol id="i-predict" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-comm" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c.6-3 2.8-4.5 5.5-4.5s4.9 1.5 5.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="16.5" cy="8" r="2.4" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M16 14c2.2.1 3.8 1.3 4.3 3.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 10h16" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="wrap">
+  <span class="tag">Speculative concept &middot; Phase 2 &middot; membership app</span>
+  <h1>The Ninth, the app<small>CLOUD9 MEMBERSHIP OS</small></h1>
+  <p class="lede">The daily home for the fandom, mobile-first. The job of the product is to give a fan a reason to open it on a dead Tuesday, not only on match day. Every surface feeds one loop: <b>watch, predict, belong, climb</b>. The member card is the live status object at the center of it.</p>
+
+  <div class="band">
+    <h3>Information architecture</h3>
+    <div class="ia">
+      <span><b>01</b>Onboarding &middot; tier pick</span>
+      <span><b>02</b>Home &middot; daily-return loop</span>
+      <span><b>03</b>Live co-watch &middot; social + AI</span>
+      <span><b>04</b>Predict &middot; free-to-play</span>
+      <span><b>05</b>Community &middot; feed, rooms, clips</span>
+      <span><b>06</b>Card &middot; status, points, quests, Access</span>
+    </div>
+    <p class="added"><b>Research-informed additions.</b> Predict (free-to-play points, never money) is the proven repeat-engagement driver and it feeds the climb instead of a casino. Community is the native version of where esports fandom already lives: watch-party rooms and clip sharing, with tier roles beside names. Both were thin in the first plan and are now first-class surfaces.</p>
+  </div>
+
+  <div class="screens">
+
+    <!-- 01 ONBOARDING -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body" style="display:flex;flex-direction:column">
+          <div style="position:relative;height:212px;background:linear-gradient(180deg,#BFE6F8,#F4F8FB);flex:none">
+            <svg viewBox="0 0 300 212" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+              <use href="#cloud" x="-10" y="150" width="150" height="70" fill="#fff" opacity=".95"/>
+              <use href="#cloud" x="150" y="162" width="170" height="74" fill="#fff" opacity=".85"/>
+              <use href="#cloud" x="80" y="178" width="150" height="64" fill="#fff"/>
+            </svg>
+            <div style="position:absolute;top:42px;left:0;right:0;text-align:center">
+              <div style="font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:30px;color:#07142B">The Ninth</div>
+              <div style="font-family:var(--disp);font-size:11px;letter-spacing:.28em;color:#3a6b8a;margin-top:8px">CLOUD NINE, YEAR ROUND</div>
+            </div>
+          </div>
+          <div class="pad" style="flex:1">
+            <p class="kx" style="margin:4px 0 10px">Choose where you start</p>
+            <div class="cardx"><div class="between"><div><div class="big">Open</div><div class="xsm">Watch, follow, basic alerts</div></div><span class="pill m">FREE</span></div></div>
+            <div class="cardx tint" style="border-color:var(--c9)"><div class="between"><div><div class="big">Member</div><div class="xsm">Co-watch, the card, drops</div></div><span class="big" style="color:var(--blue-deep)">$7.99</span></div></div>
+            <div class="cardx"><div class="between"><div><div class="big">Insider</div><div class="xsm">Votes, exclusive drops, events</div></div><span class="pill i">CLIMB</span></div></div>
+            <div class="cardx lock"><div class="between"><div><div class="big">Inner Nine</div><div class="xsm">Earned, not sold</div></div><span class="pill ix">IX</span></div></div>
+            <div class="btn">Join the Ninth</div>
+          </div>
+        </div>
+      </div></div>
+      <div class="cap"><b>01 &middot; Onboarding</b><span>Tier pick. The summit is visibly locked: earned, not sold.</span><br><span class="who">All archetypes</span></div>
+    </div>
+
+    <!-- 02 HOME -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body">
+          <div class="pad">
+            <div class="hd"><div class="hi">Evening, Pratik</div><span class="chip">Member &middot; II</span></div>
+
+            <div class="cardx" style="padding:0;overflow:hidden">
+              <div style="position:relative;height:118px;background:linear-gradient(135deg,#0b1322,#15324d)">
+                <span style="position:absolute;top:10px;left:12px;font-family:var(--disp);font-size:9.5px;letter-spacing:.1em;color:#fff;background:#e0322b;padding:3px 7px;border-radius:5px">LIVE &middot; LCS</span>
+                <div style="position:absolute;bottom:12px;left:12px;color:#fff"><div style="font-family:var(--disp);font-weight:600;font-size:14px">Cloud9 <span style="color:#7fd0f0">2</span> &middot; <span style="color:#9fb2c4">1</span> Team Liquid</div><div class="xsm" style="color:#9fb2c4">Game 4 &middot; 14:32</div></div>
+              </div>
+              <div style="padding:11px 12px"><div class="btn">Watch with the Ninth</div></div>
+            </div>
+
+            <div class="cardx">
+              <div class="between"><span class="kx">Your climb</span><span class="xsm">Member &rarr; Insider</span></div>
+              <div class="bar"><i style="width:66%"></i></div>
+              <div class="between"><span class="sm">2 of 3 quests this month</span><span class="xsm">+140 pts to go</span></div>
+            </div>
+
+            <div class="cardx tint">
+              <div class="between"><div><span class="kx">Predict &middot; free</span><div class="big" style="margin-top:3px">Who takes Game 4?</div></div></div>
+              <div class="row" style="gap:8px;margin-top:10px"><div class="btn" style="margin:0;flex:1">Cloud9</div><div class="btn ghost" style="margin:0;flex:1">Team Liquid</div></div>
+            </div>
+
+            <div class="row" style="gap:10px">
+              <div class="cardx" style="flex:1;margin:0"><span class="kx">Drop</span><div class="big" style="margin-top:4px;font-size:13px">Altitude tee</div><div class="xsm">Members first &middot; Fri</div></div>
+              <div class="cardx" style="flex:1;margin:0"><span class="kx">Community</span><div class="big" style="margin-top:4px;font-size:13px">840 in watch room</div><div class="xsm">Join the room &rarr;</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="tabs">
+          <div class="tab on"><svg><use href="#i-home"/></svg>Home</div>
+          <div class="tab"><svg><use href="#i-watch"/></svg>Watch</div>
+          <div class="tab"><svg><use href="#i-predict"/></svg>Predict</div>
+          <div class="tab"><svg><use href="#i-comm"/></svg>Community</div>
+          <div class="tab"><svg><use href="#i-card"/></svg>Card</div>
+        </div>
+      </div></div>
+      <div class="cap"><b>02 &middot; Home</b><span>The daily-return loop. Live, predict, climb, drop, community in one glance.</span><br><span class="who">The Casual</span></div>
+    </div>
+
+    <!-- 03 CO-WATCH -->
+    <div class="unit">
+      <div class="phone"><div class="screen" style="background:#0a1322">
+        <div class="sb" style="color:#fff"><span>9:41</span><span class="dots"><i style="background:#fff"></i><i style="background:#fff"></i><i style="background:#fff"></i></span></div>
+        <div class="body">
+          <!-- video -->
+          <div style="position:relative;height:170px;background:radial-gradient(120% 90% at 50% 0%,#16324b,#0a1322)">
+            <span style="position:absolute;top:10px;left:14px;font-family:var(--disp);font-size:9.5px;letter-spacing:.1em;color:#fff;background:#e0322b;padding:3px 7px;border-radius:5px">LIVE</span>
+            <span style="position:absolute;top:10px;right:14px;font-family:var(--disp);font-size:11px;color:#fff">C9 <b style="color:#7fd0f0">2</b> : 1 TL</span>
+            <div class="avs" style="position:absolute;bottom:12px;left:14px"><span class="av"></span><span class="av"></span><span class="av"></span><span class="av" style="background:#0a1322;color:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;font-family:var(--disp)">1.2k</span></div>
+            <span style="position:absolute;bottom:14px;right:14px;font-family:var(--disp);font-size:10px;color:#9fb2c4">watching together</span>
+          </div>
+          <div class="pad">
+            <!-- commentary toggle -->
+            <div class="between" style="background:#11203a;border:1px solid #1c3354;border-radius:12px;padding:10px 12px;margin-bottom:10px">
+              <div><div class="big" style="color:#eaf4fb;font-size:13px">Ninth commentary</div><div class="xsm" style="color:#8fa7c4">C9-biased, calm, on</div></div>
+              <div style="width:38px;height:22px;border-radius:99px;background:var(--c9);position:relative"><span style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff"></span></div>
+            </div>
+            <!-- live poll -->
+            <div style="background:#11203a;border:1px solid #1c3354;border-radius:12px;padding:11px 12px;margin-bottom:10px">
+              <div class="kx" style="color:#8fa7c4">Live poll &middot; 9s</div>
+              <div class="big" style="color:#eaf4fb;font-size:13px;margin:3px 0 8px">Next objective?</div>
+              <div class="row" style="gap:8px"><div style="flex:1;background:#1b3a5c;color:#cfe6f6;border-radius:9px;text-align:center;font-size:12px;font-family:var(--disp);padding:8px">Baron 61%</div><div style="flex:1;background:#13294a;color:#9fb2c4;border-radius:9px;text-align:center;font-size:12px;font-family:var(--disp);padding:8px">Dragon 39%</div></div>
+            </div>
+          </div>
+          <!-- AI moment alert rising -->
+          <div style="position:absolute;left:14px;right:14px;bottom:14px;background:linear-gradient(135deg,#0e2138,#0a1830);border:1px solid #2a4a6e;border-radius:14px;padding:12px 13px;box-shadow:0 18px 30px -16px rgba(0,0,0,.6)">
+            <div class="between">
+              <div class="row" style="gap:9px">
+                <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:12px;color:#1a2d4a">IX</div>
+                <div><div class="kx" style="color:#8fa7c4">Moment &middot; auto-clipped</div><div class="big" style="color:#fff;font-size:13px">Blaber flips the fight</div></div>
+              </div>
+              <span style="font-family:var(--disp);font-size:11px;color:var(--c9)">Clip &rarr;</span>
+            </div>
+          </div>
+        </div>
+        <div class="tabs" style="background:#0c1626;border-color:#1c3354">
+          <div class="tab"><svg><use href="#i-home"/></svg>Home</div>
+          <div class="tab on"><svg><use href="#i-watch"/></svg>Watch</div>
+          <div class="tab"><svg><use href="#i-predict"/></svg>Predict</div>
+          <div class="tab"><svg><use href="#i-comm"/></svg>Community</div>
+          <div class="tab"><svg><use href="#i-card"/></svg>Card</div>
+        </div>
+      </div></div>
+      <div class="cap"><b>03 &middot; Live co-watch</b><span>Watch together, plus the AI moment-alert clipper and a C9-biased commentary toggle.</span><br><span class="who">The AI slice</span></div>
+    </div>
+
+    <!-- 04 PREDICT -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body">
+          <div class="pad">
+            <div class="hd"><div class="hi">Predict</div><span class="chip dk">1,240 pts</span></div>
+            <p class="xsm" style="margin:-6px 0 12px">Free to play. Points only, never money. Picks feed your climb.</p>
+
+            <div class="cardx"><div class="between"><div><span class="kx">Game 4 winner</span><div class="big" style="margin-top:3px">Cloud9 vs Team Liquid</div></div><span class="pill m">+50</span></div>
+              <div class="row" style="gap:8px;margin-top:10px"><div class="btn" style="margin:0;flex:1">Cloud9</div><div class="btn ghost" style="margin:0;flex:1">Team Liquid</div></div>
+            </div>
+
+            <div class="cardx"><div class="between"><span class="big" style="font-size:13px">First Baron</span><span class="pill m">+30</span></div><div class="bar" style="margin:9px 0 4px"><i style="width:50%"></i></div><div class="between"><span class="xsm">C9 picked</span><span class="xsm">locks in 2:00</span></div></div>
+
+            <div class="cardx"><div class="between"><span class="big" style="font-size:13px">Series MVP</span><span class="pill i">+80</span></div><div class="xsm" style="margin-top:6px">Tap to pick a player</div></div>
+
+            <div class="cardx tint"><div class="between"><div><span class="kx">Leaderboard</span><div class="big" style="margin-top:3px">You are #312</div></div><span class="xsm">of 9,400 members</span></div>
+              <div class="bar"><i style="width:78%"></i></div><div class="xsm">Top 5% climbs faster to Insider</div></div>
+          </div>
+        </div>
+        <div class="tabs">
+          <div class="tab"><svg><use href="#i-home"/></svg>Home</div>
+          <div class="tab"><svg><use href="#i-watch"/></svg>Watch</div>
+          <div class="tab on"><svg><use href="#i-predict"/></svg>Predict</div>
+          <div class="tab"><svg><use href="#i-comm"/></svg>Community</div>
+          <div class="tab"><svg><use href="#i-card"/></svg>Card</div>
+        </div>
+      </div></div>
+      <div class="cap"><b>04 &middot; Predict</b><span>Free-to-play picks in points, not money. The anti-casino engagement engine.</span><br><span class="who">The Casual + Lifer</span></div>
+    </div>
+
+    <!-- 05 COMMUNITY -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body">
+          <div class="pad">
+            <div class="hd"><div class="hi">Community</div><span class="chip">Member &middot; II</span></div>
+
+            <div class="cardx tint"><div class="between"><div><span class="kx">Watch room &middot; live</span><div class="big" style="margin-top:3px">LCS night, Game 4</div></div><div class="avs"><span class="av"></span><span class="av"></span><span class="av"></span></div></div><div class="between" style="margin-top:8px"><span class="xsm">840 members in</span><span style="font-family:var(--disp);font-size:11px;color:var(--c9)">Join &rarr;</span></div></div>
+
+            <div class="cardx"><div class="row" style="gap:9px"><span class="av"></span><div style="flex:1"><div class="row" style="gap:6px"><span class="big" style="font-size:13px">@skylar</span><span class="pill i">Insider</span></div><div class="sm">clipped Blaber's flank. Worth 12s of your life.</div></div></div>
+              <div style="height:74px;border-radius:10px;margin-top:9px;background:radial-gradient(120% 90% at 30% 0%,#16324b,#0a1322);position:relative"><svg style="position:absolute;left:10px;bottom:8px" width="20" height="20"><use href="#i-watch"/></svg></div></div>
+
+            <div class="cardx"><div class="row" style="gap:9px"><span class="av" style="background:linear-gradient(135deg,#cdb8f0,#8a6fd0)"></span><div style="flex:1"><div class="row" style="gap:6px"><span class="big" style="font-size:13px">@nine_lives</span><span class="pill ix">Inner Nine</span></div><div class="sm">Meet-and-greet slots drop tomorrow. See you there.</div></div></div></div>
+
+            <div class="cardx"><div class="row" style="gap:9px"><span class="av"></span><div style="flex:1"><div class="row" style="gap:6px"><span class="big" style="font-size:13px">@deftcarry</span><span class="pill m">Member</span></div><div class="sm">Predictions league, Ninth vs the LoL sub?</div></div></div></div>
+          </div>
+        </div>
+        <div class="tabs">
+          <div class="tab"><svg><use href="#i-home"/></svg>Home</div>
+          <div class="tab"><svg><use href="#i-watch"/></svg>Watch</div>
+          <div class="tab"><svg><use href="#i-predict"/></svg>Predict</div>
+          <div class="tab on"><svg><use href="#i-comm"/></svg>Community</div>
+          <div class="tab"><svg><use href="#i-card"/></svg>Card</div>
+        </div>
+      </div></div>
+      <div class="cap"><b>05 &middot; Community</b><span>Watch rooms, clip sharing, tier roles beside names. The Discord behavior, native.</span><br><span class="who">The Lifer + Fit</span></div>
+    </div>
+
+    <!-- 06 CARD / STATUS -->
+    <div class="unit">
+      <div class="phone"><div class="screen" style="background:#070f1d">
+        <div class="sb" style="color:#fff"><span>9:41</span><span class="dots"><i style="background:#fff"></i><i style="background:#fff"></i><i style="background:#fff"></i></span></div>
+        <div class="body">
+          <div class="pad" style="padding-top:10px">
+            <!-- live member card -->
+            <svg viewBox="0 0 268 168" width="100%" xmlns="http://www.w3.org/2000/svg" aria-label="Member card" style="border-radius:14px;box-shadow:0 16px 30px -18px rgba(0,0,0,.7)">
+              <defs><linearGradient id="mc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3FBCEC"/><stop offset="1" stop-color="#1E8FC4"/></linearGradient></defs>
+              <rect x="1" y="1" width="266" height="166" rx="16" fill="url(#mc)"/>
+              <use href="#cloud" x="-10" y="120" width="150" height="66" fill="#fff" opacity="0.16"/>
+              <use href="#cloud" x="150" y="128" width="160" height="64" fill="#fff" opacity="0.13"/>
+              <text x="18" y="30" font-family="'Array',sans-serif" font-size="10" letter-spacing="2.5" fill="#DBF1FB">THE NINTH</text>
+              <text x="250" y="30" text-anchor="end" font-family="'Array',sans-serif" font-weight="700" font-size="14" fill="#EAF8FF">II</text>
+              <text x="18" y="104" font-family="'Array',sans-serif" font-weight="700" font-size="30" fill="#fff">Member</text>
+              <text x="18" y="140" font-family="'Satoshi',sans-serif" font-size="11" fill="#EAF8FF">@pratik</text>
+              <text x="250" y="140" text-anchor="end" font-family="'Array',sans-serif" font-size="11" fill="#EAF8FF">02 / 09</text>
+            </svg>
+
+            <div style="background:#0e1a30;border:1px solid #1c2f4d;border-radius:12px;padding:12px;margin-top:12px">
+              <div class="between"><span class="kx" style="color:#8fa7c4">Climb to Insider</span><span class="xsm" style="color:#9fb2c4">66%</span></div>
+              <div class="bar" style="background:#1a2c49"><i style="width:66%"></i></div>
+              <div class="row" style="gap:14px;margin-top:4px"><span class="xsm" style="color:#8fa7c4">1,240 pts</span><span class="xsm" style="color:#8fa7c4">Rank #312</span></div>
+            </div>
+
+            <div class="kx" style="color:#8fa7c4;margin:14px 0 8px">Quests this month</div>
+            <div class="between" style="margin-bottom:9px"><span class="sm" style="color:#cfd9e6">Watch 3 matches live</span><span class="xsm" style="color:#7fd0f0">2 / 3</span></div>
+            <div class="between" style="margin-bottom:9px"><span class="sm" style="color:#cfd9e6">Make 5 predictions</span><span class="xsm" style="color:#7fd0f0">5 / 5</span></div>
+            <div class="between" style="margin-bottom:14px"><span class="sm" style="color:#cfd9e6">Attend a member event</span><span class="xsm" style="color:#8fa7c4">0 / 1</span></div>
+
+            <div class="between" style="background:#0e1a30;border:1px solid #1c2f4d;border-radius:12px;padding:11px 13px"><span class="big" style="color:#eaf4fb;font-size:13px">Access &middot; drops, meet-ups, votes</span><span style="color:var(--c9);font-family:var(--disp)">&rarr;</span></div>
+          </div>
+        </div>
+        <div class="tabs" style="background:#0a1322;border-color:#1c2f4d">
+          <div class="tab"><svg><use href="#i-home"/></svg>Home</div>
+          <div class="tab"><svg><use href="#i-watch"/></svg>Watch</div>
+          <div class="tab"><svg><use href="#i-predict"/></svg>Predict</div>
+          <div class="tab"><svg><use href="#i-comm"/></svg>Community</div>
+          <div class="tab on"><svg><use href="#i-card"/></svg>Card</div>
+        </div>
+      </div></div>
+      <div class="cap"><b>06 &middot; Card / Status</b><span>The live member card, the climb, points wallet, quests, and Access to drops and votes.</span><br><span class="who">The Lifer</span></div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:72px;border-top:1px solid var(--line);padding-top:46px">
+    <span class="tag">Phase 2 &middot; account / settings / system</span>
+    <h2 style="font-size:clamp(30px,4.6vw,46px)">The rest of the app</h2>
+    <p class="lede">The six hero screens carry the story. A shippable product needs the account, settings, and system screens too. Four of these are strategy, not hygiene. <b>Personalization</b> feeds the clipper's relevance. <b>Easy cancel</b> and <b>calm notifications</b> are the brand applied to the screens most apps make hostile. And the <b>AI transparency</b> screen turns the trust positioning into a visible feature.</p>
+  </div>
+
+  <div class="screens">
+
+    <!-- PERSONALIZATION -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body"><div class="pad">
+          <div class="nav"><div class="t">Make it yours</div><span class="r">Skip</span></div>
+          <p class="xsm" style="margin:-6px 0 14px">Pick what you follow. Moment alerts and your home feed follow these.</p>
+          <span class="kx">Titles</span>
+          <div style="margin:8px 0 14px"><span class="opt on">League of Legends</span><span class="opt on">Valorant</span></div>
+          <span class="kx">Players</span>
+          <div style="margin:8px 0 14px"><span class="opt on"><span class="av"></span>Blaber</span><span class="opt on"><span class="av"></span>Zven</span><span class="opt"><span class="av"></span>Vulcan</span><span class="opt on"><span class="av"></span>Zellsis</span><span class="opt"><span class="av"></span>APA</span></div>
+          <span class="kx">Rivals to track</span>
+          <div style="margin:8px 0 16px"><span class="opt on">Team Liquid</span><span class="opt">FlyQuest</span><span class="opt">Sentinels</span></div>
+          <div class="btn">Continue</div>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>Personalization</b><span>Onboarding step. Feeds the clipper's "your player" relevance and the home feed.</span><br><span class="who">Strategy, not hygiene</span></div>
+    </div>
+
+    <!-- MEMBER PROFILE -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body"><div class="pad">
+          <div class="nav"><div class="bk"><svg><use href="#i-back"/></svg></div><div class="t">Profile</div><span class="r">Share</span></div>
+          <div style="text-align:center;margin:6px 0 14px">
+            <div class="av" style="width:64px;height:64px;margin:0 auto 10px"></div>
+            <div class="big" style="font-size:17px">@pratik</div>
+            <div style="margin-top:6px"><span class="pill m">Member &middot; II</span></div>
+            <div class="xsm" style="margin-top:6px">Member since 2026</div>
+          </div>
+          <div class="row" style="gap:8px;margin-bottom:12px">
+            <div class="cardx" style="flex:1;margin:0;text-align:center"><div class="big">128</div><div class="kx">Watched</div></div>
+            <div class="cardx" style="flex:1;margin:0;text-align:center"><div class="big">34</div><div class="kx">Clips</div></div>
+            <div class="cardx" style="flex:1;margin:0;text-align:center"><div class="big">#312</div><div class="kx">Rank</div></div>
+          </div>
+          <span class="kx">Recent clips</span>
+          <div class="row" style="gap:8px;margin-top:8px">
+            <div style="flex:1;height:58px;border-radius:9px;background:radial-gradient(120% 90% at 30% 0%,#16324b,#0a1322)"></div>
+            <div style="flex:1;height:58px;border-radius:9px;background:radial-gradient(120% 90% at 60% 0%,#1a3a55,#0a1322)"></div>
+            <div style="flex:1;height:58px;border-radius:9px;background:radial-gradient(120% 90% at 45% 0%,#163a4f,#0a1322)"></div>
+          </div>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>Member profile</b><span>The public identity others see in Community. Card, stats, clips.</span><br><span class="who">The Lifer + Fit</span></div>
+    </div>
+
+    <!-- EDIT PROFILE -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body"><div class="pad">
+          <div class="nav"><div class="bk"><svg><use href="#i-back"/></svg></div><div class="t">Edit profile</div><span class="r">Save</span></div>
+          <div style="text-align:center;margin:4px 0 14px">
+            <div class="av" style="width:60px;height:60px;margin:0 auto 6px"></div>
+            <span style="font-family:var(--disp);font-size:11px;color:var(--c9)">Change photo</span>
+          </div>
+          <div class="field"><label class="kx">Handle</label><div class="in">@pratik</div></div>
+          <div class="field"><label class="kx">Display name</label><div class="in">Pratik M</div></div>
+          <div class="field"><label class="kx">Bio</label><div class="in mut">Here since the Blaber era.</div></div>
+          <div class="field"><label class="kx">Favorite team</label><div class="in">Cloud9</div></div>
+          <div class="field"><label class="kx">Favorite player</label><div class="in">Blaber</div></div>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>Edit profile</b><span>Handle, avatar, and the team and player picks that personalize the feed.</span><br><span class="who">Hygiene</span></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body"><div class="pad">
+          <div class="nav"><div class="bk"><svg><use href="#i-back"/></svg></div><div class="t">Settings</div></div>
+          <div class="lr"><div><div class="lt">Account</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">Membership &amp; billing</div><div class="ls">Member &middot; renews Jul 5</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">Notifications</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">Connected accounts</div><div class="ls">Riot, Twitch, Discord</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">Language &amp; region</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">Privacy &amp; data</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">How moment alerts work</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">Help &amp; support</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt" style="color:#c2484a">Log out</div></div></div>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>Settings</b><span>The hub. Note "How moment alerts work" sits in plain sight, not buried.</span><br><span class="who">Hygiene</span></div>
+    </div>
+
+    <!-- MANAGE MEMBERSHIP -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body"><div class="pad">
+          <div class="nav"><div class="bk"><svg><use href="#i-back"/></svg></div><div class="t">Membership</div></div>
+          <div class="cardx tint"><div class="between"><div><span class="kx">Current</span><div class="big" style="margin-top:3px">Member &middot; II</div></div><div style="text-align:right"><div class="big" style="color:var(--blue-deep)">$7.99</div><div class="xsm">renews Jul 5</div></div></div></div>
+          <span class="kx">Billing period</span>
+          <div class="seg" style="margin-bottom:14px"><span>Monthly</span><span class="on">Annual &middot; save 27%</span></div>
+          <div class="lr"><div><div class="lt">Payment method</div><div class="ls">Visa &bull;&bull;&bull;&bull; 4242</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">Upgrade to Insider</div><div class="ls">More access, votes, events</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">Pause membership</div><div class="ls">Keep your card and tier</div></div><span class="chev">&rsaquo;</span></div>
+          <div class="lr"><div><div class="lt">Cancel membership</div><div class="ls">Cancel anytime. Keep access until Jul 5.</div></div><span class="chev">&rsaquo;</span></div>
+          <p class="xsm" style="margin-top:12px">No dark patterns. Leaving is one tap, and you keep what you paid for.</p>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>Manage membership</b><span>Plan, billing, and an honest, one-tap cancel.</span><br><span class="who">Strategy, not hygiene</span></div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body"><div class="pad">
+          <div class="nav"><div class="bk"><svg><use href="#i-back"/></svg></div><div class="t">Notifications</div></div>
+          <div class="lr"><div><div class="lt">Moment alerts</div><div class="ls">Auto-clips of your players</div></div><span class="tg on"></span></div>
+          <div class="seg" style="margin:2px 0 12px"><span>All</span><span class="on">Big plays only</span><span>Off</span></div>
+          <div class="lr"><div class="lt">Match start</div><span class="tg on"></span></div>
+          <div class="lr"><div class="lt">Drops</div><span class="tg on"></span></div>
+          <div class="lr"><div class="lt">Community replies</div><span class="tg on"></span></div>
+          <div class="lr"><div class="lt">Climb &amp; quests</div><span class="tg on"></span></div>
+          <div class="lr"><div class="lt">Weekly digest</div><span class="tg"></span></div>
+          <div class="lr"><div><div class="lt">Quiet hours</div><div class="ls">10:00 PM to 8:00 AM</div></div><span class="tg on"></span></div>
+          <p class="xsm" style="margin-top:12px">Calm by default. We only buzz when it matters.</p>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>Notification preferences</b><span>Big-plays-only and quiet hours. The calm brand applied to push.</span><br><span class="who">Strategy, not hygiene</span></div>
+    </div>
+
+    <!-- AI TRANSPARENCY -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body"><div class="pad">
+          <div class="nav"><div class="bk"><svg><use href="#i-back"/></svg></div><div class="t">How alerts work</div></div>
+          <p class="sm" style="margin:0 0 12px">A moment fires when three live signals agree, then it auto-clips. A human on the team reviews before it goes out.</p>
+          <div class="cardx"><div class="row" style="gap:10px"><span style="font-family:var(--disp);color:var(--c9);font-weight:700">01</span><div><div class="big" style="font-size:13px">Game events</div><div class="xsm">Kill feed, objectives, aces</div></div></div></div>
+          <div class="cardx"><div class="row" style="gap:10px"><span style="font-family:var(--disp);color:var(--c9);font-weight:700">02</span><div><div class="big" style="font-size:13px">Crowd audio</div><div class="xsm">Broadcast and caster spikes</div></div></div></div>
+          <div class="cardx"><div class="row" style="gap:10px"><span style="font-family:var(--disp);color:var(--c9);font-weight:700">03</span><div><div class="big" style="font-size:13px">Chat velocity</div><div class="xsm">Sudden surges in the stream</div></div></div></div>
+          <span class="kx">Your data</span>
+          <p class="xsm" style="margin:6px 0 12px">Used: public match data, your team and player picks, your in-app activity. Never used: your messages, and we never sell it.</p>
+          <div class="lr"><div class="lt">Personalize my alerts</div><span class="tg on"></span></div>
+          <div class="lr"><div class="lt">Let me edit captions</div><span class="tg on"></span></div>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>How moment alerts work</b><span>Trust as a feature: the mechanism and the data, in plain sight.</span><br><span class="who">Strategy, not hygiene</span></div>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="unit">
+      <div class="phone"><div class="screen">
+        <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="body"><div class="pad">
+          <div class="nav"><div class="bk"><svg><use href="#i-back"/></svg></div><div class="t">Activity</div><span class="r">Mark read</span></div>
+          <div class="cardx"><div class="row" style="gap:10px"><div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:11px;color:#1a2d4a">IX</div><div style="flex:1"><div class="big" style="font-size:13px">Moment clipped</div><div class="xsm">Blaber flips it &middot; tap to view</div></div><span class="xsm">now</span></div></div>
+          <div class="cardx"><div class="between"><div><div class="big" style="font-size:13px">You climbed</div><div class="xsm">66% to Insider</div></div><span class="xsm">1h</span></div></div>
+          <div class="cardx"><div class="between"><div><div class="big" style="font-size:13px">Drop is live</div><div class="xsm">Altitude tee, members first</div></div><span class="xsm">3h</span></div></div>
+          <div class="cardx"><div class="row" style="gap:10px"><span class="av"></span><div style="flex:1"><div class="big" style="font-size:13px">@skylar replied</div><div class="xsm">to your clip</div></div><span class="xsm">5h</span></div></div>
+          <div class="cardx"><div class="between"><div><div class="big" style="font-size:13px">Prediction hit</div><div class="xsm">First Baron, C9</div></div><span class="pill m">+50</span></div></div>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>Activity</b><span>The inbox for clips, climb, drops, replies, and prediction results.</span><br><span class="who">The Casual</span></div>
+    </div>
+
+    <!-- CLIP DETAIL -->
+    <div class="unit">
+      <div class="phone"><div class="screen" style="background:#070f1d">
+        <div class="sb" style="color:#fff"><span>9:41</span><span class="dots"><i style="background:#fff"></i><i style="background:#fff"></i><i style="background:#fff"></i></span></div>
+        <div class="body"><div class="pad" style="padding-top:8px">
+          <div class="nav"><div class="bk" style="border-color:#24395a;color:#fff"><svg><use href="#i-back"/></svg></div><div class="t" style="color:#fff">Clip</div><span class="r">&middot;&middot;&middot;</span></div>
+          <div style="position:relative;height:170px;border-radius:13px;background:radial-gradient(120% 90% at 50% 0%,#16324b,#0a1322);margin-bottom:12px">
+            <span style="position:absolute;top:10px;left:12px;font-family:var(--disp);font-size:9px;letter-spacing:.1em;color:#1a2d4a;background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);padding:3px 7px;border-radius:5px">IX AUTO-CLIP</span>
+            <span style="position:absolute;bottom:10px;right:12px;font-family:var(--disp);font-size:11px;color:#cfe6f6">0:12</span>
+            <svg style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)" width="34" height="34"><use href="#i-watch"/></svg>
+          </div>
+          <div class="big" style="color:#eaf4fb;font-size:14px;margin-bottom:6px">Blaber flips the fight</div>
+          <p class="xsm" style="color:#9fb2c4;margin:0 0 10px">Caption: "We don't talk about TL's jungle." &middot; edit</p>
+          <div style="margin-bottom:14px"><span class="opt" style="border-color:#24395a;color:#9fb2c4">kill feed</span><span class="opt" style="border-color:#24395a;color:#9fb2c4">audio spike</span><span class="opt" style="border-color:#24395a;color:#9fb2c4">chat +320%</span></div>
+          <div class="row" style="gap:8px"><div class="btn" style="margin:0;flex:1">Share to Community</div><div class="btn ghost" style="margin:0;flex:0 0 88px;border-color:#24395a;color:#cfe6f6">Save</div></div>
+          <div style="text-align:center;margin-top:10px"><span class="pill m">+40 climb pts</span></div>
+        </div></div>
+      </div></div>
+      <div class="cap"><b>Clip detail</b><span>The AI output: editable caption, the signals that fired it, share, and points.</span><br><span class="who">The AI slice</span></div>
+    </div>
+
+  </div>
+
+  <div class="band" style="margin-top:60px">
+    <h3>The daily-return loop</h3>
+    <p class="added" style="margin-top:0"><b>Match day:</b> Home surfaces the live game, one-tap co-watch, a free prediction, and the watch room. <b>Dead Tuesday:</b> the same shell swaps to your player's auto-clipped highlights, an open prediction market on the next match, a community clip worth watching, and a quest that nudges your climb. The card is always one tap away, always showing the next rung. Nothing here asks the fan to spend to feel status. The climb is earned, which is the whole brand.</p>
+  </div>
+
+  <p class="foot">The Ninth is a speculative concept anchored to Cloud9 for portfolio purposes. Not affiliated with or endorsed by Cloud9. Rosters and matchups shown are illustrative. The AI moment-alert behavior reflects real 2026 auto-highlight methods (event-signal, audio, and chat-spike detection), framed as near-term. No figure or outcome here describes Pratik Mehta's own results.</p>
+</div>
+</body>
+</html>

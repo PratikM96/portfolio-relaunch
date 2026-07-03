@@ -64,14 +64,6 @@ decisions:
     - { n: "03", title: "No celebration", text: "Winning and losing resolve the same way, so it never trains a dopamine loop." }
     - { n: "04", title: "Make probability legible", text: "Risk and odds get real visual treatment instead of fine print." }
 
-output:
-  tiles:
-    - { span: wide, ph: "App, limits-on onboarding", caption: "App · limits on by default" }
-    - { span: standard, ph: "Explain this market", caption: "Explain-this-market gate" }
-    - { span: standard, ph: "Risk visualizations", caption: "Probability & risk visuals" }
-    - { span: wide, ph: "No-celebration motion", caption: "Motion · a win resolves like a loss" }
-  note: "Placeholder tiles represent the surface families; live views linked below."
-
 reflection:
   prose:
     - text: "Level is the counter-argument to how this category usually gets designed. It shows product thinking under an ethical constraint: clarity, restraint, and trust as design problems, not compliance bolted on at the end."
@@ -97,8 +89,8 @@ demo:
   heading: "Live demo · Level"
   foot: "Four live views. The explainer is a scripted demonstration, not a live model."
   tabs:
-    - { label: Explainer, cap: "Explain this market · understanding gates the stake (scripted)", href: "/concepts/level/explainer", featured: true }
-    - { label: App, cap: "App · limits on by default, restraint by design", href: "/concepts/level/app" }
-    - { label: Motion, cap: "Motion · probability made legible, no celebration", href: "/concepts/level/motion" }
-    - { label: Brand, cap: "Brand · the restraint system", href: "/concepts/level/brand" }
+    - { img: "/concepts/level/preview-explainer.webp", label: Explainer, cap: "Explain this market · understanding gates the stake (scripted)", href: "/concepts/level/explainer", featured: true }
+    - { img: "/concepts/level/preview-app.webp", label: App, cap: "App · limits on by default, restraint by design", href: "/concepts/level/app" }
+    - { img: "/concepts/level/preview-motion.webp", label: Motion, cap: "Motion · probability made legible, no celebration", href: "/concepts/level/motion" }
+    - { img: "/concepts/level/preview-brand.webp", label: Brand, cap: "Brand · the restraint system", href: "/concepts/level/brand" }
 ---

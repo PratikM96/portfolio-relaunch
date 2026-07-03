@@ -64,15 +64,6 @@ decisions:
     - { n: "03", title: "One detection engine, every surface", text: "The clipper powers the app, the broadcast overlay, and the social engine from one system." }
     - { n: "04", title: "One design language, five surfaces", text: "Brand, app, clipper, broadcast, and social read as one product." }
 
-output:
-  tiles:
-    - { span: wide, img: "", alt: "Brand and identity system", caption: "Brand & identity system" }
-    - { span: standard, ph: "App home surface", caption: "App · membership home" }
-    - { span: standard, ph: "AI moment-clipper", caption: "AI moment-clipper" }
-    - { span: standard, ph: "Broadcast overlay", caption: "Broadcast · kinetic overlay" }
-    - { span: wide, ph: "Motion across surfaces", caption: "Motion language across five surfaces" }
-  note: "Placeholder tiles represent the surface families; live views linked in the demo below."
-
 reflection:
   prose:
     - text: "The Ninth is where the systems thinking runs without a client's constraints. It shows how I build brand, product UI, AI feature logic, motion, and launch thinking as one system, around a single idea about esports membership. And it proves the AI part with a working clipper instead of a slide that says AI."
@@ -101,9 +92,9 @@ demo:
   heading: "Live demo · The Ninth"
   foot: "Five live views. The AI moment-clipper is the centerpiece. Open any tab to launch it."
   tabs:
-    - { label: Clipper, cap: "AI moment-clipper · three signals fuse into an instant auto-clip", href: "/concepts/the-ninth/clipper", featured: true }
-    - { label: App, cap: "Membership app · watch, predict, belong, climb", href: "/concepts/the-ninth/app" }
-    - { label: Broadcast, cap: "Broadcast · kinetic overlay package", href: "/concepts/the-ninth/broadcast" }
-    - { label: Social, cap: "Social content engine · one match, a week of output", href: "/concepts/the-ninth/social" }
-    - { label: Brand, cap: "Brand · the altitude system", href: "/concepts/the-ninth/brand" }
+    - { img: "/concepts/the-ninth/preview-clipper.webp", label: Clipper, cap: "AI moment-clipper · three signals fuse into an instant auto-clip", href: "/concepts/the-ninth/clipper", featured: true }
+    - { img: "/concepts/the-ninth/preview-app.webp", label: App, cap: "Membership app · watch, predict, belong, climb", href: "/concepts/the-ninth/app" }
+    - { img: "/concepts/the-ninth/preview-broadcast.webp", label: Broadcast, cap: "Broadcast · kinetic overlay package", href: "/concepts/the-ninth/broadcast" }
+    - { img: "/concepts/the-ninth/preview-social.webp", label: Social, cap: "Social content engine · one match, a week of output", href: "/concepts/the-ninth/social" }
+    - { img: "/concepts/the-ninth/preview-brand.webp", label: Brand, cap: "Brand · the altitude system", href: "/concepts/the-ninth/brand" }
 ---

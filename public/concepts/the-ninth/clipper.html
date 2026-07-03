@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<title>The Ninth, AI Moment-Alert Clipper (Phase 3 demo)</title>
+<meta name="description" content="Demo of the AI moment-clipper for The Ninth, a speculative esports concept by Pratik Mehta: three live signals fuse into an instant auto-clip." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/clipper" />
+<meta property="og:title" content="The Ninth, AI Moment-Alert Clipper (Phase 3 demo)" />
+<meta property="og:description" content="Demo of the AI moment-clipper for The Ninth, a speculative esports concept by Pratik Mehta: three live signals fuse into an instant auto-clip." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-the-ninth.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/the-ninth/clipper" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pratikm96" />
+<meta name="twitter:image" content="https://cdn.mehtapratik.com/og/og-the-ninth.jpg" />
+<style>
+  :root{
+    --c9:#29ABE2;--ink:#07142B;--blue-deep:#1B6FA8;--cloud:#F4F8FB;
+    --mist:#AEC3D4;--frost:#DCEAF6;--line:#E4ECF3;
+    --disp:'Array',ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif;
+    --text:'Satoshi',ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px;margin:0 auto;padding:54px 32px 90px}
+  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
+  h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(30px,5vw,52px);line-height:.94;margin:0}
+  h1 small{display:block;font-size:12px;letter-spacing:.34em;color:var(--mist);margin-top:13px;font-weight:500}
+  .lede{max-width:620px;margin:22px 0 0;font-size:16px;color:#2c3e52}
+  .lede b{color:var(--ink);font-weight:600}
+
+  .demo{display:grid;grid-template-columns:300px 1fr;gap:42px;align-items:start;margin-top:44px}
+
+  /* phone */
+  .phone{width:300px;background:#0b1322;border-radius:42px;padding:9px;box-shadow:0 34px 60px -34px rgba(7,20,43,.55)}
+  .screen{position:relative;height:600px;background:#0a1322;border-radius:34px;overflow:hidden;display:flex;flex-direction:column}
+  .sb{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:11px;font-weight:600;color:#fff;flex:none}
+  .sb .dots{display:flex;gap:3px}.sb .dots i{width:4px;height:4px;border-radius:50%;background:#fff;opacity:.8}
+  .body{flex:1;position:relative;overflow:hidden}
+
+  /* match scene */
+  .scene{position:relative;height:184px;background:radial-gradient(130% 100% at 50% 0%,#16324b,#0a1322);overflow:hidden}
+  .scene .badge{position:absolute;top:10px;left:14px;font-family:var(--disp);font-size:9px;letter-spacing:.1em;color:#fff;background:#e0322b;padding:3px 7px;border-radius:5px}
+  .scene .score{position:absolute;top:10px;right:14px;font-family:var(--disp);font-size:11px;color:#fff}
+  .scene .watching{position:absolute;bottom:10px;left:14px;font-family:var(--disp);font-size:9.5px;color:#8fa7c4}
+  .dot{position:absolute;width:11px;height:11px;border-radius:50%;transition:transform 1.1s cubic-bezier(.4,0,.2,1),opacity .5s}
+  .dot.b{background:#3fbcec;box-shadow:0 0 10px #3fbcec}
+  .dot.r{background:#e0594f;box-shadow:0 0 8px #e0594f}
+  .flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 46%,rgba(220,234,246,.9),rgba(41,171,226,0) 42%);opacity:0;transition:opacity .25s;pointer-events:none}
+  .flash.on{opacity:1}
+
+  .feed{padding:10px 14px 0;min-height:74px}
+  .feed .ln{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#9fb2c4;font-family:var(--text);opacity:0;transform:translateY(4px);transition:.3s;margin-bottom:6px}
+  .feed .ln.show{opacity:1;transform:none}
+  .feed .ln b{color:#cfe6f6;font-family:var(--disp);font-weight:600}
+  .feed .ln .k{color:#7fd0f0}
+
+  /* alert card */
+  .alert{position:absolute;left:14px;right:14px;bottom:14px;background:linear-gradient(135deg,#0e2138,#0a1830);border:1px solid #2a4a6e;border-radius:14px;padding:12px 13px;box-shadow:0 18px 30px -16px rgba(0,0,0,.6);transform:translateY(140%);opacity:0;transition:.45s cubic-bezier(.2,.7,.2,1)}
+  .alert.show{transform:none;opacity:1}
+  .ix{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:12px;color:#1a2d4a;flex:none}
+  .kx{font-family:var(--disp);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#8fa7c4}
+  .between{display:flex;align-items:center;justify-content:space-between}
+  .row{display:flex;align-items:center;gap:9px}
+  .alert .ti{color:#fff;font-family:var(--disp);font-weight:600;font-size:13px}
+  .alert .go{font-family:var(--disp);font-size:11px;color:var(--c9);cursor:pointer}
+
+  /* clip card */
+  .clip{position:absolute;inset:0;background:#070f1d;transform:translateY(100%);transition:.45s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column}
+  .clip.show{transform:none}
+  .clip .top{display:flex;align-items:center;gap:10px;padding:14px 14px 8px}
+  .clip .top .x{width:26px;height:26px;border-radius:8px;border:1px solid #24395a;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:var(--disp)}
+  .clip .top .t{font-family:var(--disp);font-weight:600;font-size:15px;color:#fff}
+  .clip .view{position:relative;height:150px;margin:4px 14px 12px;border-radius:13px;background:radial-gradient(120% 90% at 50% 0%,#16324b,#0a1322);overflow:hidden}
+  .clip .view .lp{position:absolute;width:10px;height:10px;border-radius:50%;background:#3fbcec;box-shadow:0 0 10px #3fbcec;top:60%;left:20%;animation:loop 2.4s infinite}
+  .clip .view .lp2{left:auto;right:24%;top:32%;background:#e0594f;box-shadow:0 0 8px #e0594f;animation-delay:.3s}
+  @keyframes loop{0%{transform:translate(0,0)}40%{transform:translate(60px,-34px)}50%{transform:translate(60px,-34px)}100%{transform:translate(0,0)}}
+  .clip .view .stamp{position:absolute;top:9px;left:11px;font-family:var(--disp);font-size:8.5px;letter-spacing:.1em;color:#1a2d4a;background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);padding:3px 7px;border-radius:5px}
+  .clip .view .dur{position:absolute;bottom:9px;right:11px;font-family:var(--disp);font-size:11px;color:#cfe6f6}
+  .clip .meta{padding:0 16px}
+  .clip .cap{color:#eaf4fb;font-family:var(--disp);font-weight:600;font-size:14px}
+  .clip .sub{font-size:11px;color:#9fb2c4;margin:5px 0 11px}
+  .opt{font-family:var(--disp);font-size:10.5px;border:1px solid #24395a;color:#9fb2c4;border-radius:999px;padding:5px 9px;margin:0 5px 8px 0;display:inline-block}
+  .btn{display:block;text-align:center;background:var(--c9);color:#fff;font-family:var(--disp);font-weight:600;font-size:13px;border-radius:11px;padding:11px;cursor:pointer}
+  .btn.ghost{background:transparent;border:1px solid #24395a;color:#cfe6f6}
+  .pts{display:inline-block;font-family:var(--disp);font-size:9.5px;font-weight:600;background:#0e2138;color:#7fd0f0;border:1px solid #24395a;border-radius:999px;padding:5px 11px}
+
+  .toast{position:absolute;left:50%;bottom:22px;transform:translate(-50%,16px);background:#fff;color:var(--ink);font-family:var(--disp);font-weight:600;font-size:12px;padding:10px 16px;border-radius:999px;box-shadow:0 16px 30px -14px rgba(0,0,0,.5);opacity:0;transition:.35s;pointer-events:none;z-index:5}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  /* engine panel */
+  .panel{border:1px solid var(--line);border-radius:18px;background:#fff;padding:26px 28px}
+  .panel h2{font-family:var(--disp);font-weight:600;font-size:20px;margin:0 0 6px}
+  .panel .p{font-size:14px;color:#3a4d60;margin:0 0 20px;max-width:430px}
+  .engine{display:grid;grid-template-columns:1fr 132px;gap:24px;align-items:center}
+  .meter{margin-bottom:14px}
+  .meter .lab{display:flex;justify-content:space-between;font-size:12px;color:#54677a;margin-bottom:5px}
+  .meter .lab b{font-family:var(--disp);font-weight:600;color:var(--ink);font-size:12px}
+  .track{height:8px;border-radius:99px;background:#eef3f7;overflow:hidden}
+  .track > i{display:block;height:100%;width:6%;border-radius:99px;background:linear-gradient(90deg,var(--c9),var(--blue-deep));transition:width 1.4s cubic-bezier(.3,.7,.3,1)}
+  .ring{position:relative;width:132px;height:132px;justify-self:center}
+  .ring .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .pct b{font-family:var(--disp);font-weight:700;font-size:26px}
+  .ring .pct span{font-family:var(--disp);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);margin-top:2px}
+  .state{margin-top:8px;font-family:var(--disp);font-size:12px;font-weight:600;color:#54677a;text-align:center}
+  .state.hit{color:var(--c9)}
+
+  .controls{display:flex;gap:12px;margin-top:24px}
+  .ctl{flex:1;text-align:center;font-family:var(--disp);font-weight:600;font-size:13px;padding:13px;border-radius:12px;cursor:pointer;border:1px solid var(--line)}
+  .ctl.go{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ctl.go[disabled]{opacity:.4;cursor:default}
+  .note{margin-top:22px;font-size:12.5px;color:#54677a;border-top:1px solid var(--line);padding-top:16px}
+  .note b{font-family:var(--disp);color:var(--ink);font-weight:600}
+
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:var(--mist);font-size:13px;max-width:760px}
+  @media(max-width:860px){.demo{grid-template-columns:1fr;justify-items:center}.panel{width:100%;max-width:430px}.engine{grid-template-columns:1fr}.ring{margin:0 auto}}
+</style>
+</head>
+<body><a href="/work/the-ninth" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;The Ninth &middot; back to the case study</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.5l5.5 3.5-5.5 3.5z" fill="currentColor"/></symbol>
+</svg>
+
+<div class="wrap">
+  <span class="tag">Speculative concept &middot; Phase 3 &middot; working demo</span>
+  <h1>Moment, clipped.<small>THE NINTH &middot; AI MOMENT-ALERT CLIPPER</small></h1>
+  <p class="lede">The AI slice, built. Three live signals fuse, the system catches the moment, and an auto-clip rises to the fan the instant it happens. This is the casual fan's reason to never miss a play. <b>Press Simulate the moment</b> to run it, on the phone and in the engine side by side.</p>
+
+  <div class="demo">
+
+    <!-- PHONE -->
+    <div class="phone"><div class="screen" id="screen">
+      <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="body">
+        <div class="scene" id="scene">
+          <span class="badge">LIVE &middot; LCS</span>
+          <span class="score">C9 <b style="color:#7fd0f0">2</b> : 1 TL</span>
+          <span class="watching">watching with 1,204 members</span>
+          <span class="dot b" id="b1" style="left:20%;top:68%"></span>
+          <span class="dot b" id="b2" style="left:34%;top:78%"></span>
+          <span class="dot r" id="r1" style="left:62%;top:30%"></span>
+          <span class="dot r" id="r2" style="left:74%;top:42%"></span>
+          <div class="flash" id="flash"></div>
+        </div>
+        <div class="feed" id="feed"></div>
+
+        <div class="alert" id="alert">
+          <div class="between">
+            <div class="row">
+              <div class="ix">IX</div>
+              <div><div class="kx">Moment &middot; auto-clipped</div><div class="ti" id="alertTitle">Blaber flips the fight</div></div>
+            </div>
+            <span class="go" id="openClip">Clip &rsaquo;</span>
+          </div>
+        </div>
+
+        <div class="clip" id="clip">
+          <div class="top"><div class="x" id="closeClip"><svg width="13" height="13"><use href="#i-back"/></svg></div><div class="t">Your clip</div></div>
+          <div class="view">
+            <span class="stamp">IX AUTO-CLIP</span>
+            <span class="lp"></span><span class="lp lp2"></span>
+            <span class="dur" id="clipDur">0:12</span>
+          </div>
+          <div class="meta">
+            <div class="cap" id="clipCap">Blaber flips the fight</div>
+            <div class="sub" id="clipSub">Caption auto-written, C9 bias on &middot; edit</div>
+            <div id="clipTags"><span class="opt">kill feed</span><span class="opt">audio spike</span><span class="opt">chat +320%</span></div>
+            <div class="row" style="gap:8px;margin-top:4px"><div class="btn" id="claimBtn" style="flex:1">Share to Community &middot; +40</div><div class="btn ghost" style="flex:0 0 80px">Save</div></div>
+          </div>
+        </div>
+
+        <div class="toast" id="toast">+40 points toward Insider</div>
+      </div>
+    </div></div>
+
+    <!-- ENGINE -->
+    <div class="panel">
+      <h2>The detection engine</h2>
+      <p class="p">No single signal is enough. The clipper fuses three live streams and only fires when they agree, which is how real auto-highlight systems avoid clipping noise.</p>
+      <div class="engine">
+        <div>
+          <div class="meter"><div class="lab"><b>Game events</b><span id="vGame">6%</span></div><div class="track"><i id="sGame"></i></div></div>
+          <div class="meter"><div class="lab"><b>Crowd audio</b><span id="vAudio">8%</span></div><div class="track"><i id="sAudio"></i></div></div>
+          <div class="meter"><div class="lab"><b>Chat velocity</b><span id="vChat">5%</span></div><div class="track"><i id="sChat"></i></div></div>
+        </div>
+        <div>
+          <div class="ring">
+            <svg viewBox="0 0 120 120" width="132" height="132">
+              <circle cx="60" cy="60" r="42" fill="none" stroke="#eef3f7" stroke-width="11"/>
+              <circle id="ring" cx="60" cy="60" r="42" fill="none" stroke="#29ABE2" stroke-width="11" stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.5s cubic-bezier(.3,.7,.3,1),stroke .3s"/>
+              <line x1="60" y1="9" x2="60" y2="20" stroke="#cdd9e3" stroke-width="2" transform="rotate(72 60 60)"/>
+            </svg>
+            <div class="pct"><b id="ringPct">14</b><span>fusion</span></div>
+          </div>
+          <div class="state" id="state">Listening</div>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="ctl go" id="runBtn"><span>Simulate the moment</span></div>
+        <div class="ctl" id="resetBtn">Reset</div>
+      </div>
+      <p class="note"><b>Real now, not magic.</b> 2026 clippers detect plays off game-event signals (kill feeds, objectives), broadcast audio spikes, and chat-velocity surges, cutting manual clipping from hours to minutes. The team still reviews before a clip ships. Here the AI does detection and a first-draft caption; taste stays human.</p>
+    </div>
+
+  </div>
+
+  <p class="foot">The Ninth is a speculative concept anchored to Cloud9 for portfolio purposes, not affiliated with or endorsed by Cloud9. The match, scene, and signals are simulated for demonstration. The detection approach reflects real 2026 auto-highlight methods. No outcome here describes Pratik Mehta's own results.</p>
+</div>
+
+<script>
+(function(){
+  var moments = [
+    {title:"Blaber flips the fight", cap:"Blaber flips the fight", sub:'Caption auto-written, C9 bias on · edit', kill:'C9 <b>Blaber</b> <span class="k">&#9654;</span> TL jungle', tags:["kill feed","audio spike","chat +320%"], dur:"0:12"},
+    {title:"Zven 1v2 in the side lane", cap:"Zven 1v2 in the side lane", sub:'Caption auto-written, C9 bias on · edit', kill:'C9 <b>Zven</b> <span class="k">&#9654;</span> double kill', tags:["kill feed","audio spike","chat +260%"], dur:"0:09"},
+    {title:"Vulcan hook starts the ace", cap:"Vulcan hook starts the ace", sub:'Caption auto-written, C9 bias on · edit', kill:'C9 <b>Vulcan</b> <span class="k">&#9654;</span> ace', tags:["kill feed","audio spike","chat +410%"], dur:"0:14"},
+  ];
+  var idx = 0, running = false, timers = [];
+  var $ = function(id){ return document.getElementById(id); };
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+  function after(ms, fn){ timers.push(setTimeout(fn, ms)); }
+
+  function setSignals(g,a,c){
+    $("sGame").style.width=g+"%"; $("vGame").textContent=g+"%";
+    $("sAudio").style.width=a+"%"; $("vAudio").textContent=a+"%";
+    $("sChat").style.width=c+"%"; $("vChat").textContent=c+"%";
+  }
+  function setRing(pct){
+    var c=263.9; $("ring").style.strokeDashoffset = c*(1-pct/100);
+    $("ringPct").textContent = Math.round(pct);
+  }
+  function addFeed(html){
+    var d=document.createElement("div"); d.className="ln"; d.innerHTML=html;
+    $("feed").appendChild(d); requestAnimationFrame(function(){ d.classList.add("show"); });
+  }
+
+  function reset(){
+    clearTimers(); running=false;
+    $("alert").classList.remove("show");
+    $("clip").classList.remove("show");
+    $("toast").classList.remove("show");
+    $("flash").classList.remove("on");
+    $("feed").innerHTML="";
+    setSignals(6,8,5); setRing(14);
+    $("state").textContent="Listening"; $("state").classList.remove("hit");
+    $("ring").setAttribute("stroke","#29ABE2");
+    $("b1").style.transform=""; $("b2").style.transform="";
+    $("r1").style.opacity="1"; $("r1").style.transform=""; $("r2").style.transform="";
+    $("claimBtn").textContent="Share to Community · +40";
+    $("claimBtn").style.opacity="1";
+    $("runBtn").removeAttribute("disabled");
+  }
+
+  function run(){
+    if(running) return;
+    reset(); running=true;
+    var m = moments[idx % moments.length]; idx++;
+    $("runBtn").setAttribute("disabled","");
+    $("state").textContent="Listening";
+
+    // scene: blue converge, red react
+    after(120, function(){
+      $("b1").style.transform="translate(52px,-44px)";
+      $("b2").style.transform="translate(34px,-58px)";
+      $("r2").style.transform="translate(-10px,8px)";
+    });
+    // signals ramp + ring
+    after(150, function(){ setSignals(92,80, parseInt(m.tags[2].replace(/\D/g,""))>300?96:88); setRing(84); });
+    after(200, function(){ addFeed('TL outer turret falls'); });
+    after(950, function(){ addFeed(m.kill); });
+
+    // detect
+    after(1650, function(){
+      $("flash").classList.add("on");
+      $("r1").style.opacity="0"; // a red is eliminated
+      $("state").textContent="Moment detected"; $("state").classList.add("hit");
+      after(260, function(){ $("flash").classList.remove("on"); });
+    });
+    // alert rises
+    after(1950, function(){
+      $("alertTitle").textContent=m.title;
+      $("alert").classList.add("show");
+      running=false; $("runBtn").removeAttribute("disabled");
+      currentMoment = m;
+    });
+  }
+
+  var currentMoment = moments[0];
+  function openClip(){
+    var m=currentMoment;
+    $("clipCap").textContent=m.cap; $("clipSub").innerHTML=m.sub; $("clipDur").textContent=m.dur;
+    var t=""; m.tags.forEach(function(x){ t+='<span class="opt">'+x+'</span>'; });
+    $("clipTags").innerHTML=t;
+    $("alert").classList.remove("show");
+    $("clip").classList.add("show");
+  }
+  function claim(){
+    $("toast").classList.add("show");
+    $("claimBtn").textContent="Shared · +40 added";
+    $("claimBtn").style.opacity=".7";
+    after(2200, function(){ $("toast").classList.remove("show"); });
+  }
+
+  $("runBtn").addEventListener("click", run);
+  $("resetBtn").addEventListener("click", reset);
+  $("openClip").addEventListener("click", openClip);
+  $("closeClip").addEventListener("click", function(){ $("clip").classList.remove("show"); $("alert").classList.add("show"); });
+  $("claimBtn").addEventListener("click", claim);
+
+  reset();
+  after(800, run); // auto-play once on load
+})();
+</script>
+</body>
+</html>

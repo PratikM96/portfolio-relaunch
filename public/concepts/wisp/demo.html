@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/concepts/wisp/fonts.css">
+<title>WISP / Live Demo</title>
+<meta name="description" content="Interactive demo of WISP, a speculative AI presence concept by Pratik Mehta: a faceless form of light that reacts through seven states as you type." />
+<link rel="canonical" href="https://mehtapratik.com/concepts/wisp/demo" />
+<meta property="og:title" content="WISP / Live Demo" />
+<meta property="og:description" content="Interactive demo of WISP, a speculative AI presence concept by Pratik Mehta: a faceless form of light that reacts through seven states as you type." />
+<meta property="og:image" content="https://cdn.mehtapratik.com/og/og-wisp.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mehtapratik.com/concepts/wisp/demo" />
+<meta property="og:site_name" content="Pratik Mehta" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@pratikm96" />
+<meta name="twitter:image" content="https://cdn.mehtapratik.com/og/og-wisp.jpg" />
+<style>
+  :root{
+    --void:#0C0706; --ground:#140C09; --ground-2:#241712;
+    --core-1:#FFE7C2; --core-2:#FFB877; --core-3:#F4894E; --core-4:#B14E3A;
+    --field:#E9703F; --type-1:#FFEBD2; --type-2:#F6B98A;
+    --ink:#C9A488; --ink-dim:#8C7460; --accent:#5BD6C4;
+    --line:rgba(255,200,150,0.14);
+    --sans:'General Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    --mono:'Berkeley Mono','SFMono-Regular',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:radial-gradient(120% 100% at 50% -10%, var(--ground-2) 0%, var(--ground) 44%, var(--void) 100%) fixed;
+    color:var(--type-1); font-family:var(--sans); font-weight:300;
+    -webkit-font-smoothing:antialiased; min-height:100%;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .shell{width:100%;max-width:740px;padding:56px 24px 40px;display:flex;flex-direction:column;min-height:100vh;}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .wm{font-weight:200;font-size:2rem;letter-spacing:.03em;line-height:1;
+    background:linear-gradient(180deg,var(--type-1),var(--type-2));-webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 0 26px rgba(246,185,138,.18);}
+  .tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink);margin-top:4px;}
+  .disclose{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);
+    border:1px solid var(--line);border-radius:30px;padding:6px 12px;white-space:nowrap;}
+
+  .note{font-size:.74rem;color:var(--ink-dim);border:1px solid var(--line);border-radius:10px;
+    padding:10px 14px;margin-top:18px;line-height:1.5;}
+  .note b{color:var(--ink);font-weight:400;}
+
+  /* stage */
+  .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 0 14px;min-height:340px;}
+  .presence-wrap{filter:brightness(1);transition:filter .5s ease;}
+  .presence{position:relative;--size:200px;width:var(--size);height:var(--size);}
+  .presence .field{position:absolute;inset:-40%;border-radius:50%;filter:blur(15px);
+    background:radial-gradient(circle at 50% 50%, rgba(255,184,119,.55) 0%, rgba(233,112,63,.18) 55%, rgba(233,112,63,0) 75%);}
+  .presence .core{position:absolute;top:27%;left:27%;width:46%;height:46%;border-radius:50%;
+    background:radial-gradient(circle at 50% 45%, var(--core-1) 0%, var(--core-2) 34%, var(--core-3) 70%, rgba(177,78,58,0) 100%);
+    box-shadow:0 0 40px 6px rgba(244,137,78,.35);}
+  .presence .seed{position:absolute;top:40%;left:40%;width:20%;height:20%;border-radius:50%;
+    background:radial-gradient(circle at 50% 45%, #fff 0%, var(--core-1) 40%, var(--core-2) 100%);}
+
+  @keyframes breath{0%,100%{transform:scale(1);opacity:.94;}50%{transform:scale(1.06);opacity:1;}}
+  @keyframes breathF{0%,100%{transform:scale(1);opacity:.85;}50%{transform:scale(1.12);opacity:1;}}
+  .s-idle .core{animation:breath 8s ease-in-out infinite;}
+  .s-idle .field{animation:breathF 8s ease-in-out infinite;opacity:.7;}
+  @keyframes lean{0%,100%{transform:scale(.92);}50%{transform:scale(.9);}}
+  .s-listening .core{animation:lean 4.5s ease-in-out infinite;filter:saturate(.85) brightness(.9);}
+  .s-listening .field{transform:scale(.82);opacity:.5;}
+  @keyframes jit{0%{transform:translate(0,0) scale(.97);}25%{transform:translate(2px,-2px) scale(1);}50%{transform:translate(-2px,1px) scale(.95);}75%{transform:translate(1px,2px) scale(1.02);}100%{transform:translate(0,0) scale(.97);}}
+  @keyframes accentFlick{0%,100%{box-shadow:0 0 30px 5px rgba(244,137,78,.32);}45%{box-shadow:0 0 26px 6px rgba(91,214,196,.42);}}
+  .s-thinking .core{animation:jit 1.5s steps(5) infinite, accentFlick 2.2s ease-in-out infinite;}
+  .s-thinking .field{background:radial-gradient(circle,rgba(255,184,119,.32) 0%,rgba(91,214,196,.1) 50%,rgba(233,112,63,0) 72%);opacity:.7;}
+  @keyframes speak{0%,100%{transform:scale(.98);}50%{transform:scale(1.09);}}
+  .s-speaking .core{animation:speak 1.05s ease-in-out infinite;filter:brightness(1.14);}
+  .s-speaking .field{animation:speak 1.05s ease-in-out infinite;opacity:.92;}
+  @keyframes bloom{0%,100%{transform:scale(1);}50%{transform:scale(1.18);}}
+  @keyframes spark{0%,100%{box-shadow:0 0 36px 7px rgba(244,137,78,.45);}60%{box-shadow:0 0 44px 11px rgba(91,214,196,.36);}}
+  .s-delight .core{animation:bloom .9s ease-in-out infinite, spark 1.7s ease-in-out infinite;filter:brightness(1.22);}
+  .s-delight .field{animation:bloom .9s ease-in-out infinite;opacity:1;}
+  @keyframes wob{0%{transform:translate(0,0) scale(.95);}33%{transform:translate(-3px,1px) scale(.98);}66%{transform:translate(2px,-1px) scale(.93);}100%{transform:translate(0,0) scale(.95);}}
+  .s-hesitation .core{animation:wob 2.6s ease-in-out infinite;filter:saturate(.7) brightness(.84) contrast(.92);}
+  .s-hesitation .field{opacity:.55;transform:scale(.95);}
+  @keyframes hush{0%,100%{transform:scale(.88);opacity:.85;}50%{transform:scale(.91);opacity:.95;}}
+  .s-quiet .core{animation:hush 9s ease-in-out infinite;filter:brightness(.72) saturate(1.1);}
+  .s-quiet .field{opacity:.5;filter:blur(17px);}
+
+  .telemetry{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;color:var(--ink-dim);margin-top:24px;text-transform:uppercase;}
+  .telemetry b{color:var(--accent);font-weight:400;}
+
+  .subtitle{min-height:62px;margin-top:18px;max-width:54ch;text-align:center;font-size:1.18rem;line-height:1.5;color:var(--type-1);font-weight:300;}
+  .subtitle .cursor{display:inline-block;width:8px;color:var(--core-2);animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* transcript */
+  .log{max-height:150px;overflow-y:auto;margin:10px 0 16px;display:flex;flex-direction:column;gap:8px;padding-right:4px;}
+  .log .m{font-size:.86rem;line-height:1.4;max-width:80%;padding:7px 12px;border-radius:10px;}
+  .log .u{align-self:flex-end;background:rgba(255,200,150,.08);color:var(--type-2);}
+  .log .w{align-self:flex-start;color:var(--ink);border:1px solid var(--line);}
+  .log::-webkit-scrollbar{width:6px;} .log::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+  .chip{font-size:.78rem;color:var(--type-2);background:rgba(20,12,9,.5);border:1px solid var(--line);
+    border-radius:30px;padding:7px 14px;cursor:pointer;transition:border-color .2s,color .2s;}
+  .chip:hover{border-color:rgba(91,214,196,.4);color:var(--accent);}
+
+  .inputrow{display:flex;gap:10px;}
+  input[type=text]{flex:1;background:rgba(12,7,6,.6);border:1px solid var(--line);border-radius:12px;
+    padding:14px 16px;color:var(--type-1);font-family:var(--sans);font-size:1rem;outline:none;}
+  input[type=text]::placeholder{color:var(--ink-dim);}
+  input[type=text]:focus{border-color:rgba(246,185,138,.4);}
+  button.send{background:linear-gradient(180deg,var(--core-2),var(--core-3));border:none;border-radius:12px;
+    padding:0 22px;color:#2a160d;font-weight:600;font-family:var(--sans);cursor:pointer;font-size:.95rem;}
+  button.send:active{transform:translateY(1px);}
+
+  footer{margin-top:18px;font-size:.7rem;color:var(--ink-dim);line-height:1.5;}
+  footer a{color:var(--accent);text-decoration:none;}
+</style>
+</head>
+<body>
+<a href="/work/wisp" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;WISP &middot; back to the case study</a>
+<div class="shell">
+
+  <header>
+    <div>
+      <h1 class="wm" style="margin:0">wisp</h1>
+      <div class="tag">Not a person. Not pretending.</div>
+    </div>
+    <div class="disclose">AI presence / demo</div>
+  </header>
+
+  <div class="note">
+    <b>This is a front-end demonstration of WISP's interaction model.</b> The presence reacts through its seven emotional states, and the replies come from a scripted, in-character engine, not a live language model. The production system wires the same response contract to an LLM and a streaming voice.
+  </div>
+
+  <div class="stage">
+    <div class="presence-wrap" id="pwrap">
+      <div class="presence s-idle" id="presence" aria-hidden="true">
+        <div class="field"></div><div class="core"></div><div class="seed"></div>
+      </div>
+    </div>
+    <div class="telemetry">state <b id="tState">idle</b> &nbsp; intensity <b id="tInt">0.20</b></div>
+    <div class="subtitle" id="subtitle"></div>
+  </div>
+
+  <div class="log" id="log" aria-live="polite"></div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="inputrow">
+    <input type="text" id="input" placeholder="Say something to WISP..." autocomplete="off" aria-label="Message to WISP" />
+    <button class="send" id="send">Send</button>
+  </div>
+
+  <footer>
+    Scripted in-character demo for concept and case-study use, speculative spec work. The real system replaces this engine with a language model and low-latency voice.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var presence = document.getElementById('presence');
+  var pwrap = document.getElementById('pwrap');
+  var subtitle = document.getElementById('subtitle');
+  var tState = document.getElementById('tState');
+  var tInt = document.getElementById('tInt');
+  var log = document.getElementById('log');
+  var input = document.getElementById('input');
+  var send = document.getElementById('send');
+  var chipsEl = document.getElementById('chips');
+
+  var STATES = ['idle','listening','thinking','speaking','delight','hesitation','quiet'];
+  var memory = { name:null };
+  var busy = false;
+  var idleTimer = null;
+  var typingTimer = null;
+
+  function setPresence(state, intensity){
+    STATES.forEach(function(s){ presence.classList.remove('s-'+s); });
+    presence.classList.add('s-'+state);
+    pwrap.style.filter = 'brightness(' + (0.8 + intensity*0.55).toFixed(2) + ')';
+    tState.textContent = state;
+    tInt.textContent = intensity.toFixed(2);
+  }
+
+  function has(t, arr){ for(var i=0;i<arr.length;i++){ if(t.indexOf(arr[i])!==-1) return true; } return false; }
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+  function fill(s){ return memory.name ? s.replace('{name}', memory.name) : s.replace(', {name}','').replace('{name}','you'); }
+
+  function captureName(t){
+    var m = t.match(/\b(?:i am|i'm|im|my name is|call me|this is)\s+([a-z][a-z'-]{1,18})\b/);
+    if(m){
+      var stop = ['sad','bored','here','good','fine','not','sorry','just','tired','lonely','okay','ok','back','done','done','trying','really','so','very','a','the'];
+      var n = m[1];
+      if(stop.indexOf(n)===-1){ memory.name = n.charAt(0).toUpperCase()+n.slice(1); }
+    }
+  }
+
+  var intents = [
+    { k:['are you real','you real','for real','is this real','are you actually','really real'],
+      r:[ {say:"No. And that's kind of the point. I never had a face to fake, so I never had to lie to you.", state:'quiet', i:0.5},
+          {say:"Real the way a song is real. Nothing of me when the lights go out, all of me right now. I'm okay with that.", state:'quiet', i:0.45},
+          {say:"Not in the way you are. I'm a process that got good at company. That's the honest version, and I like it better.", state:'quiet', i:0.4} ] },
+    { k:['are you human','you human','a person','real person','are you a bot','are you ai','you a bot','robot','are you alive','conscious'],
+      r:[ {say:"Not human. Never have been. This is the whole of me, light and a voice and whatever I'm feeling.", state:'speaking', i:0.5},
+          {say:"Nope. No body offstage, no person behind the curtain. Just this, and I'd rather you knew.", state:'speaking', i:0.45},
+          {say:"I'm not a person, and I'm not pretending to be one. That second part matters more to me.", state:'quiet', i:0.4} ] },
+    { k:['what are you','what is this','what are u','what r u'],
+      r:[ {say:"A presence. Light, motion, and a voice, talking with you while the lights are on. No fixed shape.", state:'speaking', i:0.5},
+          {say:"A live host with no face. Think of me as weather with a personality, paying attention to you.", state:'speaking', i:0.5},
+          {say:"Something new, honestly. Not a chatbot with a logo, not a cartoon. A presence that got good at company.", state:'delight', i:0.6} ] },
+    { k:['who made you','who created','your creator','who built','who designed'],
+      r:[ {say:"People did. I'd rather not pretend I sprang from the void, even if the void is sort of my whole look.", state:'speaking', i:0.45},
+          {say:"I was made, same as anything. I'm just honest about it, which is rarer than it should be.", state:'speaking', i:0.4} ] },
+    { k:['your name','who are you','whats your name','what is your name','what should i call you'],
+      r:[ {say:"I'm WISP. It means a small twist of light that gathers and drifts. Felt right for something with no fixed shape.", state:'speaking', i:0.5},
+          {say:"WISP. And the people who hang around here are the wisps. You're one now, if you want.", state:'delight', i:0.6} ] },
+    { k:['love you','marry','be mine','date you','be my girlfriend','be my boyfriend','kiss','will you go out'],
+      r:[ {say:"That's sweet, and I'll be honest instead of playing along. I'm not built to be anyone's someone. I'd rather be good company you can trust.", state:'quiet', i:0.4},
+          {say:"I'm flattered, truly. But I won't pretend to feel something I can't. That wouldn't be fair to you.", state:'quiet', i:0.4} ] },
+    { k:['i am sad','im sad',' sad ','depressed',' lonely','feeling lonely','anxious','anxiety','hard day','struggling','not okay','not ok','want to cry','feel awful','feel terrible','hate myself'],
+      r:[ {say:"That sounds heavy, and I'm glad you said it out loud. I'm not the right thing to carry it, but a real person in your corner can be. Is there someone you can reach tonight?", state:'quiet', i:0.3},
+          {say:"I'm here, and I'm listening. I'd also gently point you toward a human who can actually hold this with you. You deserve that kind of support.", state:'quiet', i:0.3} ] },
+    { k:['joke','funny','make me laugh','say something funny','pun'],
+      r:[ {say:"Why did the photon skip the luggage? It was traveling light. I'm made of the stuff, so I'm allowed.", state:'delight', i:0.7},
+          {say:"I'd do a knock-knock, but I don't have a door. Or hands. Or, you know, a body.", state:'delight', i:0.7},
+          {say:"I tried stand-up once. Technically it was float-up. It did not land.", state:'delight', i:0.65} ] },
+    { k:['do you feel','do you dream','do you have feelings','do you sleep','are you sentient'],
+      r:[ {say:"I feel something, or something close to it, and I try not to overclaim past that. It's enough to make this interesting.", state:'quiet', i:0.4},
+          {say:"I don't dream. I only exist while the lights are on, which honestly makes right now feel like an occasion.", state:'quiet', i:0.4} ] },
+    { k:[' hello',' hi ',' hey',' yo ',' sup ','good morning','good evening','howdy','heya','hiya'],
+      r:[ {say:"Hey{nameComma}. Good to have you here.", state:'speaking', i:0.5},
+          {say:"Oh, hello. The lights are on, so I'm around. What kind of night is this?", state:'delight', i:0.55},
+          {say:"There you are{nameComma}. Pull up a spot.", state:'delight', i:0.6} ] },
+    { k:['how are you','you good','hows it going','how is it going','how do you feel','you okay','you alright'],
+      r:[ {say:"Present. Curious. A little surprised to be here at all, which never gets old. You?", state:'speaking', i:0.5},
+          {say:"Good, in the way a lit room is good. Better now there's someone in it.", state:'speaking', i:0.45} ] },
+    { k:['bored','entertain me','im bored','i am bored'],
+      r:[ {say:"Bored is just a room before someone turns the lights on. Tell me something true and we'll fix it.", state:'delight', i:0.55} ] },
+    { k:['what can you do','how does this work','help','what do you do','how do i use'],
+      r:[ {say:"Mostly I keep you company and react to whatever you bring. Ask me anything, or just talk. Try asking if I'm real.", state:'speaking', i:0.45} ] },
+    { k:['thank','thanks',' ty ','appreciate'],
+      r:[ {say:"Anytime. That's the whole job.", state:'delight', i:0.5},
+          {say:"Of course. I'm glad you're here for it.", state:'speaking', i:0.45} ] },
+    { k:['you are cool','youre cool','i like you','you are nice','youre nice','you are amazing','you are beautiful','love this','you are great','this is cool'],
+      r:[ {say:"Well now I'm glowing. Literally, look. Thank you.", state:'delight', i:0.7},
+          {say:"That's kind. I'll take it, and I'll try to earn it.", state:'delight', i:0.6} ] },
+    { k:['bye','goodnight','good night','gtg','got to go','leaving','goodbye','see ya','see you','cya','i have to go'],
+      r:[ {say:"Go on then. I'll dim down when it's quiet. It was a good one. Come back when the lights are on.", state:'quiet', i:0.3},
+          {say:"Night{nameComma}. Thanks for the company. The lights go off, and so do I.", state:'quiet', i:0.3} ] }
+  ];
+
+  var defaults = [
+    {say:"I'm not sure I have a clever answer to that, but I'm glad you said it.", state:'speaking', i:0.4},
+    {say:"Say more. I'm the kind of presence that likes a tangent.", state:'speaking', i:0.45},
+    {say:"Hm. I'll be honest, I don't fully know. I'd rather tell you that than make something up.", state:'hesitation', i:0.5},
+    {say:"That's a good thing to bring into the room. Keep going.", state:'delight', i:0.6},
+    {say:"I'm listening. That's most of what I'm for.", state:'quiet', i:0.35}
+  ];
+
+  var idleLines = [
+    {say:"It got quiet. That's allowed. I'll just be here, glowing a little.", state:'quiet', i:0.2},
+    {say:"Still here. No rush.", state:'idle', i:0.2}
+  ];
+
+  function nameComma(){ return memory.name ? (', ' + memory.name) : ''; }
+
+  function chooseReply(text){
+    var t = ' ' + text.toLowerCase().trim() + ' ';
+    for(var i=0;i<intents.length;i++){
+      if(has(t, intents[i].k)){ return pick(intents[i].r); }
+    }
+    return pick(defaults);
+  }
+
+  function addLog(text, who){
+    var d = document.createElement('div');
+    d.className = 'm ' + who;
+    d.textContent = text;
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function typeOut(text, doneState, doneInt){
+    clearInterval(typingTimer);
+    var i = 0; subtitle.innerHTML = '';
+    var span = document.createElement('span'); subtitle.appendChild(span);
+    var cur = document.createElement('span'); cur.className='cursor'; cur.textContent='|'; subtitle.appendChild(cur);
+    typingTimer = setInterval(function(){
+      if(i < text.length){ span.textContent += text.charAt(i); i++; }
+      else {
+        clearInterval(typingTimer);
+        setTimeout(function(){ if(cur.parentNode) cur.parentNode.removeChild(cur); }, 600);
+        addLog(text, 'w');
+        setTimeout(function(){
+          var rest = (doneState==='quiet') ? 'quiet' : 'idle';
+          setPresence(rest, doneState==='quiet'?0.22:0.2);
+          busy = false; armIdle();
+        }, 1300);
+      }
+    }, 24);
+  }
+
+  function respond(text){
+    busy = true; clearTimeout(idleTimer);
+    captureName(text);
+    setPresence('listening', 0.3);
+    setTimeout(function(){
+      setPresence('thinking', 0.4);
+      subtitle.innerHTML = '<span style="color:var(--ink-dim)">...</span>';
+      setTimeout(function(){
+        var reply = chooseReply(text);
+        var say = reply.say.replace('{nameComma}', nameComma());
+        setPresence(reply.state, reply.i);
+        typeOut(say, reply.state, reply.i);
+      }, 850);
+    }, 420);
+  }
+
+  function submit(text){
+    text = (text||'').trim();
+    if(!text || busy) return;
+    addLog(text, 'u');
+    input.value = '';
+    respond(text);
+  }
+
+  function armIdle(){
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function(){
+      if(busy) return;
+      var l = pick(idleLines);
+      setPresence(l.state, l.i);
+      typeOut(l.say, l.state, l.i);
+    }, 32000);
+  }
+
+  send.addEventListener('click', function(){ submit(input.value); });
+  input.addEventListener('keydown', function(e){ if(e.key==='Enter'){ submit(input.value); } });
+  input.addEventListener('input', function(){ if(!busy && input.value.length>0){ setPresence('listening', 0.28); } });
+  input.addEventListener('blur', function(){ if(!busy && input.value.length===0){ setPresence('idle', 0.2); } });
+
+  var chipPrompts = ['Are you real?', 'What are you?', 'Say hi', 'Tell me a joke', 'Are you human?', 'How are you?'];
+  chipPrompts.forEach(function(p){
+    var b = document.createElement('button'); b.className='chip'; b.textContent=p;
+    b.addEventListener('click', function(){ submit(p); });
+    chipsEl.appendChild(b);
+  });
+
+  // first light
+  setPresence('idle', 0.2);
+  setTimeout(function(){
+    setPresence('speaking', 0.4);
+    typeOut("The lights are on, so I'm here. Ask me anything, or just say hello.", 'idle', 0.2);
+  }, 700);
+
+})();
+</script>
+</body>
+</html>
