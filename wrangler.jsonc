@@ -1,0 +1,24 @@
+{
+  // Cloudflare Workers (Static Assets) deploy config for the NEW site.
+  // Static build (astro output:'static') -> the whole site is dist/client, served
+  // as Workers static assets. No `main` (no server code) and no bindings: a purely
+  // static Astro site can't use bindings, so there is intentionally no SESSION KV
+  // here (unlike the adapter's auto-generated dist/client/wrangler.json).
+  //
+  // Deploy:  npm run deploy
+  //   The @astrojs/cloudflare adapter writes a redirect (.wrangler/deploy/
+  //   config.json) that would make `wrangler deploy` use its generated
+  //   dist/client/wrangler.json instead of THIS file — which carries the wrong
+  //   worker name AND a stray SESSION KV binding. The `deploy` npm script deletes
+  //   that redirect after build so wrangler uses this clean config. If you deploy
+  //   by hand, run: npm run build && rm .wrangler/deploy/config.json && wrangler deploy
+  //
+  // `name` is deliberately NOT "mehtapratik-site" so this never overwrites the
+  // OLD production worker. Rename only when you intend to replace it.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio-relaunch",
+  "compatibility_date": "2026-07-03",
+  "assets": {
+    "directory": "./dist/client"
+  }
+}

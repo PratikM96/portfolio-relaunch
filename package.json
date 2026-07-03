@@ -1,5 +1,5 @@
 {
-  "name": "mehtapratik-site",
+  "name": "portfolio-relaunch",
   "type": "module",
   "version": "0.0.1",
   "private": true,
@@ -9,7 +9,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "deploy": "npm run build && node -e \"require('fs').rmSync('.wrangler/deploy/config.json',{force:true})\" && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.0.1",
@@ -25,6 +26,7 @@
     "@astrojs/check": "^0.9.9",
     "@astrojs/sitemap": "^3.7.3",
     "@types/node": "^26.0.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.107.0"
   }
 }
