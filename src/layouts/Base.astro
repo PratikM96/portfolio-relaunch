@@ -320,10 +320,62 @@ const ldGraph = {
             <a href="/brand">Brand</a>
             <a href="/journal">Journal</a>
             <a href="/contact">Contact</a>
+            <a href="/privacy">Privacy</a>
+            <button type="button" class="foot-cookies" data-consent-reopen>Cookies</button>
           </div>
         </footer>
       </div>
     </div>
+
+    {/* Cookie consent + gated Google Analytics (GA4). gtag loads only after Accept. */}
+    <div class="consent" id="consent" hidden>
+      <p class="consent-txt">Google Analytics measures site traffic. No ads, no cross-site tracking. <a href="/privacy">Privacy</a></p>
+      <div class="consent-btns">
+        <button type="button" data-consent="deny">Decline</button>
+        <button type="button" class="primary" data-consent="grant">Accept</button>
+      </div>
+    </div>
+    <style>
+      .consent { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9998; max-width: 700px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; padding: 16px 20px; background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 14px; box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55); }
+      .consent[hidden] { display: none; }
+      .consent-txt { flex: 1; min-width: 260px; margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); text-wrap: pretty; }
+      .consent-txt a { color: var(--accent-text); text-decoration: underline; }
+      .consent-btns { display: flex; gap: 10px; flex: none; }
+      .consent button { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 16px; border-radius: 999px; cursor: pointer; border: 1px solid var(--border-strong); background: transparent; color: var(--text); transition: border-color 0.18s var(--ease-standard), background 0.18s var(--ease-standard); }
+      .consent button:hover { border-color: var(--text); }
+      .consent button.primary { background: var(--accent-fill); border-color: var(--accent-fill); color: #fff; }
+      .consent button:focus-visible { outline: 2px solid var(--accent-fill); outline-offset: 2px; }
+      .foot-cookies { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); background: none; border: 0; padding: 0; cursor: pointer; }
+      .foot-cookies:hover { color: var(--text); }
+    </style>
+    <script is:inline>
+      (function () {
+        var KEY = 'pm-consent', GA = 'G-G5ZSN5RXX0';
+        function loadGA() {
+          if (window.__ga) return; window.__ga = 1;
+          var s = document.createElement('script');
+          s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA;
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          window.gtag = gtag; gtag('js', new Date()); gtag('config', GA);
+        }
+        var el = document.getElementById('consent');
+        var choice = null; try { choice = localStorage.getItem(KEY); } catch (e) {}
+        if (choice === 'granted') loadGA();
+        else if (choice !== 'denied' && el) el.hidden = false;
+        if (el) el.addEventListener('click', function (e) {
+          var b = e.target.closest('[data-consent]'); if (!b) return;
+          var grant = b.getAttribute('data-consent') === 'grant';
+          try { localStorage.setItem(KEY, grant ? 'granted' : 'denied'); } catch (e) {}
+          el.hidden = true; if (grant) loadGA();
+        });
+        document.addEventListener('click', function (e) {
+          var t = e.target.closest('[data-consent-reopen]'); if (!t) return;
+          e.preventDefault(); if (el) el.hidden = false;
+        });
+      })();
+    </script>
 
     {/* Site-wide: theme toggle + NY clock + reveal-on-scroll + rail scroll-spy */}
     <script is:inline>

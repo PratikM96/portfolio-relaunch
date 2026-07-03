@@ -1,0 +1,53 @@
+---
+/**
+ * Privacy — mehtapratik.com. Default rail + footer from Base.astro.
+ * Reflects the real data posture: consent-gated GA4 (loads only after Accept),
+ * self-hosted same-origin assets (no third-party font/CDN), mailto contact,
+ * Cloudflare Worker hosting. No em/en dashes (house style).
+ */
+import Base from '../layouts/Base.astro';
+const EMAIL = 'mehtadpratik@gmail.com';
+---
+
+<Base
+  image="/og/default.png"
+  title="Privacy · Pratik Mehta"
+  description="What limited data mehtapratik.com collects, and how it is used. Analytics load only after you accept; assets are self-hosted."
+  activeNav=""
+>
+  <section class="legal">
+    <div class="page-kicker rev">[ Privacy ]</div>
+    <h1 class="rev page-h1">Privacy.</h1>
+    <div class="updated rev">Last updated July 2026</div>
+
+    <div class="prose rev">
+      <p>This is the personal portfolio of Pratik Mehta. It collects very little, and this page explains what and why.</p>
+
+      <h2>Analytics</h2>
+      <p>The site can use Google Analytics 4 to understand general traffic: which pages are viewed, rough location, device and browser, and how visitors arrive. It loads <strong>only after you accept</strong> the cookie notice. If you decline, no analytics run and no analytics cookies are set. The data is aggregated, used only to improve the site, and never sold or used for advertising.</p>
+
+      <h2>Cookies</h2>
+      <p>The only cookies this site sets are Google Analytics cookies, and only if you accept. There are no advertising or cross-site tracking cookies. Fonts are self-hosted and served from this domain, so no third-party font service receives your data.</p>
+
+      <h2>Contact</h2>
+      <p>The contact page opens your own email client and sends a message directly to me. There is no form and nothing is stored on a server. Anything you choose to include, such as your name and message, reaches me by email and is used only to reply.</p>
+
+      <h2>Hosting</h2>
+      <p>The site runs on Cloudflare, served by a Cloudflare Worker at the edge. Images, video, and fonts are served from this same domain.</p>
+
+      <h2>Your choices</h2>
+      <p>You can accept or decline analytics at any time with the <strong>Cookies</strong> control in the footer, and you can clear cookies through your browser. Questions? Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { padding: 104px 0 96px; }
+  .legal .updated { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-top: 24px; }
+  .prose { max-width: 68ch; margin-top: 44px; }
+  .prose h2 { font-family: var(--font-sans); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; color: var(--text); margin: 36px 0 10px; }
+  .prose p { color: var(--text-secondary); font-size: 16px; line-height: 1.65; margin: 0; }
+  .prose a { color: var(--accent-text); text-decoration: underline; }
+  .prose strong { color: var(--text); font-weight: 600; }
+  @media (max-width: 900px) { .legal { padding: 56px 0 64px; } }
+</style>
