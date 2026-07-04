@@ -67,7 +67,7 @@ img { display: block; max-width: 100%; }
 .console nav a.active .ix { color: var(--accent-text); }
 /* persistent about-me blurb (default rail only) */
 .console .rail-bio { margin-top: 30px; }
-.console .rail-bio .bio-k {
+.console .bio-k {
   font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 9px;
 }
@@ -129,6 +129,21 @@ img { display: block; max-width: 100%; }
 .console .cs-nav a .ix { font-size: 10px; color: var(--text-muted); width: 18px; }
 .console .cs-nav a:hover, .console .cs-nav a.active { color: var(--text); }
 .console .cs-nav a.active .ix { color: var(--accent-text); }
+/* case-study rail extras (journal: author bio + more posts) */
+.console.cs .rail-bio { margin-top: 34px; }
+.console .rail-bio-about {
+  display: inline-block; margin-top: 12px; font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent-text);
+}
+.console .rail-bio-about:hover { text-decoration: underline; text-underline-offset: 3px; }
+.console.cs .rail-more { margin-top: 30px; }
+/* margin-top:0 overrides the global `.console nav` 36px so the label sits close */
+.console .rail-more-nav { margin-top: 0; display: flex; flex-direction: column; gap: 12px; }
+.console .rail-more-nav a {
+  padding: 0; font-family: var(--font-display); font-weight: 600; font-size: 13px; line-height: 1.25;
+  letter-spacing: -0.01em; color: var(--text-secondary); transition: color .2s var(--ease-standard);
+}
+.console .rail-more-nav a:hover { color: var(--text); }
 .console .scoreboard {
   border-top: 1px solid var(--border); padding-top: 16px;
   display: flex; flex-direction: column; gap: 10px;
@@ -213,7 +228,7 @@ img { display: block; max-width: 100%; }
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
 }
 .foot .mono { color: var(--text-muted); }
-.foot .fl { display: flex; gap: 20px; }
+.foot .fl { display: flex; flex-wrap: wrap; gap: 10px 20px; }
 .foot .fl a { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); }
 .foot .fl a:hover { color: var(--text); }
 

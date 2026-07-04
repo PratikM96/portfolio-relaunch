@@ -33,6 +33,16 @@ const scoreboard = [
 
 const metaLine = [fmt(d.date), d.readingTime].filter(Boolean).join(' · ');
 
+// Other published posts for the "More writing" lists (newest first, current excluded).
+const others = (await getCollection('journal'))
+  .filter((p) => !p.data.draft && p.id !== post.id)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
+
+// Shared author blurb — rendered in the desktop rail and the mobile post-foot.
+const bio =
+  'Pratik builds creative, social, and performance as one system, from the idea to what it does after it ships. Open to creative or marketing leadership roles.';
+
 // Structured data — BlogPosting + breadcrumb.
 const origin = Astro.site ? Astro.site.origin : 'https://mehtapratik.com';
 const postUrl = `${origin}/journal/${post.id}`;
@@ -88,17 +98,56 @@ const schema = [
     <div class="cover rev"><img src={d.cover} alt={d.coverAlt ?? d.title} /></div>
   )}
 
+  {/* Left console rail extras (journal only): author bio + other posts. Fills the
+      case-study rail's otherwise-empty section-nav area. Hidden ≤900px (rail
+      collapses to the drawer there); the mobile equivalent is .post-foot below. */}
+  <Fragment slot="rail">
+    <div class="rail-bio">
+      <span class="bio-k">About</span>
+      <p>{bio}</p>
+      <a class="rail-bio-about" href="/about">More about Pratik →</a>
+    </div>
+    {others.length > 0 && (
+      <div class="rail-more">
+        <span class="bio-k">More writing</span>
+        <nav class="rail-more-nav">
+          {others.map((p) => (
+            <a href={`/journal/${p.id}`}>{p.data.title}</a>
+          ))}
+        </nav>
+      </div>
+    )}
+  </Fragment>
+
   <article class="article">
     <div class="amain rev">
       <Content />
     </div>
-    {(d.pullquote || d.related) && (
+    {d.pullquote && (
       <aside class="amargin rev">
-        {d.pullquote && <div class="m-quote"><p>{d.pullquote}</p></div>}
-        {d.related && <div class="m-note"><div class="k">Related</div><p>{d.related}</p></div>}
+        <div class="m-quote"><p>{d.pullquote}</p></div>
       </aside>
     )}
   </article>
+
+  {/* Mobile equivalent of the rail extras (≤900px, where the rail is hidden). */}
+  <section class="post-foot rev">
+    <div class="pf-about">
+      <span class="pf-k">About</span>
+      <p>{bio}</p>
+      <a href="/about">More about Pratik →</a>
+    </div>
+    {others.length > 0 && (
+      <div class="pf-more">
+        <span class="pf-k">More writing</span>
+        <ul>
+          {others.map((p) => (
+            <li><a href={`/journal/${p.id}`}>{p.data.title}</a></li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </section>
 </Base>
 
 <style>
@@ -128,14 +177,28 @@ const schema = [
   .amargin { display: flex; flex-direction: column; gap: 22px; position: sticky; top: 48px; }
   .m-quote { border-top: 1px solid var(--border-strong); padding-top: 16px; }
   .m-quote p { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.25; letter-spacing: -.015em; color: var(--text); }
-  .m-note { border-left: 2px solid var(--border-strong); padding-left: 16px; }
-  .m-note .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
-  .m-note p { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); }
+
+  /* mobile post-foot: author + more writing, shown only where the rail is hidden */
+  .post-foot { display: none; }
+  .pf-k { font-family: var(--font-mono); font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 14px; }
+  .pf-about p { font-size: 15px; line-height: 1.6; color: var(--text-secondary); max-width: 60ch; }
+  .pf-about a { display: inline-block; margin-top: 12px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--accent-text); }
+  .pf-more ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .pf-more a { font-family: var(--font-display); font-weight: 600; font-size: 17px; letter-spacing: -.01em; line-height: 1.2; color: var(--text-secondary); transition: color .2s var(--ease-standard); }
+  .pf-more a:hover { color: var(--text); }
 
   @media (max-width: 1000px) {
     .article { grid-template-columns: 1fr; gap: 28px; }
     .amargin { position: static; flex-direction: row; flex-wrap: wrap; }
     .amargin > * { flex: 1; min-width: 220px; }
   }
-  @media (max-width: 900px) { .ahead { padding: 56px 0 40px; } }
+  @media (max-width: 900px) {
+    .ahead { padding: 56px 0 40px; }
+    .article { padding-bottom: 44px; }
+    .post-foot {
+      display: flex; flex-direction: column; gap: 32px;
+      padding-top: 40px; padding-bottom: 96px;
+      border-top: 1px solid var(--border);
+    }
+  }
 </style>

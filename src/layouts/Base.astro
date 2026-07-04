@@ -202,6 +202,9 @@ const ldGraph = {
                 </a>
               ))}
             </nav>
+            {/* optional rail extras (journal fills this: more posts + author bio).
+                Renders nothing on work case studies, which don't provide the slot. */}
+            <slot name="rail" />
             <div class="spacer" />
             <div class="scoreboard">
               {scoreboard.map((l) => (
