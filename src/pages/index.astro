@@ -25,6 +25,14 @@ const allWork = await getCollection('work');
 const bySlug = new Map(allWork.map((e) => [e.data.slug, e]));
 const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== undefined);
 
+// Journal teaser — the three most recent published posts, newest first.
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+const journalPosts = (await getCollection('journal'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
 ---
 
 <Base
@@ -145,11 +153,33 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
 
   {/* JOURNAL */}
   <section class="block" id="journal">
-    <SectionLabel code="04" title="Journal" />
-    <div class="jr-empty rev">
-      <span class="jr-tag">[ Coming soon ]</span>
-      <p>Notes on systems, brand, and AI. The first posts go up after launch.</p>
-    </div>
+    <SectionLabel
+      code="04"
+      title="Journal"
+      more={journalPosts.length > 0 ? { href: '/journal', label: 'View all →' } : undefined}
+    />
+    {
+      journalPosts.length === 0 ? (
+        <div class="jr-empty rev">
+          <span class="jr-tag">[ Coming soon ]</span>
+          <p>Notes on systems, brand, and AI. The first posts go up after launch.</p>
+        </div>
+      ) : (
+        <div class="jr-list rev">
+          {journalPosts.map((p) => (
+            <a class="jr-row" href={`/journal/${p.id}`}>
+              <div class="jr-text">
+                <div class="jr-t">{p.data.title}</div>
+                <div class="jr-ex">{p.data.excerpt}</div>
+              </div>
+              <div class="jr-m">
+                {[p.data.topic, fmtDate(p.data.date), p.data.readingTime].filter(Boolean).join(' · ')}
+              </div>
+            </a>
+          ))}
+        </div>
+      )
+    }
   </section>
 
   {/* Hero animation: loop + pause off-screen + click-to-toggle + reduced-motion */}
@@ -327,6 +357,15 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
   .jr-empty { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 48px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
   .jr-empty .jr-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); }
   .jr-empty p { font-size: 18px; color: var(--text-secondary); }
+
+  .jr-list { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+  .jr-row { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: baseline; padding: 26px 0; border-bottom: 1px solid var(--border); transition: padding-left 0.2s var(--ease-standard); }
+  .jr-row:hover { padding-left: 10px; }
+  .jr-t { font-family: var(--font-display); font-weight: 600; font-size: clamp(19px, 2.2vw, 24px); letter-spacing: -0.02em; color: var(--text-secondary); transition: color 0.2s var(--ease-standard); }
+  .jr-row:hover .jr-t { color: var(--text); }
+  .jr-ex { font-size: 14px; color: var(--text-muted); margin-top: 8px; max-width: 60ch; }
+  .jr-m { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }
+  @media (max-width: 700px) { .jr-m { display: none; } }
 
   /* ===== CLOSE ===== */
   .close { padding: 110px 0; }

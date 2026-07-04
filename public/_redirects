@@ -1,3 +1,115 @@
-# Cloudflare _redirects. One rule per line: <from> <to> <status>.
-# Legacy /blog/* paths from the old site map to the new /journal/ route.
-/blog/* /journal/:splat 301
+# Cloudflare _redirects — one rule per line: <from> <to> <status>. First match wins,
+# so specific rules go ABOVE their wildcards. Pretty URLs and trailing slashes are
+# handled by the Worker, so they need no rules here. 301 = permanent (passes link
+# equity). Sources: old-site Search Console + legacy WordPress URLs.
+
+# --- Legacy sitemap files -> current sitemap index ---
+# The new site's sitemap is /sitemap-index.xml (was /sitemap.xml on the old site).
+/sitemap.xml            /sitemap-index.xml   301
+/sitemap-misc.xml       /sitemap-index.xml   301
+/post-sitemap.xml       /sitemap-index.xml   301
+/page-sitemap.xml       /sitemap-index.xml   301
+/category-sitemap.xml   /sitemap-index.xml   301
+/post_tag-sitemap.xml   /sitemap-index.xml   301
+/archives-sitemap.xml   /sitemap-index.xml   301
+
+# --- Old project URLs -> current case studies ---
+/sportime-social             /work/sportime-clubs   301
+/dealnews-website            /work/dealnews          301
+/dealnews-ui                 /work/dealnews          301
+/work/dealnews-app           /work/dealnews          301
+/work/dealnews-marketplace   /work/dealnews          301
+/work/jmtp-proam             /work/jmtp              301
+/work/frc-history            /work/frc               301
+/work/raa-fii                /work/raa               301
+/work/cloud9-the-ninth       /work/the-ninth         301
+# /work/photography existed on the old site; there is no photography case study here.
+/work/photography            /work                   301
+
+# --- Old blog posts -> current journal posts (the blog route was renamed /journal) ---
+# The current journal set is 3 posts; legacy slugs map to the closest one by topic,
+# and anything without a clear home falls back to the /journal index. Retarget these
+# lines when new posts land (or when a mapping should be tightened).
+#   engineer-to-creative              = CS background / systems thinking / career
+#   most-creative-dies-in-the-handoff = creative-as-a-system / brand + performance
+#   where-ai-changes-creative-work    = AI in creative & marketing work
+#
+# CS-background / systems-thinking theme
+/blog/creative-science                           /journal/engineer-to-creative                301
+/blog/cs-degree-taught-me-about-design           /journal/engineer-to-creative                301
+/blog/cs-degree-creative-director-secret-weapon  /journal/engineer-to-creative                301
+# Creative-as-a-system / brand + performance theme
+/blog/ux-business                                /journal/most-creative-dies-in-the-handoff   301
+/blog/ux-starts-with-the-business-problem        /journal/most-creative-dies-in-the-handoff   301
+/blog/run-creative-teams-speed-quality           /journal/most-creative-dies-in-the-handoff   301
+/blog/sportime-social                            /journal/most-creative-dies-in-the-handoff   301
+/blog/social-metrics-that-matter                 /journal/most-creative-dies-in-the-handoff   301
+/blog/55m-facility-launch                        /journal/most-creative-dies-in-the-handoff   301
+/blog/brand-and-revenue-move-together            /journal/most-creative-dies-in-the-handoff   301
+# AI theme
+/blog/geo-is-the-new-seo                         /journal/where-ai-changes-creative-work      301
+/blog/faster-without-the-shortcuts-showing       /journal/where-ai-changes-creative-work      301
+/blog/taste-is-the-bottleneck-now                /journal/where-ai-changes-creative-work      301
+/blog/genai-production-layer-not-magic-trick     /journal/where-ai-changes-creative-work      301
+/blog/sports-fans-and-ai                         /journal/where-ai-changes-creative-work      301
+/blog/the-form-is-the-disclosure                 /journal/where-ai-changes-creative-work      301
+/blog/trust-is-the-interface                     /journal/where-ai-changes-creative-work      301
+/blog/ai-workflow                                /journal/where-ai-changes-creative-work      301
+# Old-site published slugs (were indexed) -> closest current post
+/blog/cross-channel-by-default                   /journal/most-creative-dies-in-the-handoff   301
+/blog/audience-first-org-second                  /journal/most-creative-dies-in-the-handoff   301
+/blog/content-that-compounds                     /journal/most-creative-dies-in-the-handoff   301
+/blog/distinctiveness-is-the-only-moat           /journal/most-creative-dies-in-the-handoff   301
+/blog/the-machine-readable-brand                 /journal/where-ai-changes-creative-work      301
+# No clear match -> journal index
+/blog/speculative-is-the-new-portfolio           /journal   301
+/blog/designing-restraint                        /journal   301
+/blog/creative-lead                              /journal   301
+/blog/creative-strategy                          /journal   301
+/blog/wireframe-to-live                          /journal   301
+/blog/video-first-trending                       /journal   301
+/blog/how-to-subbrand                            /journal   301
+/blog/complex-to-simple                          /journal   301
+/blog/pickleball-brand                           /journal   301
+/blog/pickleball-brand-from-zero                 /journal   301
+/blog/dealnews-app-redesign                      /journal   301
+/blog/motion-graphics-strategic-asset            /journal   301
+/blog/sub-brands-without-chaos                   /journal   301
+
+# --- Old WordPress archives (tags, categories, dates) -> journal / work index ---
+# Must stay ABOVE the /blog/* catch-all below.
+/blog/tag/*             /journal   301
+/blog/category/*        /journal   301
+/blog/2026/*            /journal   301
+/project-type/*         /work      301
+/project-attributes/*   /work      301
+
+# --- Blog -> journal (catch-all; keep AFTER the specific /blog rules above) ---
+/blog        /journal          301
+/blog/*      /journal/:splat   301
+
+# --- Old standalone pages ---
+/services             /          301
+/projects             /work      301
+/reel                 /work      301
+/home                 /          301
+/sitemap.html         /          301
+/opt-out-preferences  /privacy   301
+/privacy-policy       /privacy   301
+# /concepts has no index page (the hubs live one level down at /concepts/<slug>/,
+# which are real pages and must NOT be redirected).
+/concepts             /work      301
+
+# --- Old WordPress portfolio/project pages -> closest case study ---
+/dealnews-subbrands    /work/dealnews           301
+/dealnews-subsite      /work/dealnews           301
+/raa-branding          /work/raa                301
+/sportime-pickleball   /work/sportime-clubs     301
+/sportime-marketing    /work/sportime-clubs     301
+/jmta-marketing        /work/sportime-clubs     301
+/jmtp-marketing        /work/jmtp               301
+/srlc-marketing        /work/sr-love-and-care   301
+/fiveeighty-animation  /work/agency-fiveeighty  301
+/frc-animation         /work/frc                301
+/dealnews-app          /work/dealnews           301
+/jmta-campaigns        /work/sportime-clubs     301

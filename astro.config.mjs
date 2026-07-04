@@ -16,16 +16,65 @@ import sitemap from '@astrojs/sitemap';
 // dev uses the standard Node Vite server.
 const isDev = process.argv.includes('dev');
 
+const SITE = 'https://mehtapratik.com';
+
+// Concept microsites are static passthrough HTML in public/concepts/, not Astro
+// routes, so @astrojs/sitemap can't discover them from the route table. List the
+// live hub + view URLs here so they still land in the sitemap. Keep in sync with
+// public/concepts/<slug>/*.html.
+const conceptPages = [
+  'concepts/level/',
+  'concepts/level/explainer',
+  'concepts/level/app',
+  'concepts/level/motion',
+  'concepts/level/brand',
+  'concepts/the-ninth/',
+  'concepts/the-ninth/clipper',
+  'concepts/the-ninth/app',
+  'concepts/the-ninth/broadcast',
+  'concepts/the-ninth/social',
+  'concepts/the-ninth/brand',
+  'concepts/wisp/',
+  'concepts/wisp/demo',
+  'concepts/wisp/brand',
+].map((p) => `${SITE}/${p}`);
+
+// One shared lastmod = this build's date (i.e. the deploy that ships the URL).
+const LASTMOD = new Date().toISOString();
+
+// Per-route priority + changefreq, keyed by normalized pathname. Mirrors the
+// old hand-authored sitemap's weighting: home 1.0, top pages 0.8, case studies
+// 0.7, journal posts 0.6, concept views 0.5, privacy 0.3.
+function routeMeta(rawPath) {
+  const p = rawPath !== '/' ? rawPath.replace(/\/$/, '') : '/';
+  if (p === '/') return { priority: 1.0, changefreq: 'monthly' };
+  if (p === '/journal') return { priority: 0.8, changefreq: 'weekly' };
+  if (p === '/privacy') return { priority: 0.3, changefreq: 'yearly' };
+  if (p.startsWith('/journal/')) return { priority: 0.6, changefreq: 'yearly' };
+  if (p.startsWith('/work/')) return { priority: 0.7, changefreq: 'monthly' };
+  if (p.startsWith('/concepts/')) return { priority: 0.5, changefreq: 'monthly' };
+  // about, brand, contact, resume, and the /work + /journal index roots.
+  return { priority: 0.8, changefreq: 'monthly' };
+}
+
 export default defineConfig({
   output: 'static',
-  // Canonical production URL. The site currently deploys to the staging Worker,
-  // but mehtapratik.com is where it lands at the manual cutover, so canonical
-  // links and the sitemap describe that domain. This is a config string only;
-  // it does not change WHERE the build deploys (still staging / *.workers.dev).
-  site: 'https://mehtapratik.com',
-  // @astrojs/sitemap reads `site` and emits /sitemap-index.xml + /sitemap-0.xml
-  // over the static routes at build.
-  integrations: [sitemap()],
+  // Canonical production URL. mehtapratik.com now serves this build, so canonical
+  // links and the sitemap describe that domain.
+  site: SITE,
+  // @astrojs/sitemap reads `site` and emits /sitemap-index.xml + /sitemap-0.xml.
+  // customPages injects the non-Astro concept microsites; filter drops the 404
+  // page and the RSS endpoint; serialize applies per-route priority + lastmod.
+  integrations: [
+    sitemap({
+      customPages: conceptPages,
+      filter: (page) => !/\/(?:404|rss\.xml)\/?$/.test(page),
+      serialize(item) {
+        const { priority, changefreq } = routeMeta(new URL(item.url).pathname);
+        return { url: item.url, changefreq, priority, lastmod: LASTMOD };
+      },
+    }),
+  ],
   // imageService: 'compile' = optimize images with Sharp at BUILD time for the
   // prerendered (static) pages, instead of the adapter's passthrough default.
   // Safe here because every page is static; no Sharp runs in the Worker.

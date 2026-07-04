@@ -23,7 +23,7 @@ const d = post.data;
 const { Content } = await render(post);
 
 const fmt = (date: Date) =>
-  date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 
 const scoreboard = [
   d.topic && { k: 'Topic', v: d.topic },
