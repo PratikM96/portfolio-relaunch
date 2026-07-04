@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
-import sitemap from '@astrojs/sitemap';
+import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 
 // One System portfolio — deploys to the STAGING Cloudflare Worker only.
 // The live domain (mehtapratik.com) is served by the OLD deployment; never target it here.
@@ -45,16 +45,17 @@ const LASTMOD = new Date().toISOString();
 // Per-route priority + changefreq, keyed by normalized pathname. Mirrors the
 // old hand-authored sitemap's weighting: home 1.0, top pages 0.8, case studies
 // 0.7, journal posts 0.6, concept views 0.5, privacy 0.3.
+/** @param {string} rawPath */
 function routeMeta(rawPath) {
   const p = rawPath !== '/' ? rawPath.replace(/\/$/, '') : '/';
-  if (p === '/') return { priority: 1.0, changefreq: 'monthly' };
-  if (p === '/journal') return { priority: 0.8, changefreq: 'weekly' };
-  if (p === '/privacy') return { priority: 0.3, changefreq: 'yearly' };
-  if (p.startsWith('/journal/')) return { priority: 0.6, changefreq: 'yearly' };
-  if (p.startsWith('/work/')) return { priority: 0.7, changefreq: 'monthly' };
-  if (p.startsWith('/concepts/')) return { priority: 0.5, changefreq: 'monthly' };
+  if (p === '/') return { priority: 1.0, changefreq: ChangeFreqEnum.MONTHLY };
+  if (p === '/journal') return { priority: 0.8, changefreq: ChangeFreqEnum.WEEKLY };
+  if (p === '/privacy') return { priority: 0.3, changefreq: ChangeFreqEnum.YEARLY };
+  if (p.startsWith('/journal/')) return { priority: 0.6, changefreq: ChangeFreqEnum.YEARLY };
+  if (p.startsWith('/work/')) return { priority: 0.7, changefreq: ChangeFreqEnum.MONTHLY };
+  if (p.startsWith('/concepts/')) return { priority: 0.5, changefreq: ChangeFreqEnum.MONTHLY };
   // about, brand, contact, resume, and the /work + /journal index roots.
-  return { priority: 0.8, changefreq: 'monthly' };
+  return { priority: 0.8, changefreq: ChangeFreqEnum.MONTHLY };
 }
 
 export default defineConfig({
