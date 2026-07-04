@@ -332,6 +332,9 @@ const toolsMarketing = [
     .rgrid { grid-template-columns: 1fr; gap: 40px; }
     .raside { position: static; }
     .rmet { grid-template-columns: repeat(2, 1fr); }
+    /* 4 metrics + download = 5 cells; at 2 cols the download would dangle alone,
+       so let it span the full row as a wide CTA */
+    .rmet .c-dl { grid-column: 1 / -1; }
   }
   @media (max-width: 900px) {
     .rhead { padding: 56px 0 40px; }
