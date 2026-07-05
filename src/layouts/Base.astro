@@ -40,6 +40,8 @@ interface Props {
   back?: { href: string; label: string };
   /** OG/Twitter share image, root-relative; resolved to an absolute URL. Defaults to /og/default.png. */
   image?: string;
+  /** LCP image to preload with high priority (root-relative), e.g. the home hero poster. */
+  preloadImage?: string;
   /** og:type — 'website' (default) | 'article' | 'profile'. */
   ogType?: string;
   /** Emit a robots noindex directive (e.g. the 404 page). */
@@ -57,6 +59,7 @@ const {
   scoreboard = [],
   back = { href: '/work', label: '← Index · all work' },
   image = '/og/default.png',
+  preloadImage,
   ogType = 'website',
   noindex = false,
   schema = [],
@@ -177,6 +180,13 @@ const ldGraph = {
     <link rel="preload" href="/fonts/ClashDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/ClashGrotesk-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/TX-02-Regular.woff2" as="font" type="font/woff2" crossorigin />
+
+    {/* LCP image (e.g. home hero poster): discovered late in the DOM, so preload
+        it high-priority to start the fetch before CSS/fonts resolve. Opt-in per
+        page via the `preloadImage` prop; omitted pages emit nothing. */}
+    {preloadImage && (
+      <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />
+    )}
   </head>
 
   <body>
