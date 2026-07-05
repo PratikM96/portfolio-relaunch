@@ -236,6 +236,14 @@ img { display: block; max-width: 100%; }
 .rev { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease-standard), transform .5s var(--ease-standard); }
 .rev.in { opacity: 1; transform: none; }
 
+/* Above-the-fold variant: same fade-up, but driven by a CSS load animation
+   instead of the JS IntersectionObserver. The hero headline is the LCP element;
+   gating it on .rev's opacity:0-until-JS meant LCP couldn't fire until scripts
+   ran, inflating + destabilizing it. This paints immediately, no JS dependency.
+   Use ONLY for first-viewport elements; below-the-fold keeps .rev. */
+.rev-load { opacity: 0; transform: translateY(12px); animation: rev-in .5s var(--ease-standard) both; }
+@keyframes rev-in { to { opacity: 1; transform: none; } }
+
 /* ===== responsive: chrome + scaffold ===== */
 @media (max-width: 900px) {
   :root { --rail: 0px; }
@@ -319,5 +327,5 @@ img { display: block; max-width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto; }
-  .rev { opacity: 1; transform: none; }
+  .rev, .rev-load { opacity: 1; transform: none; }
 }
