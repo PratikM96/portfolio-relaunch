@@ -236,13 +236,15 @@ img { display: block; max-width: 100%; }
 .rev { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease-standard), transform .5s var(--ease-standard); }
 .rev.in { opacity: 1; transform: none; }
 
-/* Above-the-fold variant: same fade-up, but driven by a CSS load animation
-   instead of the JS IntersectionObserver. The hero headline is the LCP element;
-   gating it on .rev's opacity:0-until-JS meant LCP couldn't fire until scripts
-   ran, inflating + destabilizing it. This paints immediately, no JS dependency.
-   Use ONLY for first-viewport elements; below-the-fold keeps .rev. */
-.rev-load { opacity: 0; transform: translateY(12px); animation: rev-in .5s var(--ease-standard) both; }
-@keyframes rev-in { to { opacity: 1; transform: none; } }
+/* Above-the-fold variant: slide-up on load, driven by CSS (not the JS observer).
+   Crucially it animates TRANSFORM ONLY, never opacity — Chromium excludes any
+   element that starts at opacity:0 from LCP, so an opacity fade on the hero made
+   the headline (the largest element) ineligible and LCP fell through to whatever
+   wasn't faded (the cookie banner), inflating it. Transform-only keeps the hero
+   opacity:1 / LCP-eligible, so it paints at first render. First-viewport only;
+   below-the-fold keeps the .rev opacity fade (not an LCP candidate). */
+.rev-load { transform: translateY(12px); animation: rev-in .5s var(--ease-standard) both; }
+@keyframes rev-in { to { transform: none; } }
 
 /* ===== responsive: chrome + scaffold ===== */
 @media (max-width: 900px) {
