@@ -59,7 +59,7 @@ const journalPosts = (await getCollection('journal'))
             <video
               poster="/hero/home/poster.webp"
               width="1080" height="1080"
-              muted loop playsinline autoplay preload="metadata"
+              muted loop playsinline preload="none"
             >
               <source src="/hero/home/hero_1080.webm" type="video/webm" />
               <source src="/hero/home/hero_1080.mp4" type="video/mp4" />
@@ -194,6 +194,7 @@ const journalPosts = (await getCollection('journal'))
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
       var userPaused = false; // explicit click choice — overrides auto-resume
       var inView = true;
+      var ready = false; // gate playback until after load (see start() below)
 
       const sync = function () {
         var playing = !video.paused;
@@ -201,13 +202,19 @@ const journalPosts = (await getCollection('journal'))
         if (chip) chip.textContent = playing ? '❚❚ Pause' : '▶ Play';
       };
       const autoPlay = function () {
-        if (userPaused || reduce.matches || !inView) return;
-        var p = video.play();
+        if (!ready || userPaused || reduce.matches || !inView) return;
+        var p = video.play(); // preload="none" → play() triggers the fetch
         if (p && p.catch) p.catch(function () {});
       };
 
-      // reduced motion: never autoplay, rest on the poster still
-      if (reduce.matches) { video.removeAttribute('autoplay'); video.pause(); }
+      // Defer the animation until after load. The poster (preloaded) covers the
+      // initial paint window, so the 1MB video stays off the critical path (LCP,
+      // Speed Index) and off mobile data until the page is ready. A click can
+      // still start it earlier. Reduced motion never starts it.
+      var start = function () { ready = true; autoPlay(); };
+      if (reduce.matches) { video.pause(); }
+      else if (document.readyState === 'complete') start();
+      else window.addEventListener('load', start, { once: true });
 
       // pause when scrolled out of view, resume when back (saves CPU/battery)
       if ('IntersectionObserver' in window) {
