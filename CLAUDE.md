@@ -40,6 +40,8 @@ Type:
 
 All fonts are self-hosted, same-origin, **woff2 only** — no third-party font CDN (no Fontshare, no Google Fonts). The cut list mirrors actual usage (7 files): Berkeley Mono 400/500, Clash Display 600/700, Clash Grotesk 400/600/700. Files live in `public/fonts/` (flat); otf/woff masters stay in `_reference/Fonts/` (gitignored).
 
+The shipped woff2 are **subset** (~35% smaller: 149 KB → 96 KB) via `scripts/fonts/subset.mjs` (uses the `subset-font` devDependency). It subsets each face from its OTF master to a retain set = printable ASCII + Latin-1 **plus every non-ASCII codepoint scanned from the built HTML and `src/`** — so runtime-injected glyphs (the play/pause chip ▶/❚, menu ✕, arrows, ★/↗) survive. It writes back over `public/fonts/` with the same filenames (no `@font-face`/preload change). **Re-run after adding a face or a new glyph:** `npm run build` first (so the scan sees current pages), then `node scripts/fonts/subset.mjs`. A hardcoded Latin-only subset would silently drop the UI marks — always keep the content scan.
+
 Font wiring:
 ```css
 --font-mono: 'Berkeley Mono','JetBrains Mono',ui-monospace,monospace; /* Berkeley FIRST; JetBrains is a local-install fallback only, not network-loaded */
@@ -49,7 +51,9 @@ Font wiring:
 ```
 (Confirm the embedded TX-02 license tier permits public web embedding before launch.)
 
-CSS / `<head>` split (confirmed): `src/styles/tokens.css` owns the design tokens (ramp, signal orange, font/radius/motion vars, theme maps) and **all** `@font-face` blocks. `Base.astro` `<head>` carries only `<link rel="preload">` for the three above-the-fold faces (Display 700, Grotesk 400, Mono 400; `crossorigin`) — there are no font stylesheet/preconnect tags anymore. `src/styles/global.css` holds the reset, shared primitives, and site chrome (console rail, mobile bar, footer).
+CSS / `<head>` split (confirmed): `src/styles/tokens.css` owns the design tokens (ramp, signal orange, font/radius/motion vars, theme maps) and **all** `@font-face` blocks. `Base.astro` `<head>` carries only `<link rel="preload">` for the three above-the-fold faces (Display 700, Grotesk 400, Mono 400; `crossorigin`) — there are no font stylesheet/preconnect tags anymore. `src/styles/global.css` holds the reset, shared primitives, and site chrome (console rail, mobile bar, footer). Shared **content primitives** live here too, promoted out of per-page scoped styles so they aren't re-declared with drift: `.card` / `.card--interactive` (bordered surface + hover lift), `.badge` / `.badge-lg` (client/concept corner + case-study-hero variant), `.prose` (about + case-study body), `.tag` (journal chips). Consumers keep only their own layout; add the class rather than re-writing the surface.
+
+Site-wide client JS is **bundled, not inlined**: only the pre-paint no-flash theme set stays `is:inline` in `Base.astro`. Everything else is a hoisted, cached module — `src/scripts/consent.ts` (GA4 consent gate) and `src/scripts/site-chrome.ts` (theme toggle, mobile drawer, NY clock, reveal-on-scroll, case-study scroll-spy), imported from one bundled `<script>`. Video behaviour is shared too: `src/scripts/motion.ts` (`prefersReducedMotion`, `autoPlayInView`, `wireClickToPlay`) and `card-video.ts` (`applyCardSources`, `onThemeChange`, `wireHoverCards`). Don't re-inline these or re-implement the video/reveal logic per page.
 
 Radius: **sharp 0** on mono/data layer; 8–12 on content; pill on actions. This split is a deliberate brand tell.
 Spacing (locked): page-head padding 104/64, section 96, horizontal margin 64px (28 tablet, 20 mobile), console rail 264px.

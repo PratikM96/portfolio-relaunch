@@ -28,20 +28,26 @@ src/
   content.config.ts# zod schemas + the build guardrail
   pages/           # routes: home, /work, /work/[slug], /about, /resume, /brand, /journal, /contact
   components/      # shared pieces (WorkIndex, Scoreboard, ProofBox, OutputGrid, ...)
-  layouts/Base.astro# site chrome: rail, footer, theme toggle, font preloads
-  scripts/         # small client-side helpers (e.g. card-video theme swap)
+  layouts/Base.astro# site chrome: rail, footer, no-flash theme set, font preloads
+  scripts/         # bundled client modules: site-chrome (theme/drawer/clock/
+                   # reveal/spy), consent (GA gate), card-video + motion (video)
   styles/
     tokens.css     # design tokens (mirrors the brand kit) + all @font-face blocks
-    global.css     # reset, shared primitives, site chrome
+    global.css     # reset, site chrome, shared primitives (.card/.badge/.prose/.tag)
 public/
-  fonts/           # self-hosted woff2 (Berkeley Mono, Clash Display, Clash Grotesk)
+  fonts/           # self-hosted, subset woff2 (Berkeley Mono, Clash Display, Clash Grotesk)
   hero/            # case-study + home hero videos, by slug (webm + mp4 + webp poster)
   wc/              # work-card hover animations, by slug (dark + light: card/poster + -light)
   placeholders/    # themed dark/light placeholder images, used until real media lands
+scripts/           # build-time tooling (repo root): og/ card template, fonts/ subsetter
 docs/
   hero-pipeline.md   # hero video encode recipe + per-study checklist
   work-card-video.md # work-card hover animation recipe + slug map
 ```
+
+Site-wide client behaviour is bundled, not inlined: only the pre-paint no-flash
+theme set is `is:inline` in `Base.astro`; everything else (`consent.ts`,
+`site-chrome.ts`, `card-video.ts`, `motion.ts`) is a hoisted, cached module.
 
 ## Adding a case study
 
@@ -51,7 +57,16 @@ Optional per-entry media is opt-in and convention-located by slug (no paths in c
 
 ## Design system
 
-Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ramp, single signal-orange accent reserved for real results, Clash Display / Clash Grotesk / Berkeley Mono). Dark and light themes are both first-class via a no-flash `data-theme` script.
+Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ramp, single signal-orange accent reserved for real results, Clash Display / Clash Grotesk / Berkeley Mono). Dark and light themes are both first-class via a no-flash `data-theme` script. Repeated content patterns (`.card` / `.badge` / `.prose` / `.tag`) live once in `global.css`; pages keep only their own layout.
+
+### Fonts
+
+The seven self-hosted faces are **subset** to the glyphs the site uses (~35% smaller). `scripts/fonts/subset.mjs` reads the OTF masters from `_reference/Fonts/` and writes subset woff2 into `public/fonts/`; the retain set is printable ASCII + Latin-1 plus every non-ASCII glyph scanned from the built HTML and source, so runtime-injected marks (play/pause, arrows, ✕) can't be dropped. Re-run after adding a face or a new glyph, then rebuild:
+
+```bash
+npm run build            # so the scan sees current pages
+node scripts/fonts/subset.mjs
+```
 
 ## Deploy
 
