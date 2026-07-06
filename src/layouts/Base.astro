@@ -366,130 +366,15 @@ const ldGraph = {
       .foot-cookies { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); background: none; border: 0; padding: 0; cursor: pointer; }
       .foot-cookies:hover { color: var(--text); }
     </style>
-    <script is:inline>
-      (function () {
-        var KEY = 'pm-consent', GA = 'G-G5ZSN5RXX0';
-        function loadGA() {
-          if (window.__ga) return; window.__ga = 1;
-          var s = document.createElement('script');
-          s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA;
-          document.head.appendChild(s);
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments); }
-          window.gtag = gtag; gtag('js', new Date()); gtag('config', GA);
-        }
-        var el = document.getElementById('consent');
-        var choice = null; try { choice = localStorage.getItem(KEY); } catch (e) {}
-        if (choice === 'granted') loadGA();
-        else if (choice !== 'denied' && el) el.hidden = false;
-        if (el) el.addEventListener('click', function (e) {
-          var b = e.target.closest('[data-consent]'); if (!b) return;
-          var grant = b.getAttribute('data-consent') === 'grant';
-          try { localStorage.setItem(KEY, grant ? 'granted' : 'denied'); } catch (e) {}
-          el.hidden = true; if (grant) loadGA();
-        });
-        document.addEventListener('click', function (e) {
-          var t = e.target.closest('[data-consent-reopen]'); if (!t) return;
-          e.preventDefault(); if (el) el.hidden = false;
-        });
-      })();
-    </script>
-
-    {/* Site-wide: theme toggle + NY clock + reveal-on-scroll + rail scroll-spy */}
-    <script is:inline>
-      (function () {
-        var root = document.documentElement;
-        var themeBtns = Array.prototype.slice.call(document.querySelectorAll('[data-set]'));
-        function applyTheme(t) {
-          root.setAttribute('data-theme', t);
-          themeBtns.forEach(function (b) {
-            b.setAttribute('aria-pressed', String(b.dataset.set === t));
-          });
-          try { localStorage.setItem('pm-theme', t); } catch (e) {}
-        }
-        themeBtns.forEach(function (b) {
-          b.addEventListener('click', function () { applyTheme(b.dataset.set); });
-        });
-        applyTheme(root.getAttribute('data-theme') || 'dark');
-
-        // follow live OS theme, but only until the visitor makes a manual choice
-        try {
-          var mq = window.matchMedia('(prefers-color-scheme: light)');
-          mq.addEventListener('change', function (e) {
-            var chosen = null;
-            try { chosen = localStorage.getItem('pm-theme'); } catch (_) {}
-            if (!chosen) {
-              root.setAttribute('data-theme', e.matches ? 'light' : 'dark');
-              themeBtns.forEach(function (b) {
-                b.setAttribute('aria-pressed', String(b.dataset.set === root.getAttribute('data-theme')));
-              });
-            }
-          });
-        } catch (e) {}
-
-        // mobile drawer: open/close, Escape, body scroll-lock
-        var drawer = document.getElementById('mobile-drawer');
-        var openBtn = document.getElementById('menu-open');
-        var closeBtn = document.getElementById('menu-close');
-        function setMenu(open) {
-          if (!drawer) return;
-          drawer.classList.toggle('open', open);
-          drawer.setAttribute('aria-hidden', String(!open));
-          if (openBtn) openBtn.setAttribute('aria-expanded', String(open));
-          document.body.classList.toggle('menu-open', open);
-        }
-        if (openBtn) openBtn.addEventListener('click', function () { setMenu(true); });
-        if (closeBtn) closeBtn.addEventListener('click', function () { setMenu(false); });
-        if (drawer) {
-          // close when a nav link is tapped (same-page hashes won't reload)
-          Array.prototype.slice.call(drawer.querySelectorAll('.m-nav a')).forEach(function (a) {
-            a.addEventListener('click', function () { setMenu(false); });
-          });
-        }
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape') setMenu(false);
-        });
-
-        // live NY clock (only present on the default rail)
-        var clk = document.getElementById('clock');
-        var tick = function () {
-          try {
-            clk.textContent = new Date().toLocaleTimeString('en-US', {
-              timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit',
-            });
-          } catch (e) { clk.textContent = '··'; }
-        };
-        if (clk) { tick(); setInterval(tick, 30000); }
-
-        // reveal-on-scroll for any .rev element on the page
-        var io = new IntersectionObserver(function (es) {
-          es.forEach(function (e) {
-            if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-          });
-        }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
-        Array.prototype.slice.call(document.querySelectorAll('.rev')).forEach(function (el) { io.observe(el); });
-
-        // rail scroll-spy — generic over whichever rail nav exists
-        var navLinks = Array.prototype.slice.call(document.querySelectorAll('#rail-nav a, #cs-nav a'));
-        if (navLinks.length) {
-          var ids = navLinks
-            .map(function (a) { return (a.getAttribute('href') || '').replace(/^#/, ''); })
-            .filter(function (id) { return id && id.charAt(0) !== '/'; });
-          var secs = ids.map(function (id) { return document.getElementById(id); })
-            .filter(function (el) { return el; });
-          var spy = new IntersectionObserver(function (es) {
-            es.forEach(function (e) {
-              if (e.isIntersecting) {
-                var id = e.target.id;
-                navLinks.forEach(function (a) {
-                  a.classList.toggle('active', a.getAttribute('href') === '#' + id);
-                });
-              }
-            });
-          }, { rootMargin: '-35% 0px -55% 0px' });
-          secs.forEach(function (s) { spy.observe(s); });
-        }
-      })();
+    {/* Consent/GA gate + site chrome (theme toggle, drawer, NY clock,
+        reveal-on-scroll, rail scroll-spy). Bundled module scripts, NOT
+        is:inline: Astro hoists both imports into one hashed, cached file
+        shared across the whole site instead of re-emitting ~5.8 KB of JS into
+        every page's HTML. The only pre-paint script is the no-flash theme set
+        above, which stays inline. */}
+    <script>
+      import '../scripts/consent.ts';
+      import '../scripts/site-chrome.ts';
     </script>
   </body>
 </html>
