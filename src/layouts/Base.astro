@@ -51,7 +51,7 @@ interface Props {
 }
 
 const {
-  title = 'Pratik Mehta · Creative & Marketing Strategist',
+  title = 'Pratik Mehta · Creative Marketing Lead',
   description,
   variant = 'default',
   activeNav = 'home',
@@ -103,7 +103,7 @@ const ldGraph = {
       '@id': `${origin}/#pratik`,
       name: 'Pratik Mehta',
       url: `${origin}/`,
-      jobTitle: 'Creative & Marketing Strategist',
+      jobTitle: 'Creative Marketing Lead',
       email: 'mailto:mehtadpratik@gmail.com',
       image: `${origin}/og/default.png`,
       address: { '@type': 'PostalAddress', addressLocality: 'New York', addressRegion: 'NY', addressCountry: 'US' },
@@ -240,7 +240,7 @@ const ldGraph = {
               <Brandmark size={26} title={undefined} />
               <span class="wm">Pratik<br />Mehta</span>
             </a>
-            <div class="role">Creative &amp;<br />Marketing Strategist</div>
+            <div class="role">Creative Marketing<br />Lead</div>
             <nav id="rail-nav">
               {nav.map((n) => (
                 <a href={n.href} class={n.id === activeNav ? 'active' : undefined}>
