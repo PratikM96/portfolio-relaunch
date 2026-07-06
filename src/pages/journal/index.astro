@@ -43,7 +43,7 @@ const meta = (p: (typeof posts)[number]) =>
     ) : (
       <Fragment>
         {lead && (
-          <a class="card lead-post rev" href={`/journal/${lead.id}`}>
+          <a class:list={['card', 'lead-post', 'rev', { 'lead-post--textonly': !lead.data.cover }]} href={`/journal/${lead.id}`}>
             {lead.data.cover && (
               <div class="im"><img src={lead.data.cover} alt={lead.data.coverAlt ?? lead.data.title} /></div>
             )}
@@ -95,6 +95,8 @@ const meta = (p: (typeof posts)[number]) =>
 
   /* lead post — surface from global .card */
   .lead-post { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; overflow: hidden; margin-bottom: 56px; }
+  /* no cover → full-width single column instead of a lopsided empty image cell */
+  .lead-post--textonly { grid-template-columns: 1fr; }
   .lead-post .im { overflow: hidden; }
   .lead-post .im img { width: 100%; height: 100%; object-fit: cover; min-height: 280px; }
   .lead-post .body { min-width: 0; padding: 36px; display: flex; flex-direction: column; justify-content: center; }
