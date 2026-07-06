@@ -26,6 +26,7 @@
     "@astrojs/check": "^0.9.9",
     "@astrojs/sitemap": "^3.7.3",
     "@types/node": "^26.0.1",
+    "subset-font": "^2.5.0",
     "typescript": "^6.0.3",
     "wrangler": "^4.107.0"
   }
