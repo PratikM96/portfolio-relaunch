@@ -41,8 +41,9 @@
 
   .top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
   .mark{display:flex;align-items:center;gap:14px}
-  .glyph{width:34px;height:34px;border:2px solid var(--text);border-radius:8px;position:relative;flex:none}
-  .glyph::after{content:"";position:absolute;top:5px;left:5px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .glyph{width:34px;height:34px;flex:none;display:block}
+  .glyph .bracket{fill:var(--text)}
+  .glyph .node{fill:var(--accent)}
   .site{font-family:var(--mono);font-size:17px;letter-spacing:.02em;color:var(--text)}
   .badge{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:7px 15px}
 
@@ -60,7 +61,7 @@
 <body>
   <div class="card">
     <div class="top">
-      <div class="mark"><span class="glyph"></span><span class="site">mehtapratik.com</span></div>
+      <div class="mark"><svg class="glyph" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="bracket" d="M0 80.7339L0 34.5872C0 32.0537 2.05374 30 4.58716 30C7.12057 30 9.17431 32.0537 9.17431 34.5872V80.7339C9.17431 84.9314 10.212 87.2347 11.4804 88.516C12.7405 89.7886 14.9943 90.8257 19.1191 90.8257H80.8809C85.0057 90.8257 87.2595 89.7886 88.5196 88.516C89.788 87.2347 90.8257 84.9314 90.8257 80.7339V19.2661C90.8257 15.0686 89.788 12.7653 88.5196 11.484C87.2595 10.2114 85.0057 9.17434 80.8809 9.17431H34.5872C32.0537 9.17431 30 7.12057 30 4.58716C30 2.05374 32.0537 0 34.5872 0L80.8809 0C86.4437 2.36463e-05 91.4562 1.4096 95.0401 5.02974C98.6155 8.64141 100 13.6777 100 19.2661V80.7339C100 86.3223 98.6155 91.3586 95.0401 94.9703C91.4562 98.5904 86.4437 100 80.8809 100H19.1191C13.5564 100 8.54469 98.5903 4.96076 94.9703C1.38519 91.3586 0 86.3225 0 80.7339Z"></path><path class="node" d="M10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20Z"></path></svg><span class="site">Pratik Mehta</span></div>
       <span class="badge" id="badge">CASE STUDY</span>
     </div>
     <div class="mid">
