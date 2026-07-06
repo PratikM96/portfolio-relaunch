@@ -57,7 +57,7 @@ const featured = entries
   {/* featured pair */}
   <section class="feat rev">
     {featured.map((p) => (
-      <a class="fcard" href={p.href}>
+      <a class="card card--interactive fcard" href={p.href}>
         <span class:list={['badge', p.type === 'client' ? 'client' : 'concept']}>{p.type === 'client' ? 'Client' : 'Concept'}</span>
         <div class="im">
           {p.cover ? <img src={p.cover} alt={p.name} /> : <div class="ph-fill ph-bg ph-16x10" />}
@@ -104,8 +104,8 @@ const featured = entries
 
   /* featured pair */
   .feat { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-bottom: 72px; }
-  .fcard { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); display: block; transition: border-color .2s var(--ease-standard); }
-  .fcard:hover { border-color: var(--border-strong); }
+  /* surface + hover come from global .card / .card--interactive */
+  .fcard { position: relative; overflow: hidden; display: block; }
   .fcard .im { aspect-ratio: var(--ratio-landscape); overflow: hidden; position: relative; }
   .fcard .im img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
   .fcard:hover .im img { transform: scale(1.03); }
@@ -117,9 +117,7 @@ const featured = entries
   .fcard .yr { font-family: var(--font-mono); font-size: 12px; color: var(--accent-text); margin-top: 6px; display: block; }
   .fcard p { font-size: 13.5px; color: var(--text-secondary); margin-top: 10px; max-width: 42ch; }
   .fcard .disc { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
-  .badge { position: absolute; top: 16px; left: 16px; z-index: 2; font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; padding: 4px 8px; border-radius: var(--radius-none); backdrop-filter: blur(6px); }
-  .badge.client { background: rgba(255, 90, 31, .16); color: var(--accent-300); border: 1px solid rgba(255, 90, 31, .35); }
-  .badge.concept { background: var(--badge-concept-bg); color: var(--badge-concept-tx); border: 1px solid var(--border-strong); }
+  /* .badge / .badge.client / .badge.concept come from global.css */
 
   @media (max-width: 1100px) {
     .feat { grid-template-columns: 1fr; }

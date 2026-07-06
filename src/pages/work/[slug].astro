@@ -145,7 +145,7 @@ const schema = [
 >
   {/* SCOREBOARD HERO */}
   <header class="cs-hero">
-    <span class:list={['badge', isClient ? 'client' : 'concept', 'rev-load']}>{d.badge}</span>
+    <span class:list={['badge', 'badge-lg', isClient ? 'client' : 'concept', 'rev-load']}>{d.badge}</span>
     <h1 class="rev-load">{d.title}</h1>
     <p class="descr rev-load">{d.lede}</p>
     {d.disclosure && <p class="cs-disclosure rev-load">{d.disclosure}</p>}
@@ -263,10 +263,7 @@ const schema = [
 <style>
   /* ===== SCOREBOARD HERO ===== */
   .cs-hero { padding: 96px 0 56px; }
-  .badge { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 10px; border-radius: var(--radius-none); display: inline-block; }
-  .badge.client { background: rgba(255, 90, 31, .14); color: var(--accent-text); border: 1px solid rgba(255, 90, 31, .4); }
-  /* concept badge: neutral, bordered — no orange */
-  .badge.concept { background: var(--badge-concept-bg); color: var(--badge-concept-tx); border: 1px solid var(--border-strong); }
+  /* .badge / .badge-lg / client / concept come from global.css */
   .cs-hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(44px, 6.5vw, 86px); line-height: 0.95; letter-spacing: -0.035em; margin: 22px 0 0; }
   .cs-hero .descr { font-size: 20px; line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: 26px; }
   /* non-affiliation disclosure — a visible bordered notice, not a footnote */
@@ -287,9 +284,7 @@ const schema = [
 
   /* ===== SECTIONS / PROSE / BODY ===== */
   .cs-sec { padding: 96px 0; }
-  .prose { max-width: 68ch; }
-  .prose p { font-size: 17px; line-height: 1.66; color: var(--text-secondary); margin-bottom: 18px; }
-  .prose p strong { color: var(--text); font-weight: 600; }
+  /* .prose comes from global.css */
   .cs-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: start; }
   .cs-main { max-width: 68ch; }
 

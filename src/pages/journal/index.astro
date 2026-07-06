@@ -36,14 +36,14 @@ const meta = (p: (typeof posts)[number]) =>
   <div class="jr-body">
   {
     posts.length === 0 ? (
-      <div class="jr-empty rev">
+      <div class="card jr-empty rev">
         <span class="jr-tag">[ Coming soon ]</span>
         <p>The first notes go up after launch.</p>
       </div>
     ) : (
       <Fragment>
         {lead && (
-          <a class="lead-post rev" href={`/journal/${lead.id}`}>
+          <a class="card lead-post rev" href={`/journal/${lead.id}`}>
             {lead.data.cover && (
               <div class="im"><img src={lead.data.cover} alt={lead.data.coverAlt ?? lead.data.title} /></div>
             )}
@@ -86,17 +86,15 @@ const meta = (p: (typeof posts)[number]) =>
   /* consistent gap before the footer divider (matches the 96px section rhythm) */
   .jr-body { padding-bottom: 96px; }
 
-  /* empty state */
-  .jr-empty { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 48px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  /* empty state — surface from global .card */
+  .jr-empty { padding: 48px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
   .jr-empty .jr-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text); }
   .jr-empty p { font-size: 18px; color: var(--text-secondary); }
 
-  /* tags */
-  .tag { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: 4px 8px; }
-  .tag.acc { color: var(--accent-text); border-color: rgba(255, 90, 31, .4); }
+  /* .tag / .tag.acc come from global.css */
 
-  /* lead post */
-  .lead-post { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); margin-bottom: 56px; }
+  /* lead post — surface from global .card */
+  .lead-post { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; overflow: hidden; margin-bottom: 56px; }
   .lead-post .im { overflow: hidden; }
   .lead-post .im img { width: 100%; height: 100%; object-fit: cover; min-height: 280px; }
   .lead-post .body { padding: 36px; display: flex; flex-direction: column; justify-content: center; }

@@ -79,7 +79,7 @@ const journalPosts = (await getCollection('journal'))
     <SectionLabel code="01" title="Featured" />
     <div class="bento rev">
       <div class="feat-row">
-        <a class="tile t-feat" href="/work/sportime-clubs">
+        <a class="card card--interactive t-feat" href="/work/sportime-clubs">
           <span class="badge client">Client</span>
           <div class="img">
             <div class="ph-fill ph-bg ph-16x9"></div>
@@ -96,7 +96,7 @@ const journalPosts = (await getCollection('journal'))
             <div class="disc">Brand /<br>Social /<br>Content /<br>Motion /<br>Photo</div>
           </div>
         </a>
-        <a class="tile t-feat" href="/work/the-ninth">
+        <a class="card card--interactive t-feat" href="/work/the-ninth">
           <span class="badge concept">Concept</span>
           <div class="img">
             <div class="ph-fill ph-bg ph-16x9"></div>
@@ -116,10 +116,10 @@ const journalPosts = (await getCollection('journal'))
       </div>
       {/* General practice-level metrics (career totals from System Master). 11.7M lives in card_A above. */}
       <div class="stat-row">
-        <div class="tile t-stat"><div class="fig"><StatFigure value="10+" unit=" yrs" /></div><div class="lab">creative & marketing</div></div>
-        <div class="tile t-stat"><div class="fig"><StatFigure value="20+" /></div><div class="lab">brands, partners & organizations</div></div>
-        <div class="tile t-stat"><div class="fig"><StatFigure value="75+" /></div><div class="lab">campaigns launched</div></div>
-        <div class="tile t-stat"><div class="fig"><StatFigure value="10K+" /></div><div class="lab">design assets produced</div></div>
+        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="10+" unit=" yrs" /></div><div class="lab">creative & marketing</div></div>
+        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="20+" /></div><div class="lab">brands, partners & organizations</div></div>
+        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="75+" /></div><div class="lab">campaigns launched</div></div>
+        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="10K+" /></div><div class="lab">design assets produced</div></div>
       </div>
     </div>
   </section>
@@ -134,13 +134,13 @@ const journalPosts = (await getCollection('journal'))
   <section class="block">
     <SectionLabel code="03" title="The practice" />
     <div class="duo">
-      <a class="mod rev" id="brand" href="/brand">
+      <a class="card card--interactive mod rev" id="brand" href="/brand">
         <div class="k">One System · brand</div>
         <h3 class="h2">One system, end to end.</h3>
         <p>The brand, the work, and the thinking run on the same logic: built like a system, accountable to what it does after it ships.</p>
         <span class="go">See the brand system →</span>
       </a>
-      <a class="mod mod-about rev" id="about" href="/about">
+      <a class="card card--interactive mod mod-about rev" id="about" href="/about">
         <div class="face"><Image src={headshot} alt="Pratik Mehta" width={360} format="webp" /></div>
         <div class="about-body">
           <div class="k">About</div>
@@ -161,7 +161,7 @@ const journalPosts = (await getCollection('journal'))
     />
     {
       journalPosts.length === 0 ? (
-        <div class="jr-empty rev">
+        <div class="card jr-empty rev">
           <span class="jr-tag">[ Coming soon ]</span>
           <p>Notes on systems, brand, and AI. The first posts go up after launch.</p>
         </div>
@@ -304,8 +304,9 @@ const journalPosts = (await getCollection('journal'))
   .bento { display: flex; flex-direction: column; gap: 16px; }
   .feat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .tile { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); overflow: hidden; position: relative; transition: border-color .2s var(--ease-standard); }
-  .tile:hover { border-color: var(--border-strong); }
+  /* surface + hover come from global .card / .card--interactive; these add only
+     the shared clip/stack behaviour of the bento tiles */
+  .card.t-feat, .card.t-stat { overflow: hidden; position: relative; }
 
   .t-feat { display: flex; flex-direction: column; }
   .t-feat .img { aspect-ratio: var(--ratio-wide); overflow: hidden; position: relative; }
@@ -318,9 +319,7 @@ const journalPosts = (await getCollection('journal'))
   .t-feat .meta p { font-size: 13.5px; color: var(--text-secondary); margin-top: 8px; max-width: 38ch; }
   .t-feat .meta .disc { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
 
-  .badge { position: absolute; top: 16px; left: 16px; z-index: 2; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 8px; border-radius: var(--radius-none); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-  .badge.client { background: rgba(255, 90, 31, .16); color: var(--accent-300); border: 1px solid rgba(255, 90, 31, .35); }
-  .badge.concept { background: var(--badge-concept-bg); color: var(--badge-concept-tx); border: 1px solid var(--border-strong); }
+  /* .badge / .badge.client / .badge.concept come from global.css */
 
   .t-stat { padding: 22px; display: flex; flex-direction: column; justify-content: center; gap: 10px; min-height: 132px; }
   .t-stat .fig { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 3vw, 42px); line-height: 1; letter-spacing: -0.02em; color: var(--text); }
@@ -328,8 +327,8 @@ const journalPosts = (await getCollection('journal'))
 
   /* ===== MODULES ===== */
   .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .mod { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 28px; display: flex; flex-direction: column; transition: border-color .2s var(--ease-standard); }
-  .mod:hover { border-color: var(--border-strong); }
+  /* surface + hover come from global .card / .card--interactive */
+  .mod { padding: 28px; display: flex; flex-direction: column; }
   .mod .k { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 18px; }
   .mod p { font-size: 14px; color: var(--text-secondary); max-width: 46ch; margin-top: 10px; }
   .mod .go { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text); margin-top: auto; padding-top: 22px; }
@@ -345,7 +344,8 @@ const journalPosts = (await getCollection('journal'))
   }
 
   /* ===== JOURNAL ===== */
-  .jr-empty { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 48px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  /* surface comes from global .card */
+  .jr-empty { padding: 48px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
   .jr-empty .jr-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); }
   .jr-empty p { font-size: 18px; color: var(--text-secondary); }
 
