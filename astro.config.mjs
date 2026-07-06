@@ -60,6 +60,14 @@ function routeMeta(rawPath) {
 
 export default defineConfig({
   output: 'static',
+  // No-trailing-slash canonical URLs, sitewide. Default (directory format ->
+  // /foo/index.html) made Cloudflare 307-redirect /foo -> /foo/, so every link
+  // shared without a slash (the common case) ate a round-trip (~800ms on
+  // mobile). 'file' format emits /foo.html, which Cloudflare's default
+  // html_handling serves directly at /foo (200) and redirects /foo/ -> /foo.
+  // Internal links + canonical + sitemap all follow trailingSlash. (The concept
+  // microsites in public/ stay folder-based/slash-canonical — unaffected.)
+  trailingSlash: 'never',
   // Canonical production URL. mehtapratik.com now serves this build, so canonical
   // links and the sitemap describe that domain.
   site: SITE,
@@ -85,5 +93,5 @@ export default defineConfig({
   // stylesheets were render-blocking (~490 ms on mobile). 'always' folds them
   // into the HTML so first paint has no CSS round-trip. Safe under the enforced
   // CSP (style-src allows 'unsafe-inline').
-  build: { inlineStylesheets: 'always' },
+  build: { inlineStylesheets: 'always', format: 'file' },
 });

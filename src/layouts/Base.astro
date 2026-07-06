@@ -85,7 +85,11 @@ const year = 2026; // static; avoids per-request Date() in the worker
 
 // Absolute URLs for canonical + share cards. Astro.site is the production
 // domain, so these read mehtapratik.com even when the build is served from staging.
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+// Strip the .html that the 'file' build format leaves on Astro.url.pathname,
+// and collapse index/root, so canonical + og:url match how Cloudflare serves
+// these: no extension, no trailing slash (e.g. /work/dealnews, / for home).
+const cleanPath = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const canonical = new URL(cleanPath, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
 
 // Structured data: a site-wide Person + WebSite graph, plus any per-page nodes
