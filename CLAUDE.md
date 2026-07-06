@@ -60,6 +60,10 @@ Canonical heading system (match across all pages):
 - Kicker: mono 11px, .1em, uppercase, accent-text, 22px below
 - Section label: `[ 0N ]` (accent mono) + uppercase mono title (muted) + flex rule line
 
+Reveal animations (two classes, pick by position — `src/styles/global.css`):
+- `.rev` = below-the-fold scroll reveal (opacity+slide, triggered by IntersectionObserver adding `.in`). Default for anything not in the first viewport.
+- `.rev-load` = above-the-fold reveal (**transform/slide only, no opacity**, CSS load animation, no JS gate). Use for the **page hero when it holds the LCP element** — home + case studies do this. Chromium excludes `opacity:0` elements from LCP, so an opacity-faded hero can hand LCP to a late-painting element (e.g. the cookie banner) and inflate it. `.rev-load` keeps the hero LCP-eligible and painted at first render. Text-only heroes on the lighter pages (about, contact, brand, journal, resume, privacy) still use `.rev` and measure fine, but new hero content that carries the LCP image/video should use `.rev-load`. Both respect reduced-motion.
+
 ## Content model
 - **Case studies:** one design for client and concept. Spine: Scoreboard → Problem → System → Decisions → Output → Proof → Reflection. Optional modules render only when data exists.
 - **Client vs concept** is a typed, filterable facet, never separate sections.
