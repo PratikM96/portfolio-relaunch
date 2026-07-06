@@ -27,13 +27,13 @@ const root = fileURLToPath(new URL('../..', import.meta.url));
 
 // face → [OTF master (source), shipped woff2 (destination)]
 const FACES = [
-  ['_reference/fonts/site/Berkeley-Mono/TX-02-Regular.otf', 'public/fonts/TX-02-Regular.woff2'],
-  ['_reference/fonts/site/Berkeley-Mono/TX-02-Medium.otf', 'public/fonts/TX-02-Medium.woff2'],
-  ['_reference/fonts/site/Clash-Display/ClashDisplay-Semibold.otf', 'public/fonts/ClashDisplay-Semibold.woff2'],
-  ['_reference/fonts/site/Clash-Display/ClashDisplay-Bold.otf', 'public/fonts/ClashDisplay-Bold.woff2'],
-  ['_reference/fonts/site/Clash-Grotesk/ClashGrotesk-Regular.otf', 'public/fonts/ClashGrotesk-Regular.woff2'],
-  ['_reference/fonts/site/Clash-Grotesk/ClashGrotesk-Semibold.otf', 'public/fonts/ClashGrotesk-Semibold.woff2'],
-  ['_reference/fonts/site/Clash-Grotesk/ClashGrotesk-Bold.otf', 'public/fonts/ClashGrotesk-Bold.woff2'],
+  ['_reference/fonts/site/berkeley-mono/TX-02-Regular.otf', 'public/fonts/TX-02-Regular.woff2'],
+  ['_reference/fonts/site/berkeley-mono/TX-02-Medium.otf', 'public/fonts/TX-02-Medium.woff2'],
+  ['_reference/fonts/site/clash-display/ClashDisplay-Semibold.otf', 'public/fonts/ClashDisplay-Semibold.woff2'],
+  ['_reference/fonts/site/clash-display/ClashDisplay-Bold.otf', 'public/fonts/ClashDisplay-Bold.woff2'],
+  ['_reference/fonts/site/clash-grotesk/ClashGrotesk-Regular.otf', 'public/fonts/ClashGrotesk-Regular.woff2'],
+  ['_reference/fonts/site/clash-grotesk/ClashGrotesk-Semibold.otf', 'public/fonts/ClashGrotesk-Semibold.woff2'],
+  ['_reference/fonts/site/clash-grotesk/ClashGrotesk-Bold.otf', 'public/fonts/ClashGrotesk-Bold.woff2'],
 ];
 
 // Directories scanned for glyphs actually in play (rendered HTML + source that

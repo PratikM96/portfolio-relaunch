@@ -11,6 +11,29 @@ Pratik Mehta's personal portfolio, rebuilt from scratch in **Astro**, launching 
 - **Assets:** ALL assets live in this repo and are served same-origin by the Worker (which edge-caches globally). No external CDN / R2. Images go in `src/assets/` (run through Astro's pipeline: responsive widths, hashing, CLS-safe dims); files that can't be processed — video, fonts, favicons — go in `public/` (`/hero`, `/fonts`, etc.) and are served verbatim at the site root. Keep only web-optimized deliverables in the repo (webp / webm / ffmpeg mp4 / woff2); raw masters stay in `_reference/` (gitignored), never committed. Cloudflare's per-file cap on Worker static assets is 25 MiB — design large case-study video around it. (Historical: assets were briefly planned on R2 at `cdn.mehtapratik.com`; that was dropped — the asset volume never justified a separate bucket. Any lingering `cdn.mehtapratik.com` URL in code is stale and should become a local path.)
 - **Repo:** this is the NEW repo. The OLD site (hand-edited HTML/CSS/JS, teal/coral brand) still serves production from a separate repo + Worker.
 
+## File & folder naming (one standard — follow for every new file)
+The project already runs on a consistent, per-layer convention. Match it; do not invent a new style.
+
+**Files:**
+- Astro components → `PascalCase.astro` (`OutputGrid.astro`, `CaseSectionHead.astro`).
+- Routes / pages → `kebab.astro`; the filename IS the URL (`about.astro`, `[slug].astro`).
+- Scripts / styles / lib / TS → `kebab.ts` / lowercase (`site-chrome.ts`, `tokens.css`, `figure.ts`).
+- Docs → `kebab.md` (`hero-pipeline.md`). Content-collection slugs → `kebab` (`sr-love-and-care.md`).
+- **Contract-named assets are exempt and MUST NOT be "normalized"** — the convention-located files
+  are fixed strings a typo turns into a silent 404: `card.webm` / `card-light.webm` / `poster.webp`,
+  `hero_1080.webm` (yes, the underscore is intentional/locked), plus vendor/`@font-face` font
+  filenames (`TX-02-Medium.woff2`, `ClashDisplay-Bold.woff2`).
+
+**Folders:** always **lowercase kebab-case**, with per-project **slug** subdirs
+(`public/wc/<slug>/`, `src/assets/work/<slug>/`, `_reference/media/wc-animations/`). The terse
+codes `wc` (work-card), `ov` (output-video), `og` (share cards) are the documented, contract-located
+exceptions — reuse them, don't spell them out or add new abbreviations. New multi-word folders get a
+dash (`case-study-assets`, `general-sans`), never Title-Case or camelCase.
+
+**Note (Windows):** the working filesystem is case-insensitive, so a Title-Case→lowercase rename is a
+case-only rename — do it through a temp name (`mv Foo Foo__tmp && mv Foo__tmp foo`), and never create
+a lowercase twin of an existing dir before removing the original (a later `rm -rf` deletes both).
+
 ## Deploy safety (do not violate)
 - Build and deploy to the **staging** Worker / `*.workers.dev` URL only.
 - `mehtapratik.com` is served by the OLD deployment. **Do not touch the live domain, the old repo, or the old Worker.**
