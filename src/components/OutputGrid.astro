@@ -200,7 +200,7 @@ const clipSrc = (clip: string) => ({
                 <figure class="vid" data-ov-video data-audio={withAudio ? 'true' : 'false'}>
                   <div class:list={['im', vr]}>
                     <video
-                      poster={s.poster}
+                      data-poster={s.poster}
                       width="1920"
                       height="1080"
                       playsinline
@@ -345,10 +345,12 @@ const clipSrc = (clip: string) => ({
   // on the poster. Audio clips are click-to-play and hand off to native controls.
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const all: HTMLVideoElement[] = [];
   const loops: HTMLVideoElement[] = [];
   document.querySelectorAll<HTMLElement>('[data-ov-video]').forEach((fig) => {
     const video = fig.querySelector('video');
     if (!video) return;
+    all.push(video);
 
     if (fig.dataset.audio === 'true') {
       const btn = fig.querySelector('.ov-play');
@@ -362,6 +364,26 @@ const clipSrc = (clip: string) => ({
     }
     if (!reduce) loops.push(video);
   });
+
+  // Defer poster loading: a <video poster> fetches eagerly even with
+  // preload="none", so these below-the-fold §04 posters would compete with
+  // above-the-fold LCP. Load each ~300px before it scrolls into view.
+  if (all.length && 'IntersectionObserver' in window) {
+    const posterIO = new IntersectionObserver(
+      (entries, obs) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const v = e.target as HTMLVideoElement;
+          if (v.dataset.poster) { v.poster = v.dataset.poster; v.removeAttribute('data-poster'); }
+          obs.unobserve(v);
+        }
+      },
+      { rootMargin: '300px' },
+    );
+    all.forEach((v) => posterIO.observe(v));
+  } else {
+    all.forEach((v) => { if (v.dataset.poster) v.poster = v.dataset.poster; });
+  }
 
   if (loops.length) {
     const io = new IntersectionObserver(
