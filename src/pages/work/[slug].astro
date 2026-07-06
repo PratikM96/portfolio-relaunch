@@ -145,13 +145,13 @@ const schema = [
 >
   {/* SCOREBOARD HERO */}
   <header class="cs-hero">
-    <span class:list={['badge', isClient ? 'client' : 'concept', 'rev']}>{d.badge}</span>
-    <h1 class="rev">{d.title}</h1>
-    <p class="descr rev">{d.lede}</p>
-    {d.disclosure && <p class="cs-disclosure rev">{d.disclosure}</p>}
+    <span class:list={['badge', isClient ? 'client' : 'concept', 'rev-load']}>{d.badge}</span>
+    <h1 class="rev-load">{d.title}</h1>
+    <p class="descr rev-load">{d.lede}</p>
+    {d.disclosure && <p class="cs-disclosure rev-load">{d.disclosure}</p>}
     <Scoreboard cells={d.hero} />
     {showHeroWall && (heroVideo ? (
-      <div class="cs-wall rev" data-cs-video>
+      <div class="cs-wall rev-load" data-cs-video>
         <video
           poster={heroVideo.poster}
           width="1920" height="1080"
@@ -166,8 +166,8 @@ const schema = [
         <span class="cap">{d.coverCaption}</span>
       </div>
     ) : (
-      <div class="cs-wall rev">
-        {d.cover ? <img src={d.cover} alt={d.coverAlt} /> : <div class="ph-fill ph-bg ph-16x9" />}
+      <div class="cs-wall rev-load">
+        {d.cover ? <img src={d.cover} alt={d.coverAlt} fetchpriority="high" /> : <div class="ph-fill ph-bg ph-16x9" />}
         <span class="cap">{d.coverCaption}</span>
       </div>
     ))}
