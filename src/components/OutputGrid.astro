@@ -292,7 +292,6 @@ const clipSrc = (clip: string) => ({
   /* longpage — capped internal-scroll frames, laid out N-up */
   .blk-long { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: 16px; align-items: start; }
   .lp-frame { border: 1px solid var(--img-frame); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface-raised); }
-  .lp-frame.has-chrome { border-radius: var(--radius-lg); }
   .lp-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: var(--surface); border-bottom: 1px solid var(--img-frame); }
   .lp-bar .dot { width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--border-strong); }
   .lp-scroll { height: var(--h, 600px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
