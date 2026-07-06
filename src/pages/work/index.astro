@@ -89,31 +89,12 @@ const featured = entries
 </Base>
 
 <script>
-  import { applyCardSources, onThemeChange } from '../../scripts/card-video';
+  import { wireHoverCards } from '../../scripts/card-video';
 
   // Featured cards: play the hover-to-play clip on pointer enter, pause + reset
-  // on leave. Muted/looping, so no gesture needed; skipped under reduced motion.
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const vids: HTMLVideoElement[] = [];
-  document.querySelectorAll<HTMLElement>('.fcard').forEach((card) => {
-    const v = card.querySelector('video');
-    if (!v) return;
-    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
-    vids.push(v);
-    card.addEventListener('mouseenter', () => { if (!reduce) v.play().catch(() => {}); });
-    // load() resets the element and re-displays the poster (the resolved logo),
-    // so leaving mid-animation snaps back to the poster instead of freezing on
-    // whatever frame it happened to be on.
-    card.addEventListener('mouseleave', () => { v.pause(); v.load(); });
-  });
-
-  // On theme flip, re-point each clip at the matching variant (no-op until a
-  // light export exists for that slug).
-  onThemeChange(() => vids.forEach((v) => {
-    const wasPlaying = !v.paused;
-    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
-    if (wasPlaying && !reduce) v.play().catch(() => {});
-  }));
+  // to the poster on leave. Muted/looping, so no gesture needed; skipped under
+  // reduced motion. Shares one controller with the home bento tiles.
+  wireHoverCards('.fcard', 'video');
 </script>
 
 <style>

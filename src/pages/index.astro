@@ -185,13 +185,13 @@ const journalPosts = (await getCollection('journal'))
 
   {/* Hero animation: loop + pause off-screen + click-to-toggle + reduced-motion */}
   <script>
+    import { prefersReducedMotion } from '../scripts/motion';
     (function () {
       const btn = document.querySelector('[data-hero-video]');
       if (!btn) return;
       const video = btn.querySelector('video');
       if (!video) return;
       var chip = btn.querySelector('.hero-video-state');
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
       var userPaused = false; // explicit click choice — overrides auto-resume
       var inView = true;
       var ready = false; // gate playback until after load (see start() below)
@@ -202,7 +202,7 @@ const journalPosts = (await getCollection('journal'))
         if (chip) chip.textContent = playing ? '❚❚ Pause' : '▶ Play';
       };
       const autoPlay = function () {
-        if (!ready || userPaused || reduce.matches || !inView) return;
+        if (!ready || userPaused || prefersReducedMotion() || !inView) return;
         var p = video.play(); // preload="none" → play() triggers the fetch
         if (p && p.catch) p.catch(function () {});
       };
@@ -212,7 +212,7 @@ const journalPosts = (await getCollection('journal'))
       // Speed Index) and off mobile data until the page is ready. A click can
       // still start it earlier. Reduced motion never starts it.
       var start = function () { ready = true; autoPlay(); };
-      if (reduce.matches) { video.pause(); }
+      if (prefersReducedMotion()) { video.pause(); }
       else if (document.readyState === 'complete') start();
       else window.addEventListener('load', start, { once: true });
 
@@ -249,29 +249,12 @@ const journalPosts = (await getCollection('journal'))
 </Base>
 
 <script>
-  import { applyCardSources, onThemeChange } from '../scripts/card-video';
+  import { wireHoverCards } from '../scripts/card-video';
 
   // Bento featured tiles: hover-to-play card clip, snap back to poster on leave.
   // Mirrors the /work featured-pair behavior; the hero video above has its own
   // click-to-play controller and is untouched.
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const vids: HTMLVideoElement[] = [];
-  document.querySelectorAll<HTMLElement>('.t-feat').forEach((tile) => {
-    const v = tile.querySelector<HTMLVideoElement>('.tile-video');
-    if (!v) return;
-    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
-    vids.push(v);
-    tile.addEventListener('mouseenter', () => { if (!reduce) v.play().catch(() => {}); });
-    tile.addEventListener('mouseleave', () => { v.pause(); v.load(); });
-  });
-
-  // On theme flip, re-point each clip at the matching variant (no-op until a
-  // light export exists for that slug).
-  onThemeChange(() => vids.forEach((v) => {
-    const wasPlaying = !v.paused;
-    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
-    if (wasPlaying && !reduce) v.play().catch(() => {});
-  }));
+  wireHoverCards('.t-feat', '.tile-video');
 </script>
 
 <style>

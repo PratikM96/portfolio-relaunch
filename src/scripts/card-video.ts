@@ -8,13 +8,15 @@
  * files in both themes and the theme swap below is a no-op — nothing to encode,
  * nothing breaks. See docs/work-card-video.md.
  */
+import { prefersReducedMotion } from './motion';
+
 export type CardPaths = { webm: string; mp4: string; poster: string };
 
-export function themeIsLight(): boolean {
+function themeIsLight(): boolean {
   return document.documentElement.getAttribute('data-theme') === 'light';
 }
 
-export function cardPaths(slug: string, hasLight: boolean): CardPaths {
+function cardPaths(slug: string, hasLight: boolean): CardPaths {
   const suffix = hasLight && themeIsLight() ? '-light' : '';
   return {
     webm: `/wc/${slug}/card${suffix}.webm`,
@@ -48,4 +50,29 @@ export function onThemeChange(cb: () => void): () => void {
   });
   obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   return () => obs.disconnect();
+}
+
+/**
+ * Wire a set of hover-to-play work cards: each matched card plays its muted
+ * loop on pointer enter and snaps back to the poster on leave (load() re-shows
+ * the resolved-logo rest frame). On a theme flip every clip re-points at the
+ * matching variant. Used by the home bento tiles and the /work featured pair —
+ * only the selectors differ. Reduced motion → poster only, no playback.
+ */
+export function wireHoverCards(cardSelector: string, videoSelector: string): void {
+  const reduce = prefersReducedMotion();
+  const vids: HTMLVideoElement[] = [];
+  document.querySelectorAll<HTMLElement>(cardSelector).forEach((card) => {
+    const v = card.querySelector<HTMLVideoElement>(videoSelector);
+    if (!v) return;
+    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
+    vids.push(v);
+    card.addEventListener('mouseenter', () => { if (!reduce) v.play().catch(() => {}); });
+    card.addEventListener('mouseleave', () => { v.pause(); v.load(); });
+  });
+  onThemeChange(() => vids.forEach((v) => {
+    const wasPlaying = !v.paused;
+    applyCardSources(v, v.dataset.slug!, v.dataset.light === 'true');
+    if (wasPlaying && !reduce) v.play().catch(() => {});
+  }));
 }

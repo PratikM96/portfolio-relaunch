@@ -309,17 +309,13 @@ const schema = [
 </style>
 
 <script>
+  import { wireClickToPlay } from '../../scripts/motion';
+
   // Click-to-play hero video: first click plays with sound and hands off to the
-  // browser's native controls. Re-shows the play overlay if it ends or is paused.
+  // browser's native controls. Re-shows the play overlay when the clip ends.
   document.querySelectorAll('[data-cs-video]').forEach((wall) => {
     const video = wall.querySelector('video');
     const btn = wall.querySelector('.cs-video-play');
-    if (!video || !btn) return;
-    btn.addEventListener('click', () => {
-      video.controls = true;
-      wall.classList.add('is-playing');
-      video.play();
-    });
-    video.addEventListener('ended', () => wall.classList.remove('is-playing'));
+    if (video && btn) wireClickToPlay(wall, video, btn);
   });
 </script>

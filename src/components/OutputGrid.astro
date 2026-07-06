@@ -340,10 +340,12 @@ const clipSrc = (clip: string) => ({
 </style>
 
 <script>
+  import { prefersReducedMotion, autoPlayInView, wireClickToPlay } from '../scripts/motion';
+
   // Output video behavior. Muted loops autoplay/pause via IntersectionObserver
   // (nothing fetches until in view — preload="none"); reduced-motion keeps them
   // on the poster. Audio clips are click-to-play and hand off to native controls.
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduce = prefersReducedMotion();
 
   const all: HTMLVideoElement[] = [];
   const loops: HTMLVideoElement[] = [];
@@ -354,12 +356,7 @@ const clipSrc = (clip: string) => ({
 
     if (fig.dataset.audio === 'true') {
       const btn = fig.querySelector('.ov-play');
-      btn?.addEventListener('click', () => {
-        video.controls = true;
-        fig.classList.add('is-playing');
-        video.play();
-      });
-      video.addEventListener('ended', () => fig.classList.remove('is-playing'));
+      if (btn) wireClickToPlay(fig, video, btn);
       return;
     }
     if (!reduce) loops.push(video);
@@ -385,17 +382,5 @@ const clipSrc = (clip: string) => ({
     all.forEach((v) => { if (v.dataset.poster) v.poster = v.dataset.poster; });
   }
 
-  if (loops.length) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          const v = e.target as HTMLVideoElement;
-          if (e.isIntersecting) v.play().catch(() => {});
-          else v.pause();
-        }
-      },
-      { threshold: 0.25 },
-    );
-    loops.forEach((v) => io.observe(v));
-  }
+  autoPlayInView(loops, { threshold: 0.25 });
 </script>

@@ -105,6 +105,7 @@ const first = projects[0]!;
 
 <script>
   import { applyCardSources, onThemeChange } from '../scripts/card-video';
+  import { prefersReducedMotion } from '../scripts/motion';
 
   // Index -> sticky preview + single-select filter (type or discipline token).
   const rows = [...document.querySelectorAll<HTMLAnchorElement>('.idx-row')];
@@ -115,7 +116,7 @@ const first = projects[0]!;
   const pvVideo = document.getElementById('pv-video') as HTMLVideoElement | null;
   const empty = document.querySelector<HTMLElement>('.idx-empty');
   const imgs: Record<string, HTMLImageElement> = {};
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduceMotion = prefersReducedMotion();
 
   function setPreview(r: HTMLAnchorElement) {
     if (!pvImg || !pvT || !pvD) return;
