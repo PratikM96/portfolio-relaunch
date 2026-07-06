@@ -61,7 +61,7 @@ Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ra
 
 ### Fonts
 
-The seven self-hosted faces are **subset** to the glyphs the site uses (~35% smaller). `scripts/fonts/subset.mjs` reads the OTF masters from `_reference/Fonts/` and writes subset woff2 into `public/fonts/`; the retain set is printable ASCII + Latin-1 plus every non-ASCII glyph scanned from the built HTML and source, so runtime-injected marks (play/pause, arrows, ✕) can't be dropped. Re-run after adding a face or a new glyph, then rebuild:
+The seven self-hosted faces are **subset** to the glyphs the site uses (~35% smaller). `scripts/fonts/subset.mjs` reads the OTF masters from `_reference/fonts/site/` and writes subset woff2 into `public/fonts/`; the retain set is printable ASCII + Latin-1 plus every non-ASCII glyph scanned from the built HTML and source, so runtime-injected marks (play/pause, arrows, ✕) can't be dropped. Re-run after adding a face or a new glyph, then rebuild:
 
 ```bash
 npm run build            # so the scan sees current pages

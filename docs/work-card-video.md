@@ -16,8 +16,8 @@ autoplay on pointer hover only.
   plus `card-light.webm` / `card-light.mp4` / `poster-light.webp` when a light
   variant exists (see Light mode). A typo is a silent 404.
 - **Masters (NOT in repo):** 4K ProRes exports live in gitignored
-  `_reference/wc-animations/`; the After Effects project is
-  `_reference/wc-animations/animation-master/`. The repo only holds the
+  `_reference/media/wc-animations/`; the After Effects project is
+  `_reference/media/wc-animations/animation-master/`. The repo only holds the
   transcoded web deliverables.
 
 ## Surfaces that read the flag
@@ -52,7 +52,7 @@ land at 50-250 KB (webm smaller, mp4 fallback larger). The poster is pulled from
 the **last** frame (the resolved logo). From the repo root, per master:
 
 ```bash
-SRC=_reference/wc-animations/<stem>_2160.mov
+SRC=_reference/media/wc-animations/<stem>_2160.mov
 DST=public/wc/<slug>
 mkdir -p "$DST"
 # webm (VP9) — primary, modern browsers
@@ -86,7 +86,7 @@ animations too. Their light masters break the `-light` convention: they are
 
 The masters are ProRes 422 (no alpha), so the dark background is baked in — light
 versions are **separate exports** from the After Effects project, staged in
-`_reference/wc-animations/light/` and encoded to `card-light.webm` /
+`_reference/media/wc-animations/light/` and encoded to `card-light.webm` /
 `card-light.mp4` / `poster-light.webp` siblings with the identical recipe.
 
 Resolution is theme-aware and lives in `src/scripts/card-video.ts`: dark is the
@@ -96,7 +96,7 @@ default and always present; the `-light` set is used only when an entry sets
 the shared helper. The home bento tile is hardcoded, so its light opt-in is the
 `data-light="true"` attribute on the `.tile-video`, not a frontmatter flag.
 
-To add a light variant later: drop the export in `_reference/wc-animations/light/`,
+To add a light variant later: drop the export in `_reference/media/wc-animations/light/`,
 run the recipe with `-light` output names, then set `cardVideoLight: true` on the
 entry (or `data-light="true"` on a bento tile). Clips stay `preload="none"` and
 only the active theme's poster loads, so this is repo size only (~5 MB for all 16

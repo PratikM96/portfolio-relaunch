@@ -25,7 +25,7 @@ and loops, since it has no audio - see `src/pages/index.astro`).
 The 4K ProRes masters live on Google Drive at `Career-System/01-Brand/Animations/`.
 You transcode the web deliverables from a local copy of the master (Drive desktop
 sync, or download it for the encode). The repo never holds a master. If you want a
-local backup of the compressed outputs, `_reference/hero-video/<slug>/` is the spot
+local backup of the compressed outputs, `_reference/media/hero-video/<slug>/` is the spot
 (gitignored). Only the three web deliverables above ship.
 
 **Hard limits:**
