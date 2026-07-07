@@ -127,14 +127,9 @@ Then the code:
 Then admin hygiene:
 4. Data retention → 14 months (#4), confirm CF Web Analytics enabled (#2), GA4 Key events for `generate_lead` + `file_download`, internal-traffic filter, DebugView QA.
 
-## Open build pieces — DONE (2026-07-07)
-- ~~UTM source/medium tag table~~ → written up as its own doc: `docs/utm-tagging.md`. Still a manual paste-it habit (no site code); use it when handing out links.
-- ~~Wire the `generate_lead` mailto event (+ `select_content`)~~ → built in `src/scripts/analytics.ts`, bundled from `Base.astro` alongside consent/site-chrome. Delegated document click listener: `generate_lead` (`method: 'Email'`) on any `mailto:` anchor; `select_content` (`content_type: case_study`, `content_id: <slug>`) on `/work/<slug>` opens. Checks `window.gtag` at click time, so it no-ops for declined/pending consent. No new CSP origins.
-
-Remaining is all GA4/Cloudflare **dashboard** work (nothing in the repo):
-- GA4 Admin: Enhanced Measurement ON, mark `generate_lead` + `file_download` as Key events, data retention → 14 months, internal-traffic filter → Active.
-- Link Google Search Console → GA4; submit `sitemap-index.xml`.
-- Confirm Cloudflare Web Analytics is actually enabled (not just CSP-allowlisted).
+## Open build pieces I offered to do
+- UTM source/medium tag table for LinkedIn / resume PDF / email signature / etc.
+- Wire the one `generate_lead` mailto event (+ optional `select_content`) into `Base.astro`.
 
 ## Key files
 - `src/layouts/Base.astro` — GA4 install + consent gate (`:369-395`), head/meta/canonical/OG/JSON-LD.
