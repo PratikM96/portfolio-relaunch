@@ -314,5 +314,6 @@
 <script>
 (function(){var SEL='#runBtn,#resetBtn';function enh(el){if(!el||el.__kb)return;el.__kb=1;var t=el.tagName;if(t!=='BUTTON'&&t!=='A'){el.setAttribute('role','button');if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','0');}el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});}function scan(){document.querySelectorAll(SEL).forEach(enh);}scan();setTimeout(scan,800);})();
 </script>
+    <script src="/concepts/analytics.js"></script>
 </body>
 </html>
