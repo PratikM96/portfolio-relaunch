@@ -1,75 +1,130 @@
 /**
- * Cookie consent + gated Google Analytics (GA4).
+ * Cookie consent + Google Analytics (GA4) + custom conversion events.
  *
- * gtag loads ONLY after an explicit Accept. Choice persists in localStorage;
- * the footer "Cookies" button reopens the banner. Bundled (not is:inline) so
- * the ~1.4 KB ships once as a hashed, cached module instead of being re-emitted
- * into every page's HTML. It does not need to run before paint.
+ * ── Consent gate ──────────────────────────────────────────────────────────
+ * gtag loads ONLY after an explicit Accept (hard gate): declined or undecided
+ * visitors get zero analytics. The choice persists in localStorage; the footer
+ * "Cookies" button reopens the banner. Bundled (not is:inline) so it ships once
+ * as a hashed, cached module rather than inline on every page.
+ *
+ * ── Consent Mode (the reason a naive gtag install recorded nothing) ────────
+ * The GA4 property carries container-scoped consent defaults (Google tag
+ * settings) that leave analytics_storage UNgranted. Under Consent Mode that
+ * blocks the GA4 tag from transmitting — gtag loads but withholds every hit,
+ * including page_view. Our banner IS the consent gate and only loads gtag after
+ * the user clicks Accept, so we explicitly grant analytics_storage to gtag:
+ *   - 'default' before config  -> the very first hit (page_view) is allowed out
+ *   - 'update'  after config   -> overrides any container-scoped default that
+ *                                 arrives with the tag config
+ * Ad signals stay denied — this site runs no ads.
+ * (If tracking still stalls, the authoritative lever is GA4 Admin -> Data
+ *  streams -> Configure tag settings -> Consent settings, where those
+ *  container-scoped defaults live.)
+ *
+ * ── Custom events (only what Enhanced Measurement does NOT auto-collect) ────
+ *   generate_lead   -> mailto: clicks. The primary conversion; GA4 does not
+ *                      count mailto/tel as outbound clicks. Mark it a Key event.
+ *   select_content  -> case-study opens (/work/<slug>), to see which work gets
+ *                      clicked. The /work index and nav links are page_views.
+ * Enhanced Measurement already covers file_download (resume PDF) and outbound
+ * social clicks, so those need no code. Handlers check gtag at click time, so
+ * they no-op until consent is granted.
  */
 const KEY = 'pm-consent';
 const GA = 'G-G5ZSN5RXX0';
 
-function loadGA() {
-  if ((window as any).__ga) return;
-  (window as any).__ga = 1;
+const w = window as unknown as {
+  dataLayer?: unknown[];
+  gtag?: (...args: unknown[]) => void;
+  __ga?: boolean;
+};
+
+// Analytics granted, ads denied. Sent both before and after config.
+const CONSENT = {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'granted',
+} as const;
+
+function loadGA(): void {
+  if (w.__ga) return;
+  w.__ga = true;
+
+  w.dataLayer = w.dataLayer || [];
+  const gtag = (...args: unknown[]) => {
+    w.dataLayer!.push(args);
+  };
+  w.gtag = gtag;
+
+  // Queue consent + config BEFORE injecting the library, so gtag.js drains a
+  // fully-formed queue (consent already granted) the moment it executes.
+  gtag('consent', 'default', CONSENT);
+  gtag('js', new Date());
+  gtag('config', GA);
+  gtag('consent', 'update', CONSENT);
+
   const s = document.createElement('script');
   s.async = true;
   s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA;
   document.head.appendChild(s);
-  (window as any).dataLayer = (window as any).dataLayer || [];
-  function gtag(...args: unknown[]) {
-    (window as any).dataLayer.push(args);
-  }
-  (window as any).gtag = gtag;
-  // Google Consent Mode grant. The GA4 property has container-scoped consent
-  // defaults (set in the Google tag settings) that leave analytics_storage
-  // ungranted, which in Basic Consent Mode BLOCKS the tag from firing at all —
-  // gtag loads but every hit (even page_view) is withheld. Our own banner is the
-  // consent gate: gtag only loads here AFTER the user clicked Accept, so we tell
-  // gtag analytics is granted. 'default' (before config) lets the first hit send;
-  // 'update' (after config) overrides any container-scoped default that arrives
-  // with the tag. Ads stay denied — this site runs no ads.
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'granted',
-  });
-  gtag('js', new Date());
-  gtag('config', GA);
-  gtag('consent', 'update', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'granted',
-  });
 }
 
-const el = document.getElementById('consent');
+function track(event: string, params: Record<string, unknown>): void {
+  if (typeof w.gtag === 'function') w.gtag('event', event, params);
+}
+
+/* ── Banner wiring ──────────────────────────────────────────────────────── */
+const banner = document.getElementById('consent');
+
 let choice: string | null = null;
 try {
   choice = localStorage.getItem(KEY);
-} catch (e) {}
+} catch {}
 
 if (choice === 'granted') loadGA();
-else if (choice !== 'denied' && el) el.hidden = false;
+else if (choice !== 'denied' && banner) banner.hidden = false;
 
-if (el) {
-  el.addEventListener('click', (e) => {
-    const b = (e.target as Element).closest('[data-consent]');
-    if (!b) return;
-    const grant = b.getAttribute('data-consent') === 'grant';
+if (banner) {
+  banner.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest('[data-consent]');
+    if (!btn) return;
+    const grant = btn.getAttribute('data-consent') === 'grant';
     try {
       localStorage.setItem(KEY, grant ? 'granted' : 'denied');
-    } catch (e) {}
-    el.hidden = true;
+    } catch {}
+    banner.hidden = true;
     if (grant) loadGA();
   });
 }
 
+/* ── Delegated document clicks: reopen banner + custom events ────────────── */
 document.addEventListener('click', (e) => {
-  const t = (e.target as Element).closest('[data-consent-reopen]');
-  if (!t) return;
-  e.preventDefault();
-  if (el) el.hidden = false;
+  const target = e.target as Element | null;
+  if (!target) return;
+
+  // Footer "Cookies" button reopens the banner.
+  if (target.closest('[data-consent-reopen]')) {
+    e.preventDefault();
+    if (banner) banner.hidden = false;
+    return;
+  }
+
+  const a = target.closest?.('a[href]') as HTMLAnchorElement | null;
+  if (!a) return;
+
+  const raw = a.getAttribute('href') || '';
+  if (raw.startsWith('mailto:')) {
+    track('generate_lead', { method: 'Email', link_url: raw });
+    return;
+  }
+
+  let path: string;
+  try {
+    path = new URL(a.href, location.href).pathname;
+  } catch {
+    return;
+  }
+  const m = path.match(/^\/work\/([^/]+)$/);
+  if (m) track('select_content', { content_type: 'case_study', content_id: m[1] });
 });
