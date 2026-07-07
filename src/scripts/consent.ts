@@ -21,8 +21,28 @@ function loadGA() {
     (window as any).dataLayer.push(args);
   }
   (window as any).gtag = gtag;
+  // Google Consent Mode grant. The GA4 property has container-scoped consent
+  // defaults (set in the Google tag settings) that leave analytics_storage
+  // ungranted, which in Basic Consent Mode BLOCKS the tag from firing at all —
+  // gtag loads but every hit (even page_view) is withheld. Our own banner is the
+  // consent gate: gtag only loads here AFTER the user clicked Accept, so we tell
+  // gtag analytics is granted. 'default' (before config) lets the first hit send;
+  // 'update' (after config) overrides any container-scoped default that arrives
+  // with the tag. Ads stay denied — this site runs no ads.
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'granted',
+  });
   gtag('js', new Date());
   gtag('config', GA);
+  gtag('consent', 'update', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'granted',
+  });
 }
 
 const el = document.getElementById('consent');
