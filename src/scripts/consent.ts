@@ -52,8 +52,15 @@ function loadGA(): void {
   w.__ga = true;
 
   w.dataLayer = w.dataLayer || [];
-  const gtag = (...args: unknown[]) => {
-    w.dataLayer!.push(args);
+  // gtag MUST push the `arguments` object itself, NOT a copied array. gtag.js
+  // only recognizes a command when it arrives as an arguments object; a real
+  // array (what a spread `(...args) => push(args)` produces) is silently
+  // ignored, so config/consent/events never process and nothing is ever sent.
+  // This was THE bug behind "GA records nothing". Must be a plain function
+  // (arrow functions have no `arguments`); typed variadic so the calls below
+  // type-check while `arguments` is what actually gets pushed.
+  const gtag: (...args: unknown[]) => void = function () {
+    w.dataLayer!.push(arguments);
   };
   w.gtag = gtag;
 
