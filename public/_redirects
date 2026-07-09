@@ -1,7 +1,12 @@
 # Cloudflare _redirects — one rule per line: <from> <to> <status>. First match wins,
-# so specific rules go ABOVE their wildcards. Pretty URLs and trailing slashes are
-# handled by the Worker, so they need no rules here. 301 = permanent (passes link
-# equity). Sources: old-site Search Console + legacy WordPress URLs.
+# so specific rules go ABOVE their wildcards. 301 = permanent (passes link equity).
+# Sources: old-site Search Console + legacy WordPress URLs.
+#
+# Trailing slashes: the Worker normalizes them for REAL pages (/work/ -> /work), but
+# NOT for redirect sources — a bare `/foo` rule does NOT match `/foo/`. Old WordPress
+# URLs were served WITH a trailing slash, so every vanity/project source below needs
+# an explicit `/foo/` twin or Google's crawled slash-form 404s. (Splat rules like
+# `/foo/*` already cover their own slash + subpaths, so they need no twin.)
 
 # --- Legacy sitemap files -> current sitemap index ---
 # The new site's sitemap is /sitemap-index.xml (was /sitemap.xml on the old site).
@@ -13,18 +18,28 @@
 /post_tag-sitemap.xml   /sitemap-index.xml   301
 /archives-sitemap.xml   /sitemap-index.xml   301
 
-# --- Old project URLs -> current case studies ---
+# --- Old project URLs -> current case studies (bare + trailing-slash twin) ---
 /sportime-social             /work/sportime-clubs   301
+/sportime-social/            /work/sportime-clubs   301
 /dealnews-website            /work/dealnews          301
+/dealnews-website/           /work/dealnews          301
 /dealnews-ui                 /work/dealnews          301
+/dealnews-ui/                /work/dealnews          301
 /work/dealnews-app           /work/dealnews          301
+/work/dealnews-app/          /work/dealnews          301
 /work/dealnews-marketplace   /work/dealnews          301
+/work/dealnews-marketplace/  /work/dealnews          301
 /work/jmtp-proam             /work/jmtp              301
+/work/jmtp-proam/            /work/jmtp              301
 /work/frc-history            /work/frc               301
+/work/frc-history/           /work/frc               301
 /work/raa-fii                /work/raa               301
+/work/raa-fii/               /work/raa               301
 /work/cloud9-the-ninth       /work/the-ninth         301
+/work/cloud9-the-ninth/      /work/the-ninth         301
 # /work/photography existed on the old site; there is no photography case study here.
 /work/photography            /work                   301
+/work/photography/           /work                   301
 
 # --- Old blog posts -> current journal posts (the blog route was renamed /journal) ---
 # The current journal set is 3 posts; legacy slugs map to the closest one by topic,
@@ -85,31 +100,56 @@
 /project-attributes/*   /work      301
 
 # --- Blog -> journal (catch-all; keep AFTER the specific /blog rules above) ---
-/blog        /journal          301
-/blog/*      /journal/:splat   301
+# Destination is the /journal INDEX, never /journal/:splat — journal slugs do NOT
+# match old blog slugs (only 3 posts exist), so :splat manufactured redirects to
+# non-existent /journal/<old-slug> pages (a 301 -> 404, worse than a plain 404).
+# This also catches every `.html` and trailing-slash blog form the bare specific
+# rules above miss; those land here on the valid index.
+/blog        /journal   301
+/blog/*      /journal   301
 
-# --- Old standalone pages ---
+# --- Old standalone pages (bare + trailing-slash twin) ---
 /services             /          301
+/services/            /          301
 /projects             /work      301
+/projects/            /work      301
 /reel                 /work      301
+/reel/                /work      301
 /home                 /          301
+/home/                /          301
 /sitemap.html         /          301
 /opt-out-preferences  /privacy   301
+/opt-out-preferences/ /privacy   301
 /privacy-policy       /privacy   301
+/privacy-policy/      /privacy   301
 # /concepts has no index page (the hubs live one level down at /concepts/<slug>/,
-# which are real pages and must NOT be redirected).
+# which are real pages and must NOT be redirected). The literal `/concepts/` twin
+# only matches /concepts/ exactly, never /concepts/level/, so the hubs are safe.
 /concepts             /work      301
+/concepts/            /work      301
 
-# --- Old WordPress portfolio/project pages -> closest case study ---
+# --- Old WordPress portfolio/project pages -> closest case study (bare + slash twin) ---
 /dealnews-subbrands    /work/dealnews           301
+/dealnews-subbrands/   /work/dealnews           301
 /dealnews-subsite      /work/dealnews           301
+/dealnews-subsite/     /work/dealnews           301
 /raa-branding          /work/raa                301
+/raa-branding/         /work/raa                301
 /sportime-pickleball   /work/sportime-clubs     301
+/sportime-pickleball/  /work/sportime-clubs     301
 /sportime-marketing    /work/sportime-clubs     301
+/sportime-marketing/   /work/sportime-clubs     301
 /jmta-marketing        /work/sportime-clubs     301
+/jmta-marketing/       /work/sportime-clubs     301
 /jmtp-marketing        /work/jmtp               301
+/jmtp-marketing/       /work/jmtp               301
 /srlc-marketing        /work/sr-love-and-care   301
+/srlc-marketing/       /work/sr-love-and-care   301
 /fiveeighty-animation  /work/agency-fiveeighty  301
+/fiveeighty-animation/ /work/agency-fiveeighty  301
 /frc-animation         /work/frc                301
+/frc-animation/        /work/frc                301
 /dealnews-app          /work/dealnews           301
+/dealnews-app/         /work/dealnews           301
 /jmta-campaigns        /work/sportime-clubs     301
+/jmta-campaigns/       /work/sportime-clubs     301
