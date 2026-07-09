@@ -9,7 +9,7 @@ Pratik Mehta's personal portfolio, rebuilt from scratch in **Astro**, launching 
 - **Framework:** Astro (TypeScript)
 - **Deploy:** Cloudflare Workers (page serving) via `@astrojs/cloudflare`
 - **Assets:** ALL assets live in this repo and are served same-origin by the Worker (which edge-caches globally). No external CDN / R2. Images go in `src/assets/` (run through Astro's pipeline: responsive widths, hashing, CLS-safe dims); files that can't be processed — video, fonts, favicons — go in `public/` (`/hero`, `/fonts`, etc.) and are served verbatim at the site root. Keep only web-optimized deliverables in the repo (webp / webm / ffmpeg mp4 / woff2); raw masters stay in `_reference/` (gitignored), never committed. Cloudflare's per-file cap on Worker static assets is 25 MiB — design large case-study video around it. (Historical: assets were briefly planned on R2 at `cdn.mehtapratik.com`; that was dropped — the asset volume never justified a separate bucket. Any lingering `cdn.mehtapratik.com` URL in code is stale and should become a local path.)
-- **Repo:** this is the NEW repo. The OLD site (hand-edited HTML/CSS/JS, teal/coral brand) still serves production from a separate repo + Worker.
+- **Repo:** this repo serves production at `mehtapratik.com` (post-cutover — see Deploy below). The OLD site (hand-edited HTML/CSS/JS, teal/coral brand) and its separate repo + Worker are retired.
 
 ## File & folder naming (one standard — follow for every new file)
 The project already runs on a consistent, per-layer convention. Match it; do not invent a new style.
@@ -34,10 +34,10 @@ dash (`case-study-assets`, `general-sans`), never Title-Case or camelCase.
 case-only rename — do it through a temp name (`mv Foo Foo__tmp && mv Foo__tmp foo`), and never create
 a lowercase twin of an existing dir before removing the original (a later `rm -rf` deletes both).
 
-## Deploy safety (do not violate)
-- Build and deploy to the **staging** Worker / `*.workers.dev` URL only.
-- `mehtapratik.com` is served by the OLD deployment. **Do not touch the live domain, the old repo, or the old Worker.**
-- The domain cutover from old to new is a **manual human step** Pratik takes in the Cloudflare dashboard when the new site is proven. It is never part of a build task.
+## Deploy (cutover complete)
+- **The cutover is done:** `mehtapratik.com` now serves THIS repo (the new Astro / One System site). The old hand-edited site and its separate repo + Worker are retired. (Pre-cutover this section read "the live domain is served by the OLD deployment; deploy only to a `*.workers.dev` staging URL" — that was the migration-phase rule and no longer applies.)
+- **Deploys are now live-facing.** Pratik deploys manually; a push to `main` is NOT an auto-deploy, so pushing code and shipping it are separate steps. Because a deploy reaches the production domain, validate on a local/preview build first (`npm run build` / `npm run preview`).
+- SEO migration artifacts now govern the live domain: `public/_redirects` (old-URL 301s — redirect *sources* need explicit trailing-slash twins, e.g. both `/foo` and `/foo/`, because the Worker only normalizes trailing slashes for real pages, not redirect sources), `public/robots.txt`, and the generated `sitemap-index.xml`.
 
 ## Non-negotiable content rules
 - **Never invent** metrics, clients, roles, revenue, awards, responsibilities, outcomes, or claims. If a fact is missing or uncertain, say so and leave a clear TODO. Do not fill gaps with plausible-sounding numbers.

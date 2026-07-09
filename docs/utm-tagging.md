@@ -83,6 +83,42 @@ any single week is anecdote.
 
 ---
 
+## GA4 setup: one required step + three saved Explorations
+
+GA4 collects the `utm_*` params automatically (they map to Session source / medium /
+campaign / manual ad content). Two things make that data actually usable.
+
+### Required: mark `generate_lead` as a Key event
+`consent.ts` fires `generate_lead` on mailto clicks, but a custom event does nothing until
+it's flagged as a conversion. **Admin → Events (Key events)** → toggle **`generate_lead`** on.
+The event only appears in that list after it has fired at least once, so if it's missing,
+click a mailto link on the live site (with consent granted), wait a few minutes, then toggle.
+Until this is on, you can count emails but can't cross them against source/medium.
+
+### Explorations (Explore tab → Blank; each is a saved Free-form table, 28-day range)
+
+The Explore canvas has three columns: **Variables** (import dimensions/metrics via the `+`),
+**Settings** (drag them into Rows / Values / Filters), and the live table.
+
+1. **Channel Scoreboard** — *which channel sends people who email you.*
+   Rows: `Session source / medium`. Values: `Sessions`, `Engaged sessions`, `Key events`,
+   `Session key event rate`. Sort by Key events. (`Key events` == `generate_lead` while it's
+   the only Key event; if you add another, swap to `Event count` filtered to `generate_lead`.)
+2. **Application Tracker** — *which specific application drove a visit or reply.*
+   Rows: `Session campaign` (your `<company>-application` tags). Values: `Sessions`,
+   `Engaged sessions`, `Key events`. Filter out `not set` / `direct` on Session campaign.
+3. **Case Study Interest** — *which work gets opened, and from where.*
+   Rows: `Page path and screen class` (then `Session source / medium` nested below).
+   Values: `Views`, `Sessions`, `Key events`. Filter: Page path **begins with** `/work/`.
+   (Upgrade: register `content_id` as an event-scoped custom dimension to slice by the
+   `select_content` event directly instead of by page path.)
+
+Realtime / DebugView confirm UTMs land immediately; standard reports and Explorations lag
+24–48h. Note the consent gate: visitors who decline the cookie banner never fire GA4, so
+these counts undercount real traffic — read trends, not absolutes.
+
+---
+
 ## Related
 
 - GA4 install + custom events (`generate_lead`, `select_content`) live in

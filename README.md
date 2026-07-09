@@ -24,7 +24,7 @@ npm run check    # astro check (types + content)
 src/
   content/
     work/          # case studies (one .md per project; typed by content.config.ts)
-    journal/       # journal posts (empty until launch)
+    journal/       # journal posts (live: notes on systems, brand, AI)
   content.config.ts# zod schemas + the build guardrail
   pages/           # routes: home, /work, /work/[slug], /about, /resume, /brand, /journal, /contact
   components/      # shared pieces (WorkIndex, Scoreboard, ProofBox, OutputGrid, ...)
@@ -70,7 +70,7 @@ node scripts/fonts/subset.mjs
 
 ## Deploy
 
-Builds and deploys go to the **staging** Worker / `*.workers.dev` URL only. The live domain (`mehtapratik.com`) is still served by the previous site; the cutover from old to new is a **manual step** taken in the Cloudflare dashboard once the new site is proven. It is never part of a build task.
+The cutover is complete: `mehtapratik.com` now serves this repo (the previous hand-edited site and its separate Worker are retired). Deploys are live-facing and done manually; a push to `main` is not an auto-deploy, so shipping code is a separate step. Validate on a local/preview build (`npm run build` / `npm run preview`) before deploying. SEO migration artifacts (`public/_redirects`, `public/robots.txt`, generated `sitemap-index.xml`) now govern the live domain.
 
 ## Operating contract
 
