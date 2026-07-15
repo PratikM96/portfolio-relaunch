@@ -2,11 +2,16 @@
  * Site-wide chrome behaviour: theme toggle, live-OS-theme follow, mobile
  * drawer, NY clock, generic reveal-on-scroll, and rail scroll-spy.
  *
- * Bundled (not is:inline): ~4.4 KB that previously re-shipped verbatim into
- * every page now loads once as a hashed, cached module. None of this must run
- * before paint — the no-flash theme set is the only pre-paint script and stays
- * inline in Base.astro's <head>. Deferred execution (after DOM parse) is fine
- * and slightly safer, since every element these query already exists.
+ * A bundled module, so the source lives here rather than being re-typed into
+ * each page. Note it does NOT ship as a separate cached file: bundled with
+ * consent.ts it lands ~3.6 KB, under Vite's 4096-byte assetsInlineLimit, so
+ * Vite inlines it into all 23 pages. See the note in Base.astro before
+ * "optimizing" that either way.
+ *
+ * None of this must run before paint — the no-flash theme set is the only
+ * pre-paint script and stays inline in Base.astro's <head>. Deferred execution
+ * (after DOM parse) is fine and slightly safer, since every element these query
+ * already exists.
  */
 const root = document.documentElement;
 const themeBtns = Array.prototype.slice.call(

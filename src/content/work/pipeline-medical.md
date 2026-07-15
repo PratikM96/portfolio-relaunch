@@ -111,7 +111,6 @@ reflection:
       label: "Earliest proof"
       text: "Brand and product as one build."
 
-next: { kicker: "Next case study · Client", title: "Agency FiveEighty", href: "/work/agency-fiveeighty" }
 
 proof:
   figures:

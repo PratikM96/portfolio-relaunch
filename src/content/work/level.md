@@ -74,7 +74,6 @@ reflection:
       label: "Self-initiated"
       text: "Own invented brand. No users, revenue, or engagement claimed."
 
-next: { kicker: "Next case study · Concept", title: "WISP", href: "/work/wisp" }
 
 proof:
   figures:

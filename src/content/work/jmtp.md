@@ -102,7 +102,6 @@ reflection:
       label: "Inside SPORTIME"
       text: "The craft work alongside the brand systems."
 
-next: { kicker: "Next case study · Client", title: "SPORTIME Clubs", href: "/work/sportime-clubs" }
 
 proof:
   figures:

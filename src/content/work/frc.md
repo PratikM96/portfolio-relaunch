@@ -79,7 +79,6 @@ reflection:
       label: "The point"
       text: "Social held to a funnel and a forecast."
 
-next: { kicker: "Next case study · Client", title: "SR Love and Care", href: "/work/sr-love-and-care" }
 
 proof:
   figures:

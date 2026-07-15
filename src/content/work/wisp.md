@@ -73,7 +73,6 @@ reflection:
       label: "Self-initiated"
       text: "Own brand. A scripted demo, not a live model. No results claimed."
 
-next: { kicker: "Next case study · Client", title: "SPORTIME Clubs", href: "/work/sportime-clubs" }
 
 proof:
   figures:

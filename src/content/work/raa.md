@@ -115,7 +115,6 @@ reflection:
       label: "Why it holds"
       text: "One asset-family system, every medium."
 
-next: { kicker: "Next case study · Client", title: "Pipeline Medical", href: "/work/pipeline-medical" }
 
 proof:
   figures:

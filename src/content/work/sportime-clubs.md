@@ -137,7 +137,6 @@ reflection:
       label: "How it ran"
       text: "One central strategy, executed per club."
 
-next: { kicker: "Next case study · Concept", title: "The Ninth", href: "/work/the-ninth" }
 
 proof:
   figures:

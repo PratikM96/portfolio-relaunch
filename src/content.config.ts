@@ -6,7 +6,7 @@ import { glob } from 'astro/loaders';
  *
  * `work` is the canonical case-study list. The schema below is the build-spec
  * sketch extended with the structured section data both templates already use,
- * so /work/[slug] can render the SPORTIME (client) and The Ninth (concept)
+ * so /work/[slug] can render SPORTIME (in-house) and The Ninth (concept)
  * pages identically from data. A required field that is missing or wrong-shaped
  * FAILS THE BUILD rather than shipping empty:
  *   - every entry MUST carry at least one proof figure (proof.figures.min(1))
@@ -221,7 +221,10 @@ const work = defineCollection({
         })
         .optional(),
       reflection: proseSection,
-      next: z.object({ kicker: z.string(), title: z.string(), href: z.string() }),
+      // (No `next` field: the footer's next-case link is computed from the /work
+      // page order in [slug].astro, not authored per entry. A required `next`
+      // block used to sit here, unread by any template, quietly holding stale
+      // "Next case study · Client" labels. Don't reintroduce it.)
 
       // --- proof (one uniform shape for every entry; no metric vs scope split) ---
       // Every entry must carry at least one proof figure. The non-empty `figures`

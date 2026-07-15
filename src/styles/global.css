@@ -232,7 +232,7 @@ img { display: block; max-width: 100%; }
 .btn-g:hover { border-color: var(--text); }
 
 /* ===== themed placeholder images =====
-   Shown until real media lands from R2. Rendered as a background-image so the
+   Shown until real media lands. Rendered as a background-image so the
    variant swaps with the active [data-theme] (dark default, light override);
    only the matched variant is fetched. Pair a ratio class with .ph-bg, and add
    .ph-fill to make it fill an aspect-ratio container. */

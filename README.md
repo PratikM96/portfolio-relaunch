@@ -54,9 +54,12 @@ docs/
   utm-tagging.md     # UTM conventions + GA4 notes
 ```
 
-Site-wide client behaviour is bundled, not inlined: only the pre-paint no-flash
-theme set is `is:inline` in `Base.astro`; everything else (`consent.ts`,
-`site-chrome.ts`, `card-video.ts`, `motion.ts`) is a hoisted, cached module.
+Site-wide client behaviour lives in `src/scripts/` (`consent.ts`,
+`site-chrome.ts`, `card-video.ts`, `motion.ts`) rather than being re-typed per
+page; the only hand-written inline script is the pre-paint no-flash theme set in
+`Base.astro`. Whether a given bundle ships inline or as a hashed `/_astro/` file
+is decided by Vite's 4 KB `assetsInlineLimit`, so check a real build rather than
+assuming either.
 
 ## Adding a case study
 

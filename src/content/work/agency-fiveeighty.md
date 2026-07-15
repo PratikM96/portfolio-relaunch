@@ -119,7 +119,6 @@ reflection:
       label: "Earliest craft"
       text: "Broadcast standard, agency speed."
 
-next: { kicker: "Next case study · Client", title: "The Forest Road Company", href: "/work/frc" }
 
 proof:
   figures:

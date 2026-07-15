@@ -86,7 +86,7 @@ const nav = [
 const year = 2026; // static; avoids per-request Date() in the worker
 
 // Absolute URLs for canonical + share cards. Astro.site is the production
-// domain, so these read mehtapratik.com even when the build is served from staging.
+// domain, so these read mehtapratik.com even from a local preview build.
 // Strip the .html that the 'file' build format leaves on Astro.url.pathname,
 // and collapse index/root, so canonical + og:url match how Cloudflare serves
 // these: no extension, no trailing slash (e.g. /work/dealnews, / for home).
@@ -369,11 +369,19 @@ const ldGraph = {
       .foot-cookies:hover { color: var(--text); }
     </style>
     {/* Consent/GA gate + site chrome (theme toggle, drawer, NY clock,
-        reveal-on-scroll, rail scroll-spy). Bundled module scripts, NOT
-        is:inline: Astro hoists both imports into one hashed, cached file
-        shared across the whole site instead of re-emitting ~5.8 KB of JS into
-        every page's HTML. The only pre-paint script is the no-flash theme set
-        above, which stays inline. */}
+        reveal-on-scroll, rail scroll-spy). Written as ONE bundled module so the
+        source lives in src/scripts/, not re-typed per page. The only pre-paint
+        script is the no-flash theme set above, which stays inline by necessity.
+
+        Where it lands: Astro bundles these two imports, then Vite INLINES the
+        result into every page because it is ~3.6 KB, under Vite's 4096-byte
+        assetsInlineLimit. It is NOT a shared /_astro/ file, despite what this
+        comment used to claim — verify with `npm run build` before trusting
+        either story. Fine as-is: one fewer request, and it compresses to ~1 KB
+        a page. But it is a threshold, not a decision, so this silently flips to
+        a hoisted, cached file the moment the bundle crosses 4 KB. The other
+        modules (motion, card-video, and the per-page scripts) are over the
+        line and DO hoist. */}
     <script>
       import '../scripts/consent.ts';
       import '../scripts/site-chrome.ts';

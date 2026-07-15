@@ -124,7 +124,6 @@ reflection:
       label: "How it ran"
       text: "One owner, every surface."
 
-next: { kicker: "Next case study · Client", title: "Richard Attias & Associates", href: "/work/raa" }
 
 proof:
   figures:

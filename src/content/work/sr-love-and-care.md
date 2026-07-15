@@ -130,7 +130,6 @@ reflection:
       label: "The bridge"
       text: "Where code turned into design and marketing."
 
-next: { kicker: "Next case study · Client", title: "Johnny Mac Tennis Project", href: "/work/jmtp" }
 
 proof:
   figures:

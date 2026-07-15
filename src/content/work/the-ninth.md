@@ -77,7 +77,6 @@ reflection:
       label: "Live demo"
       text: "Five views, open any tab to launch."
 
-next: { kicker: "Next case study · Client", title: "SPORTIME Clubs", href: "/work/sportime-clubs" }
 
 proof:
   figures:

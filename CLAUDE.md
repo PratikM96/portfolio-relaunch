@@ -125,12 +125,18 @@ embedding **and** modification (subsetting is modification).
   yes, **modification no**. They ship verbatim as downloaded. Never add them to
   `subset.mjs`.
 
-**Client JS is bundled, not inlined.** Only the pre-paint no-flash theme set is
-`is:inline` in `Base.astro` (plus the JSON-LD block, which isn't behavior).
-Everything else is a hoisted, cached module: `src/scripts/consent.ts` (GA4
+**Client JS lives in `src/scripts/`, never re-typed per page.** `consent.ts` (GA4
 consent gate), `site-chrome.ts` (theme, drawer, clock, reveal, scroll-spy),
-`motion.ts` and `card-video.ts` (all video behavior). Don't re-inline these or
-re-implement video/reveal per page.
+`motion.ts` and `card-video.ts` (all video behavior). Don't re-implement
+video/reveal per page. The only hand-written inline script is the pre-paint
+no-flash theme set in `Base.astro` (the JSON-LD block is data, not behavior).
+
+Where those bundles *land* is Vite's call, not a decision: anything under its
+4096-byte `assetsInlineLimit` gets inlined into every page; anything over is
+emitted as a hashed, cached `/_astro/` file. Today `consent + site-chrome` is
+~3.6 KB and inlines into all 23 pages; `motion` and `card-video` hoist. That
+means it flips silently when a bundle crosses 4 KB. **Don't assert which side a
+script is on — run `npm run build` and look.**
 
 **Shared primitives live in `global.css`,** promoted out of per-page styles so
 they can't drift: `.card` / `.card--interactive`, `.badge` / `.badge-lg`,

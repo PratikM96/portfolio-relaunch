@@ -5,7 +5,8 @@
  * body, and an optional margin (pull-quote + related note). Reuses the case-study
  * rail variant (back link + meta lines), so no new Base variant is needed.
  *
- * Generates no pages until the first post lands under src/content/journal/.
+ * One page per non-draft entry under src/content/journal/; none if there are
+ * none.
  */
 import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
