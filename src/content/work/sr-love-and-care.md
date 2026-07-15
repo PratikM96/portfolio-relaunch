@@ -1,10 +1,12 @@
 ---
 # SR Love and Care - content entry (refit). Drop-in for src/content/work/sr-love-and-care.md
-# Client, volunteer. Leadership/handoff proof. Short. No em/en dashes.
+# In-house (self-initiated nonprofit, volunteer). Leadership/handoff proof. Short. No em/en dashes.
 title: SR Love and Care
 slug: sr-love-and-care
-type: client
-role: Marketing and Design Team Lead
+type: in-house
+# Volunteer per the Resume Master ("Volunteer · New York"). Disclosed here in the
+# role, the way the two internships are — the badge carries engagement, not type.
+role: Marketing and Design Team Lead (Volunteer)
 year: "2016-2020"
 disciplines: [Social, Design, Leadership]
 cover: "" # [NEEDS: cover image url]
@@ -14,7 +16,7 @@ coverAlt: "Volunteer marketing and design team"
 coverCaption: "SR Love and Care · volunteer team"
 featured: false
 description: "Built, scaled, and handed off a volunteer marketing and design team for a global humanitarian nonprofit."
-badge: "Client · Leadership"
+badge: "In-house · Leadership"
 lede: "Built and handed off a volunteer design team for a global humanitarian nonprofit."
 
 hero:

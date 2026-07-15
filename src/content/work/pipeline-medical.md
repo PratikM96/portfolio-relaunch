@@ -4,7 +4,7 @@
 # messaging. Scope-rich role: margins lean qualitative. No em/en dashes.
 title: Pipeline Medical
 slug: pipeline-medical
-type: client
+type: in-house
 role: Designer (Internship)
 year: "2017"
 disciplines: [Brand, UI/UX, Product]
@@ -16,7 +16,7 @@ coverCaption: "Pipeline Medical · brand & B2B marketplace"
 heroVideo: true # files at /hero/pipeline-medical/ (see docs/hero-pipeline.md)
 featured: false
 description: "Brand and a B2B supplier marketplace built from zero, logo system, core procurement screens, and developer handoff."
-badge: "Client · Brand & Product"
+badge: "In-house · Brand & Product"
 lede: "Brand identity and a B2B supplier marketplace, designed from zero."
 
 hero:

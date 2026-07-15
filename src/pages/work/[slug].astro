@@ -21,6 +21,7 @@ import Decisions from '../../components/Decisions.astro';
 import OutputGrid from '../../components/OutputGrid.astro';
 import ProofBox from '../../components/ProofBox.astro';
 import EmbeddedDemo from '../../components/EmbeddedDemo.astro';
+import { TYPE_LABEL, TYPE_SCOREBOARD, isConceptType } from '../../lib/work-type';
 
 export const getStaticPaths = (async () => {
   // Same order as the /work index (featured first, then title) so the footer
@@ -42,11 +43,11 @@ const { entry, nextEntry } = Astro.props;
 const d = entry.data;
 // Footer "next" is computed from the work-page order, not the entry frontmatter.
 const csNext = {
-  kicker: `Next case study · ${nextEntry.type === 'client' ? 'Client' : 'Concept'}`,
+  kicker: `Next case study · ${TYPE_LABEL[nextEntry.type]}`,
   title: nextEntry.title,
   href: `/work/${nextEntry.slug}`,
 };
-const isClient = d.type === 'client';
+const isConcept = isConceptType(d.type);
 
 // Hero video (optional): files are convention-located by slug, so a case study
 // opts in with `heroVideo: true` and drops the three files in /hero/<slug>/.
@@ -71,7 +72,7 @@ const hasDemo = !!d.demo;
 const hasOutputSection = hasOutput || hasDemo;
 // Hero cover wall: shown only for a real cover image or hero video. Concepts have
 // neither, so the empty placeholder wall (16:9 box + caption) is dropped for them.
-const showHeroWall = isClient || !!heroVideo || !!d.cover;
+const showHeroWall = !isConcept || !!heroVideo || !!d.cover;
 
 // Rail (case-study variant) — spine numbered dynamically so Output can drop out.
 const spine = ['problem', 'system', 'decisions', ...(hasOutputSection ? ['output'] : []), 'proof', 'reflection'];
@@ -85,14 +86,14 @@ const sections = spine
 // A year range (more than one 4-digit year) pluralizes the rail label.
 const isYearRange = (d.year.match(/\d{4}/g)?.length ?? 0) > 1;
 const scoreboard = [
-  { k: 'Type', v: isClient ? 'Client' : 'Concept · self-initiated', client: isClient },
+  { k: 'Type', v: TYPE_SCOREBOARD[d.type], accent: !isConcept },
   { k: 'Role', v: d.role },
   { k: isYearRange ? 'Years' : 'Year', v: d.year },
 ];
 
-const pageTitle = isClient
-  ? `${d.title} · Case study · Pratik Mehta`
-  : `${d.title} · Case study · concept · Pratik Mehta`;
+const pageTitle = isConcept
+  ? `${d.title} · Case study · concept · Pratik Mehta`
+  : `${d.title} · Case study · Pratik Mehta`;
 
 // Structured data — CreativeWork + breadcrumb (author/publisher reference the site graph in Base).
 const origin = Astro.site ? Astro.site.origin : 'https://mehtapratik.com';
@@ -137,7 +138,7 @@ const schema = [
 >
   {/* SCOREBOARD HERO */}
   <header class="cs-hero">
-    <span class:list={['badge', 'badge-lg', isClient ? 'client' : 'concept', 'rev-load']}>{d.badge}</span>
+    <span class:list={['badge', 'badge-lg', d.type, 'rev-load']}>{d.badge}</span>
     <h1 class="rev-load">{d.title}</h1>
     <p class="descr rev-load">{d.lede}</p>
     {d.disclosure && <p class="cs-disclosure rev-load">{d.disclosure}</p>}
@@ -255,7 +256,7 @@ const schema = [
 <style>
   /* ===== SCOREBOARD HERO ===== */
   .cs-hero { padding: 96px 0 56px; }
-  /* .badge / .badge-lg / client / concept come from global.css */
+  /* .badge / .badge-lg / in-house / agency / concept come from global.css */
   .cs-hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(44px, 6.5vw, 86px); line-height: 0.95; letter-spacing: -0.035em; margin: 22px 0 0; }
   .cs-hero .descr { font-size: 20px; line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: 26px; }
   /* non-affiliation disclosure — a visible bordered notice, not a footnote */

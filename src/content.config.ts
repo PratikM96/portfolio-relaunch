@@ -152,7 +152,11 @@ const work = defineCollection({
       // --- identity / facet (build-spec core) ---
       title: z.string(),
       slug: z.string(),
-      type: z.enum(['client', 'concept']), // drives the visible facet + filtering
+      // Engagement facet — drives the visible badge + filtering, and gates the
+      // proof rule (concept = scope only, never results). See src/lib/work-type.ts
+      // for why this is not `client`: every non-concept entry is a role held, not
+      // a client engagement.
+      type: z.enum(['in-house', 'agency', 'concept']),
       role: z.string(), // rail scoreboard Role
       year: z.string(), // rail scoreboard Year
       disciplines: z.array(z.string()),

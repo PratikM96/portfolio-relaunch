@@ -3,7 +3,7 @@
 # All copy final/verified. Cover image + alt are Pratik's to supply. No em/en dashes anywhere (hyphens only).
 title: SPORTIME Clubs
 slug: sportime-clubs
-type: client
+type: in-house
 role: Marketing Manager
 year: "2023-2024"
 disciplines: [Brand, Social, Content, Motion, Photo]
@@ -15,7 +15,7 @@ cardVideo: true # hover-to-play logo animation at /wc/sportime-clubs/ (see docs/
 cardVideoLight: true # light-theme export exists at /wc/sportime-clubs/card-light.*
 featured: true
 description: "A video-first content engine across tennis, pickleball, and a $75M expansion. 11.7M cross-platform impressions in a year."
-badge: "Client · Brand & Content"
+badge: "In-house · Brand & Content"
 lede: "Brand and a video-first content engine across tennis, pickleball, and the marketing built around a $75M expansion."
 
 hero:

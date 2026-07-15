@@ -4,7 +4,7 @@
 # Location omitted per masters (FII 2019 named, city not). No em/en dashes.
 title: Richard Attias & Associates
 slug: raa
-type: client
+type: agency
 role: Associate Designer
 year: "2019"
 disciplines: [Print, Environmental, Digital, Brand]
@@ -16,7 +16,7 @@ coverCaption: "FII 2019 · design platform"
 heroVideo: true # files at /hero/raa/ (see docs/hero-pipeline.md)
 featured: false
 description: "Environmental, print, and digital production for the FII 2019 global forum, around 300 digital assets across 5 asset families."
-badge: "Client · Production Design"
+badge: "Agency · Production Design"
 lede: "High-volume design across digital, print, and environmental for the FII 2019 global forum."
 
 hero:

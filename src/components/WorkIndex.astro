@@ -13,6 +13,7 @@
  * SectionLabel; /work puts its page head + featured pair above it).
  */
 import type { CollectionEntry } from 'astro:content';
+import { TYPE_LABEL } from '../lib/work-type';
 
 interface Props {
   entries: CollectionEntry<'work'>[];
@@ -59,7 +60,8 @@ const first = projects[0]!;
   <span id="fstatus" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></span>
   <button class="on" data-f="all" aria-pressed="true">All</button>
   <span class="div"></span>
-  <button data-f="client" aria-pressed="false">Client</button>
+  <button data-f="in-house" aria-pressed="false">In-house</button>
+  <button data-f="agency" aria-pressed="false">Agency</button>
   <button data-f="concept" aria-pressed="false">Concept</button>
   {disciplines && (
     <Fragment>
@@ -86,7 +88,7 @@ const first = projects[0]!;
         <span class="ix">{p.n}</span>
         <span class="nm">
           <b>{p.name}</b>
-          <span class:list={['ty', p.type === 'client' && 'client']}>{p.type === 'client' ? 'Client' : 'Concept'}</span>
+          <span class:list={['ty', p.type]}>{TYPE_LABEL[p.type]}</span>
         </span>
         <span class="disc">{p.disc}</span>
         <span class="yr">{p.year}</span>
@@ -227,7 +229,8 @@ const first = projects[0]!;
   .idx-row .nm b { font-family: var(--font-sans); font-weight: 600; font-size: 20px; letter-spacing: -.015em; color: var(--text-secondary); transition: color .2s var(--ease-standard); }
   .idx-row:hover .nm b, .idx-row.active .nm b { color: var(--text); }
   .idx-row .nm .ty { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 6px; border-radius: var(--radius-none); border: 1px solid var(--border-strong); color: var(--text-muted); }
-  .idx-row .nm .ty.client { color: var(--accent-text); border-color: rgba(255, 90, 31, .35); }
+  /* real work carries the signal accent; concept scope stays neutral (CLAUDE.md) */
+  .idx-row .nm .ty.in-house, .idx-row .nm .ty.agency { color: var(--accent-text); border-color: rgba(255, 90, 31, .35); }
   .idx-row .disc { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); }
   .idx-row .yr { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); text-align: right; }
   .idx-empty { padding: 28px 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); }

@@ -60,7 +60,9 @@ theme set is `is:inline` in `Base.astro`; everything else (`consent.ts`,
 
 ## Adding a case study
 
-Drop a markdown file in `src/content/work/`. The frontmatter is typed and validated by `src/content.config.ts`; the build fails if an entry is missing required fields (every entry needs at least one proof figure). The same template renders both client and concept work. Client proof is a verified metric; concept proof is scope only, never performance results.
+Drop a markdown file in `src/content/work/`. The frontmatter is typed and validated by `src/content.config.ts`; the build fails if an entry is missing required fields (every entry needs at least one proof figure). One template renders every entry.
+
+`type` is the engagement facet (`in-house` / `agency` / `concept`, see `src/lib/work-type.ts`) and drives the badge, the filters, and the proof rule: real work carries verified metrics, concepts carry scope only and never claim results. Employment type (Internship, Volunteer) belongs in the scoreboard `role` field, not the badge.
 
 Optional per-entry media is opt-in and convention-located by slug (no paths in content): `heroVideo: true` adds a click-to-play case-study hero, and `cardVideo: true` (plus `cardVideoLight: true` for a light-theme variant) adds a hover-to-play logo animation on the work index. See `docs/hero-pipeline.md` and `docs/work-card-video.md` for the encode recipes.
 

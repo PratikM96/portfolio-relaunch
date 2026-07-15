@@ -4,7 +4,7 @@
 # system, landing-page conv in reflection, performance results in ProofBox. No em/en dashes.
 title: DealNews
 slug: dealnews
-type: client
+type: in-house
 role: Social and Graphic Manager
 year: "2020-2022"
 disciplines: [Brand, Social, Design, Paid]
@@ -16,7 +16,7 @@ coverCaption: "DealNews · in-house social, paid, and design"
 heroVideo: true # files at /hero/dealnews/ (see docs/hero-pipeline.md)
 featured: false
 description: "Social, paid media, and in-house design across web, app, and marketing collateral for an ecommerce deals brand."
-badge: "Client · Social & Design"
+badge: "In-house · Social & Design"
 lede: "In-house social, paid, and design for an ecommerce deals brand, run end to end by one person."
 
 hero:

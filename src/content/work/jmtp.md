@@ -4,7 +4,7 @@
 # distinct from the SPORTIME brand-system entry. Cover + assets still Pratik's to supply. No em/en dashes.
 title: Johnny Mac Tennis Project
 slug: jmtp
-type: client
+type: in-house
 role: Marketing Manager, SPORTIME
 year: "2023-2024"
 disciplines: [Photography, Video, Event]
@@ -16,7 +16,7 @@ coverCaption: "Johnny Mac Tennis Project · fundraiser production"
 heroVideo: true # files at /hero/jmtp/ (see docs/hero-pipeline.md)
 featured: false
 description: "Photography, video, and event production for the Johnny Mac Tennis Project, SPORTIME's nonprofit."
-badge: "Client · Photo, Video & Event"
+badge: "In-house · Photo, Video & Event"
 lede: "Photography, video, and event production for the Johnny Mac Tennis Project, SPORTIME's nonprofit."
 
 hero:

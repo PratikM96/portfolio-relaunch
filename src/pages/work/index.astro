@@ -12,6 +12,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import WorkIndex from '../../components/WorkIndex.astro';
+import { TYPE_LABEL } from '../../lib/work-type';
 
 const entries = (await getCollection('work')).sort((a, b) => {
   if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
@@ -47,18 +48,18 @@ const featured = entries
   }));
 ---
 
-<Base title="Work · Pratik Mehta" image="/og/work.png" description="Client and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work">
+<Base title="Work · Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work">
   <header class="phead">
     <div class="page-kicker">[ Work ] · {count} {count === 1 ? 'project' : 'projects'} · {yearRange}</div>
     <h1 class="rev page-h1">The work,<br />as <span class="signal">one index.</span></h1>
-    <p class="rev">Client and concept, filterable by type and discipline. Pick the two or three that answer your question. Each one opens to a full case study.</p>
+    <p class="rev">In-house, agency, and concept, filterable by type and discipline. Pick the two or three that answer your question. Each one opens to a full case study.</p>
   </header>
 
   {/* featured pair */}
   <section class="feat rev">
     {featured.map((p) => (
       <a class="card card--interactive fcard" href={p.href}>
-        <span class:list={['badge', p.type === 'client' ? 'client' : 'concept']}>{p.type === 'client' ? 'Client' : 'Concept'}</span>
+        <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
         <div class="im">
           {p.cover ? <img src={p.cover} alt={p.name} /> : <div class="ph-fill ph-bg ph-16x10" />}
           {p.video && (
@@ -117,7 +118,7 @@ const featured = entries
   .fcard .yr { font-family: var(--font-mono); font-size: 12px; color: var(--accent-text); margin-top: 6px; display: block; }
   .fcard p { font-size: 13.5px; color: var(--text-secondary); margin-top: 10px; max-width: 42ch; }
   .fcard .disc { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
-  /* .badge / .badge.client / .badge.concept come from global.css */
+  /* .badge / .badge.in-house / .badge.agency / .badge.concept come from global.css */
 
   @media (max-width: 1100px) {
     .feat { grid-template-columns: 1fr; }

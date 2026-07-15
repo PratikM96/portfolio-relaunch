@@ -151,7 +151,7 @@ img { display: block; max-width: 100%; }
 .console .scoreboard .line { display: flex; flex-direction: column; gap: 3px; }
 .console .scoreboard .line .k { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); }
 .console .scoreboard .line .v { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.02em; color: var(--text-secondary); }
-.console .scoreboard .line .v.client { color: var(--accent-text); }
+.console .scoreboard .line .v.accent { color: var(--accent-text); }
 .console.cs .scoreboard .tg { margin-top: 14px; }
 .tg .tgk { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); margin-right: 2px; }
 
@@ -195,10 +195,12 @@ img { display: block; max-width: 100%; }
 .tag { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: 4px 8px; }
 .tag.acc { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 40%, transparent); }
 
-/* Client/concept corner badge overlaid on a card cover (blurred backdrop).
-   .badge-lg is the static, larger case-study-hero variant (not over media). */
+/* Engagement corner badge (in-house / agency / concept) overlaid on a card cover
+   (blurred backdrop). .badge-lg is the static, larger case-study-hero variant
+   (not over media). Real work carries the signal accent; concept scope never
+   does — see CLAUDE.md and src/lib/work-type.ts. */
 .badge { position: absolute; top: 16px; left: 16px; z-index: 2; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 8px; border-radius: var(--radius-none); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-.badge.client { background: color-mix(in srgb, var(--accent-fill) 16%, transparent); color: var(--accent-text); border: 1px solid color-mix(in srgb, var(--accent-fill) 40%, transparent); }
+.badge.in-house, .badge.agency { background: color-mix(in srgb, var(--accent-fill) 16%, transparent); color: var(--accent-text); border: 1px solid color-mix(in srgb, var(--accent-fill) 40%, transparent); }
 .badge.concept { background: var(--badge-concept-bg); color: var(--badge-concept-tx); border: 1px solid var(--border-strong); }
 .badge-lg { position: static; top: auto; left: auto; display: inline-block; font-size: 10.5px; padding: 5px 10px; backdrop-filter: none; -webkit-backdrop-filter: none; }
 

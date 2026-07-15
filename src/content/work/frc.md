@@ -3,7 +3,7 @@
 # Client. Real performance results. Framed as B2B social/reporting, not finance messaging. No em/en dashes.
 title: The Forest Road Company
 slug: frc
-type: client
+type: in-house
 role: Social Media Director
 year: "2022"
 disciplines: [Social, Paid, Content, Strategy]
@@ -18,7 +18,7 @@ coverAlt: "Forest Road Company brand history film"
 coverCaption: "The Forest Road Company · B2B social"
 featured: false
 description: "Social media direction, paid campaigns, and executive reporting for a media-finance firm."
-badge: "Client · Social & Paid"
+badge: "In-house · Social & Paid"
 lede: "Social direction and B2B campaigns for a media-finance firm, tracked and reported to senior leadership."
 
 hero:

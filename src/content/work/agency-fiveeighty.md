@@ -3,7 +3,7 @@
 # Client, internship. Agency production contribution (not sole authorship). Proof is scope. No em/en dashes.
 title: Agency FiveEighty
 slug: agency-fiveeighty
-type: client
+type: agency
 role: Graphic and Motion Designer (Internship)
 year: "2018-2019"
 disciplines: [Motion, Broadcast, Design]
@@ -15,7 +15,7 @@ coverCaption: "Agency FiveEighty · broadcast motion"
 heroVideo: true # files at /hero/agency-fiveeighty/ (see docs/hero-pipeline.md)
 featured: false
 description: "Broadcast motion and title sequences for agency campaigns including Spectrum, the New York Jets, and Coca-Cola."
-badge: "Client · Motion & Broadcast"
+badge: "Agency · Motion & Broadcast"
 lede: "Broadcast-ready motion and title sequences at an agency, on campaigns for Spectrum, the New York Jets, Coca-Cola, and FISLL."
 
 hero:

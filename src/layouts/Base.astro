@@ -21,7 +21,9 @@ import '../styles/global.css';
 import Brandmark from '../components/Brandmark.astro';
 
 type RailSection = { ix: string; label: string; href: string };
-type ScoreLine = { k: string; v: string; client?: boolean };
+// `accent` marks a value as real work, which earns the signal colour; concept
+// scope never does (CLAUDE.md). Was `client` before the engagement facet split.
+type ScoreLine = { k: string; v: string; accent?: boolean };
 
 interface Props {
   /** <title> text. Falls back to the brand line. */
@@ -224,7 +226,7 @@ const ldGraph = {
               {scoreboard.map((l) => (
                 <div class="line">
                   <span class="k">{l.k}</span>
-                  <span class:list={['v', l.client && 'client']}>{l.v}</span>
+                  <span class:list={['v', l.accent && 'accent']}>{l.v}</span>
                 </div>
               ))}
               <div class="tg" role="group" aria-label="Color theme">
