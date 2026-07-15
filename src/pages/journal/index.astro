@@ -1,8 +1,8 @@
 ---
 /**
- * Journal index — notes on systems, brand, and AI. Ported from _reference/mockups/blog.html.
- * Collection-driven: renders a lead post + list when entries exist, and a clean
- * empty state until the first posts publish after launch (no placeholder entries).
+ * Journal index — notes on systems, brand, and AI.
+ * Collection-driven: renders a lead post + list when entries exist, and falls back
+ * to a clean empty state when none do (no placeholder entries).
  */
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
@@ -10,7 +10,7 @@ import Base from '../../layouts/Base.astro';
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 
-// Published, newest first. (Empty until launch.)
+// Published, newest first.
 const posts = (await getCollection('journal'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());

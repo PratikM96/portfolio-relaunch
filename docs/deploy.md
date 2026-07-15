@@ -1,102 +1,86 @@
-# Deploy — mehtapratik.com (One System relaunch)
+# Deploy — mehtapratik.com (One System)
 
-Step-by-step for publishing the new Astro site to Cloudflare. Written for a
-first-time deploy. Nothing here can break the live site until **Part 5**, which
-is a manual step you take in the Cloudflare dashboard.
+How to publish this site to Cloudflare.
 
-## The mental model
+## Read this first
 
-Two separate websites are involved:
+**`npm run deploy` ships to the live domain.** The cutover is done: the
+`portfolio-relaunch` worker serves `mehtapratik.com`, and the old hand-edited
+site and its separate worker are retired. There is no staging URL in the loop
+anymore — a deploy is immediately public.
 
-- **Old site** — what visitors see at `mehtapratik.com` today. Runs on a
-  different Cloudflare worker. You do not touch it.
-- **New site** (this repo) — publishes to a private `*.workers.dev` **test URL**
-  first. The real domain keeps serving the old site until *you personally* add
-  the custom domain in the dashboard (Part 5).
+(Historically this doc described a pre-cutover flow where `npm run deploy` went
+to a private `*.workers.dev` test URL and the real domain kept serving the old
+site until a manual dashboard step. That is no longer true. Do not follow the old
+"it's safe, nothing is live until Part 5" reasoning.)
 
-The `deploy` worker is named **`portfolio-relaunch`**, deliberately different
-from the old production worker, so a deploy can never overwrite what's live.
+Deploys are manual. A push to `main` is **not** an auto-deploy, so pushing code
+and shipping it are separate acts.
 
-## Prerequisites (already done, listed for completeness)
+## Prerequisites
 
-- Node + npm (the project already builds).
+- Node + npm.
 - `wrangler` is a dev dependency (`npm install` pulls it in).
-- A Cloudflare account — the same one that runs the old site.
-
-No KV namespace, no Pages project, no extra services. This is a purely static
-site served as Cloudflare Workers Static Assets (Pages was folded into Workers).
-
-## Part 1 — Terminal in the project folder
-
-```powershell
-cd "C:\Users\Pratik Mehta\Documents\Projects\mehtapratik-site"
-```
-
-(Use the `portfolio-relaunch` path if you renamed the local folder.)
-
-## Part 2 — Log in to Cloudflare (one time)
+- Logged in once per machine:
 
 ```powershell
 npx wrangler login
 ```
 
-Authorize in the browser tab that opens. **Use the same Cloudflare account as
-the old site.** Terminal shows `Successfully logged in.` Only needed once per
-machine.
+Authorize in the browser tab that opens; the terminal prints
+`Successfully logged in.`
 
-## Part 3 — Publish to the test URL
+## Validate before you ship
+
+Because the next step is public, prove the build locally first:
+
+```powershell
+npm run build      # runs astro check && astro build
+npm run preview    # serve the built output
+```
+
+Check on the preview build:
+
+- Home, Work, each case study, About, Journal, Resume, Contact.
+- Concept demos (The Ninth / Level / WISP) **and their sub-pages** — these clean
+  URLs resolve in preview and production but **not** under `npm run dev`, so
+  preview is the only local place to catch a broken concept route.
+- Light/dark toggle, mobile layout.
+
+## Deploy
 
 ```powershell
 npm run deploy
 ```
 
-This runs `astro check && astro build`, deletes the adapter's redirect file
-(`.wrangler/deploy/config.json`) so wrangler uses the clean `wrangler.jsonc`
-instead of the auto-generated config, then runs `wrangler deploy`. On success it
-prints a URL like:
+This runs `astro check && astro build`, deletes the adapter's generated redirect
+file (`.wrangler/deploy/config.json`) so wrangler reads the clean
+`wrangler.jsonc`, then runs `wrangler deploy`. On success the site is live at
+`mehtapratik.com`.
 
-```
-https://portfolio-relaunch.<your-subdomain>.workers.dev
-```
+The redirect deletion is the load-bearing part: skip it and wrangler deploys the
+adapter's generated config, which carries the wrong worker name and a stray
+SESSION KV binding.
 
-That URL is a live-but-private **test site** — a different website from your
-domain, so deploying here is safe. Re-run `npm run deploy` anytime to update it.
-
-## Part 4 — Test everything on the workers.dev URL
-
-- Home, Work, each case study, About, Journal.
-- Concept demos (The Ninth / Level / WISP) **and their sub-pages** — these clean
-  URLs only resolve in production/preview, not the local `npm run dev` server,
-  so this is the first real test of them.
-- Light/dark toggle, mobile.
-
-Fix, then `npm run deploy` again. Same test URL every time.
-
-## Part 5 — Go live (manual cutover, when proven)
-
-In the Cloudflare dashboard:
-
-1. **Workers & Pages** → open the **`portfolio-relaunch`** worker.
-2. **Settings** → **Domains & Routes** → **Add** → **Custom Domain**.
-3. Enter **`mehtapratik.com`** and confirm.
-
-Cloudflare provisions the cert and repoints DNS. Within ~1-2 minutes the domain
-serves the new site. The old worker stays intact; you've only moved the domain.
-
-## Part 6 — Rollback
-
-- **Before cutover:** nothing to undo — the domain is still on the old worker.
-- **After cutover:** worker → **Deployments** → pick a previous version →
-  **Rollback**. Or move the custom domain back to the old worker.
-
-## Manual deploy (if you ever bypass the npm script)
+## Manual deploy (bypassing the npm script)
 
 ```powershell
 npm run build
-rm .wrangler/deploy/config.json   # PowerShell: Remove-Item .wrangler/deploy/config.json
+Remove-Item .wrangler/deploy/config.json   # bash: rm .wrangler/deploy/config.json
 npx wrangler deploy
 ```
 
-The redirect deletion is the important part: skip it and wrangler deploys the
-adapter's generated config, which has the wrong worker name and a stray SESSION
-KV binding.
+## Rollback
+
+Cloudflare dashboard → **Workers & Pages** → the **`portfolio-relaunch`** worker
+→ **Deployments** → pick a previous version → **Rollback**.
+
+## What governs the live domain
+
+- `public/_redirects` — old-URL 301s. Redirect *sources* need explicit
+  trailing-slash twins (both `/foo` and `/foo/`); the Worker only normalizes
+  trailing slashes for real pages, not redirect sources.
+- `public/robots.txt`
+- `public/_headers` — security headers, including the **enforced** CSP. A new
+  external origin that isn't in the allowlist fails silently in the browser.
+- the generated `sitemap-index.xml`

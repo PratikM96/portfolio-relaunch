@@ -38,11 +38,20 @@ public/
   fonts/           # self-hosted, subset woff2 (Berkeley Mono, Clash Display, Clash Grotesk)
   hero/            # case-study + home hero videos, by slug (webm + mp4 + webp poster)
   wc/              # work-card hover animations, by slug (dark + light: card/poster + -light)
+  ov/              # in-gallery output videos, by slug (webm + mp4 + webp poster)
+  og/              # rendered 1200x630 share cards (site + per-route + per-concept)
+  concepts/        # concept microsites: static passthrough HTML, own brand/CSS/JS per slug
   placeholders/    # themed dark/light placeholder images, used until real media lands
+  _headers         # security headers incl. the enforced CSP
+  _redirects       # old-URL 301s from the pre-cutover site
 scripts/           # build-time tooling (repo root): og/ card template, fonts/ subsetter
 docs/
+  deploy.md          # deploy procedure
   hero-pipeline.md   # hero video encode recipe + per-study checklist
   work-card-video.md # work-card hover animation recipe + slug map
+  output-assets.md   # output-gallery block kinds + export caps
+  og-cards.md        # share-card rendering
+  utm-tagging.md     # UTM conventions + GA4 notes
 ```
 
 Site-wide client behaviour is bundled, not inlined: only the pre-paint no-flash
@@ -70,7 +79,9 @@ node scripts/fonts/subset.mjs
 
 ## Deploy
 
-The cutover is complete: `mehtapratik.com` now serves this repo (the previous hand-edited site and its separate Worker are retired). Deploys are live-facing and done manually; a push to `main` is not an auto-deploy, so shipping code is a separate step. Validate on a local/preview build (`npm run build` / `npm run preview`) before deploying. SEO migration artifacts (`public/_redirects`, `public/robots.txt`, generated `sitemap-index.xml`) now govern the live domain.
+The cutover is complete: `mehtapratik.com` now serves this repo (the previous hand-edited site and its separate Worker are retired). **`npm run deploy` ships straight to the live domain** — there is no staging URL in the loop. Deploys are manual; a push to `main` is not an auto-deploy, so shipping code is a separate step. Validate on a local/preview build (`npm run build` / `npm run preview`) first — concept-demo clean URLs resolve in preview but not under `npm run dev`. SEO migration artifacts (`public/_redirects`, `public/robots.txt`, `public/_headers` with the enforced CSP, generated `sitemap-index.xml`) now govern the live domain.
+
+See `docs/deploy.md` for the full procedure and rollback.
 
 ## Operating contract
 

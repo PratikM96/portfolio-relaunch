@@ -4,9 +4,6 @@
  * Ported from _reference/mockups/home-design-v5-converged.html. Chrome (console rail,
  * footer, theme, fonts) lives in Base.astro. Repeated pieces are extracted to
  * components; hero / bento / modules / journal / close stay inline here.
- *
- * ALL body copy is placeholder until Phase 4 (CLAUDE.md). No metrics, clients,
- * roles, or claims are invented; text matches the approved mockup verbatim.
  */
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
@@ -46,7 +43,7 @@ const journalPosts = (await getCollection('journal'))
       <div>
         <div class="kick rev-load">Open to creative or marketing leadership roles · New York</div>
         <h1 class="rev-load page-h1">I build creative, social, and performance as <span class="signal">one system.</span></h1>
-        <p class="lead rev-load">I connect the making of the creative to the marketing system that makes it perform, and own it from the idea to what it does after it ships.</p>
+        <p class="lead rev-load">I connect the creation of creative to the marketing system that makes it perform, and own it from the idea to what it does after it ships.</p>
         <div class="btn-row rev-load"><a class="btn btn-p" href="/work">See the work →</a><a class="btn btn-g" href="/contact">Start a conversation →</a></div>
       </div>
       <figure class="hero-figure rev-load">
@@ -145,7 +142,7 @@ const journalPosts = (await getCollection('journal'))
         <div class="about-body">
           <div class="k">About</div>
           <h3 class="h2">Engineer turned creative.</h3>
-          <p>I started in computer science and kept moving toward the people the work is actually for, through design, into marketing. Now I build creative, social, and performance as one connected system.</p>
+          <p>I started in computer science and kept moving toward the people the work is actually for, through design into marketing. Now I build creative, social, and performance as one connected system.</p>
           <span class="go">More about the practice →</span>
         </div>
       </a>
@@ -299,8 +296,8 @@ const journalPosts = (await getCollection('journal'))
 
   /* ===== BENTO — two equal feature cards + a general stat strip ===== */
   /* The feature cards teaser the work. The stat strip carries GENERAL practice
-     metrics (placeholder until System Master) — not case-study-specific numbers,
-     which live on each case study. Features are equal 16:9 so they crop cleanly. */
+     metrics, not case-study-specific numbers, which live on each case study.
+     Features are equal 16:9 so they crop cleanly. */
   .bento { display: flex; flex-direction: column; gap: 16px; }
   .feat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }

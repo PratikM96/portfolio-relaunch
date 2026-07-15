@@ -274,9 +274,9 @@ const work = defineCollection({
 });
 
 /**
- * `journal` — notes on systems, brand, and AI. Empty until launch (posts are
- * written post-launch); the index + article template render from this collection
- * so adding a markdown file under src/content/journal/ ships a new post.
+ * `journal` — notes on systems, brand, and AI. The index + article template render
+ * from this collection, so adding a markdown file under src/content/journal/ ships
+ * a new post.
  */
 const journal = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/journal' }),
