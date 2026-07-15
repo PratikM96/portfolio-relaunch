@@ -93,7 +93,7 @@ home, and the copies drift.
 | --- | --- |
 | Content model, required fields, the build guardrail | `src/content.config.ts` — a missing/wrong-shaped field **fails the build** |
 | Routes and the sitemap | `src/pages/` — the filename is the URL |
-| Design tokens, the ramp, `@font-face` | `src/styles/tokens.css` |
+| Design tokens, the ramp, the type scale (`--t-*`), `@font-face` | `src/styles/tokens.css` |
 | Design law in prose (type, colour, radius, grid, motion, a11y) | the live `/brand` page |
 | The engagement facet + its labels | `src/lib/work-type.ts` |
 | Stack and versions | `package.json`, `astro.config.mjs` |
@@ -115,15 +115,22 @@ died when browsers partitioned HTTP cache by top-level site. Files live flat in
 `public/fonts/`; OTF masters and the per-family licence stay in
 `_reference/fonts/site/`.
 
+**Three files, one VARIABLE face per family** — not static cuts, and nothing is
+subset. Each declares a `font-weight` range, so every weight the type scale names
+is real. That is the point: with static cuts a missing weight failed *silently*
+(Clash Grotesk 500 rendered as 400; JetBrains 700 rendered as faux bold), because
+browsers match the nearest face rather than erroring. Never add a static cut back
+alongside these.
+
 *Licensing is a build constraint.* The repo is public and the fonts ship in it,
 so a face needs **two separate rights, and they don't come together**: web
 embedding **and** modification (subsetting is modification).
-- **JetBrains Mono** (mono/system layer) — OFL-1.1, no Reserved Font Name: both
-  granted. Subset. `public/fonts/OFL.txt` ships beside it because OFL §2 requires
-  the licence to accompany the font.
-- **Clash Display / Clash Grotesk** (display / body) — Fontshare FFL: embedding
-  yes, **modification no**. They ship verbatim as downloaded. Never add them to
-  `subset.mjs`.
+- **Clash Display / Clash Grotesk** — Fontshare FFL: embedding yes,
+  **modification no**. Ship verbatim, always. Cannot be subset or axis-pinned.
+- **JetBrains Mono** — OFL-1.1, no Reserved Font Name: both granted.
+  `public/fonts/OFL.txt` ships beside it because OFL §2 requires the licence to
+  accompany the font. It ships whole anyway (see the decision log) — subsetting it
+  is the first lever if PageSpeed ever demands one.
 
 **Client JS lives in `src/scripts/`, never re-typed per page.** `consent.ts` (GA4
 consent gate), `site-chrome.ts` (theme, drawer, clock, reveal, scroll-spy),
@@ -148,10 +155,36 @@ opacity**. Use `.rev-load` for any hero holding the LCP element: Chromium
 excludes `opacity:0` elements from LCP, so a faded hero hands LCP to a
 late-painting element and inflates it. Both respect reduced-motion.
 
-**Headings (canonical).** Page h1 `clamp(38px,5vw,68px)` / line-height .96 /
-letter-spacing -.03em / Clash Display 700. Kicker: mono 11px, .1em, uppercase,
-accent-text, 22px below. Section label: `[ 0N ]` (accent mono) + uppercase mono
-title (muted) + flex rule line.
+**Type: eight tiers, and nothing outside them.** Defined as `--t-*` tokens in
+`tokens.css`, applied as `.t-*` classes in `global.css`. A rule sets **size only**
+and composes a tier; family, weight and tracking are the system.
+
+| tier | face | wt | track | for |
+| --- | --- | --- | --- | --- |
+| `display` | Clash Display | 700 | -2% | home hero + closing CTA **only** |
+| `h1` | Clash Display | 600 | -1% | every page head |
+| `h2` | Clash Display | 500 | -1% | section heads |
+| `h3`-`h6` | Clash Grotesk | 500 | 0% | sub-heads, card titles |
+| `body` | Clash Grotesk | 400 | 0% | copy (`strong` = 600) |
+| `label` | JetBrains Mono | 400 | +10% | **uppercase always** |
+| `data` | JetBrains Mono | 400 | +5% | sentence-case mono: nav, values, wordmark |
+| `emphasis` | JetBrains Mono | 600 | +10% | **uppercase always** — buttons |
+
+`display` is a *treatment, not a level*: `.page-h1` is the `h1` tier, and
+`.page-h1.is-display` promotes the two loudest moments.
+
+**Tracking is optical.** It tightens as type grows, sits at 0 for reading, and
+opens for uppercase mono. That's why `label` (+10%) and `display` (-2%) are at
+opposite ends, and why `data` exists at +5%: heavy tracking is an uppercase
+device and falls apart on lowercase. **Never put display tracking on small text** —
+Clash Display 700 at -2.5% on a 19px wordmark is what made the rail read cramped.
+
+If you're hand-writing family + weight + tracking, you've left the system. That's
+how this drifted into seven different label trackings (+2/4/5/6/7/8/10%) around a
+scale that existed in `tokens.css` with **zero uses**.
+
+Kicker: `label` tier, 11px, accent-text, 22px below. Section label: `[ 0N ]`
+(accent mono) + uppercase mono title (muted) + flex rule line.
 
 **Theme.** Dark and light are both first-class. No-flash inline script,
 `localStorage` with try/catch, follows OS until manual override, respects
@@ -168,7 +201,7 @@ reduced-motion.
 - **Contract-named assets are exempt and must not be "normalized".** They're
   fixed strings a typo turns into a silent 404: `card.webm` / `card-light.webm` /
   `poster.webp`, `hero_1080.webm` (the underscore is intentional), and vendor
-  `@font-face` filenames (`JetBrainsMono-Medium.woff2`, `ClashDisplay-Bold.woff2`).
+  `@font-face` filenames (`ClashDisplay-Variable.woff2`, `JetBrainsMono-Variable.woff2`).
   Because they're fixed and unhashed, `public/_headers` caches them `immutable`
   for a year: **replacing one's bytes in place won't reach returning visitors.**
   Adding a new slug or face is always safe; changing an existing one means
@@ -217,6 +250,19 @@ paths from the slug. Recipes and caps live in `docs/`:
 
 Dated so they don't get silently re-litigated. Rationale in the commit.
 
+- **2026-07-15** — **Type scale adopted** (the eight tiers in §6) and swept across
+  every rule. Before this there was no system: h1/h2 were Clash Display, h3 was
+  Grotesk, and mono labels carried seven different trackings — around a scale that
+  sat in `tokens.css` unused. The wordmark moved from Clash Display 700/-2.5%
+  (a hero treatment at 19px) to the `data` tier, matching the OG cards, so the
+  rail, mobile bar and share cards finally render one lockup.
+- **2026-07-15** — **Fonts are VARIABLE, one file per family, shipped whole.**
+  Static cuts made a missing weight fail *silently* (Grotesk 500 → 400; Mono 700 →
+  faux bold), which is what blocked the scale. Payload 134.9 → 164.2 KB across
+  3 files instead of 7; every byte is preloaded. Deliberate: ship the full system,
+  measure, and only optimize if PageSpeed complains. First lever if it does is
+  subsetting JetBrains Mono (89.3 → 37.3 KB, axis survives) — `scripts/fonts/`
+  `subset.mjs` is in git history. Clash can never be subset (FFL).
 - **2026-07-15** — Clash ships **unsubset**: Fontshare's FFL grants no
   modification right. Costs +13 KB on the critical path; measured, accepted. The
   FFL's broader "public server" / "font serving" clauses are known and accepted;

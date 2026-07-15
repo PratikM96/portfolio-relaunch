@@ -183,9 +183,9 @@ const ldGraph = {
     {/* Fonts: all self-hosted, same-origin (@font-face in tokens.css). No
         third-party font CDNs. Preload only the above-the-fold faces — display
         700 (h1), grotesk 400 (body), mono 400 (labels); the rest load on use. */}
-    <link rel="preload" href="/fonts/ClashDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/ClashGrotesk-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ClashDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ClashGrotesk-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
 
     {/* LCP image (e.g. home hero poster): discovered late in the DOM, so preload
         it high-priority to start the fetch before CSS/fonts resolve. Opt-in per
@@ -240,7 +240,7 @@ const ldGraph = {
           <Fragment>
             <a class="brand" href="/" aria-label="Pratik Mehta - home">
               <Brandmark size={26} title={undefined} />
-              <span class="wm">Pratik<br />Mehta</span>
+              <span class="wm">Pratik Mehta</span>
             </a>
             <div class="role">Creative Marketing<br />Lead</div>
             <nav id="rail-nav">

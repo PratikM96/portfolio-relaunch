@@ -1,7 +1,7 @@
 /* Level — self-hosted concept fonts. Zodiak (serif display) + Supreme (body) + JetBrains Mono (data).
-   Zodiak and Supreme ship as variable woff2 (their static cuts miss 500/600). JetBrains Mono
-   reuses the site's existing JetBrains Mono files served at /fonts. */
+   All three are variable woff2. Zodiak and Supreme are the concept's own, served from
+   /concepts/level/fonts/; JetBrains Mono reuses the site face at /fonts, so it is already
+   preloaded and cached by the time a visitor reaches the demo. */
 @font-face{font-family:'Zodiak';src:url('/concepts/level/fonts/Zodiak-Variable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 @font-face{font-family:'Supreme';src:url('/concepts/level/fonts/Supreme-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
-@font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}

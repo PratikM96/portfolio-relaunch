@@ -27,68 +27,53 @@
    ============================================================= */
 
 /* ===== Self-hosted fonts (served from /public/fonts, same origin) =====
-   woff2 only — universal support, with a system fallback in --font-mono.
-   Cut list mirrors actual usage: JetBrains Mono 400/500, Clash Display 600/700,
-   Clash Grotesk 400/600/700. Above-the-fold faces are preloaded in Base.astro. */
+   woff2 only. Three files, one VARIABLE face per family — not static cuts.
+   All three are preloaded in Base.astro; every weight the type scale uses is
+   inside these, so there is nothing else to fetch.
+
+   `font-weight` is a RANGE here, and that is the point. With static cuts a
+   missing weight failed silently: Clash Grotesk 500 rendered as 400 (browsers
+   match the nearest face) and JetBrains 700 rendered as faux bold. Neither
+   errored. A variable axis makes every weight in range real, so the type scale
+   can name a weight without anyone checking whether it was packaged.
+
+   Ships whole, unsubset (2026-07-15). Clash cannot be subset at all — the
+   Fontshare FFL grants no modification right. JetBrains Mono (OFL) could be, and
+   would drop 89.3 -> 37.3 KB, but the deliberate call was to ship the full system
+   first and revisit only if PageSpeed demands it. If it does, git history has
+   scripts/fonts/subset.mjs, and subsetting preserves the axis (verified: fvar +
+   gvar survive). See CLAUDE.md decision log. */
 
 /* System layer — JetBrains Mono: labels, data, console rail.
-   OFL-1.1 with no Reserved Font Name, so the subset cuts we ship may keep the
-   name. The licence ships beside the faces at /fonts/OFL.txt, as OFL §2 requires
-   it to accompany the font. Replaced Berkeley Mono (TX-02) on 2026-07-15: no web
-   licence was held, and the repo is public. Metrics match (1000 upem / 600
-   advance), so the swap is layout-neutral. */
+   OFL-1.1, no Reserved Font Name, so the name may be kept. /fonts/OFL.txt ships
+   beside it because OFL §2 requires the licence to accompany the font. Replaced
+   Berkeley Mono (TX-02) on 2026-07-15: no web licence was held, and the repo is
+   public. Metrics match (1000 upem / 600 advance), so that swap was
+   layout-neutral. */
 @font-face {
   font-family: 'JetBrains Mono';
-  font-weight: 400;
+  font-weight: 100 800;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-  src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');
+  src: url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');
 }
 
-/* Display — Clash Display: hero / headings (600, 700) */
+/* Display — Clash Display: the voice (display, h1, h2) */
 @font-face {
   font-family: 'Clash Display';
-  font-weight: 600;
+  font-weight: 200 700;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/ClashDisplay-Semibold.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Clash Display';
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  src: url('/fonts/ClashDisplay-Bold.woff2') format('woff2');
+  src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2');
 }
 
-/* Body — Clash Grotesk: headings + body (400, 600, 700) */
+/* Body — Clash Grotesk: reading type (h3-h6, body, strong) */
 @font-face {
   font-family: 'Clash Grotesk';
-  font-weight: 400;
+  font-weight: 200 700;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/ClashGrotesk-Regular.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Clash Grotesk';
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-  src: url('/fonts/ClashGrotesk-Semibold.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Clash Grotesk';
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  src: url('/fonts/ClashGrotesk-Bold.woff2') format('woff2');
+  src: url('/fonts/ClashGrotesk-Variable.woff2') format('woff2');
 }
 
 :root {
@@ -121,24 +106,47 @@
   --accent-text: var(--accent-700); /* orange text on light · 4.8:1 · NEVER accent-500 as text */
   --on-accent: var(--n-950);        /* ink on orange fill · 6.3:1 · NEVER white for normal text */
 
-  /* --- Type families + weights --- */
-  --font-display: "Clash Display", system-ui, sans-serif;        /* hero / display only */
-  --font-sans: "Clash Grotesk", system-ui, sans-serif;           /* headings + body */
-  --font-mono: "JetBrains Mono", ui-monospace, monospace; /* labels / data / code */
-  --weight-regular: 400; --weight-semibold: 600; --weight-bold: 700;
+  /* --- Type families: one face, one job --- */
+  --font-display: "Clash Display", system-ui, sans-serif; /* the voice: display, h1, h2 */
+  --font-sans: "Clash Grotesk", system-ui, sans-serif;    /* reading type: h3-h6, body */
+  --font-mono: "JetBrains Mono", ui-monospace, monospace; /* the system layer */
 
-  /* --- Type scale (size / line-height / tracking) --- */
-  --display-xl-size: 64px; --display-xl-lh: 1.0;  --display-xl-track: -0.03em;
-  --display-l-size: 48px;  --display-l-lh: 1.05;  --display-l-track: -0.025em;
-  --h1-size: 36px; --h1-lh: 1.1;  --h1-track: -0.02em;
-  --h2-size: 28px; --h2-lh: 1.15; --h2-track: -0.02em;
-  --h3-size: 22px; --h3-lh: 1.25; --h3-track: -0.015em;
-  --body-lead-size: 18px; --body-lead-lh: 1.6;
-  --body-size: 16px; --body-lh: 1.65;
-  --body-sm-size: 14px; --body-sm-lh: 1.6;
-  --label-size: 12px; --label-lh: 1.4; --label-track: 0.08em;
-  --caption-size: 13px; --caption-lh: 1.5; --caption-track: 0.02em;
-  --code-size: 11px; --code-lh: 1.4; --code-track: 0.06em;
+  /* ===== TYPE SCALE — the universal rules =====
+     Eight tiers. Every piece of type on the site is one of them; nothing invents
+     its own family/weight/tracking. Only SIZE is set at the point of use, because
+     size is contextual (a rail label and a page kicker are both `label`, at
+     different sizes). Family + weight + tracking are the system.
+
+     Tracking is optical, not decorative: it tightens as type gets bigger, and
+     opens up for uppercase mono. Negative tracking on small text is what made the
+     rail wordmark read as cramped — that is why `display` and `label` sit at
+     opposite ends here.
+
+     The previous scale sat in this file with ZERO uses (verified 2026-07-15) while
+     every rule hardcoded its own values — which is exactly how seven different
+     label trackings (+2/4/5/6/7/8/10%) got loose. If a rule doesn't reference
+     these vars, it isn't in the system. */
+
+  /* the voice — Clash Display */
+  --t-display-font: var(--font-display); --t-display-weight: 700; --t-display-track: -0.02em;
+  --t-h1-font: var(--font-display);      --t-h1-weight: 600;      --t-h1-track: -0.01em;
+  --t-h2-font: var(--font-display);      --t-h2-weight: 500;      --t-h2-track: -0.01em;
+
+  /* reading type — Clash Grotesk */
+  --t-h3-font: var(--font-sans);   --t-h3-weight: 500;   --t-h3-track: 0;
+  --t-body-font: var(--font-sans); --t-body-weight: 400; --t-body-track: 0;
+  --t-strong-weight: 600; /* bold inside body copy; same family as body */
+
+  /* the system layer — JetBrains Mono. label + emphasis are ALWAYS uppercase:
+     +10% tracking is an uppercase device and looks broken on lowercase, which is
+     why `data` (sentence-case: nav, values, the wordmark) sits at +5% instead. */
+  --t-label-font: var(--font-mono);    --t-label-weight: 400;    --t-label-track: 0.1em;
+  --t-data-font: var(--font-mono);     --t-data-weight: 400;     --t-data-track: 0.05em;
+  --t-emphasis-font: var(--font-mono); --t-emphasis-weight: 600; --t-emphasis-track: 0.1em;
+
+  /* --- Line heights (paired with the tiers above) --- */
+  --lh-display: 0.98; --lh-h1: 1.05; --lh-h2: 1.1; --lh-h3: 1.25;
+  --lh-body: 1.65; --lh-label: 1.5;
 
   /* --- Spacing · 4px base --- */
   --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;

@@ -103,13 +103,16 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   {/* 03 TYPE */}
   <section class="bsec">
     <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Type · three faces, one system</h2><span class="rule"></span></div>
-    <p class="intro">Clash Display carries the hero. Clash Grotesk carries headings and body. JetBrains Mono carries the system layer: labels, data, and code. The Clash families use 400, 600, and 700. JetBrains Mono uses 400 Regular and 500 Medium, with Medium reserved for emphasis labels such as the primary button.</p>
-    <div class="ty"><div class="k">display · Clash Display 700<br />-3%</div><div class="v disp" style="font-size:clamp(36px,5vw,56px)">One system<span class="signal">.</span></div></div>
-    <div class="ty"><div class="k">h1 · Clash Grotesk 700<br />-2%</div><div class="v" style="font-weight:700;font-size:36px;letter-spacing:-0.02em">Creative as one system</div></div>
-    <div class="ty"><div class="k">h3 · Clash Grotesk 600</div><div class="v" style="font-weight:600;font-size:22px;letter-spacing:-0.015em">Selected work</div></div>
-    <div class="ty"><div class="k">body · Clash Grotesk 400<br />lh 1.65</div><div class="v" style="font-size:16px;line-height:1.65;color:var(--text-secondary)">The work stays coherent and the loop closes.</div></div>
-    <div class="ty"><div class="k">label · JetBrains Mono<br />+8% / uppercase</div><div class="v mono" style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase">Brand · Social · Performance</div></div>
-    <div class="ty"><div class="k">emphasis · JetBrains Mono Medium 500</div><div class="v mono" style="font-size:12px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase">View work</div></div>
+    <p class="intro">Each face has one job. Clash Display is the voice: display, h1, h2. Clash Grotesk is reading type: sub-headings and body. JetBrains Mono is the system layer: labels, data, and code. All three ship as one variable file per family, so every weight below is real rather than the nearest available one.</p>
+    <p class="intro">Tracking is optical, not decorative. It tightens as type gets bigger, sits at zero for reading, and opens up for uppercase mono. Mono labels and emphasis are always uppercase, because heavy tracking is an uppercase device and breaks apart on lowercase; sentence-case mono is the data tier at +5% instead.</p>
+    <div class="ty"><div class="k">display · Clash Display 700<br />-2%</div><div class="v disp" style="font-size:clamp(36px,5vw,56px);letter-spacing:-0.02em">One system<span class="signal">.</span></div></div>
+    <div class="ty"><div class="k">h1 · Clash Display 600<br />-1%</div><div class="v t-h1" style="font-size:36px">Creative as one system</div></div>
+    <div class="ty"><div class="k">h2 · Clash Display 500<br />-1%</div><div class="v t-h2" style="font-size:28px">The work, as one index</div></div>
+    <div class="ty"><div class="k">h3-h6 · Clash Grotesk 500<br />0%</div><div class="v t-h3" style="font-size:22px">Selected work</div></div>
+    <div class="ty"><div class="k">body · Clash Grotesk 400<br />0% / lh 1.65</div><div class="v t-body" style="font-size:16px;line-height:1.65;color:var(--text-secondary)">The work stays coherent and the loop closes, and <strong style="color:var(--text);font-weight:600">bold inside body is Grotesk 600</strong>.</div></div>
+    <div class="ty"><div class="k">label · JetBrains Mono 400<br />+10% / uppercase</div><div class="v t-label" style="font-size:12px;color:var(--text-secondary)">Brand · Social · Performance</div></div>
+    <div class="ty"><div class="k">data / nav · JetBrains Mono 400<br />+5% / sentence case</div><div class="v t-data" style="font-size:13px;color:var(--text-secondary)">Pratik Mehta &nbsp; Home &nbsp; 2023-2024</div></div>
+    <div class="ty"><div class="k">emphasis · JetBrains Mono 600<br />+10% / uppercase</div><div class="v t-emphasis" style="font-size:12px">View work</div></div>
   </section>
 
   {/* 04 COLOR */}

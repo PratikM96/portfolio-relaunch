@@ -35,7 +35,7 @@ src/
     tokens.css     # design tokens (mirrors the brand kit) + all @font-face blocks
     global.css     # reset, site chrome, shared primitives (.card/.badge/.prose/.tag)
 public/
-  fonts/           # self-hosted, subset woff2 (JetBrains Mono, Clash Display, Clash Grotesk) + OFL.txt
+  fonts/           # 3 self-hosted variable woff2 (Clash Display, Clash Grotesk, JetBrains Mono) + OFL.txt
   hero/            # case-study + home hero videos, by slug (webm + mp4 + webp poster)
   wc/              # work-card hover animations, by slug (dark + light: card/poster + -light)
   ov/              # in-gallery output videos, by slug (webm + mp4 + webp poster)
@@ -44,7 +44,7 @@ public/
   placeholders/    # themed dark/light placeholder images, used until real media lands
   _headers         # security headers incl. the enforced CSP
   _redirects       # old-URL 301s from the pre-cutover site
-scripts/           # build-time tooling (repo root): og/ card template, fonts/ subsetter
+scripts/           # build-time tooling (repo root): og/ share-card template
 docs/
   deploy.md          # deploy procedure
   hero-pipeline.md   # hero video encode recipe + per-study checklist
@@ -75,20 +75,19 @@ Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ra
 
 ### Fonts
 
-**Subsetting is a modification, so it is licence-gated per family** — not a blanket optimization:
+Three files, **one variable face per family**, shipped whole:
 
-- **JetBrains Mono** is OFL-1.1 with no Reserved Font Name, so it's subset to the glyphs the site actually uses. `OFL.txt` ships beside the faces because the licence requires it to accompany the font.
-- **Clash Display / Clash Grotesk** are under Fontshare's FFL, which doesn't grant modification, so they ship **verbatim as downloaded**. Don't add them to the subsetter.
+| file | KB | axis |
+|---|---|---|
+| `ClashDisplay-Variable.woff2` | 28.7 | wght 200–700 |
+| `ClashGrotesk-Variable.woff2` | 46.1 | wght 200–700 |
+| `JetBrainsMono-Variable.woff2` | 89.3 | wght 100–800 |
 
-`scripts/fonts/subset.mjs` reads the OTF masters from `_reference/fonts/site/` and writes subset woff2 into `public/fonts/`; the retain set is printable ASCII + Latin-1 plus every non-ASCII glyph scanned from the built HTML and source, so runtime-injected marks (play/pause, arrows, ✕) can't be dropped. Re-run after adding a face or a new glyph, then rebuild:
+All three are preloaded, so every weight the type scale uses is already there — nothing else to fetch. Each `@font-face` declares a weight **range**, which is what makes a variable axis work; a static cut alongside them would shadow it.
 
-```bash
-npm run build                            # so the scan sees current pages
-node scripts/fonts/subset.mjs            # every listed face
-node scripts/fonts/subset.mjs JetBrains  # or one family
-```
+Adding a face means dropping the variable woff2 in `public/fonts/` and pointing one `@font-face` at it. **Read its licence first** (each family's is in `_reference/fonts/site/<family>/`): a face needs both web-embedding *and* modification rights, and they don't come together. Clash is Fontshare FFL — embed yes, modify no, so it can never be subset or axis-pinned. JetBrains Mono is OFL-1.1 with no Reserved Font Name, so `OFL.txt` ships beside it as the licence requires.
 
-Check the licence in each `_reference/fonts/site/<family>/` folder before adding a face — the repo is public and the fonts ship in it.
+Nothing is subset today — the deliberate call was to ship the full system and only optimize if PageSpeed asks. Subsetting JetBrains Mono (89.3 → 37.3 KB, axis intact) is the first lever if it does; git history has the retired `scripts/fonts/subset.mjs`.
 
 ## Deploy
 
