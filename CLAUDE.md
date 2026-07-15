@@ -161,17 +161,23 @@ and composes a tier; family, weight and tracking are the system.
 
 | tier | face | wt | track | for |
 | --- | --- | --- | --- | --- |
-| `display` | Clash Display | 700 | -2% | home hero + closing CTA **only** |
-| `h1` | Clash Display | 600 | -1% | every page head |
-| `h2` | Clash Display | 500 | -1% | section heads |
-| `h3`-`h6` | Clash Grotesk | 500 | 0% | sub-heads, card titles |
+| `display` | Clash Display | 700 | -2% | **every** page head, closing CTA, stat figures |
+| `h1` | Clash Display | 600 | -1% | the wordmark lockup |
+| `h2` | Clash Display | 500 | -1% | section heads, journal lead post, mobile nav |
+| `h3`-`h6` | Clash Grotesk | 500 | 0% | card titles, index rows, sub-heads |
 | `body` | Clash Grotesk | 400 | 0% | copy (`strong` = 600) |
-| `label` | JetBrains Mono | 400 | +10% | **uppercase always** |
-| `data` | JetBrains Mono | 400 | +5% | sentence-case mono: nav, values, wordmark |
-| `emphasis` | JetBrains Mono | 600 | +10% | **uppercase always** — buttons |
+| `label` | JetBrains Mono | 400 | +10% | kickers, badges, section labels — **uppercase always** |
+| `data` | JetBrains Mono | 400 | +5% | rail nav, scoreboard values, the clock — sentence case |
+| `emphasis` | JetBrains Mono | 600 | +10% | buttons — **uppercase always** |
 
-`display` is a *treatment, not a level*: `.page-h1` is the `h1` tier, and
-`.page-h1.is-display` promotes the two loudest moments.
+**Every page head is `display`** — they're one family of pages, so they read as
+one. `h1` is the wordmark's tier and its only consumer: the lockup is Pratik's
+name, so it stays in the brand voice, and 600/-1% gives it presence without the
+hero treatment that made it read cramped at 19px.
+
+`/brand` §03 renders this same table from the live `.t-*` classes with a real
+sample per tier, so it can't drift from the code. **If a tier moves, fix its
+`where` column there too** — a spec page that lies is worse than none.
 
 **Tracking is optical.** It tightens as type grows, sits at 0 for reading, and
 opens for uppercase mono. That's why `label` (+10%) and `display` (-2%) are at

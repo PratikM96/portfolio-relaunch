@@ -50,18 +50,20 @@ img { display: block; max-width: 100%; }
   transition: background .3s var(--ease-standard), border-color .3s var(--ease-standard);
 }
 /* The wordmark lockup — Pratik's name, so it stays in the brand voice (Clash
-   Display), NOT the mono system layer. It takes the `h2` tier exactly (Display
-   500 / -1%) rather than a bespoke rule, so it can't drift.
+   Display), NOT the mono system layer. It takes the `h1` tier exactly (Display
+   600 / -1%) rather than a bespoke rule, so it can't drift — and it is the only
+   consumer of that tier, which is what keeps h1 alive in the scale.
 
    It was Display 700 at -2.5%, stacked, line-height 1.05: a hero treatment at
    19px. Display weight and display tracking are optical compensations for LARGE
-   type; at UI scale they read as heavy and cramped, which is exactly how it read.
-   The fix is weight and tracking, not the family. Horizontal + single line
-   because the stack and the 1.05 leading were half the compression. */
+   type; at UI scale they read heavy and cramped, which is exactly how it read.
+   The fix was weight and tracking, not the family: 600 keeps the presence a
+   wordmark needs, -1% opens the letters back up, and horizontal + single line
+   removes the stack and the 1.05 leading that were half the compression. */
 .console .brand {
   display: flex; flex-direction: row; align-items: center; gap: 12px;
-  font-family: var(--t-h2-font); font-weight: var(--t-h2-weight);
-  letter-spacing: var(--t-h2-track); font-size: 19px; line-height: 1.2;
+  font-family: var(--t-h1-font); font-weight: var(--t-h1-weight);
+  letter-spacing: var(--t-h1-track); font-size: 19px; line-height: 1.2;
 }
 .console .role {
   font-family: var(--t-label-font); font-weight: var(--t-label-weight);
@@ -323,7 +325,7 @@ img { display: block; max-width: 100%; }
   }
   /* same lockup rule as the desktop rail: h2 tier, sentence case, horizontal. */
   .console-mobile .brand {
-    font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track);
+    font-family: var(--t-h1-font); font-weight: var(--t-h1-weight); letter-spacing: var(--t-h1-track);
     font-size: 17px; display: flex; align-items: center; gap: 10px;
   }
   /* menu button — 2×2 node grid (echoes the brandmark node) */
@@ -350,7 +352,7 @@ img { display: block; max-width: 100%; }
   body.menu-open { overflow: hidden; }
   .m-drawer-head { display: flex; align-items: center; justify-content: space-between; }
   .m-drawer-head .brand {
-    font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track);
+    font-family: var(--t-h1-font); font-weight: var(--t-h1-weight); letter-spacing: var(--t-h1-track);
     font-size: 17px; display: flex; align-items: center; gap: 10px;
   }
   /* Not a type tier: this renders a single ✕ glyph, so it takes the mono family
