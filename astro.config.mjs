@@ -3,8 +3,9 @@ import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 
-// One System portfolio — deploys to the STAGING Cloudflare Worker only.
-// The live domain (mehtapratik.com) is served by the OLD deployment; never target it here.
+// One System portfolio. The cutover is done: this repo IS mehtapratik.com, and
+// `npm run deploy` publishes straight to it — there is no staging worker in the
+// loop. Validate on `npm run build` / `npm run preview` first. See docs/deploy.md.
 // Pages are static by default (portfolio content). The Cloudflare adapter
 // stays wired for Worker deployment (build/preview) and lets any future page
 // opt into SSR with `export const prerender = false`.

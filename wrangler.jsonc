@@ -13,8 +13,11 @@
   //   that redirect after build so wrangler uses this clean config. If you deploy
   //   by hand, run: npm run build && rm .wrangler/deploy/config.json && wrangler deploy
   //
-  // `name` is deliberately NOT "mehtapratik-site" so this never overwrites the
-  // OLD production worker. Rename only when you intend to replace it.
+  // `name` is the PRODUCTION worker: the custom domain mehtapratik.com is bound
+  // to "portfolio-relaunch" in the Cloudflare dashboard. Deploying here is live.
+  // (It reads like a staging name for historical reasons — it predates the
+  // cutover, when a separate worker served the domain. Renaming it now would
+  // orphan the domain binding, so the name stays.)
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "portfolio-relaunch",
   "compatibility_date": "2026-07-02",

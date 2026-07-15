@@ -1,32 +1,57 @@
 # Pratik Mehta
 
-> Personal portfolio of Pratik Mehta, a creative marketing lead working across brand, social, content, UI/UX, motion, and performance as one connected system. Built on the One System brand. New York. Open to creative or marketing leadership roles.
+> Personal portfolio of Pratik Mehta, a Creative Marketing Lead working across brand, social, content, UI/UX, motion, and performance as one connected system. Built on the One System brand. New York. Open to creative or marketing leadership roles.
 
 ## Site
 
 - [Home](https://mehtapratik.com/): The practice, featured work, and how the pieces connect.
-- [Work](https://mehtapratik.com/work): Full case-study index, filterable by client and concept.
+- [Work](https://mehtapratik.com/work): Full case-study index, filterable by engagement (in-house, agency, concept) and discipline.
 - [About](https://mehtapratik.com/about): Background, approach, and the One System practice.
 - [Resume](https://mehtapratik.com/resume): Full work history, self-initiated systems, education, and tools.
 - [Brand](https://mehtapratik.com/brand): The One System brand reference (tokens, type, logo, formats).
 - [Journal](https://mehtapratik.com/journal): Notes on systems, brand, and AI.
 - [Contact](https://mehtapratik.com/contact): Ways to get in touch.
+- [Privacy](https://mehtapratik.com/privacy): Analytics and cookie policy.
 
 ## Work (case studies)
 
-- [SPORTIME Clubs](https://mehtapratik.com/work/sportime-clubs): A video-first content engine across tennis, pickleball, and a $75M expansion. Client.
-- [DealNews](https://mehtapratik.com/work/dealnews): In-house social, paid, and design for an ecommerce deals brand. Client.
-- [Richard Attias & Associates](https://mehtapratik.com/work/raa): Environmental, print, and digital production for the FII 2019 global forum. Client.
-- [Pipeline Medical](https://mehtapratik.com/work/pipeline-medical): Brand and a B2B supplier marketplace built from zero, logo system through procurement screens. Client.
-- [The Forest Road Company](https://mehtapratik.com/work/frc): Social direction, paid campaigns, and executive reporting for a media-finance firm. Client.
-- [Johnny Mac Tennis Project](https://mehtapratik.com/work/jmtp): Photography, video, and event production for SPORTIME's nonprofit. Client.
-- [Agency FiveEighty](https://mehtapratik.com/work/agency-fiveeighty): Broadcast motion and title sequences for agency campaigns. Client.
-- [SR Love and Care](https://mehtapratik.com/work/sr-love-and-care): Built, scaled, and handed off a volunteer marketing and design team. Client, volunteer.
-- [The Ninth](https://mehtapratik.com/work/the-ninth): Self-initiated esports membership system, brand through product, with a live AI moment-clipper. Concept.
-- [Level](https://mehtapratik.com/work/level): Self-initiated prediction-market concept built around responsible use and product trust. Concept.
-- [WISP](https://mehtapratik.com/work/wisp): Self-initiated concept for a faceless live AI host presence. Concept.
+Each entry is labelled by engagement: the role Pratik held, not a client relationship.
+
+### In-house (a role held inside the organization)
+
+- [SPORTIME Clubs](https://mehtapratik.com/work/sportime-clubs): A video-first content engine across tennis, pickleball, and a $75M expansion. Marketing Manager.
+- [Johnny Mac Tennis Project](https://mehtapratik.com/work/jmtp): Photography, video, and event production for SPORTIME's nonprofit partner. Marketing Manager, SPORTIME.
+- [DealNews](https://mehtapratik.com/work/dealnews): In-house social, paid, and design for an ecommerce deals brand. Social and Graphic Manager.
+- [The Forest Road Company](https://mehtapratik.com/work/frc): Social direction, paid campaigns, and executive reporting for a media-finance firm. Social Media Director.
+- [Pipeline Medical](https://mehtapratik.com/work/pipeline-medical): Brand and a B2B supplier marketplace built from zero, logo system through procurement screens. Designer (Internship).
+- [SR Love and Care](https://mehtapratik.com/work/sr-love-and-care): Built, scaled, and handed off a volunteer marketing and design team for a humanitarian nonprofit. Marketing and Design Team Lead (Volunteer).
+
+### Agency (a role at an agency, whose clients were other companies)
+
+- [Richard Attias & Associates](https://mehtapratik.com/work/raa): Environmental, print, and digital production for the FII 2019 global forum. Associate Designer.
+- [Agency FiveEighty](https://mehtapratik.com/work/agency-fiveeighty): Broadcast motion and title sequences for agency campaigns. Graphic and Motion Designer (Internship).
+
+### Concept (self-initiated, never commissioned)
+
+- [The Ninth](https://mehtapratik.com/work/the-ninth): Self-initiated esports membership system, brand through product, with a live AI moment-clipper. An unaffiliated concept built around Cloud9, not commissioned by or affiliated with Cloud9.
+- [Level](https://mehtapratik.com/work/level): Self-initiated prediction-market concept built around responsible use and product trust.
+- [WISP](https://mehtapratik.com/work/wisp): Self-initiated concept for a faceless live AI host presence.
+
+## Concept microsites (live demos, embedded as proof inside their case study)
+
+- The Ninth: [hub](https://mehtapratik.com/concepts/the-ninth/), [clipper](https://mehtapratik.com/concepts/the-ninth/clipper), [app](https://mehtapratik.com/concepts/the-ninth/app), [broadcast](https://mehtapratik.com/concepts/the-ninth/broadcast), [social](https://mehtapratik.com/concepts/the-ninth/social), [brand](https://mehtapratik.com/concepts/the-ninth/brand)
+- Level: [hub](https://mehtapratik.com/concepts/level/), [explainer](https://mehtapratik.com/concepts/level/explainer), [app](https://mehtapratik.com/concepts/level/app), [motion](https://mehtapratik.com/concepts/level/motion), [brand](https://mehtapratik.com/concepts/level/brand)
+- WISP: [hub](https://mehtapratik.com/concepts/wisp/), [demo](https://mehtapratik.com/concepts/wisp/demo), [brand](https://mehtapratik.com/concepts/wisp/brand)
+
+## Journal
+
+- [Most creative dies in the handoff](https://mehtapratik.com/journal/most-creative-dies-in-the-handoff)
+- [Engineer to creative: why I think in systems](https://mehtapratik.com/journal/engineer-to-creative)
+- [Where AI actually changes creative work (and where it's just noise)](https://mehtapratik.com/journal/where-ai-changes-creative-work)
 
 ## Notes
 
-- Self-initiated concepts (The Ninth, Level, WISP) are not client work. They carry scope, never performance results.
-- Client case studies carry verified metrics; concept case studies carry scope and rationale only.
+- "In-house" and "agency" describe the role Pratik held. None of this work was a client engagement, and the agency entries were roles at the agency: those clients were the agency's, not his.
+- Self-initiated concepts (The Ninth, Level, WISP) are not professional work and were never commissioned. They carry scope and rationale, never performance results.
+- In-house and agency case studies carry verified metrics; concept case studies carry scope only.
+- Employment type (internship, volunteer) is stated in each case study's Role field.
