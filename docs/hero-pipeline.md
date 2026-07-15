@@ -20,13 +20,19 @@ public/hero/<slug>/poster.webp      still shown before play
 The home page uses the same shape at `public/hero/home/` (but it autoplays muted
 and loops, since it has no audio - see `src/pages/index.astro`).
 
-**Masters — NOT in the repo:**
+**Masters — local, gitignored, never committed:**
 
-The 4K ProRes masters live on Google Drive at `Career-System/01-Brand/Animations/`.
-You transcode the web deliverables from a local copy of the master (Drive desktop
-sync, or download it for the encode). The repo never holds a master. If you want a
-local backup of the compressed outputs, `_reference/media/hero-video/<slug>/` is the spot
-(gitignored). Only the three web deliverables above ship.
+```
+_reference/media/case-study-animations/<slug>/
+  <name>-hero.aep      After Effects project
+  hero_2160.mov        the master (ProRes; some are hero_1920.mov / .mp4)
+  poster.webp          the chosen still
+  (Footage)/           source footage for the comp
+```
+
+Everything needed to re-cut a hero is in that folder. Only the three web
+deliverables above ship. Not every shipped hero has a project here — a supplied
+brand film is just transcoded, with no comp to keep.
 
 **Hard limits:**
 - Each served file must stay under Cloudflare's **25 MiB** per-file cap. 1080p at
@@ -41,8 +47,7 @@ Export a visually-lossless master, do no scaling here (that happens in Step 2):
 - Keep native **3840x2160 / 30 fps / Progressive / Square pixels** (Match Source).
 - Check **Use Maximum Render Quality** and **Render at Maximum Depth**.
 - Audio **Uncompressed (PCM) 48 kHz 24-bit**.
-- Save the master to Google Drive at `Career-System/01-Brand/Animations/`
-  (e.g. `<slug>-master_2160.mov`).
+- Save it beside its project at `_reference/media/case-study-animations/<slug>/`.
 
 ## Step 2 - transcode the web deliverables (FFmpeg)
 
@@ -52,7 +57,7 @@ served folder.
 
 ```powershell
 $slug   = "dealnews"   # <-- change per case study
-$master = "C:\path\to\$slug-master_2160.mov"   # <-- local copy synced/downloaded from Drive
+$master = "_reference/media/case-study-animations/$slug/hero_2160.mov"
 $out    = "public/hero/$slug"
 New-Item -ItemType Directory -Force $out | Out-Null
 
@@ -100,21 +105,18 @@ from the slug and renders poster + play button automatically. Set the caption vi
 the existing `coverCaption` field. Leave `heroVideo` off (or omit it) and the wall
 falls back to the cover image / placeholder as before.
 
-## Status checklist
+## Which studies have one
 
-| Slug                | Hero video |
-| ------------------- | ---------- |
-| sportime-clubs      | done       |
-| dealnews            | done       |
-| raa                 | done       |
-| agency-fiveeighty   | done       |
-| pipeline-medical    | done       |
-| frc                 | pending    |
-| sr-love-and-care    | pending    |
-| jmtp                | done       |
-| the-ninth           | pending    |
-| level               | pending    |
-| wisp                | pending    |
+The repo answers this; a list here would just rot:
 
-Concepts (the-ninth, level, wisp) get a hero only if a brand video exists for the
-concept; otherwise they keep the placeholder. Mark each `done` here as you ship it.
+```bash
+ls public/hero/                          # slugs with shipped files
+grep -l "^heroVideo: true" src/content/work/*.md   # slugs with the flag on
+```
+
+The two should always agree. Files without the flag render nothing; the flag
+without files is a silent 404.
+
+Concepts get a hero only if a brand video exists for the concept; otherwise the
+wall is suppressed entirely (they have no cover either). Everything else falls
+back to the cover image or placeholder.

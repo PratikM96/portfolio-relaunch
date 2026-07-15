@@ -13,8 +13,13 @@ hover loops on the index). Output video is a third, in-gallery use.
 
 An ordered array — blocks render top to bottom in the order listed. Every still's
 `img` is optional: omit it and a ratio-matched placeholder renders until the
-asset lands. `blocks` supersedes the legacy `tiles` model; an entry uses one or
-the other (`blocks` wins when both are present). Example (DealNews):
+asset lands. `blocks` is the only output model: the legacy uniform `tiles` grid
+was removed once every entry had migrated, so a new asset family is a new block
+kind, not a fallback to a cropped grid.
+
+Below is a **composite** showing the common kinds together — not a real entry. For
+a working reference read an actual one (`src/content/work/dealnews.md` for stills,
+`sportime-clubs.md` for video), since those are guaranteed to match what ships:
 
 ```yaml
 output:
@@ -49,7 +54,7 @@ output:
     - kind: video             # muted loop, plays when scrolled into view
       audio: false
       items:
-        - { clip: home, alt: "Website motion study", caption: "Website motion" }
+        - { clip: <clip>, alt: "Motion study", caption: "Website motion" }
   note: "Optional mono footnote under the gallery."
 ```
 

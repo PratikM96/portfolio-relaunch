@@ -27,8 +27,10 @@ autoplay on pointer hover only.
 - the `/work` **featured pair** (`work/index.astro`)
 
 The home **bento** "Featured" tiles (`index.astro`) are hardcoded markup, NOT
-collection-driven — a card clip there must be added by hand (currently only
-SPORTIME). If a bento tile ever gains a clip, mirror the `.tile-video` block.
+collection-driven — setting the flag does nothing there. A clip must be added by
+hand: mirror an existing `.tile-video` block, and use `data-light="true"` for the
+light variant instead of `cardVideoLight`. Which tiles currently carry one is a
+`grep tile-video src/pages/index.astro` away.
 
 ## Behavior
 
@@ -99,5 +101,5 @@ the shared helper. The home bento tile is hardcoded, so its light opt-in is the
 To add a light variant later: drop the export in `_reference/media/wc-animations/light/`,
 run the recipe with `-light` output names, then set `cardVideoLight: true` on the
 entry (or `data-light="true"` on a bento tile). Clips stay `preload="none"` and
-only the active theme's poster loads, so this is repo size only (~5 MB for all 16
-clips), not page weight.
+only the active theme's poster loads, so a light variant costs repo size only,
+never page weight.
