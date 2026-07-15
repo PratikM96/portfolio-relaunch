@@ -163,6 +163,10 @@ reduced-motion.
   fixed strings a typo turns into a silent 404: `card.webm` / `card-light.webm` /
   `poster.webp`, `hero_1080.webm` (the underscore is intentional), and vendor
   `@font-face` filenames (`JetBrainsMono-Medium.woff2`, `ClashDisplay-Bold.woff2`).
+  Because they're fixed and unhashed, `public/_headers` caches them `immutable`
+  for a year: **replacing one's bytes in place won't reach returning visitors.**
+  Adding a new slug or face is always safe; changing an existing one means
+  renaming it or dropping `immutable` first.
 - **Windows:** the filesystem is case-insensitive. A Title-Case→lowercase rename
   is a case-only rename — go via a temp name (`mv Foo Foo__tmp && mv Foo__tmp foo`),
   and never create a lowercase twin of an existing dir before removing the

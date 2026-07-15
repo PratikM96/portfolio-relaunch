@@ -20,15 +20,30 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.cloudflareinsights.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://cloudflareinsights.com; upgrade-insecure-requests
 
-# Self-hosted fonts are content-hashed at the filename level and never change.
+# Everything below is `immutable` for a year at a CONTRACT-NAMED, UNHASHED URL.
+# Only /_astro/* is content-hashed (the adapter appends that rule at build);
+# public/ ships verbatim, and these filenames are fixed by contract on purpose
+# (@font-face, preloads, and the per-slug video conventions all hardcode them).
+#
+# The tradeoff that buys: changing an existing file's BYTES without changing its
+# NAME will not reach a returning visitor for up to a year. So re-encoding
+# /wc/<slug>/card.webm or re-cutting a font in place only reliably serves new
+# visitors. If a change must reach everyone, rename the file (and its reference)
+# or drop `immutable` here first. Adding a new slug or face is always safe — new
+# URL, no cache to beat.
+#
+# Known and accepted: the Clash faces were re-cut in place on 2026-07-15
+# (subset -> verbatim). A cached subset still carries every glyph the site
+# renders, so returning visitors see no difference.
+
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Hero video + poster are versioned by slug folder; cache hard.
+# Hero video + poster, keyed by slug folder.
 /hero/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Work-card + output-gallery clips are also slug-versioned and never mutate.
+# Work-card + output-gallery clips, also keyed by slug folder.
 /wc/*
   Cache-Control: public, max-age=31536000, immutable
 /ov/*
