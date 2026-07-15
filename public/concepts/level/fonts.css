@@ -1,7 +1,7 @@
-/* Level — self-hosted concept fonts. Zodiak (serif display) + Supreme (body) + Berkeley Mono (data).
-   Zodiak and Supreme ship as variable woff2 (their static cuts miss 500/600). Berkeley Mono
-   reuses the site's existing TX-02 files served at /fonts. */
+/* Level — self-hosted concept fonts. Zodiak (serif display) + Supreme (body) + JetBrains Mono (data).
+   Zodiak and Supreme ship as variable woff2 (their static cuts miss 500/600). JetBrains Mono
+   reuses the site's existing JetBrains Mono files served at /fonts. */
 @font-face{font-family:'Zodiak';src:url('/concepts/level/fonts/Zodiak-Variable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 @font-face{font-family:'Supreme';src:url('/concepts/level/fonts/Supreme-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
-@font-face{font-family:'Berkeley Mono';src:url('/fonts/TX-02-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:'Berkeley Mono';src:url('/fonts/TX-02-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}

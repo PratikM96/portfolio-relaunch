@@ -28,23 +28,28 @@
 
 /* ===== Self-hosted fonts (served from /public/fonts, same origin) =====
    woff2 only — universal support, with a system fallback in --font-mono.
-   Cut list mirrors actual usage: Berkeley Mono 400/500, Clash Display 600/700,
+   Cut list mirrors actual usage: JetBrains Mono 400/500, Clash Display 600/700,
    Clash Grotesk 400/600/700. Above-the-fold faces are preloaded in Base.astro. */
 
-/* System layer — Berkeley Mono (TX-02): labels, data, console rail */
+/* System layer — JetBrains Mono: labels, data, console rail.
+   OFL-1.1 with no Reserved Font Name, so the subset cuts we ship may keep the
+   name. The licence ships beside the faces at /fonts/OFL.txt, as OFL §2 requires
+   it to accompany the font. Replaced Berkeley Mono (TX-02) on 2026-07-15: no web
+   licence was held, and the repo is public. Metrics match (1000 upem / 600
+   advance), so the swap is layout-neutral. */
 @font-face {
-  font-family: 'Berkeley Mono';
+  font-family: 'JetBrains Mono';
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/TX-02-Regular.woff2') format('woff2');
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Berkeley Mono';
+  font-family: 'JetBrains Mono';
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/TX-02-Medium.woff2') format('woff2');
+  src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');
 }
 
 /* Display — Clash Display: hero / headings (600, 700) */
@@ -119,7 +124,7 @@
   /* --- Type families + weights --- */
   --font-display: "Clash Display", system-ui, sans-serif;        /* hero / display only */
   --font-sans: "Clash Grotesk", system-ui, sans-serif;           /* headings + body */
-  --font-mono: "Berkeley Mono", "JetBrains Mono", ui-monospace, monospace; /* TX-02 · labels / data / code */
+  --font-mono: "JetBrains Mono", ui-monospace, monospace; /* labels / data / code */
   --weight-regular: 400; --weight-semibold: 600; --weight-bold: 700;
 
   /* --- Type scale (size / line-height / tracking) --- */

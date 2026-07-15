@@ -9,7 +9,7 @@ Branded 1200x630 Open Graph / Twitter images, one per route, served same-origin 
 - Concept microsites (`public/concepts/**`) are raw HTML, so they hardcode `og:image`/`twitter:image` = `https://mehtapratik.com/og/<slug>.png` in their own `<head>`.
 
 ## Brand
-- **One System** (warm near-black, Clash Display, Berkeley Mono, one orange accent) for the site + all client case studies.
+- **One System** (warm near-black, Clash Display, JetBrains Mono, one orange accent) for the site + all non-concept case studies.
 - **Own brand** for the 3 concept cards, matching each microsite: `the-ninth` = Cloud9 blue on cloud-white + Array; `level` = ink + amber + Zodiak; `wisp` = warm dark + Sentient. Driven by the template's `brand` param.
 
 ## Template

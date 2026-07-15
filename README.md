@@ -35,7 +35,7 @@ src/
     tokens.css     # design tokens (mirrors the brand kit) + all @font-face blocks
     global.css     # reset, site chrome, shared primitives (.card/.badge/.prose/.tag)
 public/
-  fonts/           # self-hosted, subset woff2 (Berkeley Mono, Clash Display, Clash Grotesk)
+  fonts/           # self-hosted, subset woff2 (JetBrains Mono, Clash Display, Clash Grotesk) + OFL.txt
   hero/            # case-study + home hero videos, by slug (webm + mp4 + webp poster)
   wc/              # work-card hover animations, by slug (dark + light: card/poster + -light)
   ov/              # in-gallery output videos, by slug (webm + mp4 + webp poster)
@@ -68,16 +68,19 @@ Optional per-entry media is opt-in and convention-located by slug (no paths in c
 
 ## Design system
 
-Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ramp, single signal-orange accent reserved for real results, Clash Display / Clash Grotesk / Berkeley Mono). Dark and light themes are both first-class via a no-flash `data-theme` script. Repeated content patterns (`.card` / `.badge` / `.prose` / `.tag`) live once in `global.css`; pages keep only their own layout.
+Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ramp, single signal-orange accent reserved for real results, Clash Display / Clash Grotesk / JetBrains Mono). Dark and light themes are both first-class via a no-flash `data-theme` script. Repeated content patterns (`.card` / `.badge` / `.prose` / `.tag`) live once in `global.css`; pages keep only their own layout.
 
 ### Fonts
 
-The seven self-hosted faces are **subset** to the glyphs the site uses (~35% smaller). `scripts/fonts/subset.mjs` reads the OTF masters from `_reference/fonts/site/` and writes subset woff2 into `public/fonts/`; the retain set is printable ASCII + Latin-1 plus every non-ASCII glyph scanned from the built HTML and source, so runtime-injected marks (play/pause, arrows, ✕) can't be dropped. Re-run after adding a face or a new glyph, then rebuild:
+The self-hosted faces are **subset** to the glyphs the site actually uses. `scripts/fonts/subset.mjs` reads the OTF masters from `_reference/fonts/site/` and writes subset woff2 into `public/fonts/`; the retain set is printable ASCII + Latin-1 plus every non-ASCII glyph scanned from the built HTML and source, so runtime-injected marks (play/pause, arrows, ✕) can't be dropped. Re-run after adding a face or a new glyph, then rebuild:
 
 ```bash
-npm run build            # so the scan sees current pages
-node scripts/fonts/subset.mjs
+npm run build                          # so the scan sees current pages
+node scripts/fonts/subset.mjs          # all faces
+node scripts/fonts/subset.mjs JetBrains  # or one family
 ```
+
+**Subsetting is a modification, so it is licence-gated per family.** JetBrains Mono is OFL-1.1 with no Reserved Font Name, so subsetting is permitted and the name may be kept; `OFL.txt` ships beside the faces because the licence requires it to accompany the font. Check the licence in each `_reference/fonts/site/<family>/` folder before adding a face — the repo is public and the fonts ship in it.
 
 ## Deploy
 
@@ -92,3 +95,5 @@ See `docs/deploy.md` for the full procedure and rollback.
 ## License
 
 © 2026 Pratik Mehta. All rights reserved. This repository, including its code, copy, and design, is not licensed for reuse.
+
+**Bundled fonts are excepted** — they carry their own licences and are not covered by the line above. JetBrains Mono (`public/fonts/JetBrainsMono-*.woff2`) is SIL Open Font License 1.1; see `public/fonts/OFL.txt`.

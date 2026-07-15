@@ -1,16 +1,27 @@
 /**
  * Font subsetting — mehtapratik.com (One System)
  *
- * The self-hosted woff2 faces ship full glyph coverage (Berkeley Mono TX-02
- * alone carries box-drawing/Powerline/etc.), which is dead weight for a
- * Latin-only site and the dominant cost in the landing-page critical request
- * chain. This subsets each shipped face down to the characters the site can
- * actually render, writing the smaller woff2 back over public/fonts/.
+ * The self-hosted woff2 faces ship full glyph coverage (JetBrains Mono alone
+ * carries box-drawing/Powerline/etc.), which is dead weight for a Latin-only
+ * site and the dominant cost in the landing-page critical request chain. This
+ * subsets each shipped face down to the characters the site can actually
+ * render, writing the smaller woff2 back over public/fonts/.
  *
  * Sources are the OTF masters in _reference/fonts/site/ (gitignored); the repo only
  * ever holds the optimized woff2 deliverable, same as before — these are just
  * smaller now. Re-run after adding a face or introducing a new glyph:
- *   node scripts/fonts/subset.mjs
+ *   node scripts/fonts/subset.mjs            # all faces
+ *   node scripts/fonts/subset.mjs JetBrains  # only faces matching a substring
+ *
+ * LICENSING — subsetting is a modification, so it is licence-gated per family:
+ *   JetBrains Mono  OFL-1.1, no Reserved Font Name -> modification + subsetting
+ *                   permitted, name may be kept. See public/fonts/OFL.txt.
+ *   Clash families  Fontshare FFL §02: "You may not modify, edit, adapt ...
+ *                   the Font Software ... without the prior written consent of
+ *                   the Licensor." Subsetting them is NOT covered. Left in the
+ *                   list because they are already-shipped subsets; do not treat
+ *                   that as settled. See the FFL.txt in each clash family folder
+ *                   under _reference/fonts/site/.
  *
  * The retain set = printable ASCII + Latin-1 Supplement (headroom for normal
  * copy: accents, ·, ×, ©, en-dash range) UNION every non-ASCII codepoint found
@@ -27,8 +38,8 @@ const root = fileURLToPath(new URL('../..', import.meta.url));
 
 // face → [OTF master (source), shipped woff2 (destination)]
 const FACES = [
-  ['_reference/fonts/site/berkeley-mono/TX-02-Regular.otf', 'public/fonts/TX-02-Regular.woff2'],
-  ['_reference/fonts/site/berkeley-mono/TX-02-Medium.otf', 'public/fonts/TX-02-Medium.woff2'],
+  ['_reference/fonts/site/jetbrains-mono/JetBrainsMono-Regular.otf', 'public/fonts/JetBrainsMono-Regular.woff2'],
+  ['_reference/fonts/site/jetbrains-mono/JetBrainsMono-Medium.otf', 'public/fonts/JetBrainsMono-Medium.woff2'],
   ['_reference/fonts/site/clash-display/ClashDisplay-Semibold.otf', 'public/fonts/ClashDisplay-Semibold.woff2'],
   ['_reference/fonts/site/clash-display/ClashDisplay-Bold.otf', 'public/fonts/ClashDisplay-Bold.woff2'],
   ['_reference/fonts/site/clash-grotesk/ClashGrotesk-Regular.otf', 'public/fonts/ClashGrotesk-Regular.woff2'],
@@ -85,11 +96,24 @@ const kib = (n) => (n / 1024).toFixed(1) + ' KB';
 let before = 0;
 let after = 0;
 
-for (const [src, dest] of FACES) {
+// Optional substring filter: `node scripts/fonts/subset.mjs JetBrains` runs only
+// the matching faces, so a single family can be re-cut without touching the rest.
+const filter = process.argv[2];
+const faces = filter ? FACES.filter(([src]) => src.includes(filter)) : FACES;
+if (filter) console.log(`Filter "${filter}": ${faces.length}/${FACES.length} faces.\n`);
+
+for (const [src, dest] of faces) {
   const srcPath = join(root, src);
   const destPath = join(root, dest);
   const input = readFileSync(srcPath);
-  const prevSize = statSync(destPath).size; // current shipped woff2
+  // A new face has no shipped woff2 yet; fall back to the OTF master so the
+  // saving still reports against something real instead of throwing.
+  let prevSize;
+  try {
+    prevSize = statSync(destPath).size;
+  } catch {
+    prevSize = input.length;
+  }
   const out = await subsetFont(input, retainText, { targetFormat: 'woff2' });
   writeFileSync(destPath, out);
   before += prevSize;
