@@ -95,7 +95,11 @@ See `docs/deploy.md` for the full procedure and rollback.
 
 ## Operating contract
 
-`CLAUDE.md` is the source of truth for stack, deploy safety, content rules, voice, and design tokens. Read it before any work. Source-of-truth docs (System Master, Resume Master, One-System-Brand-Guidelines (brand kit), IA-Master) govern positioning, facts, and structure.
+**`CLAUDE.md` first.** It owns the build rules for this repo — deploy safety, content rules, voice, naming, font licensing — and points at everything it doesn't own.
+
+It deliberately owns very little. Facts and metrics come from the Resume Master, positioning and voice from the System Master, case-study copy from the live site itself, and design from the `/brand` page plus `src/styles/tokens.css`. Those governing docs live in gitignored `_reference/masters/` (this repo is public and they aren't all public-facing); `CLAUDE.md` §0 names them and sets the authority order.
+
+The rule holding it together: **docs own rules and decisions, the repo owns state.** A doc that restates what the code already enforces gives the fact two homes, and the copies drift.
 
 ## License
 

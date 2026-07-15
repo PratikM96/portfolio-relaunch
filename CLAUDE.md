@@ -1,139 +1,241 @@
 # CLAUDE.md — mehtapratik.com (One System portfolio)
 
-This file is the operating contract for building this site. Read it before any work.
-
-## What this is
-Pratik Mehta's personal portfolio, rebuilt from scratch in **Astro**, launching the **One System** brand for the first time. This is a full replacement of the old live site (different stack, different brand), not an edit of it.
-
-## Stack & infra
-- **Framework:** Astro (TypeScript)
-- **Deploy:** Cloudflare Workers (page serving) via `@astrojs/cloudflare`
-- **Assets:** ALL assets live in this repo and are served same-origin by the Worker (which edge-caches globally). No external CDN / R2. Images go in `src/assets/` (run through Astro's pipeline: responsive widths, hashing, CLS-safe dims); files that can't be processed — video, fonts, favicons — go in `public/` (`/hero`, `/fonts`, etc.) and are served verbatim at the site root. Keep only web-optimized deliverables in the repo (webp / webm / ffmpeg mp4 / woff2); raw masters stay in `_reference/` (gitignored), never committed. Cloudflare's per-file cap on Worker static assets is 25 MiB — design large case-study video around it. (Historical: assets were briefly planned on R2 at `cdn.mehtapratik.com`; that was dropped — the asset volume never justified a separate bucket. Any lingering `cdn.mehtapratik.com` URL in code is stale and should become a local path.)
-- **Repo:** this repo serves production at `mehtapratik.com` (post-cutover — see Deploy below). The OLD site (hand-edited HTML/CSS/JS, teal/coral brand) and its separate repo + Worker are retired.
-
-## File & folder naming (one standard — follow for every new file)
-The project already runs on a consistent, per-layer convention. Match it; do not invent a new style.
-
-**Files:**
-- Astro components → `PascalCase.astro` (`OutputGrid.astro`, `CaseSectionHead.astro`).
-- Routes / pages → `kebab.astro`; the filename IS the URL (`about.astro`, `[slug].astro`).
-- Scripts / styles / lib / TS → `kebab.ts` / lowercase (`site-chrome.ts`, `tokens.css`, `figure.ts`).
-- Docs → `kebab.md` (`hero-pipeline.md`). Content-collection slugs → `kebab` (`sr-love-and-care.md`).
-- **Contract-named assets are exempt and MUST NOT be "normalized"** — the convention-located files
-  are fixed strings a typo turns into a silent 404: `card.webm` / `card-light.webm` / `poster.webp`,
-  `hero_1080.webm` (yes, the underscore is intentional/locked), plus vendor/`@font-face` font
-  filenames (`JetBrainsMono-Medium.woff2`, `ClashDisplay-Bold.woff2`).
-
-**Folders:** always **lowercase kebab-case**, with per-project **slug** subdirs
-(`public/wc/<slug>/`, `src/assets/work/<slug>/`, `_reference/media/wc-animations/`). The terse
-codes `wc` (work-card), `ov` (output-video), `og` (share cards) are the documented, contract-located
-exceptions — reuse them, don't spell them out or add new abbreviations. New multi-word folders get a
-dash (`case-study-assets`, `general-sans`), never Title-Case or camelCase.
-
-**Note (Windows):** the working filesystem is case-insensitive, so a Title-Case→lowercase rename is a
-case-only rename — do it through a temp name (`mv Foo Foo__tmp && mv Foo__tmp foo`), and never create
-a lowercase twin of an existing dir before removing the original (a later `rm -rf` deletes both).
-
-## Deploy (cutover complete)
-- **The cutover is done:** `mehtapratik.com` now serves THIS repo (the new Astro / One System site). The old hand-edited site and its separate repo + Worker are retired. (Pre-cutover this section read "the live domain is served by the OLD deployment; deploy only to a `*.workers.dev` staging URL" — that was the migration-phase rule and no longer applies.)
-- **Deploys are now live-facing.** Pratik deploys manually; a push to `main` is NOT an auto-deploy, so pushing code and shipping it are separate steps. Because a deploy reaches the production domain, validate on a local/preview build first (`npm run build` / `npm run preview`).
-- SEO migration artifacts now govern the live domain: `public/_redirects` (old-URL 301s — redirect *sources* need explicit trailing-slash twins, e.g. both `/foo` and `/foo/`, because the Worker only normalizes trailing slashes for real pages, not redirect sources), `public/robots.txt`, and the generated `sitemap-index.xml`.
-
-## Non-negotiable content rules
-- **Never invent** metrics, clients, roles, revenue, awards, responsibilities, outcomes, or claims. If a fact is missing or uncertain, say so and leave a clear TODO. Do not fill gaps with plausible-sounding numbers.
-- **Self-initiated concepts** (The Ninth, Level, WISP) are NOT professional work. Label them as concepts everywhere. They carry **scope, never performance results**.
-- **Apr 2024 to present** = practice framing "Independent Creative Systems Practice" / "AI-assisted creative systems practice" (not a company, agency, traditional full-time role, or AI consultancy). The **resume + case-study role title for this period is "Creative Technologist" at org "Independent Creative Systems Practice"** (per the July 5 2026 masters; do NOT use "Self-directed" as a visible org/company label anywhere — it is internal classification only). The **default/primary identity is "Creative Marketing Lead"** (resume-facing title + market identity, no ampersand); "Creative and Marketing Strategist" is only an alternate broader public descriptor and must never outrank Creative Marketing Lead.
-- Source-of-truth docs govern everything: **System Master** (positioning, voice, proof logic), **Resume Master** (titles, dates, metrics), **One-System-Brand-Guidelines (brand kit)** (tokens), **IA-Master** (structure). Consult before proposing.
-
-## Voice (external-facing copy)
-Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. **No em or en dashes in external-facing copy, except date ranges.** No inflated claims, no buzzwords, no unsupported proof.
-
-## One System design tokens (single source of truth → `src/styles/tokens.css`)
-Neutral ramp (warm): `--n-0:#FBFAF6 --n-50:#F4F2EB --n-100:#EAE7DE --n-200:#DBD8CD --n-300:#C6C2B5 --n-400:#A6A294 --n-500:#847F72 --n-550:#6E6A5D --n-600:#615D52 --n-700:#46433B --n-800:#2B2924 --n-900:#171713 --n-950:#0B0B0A`
-Signal orange: `--o-300:#FF8F66 --o-400:#FF7038 --o-500:#FF5A1F (signal) --o-600:#E8480F --o-700:#C13A0A`
-- **Orange is used once per surface, one job, and is RESERVED for real results.** Concept scope and neutral data never use it.
-- `accent-text` = o-400 on dark, o-700 on light.
-
-Token naming (reconciled — brand kit is the source of truth): the build's `src/styles/tokens.css` mirrors the brand `Design-Tokens/one-system-tokens.css`. Code uses the brand names, not the old mockup names: `--accent-50…900` (not `--o-*`), `--font-display` / `--font-sans` / `--font-mono`, `--radius-none/sm/md/lg/xl/full`, `--ease-standard` / `--ease-exit` / `--ease-in-out`, `--surface-raised`, `--text-secondary`, plus the full type scale (`--h1…`, `--body…`, etc.), spacing (`--space-2xs…5xl`), and grid tokens. The signal fill is `--accent-fill` (= `--accent-500`); orange text is `--accent-text` (= accent-400 dark / accent-700 light). Site-only additions layered on top: `--rail`, `--badge-concept-bg` / `--badge-concept-tx`, `--img-frame`, and the light/dark `[data-theme]` switch. The `--n-*` ramp names are unchanged.
-
-Type:
-- Headlines: **Clash Display** 600/700 (self-hosted)
-- Body: **Clash Grotesk** 400/600/700 (self-hosted; weights locked to 400/600/700 per brand README)
-- System layer (labels, coordinates, data, console rail): **JetBrains Mono** 400/500, self-hosted.
-
-All fonts are self-hosted, same-origin, **woff2 only** — no third-party font CDN (no Fontshare, no Google Fonts). Self-hosting is deliberate and stays: a font CDN costs a second origin handshake plus a CSS→font waterfall, and defeats preloading, while the cross-site cache benefit that once justified it died when browsers partitioned HTTP cache by top-level site. The cut list mirrors actual usage (7 files): JetBrains Mono 400/500, Clash Display 600/700, Clash Grotesk 400/600/700. Files live in `public/fonts/` (flat); OTF masters + the per-family licence stay in `_reference/fonts/site/` (gitignored, one folder per family).
-
-**Licensing is a build constraint, not a footnote.** The repo is public and the fonts ship in it, so read a face's licence before adding it and confirm two separate rights: **web embedding** and **modification** (subsetting is modification). They do not come together.
-- **JetBrains Mono** — OFL-1.1, no Reserved Font Name: both rights granted, name may be kept. Subset. Its licence ships at `public/fonts/OFL.txt` because OFL §2 requires the licence to accompany the font.
-- **Clash Display / Clash Grotesk** — Fontshare FFL: embedding fine, **modification not granted** ("without the prior written consent of the Licensor"). So they ship **verbatim as downloaded, never subset**. Do not add them to `subset.mjs`.
-- **Berkeley Mono (TX-02)** — removed 2026-07-15: no web licence held, on a public repo.
-
-**Only the JetBrains Mono faces are subset** (see the licence rule above); Clash ships whole. `scripts/fonts/subset.mjs` (uses the `subset-font` devDependency) cuts each listed face from its OTF master down to a retain set = printable ASCII + Latin-1 **plus every non-ASCII codepoint scanned from the built HTML and `src/`** — so runtime-injected glyphs (the play/pause chip ▶/❚, menu ✕, arrows, ★/↗) survive. It writes back over `public/fonts/` with the same filenames (no `@font-face`/preload change). **Re-run after adding a face or a new glyph:** `npm run build` first (so the scan sees current pages), then `node scripts/fonts/subset.mjs` (or `node scripts/fonts/subset.mjs JetBrains` for one family). A hardcoded Latin-only subset would silently drop the UI marks — always keep the content scan.
-
-Font wiring:
-```css
---font-mono: 'JetBrains Mono',ui-monospace,monospace;
-@font-face{font-family:'JetBrains Mono';font-weight:400;font-display:swap;src:url('/fonts/JetBrainsMono-Regular.woff2') format('woff2')}
-@font-face{font-family:'JetBrains Mono';font-weight:500;font-display:swap;src:url('/fonts/JetBrainsMono-Medium.woff2') format('woff2')}
-/* + Clash Display 600/700 and Clash Grotesk 400/600/700, same pattern */
+```
+updated:  2026-07-15
+owns:     build rules for this repo that code cannot enforce
+wins:     how to change this repo
+defers:   facts -> Resume Master · copy -> the live site · positioning + voice
+          -> System Master · design -> /brand + tokens.css · behavior -> AI Behavior
 ```
 
-CSS / `<head>` split (confirmed): `src/styles/tokens.css` owns the design tokens (ramp, signal orange, font/radius/motion vars, theme maps) and **all** `@font-face` blocks. `Base.astro` `<head>` carries only `<link rel="preload">` for the three above-the-fold faces (Display 700, Grotesk 400, Mono 400; `crossorigin`) — there are no font stylesheet/preconnect tags anymore. `src/styles/global.css` holds the reset, shared primitives, and site chrome (console rail, mobile bar, footer). Shared **content primitives** live here too, promoted out of per-page scoped styles so they aren't re-declared with drift: `.card` / `.card--interactive` (bordered surface + hover lift), `.badge` / `.badge-lg` (engagement corner badge + case-study-hero variant), `.prose` (about + case-study body), `.tag` (journal chips). Consumers keep only their own layout; add the class rather than re-writing the surface.
+## 0. Read these first
 
-Site-wide client JS is **bundled, not inlined**: only the pre-paint no-flash theme set stays `is:inline` in `Base.astro`. Everything else is a hoisted, cached module — `src/scripts/consent.ts` (GA4 consent gate) and `src/scripts/site-chrome.ts` (theme toggle, mobile drawer, NY clock, reveal-on-scroll, case-study scroll-spy), imported from one bundled `<script>`. Video behaviour is shared too: `src/scripts/motion.ts` (`prefersReducedMotion`, `autoPlayInView`, `wireClickToPlay`) and `card-video.ts` (`applyCardSources`, `onThemeChange`, `wireHoverCards`). Don't re-inline these or re-implement the video/reveal logic per page.
+The governing docs are **not in this repo**. They live in `_reference/masters/`,
+which is gitignored (the repo is public; `system-master.md` §6 is explicitly not
+public-facing). They are still the source of truth for this site. Read them
+before proposing anything:
 
-Radius: **sharp 0** on mono/data layer; 8–12 on content; pill on actions. This split is a deliberate brand tell.
-Spacing (locked): page-head padding 104/64, section 96, horizontal margin 64px (28 tablet, 20 mobile), console rail 264px.
-Theme: dark + light both first-class. No-flash inline script in `<head>`, `localStorage` persistence (try/catch), follows OS until manual override, respects reduced-motion.
+| Need | Read |
+| --- | --- |
+| Any number, title, date, metric, role fact | `_reference/masters/resume-master.md` — **the metrics master** |
+| Positioning, voice, narrative, boundaries, governance | `_reference/masters/system-master.md` — the hub |
+| How to operate, task modes, failure states | `_reference/masters/ai-behavior.md` |
+| What is live at which URL | `_reference/masters/portfolio-url-index.md` |
 
-Canonical heading system (match across all pages):
-- Page h1: `clamp(38px,5vw,68px)`, line-height .96, letter-spacing -.03em, Clash Display 700
-- Kicker: mono 11px, .1em, uppercase, accent-text, 22px below
-- Section label: `[ 0N ]` (accent mono) + uppercase mono title (muted) + flex rule line
+`ai-behavior.md`: *"If a fact is not in one of these, it does not exist. Say so."*
 
-Reveal animations (two classes, pick by position — `src/styles/global.css`):
-- `.rev` = below-the-fold scroll reveal (opacity+slide, triggered by IntersectionObserver adding `.in`). Default for anything not in the first viewport.
-- `.rev-load` = above-the-fold reveal (**transform/slide only, no opacity**, CSS load animation, no JS gate). Use for the **page hero when it holds the LCP element** — home + case studies do this. Chromium excludes `opacity:0` elements from LCP, so an opacity-faded hero can hand LCP to a late-painting element (e.g. the cookie banner) and inflate it. `.rev-load` keeps the hero LCP-eligible and painted at first render. Text-only heroes on the lighter pages (about, contact, brand, journal, resume, privacy) still use `.rev` and measure fine, but new hero content that carries the LCP image/video should use `.rev-load`. Both respect reduced-motion.
+`_reference/masters/` also holds `job-search-targeting.md` and
+`system-locations.md` — job-search machinery, not site scope, and private.
+`_reference/_archive/` is superseded; never read it as current.
 
-## Content model
-- **Case studies:** one design for every entry. Spine: Scoreboard → Problem → System → Decisions → Output → Proof → Reflection. Optional modules render only when data exists.
-- **Engagement (`type`) is a typed, filterable facet, never separate sections.** Three values, defined in `src/lib/work-type.ts`: `in-house` (a role held inside the org — SPORTIME/JMTP, DealNews, FRC, Pipeline Medical, SR Love & Care), `agency` (a role at an agency whose clients were other companies — RAA, Agency FiveEighty), `concept` (self-initiated — The Ninth, Level, WISP).
-- **Do NOT label these "client".** None were client engagements: every non-concept entry is a position held (full-time, internship, or volunteer), and at RAA / Agency FiveEighty the clients belonged to the agency, not to Pratik. The old binary `client | concept` facet was inherited from the pre-relaunch site's inventory, not from a master. `in-house` also matches the stated search filter (positioning.md: "in-house first ... Agency and studio lower priority").
-- **Employment type (Internship, Volunteer) is disclosed in the scoreboard `role` field, not the badge** — e.g. `Designer (Internship)`, `Marketing and Design Team Lead (Volunteer)`. The badge carries engagement + discipline (`In-house · Brand & Product`); it never leads with seniority.
-- Real-work proof = verified metric. Concept proof = scope + rationale, no results claimed. `concept` is locked by the masters (positioning.md: never framed as client or freelance).
-- **Concept microsites** (`/concepts/[project]/[view]`) are embedded proof inside case studies, not a parallel front door. Each has its own brand/CSS.
-- Journal: notes on systems, brand, AI.
+**Authority order.** Resume Master wins any number, title, or date. The live site
+wins case-study copy, framing, and scope presentation. System Master wins
+positioning, voice, and boundaries. `/brand` + `src/styles/tokens.css` win design.
+This file wins only on how to build. A site-vs-master conflict is flagged and
+resolved, never silently adopted either way.
 
-## Hero video system (case-study cover wall)
-Each case study can carry one click-to-play hero video in the scoreboard wall. It is **convention-located by slug** so adding one is mechanical, never a path edit. Full encode recipe and per-study checklist live in **`docs/hero-pipeline.md`**.
-- **Served files (committed):** `public/hero/<slug>/hero_1080.webm` + `hero_1080.mp4` + `poster.webp`. Home page is the same shape at `public/hero/home/`.
-- **Masters (NOT in repo):** the 4K ProRes masters live on Google Drive at `Career-System/01-Brand/Animations/`. Web deliverables are transcoded from a local copy of the master with FFmpeg. The repo never holds a master; `_reference/media/hero-video/<slug>/` (gitignored) is only optional local staging for the compressed mp4/webm/poster.
-- **Opt-in:** set `heroVideo: true` in the entry frontmatter. The `[slug].astro` template derives the three paths from the slug; no paths in content. Omitted/false → cover image or placeholder, unchanged.
-- **Behavior:** poster + centered play button, **no autoplay** (case-study heroes have audio); first click hands off to native controls. Files must stay under Cloudflare's 25 MiB per-file cap (1080p, CRF-tuned).
-- Filenames are a contract: exactly `hero_1080.webm`, `hero_1080.mp4`, `poster.webp` inside the slug folder. A typo = silent 404, so don't improvise names.
+## 1. What this is
 
-## Work-card hover video system (index + featured covers)
-Case studies carry a short, muted, looping logo animation that plays on hover in the work index, standing in for the still-unshot static cover. **Convention-located by slug**; full encode recipe + slug map live in **`docs/work-card-video.md`**. This is distinct from the hero system: card clips are small, silent, and autoplay on hover; hero clips are large, click-to-play, and carry audio.
-- **Served files (committed):** `public/wc/<slug>/card.webm` + `card.mp4` + `poster.webp`, plus `card-light.webm` / `card-light.mp4` / `poster-light.webp` light-theme siblings. 720p, ~50-250 KB per clip (webm smaller, mp4 fallback larger); render sizes are small, so 720p is already oversampled.
-- **Masters (NOT in repo):** ProRes exports staged in gitignored `_reference/media/wc-animations/` (dark) and `_reference/media/wc-animations/light/` (light); the After Effects project is `animation-master/`. Web deliverables are transcoded with FFmpeg; the repo never holds a master.
-- **Opt-in:** `cardVideo: true` opts an entry in; `cardVideoLight: true` enables its light variant. Templates derive paths from the slug; no paths in content. Three surfaces read the flag: the shared index preview pane (`WorkIndex.astro`), the `/work` featured pair, and the hardcoded home bento tile (light opt-in there is `data-light="true"` on the `.tile-video`, not frontmatter).
-- **Behavior:** poster (the resolved-logo last frame) at rest; `preload="none"` so only the ~10 KB active-theme poster loads until a clip plays. The `/work` featured pair and home bento tile are hover-to-play (mouseenter plays muted, mouseleave reloads to poster); the shared index preview pane plays whichever row is active, so its first row autoplays on load. Theme selection + live reswap via `src/scripts/card-video.ts` keyed on `[data-theme]`. Reduced-motion → poster only.
-- Filenames are a contract: exactly `card.webm`, `card.mp4`, `poster.webp` (+ `-light` siblings). A typo = silent 404, so don't improvise names.
+Pratik Mehta's portfolio, on the **One System** brand. Astro + TypeScript,
+deployed to Cloudflare Workers via `@astrojs/cloudflare`.
 
-## Output gallery system (case-study §04)
-The Output section is an ordered list of typed **blocks** (`output.blocks`), each one asset family rendered by its own rule so a 1:1 social grid, a 16:9 mockup, and a tall scrolling website never share one cropped grid. Rendered by `OutputGrid.astro`. Full recipe + export caps live in **`docs/output-assets.md`**.
-- **Block kinds:** `mockup` (16:9 flagship / 2-up), `social` (1:1 grid), `flyer` (3:4 or 9:16 portrait grid), `gallery` (cropped landscape/square grid for photos, single-screen web shots, banners — `ratio` 3:2/4:3/16:9/1:1/2:1), `longpage` (websites + tall infographics in capped **internal-scroll frames**, laid out **N-up** — `cols` 1–3, one family per block, e.g. websites 2-up / infographics 3-up — with block-default `chrome: browser|plain`), `video` (in-gallery clip — `audio:true` click-to-play, `audio:false` muted loop, `cols` 1–3).
-- **Stills** go in `src/assets/work/<slug>/`, referenced by relative path and run through Astro's content `image()` helper → `<Image>` (build-time webp, responsive `srcset`, intrinsic dims / no CLS). Every `img` is optional → ratio-matched placeholder until it lands. Masters stay in `_reference/`.
-- **Mockups are theme-aware:** `img` (light/base) + `imgDark`; the pair swaps via CSS on `[data-theme]`, no flash. 2160p master → cap 1600w webp.
-- **Video** is convention-located by slug like hero/card: `public/ov/<slug>/<clip>.{webm,mp4}` + `<clip>-poster.webp`. `audio:false` = muted loop that plays on scroll-into-view (`preload="none"`, IntersectionObserver, reduced-motion → poster); `audio:true` = click-to-play. Under the 25 MiB cap.
-- `blocks` is the only output model. The legacy `output.tiles` uniform cover-cropped grid is **gone** — schema, `OutputGrid` branch, and CSS all removed once every entry had migrated. Don't reintroduce it; a new asset family is a new block kind.
+## 2. Deploy — read before running anything
 
-## Verified facts (locked — never alter)
-- B.S. Computer Science, NYU. Email mehtadpratik@gmail.com. New York. "Open to creative or marketing leadership roles."
-- Roles held also: DealNews, Richard Attias & Associates, Pipeline Medical, Agency FiveEighty, The Forest Road Company, SR Love & Care (self-initiated nonprofit, volunteer, built team 5→15+, handed off). Per the Resume Master these are full-time except Agency FiveEighty + Pipeline Medical (internships) and SR Love & Care (volunteer).
-- Headshot is in the repo (`src/assets/headshot-4x5.jpg`, a 1400px web-master; raw masters stay in gitignored `_reference/media/images/`), imported via Astro `<Image>` (downscaled webp) into the About portrait + home about module. Covers are still placeholders; when added they go in `src/assets/` (imported, never a CDN URL), named `{slug}-cover.webp`. Build-time image optimization requires the Cloudflare adapter's `imageService: 'compile'` (set in astro.config) so Sharp runs at build for the static pages.
+**`npm run deploy` publishes to the live domain.** The cutover is done;
+`mehtapratik.com` serves this repo and there is no staging URL in the loop.
+Deploys are manual: pushing to `main` is not a deploy, and Pratik runs it.
+Validate on `npm run build` / `npm run preview` first — concept-demo clean URLs
+resolve in preview but **not** under `npm run dev`. Full procedure and rollback:
+`docs/deploy.md`.
 
-## Current TODOs / placeholders (do not treat as final)
-- Output gallery: all in-house + agency case studies are migrated to the typed `blocks` model with real assets (DealNews, agency-fiveeighty, jmtp, pipeline-medical, raa, sr-love-and-care, sportime-clubs, plus frc which is a single featured brand film). SPORTIME is a curated subset of its ~90 assets. The three concept entries (level, the-ninth, wisp) carry no `output` block at all — their §Output renders the live-demo launcher only (see the concept-microsite note below). SPORTIME's Proof figures are populated (11.7M impressions, 16.8K net new followers, +510% IG publishing, +2,115% Reels) and match the Resume Master, but still need confirming against the 2023 social-reports PDFs (not yet mined).
-- Concept microsites are LIVE: 11 views (the-ninth: clipper/app/broadcast/social/brand; level: explainer/app/motion/brand; wisp: demo/brand) plus a hub per concept, ported from the old site as **static passthrough HTML in `public/concepts/<slug>/`**, served at `/concepts/<slug>/[view]` and `/concepts/<slug>/` (the hub / `EmbeddedDemo` "Open full demo" target). Each is its own world with its own inline brand/CSS/JS — NOT Astro pages. Already wired to the case studies (the `demo` frontmatter + `EmbeddedDemo` point at these routes; nothing in the case studies changed). Fonts are self-hosted per concept via `public/concepts/<slug>/fonts.css` (the-ninth: Array + Satoshi; level: Zodiak + Supreme + JetBrains Mono; wisp: Sentient + General Sans + JetBrains Mono), woff2 in `public/concepts/<slug>/fonts/`, JetBrains Mono reused from `/fonts/JetBrainsMono-*`. No Google Fonts, no GA4 (both stripped on port). Concept font sources (OTF only, one folder per family) stage in gitignored `_reference/fonts/concepts/<slug>/`. Case-study integration: concepts have NO hero cover wall (the placeholder 16:9 + caption is suppressed via `showHeroWall = !isConcept || heroVideo || cover`) and NO output grid — their §Output section renders the live-demo launcher ONLY (`hasOutputSection = hasOutput || hasDemo`; the `output` block was removed from the three concept entries). The launcher's stage previews are 16:9 stills of each view captured from the running demo, stored beside the concept as `public/concepts/<slug>/preview-<view>.webp` and referenced by each `demo.tabs[].img` (schema now allows a same-origin relative path, not just a URL). **Share cards (done):** every route + the 3 concepts now emit OG/Twitter/canonical via `Base.astro` (an `image` prop, default `/og/default.png`, resolved to absolute through `Astro.site`); concept microsite HTML references `/og/<slug>.png` directly (the stale `cdn.mehtapratik.com/og/*` refs are gone). Cards are branded 1200x630 PNGs in `public/og/` rendered from `scripts/og/og-template.html` (auto-fitting title; One System for the site + non-concept work, own-brand for the 3 concepts) — see `docs/og-cards.md`. **Brand copy fixed:** `the-ninth/brand` + `level/brand` type specs now name the current fonts (Array/Satoshi; Zodiak/Supreme/JetBrains Mono), matching what the pages render.
-- The three concept entries (level, the-ninth, wisp) now have work-card hover animations (dark + light) at `public/wc/<slug>/`, with `cardVideo`/`cardVideoLight` set. Static cover images (`{slug}-cover.webp`) are still unshot for every entry.
+Live-domain artifacts: `public/_redirects` (redirect *sources* need explicit
+trailing-slash twins — the Worker only normalizes trailing slashes for real
+pages), `public/robots.txt`, `public/_headers` (**the CSP is enforced** — a new
+external origin that isn't allowlisted fails silently), and the generated
+`sitemap-index.xml`.
+
+## 3. Content rules (non-negotiable)
+
+- **Never invent** metrics, clients, roles, revenue, awards, responsibilities,
+  outcomes, or claims. Missing or uncertain → say so, leave a TODO in the file
+  that needs it. Never fill a gap with a plausible number.
+- **One value per metric, sourced from the Resume Master.** No exact-value
+  variants, no invented precision, no ranges. If a figure on the site is more
+  precise than the master's, the site is wrong.
+- **Self-initiated concepts** (The Ninth, Level, WISP) are never professional
+  work. They carry **scope, never results**. When Cloud9 is named, The Ninth
+  carries its disclosure verbatim.
+- **Orange is reserved for real results** — this is a proof rule wearing a colour.
+  One signal per surface, one job. Concept scope and neutral data never get it.
+  (`/brand` owns the rest of the accent rules; it does not state this one.)
+- **Apr 2024 to present** = "Independent Creative Systems Practice", role
+  "Creative Technologist". Not a company, agency, consultancy, or freelance shop.
+  "Self-directed" is internal classification and never a visible label.
+- **Creative Marketing Lead** is the single public identity.
+
+## 4. Voice
+
+Direct, specific, natural, not over-polished, not obviously AI-written. Lead with
+the answer. No inflated claims, no buzzwords, no unsupported proof.
+
+**No em or en dashes in external-facing copy, except date ranges.** Absolute.
+
+Full rules — the declarative-reversal lead, the proof sentence, the honesty
+register, the avoid list — are System Master §5. Don't write in his voice without
+reading it. The `/brand` voice section defers to that doc by design.
+
+## 5. Where things are enforced (point, don't restate)
+
+If the code enforces it, read the code. Restating it here gives the fact a second
+home, and the copies drift.
+
+| Concern | Source of truth |
+| --- | --- |
+| Content model, required fields, the build guardrail | `src/content.config.ts` — a missing/wrong-shaped field **fails the build** |
+| Routes and the sitemap | `src/pages/` — the filename is the URL |
+| Design tokens, the ramp, `@font-face` | `src/styles/tokens.css` |
+| Design law in prose (type, colour, radius, grid, motion, a11y) | the live `/brand` page |
+| The engagement facet + its labels | `src/lib/work-type.ts` |
+| Stack and versions | `package.json`, `astro.config.mjs` |
+
+## 6. Build rules code can't enforce
+
+**Assets.** Everything is same-origin, served by the Worker. No external CDN.
+Images go in `src/assets/` (Astro's pipeline: responsive widths, hashing,
+CLS-safe dims); anything the pipeline can't process — video, fonts, favicons —
+goes in `public/` and is served verbatim. Only web-optimized deliverables get
+committed; raw masters stay in gitignored `_reference/`. **Cloudflare caps Worker
+static assets at 25 MiB per file** — design large video around it. Build-time
+image optimization needs the adapter's `imageService: 'compile'`.
+
+**Fonts.** Self-hosted, same-origin, woff2 only. No font CDN, and that's
+deliberate: a CDN costs a second-origin handshake plus a CSS→font waterfall and
+defeats preloading, while the cross-site cache benefit that once justified it
+died when browsers partitioned HTTP cache by top-level site. Files live flat in
+`public/fonts/`; OTF masters and the per-family licence stay in
+`_reference/fonts/site/`.
+
+*Licensing is a build constraint.* The repo is public and the fonts ship in it,
+so a face needs **two separate rights, and they don't come together**: web
+embedding **and** modification (subsetting is modification).
+- **JetBrains Mono** (mono/system layer) — OFL-1.1, no Reserved Font Name: both
+  granted. Subset. `public/fonts/OFL.txt` ships beside it because OFL §2 requires
+  the licence to accompany the font.
+- **Clash Display / Clash Grotesk** (display / body) — Fontshare FFL: embedding
+  yes, **modification no**. They ship verbatim as downloaded. Never add them to
+  `subset.mjs`.
+
+**Client JS is bundled, not inlined.** Only the pre-paint no-flash theme set is
+`is:inline` in `Base.astro` (plus the JSON-LD block, which isn't behavior).
+Everything else is a hoisted, cached module: `src/scripts/consent.ts` (GA4
+consent gate), `site-chrome.ts` (theme, drawer, clock, reveal, scroll-spy),
+`motion.ts` and `card-video.ts` (all video behavior). Don't re-inline these or
+re-implement video/reveal per page.
+
+**Shared primitives live in `global.css`,** promoted out of per-page styles so
+they can't drift: `.card` / `.card--interactive`, `.badge` / `.badge-lg`,
+`.prose`, `.tag`. Add the class; don't re-write the surface.
+
+**Reveal — pick by position.** `.rev` = below-the-fold scroll reveal (opacity +
+slide, IntersectionObserver). `.rev-load` = above-the-fold, **transform only, no
+opacity**. Use `.rev-load` for any hero holding the LCP element: Chromium
+excludes `opacity:0` elements from LCP, so a faded hero hands LCP to a
+late-painting element and inflates it. Both respect reduced-motion.
+
+**Headings (canonical).** Page h1 `clamp(38px,5vw,68px)` / line-height .96 /
+letter-spacing -.03em / Clash Display 700. Kicker: mono 11px, .1em, uppercase,
+accent-text, 22px below. Section label: `[ 0N ]` (accent mono) + uppercase mono
+title (muted) + flex rule line.
+
+**Theme.** Dark and light are both first-class. No-flash inline script,
+`localStorage` with try/catch, follows OS until manual override, respects
+reduced-motion.
+
+## 7. Naming (one standard — match it, don't invent)
+
+- Components → `PascalCase.astro`. Routes → `kebab.astro`. Scripts / styles /
+  lib → `kebab.ts`. Docs → `kebab.md`. Content slugs → `kebab`.
+- Folders → **lowercase kebab**, with per-project slug subdirs
+  (`public/wc/<slug>/`, `src/assets/work/<slug>/`). `wc` (work-card), `ov`
+  (output-video), `og` (share cards) are the documented abbreviations — reuse
+  them, don't invent more.
+- **Contract-named assets are exempt and must not be "normalized".** They're
+  fixed strings a typo turns into a silent 404: `card.webm` / `card-light.webm` /
+  `poster.webp`, `hero_1080.webm` (the underscore is intentional), and vendor
+  `@font-face` filenames (`JetBrainsMono-Medium.woff2`, `ClashDisplay-Bold.woff2`).
+- **Windows:** the filesystem is case-insensitive. A Title-Case→lowercase rename
+  is a case-only rename — go via a temp name (`mv Foo Foo__tmp && mv Foo__tmp foo`),
+  and never create a lowercase twin of an existing dir before removing the
+  original (a later `rm -rf` deletes both).
+
+## 8. Content model
+
+One case-study design for every entry. Spine: Scoreboard → Problem → System →
+Decisions → Output → Proof → Reflection. Optional modules render only when data
+exists. `src/content.config.ts` is the guardrail — every entry needs at least one
+proof figure or the build fails.
+
+**Engagement (`type`) is a typed, filterable facet, never a separate section.**
+Three values (`src/lib/work-type.ts`): `in-house` (a role held inside the org),
+`agency` (a role at an agency whose clients were other companies), `concept`
+(self-initiated).
+
+**Do not label these "client".** None were client engagements: every non-concept
+entry is a position held, and at RAA / Agency FiveEighty the clients belonged to
+the agency. Employment type (Internship, Volunteer) is disclosed in the
+scoreboard `role` field, never the badge — the badge carries engagement +
+discipline. Real-work proof = verified metric; concept proof = scope + rationale.
+
+**Concept microsites** are embedded proof inside their case study, not a parallel
+front door. Each is its own world with its own brand, CSS, and fonts, served as
+static passthrough HTML from `public/concepts/<slug>/`.
+
+**Media is opt-in and convention-located by slug — never a path in content.**
+`heroVideo: true`, `cardVideo: true`, `cardVideoLight: true`. Templates derive
+paths from the slug. Recipes and caps live in `docs/`:
+
+| System | Doc |
+| --- | --- |
+| Case-study hero video (click-to-play, has audio) | `docs/hero-pipeline.md` |
+| Work-card hover animation (muted, loops) | `docs/work-card-video.md` |
+| Output gallery blocks + export caps | `docs/output-assets.md` |
+| Share cards | `docs/og-cards.md` |
+| UTM + GA4 | `docs/utm-tagging.md` |
+| Deploy + rollback | `docs/deploy.md` |
+
+## 9. Decision log
+
+Dated so they don't get silently re-litigated. Rationale in the commit.
+
+- **2026-07-15** — Clash ships **unsubset**: Fontshare's FFL grants no
+  modification right. Costs +13 KB on the critical path; measured, accepted. The
+  FFL's broader "public server" / "font serving" clauses are known and accepted;
+  closed, not pending.
+- **2026-07-15** — **JetBrains Mono replaces Berkeley Mono (TX-02)**: no web
+  licence was held and the repo is public. Metrics match (1000 upem / 600
+  advance), so the swap was layout-neutral.
+- **2026-07-15** — Work facet **`client` → `in-house` / `agency` / `concept`**.
+  "Client" was false for all eight non-concept entries.
+- **2026-07-15** — **Legacy `output.tiles` removed.** `blocks` is the only output
+  model. A new asset family is a new block kind; don't reintroduce tiles.
+- **2026-07-15** — Docs reconciled post-cutover. `docs/deploy.md` had claimed
+  `npm run deploy` was safe because it targeted a staging URL. It is not.
+- **2026-07-14** — Masters split into hub + Job Search Targeting + AI Behavior.
+  Live site adopted as the case-study copy source; Resume Master confirmed as
+  metrics master; exact-value metric variants retired; "Creative and Marketing
+  Strategist" retired from public surfaces.
+- **Earlier** — Domain cutover to this repo. R2 / `cdn.mehtapratik.com` dropped;
+  all assets same-origin.
+
+## 10. This file's own rules
+
+**No state.** No inventories, no migration status, no "all X are done", no counts
+that a command can answer. Every one of those rots and then lies. Open work goes
+in the file that needs the fix, where the person editing it will see it — the way
+`cover: "" # [NEEDS: cover image url]` already does.
+
+**No second homes.** If the code enforces it, point at the code. If a master owns
+it, point at the master.
+
+**Anything verifiable gets verified, not asserted.** "~90 assets" was wrong by
+60. Counts belong in output, not prose.
