@@ -253,9 +253,14 @@ Dated so they don't get silently re-litigated. Rationale in the commit.
 - **2026-07-15** — **Type scale adopted** (the eight tiers in §6) and swept across
   every rule. Before this there was no system: h1/h2 were Clash Display, h3 was
   Grotesk, and mono labels carried seven different trackings — around a scale that
-  sat in `tokens.css` unused. The wordmark moved from Clash Display 700/-2.5%
-  (a hero treatment at 19px) to the `data` tier, matching the OG cards, so the
-  rail, mobile bar and share cards finally render one lockup.
+  sat in `tokens.css` unused.
+- **2026-07-15** — **Wordmark = `h2` tier** (Clash Display 500 / -1%), horizontal,
+  sentence case. It stays in the brand voice: it is Pratik's name, not a system
+  label. It was Display 700 / -2.5%, stacked, lh 1.05 — a *hero treatment at 19px*,
+  and that is what read as cramped. **Display weight and display tracking are
+  optical compensations for large type; never put them on UI-scale text.** The fix
+  was weight + tracking, not the family. (It was briefly shipped as the mono `data`
+  tier — wrong: that made the site's own name a system label.)
 - **2026-07-15** — **Fonts are VARIABLE, one file per family, shipped whole.**
   Static cuts made a missing weight fail *silently* (Grotesk 500 → 400; Mono 700 →
   faux bold), which is what blocked the scale. Payload 134.9 → 164.2 KB across
