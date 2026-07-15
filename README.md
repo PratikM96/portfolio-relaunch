@@ -72,15 +72,20 @@ Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ra
 
 ### Fonts
 
-The self-hosted faces are **subset** to the glyphs the site actually uses. `scripts/fonts/subset.mjs` reads the OTF masters from `_reference/fonts/site/` and writes subset woff2 into `public/fonts/`; the retain set is printable ASCII + Latin-1 plus every non-ASCII glyph scanned from the built HTML and source, so runtime-injected marks (play/pause, arrows, ✕) can't be dropped. Re-run after adding a face or a new glyph, then rebuild:
+**Subsetting is a modification, so it is licence-gated per family** — not a blanket optimization:
+
+- **JetBrains Mono** is OFL-1.1 with no Reserved Font Name, so it's subset to the glyphs the site actually uses. `OFL.txt` ships beside the faces because the licence requires it to accompany the font.
+- **Clash Display / Clash Grotesk** are under Fontshare's FFL, which doesn't grant modification, so they ship **verbatim as downloaded**. Don't add them to the subsetter.
+
+`scripts/fonts/subset.mjs` reads the OTF masters from `_reference/fonts/site/` and writes subset woff2 into `public/fonts/`; the retain set is printable ASCII + Latin-1 plus every non-ASCII glyph scanned from the built HTML and source, so runtime-injected marks (play/pause, arrows, ✕) can't be dropped. Re-run after adding a face or a new glyph, then rebuild:
 
 ```bash
-npm run build                          # so the scan sees current pages
-node scripts/fonts/subset.mjs          # all faces
+npm run build                            # so the scan sees current pages
+node scripts/fonts/subset.mjs            # every listed face
 node scripts/fonts/subset.mjs JetBrains  # or one family
 ```
 
-**Subsetting is a modification, so it is licence-gated per family.** JetBrains Mono is OFL-1.1 with no Reserved Font Name, so subsetting is permitted and the name may be kept; `OFL.txt` ships beside the faces because the licence requires it to accompany the font. Check the licence in each `_reference/fonts/site/<family>/` folder before adding a face — the repo is public and the fonts ship in it.
+Check the licence in each `_reference/fonts/site/<family>/` folder before adding a face — the repo is public and the fonts ship in it.
 
 ## Deploy
 
@@ -96,4 +101,4 @@ See `docs/deploy.md` for the full procedure and rollback.
 
 © 2026 Pratik Mehta. All rights reserved. This repository, including its code, copy, and design, is not licensed for reuse.
 
-**Bundled fonts are excepted** — they carry their own licences and are not covered by the line above. JetBrains Mono (`public/fonts/JetBrainsMono-*.woff2`) is SIL Open Font License 1.1; see `public/fonts/OFL.txt`.
+**Bundled fonts are excepted** — they carry their own licences and are not covered by the line above. JetBrains Mono (`public/fonts/JetBrainsMono-*.woff2`) is SIL Open Font License 1.1; see `public/fonts/OFL.txt`. Clash Display and Clash Grotesk (and the concept-microsite faces under `public/concepts/*/fonts/`) are Indian Type Foundry fonts under the Fontshare Font License, which grants no redistribution right: they are present here to serve this site only. Get them from [fontshare.com](https://www.fontshare.com) under your own licence rather than copying them from this repo.

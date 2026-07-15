@@ -13,15 +13,23 @@
  *   node scripts/fonts/subset.mjs            # all faces
  *   node scripts/fonts/subset.mjs JetBrains  # only faces matching a substring
  *
- * LICENSING — subsetting is a modification, so it is licence-gated per family:
+ * LICENSING — subsetting is a modification, so a face may only be listed here if
+ * its licence permits modification. This is a hard gate, not a preference:
+ *
  *   JetBrains Mono  OFL-1.1, no Reserved Font Name -> modification + subsetting
- *                   permitted, name may be kept. See public/fonts/OFL.txt.
- *   Clash families  Fontshare FFL §02: "You may not modify, edit, adapt ...
+ *                   permitted, name may be kept. Listed below. See
+ *                   public/fonts/OFL.txt.
+ *
+ *   Clash families  NOT LISTED, and must not be re-added. Fontshare FFL §02:
+ *                   "You may not modify, edit, adapt, translate, reverse
+ *                   engineer, decompile or disassemble, alter or otherwise copy
  *                   the Font Software ... without the prior written consent of
- *                   the Licensor." Subsetting them is NOT covered. Left in the
- *                   list because they are already-shipped subsets; do not treat
- *                   that as settled. See the FFL.txt in each clash family folder
- *                   under _reference/fonts/site/.
+ *                   the Licensor." Subsetting is modification, so Clash ships
+ *                   verbatim as downloaded from Fontshare (2026-07-15). Cost of
+ *                   shipping them whole: +34.8 KB total, +13 KB on the critical
+ *                   path (only Display-Bold and Grotesk-Regular are preloaded).
+ *                   That is single-digit ms same-origin — cheaper than the fix.
+ *                   Re-add only with written consent from Indian Type Foundry.
  *
  * The retain set = printable ASCII + Latin-1 Supplement (headroom for normal
  * copy: accents, ·, ×, ©, en-dash range) UNION every non-ASCII codepoint found
@@ -37,14 +45,10 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../..', import.meta.url));
 
 // face → [OTF master (source), shipped woff2 (destination)]
+// Modification-permitting licences ONLY — read the block comment before adding.
 const FACES = [
   ['_reference/fonts/site/jetbrains-mono/JetBrainsMono-Regular.otf', 'public/fonts/JetBrainsMono-Regular.woff2'],
   ['_reference/fonts/site/jetbrains-mono/JetBrainsMono-Medium.otf', 'public/fonts/JetBrainsMono-Medium.woff2'],
-  ['_reference/fonts/site/clash-display/ClashDisplay-Semibold.otf', 'public/fonts/ClashDisplay-Semibold.woff2'],
-  ['_reference/fonts/site/clash-display/ClashDisplay-Bold.otf', 'public/fonts/ClashDisplay-Bold.woff2'],
-  ['_reference/fonts/site/clash-grotesk/ClashGrotesk-Regular.otf', 'public/fonts/ClashGrotesk-Regular.woff2'],
-  ['_reference/fonts/site/clash-grotesk/ClashGrotesk-Semibold.otf', 'public/fonts/ClashGrotesk-Semibold.woff2'],
-  ['_reference/fonts/site/clash-grotesk/ClashGrotesk-Bold.otf', 'public/fonts/ClashGrotesk-Bold.woff2'],
 ];
 
 // Directories scanned for glyphs actually in play (rendered HTML + source that
