@@ -9,30 +9,27 @@ Branded 1200x630 Open Graph / Twitter images, one per route, served same-origin 
 - Concept microsites (`public/concepts/**`) are raw HTML, so they hardcode `og:image`/`twitter:image` = `https://mehtapratik.com/og/<slug>.png` in their own `<head>`.
 
 ## Brand
-- **One System** (warm near-black, Clash Display, JetBrains Mono, one orange accent) for the site + all non-concept case studies.
-- **Own brand** for the 3 concept cards, matching each microsite: `the-ninth` = Cloud9 blue on cloud-white + Array; `level` = ink + amber + Zodiak; `wisp` = warm dark + Sentient. Driven by the template's `brand` param.
+- **One System** (warm near-black, Clash Display, JetBrains Mono, one orange accent) for the site + all non-concept case studies. Follows the site type scale: title = `display`, wordmark = `h2`, badge/kick/meta = `label`.
+- **Own brand** for the 3 concept cards, matching each microsite. The concept overrides the display face only: the wordmark stays Clash Display (it is Pratik's mark, constant across every card) and the system layer stays JetBrains Mono: `the-ninth` = Cloud9 blue on cloud-white + Array; `level` = ink + amber + Zodiak; `wisp` = warm dark + Sentient. Driven by the template's `brand` param.
 
 ## Template
 `scripts/og/og-template.html` — a standalone HTML card. Query params: `brand` (`onesystem|the-ninth|level|wisp`), `badge`, `kick` (kicker/eyebrow), `title`, `meta` (footer line), `tag` (bottom-right word). The title **auto-fits**: after the fonts load it measures itself and steps down from 92px until it fits its box, so short names sit large and long titles shrink and wrap. Tune the range in the `fit()` function (`min`/starting size).
 
 Fonts are the repo's self-hosted woff2, referenced by paths **relative to the template** (`../../public/fonts/…`). Keep them relative: an absolute `file:///C:/Users/…` path silently falls back to system fonts the moment the repo moves or another machine renders a card, and a card rendered in the wrong font looks fine until you compare it to the site.
 
-## Regenerate / add a card
-Render with headless Chrome at exactly 1200x630 (Chrome's `--screenshot` fails on paths with spaces, so render to a space-free dir, then copy into `public/og/`):
+## Render
+`scripts/og/render-cards.mjs` **is** the record of what every card is made of. Case-study params derive from `src/content/work/*.md` (title, type, disciplines), so they can't drift from the site; only the six fixed site pages are listed by hand, in that file's `SITE` array.
 
 ```bash
-CHROME="/c/Program Files/Google/Chrome/Application/chrome.exe"
-TPL="file:///<abs-path>/scripts/og/og-template.html"
-Q="brand=onesystem&badge=JOURNAL&kick=NOTES%20ON%20SYSTEMS&title=<url-encoded-title>&meta=JOURNAL%20%C2%B7%20MEHTAPRATIK.COM&tag=One%20System"
-"$CHROME" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
-  --force-color-profile=srgb --window-size=1200,630 --virtual-time-budget=6000 \
-  --screenshot="/tmp/og-out.png" "$TPL?$Q"
-cp /tmp/og-out.png public/og/<name>.png
+node scripts/og/render-cards.mjs            # all 17
+node scripts/og/render-cards.mjs dealnews   # one, by output name
 ```
 
-Percent-encode param values (space `%20`, `&` `%26`, middot `·` `%C2%B7`). Then reference the new PNG via the page's `Base` `image` prop.
+Anything that changes every card — a font swap, a token change, the `client` → `in-house` relabel — is now one command. It needs Chrome (paths at the top of the script) and renders at exactly 1200x630 into `public/og/`.
 
-## Known gap: the cards aren't reproducible
-The per-card params (`badge`, `kick`, `title`, `meta`, `tag`) were passed by hand at render time and **were never recorded anywhere**. This doc describes how to render a card, not what each committed card was rendered *with* — so regenerating the set means reverse-engineering every one from the PNG. Anything that changes the look of every card (a font swap, a token change) therefore costs a manual re-derivation.
+**Adding a card:** a case study needs nothing, it derives from its entry. A new site page gets a line in `SITE`, then reference the PNG via the page's `Base` `image` prop.
 
-The fix is to make the params data instead of keystrokes: a small manifest (or a derive-from-frontmatter step) plus a loop, so the set regenerates from source. Wiring the render into the build — satori + resvg, or a headless step over the content collections — closes this and lets journal posts self-generate. Until then, treat the committed PNGs as hand artifacts.
+*(Until 2026-07-15 the params were typed at the command line and never recorded, so the set couldn't be regenerated without reverse-engineering 17 PNGs. That is why the cards still read "CASE STUDY · CLIENT" long after the facet was renamed — the fix existed, but nobody could afford to re-run it.)*
+
+## Future: build-time generation
+Wiring the render into the build (satori + resvg, or a headless step over the content collections) would let journal posts self-generate instead of needing the script run. The script closes the reproducibility gap; this would close the "remember to run it" gap.

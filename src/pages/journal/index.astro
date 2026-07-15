@@ -101,7 +101,7 @@ const meta = (p: (typeof posts)[number]) =>
   .lead-post .im img { width: 100%; height: 100%; object-fit: cover; min-height: 280px; }
   .lead-post .body { min-width: 0; padding: 36px; display: flex; flex-direction: column; justify-content: center; }
   .lead-post .cats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-  .lead-post h2 { font-family: var(--t-display-font); font-weight: var(--t-display-weight); letter-spacing: var(--t-display-track); font-size: clamp(26px, 3vw, 36px); line-height: 1.05; margin-bottom: 14px; }
+  .lead-post h2 { font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track); font-size: clamp(26px, 3vw, 36px); line-height: 1.05; margin-bottom: 14px; }
   .lead-post p { font-size: 15px; line-height: 1.6; color: var(--text-secondary); max-width: 48ch; }
   .lead-post .m { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: 22px; }
 
@@ -109,7 +109,7 @@ const meta = (p: (typeof posts)[number]) =>
   .plist { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
   .prow { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: baseline; padding: 28px 0; border-bottom: 1px solid var(--border); transition: padding-left .2s var(--ease-standard); }
   .prow:hover { padding-left: 10px; }
-  .prow .t { font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track); font-size: clamp(20px, 2.4vw, 26px); color: var(--text-secondary); transition: color .2s var(--ease-standard); }
+  .prow .t { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: clamp(20px, 2.4vw, 26px); color: var(--text-secondary); transition: color .2s var(--ease-standard); }
   .prow:hover .t { color: var(--text); }
   .prow .ex { font-size: 14px; color: var(--text-muted); margin-top: 8px; max-width: 60ch; }
   .prow .m { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }

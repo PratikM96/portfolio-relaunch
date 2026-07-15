@@ -45,17 +45,21 @@
   .glyph{width:34px;height:34px;flex:none;display:block}
   .glyph .bracket{fill:var(--text)}
   .glyph .node{fill:var(--accent)}
-  .site{font-family:var(--mono);font-size:17px;letter-spacing:.02em;color:var(--text)}
-  .badge{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:7px 15px}
+  /* The wordmark is CONSTANT across every card, including the concept brands: it
+     is Pratik's mark next to Pratik's glyph, so it stays in his voice (Clash
+     Display) rather than taking var(--disp) and rendering in the concept's face.
+     Same rule and tier as the site rail: h2 (Clash Display 500 / -1%). */
+  .site{font-family:'Clash Display',system-ui,sans-serif;font-weight:500;font-size:21px;letter-spacing:-.01em;color:var(--text)}
+  .badge{font-family:var(--mono);font-size:13px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:7px 15px}
 
   .mid{flex:1;position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;gap:22px}
-  .kick{font-family:var(--mono);font-size:16px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .kick{font-family:var(--mono);font-size:16px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
   .title-box{max-width:1048px;max-height:362px;display:flex;align-items:center}
-  .title{font-family:var(--disp);font-weight:var(--dw);line-height:.98;letter-spacing:-.015em;font-size:92px}
+  .title{font-family:var(--disp);font-weight:var(--dw);line-height:.98;letter-spacing:-.02em;font-size:92px}
 
   .bottom{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
   .meta{font-family:var(--mono);font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-  .accent-dot{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+  .accent-dot{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
   .accent-dot i{width:9px;height:9px;border-radius:50%;background:var(--accent)}
 </style>
 </head>
