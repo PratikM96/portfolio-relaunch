@@ -59,19 +59,19 @@ const { modules } = Astro.props;
 
 <style>
   .cs-margin { display: flex; flex-direction: column; gap: 22px; }
-  .cs-margin .m-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+  .cs-margin .m-label { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
   .m-stat { border-top: 1px solid var(--border-strong); padding-top: 16px; }
-  .m-stat .f { font-family: var(--font-display); font-weight: 700; font-size: 42px; letter-spacing: -0.025em; line-height: 1; }
+  .m-stat .f { font-family: var(--t-display-font); font-weight: var(--t-display-weight); letter-spacing: var(--t-display-track); font-size: 42px; line-height: 1; }
   .m-stat .d { font-size: 13px; line-height: 1.5; color: var(--text-secondary); margin-top: 10px; }
   .m-note { border-left: 2px solid var(--border-strong); padding-left: 16px; }
   .m-note p { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); }
   .m-meta { display: flex; flex-direction: column; gap: 14px; border-top: 1px solid var(--border-strong); padding-top: 16px; }
-  .m-meta .row .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 4px; }
+  .m-meta .row .k { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 10px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 4px; }
   .m-meta .row .v { font-size: 13.5px; color: var(--text); line-height: 1.4; }
   .m-quote { border-top: 1px solid var(--border-strong); padding-top: 16px; }
-  .m-quote .mk { font-family: var(--font-display); font-weight: 700; font-size: 30px; color: var(--accent-text); line-height: .5; height: 16px; }
-  .m-quote p { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.22; letter-spacing: -0.015em; color: var(--text); margin-top: 8px; }
-  .m-quote .who { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-top: 12px; }
+  .m-quote .mk { font-family: var(--t-display-font); font-weight: var(--t-display-weight); letter-spacing: var(--t-display-track); font-size: 30px; color: var(--accent-text); line-height: .5; height: 16px; }
+  .m-quote p { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: 19px; line-height: 1.22; letter-spacing: -0.015em; color: var(--text); margin-top: 8px; }
+  .m-quote .who { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-top: 12px; }
 
   /* When the layout collapses, modules flow as a row of cards. */
   @media (max-width: 1100px) {

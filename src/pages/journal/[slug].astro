@@ -154,7 +154,7 @@ const schema = [
 <style>
   .ahead { padding: 104px 0 64px; max-width: 74ch; }
   .ahead .cats { display: flex; gap: 8px; margin-bottom: 24px; }
-  .ahead .m { font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); margin-top: 24px; }
+  .ahead .m { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: 24px; }
 
   /* .tag / .tag.acc come from global.css */
 
@@ -166,25 +166,25 @@ const schema = [
   /* body copy comes from the post markdown — style the rendered elements globally */
   .amain :global(p) { font-size: 18px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 22px; }
   .amain :global(p:first-child) { font-size: 21px; line-height: 1.6; color: var(--text); }
-  .amain :global(h2) { font-family: var(--font-display); font-weight: 600; font-size: 26px; letter-spacing: -.02em; margin: 44px 0 16px; }
-  .amain :global(h3) { font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: -.015em; margin: 32px 0 12px; }
+  .amain :global(h2) { font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track); font-size: 26px; margin: 44px 0 16px; }
+  .amain :global(h3) { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: 20px; margin: 32px 0 12px; }
   .amain :global(strong) { color: var(--text); font-weight: 600; }
   .amain :global(a) { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
   .amain :global(ul), .amain :global(ol) { margin: 0 0 22px 20px; color: var(--text-secondary); }
   .amain :global(li) { margin-bottom: 8px; line-height: 1.6; }
-  .amain :global(blockquote) { border-left: 2px solid var(--accent-fill); padding-left: 20px; margin: 0 0 22px; color: var(--text); font-family: var(--font-display); font-weight: 600; }
+  .amain :global(blockquote) { border-left: 2px solid var(--accent-fill); padding-left: 20px; margin: 0 0 22px; color: var(--text); font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); }
 
   .amargin { display: flex; flex-direction: column; gap: 22px; position: sticky; top: 48px; }
   .m-quote { border-top: 1px solid var(--border-strong); padding-top: 16px; }
-  .m-quote p { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.25; letter-spacing: -.015em; color: var(--text); }
+  .m-quote p { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: 18px; line-height: 1.25; letter-spacing: -.015em; color: var(--text); }
 
   /* mobile post-foot: author + more writing, shown only where the rail is hidden */
   .post-foot { display: none; }
-  .pf-k { font-family: var(--font-mono); font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 14px; }
+  .pf-k { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 10px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 14px; }
   .pf-about p { font-size: 15px; line-height: 1.6; color: var(--text-secondary); max-width: 60ch; }
-  .pf-about a { display: inline-block; margin-top: 12px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--accent-text); }
+  .pf-about a { display: inline-block; margin-top: 12px; font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--accent-text); }
   .pf-more ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
-  .pf-more a { font-family: var(--font-display); font-weight: 600; font-size: 17px; letter-spacing: -.01em; line-height: 1.2; color: var(--text-secondary); transition: color .2s var(--ease-standard); }
+  .pf-more a { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: 17px; line-height: 1.2; color: var(--text-secondary); transition: color .2s var(--ease-standard); }
   .pf-more a:hover { color: var(--text); }
 
   @media (max-width: 1000px) {

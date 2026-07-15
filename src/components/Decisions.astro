@@ -27,8 +27,8 @@ const { decisions } = Astro.props;
 <style>
   .decisions { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
   .decision { display: grid; grid-template-columns: 64px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--border); align-items: start; }
-  .decision .dn { font-family: var(--font-display); font-weight: 700; font-size: 32px; letter-spacing: -0.02em; color: var(--accent-text); line-height: 1; }
-  .decision h3 { font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: -0.02em; margin-bottom: 12px; line-height: 1.1; }
+  .decision .dn { font-family: var(--t-display-font); font-weight: var(--t-display-weight); letter-spacing: var(--t-display-track); font-size: 32px; color: var(--accent-text); line-height: 1; }
+  .decision h3 { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: 24px; margin-bottom: 12px; line-height: 1.1; }
   .decision p { font-size: 15.5px; line-height: 1.6; color: var(--text-secondary); max-width: 64ch; }
 
   @media (max-width: 900px) {

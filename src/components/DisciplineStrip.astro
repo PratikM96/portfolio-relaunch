@@ -35,11 +35,11 @@ const items = [
   }
   .sysmap .n { padding: 16px; border-right: 1px solid var(--border); position: relative; background: var(--surface); }
   .sysmap .n:last-child { border-right: none; }
-  .sysmap .n .ix { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; color: var(--text-muted); }
+  .sysmap .n .ix { font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); font-size: 10px; color: var(--text-muted); }
   .sysmap .n .nm { font-weight: 600; font-size: 14px; margin-top: 7px; }
   .sysmap .n .ar {
     position: absolute; right: -7px; top: 50%; transform: translateY(-50%);
-    font-family: var(--font-mono); font-size: 15px; line-height: 1; color: var(--accent-text);
+    font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); font-size: 15px; line-height: 1; color: var(--accent-text);
     background: var(--surface); padding: 3px 3px; z-index: 3;
   }
   .sysmap .n:last-child .ar { display: none; }

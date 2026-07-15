@@ -257,14 +257,14 @@ const schema = [
   /* ===== SCOREBOARD HERO ===== */
   .cs-hero { padding: 96px 0 56px; }
   /* .badge / .badge-lg / in-house / agency / concept come from global.css */
-  .cs-hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(44px, 6.5vw, 86px); line-height: 0.95; letter-spacing: -0.035em; margin: 22px 0 0; }
+  .cs-hero h1 { font-family: var(--t-display-font); font-weight: var(--t-display-weight); letter-spacing: var(--t-display-track); font-size: clamp(44px, 6.5vw, 86px); line-height: 0.95; letter-spacing: -0.035em; margin: 22px 0 0; }
   .cs-hero .descr { font-size: 20px; line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: 26px; }
   /* non-affiliation disclosure — a visible bordered notice, not a footnote */
-  .cs-disclosure { margin-top: 24px; padding: 11px 16px; border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 11.5px; line-height: 1.5; letter-spacing: 0.02em; color: var(--text-secondary); max-width: 64ch; }
+  .cs-disclosure { margin-top: 24px; padding: 11px 16px; border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); max-width: 64ch; }
   .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: 48px; aspect-ratio: var(--ratio-wide); background: var(--surface); }
   .cs-wall img,
   .cs-wall video { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: 5px 10px; border-radius: var(--radius-none); }
+  .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 10.5px; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: 5px 10px; border-radius: var(--radius-none); }
 
   /* click-to-play hero video: poster + centered play button until first play,
      then native controls take over. Has audio, so it never autoplays. */
@@ -287,8 +287,10 @@ const schema = [
   .cs-next { border-top: 1px solid var(--border); margin-top: 72px; }
   .cs-next a { display: flex; align-items: center; justify-content: space-between; padding: 48px 0; gap: 24px; transition: padding-left .25s var(--ease-standard); }
   .cs-next a:hover { padding-left: 12px; }
-  .cs-next .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
-  .cs-next .t { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 4vw, 46px); letter-spacing: -0.03em; line-height: 1; margin-top: 10px; }
+  .cs-next .k { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
+  .cs-next .t { font-family: var(--t-display-font); font-weight: var(--t-display-weight); letter-spacing: var(--t-display-track); font-size: clamp(28px, 4vw, 46px); line-height: 1; margin-top: 10px; }
+  /* Not a type tier: renders a single → glyph, so it takes the display family for
+     the glyph shape only and has no weight/tracking to inherit. */
   .cs-next .arrow { font-family: var(--font-display); font-size: 34px; color: var(--accent-text); }
 
   /* ===== responsive ===== */

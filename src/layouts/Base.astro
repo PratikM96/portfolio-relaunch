@@ -198,7 +198,7 @@ const ldGraph = {
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <style>
-      .skip-link { position: fixed; top: 10px; left: 10px; z-index: 99999; padding: 10px 16px; border-radius: 8px; background: var(--surface-raised); color: var(--text); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; transform: translateY(-160%); transition: transform 0.18s var(--ease-standard); }
+      .skip-link { position: fixed; top: 10px; left: 10px; z-index: 99999; padding: 10px 16px; border-radius: 8px; background: var(--surface-raised); color: var(--text); font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 12px; text-transform: uppercase; text-decoration: none; transform: translateY(-160%); transition: transform 0.18s var(--ease-standard); }
       .skip-link:focus { transform: none; outline: 2px solid var(--accent-fill); outline-offset: 2px; }
     </style>
     {/* CONSOLE RAIL */}
@@ -361,11 +361,11 @@ const ldGraph = {
       .consent-txt { flex: 1; min-width: 260px; margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); text-wrap: balance; }
       .consent-txt a { color: var(--accent-text); text-decoration: underline; }
       .consent-btns { display: flex; gap: 10px; flex: none; }
-      .consent button { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 16px; border-radius: 999px; cursor: pointer; border: 1px solid var(--border-strong); background: transparent; color: var(--text); transition: border-color 0.18s var(--ease-standard), background 0.18s var(--ease-standard); }
+      .consent button { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; padding: 9px 16px; border-radius: 999px; cursor: pointer; border: 1px solid var(--border-strong); background: transparent; color: var(--text); transition: border-color 0.18s var(--ease-standard), background 0.18s var(--ease-standard); }
       .consent button:hover { border-color: var(--text); }
       .consent button.primary { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent); }
       .consent button:focus-visible { outline: 2px solid var(--accent-fill); outline-offset: 2px; }
-      .foot-cookies { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); background: none; border: 0; padding: 0; cursor: pointer; }
+      .foot-cookies { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 10.5px; text-transform: uppercase; color: var(--text-secondary); background: none; border: 0; padding: 0; cursor: pointer; }
       .foot-cookies:hover { color: var(--text); }
     </style>
     {/* Consent/GA gate + site chrome (theme toggle, drawer, NY clock,
