@@ -59,19 +59,11 @@ const heroVideo = d.heroVideo
     }
   : null;
 
-// Output gallery: prefer the typed `blocks` model; fall back to legacy `tiles`.
-// The whole section is optional — an entry with neither (e.g. frc, whose only
-// asset is its hero film) drops the §Output section and its rail entry, and the
-// spine renumbers so there's no gap.
+// Output gallery: the typed `blocks` model. The section is optional — an entry
+// with no output (e.g. frc, whose only asset is its hero film) drops the §Output
+// section and its rail entry, and the spine renumbers so there's no gap.
 const outputBlocks = d.output?.blocks;
-const outputTiles = d.output?.tiles?.map((t) => ({
-  wide: t.span === 'wide',
-  img: t.img,
-  alt: t.alt,
-  ph: t.ph,
-  caption: t.caption,
-}));
-const hasOutput = !!(outputBlocks?.length || outputTiles?.length);
+const hasOutput = !!outputBlocks?.length;
 // Concepts carry no output stills — their only §Output content is the live-demo
 // launcher. The section (and its rail entry) appears whenever there are output
 // assets OR a demo, and the OutputGrid itself renders only when assets exist.
@@ -220,7 +212,7 @@ const schema = [
     <section class="cs-sec" id="output">
       <CaseSectionHead no={no('output')} title="Output" />
       {hasOutput && (
-        <OutputGrid slug={d.slug} blocks={outputBlocks} tiles={outputTiles} note={d.output?.note} />
+        <OutputGrid slug={d.slug} blocks={outputBlocks} note={d.output?.note} />
       )}
       {d.demo && (
         <EmbeddedDemo

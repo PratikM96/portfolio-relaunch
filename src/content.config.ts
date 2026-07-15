@@ -205,29 +205,14 @@ const work = defineCollection({
       decisions: proseSection.extend({
         items: z.array(z.object({ n: z.string(), title: z.string(), text: z.string() })),
       }),
-      // Output gallery. New entries use the typed `blocks` model (one asset
-      // family per block, each rendered by its own rule); `tiles` is the legacy
-      // uniform-grid model kept so un-migrated entries still build. Exactly one
-      // is used per entry — `blocks` wins when present. The whole section is
-      // OPTIONAL: an entry with no output (e.g. frc, whose only asset is its hero
-      // film) omits it and the template drops the §Output section + rail entry.
+      // Output gallery: the typed `blocks` model (one asset family per block,
+      // each rendered by its own rule). The whole section is OPTIONAL — an entry
+      // with no output (e.g. frc, whose only asset is its hero film) omits it and
+      // the template drops the §Output section + rail entry.
       // See docs/output-assets.md.
       output: z
         .object({
           blocks: outputBlocks(image).optional(),
-          tiles: z
-            .array(
-              z.object({
-                // data-driven grid span: a 'wide' asset takes its own full-width row
-                span: z.enum(['standard', 'wide']).default('standard'),
-                img: z.string().url().or(z.literal('')).optional(), // "" or omitted -> placeholder tile
-
-                alt: z.string().optional(),
-                ph: z.string().optional(),
-                caption: z.string(),
-              }),
-            )
-            .optional(),
           note: z.string().optional(),
         })
         .optional(),

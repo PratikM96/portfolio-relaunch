@@ -120,7 +120,7 @@ The Output section is an ordered list of typed **blocks** (`output.blocks`), eac
 - **Stills** go in `src/assets/work/<slug>/`, referenced by relative path and run through Astro's content `image()` helper → `<Image>` (build-time webp, responsive `srcset`, intrinsic dims / no CLS). Every `img` is optional → ratio-matched placeholder until it lands. Masters stay in `_reference/`.
 - **Mockups are theme-aware:** `img` (light/base) + `imgDark`; the pair swaps via CSS on `[data-theme]`, no flash. 2160p master → cap 1600w webp.
 - **Video** is convention-located by slug like hero/card: `public/ov/<slug>/<clip>.{webm,mp4}` + `<clip>-poster.webp`. `audio:false` = muted loop that plays on scroll-into-view (`preload="none"`, IntersectionObserver, reduced-motion → poster); `audio:true` = click-to-play. Under the 25 MiB cap.
-- Legacy `output.tiles` (uniform cover-cropped grid) still renders, and `blocks` wins when both exist, but **no entry uses `tiles` anymore** — every case study with an output section is on `blocks`. The schema + `OutputGrid` code path are retained as a fallback only; build new output on `blocks`.
+- `blocks` is the only output model. The legacy `output.tiles` uniform cover-cropped grid is **gone** — schema, `OutputGrid` branch, and CSS all removed once every entry had migrated. Don't reintroduce it; a new asset family is a new block kind.
 
 ## Verified facts (locked — never alter)
 - B.S. Computer Science, NYU. Email mehtadpratik@gmail.com. New York. "Open to creative or marketing leadership roles."
