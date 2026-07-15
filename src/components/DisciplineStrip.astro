@@ -1,7 +1,8 @@
 ---
 /**
- * DisciplineStrip.astro — the five-discipline "system map" strip under the hero.
- * The five disciplines connect (+) into one system; the last carries no plus.
+ * DisciplineStrip.astro — the six-discipline "system map" strip under the hero.
+ * The disciplines ARE the system; the cells and their shared border carry that,
+ * so no connector glyph is needed between them.
  */
 const items = [
   { ix: '01', nm: 'Brand' },
@@ -16,11 +17,10 @@ const items = [
 <section class="disc-strip">
   <div class="sysmap rev">
     {
-      items.map((it, i) => (
+      items.map((it) => (
         <div class="n">
           <div class="ix">{it.ix}</div>
           <div class="nm">{it.nm}</div>
-          {i < items.length - 1 && <span class="ar">+</span>}
         </div>
       ))
     }
@@ -36,16 +36,15 @@ const items = [
   .sysmap .n { padding: 16px; border-right: 1px solid var(--border); position: relative; background: var(--surface); }
   .sysmap .n:last-child { border-right: none; }
   .sysmap .n .ix { font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); font-size: 10px; color: var(--text-muted); }
-  .sysmap .n .nm { font-weight: 600; font-size: 14px; margin-top: 7px; }
-  .sysmap .n .ar {
-    position: absolute; right: -7px; top: 50%; transform: translateY(-50%);
-    font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); font-size: 15px; line-height: 1; color: var(--accent-text);
-    background: var(--surface); padding: 3px 3px; z-index: 3;
+  /* h3 tier — a discipline name is a short title, same as a card title. It was
+     `font-weight: 600` with no family, which inherited Grotesk at the `strong`
+     weight and belonged to no tier. */
+  .sysmap .n .nm {
+    font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
+    font-size: 14px; margin-top: 7px; color: var(--accent-text);
   }
-  .sysmap .n:last-child .ar { display: none; }
 
   @media (max-width: 900px) {
     .sysmap { grid-template-columns: repeat(2, 1fr); }
-    .sysmap .n .ar { display: none; }
   }
 </style>
