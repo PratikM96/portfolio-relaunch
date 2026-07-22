@@ -139,7 +139,8 @@
 
   /* the system layer — JetBrains Mono. label + emphasis are ALWAYS uppercase:
      +10% tracking is an uppercase device and looks broken on lowercase, which is
-     why `data` (sentence-case: nav, values, the wordmark) sits at +5% instead. */
+     why `data` (sentence-case: rail nav, scoreboard values, the clock) sits at
+     +5% instead. */
   --t-label-font: var(--font-mono);    --t-label-weight: 400;    --t-label-track: 0.1em;
   --t-data-font: var(--font-mono);     --t-data-weight: 400;     --t-data-track: 0.05em;
   --t-emphasis-font: var(--font-mono); --t-emphasis-weight: 600; --t-emphasis-track: 0.1em;

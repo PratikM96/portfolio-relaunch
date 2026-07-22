@@ -199,7 +199,7 @@ img { display: block; max-width: 100%; }
 /* label + emphasis are ALWAYS uppercase — +10% tracking is an uppercase device */
 .t-label { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); text-transform: uppercase; }
 .t-emphasis { font-family: var(--t-emphasis-font); font-weight: var(--t-emphasis-weight); letter-spacing: var(--t-emphasis-track); text-transform: uppercase; }
-/* data stays sentence-case: nav, scoreboard values, the wordmark */
+/* data stays sentence-case: rail nav, scoreboard values, the clock */
 .t-data { font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); }
 
 .h2 { font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track); font-size: clamp(26px, 3vw, 34px); line-height: var(--lh-h2); }
