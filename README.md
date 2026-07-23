@@ -23,36 +23,36 @@ npm run check    # astro check (types + content)
 ```
 src/
   content/
-    work/          # case studies (one .md per project; typed by content.config.ts)
-    journal/       # journal posts (live: notes on systems, brand, AI)
-  content.config.ts# zod schemas + the build guardrail
-  pages/           # routes: home, /work, /work/[slug], /about, /resume, /brand,
-                   # /journal, /journal/[slug], /contact, /privacy, /404, /rss.xml
-  components/      # shared pieces (WorkIndex, Scoreboard, ProofBox, OutputGrid, ...)
-  layouts/Base.astro# site chrome: rail, footer, no-flash theme set, font preloads
-  scripts/         # bundled client modules: site-chrome (theme/drawer/clock/
-                   # reveal/spy), consent (GA gate), card-video + motion (video),
-                   # embedded-demo (concept launcher tabs)
+    work/             # case studies (one .md per project; typed by content.config.ts)
+    journal/          # journal posts (live: notes on systems, brand, AI)
+  content.config.ts   # zod schemas + the build guardrail
+  pages/              # routes: home, /work, /work/[slug], /about, /resume, /brand,
+                      # /journal, /journal/[slug], /contact, /privacy, /404, /rss.xml
+  components/         # shared pieces (WorkIndex, Scoreboard, ProofBox, OutputGrid, ...)
+  layouts/Base.astro  # site chrome: rail, footer, no-flash theme set, font preloads
+  scripts/            # bundled client modules: site-chrome (theme/drawer/clock/
+                      # reveal/spy), consent (GA gate), card-video + motion (video),
+                      # embedded-demo (concept launcher tabs)
   styles/
-    tokens.css     # design tokens (mirrors the brand kit) + all @font-face blocks
-    global.css     # reset, site chrome, the type-tier groups, shared primitives
+    tokens.css        # design tokens (mirrors the brand kit) + all @font-face blocks
+    global.css        # reset, site chrome, the type-tier groups, shared primitives
 public/
-  fonts/           # 3 self-hosted variable woff2 (Clash Display, Clash Grotesk, JetBrains Mono) + OFL.txt
-  hero/            # case-study + home hero videos, by slug (webm + webp poster)
-  wc/              # work-card hover animations, by slug (dark + light: card/poster + -light)
-  ov/              # in-gallery output videos, by slug (webm + webp poster)
-  og/              # rendered 1200x630 share cards (site + per-route + per-concept)
-  concepts/        # concept microsites: static passthrough HTML, own brand/CSS/JS per slug
-  _headers         # security headers incl. the enforced CSP
-  _redirects       # old-URL 301s from the pre-cutover site
-scripts/           # build-time tooling (repo root): og/ share-card template
+  fonts/              # 3 self-hosted variable woff2 (Clash Display, Clash Grotesk, JetBrains Mono) + OFL.txt
+  hero/               # case-study + home hero videos, by slug (webm + webp poster)
+  wc/                 # work-card hover animations, by slug (dark + light: card/poster + -light)
+  ov/                 # in-gallery output videos, by slug (webm + webp poster)
+  og/                 # rendered 1200x630 share cards (site + per-route + per-concept)
+  concepts/           # concept microsites: static passthrough HTML, own brand/CSS/JS per slug
+  _headers            # security headers incl. the enforced CSP
+  _redirects          # old-URL 301s from the pre-cutover site
+scripts/              # build-time tooling (repo root): og/ share-card template
 docs/
-  deploy.md          # deploy procedure
-  hero-pipeline.md   # hero video encode recipe + per-study checklist
-  work-card-video.md # work-card hover animation recipe + slug map
-  output-assets.md   # output-gallery block kinds + export caps
-  og-cards.md        # share-card rendering
-  utm-tagging.md     # UTM conventions + GA4 notes
+  deploy.md           # deploy procedure
+  hero-pipeline.md    # hero video encode recipe + per-study checklist
+  work-card-video.md  # work-card hover animation recipe + slug map
+  output-assets.md    # output-gallery block kinds + export caps
+  og-cards.md         # share-card rendering
+  utm-tagging.md      # UTM conventions + GA4 notes
 ```
 
 Site-wide client behaviour lives in `src/scripts/` (`consent.ts`,
