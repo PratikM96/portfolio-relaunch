@@ -37,19 +37,19 @@ const items = [
   }
 
 
-  .disc-strip { padding-bottom: 8px; }
+  .disc-strip { padding-bottom: var(--space-xs); }
   .sysmap {
     display: grid; grid-template-columns: repeat(6, 1fr);
     border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden;
   }
-  .sysmap .n { padding: 16px; border-right: 1px solid var(--border); position: relative; background: var(--surface); }
+  .sysmap .n { padding: var(--space-md); border-right: 1px solid var(--border); position: relative; background: var(--surface); }
   .sysmap .n:last-child { border-right: none; }
   .sysmap .n .ix { font-size: 10px; color: var(--text-muted); }
   /* h3 tier — a discipline name is a short title, same as a card title. It was
      `font-weight: 600` with no family, which inherited Grotesk at the `strong`
      weight and belonged to no tier. */
   .sysmap .n .nm {
-    font-size: 14px; margin-top: 7px; color: var(--accent-text);
+    font-size: 14px; margin-top: var(--space-xs); color: var(--accent-text);
   }
 
   @media (max-width: 900px) {

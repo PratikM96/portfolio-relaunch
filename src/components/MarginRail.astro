@@ -72,24 +72,24 @@ const { modules } = Astro.props;
     font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
   }
 
-  .cs-margin { display: flex; flex-direction: column; gap: 22px; }
-  .cs-margin .m-label { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
-  .m-stat { border-top: 1px solid var(--border-strong); padding-top: 16px; }
+  .cs-margin { display: flex; flex-direction: column; gap: var(--space-lg); }
+  .cs-margin .m-label { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-sm); }
+  .m-stat { border-top: 1px solid var(--border-strong); padding-top: var(--space-md); }
   .m-stat .f { font-size: 42px; line-height: 1; }
-  .m-stat .d { font-size: 13px; line-height: 1.5; color: var(--text-secondary); margin-top: 10px; }
-  .m-note { border-left: 2px solid var(--border-strong); padding-left: 16px; }
+  .m-stat .d { font-size: 13px; line-height: 1.5; color: var(--text-secondary); margin-top: var(--space-sm); }
+  .m-note { border-left: 2px solid var(--border-strong); padding-left: var(--space-md); }
   .m-note p { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); }
-  .m-meta { display: flex; flex-direction: column; gap: 14px; border-top: 1px solid var(--border-strong); padding-top: 16px; }
-  .m-meta .row .k { font-size: 10px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 4px; }
+  .m-meta { display: flex; flex-direction: column; gap: var(--space-md); border-top: 1px solid var(--border-strong); padding-top: var(--space-md); }
+  .m-meta .row .k { font-size: 10px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: var(--space-2xs); }
   .m-meta .row .v { font-size: 13.5px; color: var(--text); line-height: 1.4; }
-  .m-quote { border-top: 1px solid var(--border-strong); padding-top: 16px; }
+  .m-quote { border-top: 1px solid var(--border-strong); padding-top: var(--space-md); }
   .m-quote .mk { font-size: 30px; color: var(--accent-text); line-height: .5; height: 16px; }
-  .m-quote p { font-size: 19px; line-height: 1.22; letter-spacing: -0.015em; color: var(--text); margin-top: 8px; }
-  .m-quote .who { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-top: 12px; }
+  .m-quote p { font-size: 19px; line-height: 1.22; color: var(--text); margin-top: var(--space-xs); }
+  .m-quote .who { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-sm); }
 
   /* When the layout collapses, modules flow as a row of cards. */
   @media (max-width: 1100px) {
-    .cs-margin { flex-direction: row; flex-wrap: wrap; gap: 24px; }
+    .cs-margin { flex-direction: row; flex-wrap: wrap; gap: var(--space-lg); }
     .cs-margin > * { flex: 1; min-width: 220px; }
   }
 </style>

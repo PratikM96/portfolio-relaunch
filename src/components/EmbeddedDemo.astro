@@ -67,23 +67,23 @@ const active = tabs[activeIndex] ?? tabs[0];
   }
 
 
-  .embed { border: 1px solid var(--border-strong); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); margin-top: 24px; }
-  .embed .ehead { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-bottom: 1px solid var(--border); background: var(--surface-raised); }
+  .embed { border: 1px solid var(--border-strong); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); margin-top: var(--space-lg); }
+  .embed .ehead { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); padding: var(--space-md) var(--space-md); border-bottom: 1px solid var(--border); background: var(--surface-raised); }
   .embed .ehead .el { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); }
-  .embed .ehead .open { font-size: 11px; text-transform: uppercase; color: var(--text); display: flex; align-items: center; gap: 7px; transition: color .2s var(--ease-standard); }
+  .embed .ehead .open { font-size: 11px; text-transform: uppercase; color: var(--text); display: flex; align-items: center; gap: var(--space-xs); transition: color .2s var(--ease-standard); }
   .embed .ehead .open:hover { color: var(--accent-text); }
   .embed .etabs { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; }
-  .embed .etabs .etab { font-size: 11px; text-transform: uppercase; color: var(--text-muted); background: none; border: none; border-bottom: 2px solid transparent; padding: 13px 18px; cursor: pointer; white-space: nowrap; transition: color .2s var(--ease-standard), border-color .2s var(--ease-standard); }
+  .embed .etabs .etab { font-size: 11px; text-transform: uppercase; color: var(--text-muted); background: none; border: none; border-bottom: 2px solid transparent; padding: var(--space-sm) var(--space-md); cursor: pointer; white-space: nowrap; transition: color .2s var(--ease-standard), border-color .2s var(--ease-standard); }
   .embed .etabs .etab:hover { color: var(--text-secondary); }
   .embed .etabs .etab.on { color: var(--text); border-bottom-color: var(--accent-fill); }
   .embed .estage { position: relative; display: block; aspect-ratio: var(--ratio-wide); overflow: hidden; }
   .embed .estage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
   .embed .estage:hover img { transform: scale(1.02); }
-  .embed .estage .scrim { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 18px; background: linear-gradient(0deg, rgba(11, 11, 10, .6), transparent 55%); pointer-events: none; }
+  .embed .estage .scrim { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: var(--space-md); background: linear-gradient(0deg, rgba(11, 11, 10, .6), transparent 55%); pointer-events: none; }
   .embed .estage .scrim .cap { font-size: 10.5px; text-transform: uppercase; color: #fff; max-width: 60ch; }
-  .embed .estage .estage-go { position: absolute; top: 14px; right: 14px; font-size: 10.5px; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: 5px 10px; border-radius: var(--radius-none); opacity: 0; transition: opacity .2s var(--ease-standard); }
+  .embed .estage .estage-go { position: absolute; top: 14px; right: 14px; font-size: 10.5px; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); opacity: 0; transition: opacity .2s var(--ease-standard); }
   .embed .estage:hover .estage-go, .embed .estage:focus-visible .estage-go { opacity: 1; }
-  .embed .efoot { padding: 13px 18px; font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); border-top: 1px solid var(--border); }
+  .embed .efoot { padding: var(--space-sm) var(--space-md); font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); border-top: 1px solid var(--border); }
 </style>
 
 <script is:inline>

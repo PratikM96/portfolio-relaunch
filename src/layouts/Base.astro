@@ -204,7 +204,7 @@ const ldGraph = {
   }
 
 
-      .skip-link { position: fixed; top: 10px; left: 10px; z-index: 99999; padding: 10px 16px; border-radius: 8px; background: var(--surface-raised); color: var(--text); font-size: 12px; text-transform: uppercase; text-decoration: none; transform: translateY(-160%); transition: transform 0.18s var(--ease-standard); }
+      .skip-link { position: fixed; top: 10px; left: 10px; z-index: 99999; padding: var(--space-sm) var(--space-md); border-radius: 8px; background: var(--surface-raised); color: var(--text); font-size: 12px; text-transform: uppercase; text-decoration: none; transform: translateY(-160%); transition: transform 0.18s var(--ease-standard); }
       .skip-link:focus { transform: none; outline: 2px solid var(--accent-fill); outline-offset: 2px; }
     </style>
     {/* CONSOLE RAIL */}
@@ -369,12 +369,12 @@ const ldGraph = {
   }
 
 
-      .consent { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9998; max-width: 700px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; padding: 16px 20px; background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 14px; box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55); }
+      .consent { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9998; max-width: 700px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-lg); padding: var(--space-md) var(--space-lg); background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 14px; box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55); }
       .consent[hidden] { display: none; }
       .consent-txt { flex: 1; min-width: 260px; margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); text-wrap: balance; }
       .consent-txt a { color: var(--accent-text); text-decoration: underline; }
-      .consent-btns { display: flex; gap: 10px; flex: none; }
-      .consent button { font-size: 11px; text-transform: uppercase; padding: 9px 16px; border-radius: 999px; cursor: pointer; border: 1px solid var(--border-strong); background: transparent; color: var(--text); transition: border-color 0.18s var(--ease-standard), background 0.18s var(--ease-standard); }
+      .consent-btns { display: flex; gap: var(--space-sm); flex: none; }
+      .consent button { font-size: 11px; text-transform: uppercase; padding: var(--space-xs) var(--space-md); border-radius: 999px; cursor: pointer; border: 1px solid var(--border-strong); background: transparent; color: var(--text); transition: border-color 0.18s var(--ease-standard), background 0.18s var(--ease-standard); }
       .consent button:hover { border-color: var(--text); }
       .consent button.primary { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent); }
       .consent button:focus-visible { outline: 2px solid var(--accent-fill); outline-offset: 2px; }

@@ -46,10 +46,10 @@ const { cells } = Astro.props;
   .sb-board {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
     background: var(--border); border: 1px solid var(--border);
-    border-radius: var(--radius-md); overflow: hidden; margin-top: 48px;
+    border-radius: var(--radius-md); overflow: hidden; margin-top: var(--space-2xl);
   }
-  .sb-cell { background: var(--surface); padding: 22px 20px; container-type: inline-size; }
-  .sb-cell .k { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+  .sb-cell { background: var(--surface); padding: var(--space-lg) var(--space-lg); container-type: inline-size; }
+  .sb-cell .k { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-sm); }
   .sb-cell .v { font-size: 16px; color: var(--text); line-height: 1.35; }
   /* stat figure scales to the cell (container query) and stays on one line; number/accent split is in StatFigure */
   .sb-cell.stat .v { font-size: clamp(18px, 16cqi, 34px); white-space: nowrap; }

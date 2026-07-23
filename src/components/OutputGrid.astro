@@ -211,17 +211,17 @@ const clipSrc = (clip: string) => ({
 
 
   /* ===== typed blocks ===== */
-  .out { display: flex; flex-direction: column; gap: 56px; }
-  .blk-label { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin: 0 0 16px; }
+  .out { display: flex; flex-direction: column; gap: var(--space-3xl); }
+  .blk-label { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin: 0 0 var(--space-md); }
 
   /* shared media frame + caption */
   .out .im { position: relative; overflow: hidden; border: 1px solid var(--img-frame); border-radius: var(--radius-lg); background: var(--surface-raised); }
-  .out figcaption { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin-top: 10px; }
+  .out figcaption { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-sm); }
   .out figcaption .hint { color: var(--accent-text); }
   .out figure { margin: 0; }
   .out .im :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
   /* contain: show a whole artwork (infographic, document) without cropping */
-  .out .im.fit-contain { padding: 12px; }
+  .out .im.fit-contain { padding: var(--space-sm); }
   .out .im.fit-contain :global(img) { object-fit: contain; }
   /* paper: a warm-white card behind transparent / edge-light artwork so it
      doesn't read as broken on a dark surface. --n-0 is theme-independent. */
@@ -236,7 +236,7 @@ const clipSrc = (clip: string) => ({
   .r-4x3 { aspect-ratio: var(--ratio-classic); }
   .r-2x1 { aspect-ratio: var(--ratio-banner); }
 
-  .blk-mockup { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .blk-mockup { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
 
   /* theme-aware mockup pair: dark is the default; light swaps in under
      [data-theme='light']. No JS, no flash — the theme attribute is set before
@@ -248,23 +248,23 @@ const clipSrc = (clip: string) => ({
   :global(html[data-theme='light']) .im :global(.m-light) { display: block; }
 
   /* social / flyer grids */
-  .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: var(--space-md); }
 
   /* longpage — capped internal-scroll frames, laid out N-up */
-  .blk-long { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: 16px; align-items: start; }
+  .blk-long { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: var(--space-md); align-items: start; }
   .lp-frame { border: 1px solid var(--img-frame); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface-raised); }
-  .lp-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: var(--surface); border-bottom: 1px solid var(--img-frame); }
+  .lp-bar { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); background: var(--surface); border-bottom: 1px solid var(--img-frame); }
   .lp-bar .dot { width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--border-strong); }
   .lp-scroll { height: var(--h, 600px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
   .lp-scroll :global(img) { width: 100%; height: auto; display: block; }
 
   /* video block */
-  .blk-video { display: grid; grid-template-columns: repeat(var(--cols, 1), 1fr); gap: 16px; }
+  .blk-video { display: grid; grid-template-columns: repeat(var(--cols, 1), 1fr); gap: var(--space-md); }
   .out .vid video { width: 100%; height: 100%; object-fit: cover; display: block; }
   .ov-play { position: absolute; inset: 0; display: grid; place-items: center; border: 0; background: rgba(11, 11, 10, 0.24); cursor: pointer; transition: background 0.25s var(--ease-standard); }
   .ov-play:hover { background: rgba(11, 11, 10, 0.14); }
   .ov-play::before { content: ''; position: absolute; width: 64px; height: 64px; border-radius: var(--radius-full); background: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); }
-  .ov-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #0b0b0a; margin-left: 5px; }
+  .ov-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #0b0b0a; margin-left: var(--space-2xs); }
   .vid.is-playing .ov-play { display: none; }
 
   @media (max-width: 900px) {
@@ -274,7 +274,7 @@ const clipSrc = (clip: string) => ({
     .grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  .out-note { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin-top: 18px; }
+  .out-note { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-md); }
 </style>
 
 <script>

@@ -172,7 +172,7 @@ const schema = [
   {/* SYSTEM */}
   <section class="cs-sec" id="system">
     <CaseSectionHead no={no('system')} title="System" />
-    <div class="cs-body rev" style="margin-bottom:48px">
+    <div class="cs-body rev" style="margin-bottom:var(--space-2xl)">
       <div class="cs-main prose">
         {d.system.prose.map((p) => (
           <p>{p.lead ? (<><strong>{p.lead}</strong>{' '}{p.text}</>) : p.text}</p>
@@ -186,7 +186,7 @@ const schema = [
   {/* DECISIONS */}
   <section class="cs-sec" id="decisions">
     <CaseSectionHead no={no('decisions')} title="Decisions" />
-    <div class="cs-body rev" style="margin-bottom:40px">
+    <div class="cs-body rev" style="margin-bottom:var(--space-2xl)">
       <div class="cs-main prose">
         {d.decisions.prose.map((p) => (
           <p>{p.lead ? (<><strong>{p.lead}</strong>{' '}{p.text}</>) : p.text}</p>
@@ -258,15 +258,15 @@ const schema = [
 
 
   /* ===== SCOREBOARD HERO ===== */
-  .cs-hero { padding: 96px 0 56px; }
+  .cs-hero { padding: var(--space-4xl) 0 var(--space-3xl); }
   /* .badge / .badge-lg / in-house / agency / concept come from global.css */
-  .cs-hero h1 { font-size: clamp(44px, 6.5vw, 86px); line-height: 0.95; letter-spacing: -0.035em; margin: 22px 0 0; }
-  .cs-hero .descr { font-size: 20px; line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: 26px; }
+  .cs-hero h1 { font-size: clamp(44px, 6.5vw, 86px); line-height: 0.95; margin: var(--space-lg) 0 0; }
+  .cs-hero .descr { font-size: 20px; line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: var(--space-lg); }
   /* non-affiliation disclosure — a visible bordered notice, not a footnote */
-  .cs-disclosure { margin-top: 24px; padding: 11px 16px; border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); max-width: 64ch; }
-  .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: 48px; aspect-ratio: var(--ratio-wide); background: var(--surface); }
+  .cs-disclosure { margin-top: var(--space-lg); padding: var(--space-sm) var(--space-md); border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); max-width: 64ch; }
+  .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: var(--space-2xl); aspect-ratio: var(--ratio-wide); background: var(--surface); }
   .cs-wall video { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-size: 10.5px; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: 5px 10px; border-radius: var(--radius-none); }
+  .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-size: 10.5px; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); }
 
   /* click-to-play hero video: poster + centered play button until first play,
      then native controls take over. Has audio, so it never autoplays. */
@@ -274,30 +274,30 @@ const schema = [
   .cs-video-play:hover { background: rgba(11, 11, 10, .16); }
   .cs-video-play::before { content: ""; position: absolute; width: 78px; height: 78px; border-radius: var(--radius-full); background: #fff; box-shadow: 0 8px 28px rgba(0, 0, 0, .34); transition: transform .25s var(--ease-standard); }
   .cs-video-play:hover::before { transform: scale(1.06); }
-  .cs-video-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 13px 0 13px 22px; border-color: transparent transparent transparent #0b0b0a; margin-left: 6px; }
+  .cs-video-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 13px 0 13px 22px; border-color: transparent transparent transparent #0b0b0a; margin-left: var(--space-xs); }
   .cs-wall.is-playing .cs-video-play, .cs-wall.is-playing .cap { display: none; }
 
   /* ===== SECTIONS / PROSE / BODY ===== */
-  .cs-sec { padding: 96px 0; }
+  .cs-sec { padding: var(--space-4xl) 0; }
   /* .prose comes from global.css */
-  .cs-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: start; }
+  .cs-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-3xl); align-items: start; }
   .cs-main { max-width: 68ch; }
 
   /* ===== REFLECTION + NEXT ===== */
   .sb-reflect { max-width: 64ch; }
   .sb-reflect p { font-size: 17px; line-height: 1.66; color: var(--text-secondary); }
-  .cs-next { border-top: 1px solid var(--border); margin-top: 72px; }
-  .cs-next a { display: flex; align-items: center; justify-content: space-between; padding: 48px 0; gap: 24px; transition: padding-left .25s var(--ease-standard); }
-  .cs-next a:hover { padding-left: 12px; }
+  .cs-next { border-top: 1px solid var(--border); margin-top: var(--space-3xl); }
+  .cs-next a { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2xl) 0; gap: var(--space-lg); transition: padding-left .25s var(--ease-standard); }
+  .cs-next a:hover { padding-left: var(--space-sm); }
   .cs-next .k { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
-  .cs-next .t { font-size: clamp(28px, 4vw, 46px); line-height: 1; margin-top: 10px; }
+  .cs-next .t { font-size: clamp(28px, 4vw, 46px); line-height: 1; margin-top: var(--space-sm); }
   /* Not a type tier: renders a single → glyph, so it takes the display family for
      the glyph shape only and has no weight/tracking to inherit. */
   .cs-next .arrow { font-family: var(--font-display); font-size: 34px; color: var(--accent-text); }
 
   /* ===== responsive ===== */
-  @media (max-width: 1100px) { .cs-body { grid-template-columns: 1fr; gap: 32px; } }
-  @media (max-width: 900px) { .cs-hero { padding: 64px 0 40px; } }
+  @media (max-width: 1100px) { .cs-body { grid-template-columns: 1fr; gap: var(--space-xl); } }
+  @media (max-width: 900px) { .cs-hero { padding: var(--space-3xl) 0 var(--space-2xl); } }
 </style>
 
 <script>
