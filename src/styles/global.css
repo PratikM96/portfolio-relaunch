@@ -146,12 +146,24 @@ img { display: block; max-width: 100%; }
 }
 .console .status .dot {
   width: 7px; height: 7px; border-radius: var(--radius-full);
-  background: var(--accent-fill); animation: pulse 2.4s infinite var(--ease-standard);
+  background: var(--accent-fill);
+}
+/* The status dot's halo. Animated as transform + opacity on a pseudo-element,
+   NOT as box-shadow on the dot: box-shadow can't be composited, so it repainted
+   every frame and Lighthouse flagged it as a non-composited animation. The ring
+   is a real element scaled up and faded out, which stays on the GPU. */
+.console .status .dot,
+.m-readout .status .dot { position: relative; }
+.console .status .dot::after,
+.m-readout .status .dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: var(--radius-full);
+  background: rgba(255, 90, 31, .45);
+  animation: pulse 2.4s infinite var(--ease-standard);
 }
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 90, 31, .45); }
-  70% { box-shadow: 0 0 0 6px rgba(255, 90, 31, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 90, 31, 0); }
+  0% { transform: scale(1); opacity: 1; }
+  70% { transform: scale(2.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 0; }
 }
 
 /* theme toggle — sits in the readout as a peer line */
@@ -379,7 +391,7 @@ img { display: block; max-width: 100%; }
   }
   .m-readout .status .dot {
     width: 7px; height: 7px; border-radius: var(--radius-full);
-    background: var(--accent-fill); animation: pulse 2.4s infinite var(--ease-standard);
+    background: var(--accent-fill);
   }
   .m-readout .line {
     display: flex; justify-content: space-between; align-items: center;

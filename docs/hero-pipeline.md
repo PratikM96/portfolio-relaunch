@@ -12,9 +12,19 @@ separate system), see `docs/work-card-video.md`.
 **Served files (committed) — one folder per case study:**
 
 ```
-public/hero/<slug>/hero_1080.webm   VP9, 1080p, with audio
-public/hero/<slug>/poster.webp      still shown before play
+public/hero/<slug>/hero_1080.webm       VP9, 1080p, with audio
+src/assets/hero/<slug>/poster.webp      still shown before play
 ```
+
+**The poster lives in `src/assets/`, not beside the video.** It is the LCP
+element on every case study that has a hero, so it goes through Astro's image
+pipeline: responsive `srcset`, a content-hashed URL, and intrinsic dimensions.
+Export it at the master's full size and let the pipeline downscale — a 4K poster
+was being served whole to phones before this. It renders as a real `<img>`
+(`.cs-poster`), NOT the video's `poster` attribute, because that attribute takes
+a single URL and can't be responsive; `.is-playing` hides it on first play.
+The template throws at build time if `heroVideo` is set and the poster is
+missing. Only the video, which the pipeline can't process, stays in `public/`.
 
 The home page uses the same shape at `public/hero/home/` (but it autoplays muted
 and loops, since it has no audio - see `src/pages/index.astro`).
@@ -67,9 +77,11 @@ ffmpeg -i $master -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 2 -row-mt 1 `
   -color_primaries bt709 -color_trc bt709 -colorspace bt709 `
   -c:a libopus -b:a 192k "$out/hero_1080.webm"
 
-# Poster still (pick a strong frame; adjust -ss)
+# Poster still (pick a strong frame; adjust -ss). Goes to src/assets/hero/<slug>/,
+# NOT beside the video — Astro's pipeline downscales it into a responsive srcset,
+# so export at full size and don't hand-optimize it.
 ffmpeg -ss 00:00:03 -i $master -frames:v 1 -vf "scale=1920:1080" `
-  -c:v libwebp -quality 82 -compression_level 6 "$out/poster.webp"
+  -c:v libwebp -quality 82 -compression_level 6 "src/assets/hero/<slug>/poster.webp"
 
 # cleanup + size check
 Remove-Item ffmpeg2pass-0.log* -ErrorAction SilentlyContinue

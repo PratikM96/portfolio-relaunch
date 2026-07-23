@@ -220,7 +220,9 @@ reduced-motion.
   them, don't invent more.
 - **Contract-named assets are exempt and must not be "normalized".** They're
   fixed strings a typo turns into a silent 404: `card.webm` / `card-light.webm` /
-  `poster.webp`, `hero_1080.webm` (the underscore is intentional), and vendor
+  `poster.webp` (work cards), `hero_1080.webm` (the underscore is intentional;
+  its poster is NOT here — it lives in `src/assets/hero/<slug>/` so the image
+  pipeline can make it responsive), and vendor
   `@font-face` filenames (`ClashDisplay-Variable.woff2`, `JetBrainsMono-Variable.woff2`).
   Because they're fixed and unhashed, `public/_headers` caches them `immutable`
   for a year: **replacing one's bytes in place won't reach returning visitors.**

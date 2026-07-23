@@ -11,7 +11,8 @@
  * EmbeddedDemo renders whenever `demo` is present.
  */
 import { getCollection } from 'astro:content';
-import type { GetStaticPaths } from 'astro';
+import type { GetStaticPaths, ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CaseSectionHead from '../../components/CaseSectionHead.astro';
 import Scoreboard from '../../components/Scoreboard.astro';
@@ -52,12 +53,21 @@ const isConcept = isConceptType(d.type);
 // Hero video (optional): files are convention-located by slug, so a case study
 // opts in with `heroVideo: true` and drops the three files in /hero/<slug>/.
 // See docs/hero-pipeline.md for the encode recipe and naming contract.
-const heroVideo = d.heroVideo
-  ? {
-      webm: `/hero/${d.slug}/hero_1080.webm`,
-      poster: `/hero/${d.slug}/poster.webp`,
-    }
-  : null;
+// The hero POSTER goes through Astro's image pipeline (src/assets/hero/<slug>/),
+// not public/, because it is the LCP element on every case study that has one:
+// the pipeline gives it responsive widths, a content-hashed URL and intrinsic
+// dimensions. Only the video itself, which the pipeline can't process, stays in
+// public/hero/<slug>/. See docs/hero-pipeline.md.
+const posters = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/hero/*/poster.webp',
+  { eager: true },
+);
+const heroPoster = posters[`../../assets/hero/${d.slug}/poster.webp`]?.default;
+
+const heroVideo = d.heroVideo ? { webm: `/hero/${d.slug}/hero_1080.webm` } : null;
+if (heroVideo && !heroPoster) {
+  throw new Error(`heroVideo is set for "${d.slug}" but src/assets/hero/${d.slug}/poster.webp is missing`);
+}
 
 // Output gallery: the typed `blocks` model. The section is optional — an entry
 // with no output (e.g. frc, whose only asset is its hero film) drops the §Output
@@ -139,10 +149,21 @@ const schema = [
     <p class="descr rev-load">{d.lede}</p>
     {d.disclosure && <p class="cs-disclosure rev-load">{d.disclosure}</p>}
     <Scoreboard cells={d.hero} />
-    {heroVideo && (
+    {heroVideo && heroPoster && (
       <div class="cs-wall rev-load" data-cs-video>
+        {/* The poster is a real <img>, not the video's `poster` attribute, so it
+            gets a responsive srcset. It is the LCP element, hence eager +
+            high priority. `.is-playing` hides it once playback starts. */}
+        <Image
+          class="cs-poster"
+          src={heroPoster}
+          alt={d.coverAlt ?? ''}
+          widths={[480, 800, 1280, 1920]}
+          sizes="(max-width: 900px) 100vw, (max-width: 1400px) 70vw, 1100px"
+          loading="eager"
+          fetchpriority="high"
+        />
         <video
-          poster={heroVideo.poster}
           width="1920" height="1080"
           playsinline preload="none" aria-label={d.coverAlt}
         >
@@ -238,6 +259,9 @@ const schema = [
   .cs-disclosure { margin-top: var(--space-lg); padding: var(--space-sm) var(--space-md); border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); max-width: 64ch; }
   .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: var(--space-2xl); aspect-ratio: var(--ratio-wide); background: var(--surface); }
   .cs-wall video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* the poster sits under the video and is removed once playback starts */
+  .cs-wall :global(.cs-poster) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cs-wall.is-playing :global(.cs-poster) { display: none; }
   .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-size: 10.5px; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); }
 
   /* click-to-play hero video: poster + centered play button until first play,
