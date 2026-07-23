@@ -20,8 +20,16 @@
   // orphan the domain binding, so the name stays.)
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "portfolio-relaunch",
-  "compatibility_date": "2026-07-02",
+  // Matches the pinned workerd build (1.20260625.1). A date ahead of the
+  // installed runtime warns on every dev/deploy and enables nothing.
+  "compatibility_date": "2026-06-25",
   "assets": {
-    "directory": "./dist/client"
+    "directory": "./dist/client",
+    // Serve the built 404.html on a miss. Without this the default is "none",
+    // which returns a bare body — the styled 404 page shipped but was
+    // unreachable. html_handling is deliberately left at its default:
+    // astro.config's `format: 'file'` + trailingSlash 'never' depend on
+    // Cloudflare serving /foo.html at /foo and redirecting /foo/ -> /foo.
+    "not_found_handling": "404-page"
   }
 }

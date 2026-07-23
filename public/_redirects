@@ -45,57 +45,92 @@
 # The current journal set is 3 posts; legacy slugs map to the closest one by topic,
 # and anything without a clear home falls back to the /journal index. Retarget these
 # lines when new posts land (or when a mapping should be tightened).
+# Each has a trailing-slash twin: WordPress served these WITH a slash, so without
+# the twin the crawled form fell through to the /blog/* catch-all and lost its
+# topic mapping. Add both lines when adding a rule here.
 #   engineer-to-creative              = CS background / systems thinking / career
 #   most-creative-dies-in-the-handoff = creative-as-a-system / brand + performance
 #   where-ai-changes-creative-work    = AI in creative & marketing work
 #
 # CS-background / systems-thinking theme
 /blog/creative-science                           /journal/engineer-to-creative                301
+/blog/creative-science/                          /journal/engineer-to-creative                301
 /blog/cs-degree-taught-me-about-design           /journal/engineer-to-creative                301
+/blog/cs-degree-taught-me-about-design/          /journal/engineer-to-creative                301
 /blog/cs-degree-creative-director-secret-weapon  /journal/engineer-to-creative                301
+/blog/cs-degree-creative-director-secret-weapon/ /journal/engineer-to-creative                301
 # Creative-as-a-system / brand + performance theme
 /blog/ux-business                                /journal/most-creative-dies-in-the-handoff   301
+/blog/ux-business/                               /journal/most-creative-dies-in-the-handoff   301
 /blog/ux-starts-with-the-business-problem        /journal/most-creative-dies-in-the-handoff   301
+/blog/ux-starts-with-the-business-problem/       /journal/most-creative-dies-in-the-handoff   301
 /blog/run-creative-teams-speed-quality           /journal/most-creative-dies-in-the-handoff   301
+/blog/run-creative-teams-speed-quality/          /journal/most-creative-dies-in-the-handoff   301
 /blog/sportime-social                            /journal/most-creative-dies-in-the-handoff   301
+/blog/sportime-social/                           /journal/most-creative-dies-in-the-handoff   301
 /blog/social-metrics-that-matter                 /journal/most-creative-dies-in-the-handoff   301
+/blog/social-metrics-that-matter/                /journal/most-creative-dies-in-the-handoff   301
 /blog/55m-facility-launch                        /journal/most-creative-dies-in-the-handoff   301
+/blog/55m-facility-launch/                       /journal/most-creative-dies-in-the-handoff   301
 /blog/brand-and-revenue-move-together            /journal/most-creative-dies-in-the-handoff   301
+/blog/brand-and-revenue-move-together/           /journal/most-creative-dies-in-the-handoff   301
 # AI theme
 /blog/geo-is-the-new-seo                         /journal/where-ai-changes-creative-work      301
+/blog/geo-is-the-new-seo/                        /journal/where-ai-changes-creative-work      301
 /blog/faster-without-the-shortcuts-showing       /journal/where-ai-changes-creative-work      301
+/blog/faster-without-the-shortcuts-showing/      /journal/where-ai-changes-creative-work      301
 /blog/taste-is-the-bottleneck-now                /journal/where-ai-changes-creative-work      301
+/blog/taste-is-the-bottleneck-now/               /journal/where-ai-changes-creative-work      301
 /blog/genai-production-layer-not-magic-trick     /journal/where-ai-changes-creative-work      301
+/blog/genai-production-layer-not-magic-trick/    /journal/where-ai-changes-creative-work      301
 /blog/sports-fans-and-ai                         /journal/where-ai-changes-creative-work      301
+/blog/sports-fans-and-ai/                        /journal/where-ai-changes-creative-work      301
 /blog/the-form-is-the-disclosure                 /journal/where-ai-changes-creative-work      301
+/blog/the-form-is-the-disclosure/                /journal/where-ai-changes-creative-work      301
 /blog/trust-is-the-interface                     /journal/where-ai-changes-creative-work      301
+/blog/trust-is-the-interface/                    /journal/where-ai-changes-creative-work      301
 /blog/ai-workflow                                /journal/where-ai-changes-creative-work      301
+/blog/ai-workflow/                               /journal/where-ai-changes-creative-work      301
 # Old-site published slugs (were indexed) -> closest current post
 /blog/cross-channel-by-default                   /journal/most-creative-dies-in-the-handoff   301
+/blog/cross-channel-by-default/                  /journal/most-creative-dies-in-the-handoff   301
 /blog/audience-first-org-second                  /journal/most-creative-dies-in-the-handoff   301
+/blog/audience-first-org-second/                 /journal/most-creative-dies-in-the-handoff   301
 /blog/content-that-compounds                     /journal/most-creative-dies-in-the-handoff   301
+/blog/content-that-compounds/                    /journal/most-creative-dies-in-the-handoff   301
 /blog/distinctiveness-is-the-only-moat           /journal/most-creative-dies-in-the-handoff   301
+/blog/distinctiveness-is-the-only-moat/          /journal/most-creative-dies-in-the-handoff   301
 /blog/the-machine-readable-brand                 /journal/where-ai-changes-creative-work      301
+/blog/the-machine-readable-brand/                /journal/where-ai-changes-creative-work      301
 # No clear match -> journal index
 /blog/speculative-is-the-new-portfolio           /journal   301
+/blog/speculative-is-the-new-portfolio/          /journal   301
 /blog/designing-restraint                        /journal   301
+/blog/designing-restraint/                       /journal   301
 /blog/creative-lead                              /journal   301
+/blog/creative-lead/                             /journal   301
 /blog/creative-strategy                          /journal   301
+/blog/creative-strategy/                         /journal   301
 /blog/wireframe-to-live                          /journal   301
+/blog/wireframe-to-live/                         /journal   301
 /blog/video-first-trending                       /journal   301
+/blog/video-first-trending/                      /journal   301
 /blog/how-to-subbrand                            /journal   301
+/blog/how-to-subbrand/                           /journal   301
 /blog/complex-to-simple                          /journal   301
+/blog/complex-to-simple/                         /journal   301
 /blog/pickleball-brand                           /journal   301
+/blog/pickleball-brand/                          /journal   301
 /blog/pickleball-brand-from-zero                 /journal   301
+/blog/pickleball-brand-from-zero/                /journal   301
 /blog/dealnews-app-redesign                      /journal   301
+/blog/dealnews-app-redesign/                     /journal   301
 /blog/motion-graphics-strategic-asset            /journal   301
+/blog/motion-graphics-strategic-asset/           /journal   301
 /blog/sub-brands-without-chaos                   /journal   301
+/blog/sub-brands-without-chaos/                  /journal   301
 
-# --- Old WordPress archives (tags, categories, dates) -> journal / work index ---
-# Must stay ABOVE the /blog/* catch-all below.
-/blog/tag/*             /journal   301
-/blog/category/*        /journal   301
-/blog/2026/*            /journal   301
+# --- Old WordPress project archives -> work index ---
 /project-type/*         /work      301
 /project-attributes/*   /work      301
 
@@ -103,8 +138,10 @@
 # Destination is the /journal INDEX, never /journal/:splat — journal slugs do NOT
 # match old blog slugs (only 3 posts exist), so :splat manufactured redirects to
 # non-existent /journal/<old-slug> pages (a 301 -> 404, worse than a plain 404).
-# This also catches every `.html` and trailing-slash blog form the bare specific
-# rules above miss; those land here on the valid index.
+# This catches everything the specific rules above miss: `.html` forms, WordPress
+# tag/category/date archives, and any slug with no mapping. Dedicated
+# /blog/tag/*, /blog/category/* and /blog/2026/* rules used to sit here; they
+# pointed at /journal too, so they were doing nothing this line doesn't.
 /blog        /journal   301
 /blog/*      /journal   301
 

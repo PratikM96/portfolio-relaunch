@@ -150,9 +150,11 @@ const ldGraph = {
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={ogImage} />
 
-    {/* Browser UI tint per theme */}
-    <meta name="theme-color" content="#0B0B0A" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#FBFAF6" media="(prefers-color-scheme: light)" />
+    {/* Browser UI tint. A single tag with no `media`, because the active theme is
+        [data-theme] + localStorage, not the OS preference — keying this on
+        prefers-color-scheme left the chrome dark after a manual switch to light.
+        The no-flash script below rewrites `content` to match the resolved theme. */}
+    <meta name="theme-color" content="#0B0B0A" />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(ldGraph)} />
 
@@ -173,6 +175,8 @@ const ldGraph = {
             t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
           }
           document.documentElement.setAttribute('data-theme', t);
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', t === 'light' ? '#FBFAF6' : '#0B0B0A');
         } catch (e) {}
       })();
     </script>

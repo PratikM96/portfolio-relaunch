@@ -18,8 +18,15 @@ const themeBtns = Array.prototype.slice.call(
   document.querySelectorAll('[data-set]'),
 ) as HTMLElement[];
 
+/** Browser UI tint follows the resolved theme, not the OS preference. */
+function setThemeColor(t: string) {
+  const m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.setAttribute('content', t === 'light' ? '#FBFAF6' : '#0B0B0A');
+}
+
 function applyTheme(t: string) {
   root.setAttribute('data-theme', t);
+  setThemeColor(t);
   themeBtns.forEach((b) => {
     b.setAttribute('aria-pressed', String(b.dataset.set === t));
   });
@@ -42,6 +49,7 @@ try {
     } catch (_) {}
     if (!chosen) {
       root.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+      setThemeColor(e.matches ? 'light' : 'dark');
       themeBtns.forEach((b) => {
         b.setAttribute(
           'aria-pressed',

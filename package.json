@@ -10,21 +10,17 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "deploy": "npm run build && node -e \"require('fs').rmSync('.wrangler/deploy/config.json',{force:true})\" && wrangler deploy"
+    "deploy": "npm run build && node -e \"require('fs').rmSync('.wrangler/deploy/config.json',{force:true})\" && wrangler deploy",
+    "og:cards": "node scripts/og/render-cards.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.0.1",
     "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.0.3"
-  },
-  "allowScripts": {
-    "esbuild@0.28.1": true,
-    "sharp@0.34.5": true,
-    "workerd@1.20260625.1": true
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/sitemap": "^3.7.3",
     "@types/node": "^26.0.1",
     "typescript": "^6.0.3",
     "wrangler": "^4.107.0"

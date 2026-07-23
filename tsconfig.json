@@ -1,10 +1,8 @@
 {
+  // astro/tsconfigs/strict already sets strict, strictNullChecks,
+  // verbatimModuleSyntax, the .astro/types.d.ts include and the dist exclude.
+  // Only _reference is additive — it is a gitignored junction to Drive that
+  // astro check would otherwise walk.
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "_reference"],
-  "compilerOptions": {
-    "strict": true,
-    "strictNullChecks": true,
-    "verbatimModuleSyntax": true
-  }
+  "exclude": ["_reference"]
 }
