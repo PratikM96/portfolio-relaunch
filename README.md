@@ -36,9 +36,9 @@ src/
     global.css     # reset, site chrome, shared primitives (.card/.badge/.prose/.tag)
 public/
   fonts/           # 3 self-hosted variable woff2 (Clash Display, Clash Grotesk, JetBrains Mono) + OFL.txt
-  hero/            # case-study + home hero videos, by slug (webm + mp4 + webp poster)
+  hero/            # case-study + home hero videos, by slug (webm + webp poster)
   wc/              # work-card hover animations, by slug (dark + light: card/poster + -light)
-  ov/              # in-gallery output videos, by slug (webm + mp4 + webp poster)
+  ov/              # in-gallery output videos, by slug (webm + webp poster)
   og/              # rendered 1200x630 share cards (site + per-route + per-concept)
   concepts/        # concept microsites: static passthrough HTML, own brand/CSS/JS per slug
   placeholders/    # themed dark/light placeholder images, used until real media lands

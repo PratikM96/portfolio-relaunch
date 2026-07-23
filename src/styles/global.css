@@ -269,26 +269,6 @@ img { display: block; max-width: 100%; }
 .btn-g { border: 1px solid var(--border-strong); color: var(--text); }
 .btn-g:hover { border-color: var(--text); }
 
-/* ===== themed placeholder images =====
-   Shown until real media lands. Rendered as a background-image so the
-   variant swaps with the active [data-theme] (dark default, light override);
-   only the matched variant is fetched. Pair a ratio class with .ph-bg, and add
-   .ph-fill to make it fill an aspect-ratio container. */
-.ph-bg { background-size: cover; background-position: center; background-repeat: no-repeat; background-color: var(--surface-raised); }
-.ph-fill { width: 100%; height: 100%; }
-.ph-16x9 { background-image: url('/placeholders/placeholder-16x9-dark.png'); }
-.ph-16x10 { background-image: url('/placeholders/placeholder-16x10-dark.png'); }
-.ph-4x3 { background-image: url('/placeholders/placeholder-4x3-dark.png'); }
-.ph-4x5 { background-image: url('/placeholders/placeholder-4x5-dark.png'); }
-.ph-1x1 { background-image: url('/placeholders/placeholder-1x1-dark.png'); }
-.ph-9x16 { background-image: url('/placeholders/placeholder-9x16-dark.png'); }
-[data-theme='light'] .ph-16x9 { background-image: url('/placeholders/placeholder-16x9-light.png'); }
-[data-theme='light'] .ph-16x10 { background-image: url('/placeholders/placeholder-16x10-light.png'); }
-[data-theme='light'] .ph-4x3 { background-image: url('/placeholders/placeholder-4x3-light.png'); }
-[data-theme='light'] .ph-4x5 { background-image: url('/placeholders/placeholder-4x5-light.png'); }
-[data-theme='light'] .ph-1x1 { background-image: url('/placeholders/placeholder-1x1-light.png'); }
-[data-theme='light'] .ph-9x16 { background-image: url('/placeholders/placeholder-9x16-light.png'); }
-
 /* ===== FOOTER ===== */
 .foot {
   border-top: 1px solid var(--border); padding: 28px 0;

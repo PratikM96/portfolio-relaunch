@@ -163,12 +163,16 @@
   --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
 
   /* --- Image aspect ratios (the ONLY ratios any image slot may use) ---
-     Masters are authored 16:9 with nested safe zones so the same asset crops
-     cleanly to any of these. Never use an off-system ratio (no 16:8, 16:7, …). */
+     Every ratio the site renders is declared here; OutputGrid's .r-* classes
+     resolve to these, so there is one source of truth. Adding a slot means
+     adding a token, not a literal. */
   --ratio-wide: 16 / 9;        /* video / hero / feature */
   --ratio-landscape: 16 / 10;  /* gallery cards */
+  --ratio-photo: 3 / 2;        /* photo galleries */
   --ratio-classic: 4 / 3;      /* standard tiles / preview */
+  --ratio-banner: 2 / 1;       /* wide crops */
   --ratio-square: 1 / 1;       /* avatars / square posts */
+  --ratio-tall: 3 / 4;         /* flyers / stories */
   --ratio-portrait: 9 / 16;    /* vertical / reel */
 
   /* --- Motion --- */

@@ -13,8 +13,8 @@ type Tab = {
   label: string;
   /** Caption shown over the stage when active. */
   cap: string;
-  /** Stage preview image for this view. Optional; supplied later. */
-  img?: string;
+  /** Stage preview image for this view (/concepts/<slug>/preview-<view>.webp). */
+  img: string;
   /** Live view URL under /concepts/[project]/. */
   href: string;
   /** Centerpiece view, shown by default. */
@@ -26,9 +26,8 @@ interface Props {
   /** "Open full demo" target (the concept index). */
   openHref: string;
   foot: string;
-  alt?: string;
 }
-const { heading, tabs, openHref, foot, alt = '' } = Astro.props;
+const { heading, tabs, openHref, foot } = Astro.props;
 const featuredIndex = tabs.findIndex((t) => t.featured);
 const activeIndex = featuredIndex >= 0 ? featuredIndex : 0;
 const active = tabs[activeIndex] ?? tabs[0];
@@ -48,8 +47,8 @@ const active = tabs[activeIndex] ?? tabs[0];
       ))
     }
   </div>
-  <a class="estage ph-bg ph-16x9" href={active.href} aria-label={`Open the ${active.label} view`}>
-    {active.img && <img class="estage-img" src={active.img} alt={active.cap} />}
+  <a class="estage" href={active.href} aria-label={`Open the ${active.label} view`}>
+    <img class="estage-img" src={active.img} alt={active.cap} />
     <div class="scrim"><span class="cap estage-cap">{active.cap}</span></div>
     <span class="estage-go">Open ↗</span>
   </a>

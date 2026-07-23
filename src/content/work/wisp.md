@@ -7,11 +7,6 @@ type: concept
 role: Creative Technologist
 year: "2024"
 disciplines: [UI/UX, AI, Motion]
-cover: "" # [NEEDS: cover image url]
-coverAlt: "WISP faceless live AI host concept"
-coverCaption: "WISP · live AI host presence"
-cardVideo: true # hover-to-play logo animation at /wc/wisp/ (see docs/work-card-video.md)
-cardVideoLight: true # light-theme export at /wc/wisp/card-light.*
 featured: false
 description: "A self-initiated concept for a faceless live AI host. Its own brand. A scripted demonstration of an interaction model, not a live AI."
 badge: "Concept · Self-initiated"

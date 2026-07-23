@@ -55,7 +55,6 @@ const isConcept = isConceptType(d.type);
 const heroVideo = d.heroVideo
   ? {
       webm: `/hero/${d.slug}/hero_1080.webm`,
-      mp4: `/hero/${d.slug}/hero_1080.mp4`,
       poster: `/hero/${d.slug}/poster.webp`,
     }
   : null;
@@ -70,9 +69,6 @@ const hasOutput = !!outputBlocks?.length;
 // assets OR a demo, and the OutputGrid itself renders only when assets exist.
 const hasDemo = !!d.demo;
 const hasOutputSection = hasOutput || hasDemo;
-// Hero cover wall: shown only for a real cover image or hero video. Concepts have
-// neither, so the empty placeholder wall (16:9 box + caption) is dropped for them.
-const showHeroWall = !isConcept || !!heroVideo || !!d.cover;
 
 // Rail (case-study variant) — spine numbered dynamically so Output can drop out.
 const spine = ['problem', 'system', 'decisions', ...(hasOutputSection ? ['output'] : []), 'proof', 'reflection'];
@@ -143,7 +139,7 @@ const schema = [
     <p class="descr rev-load">{d.lede}</p>
     {d.disclosure && <p class="cs-disclosure rev-load">{d.disclosure}</p>}
     <Scoreboard cells={d.hero} />
-    {showHeroWall && (heroVideo ? (
+    {heroVideo && (
       <div class="cs-wall rev-load" data-cs-video>
         <video
           poster={heroVideo.poster}
@@ -151,19 +147,13 @@ const schema = [
           playsinline preload="none" aria-label={d.coverAlt}
         >
           <source src={heroVideo.webm} type="video/webm" />
-          <source src={heroVideo.mp4} type="video/mp4" />
         </video>
         <button class="cs-video-play" type="button" aria-label={`Play the ${d.title} video`}>
           <span class="tri" aria-hidden="true"></span>
         </button>
         <span class="cap">{d.coverCaption}</span>
       </div>
-    ) : (
-      <div class="cs-wall rev-load">
-        {d.cover ? <img src={d.cover} alt={d.coverAlt} fetchpriority="high" /> : <div class="ph-fill ph-bg ph-16x9" />}
-        <span class="cap">{d.coverCaption}</span>
-      </div>
-    ))}
+    )}
   </header>
 
   {/* PROBLEM */}
@@ -221,7 +211,6 @@ const schema = [
           tabs={d.demo.tabs}
           openHref={`/concepts/${d.demo.project}/`}
           foot={d.demo.foot}
-          alt={d.demo.alt}
         />
       )}
     </section>
@@ -262,7 +251,6 @@ const schema = [
   /* non-affiliation disclosure — a visible bordered notice, not a footnote */
   .cs-disclosure { margin-top: 24px; padding: 11px 16px; border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); max-width: 64ch; }
   .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: 48px; aspect-ratio: var(--ratio-wide); background: var(--surface); }
-  .cs-wall img,
   .cs-wall video { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 10.5px; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: 5px 10px; border-radius: var(--radius-none); }
 

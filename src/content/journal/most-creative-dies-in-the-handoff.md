@@ -8,7 +8,6 @@ readingTime: "4 min"
 pullquote: "Make it, then make it perform. Same system, same people, same loop."
 featured: true
 draft: false
-# cover + coverAlt: [NEEDS] optional header image
 ---
 
 Most creative work doesn't fail because it's bad. It fails after it's made.

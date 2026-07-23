@@ -8,11 +8,6 @@ type: concept
 role: Creative Technologist
 year: "2026"
 disciplines: [Brand, UI/UX, AI, Motion]
-cover: "" # [NEEDS: cover image url]
-coverAlt: "The Ninth esports membership concept system"
-coverCaption: "The Ninth · esports membership concept"
-cardVideo: true # hover-to-play logo animation at /wc/the-ninth/ (see docs/work-card-video.md)
-cardVideoLight: true # light-theme export at /wc/the-ninth/card-light.*
 featured: true
 description: "A self-initiated esports membership system built around Cloud9, brand through product, with a live AI moment-clipper at the center."
 badge: "Concept · Self-initiated"

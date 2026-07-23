@@ -92,14 +92,13 @@ ffmpeg -y -i in.png -vf scale=1600:-2 -c:v libwebp -quality 82 out.webp
 ```
 
 **Video** is convention-located by slug — no paths in content. Files:
-`public/ov/<case-slug>/<clip>.webm` + `<clip>.mp4` + `<clip>-poster.webp`.
+`public/ov/<case-slug>/<clip>.webm` + `<clip>-poster.webp`.
 `OutputGrid` derives the paths from the entry slug + the block item's `clip`.
 720p, under Cloudflare's 25 MiB per-file cap; muted loops carry no audio track.
 
 ```bash
 IN=master.mp4; OUT=public/ov/<slug>
 ffmpeg -y -i "$IN" -vf scale=1280:-2 -an -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 "$OUT/<clip>.webm"
-ffmpeg -y -i "$IN" -vf scale=1280:-2 -an -c:v libx264 -crf 26 -preset veryfast -movflags +faststart -pix_fmt yuv420p "$OUT/<clip>.mp4"
 ffmpeg -y -ss 0 -i "$IN" -vf scale=1280:-2 -frames:v 1 -c:v libwebp -quality 82 "$OUT/<clip>-poster.webp"
 ```
 
@@ -118,5 +117,5 @@ case study stacks many themed mockups.
 
 ## Filenames are a contract
 
-Video: exactly `<clip>.webm`, `<clip>.mp4`, `<clip>-poster.webp` under
+Video: exactly `<clip>.webm`, `<clip>-poster.webp` under
 `public/ov/<slug>/`. A typo is a silent 404 — don't improvise names.

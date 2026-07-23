@@ -6,10 +6,8 @@ topic: "Career · Systems"
 tags: ["systems thinking", "career", "creative technologist"]
 readingTime: "3 min"
 pullquote: "Creative work is a system too, and most people are treating it like a pile of separate parts."
-related: "Reads well after: Most creative dies in the handoff"
 featured: false
 draft: false
-# cover + coverAlt: [NEEDS] optional header image
 ---
 
 I started in code. My dad taught me to program before I understood it was a skill people paid for, and I spent a good chunk of my childhood at tech camps building small programs because I liked watching a system do exactly what I told it to. I went to NYU for computer science. None of that is the usual setup for someone who ends up in brand and creative work, and it turned out to be the most useful thing I brought to it.

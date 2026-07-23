@@ -7,13 +7,10 @@ type: in-house
 role: Social Media Director
 year: "2022"
 disciplines: [Social, Paid, Content, Strategy]
-cover: "" # [NEEDS: cover image url]
 # The brand history film is FRC's only deliverable, so it plays in the hero wall
 # (below the scoreboard) and the entry carries no Output section. Files at
 # /hero/frc/{hero_1080.webm,hero_1080.mp4,poster.webp}. See docs/hero-pipeline.md.
 heroVideo: true
-cardVideo: true # hover-to-play clip at /wc/frc/ (see docs/work-card-video.md)
-cardVideoLight: true # light-theme export exists at /wc/frc/card-light.*
 coverAlt: "Forest Road Company brand history film"
 coverCaption: "The Forest Road Company · B2B social"
 featured: false

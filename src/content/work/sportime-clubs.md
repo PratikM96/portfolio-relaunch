@@ -7,12 +7,9 @@ type: in-house
 role: Marketing Manager
 year: "2023-2024"
 disciplines: [Brand, Social, Content, Motion, Photo]
-cover: "" # [NEEDS: cover image url]
 coverAlt: "SPORTIME Clubs video-first content system"
 coverCaption: "SPORTIME teaser · 2023-2024"
 heroVideo: true # files at /hero/sportime-clubs/ (see docs/hero-pipeline.md)
-cardVideo: true # hover-to-play logo animation at /wc/sportime-clubs/ (see docs/work-card-video.md)
-cardVideoLight: true # light-theme export exists at /wc/sportime-clubs/card-light.*
 featured: true
 description: "A video-first content engine across tennis, pickleball, and a $75M expansion. 11.7M cross-platform impressions in a year."
 badge: "In-house · Brand & Content"

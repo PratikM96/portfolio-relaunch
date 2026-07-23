@@ -6,10 +6,8 @@ topic: "AI · Creative"
 tags: ["AI", "creative", "workflow", "production"]
 readingTime: "5 min"
 pullquote: "It's best at volume and speed, worst at taste and judgment, and taste and judgment are the whole job."
-related: "Reads well after: Most creative dies in the handoff"
 featured: false
 draft: false
-# cover + coverAlt: [NEEDS] optional header image
 ---
 
 Two things people say about AI and creative work are both wrong. One is that it replaces creatives. The other is that it's all slop. The truth is more specific, and more useful: it changes some parts of the work a lot, and other parts barely at all. The skill now is knowing which is which.

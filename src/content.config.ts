@@ -55,29 +55,28 @@ const proseSection = z.object({
  * list of blocks; each block is one asset family rendered by its own rule, so a
  * 1:1 social grid, a 16:9 mockup, and a tall scrolling website never share one
  * cropped grid. A factory (not a const) because the still `img` uses Astro's
- * `image()` helper, which only exists inside the schema function. `img` is
- * optional everywhere: omit it and a ratio-matched placeholder renders until the
- * real asset lands. Video is convention-located by slug (no paths in content):
- * /ov/<case-slug>/<clip>.{webm,mp4} + <clip>-poster.webp. See docs/output-assets.md.
+ * `image()` helper, which only exists inside the schema function. Video is
+ * convention-located by slug (no paths in content):
+ * /ov/<case-slug>/<clip>.webm + <clip>-poster.webp. See docs/output-assets.md.
  */
 const outputBlocks = (image: SchemaContext['image']) => {
+  // Required `img` is the guardrail: an output block with a missing asset fails
+  // the build rather than shipping an empty frame.
   const still = z.object({
-    img: image().optional(), // optimized local asset (light/base); omit -> placeholder
+    img: image(), // optimized local asset (light/base)
     // Optional dark-theme sibling. When present the still is theme-aware: `img`
     // shows in light, `imgDark` in dark (mockups mainly — they carry a themed
     // background). Omit for assets that read the same in both themes.
     imgDark: image().optional(),
     alt: z.string().optional(),
-    ph: z.string().optional(), // placeholder label until the asset lands
     caption: z.string().optional(),
   });
   return z.array(
     z.discriminatedUnion('kind', [
-      // Mockups / flagship — 16:9, full-width or 2-up. `flagship` leads the section.
+      // Mockups / flagship — full-width 16:9. `flagship` leads the section.
       z.object({
         kind: z.literal('mockup'),
         flagship: z.boolean().default(false),
-        cols: z.number().int().min(1).max(2).default(1),
         items: z.array(still),
       }),
       // Social posts — square, shown whole (never cropped).
@@ -98,15 +97,14 @@ const outputBlocks = (image: SchemaContext['image']) => {
         bg: z.enum(['surface', 'paper']).default('surface'),
         items: z.array(still),
       }),
-      // Photos & single-screen web shots — landscape/square grid. `fit: contain`
+      // Photos & single-screen web shots — landscape grid. `fit: contain`
       // shows a whole landscape artwork (e.g. an infographic) without cropping.
       z.object({
         kind: z.literal('gallery'),
         label: z.string().optional(),
-        ratio: z.enum(['3:2', '4:3', '16:9', '1:1', '2:1']).default('3:2'),
+        ratio: z.enum(['3:2', '4:3', '16:9', '2:1']).default('3:2'),
         cols: z.number().int().min(1).max(4).default(3),
         fit: z.enum(['cover', 'contain']).default('cover'),
-        bg: z.enum(['surface', 'paper']).default('surface'),
         items: z.array(still),
       }),
       // Long pages (websites, tall infographics) — capped internal-scroll frames,
@@ -119,17 +117,17 @@ const outputBlocks = (image: SchemaContext['image']) => {
         cols: z.number().int().min(1).max(3).default(2),
         height: z.number().int().default(600), // px viewport height of each frame
         chrome: z.enum(['browser', 'plain']).default('plain'),
-        items: z.array(still.extend({ chrome: z.enum(['browser', 'plain']).optional() })),
+        items: z.array(still),
       }),
       // Video — muted loop (plays in view) or audio (click-to-play). Slug-located.
       z.object({
         kind: z.literal('video'),
         audio: z.boolean().default(false), // block default; per-item `audio` overrides
-        ratio: z.enum(['16:9', '1:1', '9:16', '4:5']).default('16:9'),
+        ratio: z.enum(['16:9', '1:1']).default('16:9'),
         cols: z.number().int().min(1).max(3).default(1),
         items: z.array(
           z.object({
-            clip: z.string(), // /ov/<case-slug>/<clip>.{webm,mp4} + <clip>-poster.webp
+            clip: z.string(), // /ov/<case-slug>/<clip>.webm + <clip>-poster.webp
             audio: z.boolean().optional(), // overrides the block default for this clip
             alt: z.string().optional(),
             caption: z.string().optional(),
@@ -160,8 +158,6 @@ const work = defineCollection({
       role: z.string(), // rail scoreboard Role
       year: z.string(), // rail scoreboard Year
       disciplines: z.array(z.string()),
-      // accepts a real URL or "" (image not yet supplied — ships as a placeholder)
-      cover: z.string().url().or(z.literal('')),
       featured: z.boolean().default(false),
       description: z.string(), // <meta name="description">
 
@@ -173,25 +169,16 @@ const work = defineCollection({
       // REQUIRED for any concept that names a real company (e.g. The Ninth →
       // Cloud9) so the work can't read as commissioned or endorsed.
       disclosure: z.string().optional(),
-      coverAlt: z.string(),
-      coverCaption: z.string(),
-      // Set true when a case study has a click-to-play hero video for the
-      // scoreboard wall. The three files are convention-located by slug at
-      // /hero/<slug>/{hero_1080.webm,hero_1080.mp4,poster.webp} (served
-      // same-origin by the Worker); the template derives the paths. When true
-      // it replaces the cover image / placeholder. See docs/hero-pipeline.md.
+      // Accessible name + caption for the hero wall. Rendered ONLY when
+      // `heroVideo` is set (coverAlt becomes the <video> aria-label), so they
+      // are optional here and required by the refine below when it is.
+      coverAlt: z.string().optional(),
+      coverCaption: z.string().optional(),
+      // Opts this entry into a click-to-play hero wall. Files are located by
+      // slug at /hero/<slug>/{hero_1080.webm,poster.webp}; the template derives
+      // the paths. Without it the entry renders no hero wall at all.
+      // See docs/hero-pipeline.md.
       heroVideo: z.boolean().default(false),
-      // Set true when a case study has a hover-to-play logo animation for the
-      // work index. Three files are convention-located by slug at
-      // /wc/<slug>/{card.webm,card.mp4,poster.webp} (served same-origin); the
-      // WorkIndex + featured cards derive the paths. Muted, looping, no audio,
-      // preload="none" (only the poster loads until hover). Falls back to the
-      // cover image / placeholder when false. See docs/work-card-video.md.
-      cardVideo: z.boolean().default(false),
-      // Set true once a light-theme export exists for the card clip
-      // (/wc/<slug>/{card-light.webm,card-light.mp4,poster-light.webp}). Until
-      // then the light theme reuses the dark clip. Meaningless without cardVideo.
-      cardVideoLight: z.boolean().default(false),
       hero: z.array(
         z.object({
           k: z.string(),
@@ -241,14 +228,13 @@ const work = defineCollection({
           project: z.string(),
           heading: z.string(),
           foot: z.string(),
-          alt: z.string().optional(),
           // each tab links to its live view under /concepts/[project]/; `featured`
           // marks the centerpiece view (shown by default).
           tabs: z.array(
             z.object({
               label: z.string(),
               cap: z.string(),
-              img: z.string().optional(), // preview image: root-relative same-origin path (/concepts/<slug>/preview-<view>.webp), or omitted -> placeholder
+              img: z.string(), // /concepts/<slug>/preview-<view>.webp (root-relative, same-origin)
               href: z.string(),
               featured: z.boolean().optional(),
             }),
@@ -262,7 +248,14 @@ const work = defineCollection({
     .refine(
       (d) => d.type !== 'concept' || (typeof d.disclosure === 'string' && d.disclosure.trim().length > 0),
       { message: 'concept entries must carry a non-empty `disclosure`', path: ['disclosure'] },
-    ),
+    )
+    // A hero wall renders both an accessible name and a caption, so an entry
+    // opting into one must supply both. Entries without heroVideo render no wall
+    // and must not carry orphaned cover copy.
+    .refine((d) => !d.heroVideo || (!!d.coverAlt?.trim() && !!d.coverCaption?.trim()), {
+      message: '`heroVideo: true` requires both `coverAlt` and `coverCaption`',
+      path: ['coverAlt'],
+    }),
 });
 
 /**
@@ -279,10 +272,7 @@ const journal = defineCollection({
     topic: z.string().optional(), // rail/meta topic line, e.g. "Brand systems · AI"
     tags: z.array(z.string()).default([]),
     readingTime: z.string().optional(), // e.g. "5 min"
-    cover: z.string().url().optional(),
-    coverAlt: z.string().optional(),
     pullquote: z.string().optional(), // optional margin pull-quote
-    related: z.string().optional(), // optional margin "Related" note
     featured: z.boolean().default(false), // surfaces as the lead post
     draft: z.boolean().default(false),
   }),

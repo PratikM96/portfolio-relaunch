@@ -47,7 +47,7 @@ const journalPosts = (await getCollection('journal'))
         <div class="btn-row rev-load"><a class="btn btn-p" href="/work">See the work →</a><a class="btn btn-g" href="/contact">Start a conversation →</a></div>
       </div>
       <figure class="hero-figure rev-load">
-        {/* 1:1 brand-mark animation. Self-hosted (public/hero), webm→mp4.
+        {/* 1:1 brand-mark animation. Self-hosted (public/hero), webm.
             Loops, pauses off-screen + on click; reduced-motion shows the
             poster still and never autoplays. JS hook: data-hero-video. */}
         <div class="frame">
@@ -59,7 +59,6 @@ const journalPosts = (await getCollection('journal'))
               muted loop playsinline preload="none"
             >
               <source src="/hero/home/hero_1080.webm" type="video/webm" />
-              <source src="/hero/home/hero_1080.mp4" type="video/mp4" />
             </video>
             <span class="hero-video-state" aria-hidden="true">❚❚ Pause</span>
           </button>
@@ -79,10 +78,8 @@ const journalPosts = (await getCollection('journal'))
         <a class="card card--interactive t-feat" href="/work/sportime-clubs">
           <span class="badge in-house">In-house</span>
           <div class="img">
-            <div class="ph-fill ph-bg ph-16x9"></div>
-            <video class="tile-video" muted loop playsinline preload="none" data-slug="sportime-clubs" data-light="true" poster="/wc/sportime-clubs/poster.webp">
+            <video class="tile-video" muted loop playsinline preload="none" data-slug="sportime-clubs" poster="/wc/sportime-clubs/poster.webp">
               <source src="/wc/sportime-clubs/card.webm" type="video/webm" />
-              <source src="/wc/sportime-clubs/card.mp4" type="video/mp4" />
             </video>
           </div>
           <div class="meta">
@@ -96,10 +93,8 @@ const journalPosts = (await getCollection('journal'))
         <a class="card card--interactive t-feat" href="/work/the-ninth">
           <span class="badge concept">Concept</span>
           <div class="img">
-            <div class="ph-fill ph-bg ph-16x9"></div>
-            <video class="tile-video" muted loop playsinline preload="none" data-slug="the-ninth" data-light="true" poster="/wc/the-ninth/poster.webp">
+            <video class="tile-video" muted loop playsinline preload="none" data-slug="the-ninth" poster="/wc/the-ninth/poster.webp">
               <source src="/wc/the-ninth/card.webm" type="video/webm" />
-              <source src="/wc/the-ninth/card.mp4" type="video/mp4" />
             </video>
           </div>
           <div class="meta">

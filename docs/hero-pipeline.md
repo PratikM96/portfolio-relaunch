@@ -13,7 +13,6 @@ separate system), see `docs/work-card-video.md`.
 
 ```
 public/hero/<slug>/hero_1080.webm   VP9, 1080p, with audio
-public/hero/<slug>/hero_1080.mp4    H.264, 1080p, with audio  (universal fallback)
 public/hero/<slug>/poster.webp      still shown before play
 ```
 
@@ -30,8 +29,7 @@ _reference/media/case-study-animations/<slug>/
   (Footage)/           source footage for the comp
 ```
 
-Everything needed to re-cut a hero is in that folder. Only the three web
-deliverables above ship. Not every shipped hero has a project here — a supplied
+Everything needed to re-cut a hero is in that folder. Only the two web deliverables above ship. Not every shipped hero has a project here — a supplied
 brand film is just transcoded, with no comp to keep.
 
 **Hard limits:**
@@ -61,11 +59,6 @@ $master = "_reference/media/case-study-animations/$slug/hero_2160.mov"
 $out    = "public/hero/$slug"
 New-Item -ItemType Directory -Force $out | Out-Null
 
-# H.264 mp4 (universal fallback)
-ffmpeg -i $master -c:v libx264 -crf 20 -preset slow `
-  -vf "scale=1920:1080:flags=lanczos" -pix_fmt yuv420p `
-  -color_primaries bt709 -color_trc bt709 -colorspace bt709 `
-  -c:a aac -b:a 192k -movflags +faststart "$out/hero_1080.mp4"
 
 # VP9 webm (two-pass; pass 1 analyzes, pass 2 writes)
 ffmpeg -i $master -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 1 -an -f null NUL
@@ -84,13 +77,13 @@ Get-ChildItem $out | Select-Object Name, @{n='MiB';e={[math]::Round($_.Length/1M
 ```
 
 **Tuning knobs (only if needed):**
-- Quality is **CRF** - lower = sharper/bigger. mp4 `-crf 20`, webm `-crf 30` are
-  good starting points. Motion-heavy footage may want mp4 18 / webm 28; calm
+- Quality is **CRF** - lower = sharper/bigger. webm `-crf 30` is a good starting
+  point. Motion-heavy footage may want 28; calm
   graphics can go higher and stay tiny.
 - If any file creeps toward ~20 MB, raise its CRF by 2.
 - `-color_*` tags prevent the washed-out/oversaturated browser color bug. Keep them.
 - `preload="none"` on the element means nothing downloads until the user clicks
-  play, so a 15 MB mp4 costs nothing on page load.
+  play, so a 15 MB clip costs nothing on page load.
 
 ## Step 3 - wire it in (one line)
 

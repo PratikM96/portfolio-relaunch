@@ -15,14 +15,14 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
-type Still = { img?: ImageMetadata; imgDark?: ImageMetadata; alt?: string; ph?: string; caption?: string };
+type Still = { img: ImageMetadata; imgDark?: ImageMetadata; alt?: string; caption?: string };
 type Block =
-  | { kind: 'mockup'; flagship?: boolean; cols?: number; items: Still[] }
+  | { kind: 'mockup'; flagship?: boolean; items: Still[] }
   | { kind: 'social'; label?: string; cols?: number; items: Still[] }
   | { kind: 'flyer'; label?: string; ratio?: '3:4' | '9:16'; cols?: number; fit?: 'cover' | 'contain'; bg?: 'surface' | 'paper'; items: Still[] }
-  | { kind: 'gallery'; label?: string; ratio?: '3:2' | '4:3' | '16:9' | '1:1' | '2:1'; cols?: number; fit?: 'cover' | 'contain'; bg?: 'surface' | 'paper'; items: Still[] }
-  | { kind: 'longpage'; cols?: number; height?: number; chrome?: 'browser' | 'plain'; items: (Still & { chrome?: 'browser' | 'plain' })[] }
-  | { kind: 'video'; audio?: boolean; ratio?: '16:9' | '1:1' | '9:16' | '4:5'; cols?: number; items: { clip: string; audio?: boolean; alt?: string; caption?: string }[] };
+  | { kind: 'gallery'; label?: string; ratio?: '3:2' | '4:3' | '16:9' | '2:1'; cols?: number; fit?: 'cover' | 'contain'; items: Still[] }
+  | { kind: 'longpage'; cols?: number; height?: number; chrome?: 'browser' | 'plain'; items: Still[] }
+  | { kind: 'video'; audio?: boolean; ratio?: '16:9' | '1:1'; cols?: number; items: { clip: string; audio?: boolean; alt?: string; caption?: string }[] };
 
 interface Props {
   slug: string;
@@ -47,7 +47,6 @@ const sizesFor = (cols: number) =>
 // Video paths are derived from the case slug + clip name — no paths in content.
 const clipSrc = (clip: string) => ({
   webm: `/ov/${slug}/${clip}.webm`,
-  mp4: `/ov/${slug}/${clip}.mp4`,
   poster: `/ov/${slug}/${clip}-poster.webp`,
 });
 ---
@@ -57,22 +56,19 @@ const clipSrc = (clip: string) => ({
     <div class="out rev">
       {blocks.map((b) => {
         if (b.kind === 'mockup') {
-          const two = b.cols === 2 && !b.flagship;
           return (
-            <div class:list={['blk', 'blk-mockup', two && 'cols-2']}>
+            <div class="blk blk-mockup">
               {b.items.map((it) => (
                 <figure class="mock">
                   <div class="im r-16x9">
-                    {!it.img ? (
-                      <div class="ph ph-16x9" data-ph={it.ph} />
-                    ) : it.imgDark ? (
+                    {it.imgDark ? (
                       // theme-aware pair: dark shows by default, light swaps in via CSS
                       <>
-                        <Image class="m-dark" src={it.imgDark} alt={it.alt ?? ''} widths={two ? W.half : W.full} sizes={sizesFor(two ? 2 : 1)} loading="lazy" />
-                        <Image class="m-light" src={it.img} alt={it.alt ?? ''} widths={two ? W.half : W.full} sizes={sizesFor(two ? 2 : 1)} loading="lazy" />
+                        <Image class="m-dark" src={it.imgDark} alt={it.alt ?? ''} widths={W.full} sizes={sizesFor(1)} loading="lazy" />
+                        <Image class="m-light" src={it.img} alt={it.alt ?? ''} widths={W.full} sizes={sizesFor(1)} loading="lazy" />
                       </>
                     ) : (
-                      <Image src={it.img} alt={it.alt ?? ''} widths={two ? W.half : W.full} sizes={sizesFor(two ? 2 : 1)} loading="lazy" />
+                      <Image src={it.img} alt={it.alt ?? ''} widths={W.full} sizes={sizesFor(1)} loading="lazy" />
                     )}
                   </div>
                   {it.caption && <figcaption>{it.caption}</figcaption>}
@@ -90,11 +86,7 @@ const clipSrc = (clip: string) => ({
                 {b.items.map((it) => (
                   <figure class="cell">
                     <div class="im r-1x1">
-                      {it.img ? (
-                        <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
-                      ) : (
-                        <div class="ph ph-1x1" data-ph={it.ph} />
-                      )}
+                      <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
                     </div>
                     {it.caption && <figcaption>{it.caption}</figcaption>}
                   </figure>
@@ -106,7 +98,6 @@ const clipSrc = (clip: string) => ({
         if (b.kind === 'flyer') {
           const cols = b.cols ?? 3;
           const rClass = b.ratio === '9:16' ? 'r-9x16' : 'r-3x4';
-          const phClass = b.ratio === '9:16' ? 'ph-9x16' : 'ph-3x4';
           return (
             <div class="blk blk-flyer">
               {b.label && <p class="blk-label">{b.label}</p>}
@@ -114,11 +105,7 @@ const clipSrc = (clip: string) => ({
                 {b.items.map((it) => (
                   <figure class="cell">
                     <div class:list={['im', rClass, b.fit === 'contain' && 'fit-contain', b.bg === 'paper' && 'bg-paper']}>
-                      {it.img ? (
-                        <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
-                      ) : (
-                        <div class:list={['ph', phClass]} data-ph={it.ph} />
-                      )}
+                      <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
                     </div>
                     {it.caption && <figcaption>{it.caption}</figcaption>}
                   </figure>
@@ -129,19 +116,15 @@ const clipSrc = (clip: string) => ({
         }
         if (b.kind === 'gallery') {
           const cols = b.cols ?? 3;
-          const rClass = { '3:2': 'r-3x2', '4:3': 'r-4x3', '16:9': 'r-16x9', '1:1': 'r-1x1', '2:1': 'r-2x1' }[b.ratio ?? '3:2'];
+          const rClass = { '3:2': 'r-3x2', '4:3': 'r-4x3', '16:9': 'r-16x9', '2:1': 'r-2x1' }[b.ratio ?? '3:2'];
           return (
             <div class="blk blk-gallery">
               {b.label && <p class="blk-label">{b.label}</p>}
               <div class="grid" style={`--cols:${cols}`}>
                 {b.items.map((it) => (
                   <figure class="cell">
-                    <div class:list={['im', rClass, b.fit === 'contain' && 'fit-contain', b.bg === 'paper' && 'bg-paper']}>
-                      {it.img ? (
-                        <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
-                      ) : (
-                        <div class="ph" data-ph={it.ph} />
-                      )}
+                    <div class:list={['im', rClass, b.fit === 'contain' && 'fit-contain']}>
+                      <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
                     </div>
                     {it.caption && <figcaption>{it.caption}</figcaption>}
                   </figure>
@@ -157,7 +140,7 @@ const clipSrc = (clip: string) => ({
           return (
             <div class="blk blk-long" style={`--cols:${cols}`}>
               {b.items.map((it) => {
-                const chrome = it.chrome ?? b.chrome ?? 'plain';
+                const chrome = b.chrome ?? 'plain';
                 return (
                   <figure class="long">
                     <div class:list={['lp-frame', chrome === 'browser' && 'has-chrome']} style={`--h:${h}px`}>
@@ -167,11 +150,7 @@ const clipSrc = (clip: string) => ({
                         </div>
                       )}
                       <div class="lp-scroll">
-                        {it.img ? (
-                          <Image src={it.img} alt={it.alt ?? ''} widths={lpWidths} sizes={sizesFor(cols)} loading="lazy" />
-                        ) : (
-                          <div class="ph ph-long" data-ph={it.ph} />
-                        )}
+                        <Image src={it.img} alt={it.alt ?? ''} widths={lpWidths} sizes={sizesFor(cols)} loading="lazy" />
                       </div>
                     </div>
                     {it.caption && <figcaption>{it.caption} <span class="hint">· scroll to explore</span></figcaption>}
@@ -183,7 +162,7 @@ const clipSrc = (clip: string) => ({
         }
         // video
         const vcols = Math.min(3, Math.max(1, b.cols ?? 1));
-        const vr = { '16:9': 'r-16x9', '1:1': 'r-1x1', '9:16': 'r-9x16', '4:5': 'r-4x5' }[b.ratio ?? '16:9'];
+        const vr = { '16:9': 'r-16x9', '1:1': 'r-1x1' }[b.ratio ?? '16:9'];
         return (
           <div class="blk blk-video" style={`--cols:${vcols}`}>
             {b.items.map((it) => {
@@ -203,7 +182,6 @@ const clipSrc = (clip: string) => ({
                       aria-label={it.alt ?? it.caption ?? ''}
                     >
                       <source src={s.webm} type="video/webm" />
-                      <source src={s.mp4} type="video/mp4" />
                     </video>
                     {withAudio && (
                       <button class="ov-play" type="button" aria-label="Play video">
@@ -241,22 +219,16 @@ const clipSrc = (clip: string) => ({
      doesn't read as broken on a dark surface. --n-0 is theme-independent. */
   .out .im.bg-paper { background: var(--n-0); }
 
-  /* aspect boxes */
-  .r-16x9 { aspect-ratio: 16 / 9; }
-  .r-1x1 { aspect-ratio: 1 / 1; }
-  .r-3x4 { aspect-ratio: 3 / 4; }
-  .r-9x16 { aspect-ratio: 9 / 16; }
-  .r-3x2 { aspect-ratio: 3 / 2; }
-  .r-4x3 { aspect-ratio: 4 / 3; }
-  .r-2x1 { aspect-ratio: 2 / 1; }
-  .r-4x5 { aspect-ratio: 4 / 5; }
+  /* aspect boxes — values come from the --ratio-* tokens */
+  .r-16x9 { aspect-ratio: var(--ratio-wide); }
+  .r-1x1 { aspect-ratio: var(--ratio-square); }
+  .r-3x4 { aspect-ratio: var(--ratio-tall); }
+  .r-9x16 { aspect-ratio: var(--ratio-portrait); }
+  .r-3x2 { aspect-ratio: var(--ratio-photo); }
+  .r-4x3 { aspect-ratio: var(--ratio-classic); }
+  .r-2x1 { aspect-ratio: var(--ratio-banner); }
 
-  /* placeholders (ratio-matched, no asset yet) */
-  .ph { width: 100%; height: 100%; background: repeating-linear-gradient(45deg, var(--surface-raised), var(--surface-raised) 10px, var(--surface) 10px, var(--surface) 20px); }
-
-  /* mockup block — full-width 16:9, or 2-up */
   .blk-mockup { display: grid; grid-template-columns: 1fr; gap: 16px; }
-  .blk-mockup.cols-2 { grid-template-columns: 1fr 1fr; }
 
   /* theme-aware mockup pair: dark is the default; light swaps in under
      [data-theme='light']. No JS, no flash — the theme attribute is set before
@@ -277,7 +249,6 @@ const clipSrc = (clip: string) => ({
   .lp-bar .dot { width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--border-strong); }
   .lp-scroll { height: var(--h, 600px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
   .lp-scroll :global(img) { width: 100%; height: auto; display: block; }
-  .ph-long { min-height: 1600px; }
 
   /* video block */
   .blk-video { display: grid; grid-template-columns: repeat(var(--cols, 1), 1fr); gap: 16px; }
@@ -289,7 +260,7 @@ const clipSrc = (clip: string) => ({
   .vid.is-playing .ov-play { display: none; }
 
   @media (max-width: 900px) {
-    .blk-mockup.cols-2, .blk-long, .blk-video { grid-template-columns: 1fr; }
+    .blk-long, .blk-video { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
     .grid { grid-template-columns: repeat(2, 1fr); }

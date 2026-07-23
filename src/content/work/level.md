@@ -8,11 +8,6 @@ type: concept
 role: Creative Technologist
 year: "2025"
 disciplines: [Brand, UI/UX, AI, Motion]
-cover: "" # [NEEDS: cover image url]
-coverAlt: "Level responsible prediction-market concept"
-coverCaption: "Level · responsible prediction-market concept"
-cardVideo: true # hover-to-play logo animation at /wc/level/ (see docs/work-card-video.md)
-cardVideoLight: true # light-theme export at /wc/level/card-light.*
 featured: false
 description: "A self-initiated prediction-market concept built around responsible use and product trust. Its own brand, not a real product."
 badge: "Concept · Self-initiated"

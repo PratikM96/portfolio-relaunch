@@ -39,9 +39,7 @@ const featured = entries
     name: e.data.title,
     type: e.data.type,
     href: `/work/${e.data.slug}`,
-    cover: e.data.cover,
-    video: e.data.cardVideo ? e.data.slug : '',
-    videoLight: e.data.cardVideo ? e.data.cardVideoLight : false,
+    slug: e.data.slug,
     year: earliestYear(e.data.year),
     lede: e.data.lede,
     discLines: e.data.disciplines.slice(0, 3),
@@ -61,13 +59,9 @@ const featured = entries
       <a class="card card--interactive fcard" href={p.href}>
         <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
         <div class="im">
-          {p.cover ? <img src={p.cover} alt={p.name} /> : <div class="ph-fill ph-bg ph-16x10" />}
-          {p.video && (
-            <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.video} data-light={String(p.videoLight)} poster={`/wc/${p.video}/poster.webp`}>
-              <source src={`/wc/${p.video}/card.webm`} type="video/webm" />
-              <source src={`/wc/${p.video}/card.mp4`} type="video/mp4" />
-            </video>
-          )}
+          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} poster={`/wc/${p.slug}/poster.webp`}>
+            <source src={`/wc/${p.slug}/card.webm`} type="video/webm" />
+          </video>
         </div>
         <div class="meta">
           <div>

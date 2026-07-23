@@ -95,9 +95,6 @@ const schema = [
     <div class="m">{metaLine}</div>
   </header>
 
-  {d.cover && (
-    <div class="cover rev"><img src={d.cover} alt={d.coverAlt ?? d.title} /></div>
-  )}
 
   {/* Left console rail extras (journal only): author bio + other posts. Fills the
       case-study rail's otherwise-empty section-nav area. Hidden ≤900px (rail
@@ -158,8 +155,6 @@ const schema = [
 
   /* .tag / .tag.acc come from global.css */
 
-  .cover { border: 1px solid var(--img-frame); border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: var(--ratio-wide); margin-bottom: 64px; }
-  .cover img { width: 100%; height: 100%; object-fit: cover; }
 
   .article { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 56px; align-items: start; padding-bottom: 96px; }
   .amain { max-width: 70ch; }
