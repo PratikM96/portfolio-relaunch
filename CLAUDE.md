@@ -122,6 +122,12 @@ is real. That is the point: with static cuts a missing weight failed *silently*
 browsers match the nearest face rather than erroring. Never add a static cut back
 alongside these.
 
+The three *additional* `@font-face` blocks in `tokens.css` are metric-matched
+fallbacks, not cuts: `src: local()` plus measured overrides, zero bytes shipped.
+They hold each face's space until `swap` fires. See the 2026-07-23 decision log
+entry before touching them — the overrides are measured, and a stale one reflows
+toward the wrong box.
+
 *Licensing is a build constraint.* The repo is public and the fonts ship in it,
 so a face needs **two separate rights, and they don't come together**: web
 embedding **and** modification (subsetting is modification).
@@ -275,6 +281,35 @@ back. Recipes and caps live in `docs/`:
 ## 9. Decision log
 
 Dated so they don't get silently re-litigated. Rationale in the commit.
+
+- **2026-07-23** — **Mobile weight pass + metric-matched font fallbacks.** `72af992`.
+  - **Hover clips are gated on `(hover: hover)`, not on width.** Touch devices
+    were downloading every work-card clip they can never play. The old code
+    assumed `preload="none"` stopped `load()` from fetching; a Lighthouse trace
+    showed the files arriving anyway, so **don't trust that assumption again** —
+    if a `<video>` gets a `<source>` and a `load()`, budget for the bytes.
+    No-hover devices get a theme-correct poster instead. The `/work` preview
+    pane was a second offender, wiring a clip behind `display:none`.
+  - **Six `@font-face` blocks now, and the three new ones are not a violation
+    of §6.** They are `src: local()` metric-matched fallbacks (Arial, Courier
+    New) that hold the real face's space until it swaps in. They download
+    nothing, subset nothing, and modify nothing, so the Fontshare FFL is
+    untouched. **They are not static cuts — that rule still stands.**
+  - **The overrides are measured, and must be re-measured if a face changes.**
+    Canvas `measureText` against the shipped woff2 at 1000px over a Latin
+    sample. Clash Display 700 sets **7.08% wider** than Arial Bold; JetBrains
+    Mono shares Courier New's 0.6 advance and needs vertical overrides only.
+    A stale `size-adjust` is worse than none: it reflows *toward* the wrong box.
+  - **CLS was 0 by accident, not by design.** The page was slow enough that
+    fonts always beat first paint, so the swap never reflowed anything. Cutting
+    ~100ms off FCP flipped that race and CLS went to 0.185 — the h1 re-wrapped
+    and shoved the hero figure down. **Any future speedup can re-expose this**
+    (subsetting JetBrains Mono is the next candidate). Check CLS on every perf
+    change, not just the metric being optimized.
+  - **`.rev-load` is .28s, and its duration is a Speed Index cost.** SI
+    integrates visual incompleteness over time and that animation moves the
+    whole hero, so the number lands on the metric. `.rev` stays at .5s: below
+    the fold, off the SI clock.
 
 - **2026-07-22** — **System audit sweep.** Six commits, `a90ced8`..`0c2a822`.
   - **`cover` removed entirely.** Empty on all 14 entries and typed
