@@ -42,10 +42,19 @@ const EMAIL = 'mehtadpratik@gmail.com';
 </Base>
 
 <style>
+  /* type tiers — family/weight/tracking only; rules below set size + colour */
+  .prose h2 {
+    font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
+  }
+  .legal .updated {
+    font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
+  }
+
+
   .legal { padding: 104px 0 96px; }
-  .legal .updated { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: 24px; }
+  .legal .updated { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: 24px; }
   .prose { max-width: 68ch; margin-top: 44px; }
-  .prose h2 { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: 20px; color: var(--text); margin: 36px 0 10px; }
+  .prose h2 { font-size: 20px; color: var(--text); margin: 36px 0 10px; }
   .prose p { color: var(--text-secondary); font-size: 16px; line-height: 1.65; margin: 0; }
   .prose a { color: var(--accent-text); text-decoration: underline; }
   .prose strong { color: var(--text); font-weight: 600; }

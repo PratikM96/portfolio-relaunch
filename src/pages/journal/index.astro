@@ -77,6 +77,20 @@ const meta = (p: (typeof posts)[number]) =>
 </Base>
 
 <style>
+  /* type tiers — family/weight/tracking only; rules below set size + colour */
+  .lead-post h2 {
+    font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track);
+  }
+  .prow .t {
+    font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
+  }
+  .jr-empty .jr-tag,
+  .lead-post .m,
+  .prow .m {
+    font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
+  }
+
+
   .phead { padding: 104px 0 64px; }
   .phead p { font-size: 18px; line-height: 1.5; color: var(--text-secondary); max-width: 56ch; margin-top: 24px; }
 
@@ -85,7 +99,7 @@ const meta = (p: (typeof posts)[number]) =>
 
   /* empty state — surface from global .card */
   .jr-empty { padding: 48px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
-  .jr-empty .jr-tag { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--accent-text); }
+  .jr-empty .jr-tag { font-size: 11px; text-transform: uppercase; color: var(--accent-text); }
   .jr-empty p { font-size: 18px; color: var(--text-secondary); }
 
   /* .tag / .tag.acc come from global.css */
@@ -94,18 +108,18 @@ const meta = (p: (typeof posts)[number]) =>
   .lead-post { display: grid; gap: 32px; overflow: hidden; margin-bottom: 56px; }
   .lead-post .body { min-width: 0; padding: 36px; display: flex; flex-direction: column; justify-content: center; }
   .lead-post .cats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-  .lead-post h2 { font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track); font-size: clamp(26px, 3vw, 36px); line-height: 1.05; margin-bottom: 14px; }
+  .lead-post h2 { font-size: clamp(26px, 3vw, 36px); line-height: 1.05; margin-bottom: 14px; }
   .lead-post p { font-size: 15px; line-height: 1.6; color: var(--text-secondary); max-width: 48ch; }
-  .lead-post .m { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: 22px; }
+  .lead-post .m { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: 22px; }
 
   /* list */
   .plist { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
   .prow { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: baseline; padding: 28px 0; border-bottom: 1px solid var(--border); transition: padding-left .2s var(--ease-standard); }
   .prow:hover { padding-left: 10px; }
-  .prow .t { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: clamp(20px, 2.4vw, 26px); color: var(--text-secondary); transition: color .2s var(--ease-standard); }
+  .prow .t { font-size: clamp(20px, 2.4vw, 26px); color: var(--text-secondary); transition: color .2s var(--ease-standard); }
   .prow:hover .t { color: var(--text); }
   .prow .ex { font-size: 14px; color: var(--text-muted); margin-top: 8px; max-width: 60ch; }
-  .prow .m { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }
+  .prow .m { font-size: 11px; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }
 
   @media (max-width: 900px) { .phead { padding: 56px 0 40px; } .prow .m { display: none; } }
 </style>

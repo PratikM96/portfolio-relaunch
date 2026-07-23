@@ -68,6 +68,21 @@ import headshot from '../assets/headshot-4x5.jpg';
 </Base>
 
 <style>
+  /* type tiers — family/weight/tracking only; rules below set size + colour */
+  .path .step h3,
+  .pcard h3 {
+    font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
+  }
+  .path .step .yr,
+  .tools span,
+  .about-cta-avail {
+    font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
+  }
+  .pcard .n {
+    font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track);
+  }
+
+
   /* hero */
   .ahero { padding: 104px 0 64px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 56px; align-items: center; }
   .ahero p { font-size: 18px; line-height: 1.5; color: var(--text-secondary); margin-top: 24px; max-width: 56ch; }
@@ -81,25 +96,25 @@ import headshot from '../assets/headshot-4x5.jpg';
   .path { display: flex; flex-direction: column; }
   .path .step { display: grid; grid-template-columns: 160px 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--border); align-items: baseline; }
   .path .step:last-child { border-bottom: none; }
-  .path .step .yr { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 12px; text-transform: uppercase; color: var(--accent-text); }
-  .path .step h3 { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: 22px; margin-bottom: 8px; }
+  .path .step .yr { font-size: 12px; text-transform: uppercase; color: var(--accent-text); }
+  .path .step h3 { font-size: 22px; margin-bottom: 8px; }
   .path .step p { font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); max-width: 62ch; }
 
   /* principles */
   .princ { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   /* surface comes from global .card */
   .pcard { padding: 28px; min-height: 200px; display: flex; flex-direction: column; }
-  .pcard .n { font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); font-size: 11px; color: var(--text-muted); }
-  .pcard h3 { font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track); font-size: 20px; margin: auto 0 10px; }
+  .pcard .n { font-size: 11px; color: var(--text-muted); }
+  .pcard h3 { font-size: 20px; margin: auto 0 10px; }
   .pcard p { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); }
 
   /* tools */
   .tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-  .tools span { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-full); padding: 7px 13px; }
+  .tools span { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-full); padding: 7px 13px; }
 
   /* cta */
   .about-cta-h { max-width: 16ch; margin-bottom: 22px; }
-  .about-cta-avail { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); font-size: 11px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 32px; }
+  .about-cta-avail { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 32px; }
 
   @media (max-width: 1000px) {
     .ahero { grid-template-columns: 1fr; }

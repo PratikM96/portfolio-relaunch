@@ -28,6 +28,15 @@ const items = [
 </section>
 
 <style>
+  /* type tiers — family/weight/tracking only; rules below set size + colour */
+  .sysmap .n .nm {
+    font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
+  }
+  .sysmap .n .ix {
+    font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track);
+  }
+
+
   .disc-strip { padding-bottom: 8px; }
   .sysmap {
     display: grid; grid-template-columns: repeat(6, 1fr);
@@ -35,12 +44,11 @@ const items = [
   }
   .sysmap .n { padding: 16px; border-right: 1px solid var(--border); position: relative; background: var(--surface); }
   .sysmap .n:last-child { border-right: none; }
-  .sysmap .n .ix { font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); font-size: 10px; color: var(--text-muted); }
+  .sysmap .n .ix { font-size: 10px; color: var(--text-muted); }
   /* h3 tier — a discipline name is a short title, same as a card title. It was
      `font-weight: 600` with no family, which inherited Grotesk at the `strong`
      weight and belonged to no tier. */
   .sysmap .n .nm {
-    font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
     font-size: 14px; margin-top: 7px; color: var(--accent-text);
   }
 
