@@ -199,12 +199,24 @@ const journalPosts = (await getCollection('journal'))
         if (p && p.catch) p.catch(function () {});
       };
 
-      // Defer the animation until after load. The poster (preloaded) covers the
-      // initial paint window, so the 1MB video stays off the critical path (LCP,
-      // Speed Index) and off mobile data until the page is ready. A click can
-      // still start it earlier. Reduced motion never starts it.
-      var start = function () { ready = true; autoPlay(); };
-      if (prefersReducedMotion()) { video.pause(); }
+      // Defer the animation until after load, THEN until the main thread is
+      // idle. The poster (preloaded) covers the initial paint window, so the
+      // ~1.1MB video stays off the critical path (LCP, Speed Index) and off
+      // mobile data until the page is genuinely settled. Firing on `load`
+      // alone wasn't enough: a Lighthouse mobile trace still caught the fetch
+      // inside the measurement window, competing for a throttled link.
+      //
+      // On a metered or slow connection it never auto-starts at all — the
+      // poster is the whole experience there. A click always starts it
+      // regardless (the handler below calls play() directly, ungated), so the
+      // animation stays reachable. Reduced motion never starts it.
+      // Network Information API — Chromium-only, absent in Safari/Firefox, so
+      // every read is guarded and "unknown" falls through to normal playback.
+      var conn = (navigator as any).connection;
+      var frugal = !!conn && (conn.saveData === true || /^((slow-)?2g|3g)$/.test(conn.effectiveType || ''));
+      var idle = (window as any).requestIdleCallback || function (cb: () => void) { return setTimeout(cb, 200); };
+      var start = function () { idle(function () { ready = true; autoPlay(); }, { timeout: 2000 }); };
+      if (prefersReducedMotion() || frugal) { video.pause(); }
       else if (document.readyState === 'complete') start();
       else window.addEventListener('load', start, { once: true });
 

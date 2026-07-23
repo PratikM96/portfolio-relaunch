@@ -102,7 +102,7 @@ const first = projects[0]!;
 </div>
 
 <script>
-  import { applyCardSources, onThemeChange } from '../scripts/card-video';
+  import { applyCardPoster, applyCardSources, onThemeChange } from '../scripts/card-video';
   import { prefersReducedMotion } from '../scripts/motion';
 
   // Index -> sticky preview + single-select filter (type or discipline token).
@@ -115,18 +115,24 @@ const first = projects[0]!;
   const empty = document.querySelector<HTMLElement>('.idx-empty');
   const reduceMotion = prefersReducedMotion();
 
-  function setPreview(r: HTMLAnchorElement) {
+  // `clip: false` sets the poster and nothing else — no <source>, no load(), so
+  // no video bytes. Used for the initial selection: the pane is display:none
+  // below 1100px, and wiring the full clip there downloaded ~99 KB into an
+  // invisible element on every mobile load. A real hover/focus upgrades it.
+  function setPreview(r: HTMLAnchorElement, clip = true) {
     if (!pvImg || !pvT || !pvD) return;
     rows.forEach((x) => x.classList.remove('active'));
     r.classList.add('active');
-    // preload="none" means nothing but the poster loads until sources are wired
-    // on first select.
     const slug = r.dataset.slug;
     if (pvVideo && slug) {
-      applyCardSources(pvVideo, slug);
-      if (!reduceMotion) {
-        pvVideo.currentTime = 0;
-        pvVideo.play().catch(() => {});
+      if (!clip) {
+        applyCardPoster(pvVideo, slug);
+      } else {
+        applyCardSources(pvVideo, slug);
+        if (!reduceMotion) {
+          pvVideo.currentTime = 0;
+          pvVideo.play().catch(() => {});
+        }
       }
     }
     pvT.textContent = r.dataset.t ?? '';
@@ -139,12 +145,14 @@ const first = projects[0]!;
     r.addEventListener('mouseenter', () => setPreview(r));
     r.addEventListener('focus', () => setPreview(r));
   });
-  if (rows[0]) setPreview(rows[0]);
+  if (rows[0]) setPreview(rows[0], false);
 
-  // On theme flip, re-point the active preview clip at the matching variant.
+  // On theme flip, re-point the active preview at the matching variant. If the
+  // clip was never wired (poster-only), keep it that way — just swap the still.
   onThemeChange(() => {
     const active = document.querySelector<HTMLAnchorElement>('.idx-row.active');
     if (pvVideo && active?.dataset.slug) {
+      if (!pvVideo.dataset.wired) { applyCardPoster(pvVideo, active.dataset.slug); return; }
       const wasPlaying = !pvVideo.paused;
       applyCardSources(pvVideo, active.dataset.slug);
       if (wasPlaying && !reduceMotion) pvVideo.play().catch(() => {});

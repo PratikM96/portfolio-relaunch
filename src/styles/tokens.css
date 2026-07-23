@@ -47,6 +47,50 @@
   src: url('/fonts/ClashGrotesk-Variable.woff2') format('woff2');
 }
 
+/* ===== METRIC-MATCHED FALLBACKS =====
+   `font-display: swap` means the browser paints in a fallback face first and
+   swaps when the real one lands. If the fallback sets type at a different
+   width, that swap REFLOWS the page — and on the home hero it re-wrapped the
+   h1, pushing the figure below it down for a 0.185 CLS.
+
+   These faces wrap a system font in the real face's metrics, so the fallback
+   occupies the same space and the swap is invisible. They are NOT extra cuts
+   of Clash or JetBrains (§6 forbids that) and they ship no bytes: `src: local()`
+   only, no download, nothing subset or modified. They sit between the real face
+   and the generic in each stack below.
+
+   The numbers are measured, not guessed: canvas measureText on the shipped
+   woff2 against the fallback, at 1000px, over a representative Latin sample.
+   Re-measure if a face is ever replaced. Clash Display 700 runs 7.1% WIDER than
+   Arial Bold, which is what made the h1 under-wrap and then grow a line. */
+@font-face {
+  font-family: 'Clash Display Fallback';
+  src: local('Arial Bold'), local('Arial');
+  size-adjust: 107.08%;
+  ascent-override: 83.12%;
+  descent-override: 23.35%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk Fallback';
+  src: local('Arial');
+  size-adjust: 94.07%;
+  ascent-override: 94.61%;
+  descent-override: 26.57%;
+  line-gap-override: 0%;
+}
+
+/* JetBrains Mono and Courier New share a 0.6 advance width, so this one needs
+   no size-adjust — it corrects the vertical box only (833 vs 1020 ascent). */
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  src: local('Courier New');
+  ascent-override: 102.02%;
+  descent-override: 30.00%;
+  line-gap-override: 0%;
+}
+
 :root {
   /* --- Neutral · warm ramp --- */
   --n-0: #FBFAF6;  --n-50: #F4F2EB;  --n-100: #EAE7DE; --n-200: #DBD8CD;
@@ -77,10 +121,14 @@
   --accent-text: var(--accent-700); /* orange text on light · 4.8:1 · NEVER accent-500 as text */
   --on-accent: var(--n-950);        /* ink on orange fill · 6.3:1 · NEVER white for normal text */
 
-  /* --- Type families: one face, one job --- */
-  --font-display: "Clash Display", system-ui, sans-serif; /* the voice: display, h1, h2 */
-  --font-sans: "Clash Grotesk", system-ui, sans-serif;    /* reading type: h3-h6, body */
-  --font-mono: "JetBrains Mono", ui-monospace, monospace; /* the system layer */
+  /* --- Type families: one face, one job ---
+     The *-Fallback entry after each real face is the metric-matched stand-in
+     defined above; it holds the same space until the webfont swaps in. Keep it
+     directly after its face — in front of system-ui, which is what the browser
+     would otherwise paint and what caused the swap reflow. */
+  --font-display: "Clash Display", "Clash Display Fallback", system-ui, sans-serif; /* the voice: display, h1, h2 */
+  --font-sans: "Clash Grotesk", "Clash Grotesk Fallback", system-ui, sans-serif;    /* reading type: h3-h6, body */
+  --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, monospace; /* the system layer */
 
   /* ===== TYPE SCALE =====
      Eight tiers. Every piece of type on the site is one of them; only SIZE is set

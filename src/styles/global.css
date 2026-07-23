@@ -315,8 +315,14 @@ img { display: block; max-width: 100%; }
 /* Above-the-fold variant: TRANSFORM ONLY, never opacity. Chromium excludes any
    element starting at opacity:0 from LCP, so fading the hero made the headline
    ineligible and LCP fell through to a late-painting element. Transform-only
-   keeps the hero LCP-eligible. Below-the-fold keeps the .rev opacity fade. */
-.rev-load { transform: translateY(12px); animation: rev-in .5s var(--ease-standard) both; }
+   keeps the hero LCP-eligible. Below-the-fold keeps the .rev opacity fade.
+
+   Duration is a Speed Index cost, not just taste: SI integrates how visually
+   incomplete the viewport is over time, and this animates the whole hero, so
+   every millisecond here lands on the metric. .28s reads as the same gesture
+   and hands back most of what .5s was spending. Below the fold, .rev is off
+   the SI clock entirely and keeps its slower, softer .5s. */
+.rev-load { transform: translateY(12px); animation: rev-in .28s var(--ease-standard) both; }
 @keyframes rev-in { to { transform: none; } }
 
 /* ===== responsive: chrome + scaffold ===== */
