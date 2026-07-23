@@ -190,3 +190,54 @@
 /dealnews-app/         /work/dealnews           301
 /jmta-campaigns        /work/sportime-clubs     301
 /jmta-campaigns/       /work/sportime-clubs     301
+
+# --- Canonical normalisation (bare path wins) ---
+# Cloudflare html_handling already maps /foo/ and /foo.html to /foo, but it
+# answers 307 TEMPORARY, which does not consolidate ranking signals: Search
+# Console reported 7 case studies as "Duplicate, Google chose different
+# canonical than user" for exactly this reason. _redirects is evaluated
+# first, so these answer 301 instead.
+#
+# Concept hubs are deliberately absent: they are folder-based and
+# slash-canonical (/concepts/<slug>/), so normalising them would break them.
+# Keep this block LAST -- the :slug placeholders would otherwise swallow the
+# explicit legacy rules above (e.g. /work/photography/).
+
+# trailing slash -> bare
+/about/                           /about                            301
+/work/                            /work                             301
+/journal/                         /journal                          301
+/brand/                           /brand                            301
+/contact/                         /contact                          301
+/resume/                          /resume                           301
+/privacy/                         /privacy                          301
+/work/:slug/                      /work/:slug                       301
+/journal/:slug/                   /journal/:slug                    301
+
+# .html -> bare
+/index.html                       /                                 301
+/about.html                       /about                            301
+/work.html                        /work                             301
+/journal.html                     /journal                          301
+/brand.html                       /brand                            301
+/contact.html                     /contact                          301
+/resume.html                      /resume                           301
+/privacy.html                     /privacy                          301
+/work/agency-fiveeighty.html      /work/agency-fiveeighty           301
+/work/dealnews.html               /work/dealnews                    301
+/work/frc.html                    /work/frc                         301
+/work/jmtp.html                   /work/jmtp                        301
+/work/level.html                  /work/level                       301
+/work/pipeline-medical.html       /work/pipeline-medical            301
+/work/raa.html                    /work/raa                         301
+/work/sportime-clubs.html         /work/sportime-clubs              301
+/work/sr-love-and-care.html       /work/sr-love-and-care            301
+/work/the-ninth.html              /work/the-ninth                   301
+/work/wisp.html                   /work/wisp                        301
+/journal/engineer-to-creative.html               /journal/engineer-to-creative                301
+/journal/most-creative-dies-in-the-handoff.html  /journal/most-creative-dies-in-the-handoff   301
+/journal/where-ai-changes-creative-work.html     /journal/where-ai-changes-creative-work      301
+
+# the old blog index also existed as .html; /blog/* does not match it
+/blog.html                        /journal                          301
+
