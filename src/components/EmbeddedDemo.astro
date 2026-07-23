@@ -48,7 +48,12 @@ const active = tabs[activeIndex] ?? tabs[0];
     }
   </div>
   <a class="estage" href={active.href} aria-label={`Open the ${active.label} view`}>
-    <img class="estage-img" src={active.img} alt={active.cap} />
+    {/* The stage sits far below the fold on every case study, and its src is
+        swapped at runtime by embedded-demo.ts, so it can't go through the
+        image pipeline. Deferring it keeps ~60-75 KB off the initial load;
+        the intrinsic dims are declared even though .estage's aspect-ratio
+        already reserves the box, so the ratio survives a CSS failure. */}
+    <img class="estage-img" src={active.img} alt={active.cap} width="1600" height="900" loading="lazy" decoding="async" />
     <div class="scrim"><span class="cap estage-cap">{active.cap}</span></div>
     <span class="estage-go">Open ↗</span>
   </a>
