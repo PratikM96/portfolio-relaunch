@@ -33,3 +33,12 @@ export const TYPE_SCOREBOARD: Record<WorkType, string> = {
 
 /** Real work carries the signal accent; concept scope never does (CLAUDE.md). */
 export const isConceptType = (t: WorkType) => t === 'concept';
+
+/** One item in the case-study rail's section-index nav (also drives scroll-spy). */
+export type RailSection = { ix: string; label: string; href: string };
+
+/**
+ * One line of the case-study rail scoreboard. `accent` marks a value as real
+ * work, which earns the signal colour; concept scope never does (CLAUDE.md).
+ */
+export type ScoreLine = { k: string; v: string; accent?: boolean };

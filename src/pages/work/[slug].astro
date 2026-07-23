@@ -15,7 +15,7 @@ import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
 import CaseSectionHead from '../../components/CaseSectionHead.astro';
 import Scoreboard from '../../components/Scoreboard.astro';
-import MarginRail from '../../components/MarginRail.astro';
+import ProseSection from '../../components/ProseSection.astro';
 import SysFlow from '../../components/SysFlow.astro';
 import Decisions from '../../components/Decisions.astro';
 import OutputGrid from '../../components/OutputGrid.astro';
@@ -159,41 +159,20 @@ const schema = [
   {/* PROBLEM */}
   <section class="cs-sec" id="problem">
     <CaseSectionHead no={no('problem')} title="Problem" />
-    <div class="cs-body rev">
-      <div class="cs-main prose">
-        {d.problem.prose.map((p) => (
-          <p>{p.lead ? (<><strong>{p.lead}</strong>{' '}{p.text}</>) : p.text}</p>
-        ))}
-      </div>
-      <MarginRail modules={d.problem.margin} />
-    </div>
+    <ProseSection prose={d.problem.prose} margin={d.problem.margin} />
   </section>
 
   {/* SYSTEM */}
   <section class="cs-sec" id="system">
     <CaseSectionHead no={no('system')} title="System" />
-    <div class="cs-body rev" style="margin-bottom:var(--space-2xl)">
-      <div class="cs-main prose">
-        {d.system.prose.map((p) => (
-          <p>{p.lead ? (<><strong>{p.lead}</strong>{' '}{p.text}</>) : p.text}</p>
-        ))}
-      </div>
-      <MarginRail modules={d.system.margin} />
-    </div>
+    <ProseSection prose={d.system.prose} margin={d.system.margin} gap />
     <SysFlow steps={d.system.steps} />
   </section>
 
   {/* DECISIONS */}
   <section class="cs-sec" id="decisions">
     <CaseSectionHead no={no('decisions')} title="Decisions" />
-    <div class="cs-body rev" style="margin-bottom:var(--space-2xl)">
-      <div class="cs-main prose">
-        {d.decisions.prose.map((p) => (
-          <p>{p.lead ? (<><strong>{p.lead}</strong>{' '}{p.text}</>) : p.text}</p>
-        ))}
-      </div>
-      <MarginRail modules={d.decisions.margin} />
-    </div>
+    <ProseSection prose={d.decisions.prose} margin={d.decisions.margin} gap />
     <Decisions decisions={d.decisions.items} />
   </section>
 
@@ -225,14 +204,7 @@ const schema = [
   {/* REFLECTION + NEXT */}
   <section class="cs-sec">
     <CaseSectionHead no={no('reflection')} title="Reflection" />
-    <div class="cs-body rev">
-      <div class="cs-main sb-reflect">
-        {d.reflection.prose.map((p) => (
-          <p>{p.lead ? (<><strong>{p.lead}</strong>{' '}{p.text}</>) : p.text}</p>
-        ))}
-      </div>
-      <MarginRail modules={d.reflection.margin} />
-    </div>
+    <ProseSection prose={d.reflection.prose} margin={d.reflection.margin} narrow />
     <div class="cs-next">
       <a href={csNext.href}>
         <div><div class="k">{csNext.kicker}</div><div class="t">{csNext.title}</div></div>
@@ -280,12 +252,7 @@ const schema = [
   /* ===== SECTIONS / PROSE / BODY ===== */
   .cs-sec { padding: var(--space-4xl) 0; }
   /* .prose comes from global.css */
-  .cs-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-3xl); align-items: start; }
-  .cs-main { max-width: 68ch; }
-
   /* ===== REFLECTION + NEXT ===== */
-  .sb-reflect { max-width: 64ch; }
-  .sb-reflect p { font-size: 17px; line-height: 1.66; color: var(--text-secondary); }
   .cs-next { border-top: 1px solid var(--border); margin-top: var(--space-3xl); }
   .cs-next a { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2xl) 0; gap: var(--space-lg); transition: padding-left .25s var(--ease-standard); }
   .cs-next a:hover { padding-left: var(--space-sm); }
@@ -296,7 +263,6 @@ const schema = [
   .cs-next .arrow { font-family: var(--font-display); font-size: 34px; color: var(--accent-text); }
 
   /* ===== responsive ===== */
-  @media (max-width: 1100px) { .cs-body { grid-template-columns: 1fr; gap: var(--space-xl); } }
   @media (max-width: 900px) { .cs-hero { padding: var(--space-3xl) 0 var(--space-2xl); } }
 </style>
 

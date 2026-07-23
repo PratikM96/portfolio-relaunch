@@ -1,0 +1,41 @@
+---
+/**
+ * ProseSection.astro — the case-study spine's prose + margin-rail pair.
+ *
+ * Every narrative section (Problem, System, Decisions, Reflection) is the same
+ * object: a column of paragraphs with an optional bold lead-in run, beside a
+ * margin rail. Reflection uses a narrower measure, so it passes `narrow`.
+ */
+import MarginRail from './MarginRail.astro';
+import type { ComponentProps } from 'astro/types';
+
+type Paragraph = { lead?: string; text: string };
+
+interface Props {
+  prose: Paragraph[];
+  margin: ComponentProps<typeof MarginRail>['modules'];
+  /** Reflection's tighter measure (64ch) instead of the default .prose 68ch. */
+  narrow?: boolean;
+  /** Space below the pair, when a module follows inside the same section. */
+  gap?: boolean;
+}
+const { prose, margin, narrow = false, gap = false } = Astro.props;
+---
+
+<div class:list={['cs-body', 'rev', gap && 'cs-body--gap']}>
+  <div class:list={['cs-main', narrow ? 'sb-reflect' : 'prose']}>
+    {prose.map((p) => (
+      <p>{p.lead ? (<><strong>{p.lead}</strong>{' '}{p.text}</>) : p.text}</p>
+    ))}
+  </div>
+  <MarginRail modules={margin} />
+</div>
+
+<style>
+  .cs-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-3xl); align-items: start; }
+  .cs-body--gap { margin-bottom: var(--space-2xl); }
+  .sb-reflect { max-width: 64ch; }
+  .sb-reflect p { font-size: 17px; line-height: 1.66; color: var(--text-secondary); }
+
+  @media (max-width: 1100px) { .cs-body { grid-template-columns: 1fr; gap: var(--space-xl); } }
+</style>

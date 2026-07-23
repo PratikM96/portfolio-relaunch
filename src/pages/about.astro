@@ -21,7 +21,7 @@ import headshot from '../assets/headshot-4x5.jpg';
     <div>
       <div class="page-kicker rev">[ About ] · the practice</div>
       <h1 class="rev page-h1">I came to creative through <span class="signal">code.</span></h1>
-      <p class="rev">I started in computer science and kept following the path toward the people the work was for, through design and into marketing. The systems habit stayed with me, now pointed at things an audience actually sees.</p>
+      <p class="lead rev">I started in computer science and kept following the path toward the people the work was for, through design and into marketing. The systems habit stayed with me, now pointed at things an audience actually sees.</p>
       <div class="btn-row rev"><a class="btn btn-p" href="/resume">View resume →</a><a class="btn btn-g" href="/work">See the work →</a></div>
     </div>
     <figure class="portrait rev"><Image src={headshot} alt="Pratik Mehta" width={900} format="webp" /></figure>
@@ -85,7 +85,8 @@ import headshot from '../assets/headshot-4x5.jpg';
 
   /* hero */
   .ahero { padding: var(--space-4xl) 0 var(--space-3xl); display: grid; grid-template-columns: 1.2fr .8fr; gap: var(--space-3xl); align-items: center; }
-  .ahero p { font-size: 18px; line-height: 1.5; color: var(--text-secondary); margin-top: var(--space-lg); max-width: 56ch; }
+  /* type + measure come from the shared .lead primitive in global.css */
+  .ahero p { margin-top: var(--space-lg); }
   .ahero .btn-row { margin-top: var(--space-xl); }
   .portrait { border: 1px solid var(--img-frame); border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/5; }
   .portrait img { width: 100%; height: 100%; object-fit: cover; }

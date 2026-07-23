@@ -13,7 +13,7 @@ const { steps } = Astro.props;
 <div class="sysflow rev">
   {
     steps.map((s, i) => (
-      <div class="step">
+      <div class="card step">
         <div class="ix">{s.ix}</div>
         <h4>{s.title}</h4>
         <p>{s.text}</p>
@@ -34,7 +34,8 @@ const { steps } = Astro.props;
   }
 
   .sysflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-top: var(--space-xs); }
-  .sysflow .step { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-lg); position: relative; }
+  /* surface comes from global .card */
+  .sysflow .step { padding: var(--space-lg); position: relative; }
   .sysflow .step .ix { font-size: 10.5px; color: var(--accent-text); }
   .sysflow .step h4 { font-size: 17px; margin: var(--space-sm) 0 var(--space-xs); }
   .sysflow .step p { font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); }

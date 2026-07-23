@@ -64,7 +64,8 @@ body {
 .tag,
 .badge,
 .page-kicker,
-.foot .fl a {
+.foot .fl a,
+.foot .fl button {
   font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
   text-transform: uppercase;
 }
@@ -284,8 +285,12 @@ img { display: block; max-width: 100%; }
 }
 .foot .mono { color: var(--text-muted); }
 .foot .fl { display: flex; flex-wrap: wrap; gap: var(--space-sm) var(--space-lg); }
-.foot .fl a { font-size: 10.5px; color: var(--text-secondary); }
-.foot .fl a:hover { color: var(--text); }
+/* the footer's cookie control is a <button> in the same row, so it takes the
+   same rule rather than re-declaring the label tier for itself */
+.foot .fl a,
+.foot .fl button { font-size: 10.5px; color: var(--text-secondary); }
+.foot .fl a:hover,
+.foot .fl button:hover { color: var(--text); }
 
 /* ===== reveal-on-scroll ===== */
 .rev { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease-standard), transform .5s var(--ease-standard); }

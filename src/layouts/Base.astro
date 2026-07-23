@@ -20,10 +20,7 @@ import '../styles/tokens.css';
 import '../styles/global.css';
 import Brandmark from '../components/Brandmark.astro';
 
-type RailSection = { ix: string; label: string; href: string };
-// `accent` marks a value as real work, which earns the signal colour; concept
-// scope never does (CLAUDE.md). Was `client` before the engagement facet split.
-type ScoreLine = { k: string; v: string; accent?: boolean };
+import type { RailSection, ScoreLine } from '../lib/work-type';
 
 interface Props {
   /** <title> text. Falls back to the brand line. */
@@ -363,8 +360,7 @@ const ldGraph = {
     </div>
     <style>
   /* type tiers — family/weight/tracking only; rules below set size + colour */
-  .consent button,
-  .foot-cookies {
+  .consent button {
     font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
   }
 
@@ -378,8 +374,8 @@ const ldGraph = {
       .consent button:hover { border-color: var(--text); }
       .consent button.primary { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent); }
       .consent button:focus-visible { outline: 2px solid var(--accent-fill); outline-offset: 2px; }
-      .foot-cookies { font-size: 10.5px; text-transform: uppercase; color: var(--text-secondary); background: none; border: 0; padding: 0; cursor: pointer; }
-      .foot-cookies:hover { color: var(--text); }
+      /* type + colour come from `.foot .fl button` in global.css */
+      .foot-cookies { background: none; border: 0; padding: 0; cursor: pointer; }
     </style>
     {/* Consent/GA gate + site chrome (theme toggle, drawer, NY clock,
         reveal-on-scroll, rail scroll-spy). Written as ONE bundled module so the

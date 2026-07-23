@@ -55,7 +55,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   <header class="bhero">
     <div class="page-kicker rev">[ Brand ] · One System · v1.0</div>
     <h1 class="rev page-h1">The brand,<br />built like a <span class="signal">product.</span></h1>
-    <p class="rev">One System is the identity this site runs on: foundation, logo, type, color, layout, motion, and access, in one place. It is a working reference and a case study of the thinking behind it. The page renders from the live tokens, so it can't drift from the real site.</p>
+    <p class="lead rev">One System is the identity this site runs on: foundation, logo, type, color, layout, motion, and access, in one place. It is a working reference and a case study of the thinking behind it. The page renders from the live tokens, so it can't drift from the real site.</p>
   </header>
 
   {/* 01 FOUNDATION */}
@@ -91,12 +91,12 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
     <div class="subhead">Never do this</div>
     <div class="dont rev">
-      <div class="dcard"><span class="x">✕</span><div class="dwrap"><div class="d-stretch"><Brandmark size={52} title={undefined} /></div><span class="dlab">stretch or distort</span></div></div>
-      <div class="dcard"><span class="x">✕</span><div class="dwrap"><div class="d-recolor"><Brandmark size={52} title={undefined} /></div><span class="dlab">recolor the node</span></div></div>
-      <div class="dcard"><span class="x">✕</span><div class="dwrap"><span class="wm" style="font-size:24px">Pratik Mehta<span class="period sq"></span></span><span class="dlab">square the period</span></div></div>
-      <div class="dcard"><span class="x">✕</span><div class="dwrap"><div class="d-shadow"><Brandmark size={52} title={undefined} /></div><span class="dlab">add effects</span></div></div>
-      <div class="dcard"><span class="x">✕</span><div class="dwrap"><div class="d-rotate"><Brandmark size={52} title={undefined} /></div><span class="dlab">rotate or tilt</span></div></div>
-      <div class="dcard"><span class="x">✕</span><div class="dwrap"><div class="d-onaccent"><Brandmark size={40} title={undefined} /></div><span class="dlab">accent node on orange</span></div></div>
+      <div class="card dcard"><span class="x">✕</span><div class="dwrap"><div class="d-stretch"><Brandmark size={52} title={undefined} /></div><span class="dlab">stretch or distort</span></div></div>
+      <div class="card dcard"><span class="x">✕</span><div class="dwrap"><div class="d-recolor"><Brandmark size={52} title={undefined} /></div><span class="dlab">recolor the node</span></div></div>
+      <div class="card dcard"><span class="x">✕</span><div class="dwrap"><span class="wm" style="font-size:24px">Pratik Mehta<span class="period sq"></span></span><span class="dlab">square the period</span></div></div>
+      <div class="card dcard"><span class="x">✕</span><div class="dwrap"><div class="d-shadow"><Brandmark size={52} title={undefined} /></div><span class="dlab">add effects</span></div></div>
+      <div class="card dcard"><span class="x">✕</span><div class="dwrap"><div class="d-rotate"><Brandmark size={52} title={undefined} /></div><span class="dlab">rotate or tilt</span></div></div>
+      <div class="card dcard"><span class="x">✕</span><div class="dwrap"><div class="d-onaccent"><Brandmark size={40} title={undefined} /></div><span class="dlab">accent node on orange</span></div></div>
     </div>
   </section>
 
@@ -193,7 +193,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
         <div class="s-row"><div class="s-lab">{s.name} · {tokenValue(s.token)}</div><div class="s-bar" style={`width: var(${s.token})`}></div></div>
       ))}
     </div>
-    <div class="grid-demo" aria-hidden="true">{Array.from({ length: 12 }).map(() => (<div class="gcol"></div>))}</div>
+    <div class="card grid-demo" aria-hidden="true">{Array.from({ length: 12 }).map(() => (<div class="gcol"></div>))}</div>
     <div class="mono muted gridnote">{px('--grid-cols')} columns · max {px('--grid-max-width')} · gutter {px('--grid-gutter')} · margin {px('--grid-margin')}</div>
     <div class="subhead" style="margin-top:var(--space-xl)">Radius</div>
     <div class="r-row">
@@ -309,8 +309,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     <div class="blabel"><span class="c">[ 09 ]</span><h2 class="t">Voice · source: System Master</h2><span class="rule"></span></div>
     <p class="intro">Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. No inflated claims, no buzzwords, no unsupported proof. No em or en dashes.</p>
     <div class="voice rev">
-      <div class="vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
-      <div class="vcol dont-col"><div class="h">Don't</div><ul><li>Inflate or overclaim</li><li>Reach for buzzwords</li><li>Over-polish into AI-speak</li><li>Imply concepts are client work</li></ul></div>
+      <div class="card vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
+      <div class="card vcol dont-col"><div class="h">Don't</div><ul><li>Inflate or overclaim</li><li>Reach for buzzwords</li><li>Over-polish into AI-speak</li><li>Imply concepts are client work</li></ul></div>
     </div>
   </section>
 </Base>
@@ -358,7 +358,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   }
 
   .bhero { padding: var(--space-4xl) 0 var(--space-3xl); }
-  .bhero p { font-size: 18px; line-height: 1.5; color: var(--text-secondary); max-width: 56ch; margin-top: var(--space-lg); }
+  /* type + measure come from the shared .lead primitive in global.css */
+  .bhero p { margin-top: var(--space-lg); }
   .bsec { padding: var(--space-4xl) 0; }
   .bsec .intro { font-size: 16px; line-height: 1.6; color: var(--text-secondary); max-width: 66ch; margin-bottom: var(--space-xl); }
   .subhead { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin: var(--space-2xl) 0 var(--space-md); }
@@ -391,7 +392,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   /* don'ts */
   .dont { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin-top: var(--space-xs); }
-  .dcard { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-lg); position: relative; min-height: 124px; display: flex; align-items: center; justify-content: center; }
+  /* surface comes from global .card */
+  .dcard { padding: var(--space-lg); position: relative; min-height: 124px; display: flex; align-items: center; justify-content: center; }
   .dcard :global(.brandmark) { color: var(--text); }
   .x { position: absolute; top: 12px; left: 12px; width: 20px; height: 20px; border-radius: 50%; background: var(--danger); color: #fff; font-size: 12px; line-height: 20px; text-align: center; }
   .dwrap { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
@@ -447,7 +449,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .s-lab { font-size: 11px; color: var(--text-secondary); width: 128px; flex-shrink: 0; }
   .s-bar { height: 14px; background: var(--accent-fill); border-radius: 2px; }
   /* 12-column grid demo (matches the brand guidelines Layout section) */
-  .grid-demo { display: flex; gap: var(--space-xs); padding: 0 var(--space-lg); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); height: 96px; margin-top: var(--space-xl); }
+  /* surface comes from global .card */
+  .grid-demo { display: flex; gap: var(--space-xs); padding: 0 var(--space-lg); height: 96px; margin-top: var(--space-xl); }
   .gcol { flex: 1; background: rgba(255, 90, 31, .10); border-left: 1px solid var(--accent-fill); border-right: 1px solid var(--accent-fill); }
   .gridnote { font-size: 10.5px; margin-top: var(--space-sm); }
   .r-row { display: flex; gap: var(--space-md); flex-wrap: wrap; }
@@ -475,7 +478,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   /* voice */
   .voice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
-  .vcol { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-lg); background: var(--surface); }
+  /* surface comes from global .card */
+  .vcol { padding: var(--space-lg); }
   .vcol .h { font-size: 11px; text-transform: uppercase; margin-bottom: var(--space-md); }
   .vcol.do .h { color: var(--accent-text); }
   .vcol.dont-col .h { color: var(--text-muted); }

@@ -86,27 +86,6 @@ const active = tabs[activeIndex] ?? tabs[0];
   .embed .efoot { padding: var(--space-sm) var(--space-md); font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); border-top: 1px solid var(--border); }
 </style>
 
-<script is:inline>
-  (function () {
-    var embeds = Array.prototype.slice.call(document.querySelectorAll('.embed'));
-    embeds.forEach(function (embed) {
-      var tabs = Array.prototype.slice.call(embed.querySelectorAll('.etabs .etab'));
-      var stage = embed.querySelector('.estage');
-      var img = embed.querySelector('.estage-img');
-      var cap = embed.querySelector('.estage-cap');
-      function activate(tab) {
-        tabs.forEach(function (x) { x.classList.remove('on'); });
-        tab.classList.add('on');
-        if (cap) cap.textContent = tab.dataset.cap;
-        if (img && tab.dataset.img) img.src = tab.dataset.img;
-        if (img) img.alt = tab.dataset.cap || '';
-        if (stage) stage.setAttribute('href', tab.getAttribute('href'));
-      }
-      tabs.forEach(function (tab) {
-        // hover/focus previews the view in the stage; click follows the link
-        tab.addEventListener('mouseenter', function () { activate(tab); });
-        tab.addEventListener('focus', function () { activate(tab); });
-      });
-    });
-  })();
+<script>
+  import '../scripts/embedded-demo.ts';
 </script>
