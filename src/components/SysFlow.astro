@@ -15,7 +15,7 @@ const { steps } = Astro.props;
     steps.map((s, i) => (
       <div class="card step">
         <div class="ix">{s.ix}</div>
-        <h4>{s.title}</h4>
+        <h3>{s.title}</h3>
         <p>{s.text}</p>
         {i < steps.length - 1 && <span class="ar">→</span>}
       </div>
@@ -25,7 +25,7 @@ const { steps } = Astro.props;
 
 <style>
   /* type tiers — family/weight/tracking only; rules below set size + colour */
-  .sysflow .step h4 {
+  .sysflow .step h3 {
     font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
   }
   .sysflow .step .ix,
@@ -37,7 +37,7 @@ const { steps } = Astro.props;
   /* surface comes from global .card */
   .sysflow .step { padding: var(--space-lg); position: relative; }
   .sysflow .step .ix { font-size: 10.5px; color: var(--accent-text); }
-  .sysflow .step h4 { font-size: 17px; margin: var(--space-sm) 0 var(--space-xs); }
+  .sysflow .step h3 { font-size: 17px; margin: var(--space-sm) 0 var(--space-xs); }
   .sysflow .step p { font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); }
   .sysflow .step .ar { position: absolute; right: -11px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--text-muted); z-index: 2; }
   .sysflow .step:last-child .ar { display: none; }

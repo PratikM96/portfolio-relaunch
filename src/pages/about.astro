@@ -19,17 +19,21 @@ import headshot from '../assets/headshot-4x5.jpg';
   {/* HERO */}
   <section class="ahero">
     <div>
-      <div class="page-kicker rev">[ About ] · the practice</div>
-      <h1 class="rev page-h1">I came to creative through <span class="signal">code.</span></h1>
-      <p class="lead rev">I started in computer science and kept following the path toward the people the work was for, through design and into marketing. The systems habit stayed with me, now pointed at things an audience actually sees.</p>
-      <div class="btn-row rev"><a class="btn btn-p" href="/resume">View resume →</a><a class="btn btn-g" href="/work">See the work →</a></div>
+      <div class="page-kicker rev-load">[ About ] · the practice</div>
+      <h1 class="rev-load page-h1">I came to creative through <span class="signal">code.</span></h1>
+      <p class="lead rev-load">I started in computer science and kept following the path toward the people the work was for, through design and into marketing. The systems habit stayed with me, now pointed at things an audience actually sees.</p>
+      <div class="btn-row rev-load"><a class="btn btn-p" href="/resume">View resume →</a><a class="btn btn-g" href="/work">See the work →</a></div>
     </div>
-    <figure class="portrait rev"><Image src={headshot} alt="Pratik Mehta" width={900} format="webp" /></figure>
+    {/* The portrait is this page's LCP element. Astro defaults <Image> to
+        loading="lazy", which deferred the fetch and pushed LCP to 2.6s on
+        mobile; eager + fetchpriority start it with the document. Width is 760
+        (not 900): it renders at most 592px CSS, so 900 was ~35 KB of overshoot. */}
+    <figure class="portrait rev-load"><Image src={headshot} alt="Pratik Mehta" width={760} format="webp" loading="eager" fetchpriority="high" decoding="async" /></figure>
   </section>
 
   {/* THE PATH */}
   <section class="block">
-    <div class="blabel"><span class="c">[ 01 ]</span><span class="t">The path</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 01 ]</span><h2 class="t">The path</h2><span class="rule"></span></div>
     <div class="path rev">
       <div class="step"><div class="yr">Foundation</div><div><h3>Engineer</h3><p>I started in computer science at NYU. Before any design or marketing, I learned to think in systems: how the parts connect, and where they break.</p></div></div>
       <div class="step"><div class="yr">The turn</div><div><h3>Design</h3><p>Leading a volunteer design team is where it clicked that I cared more about the people the work was for than the code behind it. I moved toward design.</p></div></div>
@@ -40,7 +44,7 @@ import headshot from '../assets/headshot-4x5.jpg';
 
   {/* HOW I WORK */}
   <section class="block">
-    <div class="blabel"><span class="c">[ 02 ]</span><span class="t">How I work</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 02 ]</span><h2 class="t">How I work</h2><span class="rule"></span></div>
     <div class="princ rev">
       <div class="card pcard"><div class="n">01</div><h3>One system, end to end</h3><p>I connect the creative to the marketing that makes it perform, and hold the whole arc so nothing gets lost in handoff.</p></div>
       <div class="card pcard"><div class="n">02</div><h3>Built, not briefed</h3><p>I react to built things, working prototypes and real output, not decks describing them.</p></div>
@@ -50,7 +54,7 @@ import headshot from '../assets/headshot-4x5.jpg';
 
   {/* TOOLS & AI */}
   <section class="block">
-    <div class="blabel"><span class="c">[ 03 ]</span><span class="t">Tools &amp; AI workflow</span><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Tools &amp; AI workflow</h2><span class="rule"></span></div>
     <div class="prose rev">
       <p><strong>AI-forward across the workflow.</strong> I use AI across research, production, and iteration, to move faster and cover more of the system. It speeds the work; it does not do the thinking.</p>
     </div>

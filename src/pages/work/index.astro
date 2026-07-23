@@ -46,15 +46,19 @@ const featured = entries
   }));
 ---
 
-<Base title="Work · Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work">
+{/* The first featured card's poster is this page's LCP element, and it's a
+    <video poster>, which the preload scanner does not discover. Preload it so
+    the fetch starts with the document instead of after layout. */}
+<Base title="Work · Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work" preloadImage={featured.length ? `/wc/${featured[0].slug}/poster.webp` : undefined}>
   <header class="phead">
     <div class="page-kicker">[ Work ] · {count} {count === 1 ? 'project' : 'projects'} · {yearRange}</div>
-    <h1 class="rev page-h1">The work,<br />as <span class="signal">one index.</span></h1>
-    <p class="lead rev">In-house, agency, and concept, filterable by type and discipline. Pick the two or three that answer your question. Each one opens to a full case study.</p>
+    <h1 class="rev-load page-h1">The work,<br />as <span class="signal">one index.</span></h1>
+    <p class="lead rev-load">In-house, agency, and concept, filterable by type and discipline. Pick the two or three that answer your question. Each one opens to a full case study.</p>
   </header>
 
   {/* featured pair */}
-  <section class="feat rev">
+  <h2 class="sr-only">Featured projects</h2>
+  <section class="feat rev-load">
     {featured.map((p) => (
       <a class="card card--interactive fcard" href={p.href}>
         <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
@@ -80,6 +84,7 @@ const featured = entries
   </section>
 
   {/* shared filterable index + sticky preview (also used on the home) */}
+  <h2 class="sr-only">All projects</h2>
   <WorkIndex entries={entries} disciplines stickyFilter />
 </Base>
 

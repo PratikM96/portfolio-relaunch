@@ -48,3 +48,35 @@
   Cache-Control: public, max-age=31536000, immutable
 /ov/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Concept microsite fonts. Same contract as /fonts/* — vendor filenames, fixed
+# by each concept's own @font-face, and a face is only ever ADDED under a new
+# name, never re-cut in place. Listed per slug rather than /concepts/*/fonts/*
+# because only a single trailing wildcard is reliably supported, and a bare
+# /concepts/* would sweep the microsite HTML into a year of immutable caching.
+# Everything else under /concepts/ is deliberately left on the revalidating
+# default until the microsite pass lands.
+/concepts/level/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/concepts/the-ninth/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/concepts/wisp/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Favicons, touch icon, manifest and share cards. Unhashed and contract-named
+# (the <link> tags hardcode them), so they can't carry a content hash — but
+# unlike the sets above they do get redrawn occasionally. 30 days, NOT a year
+# and NOT immutable: long enough to kill the per-navigation revalidation these
+# were doing, short enough that replacing one in place still reaches people.
+/favicon.ico
+  Cache-Control: public, max-age=2592000
+/favicon.svg
+  Cache-Control: public, max-age=2592000
+/favicon-96x96.png
+  Cache-Control: public, max-age=2592000
+/apple-touch-icon.png
+  Cache-Control: public, max-age=2592000
+/site.webmanifest
+  Cache-Control: public, max-age=2592000
+/og/*
+  Cache-Control: public, max-age=2592000
