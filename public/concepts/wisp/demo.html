@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="/concepts/wisp/fonts.css">
+<link rel="preload" href="/concepts/wisp/fonts/Sentient-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/wisp/fonts/GeneralSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* WISP fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Sentient + General Sans are the
+     concept's own; JetBrains Mono reuses the site face at /fonts. */
+  @font-face{font-family:'Sentient';src:url('/concepts/wisp/fonts/Sentient-Variable.woff2') format('woff2');font-weight:200 700;font-style:normal;font-display:swap}
+  @font-face{font-family:'General Sans';src:url('/concepts/wisp/fonts/GeneralSans-Variable.woff2') format('woff2');font-weight:200 700;font-style:normal;font-display:swap}
+  @font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+  /* Sentient is WISP's warm heading + wordmark face; body stays General Sans. */
+  h1,h2,h3,.wm,.wordmark{font-family:'Sentient',Georgia,serif}
+</style>
 <title>WISP / Live Demo</title>
 <meta name="description" content="Interactive demo of WISP, a speculative AI presence concept by Pratik Mehta: a faceless form of light that reacts through seven states as you type." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/wisp/demo" />
@@ -121,7 +132,7 @@
 </head>
 <body>
 <a href="/work/wisp" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;WISP &middot; back to the case study</a>
-<div class="shell">
+<main class="shell">
 
   <header>
     <div>
@@ -157,7 +168,7 @@
   <footer>
     Scripted in-character demo for concept and case-study use, speculative spec work. The real system replaces this engine with a language model and low-latency voice.
   </footer>
-</div>
+</main>
 
 <script>
 (function(){
@@ -358,6 +369,6 @@
 
 })();
 </script>
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

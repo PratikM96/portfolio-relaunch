@@ -3,7 +3,16 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="/concepts/level/fonts.css">
+<link rel="preload" href="/concepts/level/fonts/Zodiak-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/level/fonts/Supreme-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Level fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Zodiak + Supreme are the concept's
+     own; JetBrains Mono reuses the site face at /fonts. */
+  @font-face{font-family:'Zodiak';src:url('/concepts/level/fonts/Zodiak-Variable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+  @font-face{font-family:'Supreme';src:url('/concepts/level/fonts/Supreme-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+  @font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+</style>
 <title>Level, Brand Guidelines</title>
 <meta name="description" content="Brand guidelines for Level, a speculative prediction market concept by Pratik Mehta: positioning, voice, color, type, and motion in one system." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/level/brand" />
@@ -21,8 +30,8 @@
   :root{
     --ink:#16181C; --ink-900:#0E0F12; --ink-700:#23262D; --ink-600:#2D3038;
     --bone:#EBE6DB; --bone-100:#F5F1E8; --bone-200:#E2DCCF;
-    --signal:#F2A436; --ember:#C9742A; --signal-soft:rgba(242,164,54,0.14);
-    --slate:#8C8E96; --slate-d:#6A6C73;
+    --signal:#F2A436; --ember:#C9742A; --ember-d:#985720; --signal-soft:rgba(242,164,54,0.14);
+    --slate:#9698A0; --slate-d:#64656C;
     --line:rgba(235,230,219,0.14); --line-d:rgba(22,24,28,0.14);
     --disp:"Zodiak", Georgia, serif;
     --text:"Supreme", system-ui, sans-serif;
@@ -36,10 +45,10 @@
   section{padding:80px 0; border-top:1px solid var(--line)}
   .snum{font-family:var(--data); font-size:12px; letter-spacing:0.14em; color:var(--slate); margin-bottom:10px}
   .eyebrow{font-family:var(--data); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--signal); margin-bottom:18px}
-  h1,h2,h3,h4{font-family:var(--disp); font-weight:500; letter-spacing:-0.005em; line-height:1.06}
+  h1,h2,h3{font-family:var(--disp); font-weight:500; letter-spacing:-0.005em; line-height:1.06}
   h2{font-size:36px; margin-bottom:14px}
   h3{font-size:20px; margin-bottom:8px}
-  h4{font-size:16px; margin-bottom:6px}
+  h3.sub{font-size:16px; margin-bottom:6px}
   p{color:var(--bone); opacity:0.86; max-width:62ch}
   p.lead{opacity:0.95; font-size:17px}
   .muted{color:var(--slate); opacity:1}
@@ -163,10 +172,10 @@
 
   .invert{background:var(--bone); color:var(--ink)}
   .invert .snum{color:var(--slate-d)}
-  .invert .eyebrow{color:var(--ember)}
-  .invert h2,.invert h3,.invert h4{color:var(--ink)}
+  .invert .eyebrow{color:var(--ember-d)}
+  .invert h2,.invert h3{color:var(--ink)}
   .invert p{color:var(--ink); opacity:0.78}
-  .invert .muted{color:var(--slate-d)}
+  .invert .muted{color:var(--slate-d); opacity:1}
   .invert .card{background:var(--bone-100); border-color:var(--line-d)}
   .invert ul.clean li{border-color:var(--line-d); color:var(--ink); opacity:0.82}
   .invert .ad{background:var(--ink); border-radius:16px; padding:34px; color:var(--bone)}
@@ -184,6 +193,7 @@
   <span class="meta">Brand guidelines, v0.2</span>
 </div></div>
 
+<main>
 <header class="hero"><div class="wrap">
   <div class="lockup">
     <span class="word">Level</span>
@@ -279,10 +289,10 @@
   <h2>The white space we claim.</h2>
   <p style="margin-bottom:22px">The category is racing into a documented harm problem while optimizing for the opposite of protection. The visual field is just as crowded, and Level steps out of it on purpose. Industry figures below are sourced in the research file and describe the market, never Level.</p>
   <div class="grid cols-4">
-    <div class="card"><h4>Kalshi</h4><p class="muted" style="font-size:13.5px">Clean, brokerage-like, the volume leader. Already calm, so visual softness is not the wedge.</p></div>
-    <div class="card"><h4>Polymarket</h4><p class="muted" style="font-size:13.5px">Crypto-native, a trading terminal. Blue, dark, built for active traders.</p></div>
-    <div class="card"><h4>FanDuel, DraftKings</h4><p class="muted" style="font-size:13.5px">Sportsbooks with CME. Blue and vibrant green, engagement machines by model.</p></div>
-    <div class="card" style="border-color:rgba(242,164,54,0.4)"><h4 style="color:var(--signal)">Level</h4><p class="muted" style="font-size:13.5px">Warm amber, ink, and bone. The responsible, legible one, in the category's most harmful corner.</p></div>
+    <div class="card"><h3 class="sub">Kalshi</h3><p class="muted" style="font-size:13.5px">Clean, brokerage-like, the volume leader. Already calm, so visual softness is not the wedge.</p></div>
+    <div class="card"><h3 class="sub">Polymarket</h3><p class="muted" style="font-size:13.5px">Crypto-native, a trading terminal. Blue, dark, built for active traders.</p></div>
+    <div class="card"><h3 class="sub">FanDuel, DraftKings</h3><p class="muted" style="font-size:13.5px">Sportsbooks with CME. Blue and vibrant green, engagement machines by model.</p></div>
+    <div class="card" style="border-color:rgba(242,164,54,0.4)"><h3 class="sub" style="color:var(--signal)">Level</h3><p class="muted" style="font-size:13.5px">Warm amber, ink, and bone. The responsible, legible one, in the category's most harmful corner.</p></div>
   </div>
   <div class="grid cols-3" style="margin-top:18px">
     <div class="card"><div class="num" style="font-size:26px; color:var(--signal)">~$21B</div><p class="muted" style="font-size:13px; margin-top:4px">monthly volume marker</p></div>
@@ -296,14 +306,14 @@
   <h2>What we say, and how it ladders.</h2>
   <div class="grid cols-2" style="align-items:start">
     <div>
-      <h4>Tagline</h4>
+      <h3 class="sub">Tagline</h3>
       <p class="lead" style="font-family:var(--disp); font-size:26px; color:var(--bone); opacity:1; margin:4px 0 4px">Level with you.</p>
       <p class="muted" style="font-size:13.5px">Alternates: "Know the odds. Stay in control." and "A read you can trust."</p>
-      <h4 style="margin-top:24px">Boilerplate</h4>
+      <h3 class="sub" style="margin-top:24px">Boilerplate</h3>
       <p style="font-size:14.5px">Level is a sports-forward prediction market built on responsibility and legibility. It shows the real odds in plain language, explains a market before you stake on it, and builds protection in by default. A speculative concept, not a live product.</p>
     </div>
     <div>
-      <h4>Key messages, by audience</h4>
+      <h3 class="sub">Key messages, by audience</h3>
       <ul class="clean" style="margin-top:6px">
         <li><span class="muted">Curious fan.</span> Back a real read, with the odds in plain English and an assistant that explains the market first.</li>
         <li><span class="muted">At-risk user.</span> Limits on by default, an honest Starter mode, and self-control tools that are easy to find and easy to use.</li>
@@ -358,9 +368,9 @@
     <div class="stage" style="background:var(--signal)"><span class="lk on-signal"><span class="word">Level</span><span class="datum"></span></span></div>
   </div>
   <div class="grid cols-3" style="margin-top:24px">
-    <div class="card"><h4>Clearspace and scale</h4><p class="muted" style="font-size:13.5px">Clear space equals the cap height of the wordmark on all sides. The datum line spans the full width of the word and never detaches. Minimum digital width 96px.</p></div>
-    <div class="card"><h4>Co-branding</h4><p class="muted" style="font-size:13.5px">When locked up with a partner or league, separate with a hairline at equal optical weight. Never place a partner color on the index point. Never imply endorsement.</p></div>
-    <div class="card"><h4>Misuse</h4><p class="muted" style="font-size:13.5px">Do not tilt it, the whole idea is that it stays level. Do not recolor the index point. No glow, gradient, or shadow. Do not stretch or condense the letters.</p></div>
+    <div class="card"><h3 class="sub">Clearspace and scale</h3><p class="muted" style="font-size:13.5px">Clear space equals the cap height of the wordmark on all sides. The datum line spans the full width of the word and never detaches. Minimum digital width 96px.</p></div>
+    <div class="card"><h3 class="sub">Co-branding</h3><p class="muted" style="font-size:13.5px">When locked up with a partner or league, separate with a hairline at equal optical weight. Never place a partner color on the index point. Never imply endorsement.</p></div>
+    <div class="card"><h3 class="sub">Misuse</h3><p class="muted" style="font-size:13.5px">Do not tilt it, the whole idea is that it stays level. Do not recolor the index point. No glow, gradient, or shadow. Do not stretch or condense the letters.</p></div>
   </div>
 </div></section>
 
@@ -376,11 +386,11 @@
   </div>
   <div class="grid cols-2" style="margin-top:20px; align-items:start">
     <div class="card" style="border-color:rgba(242,164,54,0.4)">
-      <h4 style="color:var(--signal)">The amber discipline</h4>
+      <h3 class="sub" style="color:var(--signal)">The amber discipline</h3>
       <p style="font-size:14px">Signal covers no more than about a tenth of any screen, reserved for the live probability, the user's selection, the index point, and a single primary action. Never a background behind body text, never used to manufacture urgency. A product that hoards its accent for what matters signals it is not playing you.</p>
     </div>
     <div class="card">
-      <h4>Functional color, kept honest</h4>
+      <h3 class="sub">Functional color, kept honest</h3>
       <p class="muted" style="font-size:14px">Outcomes are never colored. Green reads as money and red as loss, and both nudge behavior, so Yes and No stay neutral. Red is held in reserve for one job only, genuine self-exclusion and support, so that when it appears it actually means stop.</p>
       <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap">
         <span class="pill"><span class="dot" style="background:var(--signal)"></span>Live and selected</span>
@@ -457,7 +467,7 @@
   <p style="margin-bottom:22px">Level is a data product, so charts are core, not garnish. They share the type and color rules: mono labels, amber for the live or selected series, neutral grey for everything else, and no decorative gradients or 3D. A chart should make a probability easier to understand, never make it look like a jackpot climbing.</p>
   <div class="grid cols-2" style="align-items:start">
     <div class="card">
-      <h4 style="margin-bottom:14px">Outcome distribution</h4>
+      <h3 class="sub" style="margin-bottom:14px">Outcome distribution</h3>
       <div class="dist">
         <div class="row"><span class="lab">Home win</span><span class="bar"><span style="width:62%"></span></span><span class="val">62%</span></div>
         <div class="row"><span class="lab">Draw</span><span class="bar"><span style="width:22%; background:#5F6168"></span></span><span class="val">22%</span></div>
@@ -522,9 +532,9 @@
   <div class="snum">16</div><div class="eyebrow">Layout</div>
   <h2>Generous, grounded, on a baseline.</h2>
   <div class="grid cols-3">
-    <div class="card"><h4>The grid</h4><p class="muted" style="font-size:13.5px">A 12-column grid with wide gutters. Content sits on a clear horizontal baseline, the datum motif carried into layout as the line things rest on.</p></div>
-    <div class="card"><h4>Spacing</h4><p class="muted" style="font-size:13.5px">An 8px base scale: 8, 12, 16, 24, 32, 48, 80. Whitespace is a feature, the same restraint as the color, giving data room to breathe.</p></div>
-    <div class="card"><h4>Radius</h4><p class="muted" style="font-size:13.5px">10 to 14px on cards and controls. Soft enough to feel human, never pill-shaped except for status chips.</p></div>
+    <div class="card"><h3 class="sub">The grid</h3><p class="muted" style="font-size:13.5px">A 12-column grid with wide gutters. Content sits on a clear horizontal baseline, the datum motif carried into layout as the line things rest on.</p></div>
+    <div class="card"><h3 class="sub">Spacing</h3><p class="muted" style="font-size:13.5px">An 8px base scale: 8, 12, 16, 24, 32, 48, 80. Whitespace is a feature, the same restraint as the color, giving data room to breathe.</p></div>
+    <div class="card"><h3 class="sub">Radius</h3><p class="muted" style="font-size:13.5px">10 to 14px on cards and controls. Soft enough to feel human, never pill-shaped except for status chips.</p></div>
   </div>
 </div></section>
 
@@ -533,7 +543,7 @@
   <h2>A few core parts.</h2>
   <div class="grid cols-2" style="align-items:start">
     <div class="card">
-      <h4 style="margin-bottom:14px">Buttons</h4>
+      <h3 class="sub" style="margin-bottom:14px">Buttons</h3>
       <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
         <span class="btn primary">Place stake</span>
         <span class="btn">Explain market</span>
@@ -543,7 +553,7 @@
       <div style="margin-top:12px"><span class="btn signal">Confirm, $5 stake</span></div>
     </div>
     <div class="card">
-      <h4 style="margin-bottom:14px">Inputs and chips</h4>
+      <h3 class="sub" style="margin-bottom:14px">Inputs and chips</h3>
       <input class="field" value="$5.00" readonly aria-label="stake amount" />
       <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap">
         <span class="pill"><span class="dot" style="background:var(--signal)"></span>Live</span>
@@ -559,9 +569,9 @@
   <div class="snum">18</div><div class="eyebrow">Motion</div>
   <h2>It settles to level.</h2>
   <div class="grid cols-3">
-    <div class="card"><h4>Decelerate to rest</h4><p class="muted" style="font-size:13.5px">Transitions ease out and stop calmly, like a bubble finding level. Standard 240ms, ease-out. Nothing snaps, bounces, or flashes.</p></div>
-    <div class="card"><h4>No celebration</h4><p class="muted" style="font-size:13.5px">A win and a loss get the same restraint. No confetti, no fireworks, no sound that rewards the act of staking.</p></div>
-    <div class="card"><h4>The index moves last</h4><p class="muted" style="font-size:13.5px">When data updates, the amber point eases to its new position so the change is legible, never alarming.</p></div>
+    <div class="card"><h3 class="sub">Decelerate to rest</h3><p class="muted" style="font-size:13.5px">Transitions ease out and stop calmly, like a bubble finding level. Standard 240ms, ease-out. Nothing snaps, bounces, or flashes.</p></div>
+    <div class="card"><h3 class="sub">No celebration</h3><p class="muted" style="font-size:13.5px">A win and a loss get the same restraint. No confetti, no fireworks, no sound that rewards the act of staking.</p></div>
+    <div class="card"><h3 class="sub">The index moves last</h3><p class="muted" style="font-size:13.5px">When data updates, the amber point eases to its new position so the change is legible, never alarming.</p></div>
   </div>
 </div></section>
 
@@ -585,9 +595,9 @@
   <h2>Legible is the whole point.</h2>
   <p style="margin-bottom:22px">Accessibility is not a separate checklist here, it is the same promise as legibility, extended to everyone. If a person cannot read the odds, they cannot make a responsible decision.</p>
   <div class="grid cols-3">
-    <div class="card"><h4>Contrast</h4><p class="muted" style="font-size:13.5px">Bone on ink clears AAA for body text. Amber is used for large text, data, and graphic marks, not small body copy, where its contrast on ink is insufficient.</p></div>
-    <div class="card"><h4>Never color alone</h4><p class="muted" style="font-size:13.5px">Meaning never rides on color. Yes and no carry labels and position, selection carries a border, live carries a dot and a word.</p></div>
-    <div class="card"><h4>Motion and size</h4><p class="muted" style="font-size:13.5px">Reduced-motion is respected, animation is never required to understand state. Body never below 14px, touch targets at least 44px.</p></div>
+    <div class="card"><h3 class="sub">Contrast</h3><p class="muted" style="font-size:13.5px">Bone on ink clears AAA for body text. Amber is used for large text, data, and graphic marks, not small body copy, where its contrast on ink is insufficient.</p></div>
+    <div class="card"><h3 class="sub">Never color alone</h3><p class="muted" style="font-size:13.5px">Meaning never rides on color. Yes and no carry labels and position, selection carries a border, live carries a dot and a word.</p></div>
+    <div class="card"><h3 class="sub">Motion and size</h3><p class="muted" style="font-size:13.5px">Reduced-motion is respected, animation is never required to understand state. Body never below 14px, touch targets at least 44px.</p></div>
   </div>
 </div></section>
 
@@ -600,17 +610,17 @@
       <div style="display:flex; gap:16px; align-items:center">
         <div class="appicon"><span class="w">L</span><span class="d"></span></div>
         <div>
-          <h4>App icon</h4>
+          <h3 class="sub">App icon</h3>
           <p class="muted" style="font-size:13px">The L on its datum, amber index true. Recognizable at 24px.</p>
         </div>
       </div>
     </div>
     <div>
-      <h4>Social avatar</h4>
+      <h3 class="sub">Social avatar</h3>
       <p class="muted" style="font-size:13px">Same lockup, full bleed on ink. The index point is the only color, so it reads in a crowded feed.</p>
     </div>
     <div>
-      <h4>Merch and print</h4>
+      <h3 class="sub">Merch and print</h3>
       <p class="muted" style="font-size:13px">Bone stock, ink type, a single amber datum tick. Quiet, premium, anti-merch-table.</p>
     </div>
   </div>
@@ -621,10 +631,11 @@
   <p class="muted" style="font-size:13px; margin-top:14px">Out-of-home and social keep one idea per frame, the headline in Zodiak, the endline in mono, never a price or an urgency line.</p>
 </div></section>
 
+</main>
 <footer><div class="wrap">
   Level is a speculative concept by Pratik Mehta. It is not a real product and not affiliated with any exchange. Brand name pending trademark and domain verification. Market figures referenced in this project describe the industry and are drawn from cited public research; any projected outcome is an objective, not a result. Working name, alternates on file: Even, Plumb, Read, Tally.
 </div></footer>
 
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

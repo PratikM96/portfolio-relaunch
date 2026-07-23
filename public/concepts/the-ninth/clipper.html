@@ -3,7 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* The Ninth fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Array has no variable file, so three
+     static cuts; Satoshi ships as one variable woff2. */
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Semibold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:'Satoshi';src:url('/concepts/the-ninth/fonts/Satoshi-Variable.woff2') format('woff2');font-weight:300 900;font-style:normal;font-display:swap}
+</style>
 <title>The Ninth, AI Moment-Alert Clipper (Phase 3 demo)</title>
 <meta name="description" content="Demo of the AI moment-clipper for The Ninth, a speculative esports concept by Pratik Mehta: three live signals fuse into an instant auto-clip." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/clipper" />
@@ -27,9 +39,9 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
   .wrap{max-width:1040px;margin:0 auto;padding:54px 32px 90px}
-  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
+  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-deep);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
   h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(30px,5vw,52px);line-height:.94;margin:0}
-  h1 small{display:block;font-size:12px;letter-spacing:.34em;color:var(--mist);margin-top:13px;font-weight:500}
+  h1 small{display:block;font-size:12px;letter-spacing:.34em;color:var(--mist);margin-top:13px;font-weight:400}
   .lede{max-width:620px;margin:22px 0 0;font-size:16px;color:#2c3e52}
   .lede b{color:var(--ink);font-weight:600}
 
@@ -67,7 +79,7 @@
   .between{display:flex;align-items:center;justify-content:space-between}
   .row{display:flex;align-items:center;gap:9px}
   .alert .ti{color:#fff;font-family:var(--disp);font-weight:600;font-size:13px}
-  .alert .go{font-family:var(--disp);font-size:11px;color:var(--c9);cursor:pointer}
+  .alert .go{font-family:var(--disp);font-size:11px;color:var(--blue-deep);cursor:pointer}
 
   /* clip card */
   .clip{position:absolute;inset:0;background:#070f1d;transform:translateY(100%);transition:.45s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column}
@@ -85,7 +97,7 @@
   .clip .cap{color:#eaf4fb;font-family:var(--disp);font-weight:600;font-size:14px}
   .clip .sub{font-size:11px;color:#9fb2c4;margin:5px 0 11px}
   .opt{font-family:var(--disp);font-size:10.5px;border:1px solid #24395a;color:#9fb2c4;border-radius:999px;padding:5px 9px;margin:0 5px 8px 0;display:inline-block}
-  .btn{display:block;text-align:center;background:var(--c9);color:#fff;font-family:var(--disp);font-weight:600;font-size:13px;border-radius:11px;padding:11px;cursor:pointer}
+  .btn{display:block;text-align:center;background:var(--blue-deep);color:#fff;font-family:var(--disp);font-weight:600;font-size:13px;border-radius:11px;padding:11px;cursor:pointer}
   .btn.ghost{background:transparent;border:1px solid #24395a;color:#cfe6f6}
   .pts{display:inline-block;font-family:var(--disp);font-size:9.5px;font-weight:600;background:#0e2138;color:#7fd0f0;border:1px solid #24395a;border-radius:999px;padding:5px 11px}
 
@@ -107,7 +119,7 @@
   .ring .pct b{font-family:var(--disp);font-weight:700;font-size:26px}
   .ring .pct span{font-family:var(--disp);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);margin-top:2px}
   .state{margin-top:8px;font-family:var(--disp);font-size:12px;font-weight:600;color:#54677a;text-align:center}
-  .state.hit{color:var(--c9)}
+  .state.hit{color:var(--blue-deep)}
 
   .controls{display:flex;gap:12px;margin-top:24px}
   .ctl{flex:1;text-align:center;font-family:var(--disp);font-weight:600;font-size:13px;padding:13px;border-radius:12px;cursor:pointer;border:1px solid var(--line)}
@@ -127,7 +139,7 @@
   <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 8.5l5.5 3.5-5.5 3.5z" fill="currentColor"/></symbol>
 </svg>
 
-<div class="wrap">
+<main class="wrap">
   <span class="tag">Speculative concept &middot; Phase 3 &middot; working demo</span>
   <h1>Moment, clipped.<small>THE NINTH &middot; AI MOMENT-ALERT CLIPPER</small></h1>
   <p class="lede">The AI slice, built. Three live signals fuse, the system catches the moment, and an auto-clip rises to the fan the instant it happens. This is the casual fan's reason to never miss a play. <b>Press Simulate the moment</b> to run it, on the phone and in the engine side by side.</p>
@@ -211,7 +223,7 @@
   </div>
 
   <p class="foot">The Ninth is a speculative concept anchored to Cloud9 for portfolio purposes, not affiliated with or endorsed by Cloud9. The match, scene, and signals are simulated for demonstration. The detection approach reflects real 2026 auto-highlight methods. No outcome here describes Pratik Mehta's own results.</p>
-</div>
+</main>
 
 <script>
 (function(){
@@ -319,6 +331,6 @@
 <script>
 (function(){var SEL='#runBtn,#resetBtn,#openClip,#closeClip,#claimBtn';function enh(el){if(!el||el.__kb)return;el.__kb=1;var t=el.tagName;if(t!=='BUTTON'&&t!=='A'){el.setAttribute('role','button');if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','0');}el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});}function scan(){document.querySelectorAll(SEL).forEach(enh);}scan();setTimeout(scan,800);var c=document.getElementById('closeClip');if(c)c.setAttribute('aria-label','Back to alert');})();
 </script>
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

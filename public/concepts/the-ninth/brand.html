@@ -3,7 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* The Ninth fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Array has no variable file, so three
+     static cuts; Satoshi ships as one variable woff2. */
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Semibold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:'Satoshi';src:url('/concepts/the-ninth/fonts/Satoshi-Variable.woff2') format('woff2');font-weight:300 900;font-style:normal;font-display:swap}
+</style>
 <title>The Ninth, Brand Guidelines</title>
 <meta name="description" content="Brand guidelines for The Ninth, a speculative Cloud9 membership concept by Pratik Mehta: how the sub-brand looks, sounds, and behaves." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/brand" />
@@ -33,7 +45,7 @@
   /* side nav */
   nav.side{position:sticky;top:0;height:100vh;padding:40px 22px;border-right:1px solid var(--line);overflow:auto}
   nav .brand{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:18px;line-height:1.1}
-  nav .brand small{display:block;font-size:9.5px;letter-spacing:.3em;color:var(--mist);margin-top:8px;font-weight:500}
+  nav .brand small{display:block;font-size:9.5px;letter-spacing:.3em;color:var(--mist);margin-top:8px;font-weight:400}
   nav ul{list-style:none;margin:34px 0 0;padding:0}
   nav li a{display:block;font-family:var(--disp);font-size:12.5px;letter-spacing:.04em;color:#54677a;text-decoration:none;padding:8px 0;border-bottom:1px solid transparent}
   nav li a:hover{color:var(--ink)}
@@ -43,10 +55,10 @@
   .hero h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(40px,7vw,80px);line-height:.92;margin:0}
   .hero .sub{font-family:var(--disp);font-size:13px;letter-spacing:.36em;color:var(--mist);margin-top:16px}
   .hero .lede{max-width:600px;font-size:17px;color:#2c3e52;margin-top:24px}
-  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:26px}
+  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-deep);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:26px}
 
   section.s{padding-top:64px;margin-top:64px;border-top:1px solid var(--line)}
-  .s .kx{font-family:var(--disp);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--c9);margin:0 0 6px}
+  .s .kx{font-family:var(--disp);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 6px}
   .s h2{font-family:var(--disp);font-weight:600;font-size:30px;letter-spacing:.01em;margin:0 0 8px}
   .s .intro{max-width:660px;color:#3a4d60;margin:0 0 30px}
   h3{font-family:var(--disp);font-weight:600;font-size:16px;letter-spacing:.02em;margin:34px 0 14px}
@@ -78,22 +90,22 @@
   .pass{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.08em;padding:3px 9px;border-radius:999px;font-weight:600}
   .pass.ok{background:#E6F4EC;color:#1c7a47}
   .pass.no{background:#FBEAEA;color:#a23535}
-  .pass.lg{background:#FDF4E3;color:#9a6a14}
+  .pass.lg{background:#FDF4E3;color:#966714}
 
   /* do / dont */
   .dd{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   .do,.dont{border-radius:14px;padding:22px 24px;border:1px solid var(--line)}
   .do{background:#F2FAF5;border-color:#cfe9da}
   .dont{background:#FCF3F3;border-color:#eed4d4}
-  .do h4,.dont h4{font-family:var(--disp);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px}
-  .do h4{color:#1c7a47}.dont h4{color:#a23535}
+  .do h3,.dont h3{font-family:var(--disp);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px}
+  .do h3{color:#1c7a47}.dont h3{color:#a23535}
   .do ul,.dont ul{margin:0;padding-left:18px}
   .do li,.dont li{margin:7px 0;font-size:14px;color:#33485b}
 
   .voice{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
   .pr{border:1px solid var(--line);border-radius:14px;background:#fff;padding:22px 24px}
   .pr .n{font-family:var(--disp);color:var(--mist);font-weight:600;font-size:13px}
-  .pr h4{font-family:var(--disp);font-weight:600;font-size:17px;margin:6px 0 8px}
+  .pr h3{font-family:var(--disp);font-weight:600;font-size:17px;margin:6px 0 8px}
   .pr p{font-size:14px;color:#3a4d60;margin:0}
   .pr .ex{margin-top:14px;font-size:13.5px;border-left:2px solid var(--c9);padding-left:12px;color:#2c3e52}
   .pr .ex b{color:var(--mist);font-weight:600}
@@ -195,7 +207,7 @@
         </div>
         <div class="card center" style="min-height:180px">
           <div style="text-align:center">
-            <div style="font-family:var(--disp);font-weight:700;letter-spacing:.06em;font-size:70px;color:var(--c9)">IX</div>
+            <div style="font-family:var(--disp);font-weight:700;letter-spacing:.06em;font-size:70px;color:var(--blue-deep)">IX</div>
             <div class="cap">Monogram &middot; the Roman nine</div>
           </div>
         </div>
@@ -240,7 +252,7 @@
       <h3>Misuse</h3>
       <div class="dd">
         <div class="do">
-          <h4>Do</h4>
+          <h3>Do</h3>
           <ul>
             <li>Keep the wordmark neutral: ink on light, white on dark.</li>
             <li>Give it clearspace of x, always.</li>
@@ -248,7 +260,7 @@
           </ul>
         </div>
         <div class="dont">
-          <h4>Don't</h4>
+          <h3>Don't</h3>
           <ul>
             <li>Recolor the wordmark to Cloud9 Blue. Blue is an accent, not the logo.</li>
             <li>Stretch, skew, outline, or add glow, shadow, or bevel.</li>
@@ -266,7 +278,7 @@
       <div class="grid2">
         <div class="card center" style="min-height:160px">
           <div style="text-align:center">
-            <div style="font-family:var(--disp);font-weight:600;font-size:26px;letter-spacing:.02em"><span style="color:var(--c9)">Cloud9</span> <span style="color:var(--mist);font-weight:400">/</span> The Ninth</div>
+            <div style="font-family:var(--disp);font-weight:600;font-size:26px;letter-spacing:.02em"><span style="color:var(--blue-deep)">Cloud9</span> <span style="color:var(--mist);font-weight:400">/</span> The Ninth</div>
             <div class="cap">Co-mark, equal weight</div>
           </div>
         </div>
@@ -298,7 +310,7 @@
       <div class="ratio">
         <span style="background:#F4F8FB;color:#54677a;flex:60">60 &middot; surface</span>
         <span style="background:#07142B;flex:25">25 &middot; ink</span>
-        <span style="background:#29ABE2;flex:15">15 &middot; accent</span>
+        <span style="background:#29ABE2;color:#07142B;flex:15">15 &middot; accent</span>
       </div>
       <p class="muted" style="font-size:13px">Let the page breathe. Blue is a punctuation color, never a flood.</p>
 
@@ -324,7 +336,7 @@
           <tr><th>Style</th><th>Face / weight</th><th>Size / tracking</th><th>Use</th></tr>
           <tr><td><span style="font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:26px">Display</span></td><td class="x">Array Bold</td><td class="x">44 to 104px &middot; .04em</td><td>Wordmark, hero</td></tr>
           <tr><td><span style="font-family:var(--disp);font-weight:600;font-size:22px">Heading</span></td><td class="x">Array Semibold</td><td class="x">26 to 30px &middot; .01em</td><td>Section titles</td></tr>
-          <tr><td><span style="font-family:var(--disp);font-weight:500;font-size:17px">Subhead</span></td><td class="x">Array Regular</td><td class="x">16 to 20px</td><td>Lead-ins, labels</td></tr>
+          <tr><td><span style="font-family:var(--disp);font-weight:400;font-size:17px">Subhead</span></td><td class="x">Array Regular</td><td class="x">16 to 20px</td><td>Lead-ins, labels</td></tr>
           <tr><td><span style="font-family:var(--text);font-size:16px">Body copy</span></td><td class="x">Satoshi 400 / 500</td><td class="x">16 to 17px &middot; 1.6</td><td>Paragraphs, UI</td></tr>
           <tr><td><span style="font-family:var(--disp);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#54677a">Caption</span></td><td class="x">Array Regular</td><td class="x">11 to 13px &middot; .14em &middot; caps</td><td>Tags, meta, tiers</td></tr>
         </table>
@@ -338,10 +350,10 @@
       <h2>Tone of voice</h2>
       <p class="intro">Calm at altitude. The Ninth never shouts. Confidence is quiet, the wit is dry, and the fan comes first in every sentence. If a line feels like a hype drop or a casino, it is wrong.</p>
       <div class="voice">
-        <div class="pr"><div class="n">01</div><h4>Calm at altitude</h4><p>Confidence without volume. No exclamation stacks, no caps-lock, no countdown-clock urgency.</p><div class="ex"><b>Yes:</b> You are in. Welcome to the Ninth.<br><b>No:</b> UNLOCK INSANE MEMBER PERKS NOW</div></div>
-        <div class="pr"><div class="n">02</div><h4>Earned, not hyped</h4><p>We talk about belonging and access, never FOMO. Status is something you climbed to, not something we sold you.</p><div class="ex"><b>Yes:</b> The Inner Nine is earned, not bought.<br><b>No:</b> Buy your way to VIP today</div></div>
-        <div class="pr"><div class="n">03</div><h4>Fan first, org second</h4><p>Lead with what the fan gets. The org and the upsell come after the belonging, never before it.</p><div class="ex"><b>Yes:</b> Never miss your team's moment.<br><b>No:</b> Drive recurring revenue with tiers</div></div>
-        <div class="pr"><div class="n">04</div><h4>Dry wit, never cringe</h4><p>It is in on the joke and light on its feet, never trying too hard, and it reads closer to a good caption than a hype man.</p><div class="ex"><b>Yes:</b> Cloud nine, year round.<br><b>No:</b> LET'S GOOO C9 NATION GG</div></div>
+        <div class="pr"><div class="n">01</div><h3>Calm at altitude</h3><p>Confidence without volume. No exclamation stacks, no caps-lock, no countdown-clock urgency.</p><div class="ex"><b>Yes:</b> You are in. Welcome to the Ninth.<br><b>No:</b> UNLOCK INSANE MEMBER PERKS NOW</div></div>
+        <div class="pr"><div class="n">02</div><h3>Earned, not hyped</h3><p>We talk about belonging and access, never FOMO. Status is something you climbed to, not something we sold you.</p><div class="ex"><b>Yes:</b> The Inner Nine is earned, not bought.<br><b>No:</b> Buy your way to VIP today</div></div>
+        <div class="pr"><div class="n">03</div><h3>Fan first, org second</h3><p>Lead with what the fan gets. The org and the upsell come after the belonging, never before it.</p><div class="ex"><b>Yes:</b> Never miss your team's moment.<br><b>No:</b> Drive recurring revenue with tiers</div></div>
+        <div class="pr"><div class="n">04</div><h3>Dry wit, never cringe</h3><p>It is in on the joke and light on its feet, never trying too hard, and it reads closer to a good caption than a hype man.</p><div class="ex"><b>Yes:</b> Cloud nine, year round.<br><b>No:</b> LET'S GOOO C9 NATION GG</div></div>
       </div>
       <h3>Word list</h3>
       <div class="grid2">
@@ -363,8 +375,8 @@
       <h3>Photography</h3>
       <p class="muted">Players and fans shot clean and premium, with breathing room and a cool grade. Think a fashion lookbook that happens to be about a team, not a tournament key-art blowout. Generative tools (Midjourney) set the cloud-and-altitude world fast as a methodology layer, then the deliverables are designed and art-directed by hand.</p>
       <div class="dd" style="margin-top:18px">
-        <div class="do"><h4>Do</h4><ul><li>Air, atmosphere, cool tones, restraint.</li><li>Altitude gradient as the connective tissue.</li><li>Premium, fashion-forward framing.</li></ul></div>
-        <div class="dont"><h4>Don't</h4><ul><li>Neon RGB, lens flares, fire, smoke.</li><li>Aggressive diagonal "gamer" energy or clutter.</li><li>Stock-looking hype crowds or screaming faces.</li></ul></div>
+        <div class="do"><h3>Do</h3><ul><li>Air, atmosphere, cool tones, restraint.</li><li>Altitude gradient as the connective tissue.</li><li>Premium, fashion-forward framing.</li></ul></div>
+        <div class="dont"><h3>Don't</h3><ul><li>Neon RGB, lens flares, fire, smoke.</li><li>Aggressive diagonal "gamer" energy or clutter.</li><li>Stock-looking hype crowds or screaming faces.</li></ul></div>
       </div>
     </section>
 
@@ -374,9 +386,9 @@
       <h2>Motion</h2>
       <p class="intro">One rule: everything ascends and eases. The brand moves like air, not like a fighting game. Calm, never frantic, with weight at the top of the climb.</p>
       <div class="mo">
-        <div class="pr"><div class="n">Rise</div><h4>Enter from below</h4><p>Cards, alerts, and surfaces drift up into place, the way you rise through cloud. Never drop in or snap.</p></div>
-        <div class="pr"><div class="n">Ease</div><h4>Soft, no bounce</h4><p>Ease-out, 240 to 400ms. No elastic bounce, no overshoot. Premium reads as controlled.</p></div>
-        <div class="pr"><div class="n">Summit</div><h4>Frost shimmer</h4><p>Reserved for Inner Nine. A slow iridescent pass across the grail card on level-up. Used once, not looped.</p></div>
+        <div class="pr"><div class="n">Rise</div><h3>Enter from below</h3><p>Cards, alerts, and surfaces drift up into place, the way you rise through cloud. Never drop in or snap.</p></div>
+        <div class="pr"><div class="n">Ease</div><h3>Soft, no bounce</h3><p>Ease-out, 240 to 400ms. No elastic bounce, no overshoot. Premium reads as controlled.</p></div>
+        <div class="pr"><div class="n">Summit</div><h3>Frost shimmer</h3><p>Reserved for Inner Nine. A slow iridescent pass across the grail card on level-up. Used once, not looped.</p></div>
       </div>
       <p class="muted" style="margin-top:18px"><b style="font-family:var(--disp);color:var(--ink)">The moment-alert behavior.</b> When the AI clipper catches a moment, the alert card rises from the bottom edge like a cloud cresting, settles, and holds. It is a calm tap on the shoulder, never a jarring buzz. The motion is the brand promise: we tell you when to look up.</p>
     </section>
@@ -522,6 +534,6 @@
 
   </main>
 </div>
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

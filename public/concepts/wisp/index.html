@@ -3,7 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/concepts/wisp/fonts.css">
+<link rel="preload" href="/concepts/wisp/fonts/Sentient-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/wisp/fonts/GeneralSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* WISP fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Sentient + General Sans are the
+     concept's own; JetBrains Mono reuses the site face at /fonts. */
+  @font-face{font-family:'Sentient';src:url('/concepts/wisp/fonts/Sentient-Variable.woff2') format('woff2');font-weight:200 700;font-style:normal;font-display:swap}
+  @font-face{font-family:'General Sans';src:url('/concepts/wisp/fonts/GeneralSans-Variable.woff2') format('woff2');font-weight:200 700;font-style:normal;font-display:swap}
+  @font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+  /* Sentient is WISP's warm heading + wordmark face; body stays General Sans. */
+  h1,h2,h3,.wm,.wordmark{font-family:'Sentient',Georgia,serif}
+</style>
 <title>WISP, live demo</title>
 <meta name="description" content="WISP, a self-initiated concept by Pratik Mehta for a faceless warm AI host: a live presence demo and its brand system." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/wisp/" />
@@ -75,6 +86,6 @@
   <a class="backlink" href="/work/wisp">&#8592; Back to the case study</a>
   <p class="foot">WISP is a self-initiated concept and its own brand. The demo is a scripted presentation of an interaction model, not a live AI product.</p>
 </main>
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

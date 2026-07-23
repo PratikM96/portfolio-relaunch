@@ -3,7 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* The Ninth fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Array has no variable file, so three
+     static cuts; Satoshi ships as one variable woff2. */
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Semibold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:'Satoshi';src:url('/concepts/the-ninth/fonts/Satoshi-Variable.woff2') format('woff2');font-weight:300 900;font-style:normal;font-display:swap}
+</style>
 <title>The Ninth, Broadcast and Overlay Package (Phase 4)</title>
 <meta name="description" content="Broadcast overlay package for The Ninth, a speculative esports concept by Pratik Mehta, putting membership moments on screen in a playable sequence." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/broadcast" />
@@ -27,13 +39,13 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
   .wrap{max-width:1040px;margin:0 auto;padding:54px 32px 96px}
-  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
+  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-deep);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
   h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(30px,5vw,52px);line-height:.94;margin:0}
-  h1 small{display:block;font-size:12px;letter-spacing:.34em;color:var(--mist);margin-top:13px;font-weight:500}
+  h1 small{display:block;font-size:12px;letter-spacing:.34em;color:var(--mist);margin-top:13px;font-weight:400}
   .lede{max-width:640px;margin:22px 0 0;font-size:16px;color:#2c3e52}
   .lede b{color:var(--ink);font-weight:600}
 
-  .kx{font-family:var(--disp);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--c9);margin:0 0 6px}
+  .kx{font-family:var(--disp);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 6px}
   h2{font-family:var(--disp);font-weight:600;font-size:24px;margin:0 0 8px}
   .sec{margin-top:64px;border-top:1px solid var(--line);padding-top:48px}
 
@@ -125,7 +137,7 @@
   .princ{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
   .pr{border:1px solid var(--line);border-radius:14px;background:#fff;padding:18px 20px}
   .pr .n{font-family:var(--disp);color:var(--mist);font-weight:600;font-size:13px}
-  .pr h4{font-family:var(--disp);font-weight:600;font-size:15px;margin:5px 0 6px}
+  .pr h3{font-family:var(--disp);font-weight:600;font-size:15px;margin:5px 0 6px}
   .pr p{font-size:13px;color:#3a4d60;margin:0}
 
   .foot{margin-top:62px;padding-top:22px;border-top:1px solid var(--line);color:var(--mist);font-size:13px;max-width:780px}
@@ -140,7 +152,7 @@
   <symbol id="i-fig" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.4" fill="currentColor"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5z" fill="currentColor"/></symbol>
 </svg>
 
-<div class="wrap">
+<main class="wrap">
   <span class="tag">Speculative concept &middot; Phase 4 &middot; broadcast and overlay motion</span>
   <h1>Broadcast, at altitude.<small>THE NINTH &middot; KINETIC OVERLAY PACKAGE</small></h1>
   <p class="lede">The membership extends into the watch experience. The overlay system carries the brand onto the broadcast and puts the membership on screen: members co-watching, moments tied to the app's clipper, and member milestones celebrated live. It stays calm at speed, keeps glass over gameplay, and reserves frost for the summit. <b>Press Run a broadcast moment</b> to play the sequence.</p>
@@ -249,15 +261,15 @@
     <p class="kx">Motion, applied</p>
     <h2>How the package moves</h2>
     <div class="princ">
-      <div class="pr"><div class="n">Rise</div><h4>Enter from below or the edge</h4><p>Overlays drift in the way you rise through cloud. Nothing snaps or drops. The lower-third slides, the sting scales up gently.</p></div>
-      <div class="pr"><div class="n">Ease</div><h4>240 to 500ms, no bounce</h4><p>Broadcast speed without the frenzy. Controlled easing reads as premium, which is the brand's whole register at pace.</p></div>
-      <div class="pr"><div class="n">Summit</div><h4>Frost is rationed</h4><p>The iridescent IX appears only on the moment sting and the Inner Nine shout-out. Everywhere else the package stays in calm glass and blue.</p></div>
+      <div class="pr"><div class="n">Rise</div><h3>Enter from below or the edge</h3><p>Overlays drift in the way you rise through cloud. Nothing snaps or drops. The lower-third slides, the sting scales up gently.</p></div>
+      <div class="pr"><div class="n">Ease</div><h3>240 to 500ms, no bounce</h3><p>Broadcast speed without the frenzy. Controlled easing reads as premium, which is the brand's whole register at pace.</p></div>
+      <div class="pr"><div class="n">Summit</div><h3>Frost is rationed</h3><p>The iridescent IX appears only on the moment sting and the Inner Nine shout-out. Everywhere else the package stays in calm glass and blue.</p></div>
     </div>
     <p class="lede" style="margin-top:24px">Production note: this is the design and motion logic, built in HTML so it animates and records for review. Final broadcast delivery is After Effects over real LCS and VCT footage, with Runway and Veo used to previs the complex transitions before finishing by hand.</p>
   </div>
 
   <p class="foot">The Ninth is a speculative concept anchored to Cloud9 for portfolio purposes, not affiliated with or endorsed by Cloud9. Match, scene, players, and members shown are illustrative. No outcome here describes Pratik Mehta's own results.</p>
-</div>
+</main>
 
 <script>
 (function(){
@@ -314,6 +326,6 @@
 <script>
 (function(){var SEL='#runBtn,#resetBtn';function enh(el){if(!el||el.__kb)return;el.__kb=1;var t=el.tagName;if(t!=='BUTTON'&&t!=='A'){el.setAttribute('role','button');if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','0');}el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});}function scan(){document.querySelectorAll(SEL).forEach(enh);}scan();setTimeout(scan,800);})();
 </script>
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>
