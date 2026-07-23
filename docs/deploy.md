@@ -41,7 +41,8 @@ npm run preview    # serve the built output
 
 Check on the preview build:
 
-- Home, Work, each case study, About, Journal, Resume, Contact.
+- Home, Work, each case study, About, Journal + a post, Resume, Contact, Brand,
+  Privacy, and a deliberate miss (any bad URL) to confirm the styled 404 serves.
 - Concept demos (The Ninth / Level / WISP) **and their sub-pages** — these clean
   URLs resolve in preview and production but **not** under `npm run dev`, so
   preview is the only local place to catch a broken concept route.

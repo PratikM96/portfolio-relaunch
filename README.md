@@ -26,14 +26,16 @@ src/
     work/          # case studies (one .md per project; typed by content.config.ts)
     journal/       # journal posts (live: notes on systems, brand, AI)
   content.config.ts# zod schemas + the build guardrail
-  pages/           # routes: home, /work, /work/[slug], /about, /resume, /brand, /journal, /contact
+  pages/           # routes: home, /work, /work/[slug], /about, /resume, /brand,
+                   # /journal, /journal/[slug], /contact, /privacy, /404, /rss.xml
   components/      # shared pieces (WorkIndex, Scoreboard, ProofBox, OutputGrid, ...)
   layouts/Base.astro# site chrome: rail, footer, no-flash theme set, font preloads
   scripts/         # bundled client modules: site-chrome (theme/drawer/clock/
-                   # reveal/spy), consent (GA gate), card-video + motion (video)
+                   # reveal/spy), consent (GA gate), card-video + motion (video),
+                   # embedded-demo (concept launcher tabs)
   styles/
     tokens.css     # design tokens (mirrors the brand kit) + all @font-face blocks
-    global.css     # reset, site chrome, shared primitives (.card/.badge/.prose/.tag)
+    global.css     # reset, site chrome, the type-tier groups, shared primitives
 public/
   fonts/           # 3 self-hosted variable woff2 (Clash Display, Clash Grotesk, JetBrains Mono) + OFL.txt
   hero/            # case-study + home hero videos, by slug (webm + webp poster)
@@ -41,7 +43,6 @@ public/
   ov/              # in-gallery output videos, by slug (webm + webp poster)
   og/              # rendered 1200x630 share cards (site + per-route + per-concept)
   concepts/        # concept microsites: static passthrough HTML, own brand/CSS/JS per slug
-  placeholders/    # themed dark/light placeholder images, used until real media lands
   _headers         # security headers incl. the enforced CSP
   _redirects       # old-URL 301s from the pre-cutover site
 scripts/           # build-time tooling (repo root): og/ share-card template
@@ -55,11 +56,11 @@ docs/
 ```
 
 Site-wide client behaviour lives in `src/scripts/` (`consent.ts`,
-`site-chrome.ts`, `card-video.ts`, `motion.ts`) rather than being re-typed per
-page; the only hand-written inline script is the pre-paint no-flash theme set in
-`Base.astro`. Whether a given bundle ships inline or as a hashed `/_astro/` file
-is decided by Vite's 4 KB `assetsInlineLimit`, so check a real build rather than
-assuming either.
+`site-chrome.ts`, `card-video.ts`, `motion.ts`, `embedded-demo.ts`) rather than
+being re-typed per page; the only hand-written inline script is the pre-paint
+no-flash theme set in `Base.astro`. Whether a given bundle ships inline or as a
+hashed `/_astro/` file is decided by Vite's 4 KB `assetsInlineLimit`, so check a
+real build rather than assuming either.
 
 ## Adding a case study
 
@@ -67,7 +68,7 @@ Drop a markdown file in `src/content/work/`. The frontmatter is typed and valida
 
 `type` is the engagement facet (`in-house` / `agency` / `concept`, see `src/lib/work-type.ts`) and drives the badge, the filters, and the proof rule: real work carries verified metrics, concepts carry scope only and never claim results. Employment type (Internship, Volunteer) belongs in the scoreboard `role` field, not the badge.
 
-Optional per-entry media is opt-in and convention-located by slug (no paths in content): `heroVideo: true` adds a click-to-play case-study hero, and `cardVideo: true` (plus `cardVideoLight: true` for a light-theme variant) adds a hover-to-play logo animation on the work index. See `docs/hero-pipeline.md` and `docs/work-card-video.md` for the encode recipes.
+Media is convention-located by slug (no paths in content). Every entry needs its hover-to-play work-card set at `public/wc/<slug>/` — dark and light clip plus both posters. `heroVideo: true` additionally opts an entry into a click-to-play case-study hero, and then requires `coverAlt` and `coverCaption`. Video is webm only. See `docs/hero-pipeline.md` and `docs/work-card-video.md` for the encode recipes.
 
 ## Design system
 

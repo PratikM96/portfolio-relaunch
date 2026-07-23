@@ -4,13 +4,17 @@ Branded 1200x630 Open Graph / Twitter images, one per route, served same-origin 
 
 ## How pages consume them
 `Base.astro` owns the head. It emits `og:*` / `twitter:*` / `canonical` / `theme-color` from an `image` prop (default `/og/default.png`) resolved to an absolute URL via `Astro.site`. Each page passes its card:
-- Site pages: `image="/og/<page>.png"` (`about`, `work`, `resume`, `journal`, `brand`; `default` for home/contact/404).
+- Site pages: `image="/og/<page>.png"` (`about`, `work`, `resume`, `journal`, `brand`; `default` for home, contact, privacy and 404).
 - Case studies (`work/[slug].astro`): `image={`/og/${d.slug}.png`}`, `ogType="article"`.
+- Journal posts (`journal/[slug].astro`) reuse the index card, `/og/journal.png`, rather than rendering one per post.
 - Concept microsites (`public/concepts/**`) are raw HTML, so they hardcode `og:image`/`twitter:image` = `https://mehtapratik.com/og/<slug>.png` in their own `<head>`.
 
 ## Brand
 - **One System** (warm near-black, Clash Display, JetBrains Mono, one orange accent) for the site + all non-concept case studies. Follows the site type scale: title = `display`, wordmark = `h2`, badge/kick/meta = `label`.
 - **Own brand** for the 3 concept cards, matching each microsite. The concept overrides the display face only: the wordmark stays Clash Display (it is Pratik's mark, constant across every card) and the system layer stays JetBrains Mono: `the-ninth` = Cloud9 blue on cloud-white + Array; `level` = ink + amber + Zodiak; `wisp` = warm dark + Sentient. Driven by the template's `brand` param.
+
+Rendering is not wired into the build — run `npm run og:cards` after adding a
+route or renaming a case study, or its card silently stays stale.
 
 ## Template
 `scripts/og/og-template.html` — a standalone HTML card. Query params: `brand` (`onesystem|the-ninth|level|wisp`), `badge`, `kick` (kicker/eyebrow), `title`, `meta` (footer line), `tag` (bottom-right word). The title **auto-fits**: after the fonts load it measures itself and steps down from 92px until it fits its box, so short names sit large and long titles shrink and wrap. Tune the range in the `fit()` function (`min`/starting size).

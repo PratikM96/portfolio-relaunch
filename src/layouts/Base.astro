@@ -1,20 +1,17 @@
 ---
 /**
- * Base.astro — site-wide layout chrome for mehtapratik.com (One System).
+ * Base.astro — site-wide layout chrome.
  *
- * Owns: the <head> (no-flash theme script, font wiring, token + global CSS),
- * the console rail, the mobile bar, the footer, and the site-wide scripts
- * (theme toggle, NY clock, generic reveal-on-scroll, generic rail scroll-spy).
+ * Owns the <head>, the console rail, the mobile bar, the footer, and the
+ * site-wide scripts. Page content slots into .stage > .pad.
  *
  * The rail has two variants, selected by `variant`:
- *   - 'default'     — home/site chrome: stacked brandmark, role, numbered site
- *                     nav, readout (status + location + live clock + theme).
- *   - 'case-study'  — horizontal brandmark, back link, section-index nav
- *                     (scroll-spy), persistent project scoreboard + theme.
- * Everything else (mobile bar, footer, scripts) is shared, so the case study
- * is a prop variant of the rail, not a separate copy.
- *
- * Page content is slotted into .stage > .pad, footer appended after.
+ *   - 'default'     — role, numbered site nav, readout (status, location,
+ *                     live clock, theme).
+ *   - 'case-study'  — back link, section-index nav with scroll-spy, and a
+ *                     persistent project scoreboard.
+ * Everything else is shared, so a case study is a prop variant of the rail,
+ * not a separate layout.
  */
 import '../styles/tokens.css';
 import '../styles/global.css';
@@ -382,19 +379,16 @@ const ldGraph = {
       .foot-cookies { background: none; border: 0; padding: 0; cursor: pointer; }
     </style>
     {/* Consent/GA gate + site chrome (theme toggle, drawer, NY clock,
-        reveal-on-scroll, rail scroll-spy). Written as ONE bundled module so the
-        source lives in src/scripts/, not re-typed per page. The only pre-paint
-        script is the no-flash theme set above, which stays inline by necessity.
+        reveal-on-scroll, rail scroll-spy). One bundled module so the source
+        lives in src/scripts/, not re-typed per page. The no-flash theme set
+        above is the only pre-paint script.
 
-        Where it lands: Astro bundles these two imports, then Vite INLINES the
-        result into every page because it is ~3.6 KB, under Vite's 4096-byte
-        assetsInlineLimit. It is NOT a shared /_astro/ file, despite what this
-        comment used to claim — verify with `npm run build` before trusting
-        either story. Fine as-is: one fewer request, and it compresses to ~1 KB
-        a page. But it is a threshold, not a decision, so this silently flips to
-        a hoisted, cached file the moment the bundle crosses 4 KB. The other
-        modules (motion, card-video, and the per-page scripts) are over the
-        line and DO hoist. */}
+        Whether this inlines into each page or hoists to a cached /_astro/ file
+        is Vite's call, decided by `assetsInlineLimit` (4096 bytes) — a
+        threshold, not a decision, so it can flip either way as the bundle
+        grows. It currently sits close enough to the limit that a small addition
+        would move it. Don't assert which side it's on: run `npm run build` and
+        look at dist/client/_astro/. */}
     <script>
       import '../scripts/consent.ts';
       import '../scripts/site-chrome.ts';

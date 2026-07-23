@@ -134,20 +134,21 @@ embedding **and** modification (subsetting is modification).
 
 **Client JS lives in `src/scripts/`, never re-typed per page.** `consent.ts` (GA4
 consent gate), `site-chrome.ts` (theme, drawer, clock, reveal, scroll-spy),
-`motion.ts` and `card-video.ts` (all video behavior). Don't re-implement
-video/reveal per page. The only hand-written inline script is the pre-paint
-no-flash theme set in `Base.astro` (the JSON-LD block is data, not behavior).
+`motion.ts` and `card-video.ts` (video behavior), `embedded-demo.ts` (concept
+launcher tabs). Don't re-implement video/reveal per page. The only hand-written
+inline script is the pre-paint no-flash theme set in `Base.astro` (the JSON-LD
+block is data, not behavior).
 
 Where those bundles *land* is Vite's call, not a decision: anything under its
-4096-byte `assetsInlineLimit` gets inlined into every page; anything over is
-emitted as a hashed, cached `/_astro/` file. Today `consent + site-chrome` is
-~3.6 KB and inlines into all 23 pages; `motion` and `card-video` hoist. That
-means it flips silently when a bundle crosses 4 KB. **Don't assert which side a
-script is on — run `npm run build` and look.**
+4096-byte `assetsInlineLimit` is inlined into every page, anything over becomes a
+hashed, cached `/_astro/` file, and a bundle can cross that line as it grows.
+**Don't assert which side a script is on — run `npm run build` and look.**
 
 **Shared primitives live in `global.css`,** promoted out of per-page styles so
 they can't drift: `.card` / `.card--interactive`, `.badge` / `.badge-lg`,
-`.prose`, `.tag`. Add the class; don't re-write the surface.
+`.prose`, `.tag`, `.lead`, `.h2` / `.h3`, `.page-h1` / `.page-kicker` /
+`.close-h`, `.btn`. Add the class; don't re-write the surface. A local rule
+keeps only its own delta (a margin, a size), never a copy of the primitive.
 
 **Reveal — pick by position.** `.rev` = below-the-fold scroll reveal (opacity +
 slide, IntersectionObserver). `.rev-load` = above-the-fold, **transform only, no
@@ -156,8 +157,16 @@ excludes `opacity:0` elements from LCP, so a faded hero hands LCP to a
 late-painting element and inflates it. Both respect reduced-motion.
 
 **Type: eight tiers, and nothing outside them.** Defined as `--t-*` tokens in
-`tokens.css`, applied as `.t-*` classes in `global.css`. A rule sets **size only**
-and composes a tier; family, weight and tracking are the system.
+`tokens.css`. A rule sets **size only** (plus colour / line-height) and composes a
+tier; family, weight and tracking are the system.
+
+**How a tier is applied.** Each tier is one grouped rule listing every selector
+that needs it — the `.t-*` block at the top of `global.css`, and a matching block
+at the top of each component's `<style>`. Add your selector to that group; never
+re-declare the `font-family` + `font-weight` + `letter-spacing` triple inline.
+The bare `.t-*` classes also work directly in markup. A group inside a media
+query stays inside it — hoisting one to the top level leaks the tier to widths
+where that element doesn't render.
 
 | tier | face | wt | track | for |
 | --- | --- | --- | --- | --- |
@@ -185,12 +194,17 @@ opposite ends, and why `data` exists at +5%: heavy tracking is an uppercase
 device and falls apart on lowercase. **Never put display tracking on small text** —
 Clash Display 700 at -2.5% on a 19px wordmark is what made the rail read cramped.
 
-If you're hand-writing family + weight + tracking, you've left the system. That's
-how this drifted into seven different label trackings (+2/4/5/6/7/8/10%) around a
-scale that existed in `tokens.css` with **zero uses**.
+If you're hand-writing family + weight + tracking, you've left the system. **And
+never set `letter-spacing` twice in one rule** — a hardcoded value after the tier
+token silently overrides it, which is how this drifted before.
 
-Kicker: `label` tier, 11px, accent-text, 22px below. Section label: `[ 0N ]`
-(accent mono) + uppercase mono title (muted) + flex rule line.
+Kicker: `label` tier, 11px, accent-text. Section label: `[ 0N ]` (accent mono) +
+uppercase mono title (muted) + flex rule line.
+
+**Spacing: the `--space-*` scale, and nothing outside it.** Every `padding`,
+`margin` and `gap` resolves to a token. Values under 4px are exempt and stay
+literal — a 1px grid `gap` is a border trick, not rhythm. If a value doesn't fit
+the scale, change the design or the scale; don't add a literal.
 
 **Theme.** Dark and light are both first-class. No-flash inline script,
 `localStorage` with try/catch, follows OS until manual override, respects
@@ -239,9 +253,13 @@ discipline. Real-work proof = verified metric; concept proof = scope + rationale
 front door. Each is its own world with its own brand, CSS, and fonts, served as
 static passthrough HTML from `public/concepts/<slug>/`.
 
-**Media is opt-in and convention-located by slug — never a path in content.**
-`heroVideo: true`, `cardVideo: true`, `cardVideoLight: true`. Templates derive
-paths from the slug. Recipes and caps live in `docs/`:
+**Media is convention-located by slug — never a path in content.** Templates
+derive every path from the slug, so adding an entry means adding its
+`public/wc/<slug>/` set (all four files: dark + light clip and poster). The one
+opt-in flag left is `heroVideo: true`, which is genuinely per-entry; when set,
+`coverAlt` and `coverCaption` become required, enforced by a refine in the
+schema. **Video is webm only** — the H.264 fallback was dropped, don't add one
+back. Recipes and caps live in `docs/`:
 
 | System | Doc |
 | --- | --- |
@@ -255,6 +273,35 @@ paths from the slug. Recipes and caps live in `docs/`:
 ## 9. Decision log
 
 Dated so they don't get silently re-litigated. Rationale in the commit.
+
+- **2026-07-22** — **System audit sweep.** Six commits, `a90ced8`..`0c2a822`.
+  - **`cover` removed entirely.** Empty on all 14 entries and typed
+    `z.string().url()` — an absolute-URL-only field that only made sense under
+    the old CDN. Took the placeholder subsystem with it (`still.ph`, `data-ph`,
+    the `.ph-*` rules and the 12 placeholder PNGs), since every fallback branch
+    was unreachable: all 93 output stills carry an `img`, which is now
+    **required** so a missing asset fails the build. Don't reintroduce either.
+  - **mp4 dropped, webm only.** 41 files, 123.3 MB — half the repo — behind a
+    fallback Safari hasn't needed since 14.1.
+  - **`cardVideo` / `cardVideoLight` removed.** `true` on all 11 entries, so
+    they were constants, not flags. Every entry ships a card clip.
+  - **Type scale actually adopted.** 170 rules hand-wrote the tier triple
+    against 7 uses of the `.t-*` classes built to prevent it. Now one grouped
+    rule per tier per style block (§6). Verified visually neutral by computed-
+    style diff across 15 pages at three widths.
+  - **Tracking overrides deleted.** Eight rules set `letter-spacing` twice; the
+    tokens now win. Card titles, the case-study H1 and the pull-quotes render
+    slightly looser than before — deliberate.
+  - **Spacing scale adopted.** All 388 padding/margin/gap values resolve to
+    `--space-*`; off-scale values snapped to the nearest step, ties rounding up.
+    Pages are 0-1.7% taller. The scale had **zero** uses before this.
+  - **Four live defects fixed.** The 404 was built but unreachable
+    (`not_found_handling` defaulted to `none`); 36 legacy `/blog` redirects were
+    inert because WordPress served those URLs with a trailing slash and only the
+    slashless form had a rule; every RSS item link cost a 301
+    (`@astrojs/rss` needs `trailingSlash: false`); `theme-color` followed the OS
+    rather than the resolved theme. `favicon.svg` was 116 KB of base64 PNG
+    wrapped in `<svg>` — rebuilt as real vector, 1.4 KB.
 
 - **2026-07-15** — **Type scale adopted** (the eight tiers in §6) and swept across
   every rule. Before this there was no system: h1/h2 were Clash Display, h3 was
@@ -299,11 +346,13 @@ Dated so they don't get silently re-litigated. Rationale in the commit.
 
 **No state.** No inventories, no migration status, no "all X are done", no counts
 that a command can answer. Every one of those rots and then lies. Open work goes
-in the file that needs the fix, where the person editing it will see it — the way
-`cover: "" # [NEEDS: cover image url]` already does.
+as a `# [NEEDS: …]` comment in the file that needs the fix, where the person
+editing it will see it — not in a list here.
 
 **No second homes.** If the code enforces it, point at the code. If a master owns
 it, point at the master.
 
-**Anything verifiable gets verified, not asserted.** "~90 assets" was wrong by
-60. Counts belong in output, not prose.
+**Anything verifiable gets verified, not asserted.** Counts belong in output, not
+prose. Two that were wrong here: "~90 assets" was off by 60, and §6 asserted a
+bundle size and page count in the sentence *before* telling you never to assert
+one. If you catch yourself writing a number, run the command instead.

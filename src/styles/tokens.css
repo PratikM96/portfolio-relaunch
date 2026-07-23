@@ -2,54 +2,25 @@
    ONE SYSTEM — design tokens (single source of truth)
    mehtapratik.com
 
-   Mirrors the brand kit's Design-Tokens/one-system-tokens.css
-   (the brand guidelines are the source of truth for token naming
-   and values): the warm neutral ramp, the full signal-orange
-   accent scale, state colors, type families + weights, the type
-   scale, spacing, grid, radius, and motion tokens.
+   Mirrors the brand kit's Design-Tokens/one-system-tokens.css, which owns token
+   naming and values. Added here only: the @font-face blocks, and the tokens the
+   brand kit has no reason to carry (--rail, --badge-concept-*, --img-frame).
 
-   On top of the brand file this adds ONLY:
-   - the self-hosted @font-face blocks (all families, served same-origin
-     from /public/fonts; no third-party font CDNs),
-   - site-specific tokens not in the brand kit: --rail (console rail
-     width), --badge-concept-bg/-tx (concept badge), --img-frame.
+   Theme: LIGHT is the :root default. DARK applies via the OS media query until a
+   manual choice, and via [data-theme="dark"], set before paint in Base.astro.
 
-   Theme: LIGHT is the :root default; DARK applies via the OS media
-   query (until a manual choice) and via [data-theme="dark"], which
-   the no-flash script in Base.astro sets before paint.
-
-   Brand rules encoded here (see CLAUDE.md):
-   - Signal orange (--accent-fill) is used once per surface, one
-     job, RESERVED for real results. Concept scope + neutral data
-     never use it.
-   - Orange text is --accent-700 on light, --accent-400 on dark,
-     NEVER --accent-500.
+   Rationale for the choices below lives in the CLAUDE.md decision log.
    ============================================================= */
 
-/* ===== Self-hosted fonts (served from /public/fonts, same origin) =====
-   woff2 only. Three files, one VARIABLE face per family — not static cuts.
-   All three are preloaded in Base.astro; every weight the type scale uses is
-   inside these, so there is nothing else to fetch.
+/* ===== Self-hosted fonts (same-origin, woff2, no CDN) =====
+   One VARIABLE file per family, shipped whole. The weight RANGE is the point:
+   with static cuts a missing weight failed *silently* (browsers match the
+   nearest face), so the type scale can name any weight in range and get it.
+   All three are preloaded in Base.astro.
 
-   `font-weight` is a RANGE here, and that is the point. With static cuts a
-   missing weight failed silently: Clash Grotesk 500 rendered as 400 (browsers
-   match the nearest face) and JetBrains 700 rendered as faux bold. Neither
-   errored. A variable axis makes every weight in range real, so the type scale
-   can name a weight without anyone checking whether it was packaged.
-
-   Ships whole, unsubset (2026-07-15). Clash cannot be subset at all — the
-   Fontshare FFL grants no modification right. JetBrains Mono (OFL) could be, and
-   would drop 89.3 -> 37.3 KB, but the deliberate call was to ship the full system
-   first and revisit only if PageSpeed demands it. If it does, git history has
-   scripts/fonts/subset.mjs, and subsetting preserves the axis (verified: fvar +
-   gvar survive). See CLAUDE.md decision log. */
-
-/* System layer — JetBrains Mono: labels, data, console rail.
-   OFL-1.1, no Reserved Font Name, so the name may be kept. /fonts/OFL.txt ships
-   beside it because OFL §2 requires the licence to accompany the font. Replaced
-   Berkeley Mono (TX-02) on 2026-07-15: no web licence was held, and the repo is
-   public. Metrics match (1000 upem / 600 advance), so that swap was
-   layout-neutral. */
+   Neither family may be subset: Clash's Fontshare licence grants no
+   modification right, and JetBrains Mono (OFL) ships whole by choice.
+   /fonts/OFL.txt must ship beside it — OFL §2 requires it. */
 @font-face {
   font-family: 'JetBrains Mono';
   font-weight: 100 800;
@@ -111,21 +82,15 @@
   --font-sans: "Clash Grotesk", system-ui, sans-serif;    /* reading type: h3-h6, body */
   --font-mono: "JetBrains Mono", ui-monospace, monospace; /* the system layer */
 
-  /* ===== TYPE SCALE — the universal rules =====
-     Eight tiers. Every piece of type on the site is one of them; nothing invents
-     its own family/weight/tracking. Only SIZE is set at the point of use, because
-     size is contextual (a rail label and a page kicker are both `label`, at
-     different sizes). Family + weight + tracking are the system.
+  /* ===== TYPE SCALE =====
+     Eight tiers. Every piece of type on the site is one of them; only SIZE is set
+     at the point of use, because size is contextual (a rail label and a page
+     kicker are both `label`, at different sizes). Family, weight and tracking are
+     the system — see the .t-* groups in global.css, which are where these are
+     applied. A rule that hardcodes the triple has left the system.
 
-     Tracking is optical, not decorative: it tightens as type gets bigger, and
-     opens up for uppercase mono. Negative tracking on small text is what made the
-     rail wordmark read as cramped — that is why `display` and `label` sit at
-     opposite ends here.
-
-     The previous scale sat in this file with ZERO uses (verified 2026-07-15) while
-     every rule hardcoded its own values — which is exactly how seven different
-     label trackings (+2/4/5/6/7/8/10%) got loose. If a rule doesn't reference
-     these vars, it isn't in the system. */
+     Tracking is optical: it tightens as type grows and opens for uppercase mono,
+     which is why `display` and `label` sit at opposite ends. */
 
   /* the voice — Clash Display */
   --t-display-font: var(--font-display); --t-display-weight: 700; --t-display-track: -0.02em;
@@ -138,9 +103,8 @@
   --t-strong-weight: 600; /* bold inside body copy; same family as body */
 
   /* the system layer — JetBrains Mono. label + emphasis are ALWAYS uppercase:
-     +10% tracking is an uppercase device and looks broken on lowercase, which is
-     why `data` (sentence-case: rail nav, scoreboard values, the clock) sits at
-     +5% instead. */
+     +10% tracking is an uppercase device and breaks on lowercase, which is why
+     `data` (sentence-case) exists at +5% instead. */
   --t-label-font: var(--font-mono);    --t-label-weight: 400;    --t-label-track: 0.1em;
   --t-data-font: var(--font-mono);     --t-data-weight: 400;     --t-data-track: 0.05em;
   --t-emphasis-font: var(--font-mono); --t-emphasis-weight: 600; --t-emphasis-track: 0.1em;
@@ -163,9 +127,8 @@
   --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
 
   /* --- Image aspect ratios (the ONLY ratios any image slot may use) ---
-     Every ratio the site renders is declared here; OutputGrid's .r-* classes
-     resolve to these, so there is one source of truth. Adding a slot means
-     adding a token, not a literal. */
+     OutputGrid's .r-* classes resolve to these. Adding a slot means adding a
+     token, not a literal. */
   --ratio-wide: 16 / 9;        /* video / hero / feature */
   --ratio-landscape: 16 / 10;  /* gallery cards */
   --ratio-photo: 3 / 2;        /* photo galleries */
