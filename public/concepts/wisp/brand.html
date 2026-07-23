@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="/concepts/wisp/fonts.css">
+<link rel="preload" href="/concepts/wisp/fonts/Sentient-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/wisp/fonts/GeneralSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* WISP fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Sentient + General Sans are the
+     concept's own; JetBrains Mono reuses the site face at /fonts. */
+  @font-face{font-family:'Sentient';src:url('/concepts/wisp/fonts/Sentient-Variable.woff2') format('woff2');font-weight:200 700;font-style:normal;font-display:swap}
+  @font-face{font-family:'General Sans';src:url('/concepts/wisp/fonts/GeneralSans-Variable.woff2') format('woff2');font-weight:200 700;font-style:normal;font-display:swap}
+  @font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+  /* Sentient is WISP's warm heading + wordmark face; body stays General Sans. */
+  h1,h2,h3,.wm,.wordmark{font-family:'Sentient',Georgia,serif}
+</style>
 <title>WISP / Brand Guidelines</title>
 <meta name="description" content="Brand guidelines for WISP, a speculative AI presence concept by Pratik Mehta: a warm core-plus-field form that carries emotion without a face." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/wisp/brand" />
@@ -190,6 +201,7 @@
 <a href="/work/wisp" style="position:fixed;top:0;left:0;right:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:rgba(8,8,8,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:600 11px/1 ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)">&#8592;&nbsp;&nbsp;WISP &middot; back to the case study</a>
 
 <!-- MASTHEAD -->
+<main>
 <section>
   <div class="wrap">
     <div class="label">Brand Guidelines / Visual Reference / Working draft v0.1</div>
@@ -366,12 +378,13 @@
   </div>
 </section>
 
+</main>
 <footer>
   <div class="wrap">
     WISP / Working brand guideline v0.1 &nbsp; &middot; &nbsp; Concept and visual reference, speculative spec work. &nbsp; &middot; &nbsp; Full system in the AI-Native-Host package: persona, architecture, GTM, reveal film. &nbsp; &middot; &nbsp; Market and legal figures are sourced to the industry, never to a result for this project.
   </div>
 </footer>
 
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

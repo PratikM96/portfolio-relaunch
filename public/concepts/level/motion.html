@@ -3,7 +3,16 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="/concepts/level/fonts.css">
+<link rel="preload" href="/concepts/level/fonts/Zodiak-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/level/fonts/Supreme-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Level fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Zodiak + Supreme are the concept's
+     own; JetBrains Mono reuses the site face at /fonts. */
+  @font-face{font-family:'Zodiak';src:url('/concepts/level/fonts/Zodiak-Variable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+  @font-face{font-family:'Supreme';src:url('/concepts/level/fonts/Supreme-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+  @font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+</style>
 <title>Level, Motion Explainers</title>
 <meta name="description" content="Four looping motion explainers for Level, a speculative prediction market concept by Pratik Mehta, animating probability with quiet restraint." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/level/motion" />
@@ -22,7 +31,7 @@
     --ink:#16181C; --ink-900:#0E0F12; --ink-700:#23262D; --ink-600:#2E323A;
     --bone:#EBE6DB; --bone-100:#F5F1E8;
     --signal:#F2A436; --ember:#C9742A;
-    --slate:#8C8E96; --slate-d:#6A6C73; --stop:#C0463E;
+    --slate:#9698A0; --slate-d:#64656C; --stop:#D0716A;
     --line:rgba(235,230,219,0.13);
     --disp:"Zodiak", Georgia, serif;
     --text:"Supreme", system-ui, sans-serif;
@@ -33,7 +42,7 @@
   html{scroll-behavior:smooth}
   body{padding-top:28px;background:var(--ink-900); color:var(--bone); font-family:var(--text); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
   .wrap{max-width:1040px; margin:0 auto; padding:0 28px}
-  h1,h2,h3,h4{font-family:var(--disp); font-weight:500; letter-spacing:-0.005em; line-height:1.08}
+  h1,h2,h3{font-family:var(--disp); font-weight:500; letter-spacing:-0.005em; line-height:1.08}
   .eyebrow{font-family:var(--data); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--signal); margin-bottom:14px}
   p{color:var(--bone); opacity:0.86; max-width:64ch}
   .muted{color:var(--slate)}
@@ -53,7 +62,7 @@
   .pgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
   @media(max-width:720px){.pgrid{grid-template-columns:1fr}}
   .card{background:var(--ink-700); border:1px solid var(--line); border-radius:14px; padding:18px 20px}
-  .card h4{font-size:16px; margin-bottom:6px}
+  .card h2{font-size:16px; margin-bottom:6px}
   .card p{font-size:13.5px; color:var(--slate); opacity:1}
 
   .gallery{padding:18px 0 10px; display:grid; grid-template-columns:1fr 1fr; gap:24px}
@@ -75,7 +84,7 @@
   .scaleline{position:relative; height:8px; border-radius:5px; background:var(--ink-600)}
   .scaleline .fill{position:absolute; left:0; top:0; bottom:0; width:62%; background:var(--ink-600); border-radius:5px}
   .marker{position:absolute; top:-7px; left:62%; width:3px; height:22px; background:var(--signal); border-radius:2px; transform:translateX(-50%); transition:left 1.2s var(--settle)}
-  .feed{font-family:var(--data); font-size:12px; color:var(--slate); min-height:18px; transition:opacity .5s ease}
+  .feed{font-family:var(--data); font-size:12px; color:#A9ABB2; min-height:18px; transition:opacity .5s ease}
 
   .resrow{display:flex; gap:10px}
   .resbar{flex:1; border:1px solid var(--line); border-radius:11px; padding:11px 13px}
@@ -115,6 +124,7 @@
   <span class="meta">Motion explainers</span>
 </div></div>
 
+<main>
 <header class="intro"><div class="wrap">
   <div class="eyebrow">07 / Motion</div>
   <h1>Motion that teaches, and settles.</h1>
@@ -123,9 +133,9 @@
 
 <section class="principles"><div class="wrap">
   <div class="pgrid">
-    <div class="card"><h4>Settle to level</h4><p>Transitions decelerate and come to a calm stop, like a bubble finding level. Nothing snaps or bounces.</p></div>
-    <div class="card"><h4>The index moves last</h4><p>When data changes, the amber marker eases to its new place so the shift is legible, not alarming.</p></div>
-    <div class="card"><h4>No celebration</h4><p>A win and a loss resolve with identical restraint. No confetti, no reward for the act of staking.</p></div>
+    <div class="card"><h2>Settle to level</h2><p>Transitions decelerate and come to a calm stop, like a bubble finding level. Nothing snaps or bounces.</p></div>
+    <div class="card"><h2>The index moves last</h2><p>When data changes, the amber marker eases to its new place so the shift is legible, not alarming.</p></div>
+    <div class="card"><h2>No celebration</h2><p>A win and a loss resolve with identical restraint. No confetti, no reward for the act of staking.</p></div>
   </div>
 </div></section>
 
@@ -191,6 +201,7 @@
 
 </div></div>
 
+</main>
 <footer><div class="wrap">
   Level is a speculative concept by Pratik Mehta. These are design motion studies, not a working product, and not affiliated with any exchange. Figures shown are illustrative. Industry data referenced across this project is drawn from cited public research; projected outcomes are objectives, not results.
 </div></footer>
@@ -276,6 +287,6 @@
 })();
 </script>
 
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

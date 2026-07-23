@@ -3,7 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* The Ninth fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Array has no variable file, so three
+     static cuts; Satoshi ships as one variable woff2. */
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Semibold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:'Satoshi';src:url('/concepts/the-ninth/fonts/Satoshi-Variable.woff2') format('woff2');font-weight:300 900;font-style:normal;font-display:swap}
+</style>
 <title>The Ninth, Social Content Engine (Phase 5)</title>
 <meta name="description" content="Social content engine for The Ninth, a speculative esports concept by Pratik Mehta: one match becomes a week of output, AI drafted and human steered." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/social" />
@@ -28,12 +40,12 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
   .wrap{max-width:1060px;margin:0 auto;padding:54px 32px 96px}
-  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
+  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-deep);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
   h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(30px,5vw,52px);line-height:.94;margin:0}
-  h1 small{display:block;font-size:12px;letter-spacing:.34em;color:var(--mist);margin-top:13px;font-weight:500}
+  h1 small{display:block;font-size:12px;letter-spacing:.34em;color:var(--mist);margin-top:13px;font-weight:400}
   .lede{max-width:660px;margin:22px 0 0;font-size:16px;color:#2c3e52}
   .lede b{color:var(--ink);font-weight:600}
-  .kx{font-family:var(--disp);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--c9);margin:0 0 6px}
+  .kx{font-family:var(--disp);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue-deep);margin:0 0 6px}
   h2{font-family:var(--disp);font-weight:600;font-size:24px;margin:0 0 8px}
   .sec{margin-top:60px;border-top:1px solid var(--line);padding-top:46px}
   .intro{max-width:680px;color:#3a4d60;margin:0 0 26px}
@@ -78,17 +90,17 @@
   .legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
   .week{display:grid;grid-template-columns:repeat(7,1fr);gap:9px}
   .day{border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 9px;display:flex;flex-direction:column}
-  .day.peak{border-color:var(--c9);box-shadow:0 0 0 1px var(--c9) inset}
+  .day.peak{border-color:var(--blue-deep);box-shadow:0 0 0 1px var(--c9) inset}
   .day .dn{font-family:var(--disp);font-weight:600;font-size:12px}
   .day .ph{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--mist);margin:1px 0 8px;font-family:var(--disp)}
-  .day .ph.hot{color:var(--c9)}
+  .day .ph.hot{color:var(--blue-deep)}
   .chip{height:8px;border-radius:99px;margin-bottom:5px}
   .day .ctot{margin-top:auto;padding-top:8px;font-family:var(--disp);font-size:11px;color:#54677a}
   .day .ctot b{color:var(--ink);font-weight:600}
 
   .two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
   .card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px 22px}
-  .card h4{font-family:var(--disp);font-weight:600;font-size:15px;margin:0 0 8px}
+  .card h3{font-family:var(--disp);font-weight:600;font-size:15px;margin:0 0 8px}
   .card p{font-size:13.5px;color:#3a4d60;margin:0}
   .card .gate{font-family:var(--disp);font-size:12px;color:var(--ink);background:#f1f6fa;border-radius:9px;padding:9px 12px;margin-top:12px}
 
@@ -104,7 +116,7 @@
   <symbol id="cloud" viewBox="0 0 120 60"><circle cx="34" cy="38" r="20"/><circle cx="62" cy="27" r="27"/><circle cx="90" cy="38" r="20"/><rect x="16" y="40" width="90" height="20" rx="10"/></symbol>
 </svg>
 
-<div class="wrap">
+<main class="wrap">
   <span class="tag">Speculative concept &middot; Phase 5 &middot; social content engine</span>
   <h1>One match in, a week out.<small>THE NINTH &middot; SOCIAL CONTENT ENGINE</small></h1>
   <p class="lede">Not a posting schedule, a system. One match produces a week of cross-platform output across a managed account portfolio, drafted by the same AI that powers the app's clipper and steered by a human for taste and voice. The result reaches far more fans than a single official account at the same production cost. <b>Vertical-first, because 56% of esports viewing is mobile.</b></p>
@@ -259,15 +271,15 @@
     <p class="kx">The logic</p>
     <h2>Where AI assists, where taste leads</h2>
     <div class="two">
-      <div class="card"><h4>AI does the volume</h4><p>Detection of moments, first-draft cut-downs, per-platform reframing, caption variants, and alt-text. The work that does not scale by hand is exactly the work the template plus model handles, which is what makes a portfolio of this size affordable.</p><div class="gate">Input: one match. Output: a draft set, tagged and templated.</div></div>
-      <div class="card"><h4>Humans steer the brand</h4><p>Voice, the dry wit, spoiler timing, what not to post, and which moment actually deserves the hero account. Nothing publishes without a human gate. The AI proposes and a person with taste disposes, which is how the calm-premium register survives at volume.</p><div class="gate">The approval gate is the brand's quality control, not a formality.</div></div>
+      <div class="card"><h3>AI does the volume</h3><p>Detection of moments, first-draft cut-downs, per-platform reframing, caption variants, and alt-text. The work that does not scale by hand is exactly the work the template plus model handles, which is what makes a portfolio of this size affordable.</p><div class="gate">Input: one match. Output: a draft set, tagged and templated.</div></div>
+      <div class="card"><h3>Humans steer the brand</h3><p>Voice, the dry wit, spoiler timing, what not to post, and which moment actually deserves the hero account. Nothing publishes without a human gate. The AI proposes and a person with taste disposes, which is how the calm-premium register survives at volume.</p><div class="gate">The approval gate is the brand's quality control, not a formality.</div></div>
     </div>
   </div>
 
   <p class="refs">Sources: <a href="https://www.conbersa.ai/learn/esports-team-tiktok-distribution">esports multi-account TikTok distribution (Conbersa)</a>, <a href="https://www.eslfaceitgroup.com/press/esl-faceit-group-debuts-first-ever-esports-vertical-stream-co-developed-with-tiktok-to-reach-the-next-generation-of-esports-fans/">esports vertical stream with TikTok (ESL FACEIT Group)</a>, <a href="https://www.airops.com/blog/ai-workflows-content-repurposing">AI content repurposing, one asset to dozens (AirOps)</a>.</p>
 
   <p class="foot">The Ninth is a speculative concept anchored to Cloud9 for portfolio purposes, not affiliated with or endorsed by Cloud9. Account counts and post volumes reflect 2026 esports social benchmarks, shown as objectives, not Cloud9's actual figures. Players and members shown are illustrative. No outcome here describes Pratik Mehta's own results.</p>
-</div>
-    <script src="/concepts/analytics.js"></script>
+</main>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

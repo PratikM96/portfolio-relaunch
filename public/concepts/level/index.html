@@ -3,7 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/concepts/level/fonts.css">
+<link rel="preload" href="/concepts/level/fonts/Zodiak-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/level/fonts/Supreme-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Level fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Zodiak + Supreme are the concept's
+     own; JetBrains Mono reuses the site face at /fonts. */
+  @font-face{font-family:'Zodiak';src:url('/concepts/level/fonts/Zodiak-Variable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+  @font-face{font-family:'Supreme';src:url('/concepts/level/fonts/Supreme-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+  @font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+</style>
 <title>Level, live demo</title>
 <meta name="description" content="Level, a self-initiated responsible prediction-market concept by Pratik Mehta: four live views built around restraint and product trust." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/level/" />
@@ -21,7 +30,7 @@
   :root{
     --ink:#16181C;--ink-900:#0E0F12;--ink-700:#23262D;--ink-600:#2E323A;
     --bone:#EBE6DB;--bone-100:#F5F1E8;--signal:#F2A436;--ember:#C9742A;
-    --slate:#8C8E96;--slate-d:#6A6C73;--line:rgba(235,230,219,0.13);
+    --slate:#9698A0;--slate-d:#64656C;--line:rgba(235,230,219,0.13);
     --disp:"Zodiak", Georgia, serif;
     --text:"Supreme", system-ui, sans-serif;
     --data:"JetBrains Mono", ui-monospace, monospace;
@@ -84,6 +93,6 @@
   <a class="backlink" href="/work/level">&#8592; Back to the case study</a>
   <p class="foot">Level is a self-initiated concept and its own invented brand. The explainer is a scripted demonstration, not a live model. Figures across this project describe scope, not outcomes.</p>
 </main>
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

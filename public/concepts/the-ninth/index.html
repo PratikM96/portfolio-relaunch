@@ -3,7 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* The Ninth fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Array has no variable file, so three
+     static cuts; Satoshi ships as one variable woff2. */
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Semibold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:'Satoshi';src:url('/concepts/the-ninth/fonts/Satoshi-Variable.woff2') format('woff2');font-weight:300 900;font-style:normal;font-display:swap}
+</style>
 <title>The Ninth, live demo, five views</title>
 <meta name="description" content="The Ninth, a self-initiated esports membership concept by Pratik Mehta: five live views, the AI moment-clipper at the center." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/" />
@@ -27,22 +38,22 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
   .wrap{max-width:1040px;margin:0 auto;padding:64px 32px 96px}
-  .kicker{display:inline-block;font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
+  .kicker{display:inline-block;font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-deep);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:22px}
   h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:clamp(34px,6vw,64px);line-height:.94;margin:0}
   .lede{max-width:600px;margin:20px 0 0;font-size:16.5px;color:#2c3e52}
   .disclose{margin-top:18px;font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mist)}
   .grid{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .card{grid-column:span 1;position:relative;display:flex;flex-direction:column;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px 24px 20px;text-decoration:none;color:inherit;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s}
-  .card:hover{transform:translateY(-3px);box-shadow:0 22px 40px -26px rgba(7,20,43,.4);border-color:var(--c9)}
+  .card:hover{transform:translateY(-3px);box-shadow:0 22px 40px -26px rgba(7,20,43,.4);border-color:var(--blue-deep)}
   .card.feat{grid-column:span 2;background:linear-gradient(135deg,#0e2138,#0a1830);border-color:#2a4a6e}
   .card .vl{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:20px}
   .card.feat .vl{color:#fff;font-size:24px}
   .card .vc{font-size:13.5px;color:#54677a;max-width:52ch}
   .card.feat .vc{color:#aec8e0}
-  .card .go{margin-top:6px;font-family:var(--disp);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--c9)}
+  .card .go{margin-top:6px;font-family:var(--disp);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue-deep)}
   .card.feat .badge{position:absolute;top:20px;right:24px;font-family:var(--disp);font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#0a1830;background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);padding:4px 9px;border-radius:5px}
   .backlink{display:inline-flex;align-items:center;gap:8px;margin-top:40px;font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue-deep);text-decoration:none}
-  .backlink:hover{color:var(--c9)}
+  .backlink:hover{color:var(--blue-deep)}
   .foot{margin-top:28px;font-size:13px;color:var(--mist);max-width:720px}
   @media(max-width:720px){.grid{grid-template-columns:1fr}.card,.card.feat{grid-column:span 1}}
 </style>
@@ -88,6 +99,6 @@
   <a class="backlink" href="/work/the-ninth">&#8592; Back to the case study</a>
   <p class="foot">The Ninth is a self-initiated concept. The AI moment-clipper is the centerpiece. Open any view to launch it. Figures across this project describe scope, not outcomes.</p>
 </main>
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

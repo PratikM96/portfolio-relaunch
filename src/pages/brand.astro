@@ -179,7 +179,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     </div>
     <div class="subhead">Surfaces · light &amp; dark</div>
     <div class="panels">
-      <div class="panel" style="background:var(--n-50)"><div class="p-lab" style="color:var(--n-500)">light · paper</div><div class="p-h" style="color:var(--n-950)">One system<span style="color:var(--accent-500)">.</span></div><div class="p-b" style="color:var(--n-600)">Body in graphite on paper. The accent does one job.</div><span class="p-pill" style="background:var(--accent-50);color:var(--accent-800)">brand · social · perf</span></div>
+      <div class="panel" style="background:var(--n-50)"><div class="p-lab" style="color:var(--n-550)">light · paper</div><div class="p-h" style="color:var(--n-950)">One system<span style="color:var(--accent-500)">.</span></div><div class="p-b" style="color:var(--n-600)">Body in graphite on paper. The accent does one job.</div><span class="p-pill" style="background:var(--accent-50);color:var(--accent-800)">brand · social · perf</span></div>
       <div class="panel" style="background:var(--n-950);border-color:var(--n-800)"><div class="p-lab" style="color:var(--n-400)">dark · ink</div><div class="p-h" style="color:var(--n-50)">One system<span style="color:var(--accent-500)">.</span></div><div class="p-b" style="color:var(--n-400)">Same system inverted. Orange stays the single accent.</div><span class="p-pill" style="background:var(--n-800);color:var(--accent-400)">brand · social · perf</span></div>
     </div>
   </section>
@@ -506,13 +506,14 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .fmt-pad-v { padding: var(--space-4xl) var(--space-4xl); }
   .ffoot { display: flex; justify-content: space-between; align-items: flex-end; }
   .kick { font-size: 26px; text-transform: uppercase; }
-  .k-acc { color: var(--accent-fill); }
+  .k-acc, .t-acc { color: var(--accent-700); }
+  .bg-ink .k-acc, .bg-ink .t-acc { color: var(--accent-400); }
   .k-ink { color: var(--n-950); }
   .k-mut { color: var(--n-500); }
   .k-paper { color: var(--n-400); }
   .t-ink { color: var(--n-950); }
   .t-paper { color: var(--n-50); }
-  .t-acc { color: var(--accent-fill); }
+
   .foot2 { font-size: 24px; }
   .rule8 { height: 8px; width: 200px; background: var(--accent-fill); }
   /* lower-third caption mockup */

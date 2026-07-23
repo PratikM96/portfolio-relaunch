@@ -3,7 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/concepts/the-ninth/fonts.css">
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Array-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/the-ninth/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* The Ninth fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Array has no variable file, so three
+     static cuts; Satoshi ships as one variable woff2. */
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Semibold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:'Array';src:url('/concepts/the-ninth/fonts/Array-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:'Satoshi';src:url('/concepts/the-ninth/fonts/Satoshi-Variable.woff2') format('woff2');font-weight:300 900;font-style:normal;font-display:swap}
+</style>
 <title>The Ninth, Membership App (Phase 2)</title>
 <meta name="description" content="Mobile-first membership app UI for The Ninth, a speculative esports concept by Pratik Mehta, built around one loop: watch, predict, belong, climb." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/the-ninth/app" />
@@ -27,17 +39,17 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
   .wrap{max-width:1180px;margin:0 auto;padding:60px 32px 110px}
-  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--c9);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:24px}
+  .tag{display:inline-block;font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-deep);border:1px solid var(--c9);border-radius:999px;padding:5px 12px;margin-bottom:24px}
   h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(34px,6vw,62px);line-height:.94;margin:0}
-  h1 small{display:block;font-size:13px;letter-spacing:.36em;color:var(--mist);margin-top:14px;font-weight:500}
+  h1 small{display:block;font-size:13px;letter-spacing:.36em;color:var(--mist);margin-top:14px;font-weight:400}
   .lede{max-width:660px;margin:24px 0 0;font-size:17px;color:#2c3e52}
   .lede b{color:var(--ink);font-weight:600}
 
   .band{margin-top:40px;border:1px solid var(--line);border-radius:16px;background:var(--paper);padding:26px 28px}
-  .band h3{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:.02em;margin:0 0 14px}
+  .band h2{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:.02em;margin:0 0 14px}
   .ia{display:flex;flex-wrap:wrap;gap:8px}
   .ia span{font-family:var(--disp);font-size:12.5px;color:#33485b;border:1px solid var(--line);border-radius:999px;padding:7px 14px}
-  .ia span b{color:var(--c9);font-weight:600;margin-right:6px}
+  .ia span b{color:var(--blue-deep);font-weight:600;margin-right:6px}
   .added{margin-top:16px;font-size:13.5px;color:#54677a}
   .added b{font-family:var(--disp);color:var(--ink);font-weight:600}
 
@@ -55,14 +67,20 @@
 
   /* tab bar */
   .tabs{flex:none;height:58px;background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding-bottom:4px}
-  .tab{display:flex;flex-direction:column;align-items:center;gap:3px;color:#9fb2c4;font-size:9px;letter-spacing:.04em;font-family:var(--disp)}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--mist);font-size:9px;letter-spacing:.04em;font-family:var(--disp)}
   .tab svg{width:21px;height:21px;display:block}
-  .tab.on{color:var(--c9)}
+  .tab.on{color:var(--blue-deep)}
+  /* dark phone screens: the deep blue and mist are light-surface values, so the
+     bright brand blue and a paler mist carry the contrast here instead */
+  .screen.dark .tab{color:#8FA7C4}
+  .screen.dark .tab.on{color:var(--c9)}
+  .screen.dark .nav .r{color:var(--c9)}
+  .screen.dark .xsm{color:#8FA7C4}
 
   .cap{width:300px;text-align:center;margin-top:16px}
   .cap b{display:block;font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.02em}
   .cap span{font-size:12.5px;color:#54677a}
-  .cap .who{display:inline-block;margin-top:7px;font-family:var(--disp);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--c9);border:1px solid #cfe6f4;border-radius:999px;padding:3px 9px}
+  .cap .who{display:inline-block;margin-top:7px;font-family:var(--disp);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-deep);border:1px solid #cfe6f4;border-radius:999px;padding:3px 9px}
 
   /* in-app components */
   .hd{display:flex;align-items:center;justify-content:space-between;padding:4px 0 12px}
@@ -78,8 +96,8 @@
   .kx{font-family:var(--disp);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
   .big{font-family:var(--disp);font-weight:600;font-size:15px}
   .sm{font-size:12px;color:#54677a}
-  .xsm{font-size:11px;color:#7d93a6}
-  .btn{display:block;text-align:center;background:var(--c9);color:#fff;font-family:var(--disp);font-weight:600;font-size:13px;border-radius:11px;padding:11px;margin-top:4px}
+  .xsm{font-size:11px;color:var(--mist)}
+  .btn{display:block;text-align:center;background:var(--blue-deep);color:#fff;font-family:var(--disp);font-weight:600;font-size:13px;border-radius:11px;padding:11px;margin-top:4px}
   .btn.dk{background:var(--ink)}
   .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
   .bar{height:7px;border-radius:99px;background:#e7eef4;overflow:hidden;margin:8px 0}
@@ -93,17 +111,17 @@
   .lock{opacity:.6}
   .gap{height:10px}
   .opt{font-family:var(--disp);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:#33485b;display:inline-flex;align-items:center;gap:6px;margin:0 6px 8px 0}
-  .opt.on{background:#eaf6fc;border-color:var(--c9);color:var(--blue-deep)}
+  .opt.on{background:#eaf6fc;border-color:var(--blue-deep);color:var(--blue-deep)}
   .opt .av{width:18px;height:18px}
   .nav{display:flex;align-items:center;gap:10px;padding:4px 0 12px}
   .nav .bk{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink)}
   .nav .bk svg{width:14px;height:14px}
   .nav .t{font-family:var(--disp);font-weight:600;font-size:16px}
-  .nav .r{margin-left:auto;font-family:var(--disp);font-size:11px;color:var(--c9)}
+  .nav .r{margin-left:auto;font-family:var(--disp);font-size:11px;color:var(--blue-deep)}
   .lr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 2px;border-bottom:1px solid var(--line)}
   .lr:last-child{border-bottom:0}
   .lr .lt{font-size:13.5px;color:var(--ink)}
-  .lr .ls{font-size:11px;color:#7d93a6;margin-top:2px}
+  .lr .ls{font-size:11px;color:var(--mist);margin-top:2px}
   .lr .chev{color:#b8c8d6}
   .tg{width:38px;height:22px;border-radius:99px;background:#d8e2ea;position:relative;flex:none}
   .tg::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
@@ -111,11 +129,11 @@
   .tg.on::after{left:18px}
   .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:8px}
   .seg span{flex:1;text-align:center;font-family:var(--disp);font-size:11px;padding:7px 4px;color:#54677a}
-  .seg span.on{background:var(--c9);color:#fff}
+  .seg span.on{background:var(--blue-deep);color:#fff}
   .field{margin-bottom:11px}
   .field label{display:block;margin-bottom:5px}
   .field .in{border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:13px;color:var(--ink);background:#fff}
-  .field .in.mut{color:#7d93a6}
+  .field .in.mut{color:var(--mist)}
 
   .foot{margin-top:74px;padding-top:22px;border-top:1px solid var(--line);color:var(--mist);font-size:13px;max-width:780px}
   @media(max-width:980px){.screens{grid-template-columns:repeat(2,1fr)}}
@@ -133,13 +151,13 @@
   <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
-<div class="wrap">
+<main class="wrap">
   <span class="tag">Speculative concept &middot; Phase 2 &middot; membership app</span>
   <h1>The Ninth, the app<small>CLOUD9 MEMBERSHIP OS</small></h1>
   <p class="lede">The daily home for the fandom, mobile-first. The job of the product is to give a fan a reason to open it on a dead Tuesday, not only on match day. Every surface feeds one loop: <b>watch, predict, belong, climb</b>. The member card is the live status object at the center of it.</p>
 
   <div class="band">
-    <h3>Information architecture</h3>
+    <h2>Information architecture</h2>
     <div class="ia">
       <span><b>01</b>Onboarding &middot; tier pick</span>
       <span><b>02</b>Home &middot; daily-return loop</span>
@@ -172,7 +190,7 @@
           <div class="pad" style="flex:1">
             <p class="kx" style="margin:4px 0 10px">Choose where you start</p>
             <div class="cardx"><div class="between"><div><div class="big">Open</div><div class="xsm">Watch, follow, basic alerts</div></div><span class="pill m">FREE</span></div></div>
-            <div class="cardx tint" style="border-color:var(--c9)"><div class="between"><div><div class="big">Member</div><div class="xsm">Co-watch, the card, drops</div></div><span class="big" style="color:var(--blue-deep)">$7.99</span></div></div>
+            <div class="cardx tint" style="border-color:var(--blue-deep)"><div class="between"><div><div class="big">Member</div><div class="xsm">Co-watch, the card, drops</div></div><span class="big" style="color:var(--blue-deep)">$7.99</span></div></div>
             <div class="cardx"><div class="between"><div><div class="big">Insider</div><div class="xsm">Votes, exclusive drops, events</div></div><span class="pill i">CLIMB</span></div></div>
             <div class="cardx lock"><div class="between"><div><div class="big">Inner Nine</div><div class="xsm">Earned, not sold</div></div><span class="pill ix">IX</span></div></div>
             <div class="btn">Join the Ninth</div>
@@ -228,7 +246,7 @@
 
     <!-- 03 CO-WATCH -->
     <div class="unit">
-      <div class="phone"><div class="screen" style="background:#0a1322">
+      <div class="phone"><div class="screen dark" style="background:#0a1322">
         <div class="sb" style="color:#fff"><span>9:41</span><span class="dots"><i style="background:#fff"></i><i style="background:#fff"></i><i style="background:#fff"></i></span></div>
         <div class="body">
           <!-- video -->
@@ -258,7 +276,7 @@
                 <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#dceaf6,#c9d2ff,#ead9ff);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:12px;color:#1a2d4a">IX</div>
                 <div><div class="kx" style="color:#8fa7c4">Moment &middot; auto-clipped</div><div class="big" style="color:#fff;font-size:13px">Blaber flips the fight</div></div>
               </div>
-              <span style="font-family:var(--disp);font-size:11px;color:var(--c9)">Clip &rarr;</span>
+              <span style="font-family:var(--disp);font-size:11px;color:var(--blue-deep)">Clip &rarr;</span>
             </div>
           </div>
         </div>
@@ -313,7 +331,7 @@
           <div class="pad">
             <div class="hd"><div class="hi">Community</div><span class="chip">Member &middot; II</span></div>
 
-            <div class="cardx tint"><div class="between"><div><span class="kx">Watch room &middot; live</span><div class="big" style="margin-top:3px">LCS night, Game 4</div></div><div class="avs"><span class="av"></span><span class="av"></span><span class="av"></span></div></div><div class="between" style="margin-top:8px"><span class="xsm">840 members in</span><span style="font-family:var(--disp);font-size:11px;color:var(--c9)">Join &rarr;</span></div></div>
+            <div class="cardx tint"><div class="between"><div><span class="kx">Watch room &middot; live</span><div class="big" style="margin-top:3px">LCS night, Game 4</div></div><div class="avs"><span class="av"></span><span class="av"></span><span class="av"></span></div></div><div class="between" style="margin-top:8px"><span class="xsm">840 members in</span><span style="font-family:var(--disp);font-size:11px;color:var(--blue-deep)">Join &rarr;</span></div></div>
 
             <div class="cardx"><div class="row" style="gap:9px"><span class="av"></span><div style="flex:1"><div class="row" style="gap:6px"><span class="big" style="font-size:13px">@skylar</span><span class="pill i">Insider</span></div><div class="sm">clipped Blaber's flank. Worth 12s of your life.</div></div></div>
               <div style="height:74px;border-radius:10px;margin-top:9px;background:radial-gradient(120% 90% at 30% 0%,#16324b,#0a1322);position:relative"><svg style="position:absolute;left:10px;bottom:8px" width="20" height="20"><use href="#i-watch"/></svg></div></div>
@@ -336,7 +354,7 @@
 
     <!-- 06 CARD / STATUS -->
     <div class="unit">
-      <div class="phone"><div class="screen" style="background:#070f1d">
+      <div class="phone"><div class="screen dark" style="background:#070f1d">
         <div class="sb" style="color:#fff"><span>9:41</span><span class="dots"><i style="background:#fff"></i><i style="background:#fff"></i><i style="background:#fff"></i></span></div>
         <div class="body">
           <div class="pad" style="padding-top:10px">
@@ -364,7 +382,7 @@
             <div class="between" style="margin-bottom:9px"><span class="sm" style="color:#cfd9e6">Make 5 predictions</span><span class="xsm" style="color:#7fd0f0">5 / 5</span></div>
             <div class="between" style="margin-bottom:14px"><span class="sm" style="color:#cfd9e6">Attend a member event</span><span class="xsm" style="color:#8fa7c4">0 / 1</span></div>
 
-            <div class="between" style="background:#0e1a30;border:1px solid #1c2f4d;border-radius:12px;padding:11px 13px"><span class="big" style="color:#eaf4fb;font-size:13px">Access &middot; drops, meet-ups, votes</span><span style="color:var(--c9);font-family:var(--disp)">&rarr;</span></div>
+            <div class="between" style="background:#0e1a30;border:1px solid #1c2f4d;border-radius:12px;padding:11px 13px"><span class="big" style="color:#eaf4fb;font-size:13px">Access &middot; drops, meet-ups, votes</span><span style="color:var(--blue-deep);font-family:var(--disp)">&rarr;</span></div>
           </div>
         </div>
         <div class="tabs" style="background:#0a1322;border-color:#1c2f4d">
@@ -443,7 +461,7 @@
           <div class="nav"><div class="bk"><svg><use href="#i-back"/></svg></div><div class="t">Edit profile</div><span class="r">Save</span></div>
           <div style="text-align:center;margin:4px 0 14px">
             <div class="av" style="width:60px;height:60px;margin:0 auto 6px"></div>
-            <span style="font-family:var(--disp);font-size:11px;color:var(--c9)">Change photo</span>
+            <span style="font-family:var(--disp);font-size:11px;color:var(--blue-deep)">Change photo</span>
           </div>
           <div class="field"><label class="kx">Handle</label><div class="in">@pratik</div></div>
           <div class="field"><label class="kx">Display name</label><div class="in">Pratik M</div></div>
@@ -521,9 +539,9 @@
         <div class="body"><div class="pad">
           <div class="nav"><div class="bk"><svg><use href="#i-back"/></svg></div><div class="t">How alerts work</div></div>
           <p class="sm" style="margin:0 0 12px">A moment fires when three live signals agree, then it auto-clips. A human on the team reviews before it goes out.</p>
-          <div class="cardx"><div class="row" style="gap:10px"><span style="font-family:var(--disp);color:var(--c9);font-weight:700">01</span><div><div class="big" style="font-size:13px">Game events</div><div class="xsm">Kill feed, objectives, aces</div></div></div></div>
-          <div class="cardx"><div class="row" style="gap:10px"><span style="font-family:var(--disp);color:var(--c9);font-weight:700">02</span><div><div class="big" style="font-size:13px">Crowd audio</div><div class="xsm">Broadcast and caster spikes</div></div></div></div>
-          <div class="cardx"><div class="row" style="gap:10px"><span style="font-family:var(--disp);color:var(--c9);font-weight:700">03</span><div><div class="big" style="font-size:13px">Chat velocity</div><div class="xsm">Sudden surges in the stream</div></div></div></div>
+          <div class="cardx"><div class="row" style="gap:10px"><span style="font-family:var(--disp);color:var(--blue-deep);font-weight:700">01</span><div><div class="big" style="font-size:13px">Game events</div><div class="xsm">Kill feed, objectives, aces</div></div></div></div>
+          <div class="cardx"><div class="row" style="gap:10px"><span style="font-family:var(--disp);color:var(--blue-deep);font-weight:700">02</span><div><div class="big" style="font-size:13px">Crowd audio</div><div class="xsm">Broadcast and caster spikes</div></div></div></div>
+          <div class="cardx"><div class="row" style="gap:10px"><span style="font-family:var(--disp);color:var(--blue-deep);font-weight:700">03</span><div><div class="big" style="font-size:13px">Chat velocity</div><div class="xsm">Sudden surges in the stream</div></div></div></div>
           <span class="kx">Your data</span>
           <p class="xsm" style="margin:6px 0 12px">Used: public match data, your team and player picks, your in-app activity. Never used: your messages, and we never sell it.</p>
           <div class="lr"><div class="lt">Personalize my alerts</div><span class="tg on"></span></div>
@@ -551,7 +569,7 @@
 
     <!-- CLIP DETAIL -->
     <div class="unit">
-      <div class="phone"><div class="screen" style="background:#070f1d">
+      <div class="phone"><div class="screen dark" style="background:#070f1d">
         <div class="sb" style="color:#fff"><span>9:41</span><span class="dots"><i style="background:#fff"></i><i style="background:#fff"></i><i style="background:#fff"></i></span></div>
         <div class="body"><div class="pad" style="padding-top:8px">
           <div class="nav"><div class="bk" style="border-color:#24395a;color:#fff"><svg><use href="#i-back"/></svg></div><div class="t" style="color:#fff">Clip</div><span class="r">&middot;&middot;&middot;</span></div>
@@ -578,7 +596,7 @@
   </div>
 
   <p class="foot">The Ninth is a speculative concept anchored to Cloud9 for portfolio purposes. Not affiliated with or endorsed by Cloud9. Rosters and matchups shown are illustrative. The AI moment-alert behavior reflects real 2026 auto-highlight methods (event-signal, audio, and chat-spike detection), framed as near-term. No figure or outcome here describes Pratik Mehta's own results.</p>
-</div>
-    <script src="/concepts/analytics.js"></script>
+</main>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>

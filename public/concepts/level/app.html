@@ -3,7 +3,16 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="/concepts/level/fonts.css">
+<link rel="preload" href="/concepts/level/fonts/Zodiak-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/concepts/level/fonts/Supreme-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Level fonts, inlined: an external sheet here cost a render-blocking round-trip
+     before the faces could even be discovered. Zodiak + Supreme are the concept's
+     own; JetBrains Mono reuses the site face at /fonts. */
+  @font-face{font-family:'Zodiak';src:url('/concepts/level/fonts/Zodiak-Variable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+  @font-face{font-family:'Supreme';src:url('/concepts/level/fonts/Supreme-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+  @font-face{font-family:'JetBrains Mono';src:url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');font-weight:100 800;font-style:normal;font-display:swap}
+</style>
 <title>Level, App UI</title>
 <meta name="description" content="Speculative app UI for Level, a prediction market concept by Pratik Mehta: phone-first screens with plain-percent odds and limits on by default." />
 <link rel="canonical" href="https://mehtapratik.com/concepts/level/app" />
@@ -22,7 +31,7 @@
     --ink:#16181C; --ink-900:#0E0F12; --ink-700:#23262D; --ink-600:#2E323A;
     --bone:#EBE6DB; --bone-100:#F5F1E8;
     --signal:#F2A436; --ember:#C9742A;
-    --slate:#8C8E96; --slate-d:#6A6C73; --stop:#C0463E;
+    --slate:#9698A0; --slate-d:#64656C; --stop:#D0716A;
     --line:rgba(235,230,219,0.13);
     --disp:"Zodiak", Georgia, serif;
     --text:"Supreme", system-ui, sans-serif;
@@ -140,6 +149,7 @@
   <span class="meta">App, phone-first</span>
 </div></div>
 
+<main>
 <header class="intro"><div class="wrap">
   <div class="eyebrow">06 / Product</div>
   <h1>The product carries the position.</h1>
@@ -353,10 +363,11 @@
   </div>
 </div></div>
 
+</main>
 <footer><div class="wrap">
   Level is a speculative concept by Pratik Mehta. Screens are design mockups, not a working product, and not affiliated with any exchange. Figures shown are illustrative. Market and industry data referenced across this project is drawn from cited public research; projected outcomes are objectives, not results.
 </div></footer>
 
-    <script src="/concepts/analytics.js"></script>
+    <script src="/concepts/analytics.js" defer></script>
 </body>
 </html>
