@@ -1,5 +1,10 @@
-import { defineCollection, z, type SchemaContext } from 'astro:content';
+import { defineCollection, type SchemaContext } from 'astro:content';
 import { glob } from 'astro/loaders';
+// `z` is imported from 'astro/zod', not 'astro:content': Astro deprecated the
+// `astro:content` re-export ("TODO: remove in Astro 7" in astro's source) and
+// on 7.x every z.* call raised ts(6385) 'z' is deprecated in `astro check`.
+// 'astro/zod' is the same zod v4 instance Astro's generated types reference.
+import { z } from 'astro/zod';
 
 /**
  * Content collections — the typed build guardrail (Build-Spec §"Content schema").
