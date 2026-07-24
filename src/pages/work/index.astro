@@ -1,13 +1,8 @@
 ---
 /**
- * /work — the full work index. Ported from _reference/mockups/work.html (page head,
- * featured pair, filter bar, index + sticky preview), but driven by the `work`
- * content collection rather than hardcoded rows, so it reflects the real case
- * studies and links straight to /work/[slug]. Nothing is invented: the project
- * count and year range derive from the collection.
- *
- * Chrome (default rail, footer, theme, fonts, reveal-on-scroll) is from
- * Base.astro / global.css; only the page-specific layout is scoped below.
+ * /work — the full work index: page head, featured pair, then the shared
+ * WorkIndex. Driven by the `work` collection, so the count and year range
+ * derive from real entries rather than being authored.
  */
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
@@ -32,8 +27,7 @@ const yearRange =
       : `${allYears[0]}—${allYears.at(-1)}`;
 const count = entries.length;
 
-// Featured pair, shown above the shared index. The index itself (filter buckets,
-// table, sticky preview) lives in the WorkIndex component, used here and on home.
+// Featured pair, shown above the shared index.
 const featured = entries
   .filter((e) => e.data.featured)
   .map((e) => ({
@@ -47,9 +41,8 @@ const featured = entries
   }));
 ---
 
-{/* The first featured card's poster is this page's LCP element, and it's a
-    <video poster>, which the preload scanner does not discover. Preload it so
-    the fetch starts with the document instead of after layout. */}
+{/* The first featured poster is the LCP element, and a <video poster> is
+    invisible to the preload scanner — hence the explicit preload. */}
 <Base title="Work · Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work" preloadImage={featured.length ? `/wc/${featured[0].slug}/poster.webp` : undefined}>
   <header class="phead">
     <div class="page-kicker">[ Work ] · {count} {count === 1 ? 'project' : 'projects'} · {yearRange}</div>
@@ -94,9 +87,7 @@ const featured = entries
 <script>
   import { wireHoverCards } from '../../scripts/card-video';
 
-  // Featured cards: play the hover-to-play clip on pointer enter, pause + reset
-  // to the poster on leave. Muted/looping, so no gesture needed; skipped under
-  // reduced motion. Shares one controller with the home bento tiles.
+  // Featured cards — same controller as the home bento tiles.
   wireHoverCards('.fcard', 'video');
 </script>
 

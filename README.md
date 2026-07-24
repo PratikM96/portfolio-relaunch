@@ -6,7 +6,7 @@ Pratik Mehta's personal portfolio, built on the **One System** brand. Brand, soc
 
 - **Astro 7** (TypeScript)
 - **Cloudflare Workers** for page serving, via `@astrojs/cloudflare`
-- **All assets self-hosted in this repo**, served same-origin by the Worker (which edge-caches globally). No external CDN. Images go in `src/assets/` (run through Astro's image pipeline); files that can't be processed (video, fonts, favicons) go in `public/`. Only web-optimized deliverables are committed; raw masters stay in `_reference/` (gitignored).
+- **All assets self-hosted**, served same-origin by the Worker. No external CDN. Images go in `src/assets/` (Astro's image pipeline); anything the pipeline can't process — video, fonts, favicons — goes in `public/`. Only web-optimized deliverables are committed; raw masters stay in gitignored `_reference/`.
 
 ## Getting started
 
@@ -55,20 +55,18 @@ docs/
   utm-tagging.md      # UTM conventions + GA4 notes
 ```
 
-Site-wide client behaviour lives in `src/scripts/` (`consent.ts`,
-`site-chrome.ts`, `card-video.ts`, `motion.ts`, `embedded-demo.ts`) rather than
-being re-typed per page; the only hand-written inline script is the pre-paint
-no-flash theme set in `Base.astro`. Whether a given bundle ships inline or as a
-hashed `/_astro/` file is decided by Vite's 4 KB `assetsInlineLimit`, so check a
-real build rather than assuming either.
+Client behaviour lives in `src/scripts/`, never re-typed per page; the only
+hand-written inline script is the pre-paint no-flash theme set in `Base.astro`.
+Whether a bundle ships inline or as a hashed `/_astro/` file is Vite's call
+(4 KB `assetsInlineLimit`), so check a real build rather than assuming.
 
 ## Adding a case study
 
 Drop a markdown file in `src/content/work/`. The frontmatter is typed and validated by `src/content.config.ts`; the build fails if an entry is missing required fields (every entry needs at least one proof figure). One template renders every entry.
 
-`type` is the engagement facet (`in-house` / `agency` / `concept`, see `src/lib/work-type.ts`) and drives the badge and the filters. Every entry uses one uniform proof block: a verified metric where one was measured, scope where none exists. A concept follows the same case-study rules as real work — a design-only concept carries scope because it has nothing else, a shipped concept (this site, `portfolio-system`) carries real measured results like any entry. Concepts additionally carry a non-affiliation disclosure. Employment type (Internship, Volunteer) belongs in the scoreboard `role` field, not the badge.
+`type` is the engagement facet (`in-house` / `agency` / `concept`, see `src/lib/work-type.ts`) and drives the badge and filters. Every entry uses one uniform proof block: a verified metric where one was measured, scope where none exists. Concepts follow the same rules as real work and additionally carry a non-affiliation disclosure. Employment type (Internship, Volunteer) belongs in the scoreboard `role` field, not the badge.
 
-Media is convention-located by slug (no paths in content). Every entry needs its hover-to-play work-card set at `public/wc/<slug>/` — dark and light clip plus both posters. `heroVideo: true` additionally opts an entry into a click-to-play case-study hero, and then requires `coverAlt` and `coverCaption`. Video is webm only. See `docs/hero-pipeline.md` and `docs/work-card-video.md` for the encode recipes.
+Media is convention-located by slug. Every entry needs its work-card set at `public/wc/<slug>/` — dark and light clip plus both posters. `heroVideo: true` opts into a click-to-play case-study hero and then requires `coverAlt` + `coverCaption`. Video is webm only. Encode recipes: `docs/hero-pipeline.md`, `docs/work-card-video.md`.
 
 ## Design system
 
@@ -84,25 +82,25 @@ Three files, **one variable face per family**, shipped whole:
 | `ClashGrotesk-Variable.woff2` | 46.1 | wght 200–700 |
 | `JetBrainsMono-Variable.woff2` | 89.3 | wght 100–800 |
 
-All three are preloaded, so every weight the type scale uses is already there — nothing else to fetch. Each `@font-face` declares a weight **range**, which is what makes a variable axis work; a static cut alongside them would shadow it.
+All three are preloaded, so every weight the type scale uses is already there. Each `@font-face` declares a weight **range** — that is what makes the axis work, and a static cut alongside would shadow it.
 
-Adding a face means dropping the variable woff2 in `public/fonts/` and pointing one `@font-face` at it. **Read its licence first** (each family's is in `_reference/fonts/site/<family>/`): a face needs both web-embedding *and* modification rights, and they don't come together. Clash is Fontshare FFL — embed yes, modify no, so it can never be subset or axis-pinned. JetBrains Mono is OFL-1.1 with no Reserved Font Name, so `OFL.txt` ships beside it as the licence requires.
+Adding a face means dropping the variable woff2 in `public/fonts/` and pointing one `@font-face` at it. **Read its licence first** (`_reference/fonts/site/<family>/`): a face needs both web-embedding *and* modification rights, and they don't come together. Clash is Fontshare FFL — embed yes, modify no, so it can never be subset. JetBrains Mono is OFL-1.1, so `OFL.txt` ships beside it as required.
 
-Nothing is subset today — the deliberate call was to ship the full system and only optimize if PageSpeed asks. Subsetting JetBrains Mono (89.3 → 37.3 KB, axis intact) is the first lever if it does; git history has the retired `scripts/fonts/subset.mjs`.
+Nothing is subset: the call was to ship the full system and optimize only if PageSpeed asks. Subsetting JetBrains Mono (89.3 → 37.3 KB, axis intact) is the first lever; git history has the retired `scripts/fonts/subset.mjs`.
 
 ## Deploy
 
-The cutover is complete: `mehtapratik.com` now serves this repo (the previous hand-edited site and its separate Worker are retired). **`npm run deploy` ships straight to the live domain** — there is no staging URL in the loop. Deploys are manual; a push to `main` is not an auto-deploy, so shipping code is a separate step. Validate on a local/preview build (`npm run build` / `npm run preview`) first — concept-demo clean URLs resolve in preview but not under `npm run dev`. SEO migration artifacts (`public/_redirects`, `public/robots.txt`, `public/_headers` with the enforced CSP, generated `sitemap-index.xml`) now govern the live domain.
+**`npm run deploy` ships straight to the live domain** — no staging URL in the loop. Deploys are manual; a push to `main` is not an auto-deploy. Validate on `npm run build` / `npm run preview` first: concept-demo clean URLs resolve in preview but not under `npm run dev`. `public/_redirects`, `public/robots.txt`, `public/_headers` (enforced CSP) and the generated `sitemap-index.xml` govern the live domain.
 
-See `docs/deploy.md` for the full procedure and rollback.
+Full procedure and rollback: `docs/deploy.md`.
 
 ## Operating contract
 
 **`CLAUDE.md` first.** It owns the build rules for this repo — deploy safety, content rules, voice, naming, font licensing — and points at everything it doesn't own.
 
-It deliberately owns very little. Facts and metrics come from the Resume Master, positioning and voice from the System Master, case-study copy from the live site itself, and design from the `/brand` page plus `src/styles/tokens.css`. Those governing docs live in gitignored `_reference/masters/` (this repo is public and they aren't all public-facing); `CLAUDE.md` §0 names them and sets the authority order.
+It deliberately owns very little. Facts come from the Resume Master, positioning and voice from the System Master, case-study copy from the live site, design from `/brand` + `src/styles/tokens.css`. Those live in gitignored `_reference/masters/` (this repo is public); `CLAUDE.md` §0 sets the authority order.
 
-The rule holding it together: **docs own rules and decisions, the repo owns state.** A doc that restates what the code already enforces gives the fact two homes, and the copies drift.
+The rule holding it together: **docs own rules and decisions, the repo owns state.** A doc that restates what the code enforces gives the fact two homes, and the copies drift.
 
 ## License
 

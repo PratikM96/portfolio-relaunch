@@ -1,21 +1,15 @@
 /* =============================================================
    ONE SYSTEM — global base + chrome
-   mehtapratik.com
 
-   Cross-cutting CSS shared between Base.astro and slotted page
-   content: reset, base elements, the type tiers, shared primitives,
-   and the site chrome (rail, mobile bar, footer).
-
-   Tokens come from tokens.css. Page-section CSS lives with the
-   page/component that owns it.
+   Reset, base elements, type tiers, shared primitives, and the site
+   chrome (rail, mobile bar, footer). Tokens come from tokens.css;
+   page-section CSS lives with the page that owns it.
    ============================================================= */
 
 /* ===== TYPE TIERS =====
-   The eight tiers from tokens.css, applied. A rule sets SIZE (and colour /
-   line-height) only; family, weight and tracking come from here. Every selector
-   that needs a tier is listed in its group below — never re-declare the triple
-   inline, which is how this drifted into seven different label trackings.
-   The bare .t-* classes are also available directly in markup. */
+   The eight tiers from tokens.css, applied. A rule sets SIZE (plus colour /
+   line-height) only. Add your selector to a group below; never re-declare the
+   family/weight/tracking triple inline. The bare .t-* classes work in markup. */
 
 .t-display,
 .page-h1,
@@ -23,8 +17,7 @@
   font-family: var(--t-display-font); font-weight: var(--t-display-weight); letter-spacing: var(--t-display-track);
 }
 
-/* h1 is the wordmark lockup's tier and its only consumer: the lockup is
-   Pratik's name, so it stays in the brand voice rather than the system layer. */
+/* h1 is the wordmark lockup's tier and its only consumer. */
 .t-h1,
 .console .brand {
   font-family: var(--t-h1-font); font-weight: var(--t-h1-weight); letter-spacing: var(--t-h1-track);
@@ -46,8 +39,8 @@ body {
   font-family: var(--t-body-font); font-weight: var(--t-body-weight); letter-spacing: var(--t-body-track);
 }
 
-/* label + emphasis are ALWAYS uppercase — +10% tracking is an uppercase device
-   and falls apart on lowercase. That is why `data` exists at +5% instead. */
+/* label + emphasis are ALWAYS uppercase — +10% tracking falls apart on
+   lowercase, which is why `data` exists at +5%. */
 .t-label,
 .mono,
 .console .role,
@@ -148,10 +141,8 @@ img { display: block; max-width: 100%; }
   width: 7px; height: 7px; border-radius: var(--radius-full);
   background: var(--accent-fill);
 }
-/* The status dot's halo. Animated as transform + opacity on a pseudo-element,
-   NOT as box-shadow on the dot: box-shadow can't be composited, so it repainted
-   every frame and Lighthouse flagged it as a non-composited animation. The ring
-   is a real element scaled up and faded out, which stays on the GPU. */
+/* Status-dot halo: transform + opacity on a pseudo-element, never box-shadow —
+   box-shadow can't be composited and repaints every frame. */
 .console .status .dot,
 .m-readout .status .dot { position: relative; }
 .console .status .dot::after,
@@ -180,8 +171,7 @@ img { display: block; max-width: 100%; }
 .tg .sep { color: var(--text-muted); opacity: .5; }
 
 /* ===== CONSOLE RAIL — case-study variant (section nav + scoreboard) ===== */
-/* the brand lockup (logomark + wordmark) is the shared `.console .brand`, so the
-   case-study rail reads identically to the default rail — no override here. */
+/* the lockup is the shared `.console .brand` — no override here */
 .console .back {
   font-size: 11px; color: var(--text-secondary); margin-top: var(--space-lg);
   display: flex; align-items: center; gap: var(--space-xs); transition: color .2s var(--ease-standard);
@@ -203,7 +193,7 @@ img { display: block; max-width: 100%; }
 }
 .console .rail-bio-about:hover { text-decoration: underline; text-underline-offset: 3px; }
 .console.cs .rail-more { margin-top: var(--space-xl); }
-/* margin-top: 0 overrides the global `.console nav` var(--space-xl) so the label sits close */
+/* margin-top: 0 overrides the global `.console nav` gap */
 .console .rail-more-nav { margin-top: 0; display: flex; flex-direction: column; gap: var(--space-sm); }
 .console .rail-more-nav a {
   padding: 0; font-size: 13px; line-height: var(--lh-h3); color: var(--text-secondary); transition: color .2s var(--ease-standard);
@@ -223,16 +213,13 @@ img { display: block; max-width: 100%; }
 .menu-btn, .m-drawer { display: none; }
 
 /* ===== CONTENT SCAFFOLD + shared primitives ===== */
-/* Screen-reader-only. For sections whose design carries no visible heading but
-   whose outline still needs one, so the document doesn't skip a level. Out of
-   flow, so it never becomes a grid/flex item or affects layout. */
+/* Screen-reader-only heading, for sections with no visible one. Out of flow. */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .stage { margin-left: var(--rail); min-height: 100vh; }
 .pad { padding: 0 var(--space-3xl); }
 .block { padding: var(--space-4xl) 0; }
 .blabel { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xl); }
-/* the only label-tier rule that is not uppercased — its content is `[ 0N ]`,
-   digits and brackets, so the transform would be a no-op anyway */
+/* the only label-tier rule not uppercased — its content is `[ 0N ]` */
 .blabel .c { font-size: 11px; color: var(--accent-text); text-transform: none; }
 .blabel .t { font-size: 11px; color: var(--text-muted); margin: 0; line-height: 1; }
 .blabel .rule { flex: 1; height: 1px; background: var(--border); }
@@ -246,8 +233,8 @@ img { display: block; max-width: 100%; }
 .h3 { font-size: 19px; line-height: var(--lh-h3); }
 .lead { font-size: 18px; line-height: 1.5; color: var(--text-secondary); max-width: 56ch; }
 
-/* ===== shared content primitives (promoted from per-page scoped styles) =====
-   Consumers keep only their own layout (padding, grid, size overrides). */
+/* ===== shared content primitives =====
+   Consumers keep only their own delta (padding, grid, size). */
 
 /* Surface card. Add .card--interactive for the hover border-lift. */
 .card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
@@ -264,15 +251,13 @@ img { display: block; max-width: 100%; }
 .tag { font-size: 10.5px; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: var(--space-2xs) var(--space-xs); }
 .tag.acc { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 40%, transparent); }
 
-/* Engagement corner badge overlaid on card media. .badge-lg is the static,
-   larger case-study-hero variant. Every engagement type carries the signal
-   accent (the accent is not gated on type) — see CLAUDE.md §3 and
-   src/lib/work-type.ts. (--badge-concept-* in tokens.css is now unused.) */
+/* Engagement corner badge over card media; .badge-lg is the case-study-hero
+   variant. Every type accents — the accent is not gated on type (CLAUDE.md §3). */
 .badge { position: absolute; top: var(--space-md); left: var(--space-md); z-index: 2; font-size: 10px; padding: var(--space-2xs) var(--space-xs); border-radius: var(--radius-none); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .badge.in-house, .badge.agency, .badge.concept { background: color-mix(in srgb, var(--accent-fill) 16%, transparent); color: var(--accent-text); border: 1px solid color-mix(in srgb, var(--accent-fill) 40%, transparent); }
 .badge-lg { position: static; top: auto; left: auto; display: inline-block; font-size: 10.5px; padding: var(--space-2xs) var(--space-sm); backdrop-filter: none; -webkit-backdrop-filter: none; }
 
-/* ===== shared page-header primitives (used by every page hero/head) ===== */
+/* ===== shared page-header primitives ===== */
 /* Every page head is `display` tier, so the pages read as one family. */
 .page-h1 { font-size: clamp(38px, 5vw, 68px); line-height: var(--lh-display); }
 .page-kicker { font-size: 11px; color: var(--accent-text); margin-bottom: var(--space-lg); }
@@ -280,8 +265,7 @@ img { display: block; max-width: 100%; }
 .close-h { font-size: clamp(38px, 5vw, 68px); line-height: var(--lh-display); }
 .btn-row { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
 .btn {
-  /* inline-block so the hover lift applies outside a flex/grid parent —
-     transforms are ignored on plain inline elements */
+  /* inline-block: transforms are ignored on plain inline elements */
   display: inline-block;
   font-size: 12px; padding: var(--space-sm) var(--space-lg); border-radius: var(--radius-full);
   transition: transform var(--dur-slow) var(--ease-standard),
@@ -302,8 +286,7 @@ img { display: block; max-width: 100%; }
 }
 .foot .mono { color: var(--text-muted); }
 .foot .fl { display: flex; flex-wrap: wrap; gap: var(--space-sm) var(--space-lg); }
-/* the footer's cookie control is a <button> in the same row, so it takes the
-   same rule rather than re-declaring the label tier for itself */
+/* the cookie control is a <button> in the same row, so it shares the rule */
 .foot .fl a,
 .foot .fl button { font-size: 10.5px; color: var(--text-secondary); }
 .foot .fl a:hover,
@@ -313,16 +296,9 @@ img { display: block; max-width: 100%; }
 .rev { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease-standard), transform .5s var(--ease-standard); }
 .rev.in { opacity: 1; transform: none; }
 
-/* Above-the-fold variant: TRANSFORM ONLY, never opacity. Chromium excludes any
-   element starting at opacity:0 from LCP, so fading the hero made the headline
-   ineligible and LCP fell through to a late-painting element. Transform-only
-   keeps the hero LCP-eligible. Below-the-fold keeps the .rev opacity fade.
-
-   Duration is a Speed Index cost, not just taste: SI integrates how visually
-   incomplete the viewport is over time, and this animates the whole hero, so
-   every millisecond here lands on the metric. .28s reads as the same gesture
-   and hands back most of what .5s was spending. Below the fold, .rev is off
-   the SI clock entirely and keeps its slower, softer .5s. */
+/* Above-the-fold variant: TRANSFORM ONLY, never opacity — Chromium excludes an
+   element starting at opacity:0 from LCP. The .28s duration is a Speed Index
+   cost, not taste; .rev is below the fold and off that clock at .5s. */
 .rev-load { transform: translateY(12px); animation: rev-in .28s var(--ease-standard) both; }
 @keyframes rev-in { to { transform: none; } }
 
@@ -331,9 +307,8 @@ img { display: block; max-width: 100%; }
   :root { --rail: 0px; }
   .console { display: none; }
 
-  /* Tiers for the mobile-only chrome. Scoped to this query rather than the
-     global groups above, because these elements do not exist as rendered
-     surfaces above 900px. */
+  /* Mobile-only chrome tiers. Stay inside this query — these surfaces don't
+     render above 900px, and hoisting them would leak the tier. */
   .console-mobile .brand,
   .m-drawer-head .brand { font-family: var(--t-h1-font); font-weight: var(--t-h1-weight); letter-spacing: var(--t-h1-track); }
   .m-nav a { font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track); }
@@ -376,8 +351,7 @@ img { display: block; max-width: 100%; }
   .m-drawer-head .brand {
     font-size: 17px; display: flex; align-items: center; gap: var(--space-sm);
   }
-  /* Not a type tier: a single ✕ glyph, so it takes the mono family for the
-     glyph shape only and has no tracking or case to inherit. */
+  /* Not a type tier: a single ✕ glyph, so it takes the mono family only. */
   .menu-close {
     font-family: var(--font-mono); font-size: 16px; line-height: 1; color: var(--text-secondary);
     background: none; border: none; cursor: pointer; padding: var(--space-xs); margin: calc(var(--space-xs) * -1);

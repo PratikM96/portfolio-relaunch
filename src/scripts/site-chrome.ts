@@ -1,10 +1,7 @@
 /**
- * Site-wide chrome behaviour: theme toggle, live-OS-theme follow, mobile
- * drawer, NY clock, reveal-on-scroll, and rail scroll-spy.
- *
- * None of this runs before paint — the no-flash theme set in Base.astro's
- * <head> is the only pre-paint script. Deferred execution is fine here, since
- * every element these query already exists by then.
+ * Site chrome: theme toggle, OS-theme follow, mobile drawer, NY clock,
+ * reveal-on-scroll, rail scroll-spy. All deferred — the no-flash theme set in
+ * Base.astro's <head> is the only pre-paint script.
  */
 const root = document.documentElement;
 const themeBtns = Array.prototype.slice.call(
@@ -113,9 +110,8 @@ Array.prototype.slice
   .call(document.querySelectorAll('.rev'))
   .forEach((el: Element) => io.observe(el));
 
-// rail scroll-spy — case-study rail only. The default rail's #rail-nav links
-// are real routes ('/', '/work', …), never in-page hashes, so building the spy
-// there observed nothing; guard on #cs-nav so non-case pages skip it entirely.
+// rail scroll-spy — #cs-nav only. The default rail's links are real routes, not
+// in-page hashes, so there is nothing to observe there.
 const csNav = document.getElementById('cs-nav');
 if (csNav) {
   const navLinks = Array.prototype.slice.call(

@@ -1,26 +1,12 @@
 import { defineCollection, type SchemaContext } from 'astro:content';
 import { glob } from 'astro/loaders';
-// `z` is imported from 'astro/zod', not 'astro:content': Astro deprecated the
-// `astro:content` re-export ("TODO: remove in Astro 7" in astro's source) and
-// on 7.x every z.* call raised ts(6385) 'z' is deprecated in `astro check`.
-// 'astro/zod' is the same zod v4 instance Astro's generated types reference.
+// 'astro/zod', not 'astro:content' — that re-export is deprecated and raises
+// ts(6385) on Astro 7.
 import { z } from 'astro/zod';
 
-/**
- * Content collections — the typed build guardrail (Build-Spec §"Content schema").
- *
- * `work` is the canonical case-study list. The schema below is the build-spec
- * sketch extended with the structured section data both templates already use,
- * so /work/[slug] can render SPORTIME (in-house) and The Ninth (concept)
- * pages identically from data. A required field that is missing or wrong-shaped
- * FAILS THE BUILD rather than shipping empty:
- *   - every entry MUST carry at least one proof figure (proof.figures.min(1))
- *   - type 'concept' MUST carry a non-empty `disclosure` (self-initiated /
- *     non-affiliation label), enforced by the .refine() at the bottom so the
- *     labeling can never be omitted.
- */
+// Content collections. A missing or wrong-shaped required field fails the build.
 
-// A margin-rail module — mirrors MarginRail.astro's prop union exactly.
+// Margin-rail module — mirrors MarginRail.astro's prop union.
 const marginModule = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('meta'),
@@ -46,39 +32,30 @@ const marginModule = z.discriminatedUnion('type', [
   }),
 ]);
 
-// A prose paragraph; `lead` becomes the bold lead-in run when present.
+// Prose paragraph; `lead` becomes the bold lead-in run when present.
 const paragraph = z.object({ lead: z.string().optional(), text: z.string() });
 
-// A section that pairs prose with a margin rail.
+// Prose paired with a margin rail.
 const proseSection = z.object({
   prose: z.array(paragraph),
   margin: z.array(marginModule).default([]),
 });
 
 /**
- * Output blocks — the typed case-study output gallery. The section is an ORDERED
- * list of blocks; each block is one asset family rendered by its own rule, so a
- * 1:1 social grid, a 16:9 mockup, and a tall scrolling website never share one
- * cropped grid. A factory (not a const) because the still `img` uses Astro's
- * `image()` helper, which only exists inside the schema function. Video is
- * convention-located by slug (no paths in content):
- * /ov/<case-slug>/<clip>.webm + <clip>-poster.webp. See docs/output-assets.md.
+ * Output gallery — an ordered list of typed blocks, one asset family per block.
+ * A factory, not a const, because `image()` only exists inside the schema
+ * function. See docs/output-assets.md.
  */
 const outputBlocks = (image: SchemaContext['image']) => {
-  // Required `img` is the guardrail: an output block with a missing asset fails
-  // the build rather than shipping an empty frame.
   const still = z.object({
-    img: image(), // optimized local asset (light/base)
-    // Optional dark-theme sibling. When present the still is theme-aware: `img`
-    // shows in light, `imgDark` in dark (mockups mainly — they carry a themed
-    // background). Omit for assets that read the same in both themes.
-    imgDark: image().optional(),
+    img: image(), // required — a missing asset fails the build
+    imgDark: image().optional(), // theme-aware pair; omit if the asset reads the same in both
     alt: z.string().optional(),
     caption: z.string().optional(),
   });
   return z.array(
     z.discriminatedUnion('kind', [
-      // Mockups / flagship — full-width 16:9. `flagship` leads the section.
+      // Mockups — full-width 16:9. `flagship` leads the section.
       z.object({
         kind: z.literal('mockup'),
         flagship: z.boolean().default(false),
@@ -91,8 +68,8 @@ const outputBlocks = (image: SchemaContext['image']) => {
         cols: z.number().int().min(2).max(4).default(3),
         items: z.array(still),
       }),
-      // Flyers / stories — portrait grid. `fit: contain` + `bg: paper` shows a
-      // whole document on a paper card (for transparent/edge-light artwork).
+      // Flyers / stories — portrait grid. `fit: contain` + `bg: paper` suits
+      // transparent or edge-light artwork.
       z.object({
         kind: z.literal('flyer'),
         label: z.string().optional(),
@@ -102,8 +79,7 @@ const outputBlocks = (image: SchemaContext['image']) => {
         bg: z.enum(['surface', 'paper']).default('surface'),
         items: z.array(still),
       }),
-      // Photos & single-screen web shots — landscape grid. `fit: contain`
-      // shows a whole landscape artwork (e.g. an infographic) without cropping.
+      // Photos & single-screen web shots — landscape grid.
       z.object({
         kind: z.literal('gallery'),
         label: z.string().optional(),
@@ -112,11 +88,8 @@ const outputBlocks = (image: SchemaContext['image']) => {
         fit: z.enum(['cover', 'contain']).default('cover'),
         items: z.array(still),
       }),
-      // Long pages (websites, tall infographics) — capped internal-scroll frames,
-      // laid out N-up so tall/narrow assets aren't stretched full width. One block
-      // per family: e.g. websites at `cols: 2`, infographics at `cols: 3`. `chrome`
-      // is a block default (all frames in a block are the same family) with an
-      // optional per-item override.
+      // Long pages (websites, tall infographics) — capped internal-scroll
+      // frames, laid out N-up. One block per family.
       z.object({
         kind: z.literal('longpage'),
         cols: z.number().int().min(1).max(3).default(2),
@@ -124,7 +97,7 @@ const outputBlocks = (image: SchemaContext['image']) => {
         chrome: z.enum(['browser', 'plain']).default('plain'),
         items: z.array(still),
       }),
-      // Video — muted loop (plays in view) or audio (click-to-play). Slug-located.
+      // Video — muted loop (plays in view) or audio (click-to-play).
       z.object({
         kind: z.literal('video'),
         audio: z.boolean().default(false), // block default; per-item `audio` overrides
@@ -145,22 +118,15 @@ const outputBlocks = (image: SchemaContext['image']) => {
 
 const work = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/work' }),
-  // `image()` (Astro's content-image helper) lets a frontmatter path resolve to
-  // an optimized ImageMetadata (build-time webp, responsive widths, intrinsic
-  // dims). Output stills use it so real assets never ship unoptimized. See
-  // docs/output-assets.md.
+  // `image()` resolves a frontmatter path to optimized ImageMetadata.
   schema: ({ image }) =>
     z
     .object({
-      // --- identity / facet (build-spec core) ---
+      // --- identity / facet ---
       title: z.string(),
       slug: z.string(),
-      // Engagement facet — drives the visible badge + filtering. It does NOT gate
-      // the proof rule: a concept follows the same case-study rules as real work
-      // (design-only concepts carry scope; a shipped concept may carry measured
-      // results). It only forces the `disclosure` refine below. See
-      // src/lib/work-type.ts for why this is not `client`: every non-concept entry
-      // is a role held, not a client engagement.
+      // Engagement facet — drives the badge + filtering, and forces the
+      // `disclosure` refine below. Does not gate the proof rule.
       type: z.enum(['in-house', 'agency', 'concept']),
       role: z.string(), // rail scoreboard Role
       year: z.string(), // rail scoreboard Year
@@ -171,29 +137,23 @@ const work = defineCollection({
       // --- hero ---
       badge: z.string(),
       lede: z.string(),
-      // Non-affiliation / self-initiated disclosure, rendered PROMINENTLY in the
-      // hero (right under the lede, above the scoreboard) — never a footnote.
-      // REQUIRED for any concept that names a real company (e.g. The Ninth →
-      // Cloud9) so the work can't read as commissioned or endorsed.
+      // Non-affiliation / self-initiated notice, rendered in the hero under the
+      // lede. Required for concepts (refine below).
       disclosure: z.string().optional(),
-      // Accessible name + caption for the hero wall. Rendered ONLY when
-      // `heroVideo` is set (coverAlt becomes the <video> aria-label), so they
-      // are optional here and required by the refine below when it is.
+      // Hero-wall accessible name + caption; required when `heroVideo` is set.
       coverAlt: z.string().optional(),
       coverCaption: z.string().optional(),
-      // Opts this entry into a click-to-play hero wall. Files are located by
-      // slug at /hero/<slug>/{hero_1080.webm,poster.webp}; the template derives
-      // the paths. Without it the entry renders no hero wall at all.
-      // See docs/hero-pipeline.md.
+      // Opts into the click-to-play hero wall, located by slug at
+      // /hero/<slug>/. See docs/hero-pipeline.md.
       heroVideo: z.boolean().default(false),
       hero: z.array(
         z.object({
           k: z.string(),
           v: z.string(),
-          stat: z.boolean().optional(), // render v as a large proof figure (+ optional unit)
+          stat: z.boolean().optional(), // render v as a large proof figure
           unit: z.string().optional(),
-          // Force the whole stat figure to the signal accent (for a measured
-          // result whose value carries no unit to accent on its own, e.g. "100").
+          // Force the accent on a unitless measured result (e.g. "100"), which
+          // figureRuns can't detect on its own.
           accent: z.boolean().optional(),
         }),
       ),
@@ -206,11 +166,8 @@ const work = defineCollection({
       decisions: proseSection.extend({
         items: z.array(z.object({ n: z.string(), title: z.string(), text: z.string() })),
       }),
-      // Output gallery: the typed `blocks` model (one asset family per block,
-      // each rendered by its own rule). The whole section is OPTIONAL — an entry
-      // with no output (e.g. frc, whose only asset is its hero film) omits it and
-      // the template drops the §Output section + rail entry.
-      // See docs/output-assets.md.
+      // Optional — an entry with no output drops the §Output section and its
+      // rail entry. See docs/output-assets.md.
       output: z
         .object({
           blocks: outputBlocks(image).optional(),
@@ -218,67 +175,51 @@ const work = defineCollection({
         })
         .optional(),
       reflection: proseSection,
-      // (No `next` field: the footer's next-case link is computed from the /work
-      // page order in [slug].astro, not authored per entry. A required `next`
-      // block used to sit here, unread by any template, quietly holding stale
-      // "Next case study · Client" labels. Don't reintroduce it.)
+      // No `next` field — the footer's next-case link is computed from the /work
+      // page order in [slug].astro. Don't reintroduce it.
 
-      // Opt-in: render the measured per-page Lighthouse table (PerfTable.astro,
-      // data in src/data/portfolio-perf.json) inside §Proof, under the headline
-      // figures. Bespoke to the self-referential Portfolio System case study; the
-      // averages still live in `proof.figures`. Off for every other entry.
+      // Opt-in: renders PerfTable.astro (src/data/portfolio-perf.json) inside
+      // §Proof. Bespoke to the portfolio-system entry; off for every other.
       perfTable: z.boolean().default(false),
 
-      // --- proof (one uniform shape for every entry; no metric vs scope split) ---
-      // Every entry must carry at least one proof figure. The non-empty `figures`
-      // array IS the guardrail — the build fails only if an entry has no proof.
+      // --- proof (one uniform shape for every entry) ---
       proof: z.object({
         figures: z
           .array(z.object({ value: z.string(), unit: z.string().optional(), label: z.string() }))
           .min(1, 'every entry needs at least one proof value'),
         note: z.object({ label: z.string(), text: z.string() }).optional(),
       }),
-      // embedded demo: tabbed island linking to /concepts/[project]/
+      // Embedded demo: tabbed island linking to /concepts/[project]/.
       demo: z
         .object({
           project: z.string(),
           heading: z.string(),
           foot: z.string(),
-          // each tab links to its live view under /concepts/[project]/; `featured`
-          // marks the centerpiece view (shown by default).
           tabs: z.array(
             z.object({
               label: z.string(),
               cap: z.string(),
-              img: z.string(), // /concepts/<slug>/preview-<view>.webp (root-relative, same-origin)
+              img: z.string(), // /concepts/<slug>/preview-<view>.webp
               href: z.string(),
-              featured: z.boolean().optional(),
+              featured: z.boolean().optional(), // the centerpiece view, shown by default
             }),
           ),
         })
         .optional(),
     })
-    // Concept work must always carry its self-initiated / non-affiliation
-    // disclosure. Making it required for type 'concept' means the labeling can
-    // never be silently dropped from a concept case study.
+    // A concept's disclosure can never be silently dropped.
     .refine(
       (d) => d.type !== 'concept' || (typeof d.disclosure === 'string' && d.disclosure.trim().length > 0),
       { message: 'concept entries must carry a non-empty `disclosure`', path: ['disclosure'] },
     )
-    // A hero wall renders both an accessible name and a caption, so an entry
-    // opting into one must supply both. Entries without heroVideo render no wall
-    // and must not carry orphaned cover copy.
+    // A hero wall needs both an accessible name and a caption.
     .refine((d) => !d.heroVideo || (!!d.coverAlt?.trim() && !!d.coverCaption?.trim()), {
       message: '`heroVideo: true` requires both `coverAlt` and `coverCaption`',
       path: ['coverAlt'],
     }),
 });
 
-/**
- * `journal` — notes on systems, brand, and AI. The index + article template render
- * from this collection, so adding a markdown file under src/content/journal/ ships
- * a new post.
- */
+// Journal. A markdown file under src/content/journal/ ships a new post.
 const journal = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/journal' }),
   schema: z.object({

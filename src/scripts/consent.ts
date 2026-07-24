@@ -1,34 +1,17 @@
 /**
- * Cookie consent + Google Analytics (GA4) + custom conversion events.
+ * Cookie consent + GA4 + custom conversion events.
  *
- * ── Consent gate ──────────────────────────────────────────────────────────
- * gtag loads ONLY after an explicit Accept (hard gate): declined or undecided
- * visitors get zero analytics. The choice persists in localStorage; the footer
- * "Cookies" button reopens the banner. Bundled (not is:inline) so it ships once
- * as a hashed, cached module rather than inline on every page.
+ * gtag loads only after an explicit Accept; the choice persists in localStorage
+ * and the footer "Cookies" button reopens the banner. The banner IS the consent
+ * gate, so Consent Mode is granted explicitly (see CONSENT below) to override
+ * the property's container-scoped defaults, which would otherwise withhold every
+ * hit including page_view. Those defaults live in GA4 Admin -> Data streams ->
+ * Configure tag settings -> Consent settings.
  *
- * ── Consent Mode (the reason a naive gtag install recorded nothing) ────────
- * The GA4 property carries container-scoped consent defaults (Google tag
- * settings) that leave analytics_storage UNgranted. Under Consent Mode that
- * blocks the GA4 tag from transmitting — gtag loads but withholds every hit,
- * including page_view. Our banner IS the consent gate and only loads gtag after
- * the user clicks Accept, so we explicitly grant analytics_storage to gtag:
- *   - 'default' before config  -> the very first hit (page_view) is allowed out
- *   - 'update'  after config   -> overrides any container-scoped default that
- *                                 arrives with the tag config
- * Ad signals stay denied — this site runs no ads.
- * (If tracking still stalls, the authoritative lever is GA4 Admin -> Data
- *  streams -> Configure tag settings -> Consent settings, where those
- *  container-scoped defaults live.)
- *
- * ── Custom events (only what Enhanced Measurement does NOT auto-collect) ────
- *   generate_lead   -> mailto: clicks. The primary conversion; GA4 does not
- *                      count mailto/tel as outbound clicks. Mark it a Key event.
- *   select_content  -> case-study opens (/work/<slug>), to see which work gets
- *                      clicked. The /work index and nav links are page_views.
- * Enhanced Measurement already covers file_download (resume PDF) and outbound
- * social clicks, so those need no code. Handlers check gtag at click time, so
- * they no-op until consent is granted.
+ * Custom events cover only what Enhanced Measurement does not:
+ *   generate_lead   -> mailto: clicks (the primary conversion; mark it a Key event)
+ *   select_content  -> case-study opens (/work/<slug>)
+ * Handlers check gtag at click time, so they no-op until consent is granted.
  */
 const KEY = 'pm-consent';
 const GA = 'G-G5ZSN5RXX0';
@@ -52,20 +35,15 @@ function loadGA(): void {
   w.__ga = true;
 
   w.dataLayer = w.dataLayer || [];
-  // gtag MUST push the `arguments` object itself, NOT a copied array. gtag.js
-  // only recognizes a command when it arrives as an arguments object; a real
-  // array (what a spread `(...args) => push(args)` produces) is silently
-  // ignored, so config/consent/events never process and nothing is ever sent.
-  // This was THE bug behind "GA records nothing". Must be a plain function
-  // (arrow functions have no `arguments`); typed variadic so the calls below
-  // type-check while `arguments` is what actually gets pushed.
+  // Must push the `arguments` object itself. gtag.js silently ignores a real
+  // array, so a spread arrow function sends nothing at all — hence the plain
+  // function here, typed variadic only so the calls below type-check.
   const gtag: (...args: unknown[]) => void = function () {
     w.dataLayer!.push(arguments);
   };
   w.gtag = gtag;
 
-  // Queue consent + config BEFORE injecting the library, so gtag.js drains a
-  // fully-formed queue (consent already granted) the moment it executes.
+  // Queue before injecting the library, so gtag.js drains a fully-formed queue.
   gtag('consent', 'default', CONSENT);
   gtag('js', new Date());
   gtag('config', GA);

@@ -1,9 +1,7 @@
 ---
 /**
- * ProofBox.astro — the single proof block for EVERY case study, whatever its
- * engagement. One uniform stat style: a grid of proof figures (value + optional
- * accent unit) plus an optional note line. There is no metric-vs-scope split —
- * any entry's `proof.figures` render identically. Replaces ResultBox + ScopeBox.
+ * ProofBox.astro — the proof block for every case study: a grid of figures plus
+ * an optional note. One uniform style; no metric-vs-scope split.
  */
 import StatFigure from './StatFigure.astro';
 type Figure = { value: string; unit?: string; label: string };
@@ -13,8 +11,7 @@ interface Props {
   note?: { label: string; text: string };
 }
 const { figures, note } = Astro.props;
-// Grid columns track the figure count (3 figures -> 3 columns, no empty cell,
-// wider cells that keep long values from overflowing). Capped at 4.
+// Columns track the figure count so there's no empty cell. Capped at 4.
 const cols = Math.min(figures.length, 4);
 ---
 
@@ -49,11 +46,9 @@ const cols = Math.min(figures.length, 4);
 
   .cs-proof { border: 1px solid var(--border-strong); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
   .cs-proof .grid { display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr); gap: 1px; background: var(--border); }
-  /* container-query sizing so the figure scales to the cell and never wraps;
-     the unit is a smaller secondary run so long word-units fit on one line */
+  /* container query so the figure scales to its cell and never wraps */
   .cs-proof .r { background: var(--surface); padding: var(--space-xl) var(--space-lg); container-type: inline-size; }
-  /* figure sizing/nowrap only; the number/accent split + accent styling live in StatFigure */
-  /* proof figures are short (descriptions live in the label), so the number is full-size */
+  /* sizing only — the number/accent split lives in StatFigure */
   .cs-proof .r .f { font-size: clamp(26px, 22cqi, 50px); line-height: 1; white-space: nowrap; }
   /* description: max two lines */
   .cs-proof .r .l { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-sm); line-height: 1.5; max-width: 24ch; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

@@ -1,8 +1,6 @@
 /**
- * Theme-aware source resolution for work-card hover clips.
- *
- * Every entry ships both variants at /wc/<slug>/: the dark set (card.webm /
- * poster.webp) and a `-light` sibling, selected by the active theme.
+ * Work-card hover clips. Every entry ships both variants at /wc/<slug>/: the
+ * dark set (card.webm / poster.webp) and a `-light` sibling.
  */
 import { prefersReducedMotion } from './motion';
 
@@ -17,32 +15,19 @@ function cardPaths(slug: string): CardPaths {
 }
 
 /**
- * Does this device have a hovering primary pointer? A touch screen never fires
- * mouseenter, so every hover-to-play clip below is dead weight there — and it
- * is not free: a Lighthouse mobile trace showed all three card clips (343 KB)
- * downloading on the home page despite preload="none", because load() with a
- * fresh <source> fetches the resource anyway. Gate on this, not on width.
+ * Gate hover clips on this, never on width. A touch device can't play them, and
+ * they aren't free: load() with a fresh <source> fetches despite preload="none".
  */
 export function canHover(): boolean {
   return window.matchMedia('(hover: hover)').matches;
 }
 
-/**
- * Point a <video> at the theme-correct POSTER only — no <source>, no load(), so
- * nothing but the still is ever fetched. This is what a no-hover device gets:
- * the clips can't play there, but the light/dark poster variant still has to
- * follow the theme.
- */
+/** Theme-correct poster only — no <source>, no load(), so nothing is fetched. */
 export function applyCardPoster(v: HTMLVideoElement, slug: string): void {
   v.poster = cardPaths(slug).poster;
 }
 
-/**
- * Point a <video> at the correct variant for the current theme and (re)load so
- * the poster reflects it. No-ops when it's already wired to that exact variant.
- * preload="none" means load() re-selects the resource without fetching media
- * data until play().
- */
+/** Point a <video> at the current theme's variant and reload. No-ops if already wired. */
 export function applyCardSources(v: HTMLVideoElement, slug: string): void {
   const p = cardPaths(slug);
   if (v.dataset.wired === p.webm) return;
@@ -62,13 +47,10 @@ export function onThemeChange(cb: () => void): () => void {
 }
 
 /**
- * Wire a set of hover-to-play work cards: each plays its muted loop on pointer
- * enter and snaps back to the poster on leave (load() re-shows the resolved-logo
- * rest frame). On a theme flip every clip re-points at the matching variant.
- * Used by the home bento tiles and the /work featured pair — only the selectors
- * differ. Reduced motion → poster only, no playback.
- *
- * No hovering pointer → poster only, and the clip is never fetched at all.
+ * Wire hover-to-play work cards: play the muted loop on enter, snap back to the
+ * poster on leave, re-point at the matching variant on a theme flip. Used by the
+ * home bento tiles and the /work featured pair. Reduced motion or no hovering
+ * pointer → poster only (and no hover means the clip is never fetched).
  */
 export function wireHoverCards(cardSelector: string, videoSelector: string): void {
   const reduce = prefersReducedMotion();

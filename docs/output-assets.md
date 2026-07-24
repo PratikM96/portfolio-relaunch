@@ -1,25 +1,18 @@
 # Output gallery pipeline
 
-The case-study **Output** section (`§04`) is an ordered list of typed **blocks**.
-Each block is one asset family rendered by its own rule, so a 1:1 social grid, a
-16:9 mockup, and a tall scrolling website never share one cropped uniform grid.
-Rendered by `OutputGrid.astro`, driven by `output.blocks` in each work entry.
+The case-study **Output** section is an ordered list of typed **blocks**, one
+asset family per block. Rendered by `OutputGrid.astro` from `output.blocks`.
 
-This is distinct from the two video systems: **hero** (`docs/hero-pipeline.md`,
-click-to-play, audio, scoreboard wall) and **work-card** (`docs/work-card-video.md`,
-hover loops on the index). Output video is a third, in-gallery use.
+The site's other two video systems are separate: **hero**
+(`docs/hero-pipeline.md`) and **work-card** (`docs/work-card-video.md`).
 
 ## Authoring model (`output.blocks`)
 
-An ordered array — blocks render top to bottom in the order listed. Every still's
-`img` is optional: omit it and a ratio-matched placeholder renders until the
-asset lands. `blocks` is the only output model: the legacy uniform `tiles` grid
-was removed once every entry had migrated, so a new asset family is a new block
-kind, not a fallback to a cropped grid.
+Blocks render top to bottom in the order listed. `blocks` is the only output
+model, so a new asset family is a new block kind.
 
-Below is a **composite** showing the common kinds together — not a real entry. For
-a working reference read an actual one (`src/content/work/dealnews.md` for stills,
-`sportime-clubs.md` for video), since those are guaranteed to match what ships:
+A **composite** of the common kinds, not a real entry — for a working reference
+read `src/content/work/dealnews.md` (stills) or `sportime-clubs.md` (video):
 
 ```yaml
 output:
@@ -71,18 +64,15 @@ output:
 
 ## Asset pipeline
 
-**Stills** live in `src/assets/work/<slug>/` and are referenced by relative path
-from the entry `.md` (`../../assets/work/<slug>/…`). They go through Astro's
-content `image()` helper → `<Image>` renders build-time webp, a responsive
-`srcset`, and intrinsic dims (no CLS). Only web-optimized deliverables are
-committed; masters stay in gitignored `_reference/`.
+**Stills** live in `src/assets/work/<slug>/`, referenced by relative path from
+the entry `.md`. They go through Astro's `image()` helper, so `<Image>` emits
+build-time webp, a responsive `srcset`, and intrinsic dims. Only web-optimized
+deliverables are committed; masters stay in gitignored `_reference/`.
 
-**A source has to be ~2x its widest CSS slot, not 1x.** The width ladders in
-`OutputGrid.astro` are device pixels: a 2-up cell measures ~516 CSS px at a 1440
-viewport, so a 2x display asks for ~1030 real px. Export a source at the CSS
-width and it renders soft on every retina screen — Astro never upscales, so the
-ladder silently tops out at whatever the source is. The caps below are already
-2x-sized; treat them as floors when a block is wider than its default `cols`.
+**A source has to be ~2x its widest CSS slot, not 1x.** The ladders in
+`OutputGrid.astro` are device pixels, and Astro never upscales — a 1x source
+silently tops the ladder out and renders soft on retina. The caps below are
+already 2x-sized; treat them as floors when a block is wider than its default.
 
 Export caps (source webp, before Astro re-optimizes per width):
 
@@ -92,10 +82,9 @@ Export caps (source webp, before Astro re-optimizes per width):
 - **flyer** — cap **1000w**, webp q82. Screen captures instead: shoot the CSS
   viewport at `deviceScaleFactor: 2` rather than scaling a 1x shot up.
 - **gallery** — cap **1600w** at `cols: 2` (the widest cell), **1000w** at 3–4.
-- **longpage** — cap **1400w**, webp q82. Keep under ~600 KB even when very tall;
-  drop quality to q78 for the longest infographics. This kind deliberately keeps
-  a shorter ladder than the rest (`W_LONG`): its height runs to 9000+px, so each
-  extra width multiplies against that, not against a cropped 16:9 box.
+- **longpage** — cap **1400w**, webp q82; keep under ~600 KB even when very tall
+  (q78 for the longest). Keeps a shorter ladder than the rest (`W_LONG`) because
+  its height runs to 9000+px.
 
 ```bash
 # still → capped webp (adjust scale per kind)
@@ -115,16 +104,13 @@ ffmpeg -y -ss 0 -i "$IN" -vf scale=1280:-2 -frames:v 1 -c:v libwebp -quality 82 
 
 ## Performance
 
-The whole gallery sits below the fold, so it never touches LCP. Stills are
-`loading="lazy"`; videos are `preload="none"` (nothing but the poster loads until
-in view). Muted loops play/pause via `IntersectionObserver`; reduced-motion keeps
-them on the poster. Long pages scroll *inside* a capped frame, so a 12000px asset
-never runs away with page height or payload.
+The gallery sits below the fold, so it never touches LCP. Stills are lazy;
+videos are `preload="none"` and their posters deferred. Muted loops play/pause
+via `IntersectionObserver`. Long pages scroll *inside* a capped frame.
 
-Theme-aware mockups render both variants and toggle via CSS on `[data-theme]`
-(no flash, no JS). Tradeoff: both variants can download. Acceptable at ~85 KB
-each, below the fold — revisit with a JS src-swap (à la `card-video.ts`) only if a
-case study stacks many themed mockups.
+Theme-aware mockups render both variants and toggle in CSS. Tradeoff: both can
+download. Acceptable at ~85 KB each below the fold — revisit with a JS src-swap
+only if an entry stacks many themed mockups.
 
 ## Filenames are a contract
 

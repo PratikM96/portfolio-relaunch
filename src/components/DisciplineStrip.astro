@@ -1,9 +1,5 @@
 ---
-/**
- * DisciplineStrip.astro — the six-discipline "system map" strip under the hero.
- * The disciplines ARE the system; the cells and their shared border carry that,
- * so no connector glyph is needed between them.
- */
+/** DisciplineStrip.astro — the six-discipline "system map" strip under the hero. */
 const items = [
   { ix: '01', nm: 'Brand' },
   { ix: '02', nm: 'Social' },
@@ -45,9 +41,7 @@ const items = [
   .sysmap .n { padding: var(--space-md); border-right: 1px solid var(--border); position: relative; background: var(--surface); }
   .sysmap .n:last-child { border-right: none; }
   .sysmap .n .ix { font-size: 10px; color: var(--text-muted); }
-  /* h3 tier — a discipline name is a short title, same as a card title. It was
-     `font-weight: 600` with no family, which inherited Grotesk at the `strong`
-     weight and belonged to no tier. */
+  /* h3 tier — a discipline name is a short title, same as a card title */
   .sysmap .n .nm {
     font-size: 14px; margin-top: var(--space-xs); color: var(--accent-text);
   }

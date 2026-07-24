@@ -1,9 +1,7 @@
 /**
  * Distill the raw Lighthouse runs in scripts/perf/out/ (see run.sh) into the
- * committed src/data/portfolio-perf.json that PerfTable.astro renders on the
- * Portfolio System case study. One row per page, plus mobile/desktop averages.
- * Numbers are measured, never authored: this file IS the record of how they
- * were produced, so the case-study table can always be regenerated.
+ * committed src/data/portfolio-perf.json that PerfTable.astro renders. One row
+ * per page, plus mobile/desktop averages. Measured, never authored.
  *
  *   node scripts/perf/emit.mjs
  */

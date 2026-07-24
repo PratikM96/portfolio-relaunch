@@ -1,8 +1,7 @@
 ---
 /**
- * Journal index — notes on systems, brand, and AI.
- * Collection-driven: renders a lead post + list when entries exist, and falls back
- * to a clean empty state when none do (no placeholder entries).
+ * Journal index. Collection-driven: a lead post + list, or an empty state when
+ * there are no entries. Never placeholder posts.
  */
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';

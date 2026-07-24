@@ -1,9 +1,7 @@
 ---
 /**
- * 404 — not found. On-brand, uses Base chrome + existing tokens only.
- * Astro's static build emits this as /404.html; Cloudflare serves it on any
- * unmatched route. Kept intentionally simple: a system-layer code line, a
- * headline, and routes back into the site.
+ * 404. Astro emits this as /404.html; Cloudflare serves it on any unmatched
+ * route (which needs `not_found_handling` set, or it never reaches this page).
  */
 import Base from '../layouts/Base.astro';
 

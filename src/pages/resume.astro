@@ -1,12 +1,8 @@
 ---
 /**
- * Resume — Pratik Mehta. Layout ported from _reference/mockups/resume.html; CONTENT is
- * now sourced from the authoritative Resume Master (Drive), so every role gets a
- * full entry rather than collapsing earlier work into a footnote.
- *
- * Roles, titles, dates, employment types, metrics, the self-initiated systems,
- * education, and expertise + tools all track the Resume Master — reconcile there
- * first, then mirror here.
+ * Resume. Every fact here tracks the Resume Master (Drive) — roles, titles,
+ * dates, employment types, metrics, education, tools. Reconcile there first,
+ * then mirror here.
  */
 import Base from '../layouts/Base.astro';
 import StatFigure from '../components/StatFigure.astro';
@@ -114,7 +110,7 @@ const experience = [
   },
 ];
 
-// Self-initiated portfolio systems (concepts — scope, not client results).
+// Self-initiated portfolio systems.
 const concepts = [
   {
     title: 'The Ninth',
@@ -145,7 +141,7 @@ const concepts = [
   },
 ];
 
-// Generic practice-level metrics (career totals, not a single client).
+// Practice-level career totals.
 const metrics = [
   { v: '10+', u: '', l: 'years of cross-channel experience' },
   { v: '20+', u: '', l: 'brands, partners, and organizations' },
@@ -300,8 +296,7 @@ const toolsMarketing = [
   .rgrid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: var(--space-3xl); padding: var(--space-3xl) 0 var(--space-4xl); align-items: start; }
   .rmain { min-width: 0; }
   .rsec { margin-bottom: var(--space-3xl); }
-  /* shared reading measure so the summary and the experience/concept bullets
-     line up to one column width (rem, not ch, so the two font sizes align) */
+  /* shared measure — rem, not ch, so the two font sizes line up */
   .summary { font-size: 18px; line-height: 1.6; color: var(--text-secondary); max-width: 48rem; }
   .summary strong { color: var(--text); font-weight: 600; }
 
@@ -344,8 +339,7 @@ const toolsMarketing = [
     .rgrid { grid-template-columns: 1fr; gap: var(--space-2xl); }
     .raside { position: static; }
     .rmet { grid-template-columns: repeat(2, 1fr); }
-    /* 4 metrics + download = 5 cells; at 2 cols the download would dangle alone,
-       so let it span the full row as a wide CTA */
+    /* 5 cells at 2 cols leaves the download dangling, so span it */
     .rmet .c-dl { grid-column: 1 / -1; }
   }
   @media (max-width: 900px) {

@@ -1,12 +1,8 @@
 ---
 /**
- * EmbeddedDemo.astro — concept launcher. A tabbed island that previews the live
- * concept views and links into them: each tab is an anchor to its real view
- * under /concepts/[project]/, and the stage opens whichever view is previewed.
- * Hover/focus a tab to preview it in the stage; click to launch it live. The
- * `featured` view (the AI moment-clipper) is shown by default as the centerpiece.
- *
- * The script is generic over every .embed on the page.
+ * EmbeddedDemo.astro — concept launcher. Each tab is an anchor to a live view
+ * under /concepts/[project]/: hover or focus previews it in the stage, click
+ * launches it. The `featured` tab shows by default.
  */
 type Tab = {
   /** Tab label (e.g. "Clipper"). */
@@ -48,11 +44,8 @@ const active = tabs[activeIndex] ?? tabs[0];
     }
   </div>
   <a class="estage" href={active.href} aria-label={`Open the ${active.label} view`}>
-    {/* The stage sits far below the fold on every case study, and its src is
-        swapped at runtime by embedded-demo.ts, so it can't go through the
-        image pipeline. Deferring it keeps ~60-75 KB off the initial load;
-        the intrinsic dims are declared even though .estage's aspect-ratio
-        already reserves the box, so the ratio survives a CSS failure. */}
+    {/* Swapped at runtime by embedded-demo.ts, so it can't go through the image
+        pipeline. Lazy because it sits far below the fold. */}
     <img class="estage-img" src={active.img} alt={active.cap} width="1600" height="900" loading="lazy" decoding="async" />
     <div class="scrim"><span class="cap estage-cap">{active.cap}</span></div>
     <span class="estage-go">Open ↗</span>

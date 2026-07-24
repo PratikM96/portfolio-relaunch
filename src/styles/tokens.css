@@ -1,26 +1,18 @@
 /* =============================================================
    ONE SYSTEM — design tokens (single source of truth)
-   mehtapratik.com
 
-   Mirrors the brand kit's Design-Tokens/one-system-tokens.css, which owns token
-   naming and values. Added here only: the @font-face blocks, and the tokens the
-   brand kit has no reason to carry (--rail, --badge-concept-*, --img-frame).
-
-   Theme: LIGHT is the :root default. DARK applies via the OS media query until a
-   manual choice, and via [data-theme="dark"], set before paint in Base.astro.
-
-   Rationale for the choices below lives in the CLAUDE.md decision log.
+   Mirrors the brand kit's one-system-tokens.css, which owns naming and values.
+   Added here only: the @font-face blocks and the site-specific tokens under
+   "Site additions". LIGHT is the :root default; DARK follows the OS until a manual
+   choice, then [data-theme]. Rationale: the CLAUDE.md decision log.
    ============================================================= */
 
 /* ===== Self-hosted fonts (same-origin, woff2, no CDN) =====
-   One VARIABLE file per family, shipped whole. The weight RANGE is the point:
-   with static cuts a missing weight failed *silently* (browsers match the
-   nearest face), so the type scale can name any weight in range and get it.
-   All three are preloaded in Base.astro.
-
-   Neither family may be subset: Clash's Fontshare licence grants no
-   modification right, and JetBrains Mono (OFL) ships whole by choice.
-   /fonts/OFL.txt must ship beside it — OFL §2 requires it. */
+   One VARIABLE file per family, shipped whole, all three preloaded in
+   Base.astro. The weight RANGE is the point: with static cuts a missing weight
+   failed silently. Neither family may be subset — Clash's Fontshare licence
+   grants no modification right, and JetBrains Mono ships whole by choice with
+   /fonts/OFL.txt beside it (required by OFL §2). */
 @font-face {
   font-family: 'JetBrains Mono';
   font-weight: 100 800;
@@ -48,16 +40,11 @@
 }
 
 /* ===== METRIC-MATCHED FALLBACKS =====
-   `font-display: swap` means the browser paints in a fallback face first and
-   swaps when the real one lands. If the fallback sets type at a different
-   width, that swap REFLOWS the page — and on the home hero it re-wrapped the
-   h1, pushing the figure below it down for a 0.185 CLS.
-
-   These faces wrap a system font in the real face's metrics, so the fallback
-   occupies the same space and the swap is invisible. They are NOT extra cuts
-   of Clash or JetBrains (§6 forbids that) and they ship no bytes: `src: local()`
-   only, no download, nothing subset or modified. They sit between the real face
-   and the generic in each stack below.
+   `swap` paints a fallback first, and a mismatched fallback reflows on swap
+   (this cost 0.185 CLS on the home hero). These wrap a system font in the real
+   face's metrics so the swap is invisible. NOT extra cuts — `src: local()`
+   only, zero bytes, nothing modified. The overrides are MEASURED; re-measure if
+   a face changes, since a stale one reflows toward the wrong box.
 
    The numbers are measured, not guessed: canvas measureText on the shipped
    woff2 against the fallback, at 1000px, over a representative Latin sample.
@@ -81,8 +68,7 @@
   line-gap-override: 0%;
 }
 
-/* JetBrains Mono and Courier New share a 0.6 advance width, so this one needs
-   no size-adjust — it corrects the vertical box only (833 vs 1020 ascent). */
+/* Shares Courier New's 0.6 advance, so no size-adjust — vertical box only. */
 @font-face {
   font-family: 'JetBrains Mono Fallback';
   src: local('Courier New');
@@ -122,23 +108,17 @@
   --on-accent: var(--n-950);        /* ink on orange fill · 6.3:1 · NEVER white for normal text */
 
   /* --- Type families: one face, one job ---
-     The *-Fallback entry after each real face is the metric-matched stand-in
-     defined above; it holds the same space until the webfont swaps in. Keep it
-     directly after its face — in front of system-ui, which is what the browser
-     would otherwise paint and what caused the swap reflow. */
+     Each *-Fallback is the metric-matched stand-in above. Keep it directly
+     after its face, ahead of system-ui. */
   --font-display: "Clash Display", "Clash Display Fallback", system-ui, sans-serif; /* the voice: display, h1, h2 */
   --font-sans: "Clash Grotesk", "Clash Grotesk Fallback", system-ui, sans-serif;    /* reading type: h3-h6, body */
   --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, monospace; /* the system layer */
 
   /* ===== TYPE SCALE =====
-     Eight tiers. Every piece of type on the site is one of them; only SIZE is set
-     at the point of use, because size is contextual (a rail label and a page
-     kicker are both `label`, at different sizes). Family, weight and tracking are
-     the system — see the .t-* groups in global.css, which are where these are
-     applied. A rule that hardcodes the triple has left the system.
-
-     Tracking is optical: it tightens as type grows and opens for uppercase mono,
-     which is why `display` and `label` sit at opposite ends. */
+     Eight tiers, and nothing outside them. Only SIZE is set at the point of
+     use; family, weight and tracking are the system, applied via the .t-*
+     groups in global.css. Tracking is optical — it tightens as type grows and
+     opens for uppercase mono, hence `display` and `label` at opposite ends. */
 
   /* the voice — Clash Display */
   --t-display-font: var(--font-display); --t-display-weight: 700; --t-display-track: -0.02em;
@@ -150,9 +130,8 @@
   --t-body-font: var(--font-sans); --t-body-weight: 400; --t-body-track: 0;
   --t-strong-weight: 600; /* bold inside body copy; same family as body */
 
-  /* the system layer — JetBrains Mono. label + emphasis are ALWAYS uppercase:
-     +10% tracking is an uppercase device and breaks on lowercase, which is why
-     `data` (sentence-case) exists at +5% instead. */
+  /* the system layer — JetBrains Mono. label + emphasis are ALWAYS uppercase;
+     `data` is the sentence-case tier, at +5%. */
   --t-label-font: var(--font-mono);    --t-label-weight: 400;    --t-label-track: 0.1em;
   --t-data-font: var(--font-mono);     --t-data-weight: 400;     --t-data-track: 0.05em;
   --t-emphasis-font: var(--font-mono); --t-emphasis-weight: 600; --t-emphasis-track: 0.1em;
@@ -175,8 +154,7 @@
   --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
 
   /* --- Image aspect ratios (the ONLY ratios any image slot may use) ---
-     OutputGrid's .r-* classes resolve to these. Adding a slot means adding a
-     token, not a literal. */
+     A new slot means a new token, never a literal. */
   --ratio-wide: 16 / 9;        /* video / hero / feature */
   --ratio-landscape: 16 / 10;  /* gallery cards */
   --ratio-photo: 3 / 2;        /* photo galleries */

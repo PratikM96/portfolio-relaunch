@@ -1,16 +1,9 @@
 ---
 /**
- * OutputGrid.astro — the case-study output gallery.
- *
- * `blocks` is an ORDERED list of typed blocks. Each block is one asset family
- * rendered by its own rule, so a 1:1 social grid, a 16:9 mockup, and a tall
- * scrolling website never share one cropped uniform grid. Stills are optimized
- * ImageMetadata (Astro `<Image>`: build-time webp, responsive srcset, intrinsic
- * dims → no CLS). Long pages scroll INSIDE a capped frame so a 12000px asset
- * never runs away with the page or the payload. Videos are convention-located by
- * slug and never fetch until in view (`preload="none"`).
- *
- * See docs/output-assets.md for the per-kind export caps and the video contract.
+ * OutputGrid.astro — the case-study output gallery. `blocks` is an ordered list
+ * of typed blocks, one asset family per block. Long pages scroll inside a capped
+ * frame; videos don't fetch until in view. Per-kind export caps and the video
+ * contract: docs/output-assets.md.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -32,14 +25,9 @@ interface Props {
 const { slug, blocks, note } = Astro.props;
 
 /**
- * Responsive width ladders, in DEVICE pixels — not CSS px.
- *
- * A 2-up cell measures ~516 CSS px at a 1440 viewport, so a 2x display needs
- * ~1030 real px to render sharp. The old ladders were sized to the CSS slot and
- * handed every block under four columns the same 560px cap, which is what made
- * the 2-up galleries render soft. Each ladder now tops out near twice its widest
- * CSS slot. Astro never upscales, so a ladder wider than the source simply emits
- * fewer candidates — raising these cannot cost an entry whose assets are small.
+ * Responsive width ladders, in DEVICE pixels — not CSS px. Each tops out near
+ * twice its widest CSS slot, so 2x displays get a sharp candidate. Astro never
+ * upscales, so an over-wide ladder just emits fewer candidates.
  */
 const W = {
   cols1: [640, 1000, 1400, 1800],
@@ -51,10 +39,8 @@ const ladderFor = (cols: number) =>
   cols <= 1 ? W.cols1 : cols === 2 ? W.cols2 : cols === 3 ? W.cols3 : W.cols4;
 
 /**
- * Longpage keeps a deliberately shorter ladder of its own. Its sources are whole
- * scrolling pages (up to 1400x9334), so every extra width multiplies against a
- * 9000px height rather than a cropped 16:9 box — the same reason the export caps
- * in docs/output-assets.md exist. Sharper than before, still bounded.
+ * Longpage gets a shorter ladder: its sources are whole scrolling pages (up to
+ * 1400x9334), so each extra width multiplies against a 9000px height.
  */
 const W_LONG: Record<number, number[]> = {
   1: [700, 1000, 1400],
@@ -63,10 +49,8 @@ const W_LONG: Record<number, number[]> = {
 };
 
 /**
- * `sizes` has to account for the fixed console rail, or it lies to the browser.
- * The stage is inset by --rail (264px, 0 below 900px) plus .pad (64 / 32 / 24px
- * a side), and the grid gap is --space-md. Below 560px every grid collapses to
- * 2-up regardless of `cols` (see .grid in the style block below).
+ * `sizes` must account for the fixed rail (--rail 264px, 0 below 900px) plus
+ * .pad, or it lies to the browser. Below 560px every grid collapses to 2-up.
  */
 const GAP = 16;
 const cell = (inset: number, c: number) => `calc((100vw - ${inset + GAP * (c - 1)}px) / ${c})`;
@@ -79,7 +63,7 @@ const sizesFor = (cols: number) => {
   ].join(', ');
 };
 
-// Video paths are derived from the case slug + clip name — no paths in content.
+// Derived from slug + clip name — no paths in content.
 const clipSrc = (clip: string) => ({
   webm: `/ov/${slug}/${clip}.webm`,
   poster: `/ov/${slug}/${clip}-poster.webp`,
@@ -97,7 +81,7 @@ const clipSrc = (clip: string) => ({
                 <figure class="mock">
                   <div class="im r-16x9">
                     {it.imgDark ? (
-                      // theme-aware pair: dark shows by default, light swaps in via CSS
+                      // theme-aware pair; the swap is CSS (see .m-dark/.m-light)
                       <>
                         <Image class="m-dark" src={it.imgDark} alt={it.alt ?? ''} widths={ladderFor(1)} sizes={sizesFor(1)} loading="lazy" />
                         <Image class="m-light" src={it.img} alt={it.alt ?? ''} widths={ladderFor(1)} sizes={sizesFor(1)} loading="lazy" />
@@ -255,11 +239,10 @@ const clipSrc = (clip: string) => ({
   .out figcaption .hint { color: var(--accent-text); }
   .out figure { margin: 0; }
   .out .im :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
-  /* contain: show a whole artwork (infographic, document) without cropping */
+  /* contain: show a whole artwork without cropping */
   .out .im.fit-contain { padding: var(--space-sm); }
   .out .im.fit-contain :global(img) { object-fit: contain; }
-  /* paper: a warm-white card behind transparent / edge-light artwork so it
-     doesn't read as broken on a dark surface. --n-0 is theme-independent. */
+  /* paper: warm-white card behind transparent artwork (--n-0 is theme-independent) */
   .out .im.bg-paper { background: var(--n-0); }
 
   /* aspect boxes — values come from the --ratio-* tokens */
@@ -273,11 +256,8 @@ const clipSrc = (clip: string) => ({
 
   .blk-mockup { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
 
-  /* theme-aware mockup pair: dark is the default; light swaps in under
-     [data-theme='light']. No JS, no flash — the theme attribute is set before
-     paint by the no-flash script in <head>. Anchored on the scoped `.im` with
-     :global() descendants because the class sits on an <Image>'s rendered <img>,
-     which does not carry this component's scope attribute. */
+  /* Theme-aware mockup pair; dark is the default. :global() because the class
+     lands on <Image>'s rendered <img>, which carries no scope attribute. */
   .im :global(.m-light) { display: none; }
   :global(html[data-theme='light']) .im :global(.m-dark) { display: none; }
   :global(html[data-theme='light']) .im :global(.m-light) { display: block; }
@@ -315,9 +295,7 @@ const clipSrc = (clip: string) => ({
 <script>
   import { prefersReducedMotion, autoPlayInView, wireClickToPlay } from '../scripts/motion';
 
-  // Output video behavior. Muted loops autoplay/pause via IntersectionObserver
-  // (nothing fetches until in view — preload="none"); reduced-motion keeps them
-  // on the poster. Audio clips are click-to-play and hand off to native controls.
+  // Muted loops autoplay/pause in view; audio clips are click-to-play.
   const reduce = prefersReducedMotion();
 
   const all: HTMLVideoElement[] = [];
@@ -335,9 +313,8 @@ const clipSrc = (clip: string) => ({
     if (!reduce) loops.push(video);
   });
 
-  // Defer poster loading: a <video poster> fetches eagerly even with
-  // preload="none", so these below-the-fold §04 posters would compete with
-  // above-the-fold LCP. Load each ~300px before it scrolls into view.
+  // A <video poster> fetches eagerly even under preload="none", so these
+  // below-the-fold posters are deferred to ~300px before they scroll in.
   if (all.length && 'IntersectionObserver' in window) {
     const posterIO = new IntersectionObserver(
       (entries, obs) => {

@@ -1,17 +1,10 @@
 ---
 /**
- * Base.astro — site-wide layout chrome.
+ * Base.astro — site-wide chrome: the <head>, console rail, mobile bar, footer
+ * and shared scripts. Page content slots into .stage > .pad.
  *
- * Owns the <head>, the console rail, the mobile bar, the footer, and the
- * site-wide scripts. Page content slots into .stage > .pad.
- *
- * The rail has two variants, selected by `variant`:
- *   - 'default'     — role, numbered site nav, readout (status, location,
- *                     live clock, theme).
- *   - 'case-study'  — back link, section-index nav with scroll-spy, and a
- *                     persistent project scoreboard.
- * Everything else is shared, so a case study is a prop variant of the rail,
- * not a separate layout.
+ * `variant` picks the rail: 'default' (site nav + readout) or 'case-study'
+ * (back link, scroll-spy section index, project scoreboard).
  */
 import '../styles/tokens.css';
 import '../styles/global.css';
@@ -62,12 +55,10 @@ const {
 } = Astro.props;
 
 const isCase = variant === 'case-study';
-// Mobile drawer reuses the full site nav; case studies live under /work, so
-// highlight Work there since they don't pass an explicit activeNav.
+// Case studies pass no activeNav, so highlight Work.
 const drawerActive = isCase ? 'work' : activeNav;
 
-// Default rail nav — real page routes. `id` drives the active state per page
-// (set via the `activeNav` prop), so each page highlights only its own item.
+// Default rail nav; `id` is matched against the `activeNav` prop.
 const nav = [
   { ix: '01', id: 'home', label: 'Home', href: '/' },
   { ix: '02', id: 'work', label: 'Work', href: '/work' },
@@ -79,17 +70,14 @@ const nav = [
 
 const year = 2026; // static; avoids per-request Date() in the worker
 
-// Absolute URLs for canonical + share cards. Astro.site is the production
-// domain, so these read mehtapratik.com even from a local preview build.
-// Strip the .html that the 'file' build format leaves on Astro.url.pathname,
-// and collapse index/root, so canonical + og:url match how Cloudflare serves
-// these: no extension, no trailing slash (e.g. /work/dealnews, / for home).
+// Absolute URLs for canonical + share cards. Strips the .html the 'file' build
+// format leaves behind, so these match how Cloudflare serves the page: no
+// extension, no trailing slash.
 const cleanPath = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const canonical = new URL(cleanPath, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
 
-// Structured data: a site-wide Person + WebSite graph, plus any per-page nodes
-// (CreativeWork / BlogPosting / BreadcrumbList) passed via the `schema` prop.
+// Site-wide Person + WebSite graph, plus per-page nodes from the `schema` prop.
 const origin = Astro.site ? Astro.site.origin : 'https://mehtapratik.com';
 const ldGraph = {
   '@context': 'https://schema.org',
@@ -129,8 +117,7 @@ const ldGraph = {
     <link rel="alternate" type="application/rss+xml" title="Pratik Mehta · Journal" href="/rss.xml" />
     {noindex && <meta name="robots" content="noindex, follow" />}
 
-    {/* Open Graph + Twitter share cards. Image is a same-origin /og/*.png at
-        1200x630; each page passes its own via the `image` prop, default otherwise. */}
+    {/* Share cards. Image is a same-origin /og/*.png at 1200x630. */}
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Pratik Mehta" />
     <meta property="og:locale" content="en_US" />
@@ -147,15 +134,13 @@ const ldGraph = {
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={ogImage} />
 
-    {/* Browser UI tint. A single tag with no `media`, because the active theme is
-        [data-theme] + localStorage, not the OS preference — keying this on
-        prefers-color-scheme left the chrome dark after a manual switch to light.
-        The no-flash script below rewrites `content` to match the resolved theme. */}
+    {/* Browser UI tint. No `media` — the theme is [data-theme], not the OS
+        preference; the no-flash script below rewrites `content` to match. */}
     <meta name="theme-color" content="#0B0B0A" />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(ldGraph)} />
 
-    {/* Favicon bundle (One System brand). Files live in /public, served at root. */}
+    {/* Favicon bundle — files live in /public, served at root. */}
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -178,16 +163,12 @@ const ldGraph = {
       })();
     </script>
 
-    {/* Fonts: all self-hosted, same-origin (@font-face in tokens.css). No
-        third-party font CDNs. Preload only the above-the-fold faces — display
-        700 (h1), grotesk 400 (body), mono 400 (labels); the rest load on use. */}
+    {/* Self-hosted, same-origin (@font-face in tokens.css). No font CDN. */}
     <link rel="preload" href="/fonts/ClashDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/ClashGrotesk-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
 
-    {/* LCP image (e.g. home hero poster): discovered late in the DOM, so preload
-        it high-priority to start the fetch before CSS/fonts resolve. Opt-in per
-        page via the `preloadImage` prop; omitted pages emit nothing. */}
+    {/* LCP image: discovered late in the DOM, so preload it ahead of CSS/fonts. */}
     {preloadImage && (
       <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />
     )}
@@ -223,8 +204,7 @@ const ldGraph = {
                 </a>
               ))}
             </nav>
-            {/* optional rail extras (journal fills this: more posts + author bio).
-                Renders nothing on work case studies, which don't provide the slot. */}
+            {/* optional rail extras — only journal fills this slot */}
             <slot name="rail" />
             <div class="spacer" />
             <div class="scoreboard">
@@ -298,7 +278,7 @@ const ldGraph = {
       </button>
     </div>
 
-    {/* MOBILE DRAWER — full-screen nav (only rendered ≤900px) */}
+    {/* MOBILE DRAWER — full-screen nav, ≤900px only */}
     <div class="m-drawer" id="mobile-drawer" aria-hidden="true">
       <div class="m-drawer-head">
         <a class="brand" href="/" aria-label="Pratik Mehta - home">
@@ -379,17 +359,10 @@ const ldGraph = {
       /* type + colour come from `.foot .fl button` in global.css */
       .foot-cookies { background: none; border: 0; padding: 0; cursor: pointer; }
     </style>
-    {/* Consent/GA gate + site chrome (theme toggle, drawer, NY clock,
-        reveal-on-scroll, rail scroll-spy). One bundled module so the source
-        lives in src/scripts/, not re-typed per page. The no-flash theme set
-        above is the only pre-paint script.
-
-        Whether this inlines into each page or hoists to a cached /_astro/ file
-        is Vite's call, decided by `assetsInlineLimit` (4096 bytes) — a
-        threshold, not a decision, so it can flip either way as the bundle
-        grows. It currently sits close enough to the limit that a small addition
-        would move it. Don't assert which side it's on: run `npm run build` and
-        look at dist/client/_astro/. */}
+    {/* Consent/GA gate + site chrome (theme, drawer, clock, reveal, scroll-spy).
+        Whether Vite inlines this or hoists it to /_astro/ depends on
+        `assetsInlineLimit` and can flip as the bundle grows — check the build,
+        don't assume. */}
     <script>
       import '../scripts/consent.ts';
       import '../scripts/site-chrome.ts';

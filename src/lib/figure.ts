@@ -1,22 +1,11 @@
 /**
- * figureRuns — split a stat string into neutral vs accent runs, one rule used by
- * every metrics surface on the site. There is no resizing; accent only changes color.
+ * figureRuns — split a stat string into neutral vs accent runs. One rule for
+ * every metrics surface. Digits and separators stay neutral; symbols (+ $ # % ×)
+ * and magnitude letters (M K B T) always accent; a plain word accents only when
+ * the figure carries no symbol.
  *
- * Rule:
- *  - Digits are always neutral.
- *  - "Special characters" — math/currency symbols (+ $ # % ×) and magnitude unit
- *    letters (M K B T) — are always accent.
- *  - A WORD (assets, days, screens, ...) is accent ONLY when the figure has no
- *    special character; if a special character is present it already carries the
- *    accent, so the word stays neutral.
- *  - Separators between/around numbers (- . , / space) stay neutral.
- *
- *    "300+ assets" -> 300 [+] assets      (the + is accent; assets neutral)
- *    "4 years"     -> 4 [years]           (no special char -> the word is accent)
- *    "11.7M"       -> 11.7 [M]
- *    "$75-150"     -> [$] 75-150
- *    "+2,115%"     -> [+] 2,115 [%]
- *    "40+ components" -> 40 [+] components
+ *    "300+ assets" -> 300 [+] assets      "4 years"  -> 4 [years]
+ *    "11.7M"       -> 11.7 [M]            "$75-150"  -> [$] 75-150
  */
 const MAG = new Set(['M', 'K', 'B', 'T']);
 const isSym = (ch: string) => '+$#%×→'.includes(ch);

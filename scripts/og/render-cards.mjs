@@ -1,18 +1,13 @@
 /**
- * OG share cards — render every card from source.
- *
- * The params (badge / kick / title / meta / tag) used to be typed by hand at the
- * command line and were never recorded anywhere, so the set could not be
- * regenerated: anything that changed every card (a font swap, a token change, the
- * client -> in-house relabel) meant reverse-engineering 17 PNGs. This file IS the
- * record. Case-study params derive from the content entries, so they cannot drift
- * from the site; only the fixed site pages are listed by hand.
+ * OG share cards — this file IS the record of every card's params, so the whole
+ * set can be regenerated after a font or token change. Case-study params derive
+ * from the content entries and so can't drift; fixed pages are listed by hand.
  *
  *   node scripts/og/render-cards.mjs            # all
  *   node scripts/og/render-cards.mjs dealnews   # one, by output name
  *
  * Requires Chrome. Renders at exactly 1200x630 into public/og/.
- * Recipe + the brand-per-concept rules live in docs/og-cards.md.
+ * Recipe + the brand-per-concept rules: docs/og-cards.md.
  */
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -30,7 +25,7 @@ const CHROME = [
 ].find((p) => existsSync(p));
 if (!CHROME) { console.error('Chrome not found — edit the CHROME list.'); process.exit(1); }
 
-// --- read the work collection: the params below derive from it, never from memory
+// --- read the work collection; params derive from it, never from memory
 const workDir = join(ROOT, 'src/content/work');
 const entries = readdirSync(workDir).filter((f) => f.endsWith('.md')).map((f) => {
   const src = readFileSync(join(workDir, f), 'utf8');
@@ -45,9 +40,8 @@ const entries = readdirSync(workDir).filter((f) => f.endsWith('.md')).map((f) =>
 });
 
 const TYPE_LABEL = { 'in-house': 'In-house', agency: 'Agency', concept: 'Concept' };
-// Concepts with their own invented microsite brand (public/concepts/<slug>/) get
-// that brand + name tag. Portfolio System is the exception: it IS the One System
-// brand (the site itself), so it falls back to the onesystem palette + tag below.
+// Concepts with their own microsite brand get that palette + name tag.
+// Portfolio System is the exception: it IS One System, so it falls through.
 const CONCEPT_TAG = { 'the-ninth': 'The Ninth', level: 'Level', wisp: 'WISP' };
 const CONCEPT_BRAND = { 'the-ninth': 'the-ninth', level: 'level', wisp: 'wisp' };
 

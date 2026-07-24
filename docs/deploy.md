@@ -4,18 +4,11 @@ How to publish this site to Cloudflare.
 
 ## Read this first
 
-**`npm run deploy` ships to the live domain.** The cutover is done: the
-`portfolio-relaunch` worker serves `mehtapratik.com`, and the old hand-edited
-site and its separate worker are retired. There is no staging URL in the loop
-anymore — a deploy is immediately public.
+**`npm run deploy` ships to the live domain.** The `portfolio-relaunch` worker
+serves `mehtapratik.com` and there is no staging URL in the loop, so a deploy is
+immediately public. (Pre-cutover this doc claimed otherwise; ignore that.)
 
-(Historically this doc described a pre-cutover flow where `npm run deploy` went
-to a private `*.workers.dev` test URL and the real domain kept serving the old
-site until a manual dashboard step. That is no longer true. Do not follow the old
-"it's safe, nothing is live until Part 5" reasoning.)
-
-Deploys are manual. A push to `main` is **not** an auto-deploy, so pushing code
-and shipping it are separate acts.
+Deploys are manual. A push to `main` is **not** an auto-deploy.
 
 ## Prerequisites
 

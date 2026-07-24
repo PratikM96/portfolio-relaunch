@@ -1,9 +1,7 @@
 ---
 /**
- * Home — One System portfolio.
- * Ported from _reference/mockups/home-design-v5-converged.html. Chrome (console rail,
- * footer, theme, fonts) lives in Base.astro. Repeated pieces are extracted to
- * components; hero / bento / modules / journal / close stay inline here.
+ * Home. Chrome (rail, footer, theme, fonts) lives in Base.astro; hero, bento,
+ * modules, journal and close stay inline here.
  */
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
@@ -15,15 +13,13 @@ import WorkIndex from '../components/WorkIndex.astro';
 import StatFigure from '../components/StatFigure.astro';
 import CloseCTA from '../components/CloseCTA.astro';
 
-// Curated "Selected work" for the home index. The featured pair (SPORTIME + The
-// Ninth) is showcased in the Bento above, so it's omitted here; the full set
-// lives on /work (linked via "View all").
+// "Selected work" — curated, minus the featured pair already in the Bento.
 const SELECTED = ['dealnews', 'raa', 'agency-fiveeighty', 'level', 'wisp'];
 const allWork = await getCollection('work');
 const bySlug = new Map(allWork.map((e) => [e.data.slug, e]));
 const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== undefined);
 
-// Journal teaser — the three most recent published posts, newest first.
+// Journal teaser — three most recent published posts.
 const fmtDate = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 const journalPosts = (await getCollection('journal'))
@@ -48,9 +44,7 @@ const journalPosts = (await getCollection('journal'))
         <div class="btn-row rev-load"><a class="btn btn-p" href="/work">See the work →</a><a class="btn btn-g" href="/contact">Start a conversation →</a></div>
       </div>
       <figure class="hero-figure rev-load">
-        {/* 1:1 brand-mark animation. Self-hosted (public/hero), webm.
-            Loops, pauses off-screen + on click; reduced-motion shows the
-            poster still and never autoplays. JS hook: data-hero-video. */}
+        {/* 1:1 brand-mark animation; JS hook is data-hero-video. */}
         <div class="frame">
           <button class="hero-video" type="button" data-hero-video
             aria-label="Play or pause the intro animation" aria-pressed="true">
@@ -107,7 +101,7 @@ const journalPosts = (await getCollection('journal'))
           </div>
         </a>
       </div>
-      {/* General practice-level metrics (career totals from System Master). 11.7M lives in card_A above. */}
+      {/* Practice-level career totals (System Master), never case-study numbers. */}
       <div class="stat-row">
         <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="10+" unit=" yrs" /></div><div class="lab">creative & marketing</div></div>
         <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="20+" /></div><div class="lab">brands, partners & organizations</div></div>
@@ -123,7 +117,7 @@ const journalPosts = (await getCollection('journal'))
     <WorkIndex entries={selectedWork} />
   </section>
 
-  {/* MODULES — the practice, documented */}
+  {/* MODULES */}
   <section class="block">
     <SectionLabel code="03" title="The practice" />
     <div class="duo">
@@ -200,19 +194,11 @@ const journalPosts = (await getCollection('journal'))
         if (p && p.catch) p.catch(function () {});
       };
 
-      // Defer the animation until after load, THEN until the main thread is
-      // idle. The poster (preloaded) covers the initial paint window, so the
-      // ~1.1MB video stays off the critical path (LCP, Speed Index) and off
-      // mobile data until the page is genuinely settled. Firing on `load`
-      // alone wasn't enough: a Lighthouse mobile trace still caught the fetch
-      // inside the measurement window, competing for a throttled link.
-      //
-      // On a metered or slow connection it never auto-starts at all — the
-      // poster is the whole experience there. A click always starts it
-      // regardless (the handler below calls play() directly, ungated), so the
-      // animation stays reachable. Reduced motion never starts it.
-      // Network Information API — Chromium-only, absent in Safari/Firefox, so
-      // every read is guarded and "unknown" falls through to normal playback.
+      // Defer until after load AND main-thread idle — `load` alone still let
+      // the ~1.1MB fetch land inside the LCP/Speed Index window. A metered or
+      // slow link never auto-starts (the preloaded poster is the whole
+      // experience there); a click always starts it, ungated. The Network
+      // Information API is Chromium-only, so every read is guarded.
       var conn = (navigator as any).connection;
       var frugal = !!conn && (conn.saveData === true || /^((slow-)?2g|3g)$/.test(conn.effectiveType || ''));
       var idle = (window as any).requestIdleCallback || function (cb: () => void) { return setTimeout(cb, 200); };
@@ -221,7 +207,7 @@ const journalPosts = (await getCollection('journal'))
       else if (document.readyState === 'complete') start();
       else window.addEventListener('load', start, { once: true });
 
-      // pause when scrolled out of view, resume when back (saves CPU/battery)
+      // pause off-screen, resume when back
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (es) {
           es.forEach(function (e) {
@@ -231,7 +217,7 @@ const journalPosts = (await getCollection('journal'))
         }, { threshold: 0.25 }).observe(btn);
       }
 
-      // click anywhere on the video toggles play/pause (a deliberate choice)
+      // click anywhere on the video toggles play/pause
       btn.addEventListener('click', function () {
         if (video.paused) { userPaused = false; var p = video.play(); if (p && p.catch) p.catch(function () {}); }
         else { userPaused = true; video.pause(); }
@@ -250,9 +236,7 @@ const journalPosts = (await getCollection('journal'))
 <script>
   import { wireHoverCards } from '../scripts/card-video';
 
-  // Bento featured tiles: hover-to-play card clip, snap back to poster on leave.
-  // Mirrors the /work featured-pair behavior; the hero video above has its own
-  // click-to-play controller and is untouched.
+  // Bento featured tiles. The hero video above has its own controller.
   wireHoverCards('.t-feat', '.tile-video');
 </script>
 
@@ -316,22 +300,18 @@ const journalPosts = (await getCollection('journal'))
     .hero-video-state { display: none; }
   }
 
-  /* ===== BENTO — two equal feature cards + a general stat strip ===== */
-  /* The feature cards teaser the work. The stat strip carries GENERAL practice
-     metrics, not case-study-specific numbers, which live on each case study.
-     Features are equal 16:9 so they crop cleanly. */
+  /* ===== BENTO — two equal 16:9 feature cards + a stat strip ===== */
   .bento { display: flex; flex-direction: column; gap: var(--space-md); }
   .feat-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
   .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); }
-  /* surface + hover come from global .card / .card--interactive; these add only
-     the shared clip/stack behaviour of the bento tiles */
+  /* surface + hover come from global .card / .card--interactive */
   .card.t-feat, .card.t-stat { overflow: hidden; position: relative; }
 
   .t-feat { display: flex; flex-direction: column; }
   .t-feat .img { aspect-ratio: var(--ratio-wide); overflow: hidden; position: relative; }
   .t-feat .img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
   .t-feat:hover .img img { transform: scale(1.03); }
-  /* hover-to-play clip over the tile cover; poster (resolved logo) shows at rest */
+  /* hover-to-play clip over the tile cover; poster shows at rest */
   .tile-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
   .t-feat:hover .tile-video { transform: scale(1.03); }
   .t-feat .meta { padding: var(--space-lg); display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-md); }
@@ -351,8 +331,7 @@ const journalPosts = (await getCollection('journal'))
   .mod .k { font-size: 10.5px; text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-md); }
   .mod p { font-size: 14px; color: var(--text-secondary); max-width: 46ch; margin-top: var(--space-sm); }
   .mod .go { font-size: 11px; text-transform: uppercase; color: var(--text); margin-top: auto; padding-top: var(--space-lg); }
-  /* About module: portrait headshot shown larger and side-by-side, cropped square (in-system) instead of a tiny vertical thumb */
-  /* image matches the height of the text column beside it (stretches, no fixed aspect) */
+  /* About: headshot side-by-side, stretched to the text column's height */
   .mod-about { flex-direction: row; align-items: stretch; gap: var(--space-lg); }
   .mod-about .face { width: 160px; border-radius: var(--radius-md); flex: none; overflow: hidden; }
   .mod-about .face img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -377,7 +356,7 @@ const journalPosts = (await getCollection('journal'))
   .jr-m { font-size: 11px; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }
   @media (max-width: 700px) { .jr-m { display: none; } }
 
-  /* ===== CLOSE — now the shared CloseCTA component ===== */
+  /* ===== CLOSE — see CloseCTA.astro ===== */
 
   /* ===== responsive ===== */
   @media (max-width: 1100px) {

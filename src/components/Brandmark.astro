@@ -1,18 +1,11 @@
 ---
 /**
- * Brandmark.astro — the official One System logomark.
- *
- * Geometry is the exact `mark-full` SVG from the brand system (Logos/svg).
- * It is the rounded-bracket that closes on a single node.
- *
- * Theming: the bracket is drawn with `currentColor` (set to --text), so it
- * renders as the ink mark on light surfaces and the paper mark on dark
- * surfaces automatically — reproducing the official -ink / -paper split with
- * a single asset. The node is always signal orange (--accent), per brand.
+ * Brandmark.astro — the official One System logomark (`mark-full` from the
+ * brand system). The bracket is `currentColor`, so one asset covers the
+ * ink/paper split; the node is always signal orange.
  *
  * Brand rule not enforced here: on an orange fill the whole mark must go
- * mono-ink (the node would vanish). Don't place this component on an accent
- * surface; use the mono mark there instead.
+ * mono-ink. Don't place this component on an accent surface.
  */
 interface Props {
   /** Square render size in px. Brand floor is 24px; below that use the favicon cut. */

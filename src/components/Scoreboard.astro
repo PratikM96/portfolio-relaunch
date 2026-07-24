@@ -1,9 +1,7 @@
 ---
 /**
- * Scoreboard.astro — the case-study hero board: a 4-up grid of cells.
- * A cell is either a plain meta cell or a `stat` cell: one uniform proof style
- * (large display figure + optional accent unit), the same for every entry.
- * There is no metric-vs-scope distinction.
+ * Scoreboard.astro — the case-study hero board: a 4-up grid of cells, each
+ * either plain meta or a `stat` (large figure + optional accent unit).
  */
 import StatFigure from './StatFigure.astro';
 type Cell = {
@@ -53,10 +51,9 @@ const { cells } = Astro.props;
   .sb-cell { background: var(--surface); padding: var(--space-lg) var(--space-lg); container-type: inline-size; }
   .sb-cell .k { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-sm); }
   .sb-cell .v { font-size: 16px; color: var(--text); line-height: 1.35; }
-  /* accent flag: paint the whole figure with the signal colour (StatFigure's own
-     accent runs already use it, so a unitless value like "100" turns orange too) */
+  /* accent flag: paint the whole figure, for a unitless value like "100" */
   .sb-cell .v.acc { color: var(--accent-text); }
-  /* stat figure scales to the cell (container query) and stays on one line; number/accent split is in StatFigure */
+  /* container query so the figure scales to its cell and stays on one line */
   .sb-cell.stat .v { font-size: clamp(18px, 16cqi, 34px); white-space: nowrap; }
 
   @media (max-width: 1100px) { .sb-board { grid-template-columns: repeat(2, 1fr); } }

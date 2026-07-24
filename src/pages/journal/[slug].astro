@@ -1,12 +1,8 @@
 ---
 /**
- * Journal article template — /journal/[slug]. Ported from _reference/mockups/blog-post.html.
- * Renders a post from the `journal` collection: header, optional cover, the markdown
- * body, and an optional margin (pull-quote + related note). Reuses the case-study
- * rail variant (back link + meta lines), so no new Base variant is needed.
- *
- * One page per non-draft entry under src/content/journal/; none if there are
- * none.
+ * Journal article template — one page per non-draft `journal` entry: header,
+ * optional cover, markdown body, optional margin. Reuses the case-study rail
+ * variant rather than adding a Base variant.
  */
 import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
@@ -34,7 +30,7 @@ const scoreboard = [
 
 const metaLine = [fmt(d.date), d.readingTime].filter(Boolean).join(' · ');
 
-// Other published posts for the "More writing" lists (newest first, current excluded).
+// Other published posts for the "More writing" lists.
 const others = (await getCollection('journal'))
   .filter((p) => !p.data.draft && p.id !== post.id)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -128,7 +124,7 @@ const schema = [
     )}
   </article>
 
-  {/* Mobile equivalent of the rail extras (≤900px, where the rail is hidden). */}
+  {/* Mobile equivalent of the rail extras, ≤900px. */}
   <section class="post-foot rev">
     <div class="pf-about">
       <span class="pf-k">About</span>

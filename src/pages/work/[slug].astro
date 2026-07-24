@@ -1,14 +1,8 @@
 ---
 /**
- * /work/[slug] — the single case-study route, rendered from the `work` content
- * collection. One template serves every engagement type: copy and structure come
- * entirely from the entry data, so SPORTIME (in-house), RAA (agency), and The
- * Ninth (concept) all render from the same code path.
- *
- * Proof is one uniform ProofBox for every entry (no metric-vs-scope split); the
- * guardrail is simply "at least one proof figure". The only type-driven bits left
- * are cosmetic: the hero badge class and the rail Type line. The optional
- * EmbeddedDemo renders whenever `demo` is present.
+ * /work/[slug] — the single case-study route. One template serves every
+ * engagement type; copy and structure come entirely from the entry data. The
+ * only type-driven bits are cosmetic (hero badge class, rail Type line).
  */
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths, ImageMetadata } from 'astro';
@@ -26,8 +20,7 @@ import EmbeddedDemo from '../../components/EmbeddedDemo.astro';
 import { TYPE_LABEL, TYPE_SCOREBOARD, isConceptType } from '../../lib/work-type';
 
 export const getStaticPaths = (async () => {
-  // Same order as the /work index (featured first, then title) so the footer
-  // "next case study" walks the work page in order and loops back to the first.
+  // Same order as the /work index, so the footer "next" walks it and wraps.
   const all = (await getCollection('work')).sort((a, b) => {
     if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
     return a.data.title.localeCompare(b.data.title);
@@ -43,7 +36,6 @@ export const getStaticPaths = (async () => {
 
 const { entry, nextEntry } = Astro.props;
 const d = entry.data;
-// Footer "next" is computed from the work-page order, not the entry frontmatter.
 const csNext = {
   kicker: `Next case study · ${TYPE_LABEL[nextEntry.type]}`,
   title: nextEntry.title,
@@ -51,14 +43,9 @@ const csNext = {
 };
 const isConcept = isConceptType(d.type);
 
-// Hero video (optional): files are convention-located by slug, so a case study
-// opts in with `heroVideo: true` and drops the three files in /hero/<slug>/.
-// See docs/hero-pipeline.md for the encode recipe and naming contract.
-// The hero POSTER goes through Astro's image pipeline (src/assets/hero/<slug>/),
-// not public/, because it is the LCP element on every case study that has one:
-// the pipeline gives it responsive widths, a content-hashed URL and intrinsic
-// dimensions. Only the video itself, which the pipeline can't process, stays in
-// public/hero/<slug>/. See docs/hero-pipeline.md.
+// Optional hero video, located by slug. The poster goes through the image
+// pipeline (src/assets/) because it is the LCP element; only the video, which
+// the pipeline can't process, sits in public/. See docs/hero-pipeline.md.
 const posters = import.meta.glob<{ default: ImageMetadata }>(
   '../../assets/hero/*/poster.webp',
   { eager: true },
@@ -70,14 +57,10 @@ if (heroVideo && !heroPoster) {
   throw new Error(`heroVideo is set for "${d.slug}" but src/assets/hero/${d.slug}/poster.webp is missing`);
 }
 
-// Output gallery: the typed `blocks` model. The section is optional — an entry
-// with no output (e.g. frc, whose only asset is its hero film) drops the §Output
-// section and its rail entry, and the spine renumbers so there's no gap.
+// §Output appears for assets OR a demo; without either it drops and the spine
+// renumbers. OutputGrid itself renders only when assets exist.
 const outputBlocks = d.output?.blocks;
 const hasOutput = !!outputBlocks?.length;
-// Concepts carry no output stills — their only §Output content is the live-demo
-// launcher. The section (and its rail entry) appears whenever there are output
-// assets OR a demo, and the OutputGrid itself renders only when assets exist.
 const hasDemo = !!d.demo;
 const hasOutputSection = hasOutput || hasDemo;
 
@@ -102,7 +85,7 @@ const pageTitle = isConcept
   ? `${d.title} · Case study · concept · Pratik Mehta`
   : `${d.title} · Case study · Pratik Mehta`;
 
-// Structured data — CreativeWork + breadcrumb (author/publisher reference the site graph in Base).
+// CreativeWork + breadcrumb; author/publisher reference the site graph in Base.
 const origin = Astro.site ? Astro.site.origin : 'https://mehtapratik.com';
 const workUrl = `${origin}/work/${d.slug}`;
 const schema = [
@@ -152,9 +135,8 @@ const schema = [
     <Scoreboard cells={d.hero} />
     {heroVideo && heroPoster && (
       <div class="cs-wall rev-load" data-cs-video>
-        {/* The poster is a real <img>, not the video's `poster` attribute, so it
-            gets a responsive srcset. It is the LCP element, hence eager +
-            high priority. `.is-playing` hides it once playback starts. */}
+        {/* A real <img>, not the video's `poster` attribute, so it gets a
+            responsive srcset. It is the LCP element, hence eager + high. */}
         <Image
           class="cs-poster"
           src={heroPoster}
@@ -198,8 +180,7 @@ const schema = [
     <Decisions decisions={d.decisions.items} />
   </section>
 
-  {/* OUTPUT (optional — omitted when an entry has neither output assets nor a
-      demo). Concepts render this section with only the live-demo launcher. */}
+  {/* OUTPUT (optional) */}
   {hasOutputSection && (
     <section class="cs-sec" id="output">
       <CaseSectionHead no={no('output')} title="Output" />
@@ -257,7 +238,7 @@ const schema = [
   /* .badge / .badge-lg / in-house / agency / concept come from global.css */
   .cs-hero h1 { font-size: clamp(44px, 6.5vw, 86px); line-height: 0.95; margin: var(--space-lg) 0 0; }
   .cs-hero .descr { font-size: 20px; line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: var(--space-lg); }
-  /* non-affiliation disclosure — a visible bordered notice, not a footnote */
+  /* non-affiliation disclosure — a visible notice, not a footnote */
   .cs-disclosure { margin-top: var(--space-lg); padding: var(--space-sm) var(--space-md); border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); max-width: 64ch; }
   .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: var(--space-2xl); aspect-ratio: var(--ratio-wide); background: var(--surface); }
   .cs-wall video { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -266,8 +247,7 @@ const schema = [
   .cs-wall.is-playing :global(.cs-poster) { display: none; }
   .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-size: 10.5px; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); }
 
-  /* click-to-play hero video: poster + centered play button until first play,
-     then native controls take over. Has audio, so it never autoplays. */
+  /* click-to-play overlay; native controls take over after the first play */
   .cs-video-play { position: absolute; inset: 0; width: 100%; height: 100%; display: grid; place-items: center; border: 0; background: rgba(11, 11, 10, .28); cursor: pointer; transition: background .25s var(--ease-standard); }
   .cs-video-play:hover { background: rgba(11, 11, 10, .16); }
   .cs-video-play::before { content: ""; position: absolute; width: 78px; height: 78px; border-radius: var(--radius-full); background: #fff; box-shadow: 0 8px 28px rgba(0, 0, 0, .34); transition: transform .25s var(--ease-standard); }
@@ -284,8 +264,7 @@ const schema = [
   .cs-next a:hover { padding-left: var(--space-sm); }
   .cs-next .k { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
   .cs-next .t { font-size: clamp(28px, 4vw, 46px); line-height: 1; margin-top: var(--space-sm); }
-  /* Not a type tier: renders a single → glyph, so it takes the display family for
-     the glyph shape only and has no weight/tracking to inherit. */
+  /* Not a type tier: a single → glyph, so it takes the display family only. */
   .cs-next .arrow { font-family: var(--font-display); font-size: 34px; color: var(--accent-text); }
 
   /* ===== responsive ===== */
@@ -295,8 +274,6 @@ const schema = [
 <script>
   import { wireClickToPlay } from '../../scripts/motion';
 
-  // Click-to-play hero video: first click plays with sound and hands off to the
-  // browser's native controls. Re-shows the play overlay when the clip ends.
   document.querySelectorAll('[data-cs-video]').forEach((wall) => {
     const video = wall.querySelector('video');
     const btn = wall.querySelector('.cs-video-play');

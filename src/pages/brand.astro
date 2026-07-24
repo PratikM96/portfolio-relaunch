@@ -1,22 +1,14 @@
 ---
 /**
- * Brand — One System. The site's living brand reference, rebuilt from the
- * authoritative One-System-Brand-Guidelines (Drive) rather than the early
- * mockup. Rules are transcribed from that source of truth; tokens (color,
- * spacing, radius, motion) are read LIVE from src/styles/tokens.css at build
- * time and rendered with var(), so the page can't drift from the real system.
- *
- * Source of truth: One-System-Brand-Guidelines v1.0. Voice rules come from
- * System Master (the brand doc defers voice to it; summarized per CLAUDE.md).
- * The Formats section (social / reel / lower-third) is ported as live mockups
- * rendered from tokens at true export dimensions. Chrome from Base.astro /
- * global.css.
+ * Brand — the living brand reference. Rules are transcribed from
+ * One-System-Brand-Guidelines v1.0 (Drive); voice comes from System Master.
+ * Tokens are read live from tokens.css at build time and rendered with var(),
+ * so the page can't drift from the real system.
  */
 import Base from '../layouts/Base.astro';
 import CloseCTA from '../components/CloseCTA.astro';
 import Brandmark from '../components/Brandmark.astro';
-// Token file read as a raw string at build time (Vite ?raw) — no node:fs,
-// so the page bundles cleanly for the Cloudflare Worker runtime.
+// Read as a raw string (Vite ?raw), not node:fs — this has to bundle for the Worker.
 import tokensCss from '../styles/tokens.css?raw';
 const tokenValue = (name: string) => {
   const m = tokensCss.match(new RegExp(`${name}\\s*:\\s*([^;]+);`));
@@ -106,13 +98,9 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Type · three faces, one system</h2><span class="rule"></span></div>
     <p class="intro">Each face has one job. Clash Display is the voice: display, h1, h2. Clash Grotesk is reading type: sub-headings and body. JetBrains Mono is the system layer: labels, data, and code. All three ship as one variable file per family, so every weight below is real rather than the nearest available one.</p>
     <p class="intro">Tracking is optical, not decorative. It tightens as type gets bigger, sits at zero for reading, and opens up for uppercase mono. Mono labels and emphasis are always uppercase, because heavy tracking is an uppercase device and breaks apart on lowercase; sentence-case mono is the data tier at +5% instead.</p>
-    {/* A spec is tabular data, so it renders as a table: tier / face / weight /
-        tracking each get a column and nothing can wrap. It was one 190px column
-        holding all four as a single string, which broke "Clash Display" across
-        lines and split "JetBrains Mono" in half.
-        Every sample is a REAL use of that tier on this site — the samples are the
-        proof, so an invented one would make this page lie about its own system.
-        The `where` column names the consumer; keep it honest if a tier moves. */}
+    {/* One column per datum so nothing wraps mid-font-name. Every sample is a
+        REAL use of that tier on this site — the samples are the proof. Keep the
+        `where` column honest if a tier moves. */}
     <table class="tyt">
       <thead>
         <tr><th>tier</th><th>face</th><th>wt</th><th>track</th><th>where</th><th class="s">sample</th></tr>
@@ -407,10 +395,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .d-rotate :global(.brandmark) { transform: rotate(15deg); }
   .d-onaccent { background: var(--accent-fill); padding: var(--space-md); border-radius: var(--radius-md); display: flex; }
 
-  /* type — a spec table: one column per datum, so nothing wraps and the weight
-     ladder (700 / 600 / 500 / 400) is scannable straight down a column. Replaced a
-     190px label column holding tier+face+weight+tracking as one string, which
-     wrapped mid-font-name. */
+  /* type — a spec table: one column per datum, so nothing wraps */
   .tyt { width: 100%; border-collapse: collapse; table-layout: auto; }
   .tyt th {
     text-transform: uppercase; font-size: 9.5px; color: var(--text-muted);
@@ -420,7 +405,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .tyt .tier {
     text-transform: uppercase; font-size: 10.5px; color: var(--accent-text); white-space: nowrap;
   }
-  /* face / wt / track never wrap — that was the whole bug */
+  /* face / wt / track never wrap */
   .tyt .meta {
     font-size: 10.5px; color: var(--text-muted); line-height: 1.5;
   }
@@ -431,8 +416,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .tyt .v { min-width: 0; color: var(--text); display: inline-block; }
   .tyt .v.disp { line-height: 1; }
 
-  /* below the grid the `where` column is the first thing to go, then the spec
-     columns collapse into the tier cell rather than squeezing to nothing */
+  /* narrow: drop `where` first */
   @media (max-width: 1100px) { .tyt th:nth-child(5), .tyt td:nth-child(5) { display: none; } }
 
   /* color */
@@ -465,7 +449,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .d-row { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xs); }
   .d-lab { font-size: 11px; color: var(--text-secondary); width: 160px; flex-shrink: 0; }
   .d-bar { height: 8px; background: var(--accent-fill); border-radius: 2px; }
-  /* hover demo: label sits below and centered on the button (it lifts upward on hover) */
+  /* hover demo: label sits below the button, which lifts on hover */
   .hoverdemo { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
 
   /* a11y */
@@ -541,10 +525,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   @media (max-width: 900px) { .bhero { padding: var(--space-3xl) 0 0; } }
   @media (max-width: 560px) {
     .dont { grid-template-columns: 1fr; }
-    /* Formats: the mockups are fixed export-pixel designs shrunk by a fixed
-       transform into fixed-width wrappers, so they don't reflow on phones and
-       the 1920-wide lower-third overran the column. Shrink wrapper + scale in
-       lockstep so every format fits a ~320px-wide screen (content ≈ 280px). */
+    /* Format mockups are fixed export-pixel designs and don't reflow, so
+       wrapper and scale shrink in lockstep to fit a ~320px screen. */
     .fmt-stage { gap: var(--space-lg); }
     .w360 { width: 260px; height: 260px; } .b1x1 { transform: scale(.24074); }
     .w270 { width: 220px; height: 391px; } .b9x16 { transform: scale(.2037); }

@@ -1,14 +1,11 @@
 # UTM tagging — mehtapratik.com
 
-The site goal is turning a visit into a job / freelance inquiry. The useful question is not
-"how many visitors" but "which channel sent someone who read a case study and reached out."
-You control every link you hand out, so tag each one. Without tags, LinkedIn, your email
-signature, and the resume PDF all collapse into GA4's "direct / none" bucket and attribution
-is lost.
+Tag every link you hand out. Untagged, LinkedIn, the email signature and the resume PDF all
+collapse into GA4's "direct / none" bucket and you lose the answer to the only question that
+matters: which channel sent someone who read a case study and reached out.
 
-This is a **you-paste-it habit**, not site code. Nothing here changes the build. GA4 reads the
-`utm_*` params off the landing URL automatically and maps them to Session source / medium /
-campaign.
+A **paste-it habit**, not site code — nothing here changes the build. GA4 reads `utm_*` off
+the landing URL and maps it to Session source / medium / campaign.
 
 ---
 
@@ -73,32 +70,25 @@ https://mehtapratik.com/?utm_source=application&utm_medium=direct&utm_campaign=a
 
 ## Where this shows up in GA4
 
-**Reports → Acquisition → Traffic acquisition**, dimension *Session source / medium*. To
-connect a channel to an actual inquiry, secondary-dimension by *Session source / medium* on the
-`generate_lead` Key event, or build a free-form exploration: rows = Session source / medium,
-values = `generate_lead` count. That answers "which channel produced people who emailed me."
+**Reports → Acquisition → Traffic acquisition**, dimension *Session source / medium*. To tie a
+channel to an actual inquiry, secondary-dimension that against the `generate_lead` Key event.
 
-At portfolio volume, read this on a **28-day rolling window** and ignore day-to-day swings —
-any single week is anecdote.
+At portfolio volume, read a **28-day rolling window** — any single week is anecdote.
 
 ---
 
 ## GA4 setup: one required step + three saved Explorations
 
-GA4 collects the `utm_*` params automatically (they map to Session source / medium /
-campaign / manual ad content). Two things make that data actually usable.
-
 ### Required: mark `generate_lead` as a Key event
-`consent.ts` fires `generate_lead` on mailto clicks, but a custom event does nothing until
-it's flagged as a conversion. **Admin → Events (Key events)** → toggle **`generate_lead`** on.
-The event only appears in that list after it has fired at least once, so if it's missing,
-click a mailto link on the live site (with consent granted), wait a few minutes, then toggle.
-Until this is on, you can count emails but can't cross them against source/medium.
+`consent.ts` fires it on mailto clicks, but a custom event does nothing until it's flagged as a
+conversion: **Admin → Events (Key events)** → toggle **`generate_lead`** on. It only appears in
+that list after firing once, so if it's missing, click a mailto on the live site with consent
+granted, wait a few minutes, then toggle.
 
-### Explorations (Explore tab → Blank; each is a saved Free-form table, 28-day range)
+### Explorations (Explore tab → Blank; saved Free-form tables, 28-day range)
 
-The Explore canvas has three columns: **Variables** (import dimensions/metrics via the `+`),
-**Settings** (drag them into Rows / Values / Filters), and the live table.
+The canvas is three columns: **Variables** (import via `+`), **Settings** (drag into Rows /
+Values / Filters), and the table.
 
 1. **Channel Scoreboard** — *which channel sends people who email you.*
    Rows: `Session source / medium`. Values: `Sessions`, `Engaged sessions`, `Key events`,
@@ -113,9 +103,8 @@ The Explore canvas has three columns: **Variables** (import dimensions/metrics v
    (Upgrade: register `content_id` as an event-scoped custom dimension to slice by the
    `select_content` event directly instead of by page path.)
 
-Realtime / DebugView confirm UTMs land immediately; standard reports and Explorations lag
-24–48h. Note the consent gate: visitors who decline the cookie banner never fire GA4, so
-these counts undercount real traffic — read trends, not absolutes.
+Realtime / DebugView confirm UTMs immediately; standard reports lag 24–48h. Visitors who
+decline the cookie banner never fire GA4, so every count here undercounts — read trends.
 
 ---
 
