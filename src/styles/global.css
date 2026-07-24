@@ -247,6 +247,15 @@ img { display: block; max-width: 100%; }
 /* the only Grotesk 600 on the site; everything else in that family is 400 or h3 500 */
 .prose p strong { color: var(--text); font-weight: var(--t-strong-weight); }
 
+/* Media frame. Anything that holds an image or video: the hero figure, the
+   portrait, the case-study wall, every output cell. Set the aspect ratio and
+   any background override at the point of use. */
+.frame {
+  position: relative; overflow: hidden;
+  border: 1px solid var(--img-frame); border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
 /* Category chip (journal). .acc = accent variant. */
 .tag { font-size: var(--fs-2xs); color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: var(--space-2xs) var(--space-xs); }
 .tag.acc { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 40%, transparent); }

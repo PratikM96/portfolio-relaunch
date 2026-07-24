@@ -213,6 +213,7 @@
   --ratio-banner: 2 / 1;       /* wide crops */
   --ratio-square: 1 / 1;       /* avatars / square posts */
   --ratio-tall: 3 / 4;         /* flyers / stories */
+  --ratio-tall-photo: 4 / 5;   /* portrait photography (the headshot) */
   --ratio-portrait: 9 / 16;    /* vertical / reel */
 
   /* --- Motion ---

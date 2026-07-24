@@ -7,6 +7,7 @@
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import PlayButton from './PlayButton.astro';
 
 type Still = { img: ImageMetadata; imgDark?: ImageMetadata; alt?: string; caption?: string };
 type Block =
@@ -79,7 +80,7 @@ const clipSrc = (clip: string) => ({
             <div class="blk blk-mockup">
               {b.items.map((it) => (
                 <figure class="mock">
-                  <div class="im r-16x9">
+                  <div class="frame im r-16x9">
                     {it.imgDark ? (
                       // theme-aware pair; the swap is CSS (see .m-dark/.m-light)
                       <>
@@ -104,7 +105,7 @@ const clipSrc = (clip: string) => ({
               <div class="grid" style={`--cols:${cols}`}>
                 {b.items.map((it) => (
                   <figure class="cell">
-                    <div class="im r-1x1">
+                    <div class="frame im r-1x1">
                       <Image src={it.img} alt={it.alt ?? ''} widths={ladderFor(cols)} sizes={sizesFor(cols)} loading="lazy" />
                     </div>
                     {it.caption && <figcaption>{it.caption}</figcaption>}
@@ -123,7 +124,7 @@ const clipSrc = (clip: string) => ({
               <div class="grid" style={`--cols:${cols}`}>
                 {b.items.map((it) => (
                   <figure class="cell">
-                    <div class:list={['im', rClass, b.fit === 'contain' && 'fit-contain', b.bg === 'paper' && 'bg-paper']}>
+                    <div class:list={['frame', 'im', rClass, b.fit === 'contain' && 'fit-contain', b.bg === 'paper' && 'bg-paper']}>
                       <Image src={it.img} alt={it.alt ?? ''} widths={ladderFor(cols)} sizes={sizesFor(cols)} loading="lazy" />
                     </div>
                     {it.caption && <figcaption>{it.caption}</figcaption>}
@@ -142,7 +143,7 @@ const clipSrc = (clip: string) => ({
               <div class="grid" style={`--cols:${cols}`}>
                 {b.items.map((it) => (
                   <figure class="cell">
-                    <div class:list={['im', rClass, b.fit === 'contain' && 'fit-contain']}>
+                    <div class:list={['frame', 'im', rClass, b.fit === 'contain' && 'fit-contain']}>
                       <Image src={it.img} alt={it.alt ?? ''} widths={ladderFor(cols)} sizes={sizesFor(cols)} loading="lazy" />
                     </div>
                     {it.caption && <figcaption>{it.caption}</figcaption>}
@@ -162,7 +163,7 @@ const clipSrc = (clip: string) => ({
                 const chrome = b.chrome ?? 'plain';
                 return (
                   <figure class="long">
-                    <div class:list={['lp-frame', chrome === 'browser' && 'has-chrome']} style={`--h:${h}px`}>
+                    <div class:list={['frame', 'lp-frame', chrome === 'browser' && 'has-chrome']} style={`--h:${h}px`}>
                       {chrome === 'browser' && (
                         <div class="lp-bar" aria-hidden="true">
                           <span class="dot" /><span class="dot" /><span class="dot" />
@@ -189,7 +190,7 @@ const clipSrc = (clip: string) => ({
               const withAudio = it.audio ?? b.audio; // per-item override of the block default
               return (
                 <figure class="vid" data-ov-video data-audio={withAudio ? 'true' : 'false'}>
-                  <div class:list={['im', vr]}>
+                  <div class:list={['frame', 'im', vr]}>
                     <video
                       data-poster={s.poster}
                       width="1920"
@@ -202,11 +203,7 @@ const clipSrc = (clip: string) => ({
                     >
                       <source src={s.webm} type="video/webm" />
                     </video>
-                    {withAudio && (
-                      <button class="ov-play" type="button" aria-label="Play video">
-                        <span class="tri" aria-hidden="true" />
-                      </button>
-                    )}
+                    {withAudio && <PlayButton label="Play video" hook="ov-play" />}
                   </div>
                   {it.caption && <figcaption>{it.caption}</figcaption>}
                 </figure>
@@ -234,7 +231,7 @@ const clipSrc = (clip: string) => ({
   .blk-label { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin: 0 0 var(--space-md); }
 
   /* shared media frame + caption */
-  .out .im { position: relative; overflow: hidden; border: 1px solid var(--img-frame); border-radius: var(--radius-lg); background: var(--surface-raised); }
+  .out .im { background: var(--surface-raised); }
   .out figcaption { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-sm); }
   .out figcaption .hint { color: var(--accent-text); }
   .out figure { margin: 0; }
@@ -267,7 +264,7 @@ const clipSrc = (clip: string) => ({
 
   /* longpage — capped internal-scroll frames, laid out N-up */
   .blk-long { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: var(--space-md); align-items: start; }
-  .lp-frame { border: 1px solid var(--img-frame); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface-raised); }
+  .lp-frame { background: var(--surface-raised); }
   .lp-bar { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); background: var(--surface); border-bottom: 1px solid var(--img-frame); }
   .lp-bar .dot { width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--border-strong); }
   .lp-scroll { height: var(--h, 600px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
@@ -276,11 +273,6 @@ const clipSrc = (clip: string) => ({
   /* video block */
   .blk-video { display: grid; grid-template-columns: repeat(var(--cols, 1), 1fr); gap: var(--space-md); }
   .out .vid video { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .ov-play { position: absolute; inset: 0; display: grid; place-items: center; border: 0; background: var(--scrim-base); cursor: pointer; transition: background var(--dur-base) var(--ease-standard); }
-  .ov-play:hover { background: var(--scrim-hover); }
-  .ov-play::before { content: ''; position: absolute; width: 64px; height: 64px; border-radius: var(--radius-full); background: var(--n-0); box-shadow: var(--shadow-overlay); }
-  .ov-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent var(--n-950); margin-left: var(--space-2xs); }
-  .vid.is-playing .ov-play { display: none; }
 
   @media (max-width: 900px) {
     .blk-long, .blk-video { grid-template-columns: 1fr; }

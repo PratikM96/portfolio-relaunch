@@ -17,6 +17,7 @@ import OutputGrid from '../../components/OutputGrid.astro';
 import ProofBox from '../../components/ProofBox.astro';
 import PerfTable from '../../components/PerfTable.astro';
 import EmbeddedDemo from '../../components/EmbeddedDemo.astro';
+import PlayButton from '../../components/PlayButton.astro';
 import { TYPE_LABEL, TYPE_SCOREBOARD, isConceptType } from '../../lib/work-type';
 
 export const getStaticPaths = (async () => {
@@ -134,7 +135,7 @@ const schema = [
     {d.disclosure && <p class="cs-disclosure rev-load">{d.disclosure}</p>}
     <Scoreboard cells={d.hero} />
     {heroVideo && heroPoster && (
-      <div class="cs-wall rev-load" data-cs-video>
+      <div class="frame cs-wall rev-load" data-cs-video>
         {/* A real <img>, not the video's `poster` attribute, so it gets a
             responsive srcset. It is the LCP element, hence eager + high. */}
         <Image
@@ -152,9 +153,7 @@ const schema = [
         >
           <source src={heroVideo.webm} type="video/webm" />
         </video>
-        <button class="cs-video-play" type="button" aria-label={`Play the ${d.title} video`}>
-          <span class="tri" aria-hidden="true"></span>
-        </button>
+        <PlayButton label={`Play the ${d.title} video`} size={78} hook="cs-video-play" />
         <span class="cap">{d.coverCaption}</span>
       </div>
     )}
@@ -240,7 +239,7 @@ const schema = [
   .cs-hero .descr { font-size: var(--fs-xl); line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: var(--space-lg); }
   /* non-affiliation disclosure — a visible notice, not a footnote */
   .cs-disclosure { margin-top: var(--space-lg); padding: var(--space-sm) var(--space-md); border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-size: var(--fs-xs); line-height: 1.5; color: var(--text-secondary); max-width: 64ch; }
-  .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: var(--space-2xl); aspect-ratio: var(--ratio-wide); background: var(--surface); }
+  .cs-wall { margin-top: var(--space-2xl); aspect-ratio: var(--ratio-wide); }
   .cs-wall video { width: 100%; height: 100%; object-fit: cover; display: block; }
   /* the poster sits under the video and is removed once playback starts */
   .cs-wall :global(.cs-poster) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -248,12 +247,7 @@ const schema = [
   .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-size: var(--fs-2xs); text-transform: uppercase; color: var(--n-0); background: var(--scrim-chip); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); }
 
   /* click-to-play overlay; native controls take over after the first play */
-  .cs-video-play { position: absolute; inset: 0; width: 100%; height: 100%; display: grid; place-items: center; border: 0; background: var(--scrim-base); cursor: pointer; transition: background var(--dur-base) var(--ease-standard); }
-  .cs-video-play:hover { background: var(--scrim-hover); }
-  .cs-video-play::before { content: ""; position: absolute; width: 78px; height: 78px; border-radius: var(--radius-full); background: var(--n-0); box-shadow: var(--shadow-overlay); transition: transform var(--dur-base) var(--ease-standard); }
-  .cs-video-play:hover::before { transform: scale(1.06); }
-  .cs-video-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 13px 0 13px 22px; border-color: transparent transparent transparent var(--n-950); margin-left: var(--space-xs); }
-  .cs-wall.is-playing .cs-video-play, .cs-wall.is-playing .cap { display: none; }
+  .cs-wall.is-playing .cap { display: none; }
 
   /* ===== SECTIONS / PROSE / BODY ===== */
   .cs-sec { padding: var(--space-4xl) 0; }

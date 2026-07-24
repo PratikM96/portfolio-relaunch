@@ -271,7 +271,7 @@ const journalPosts = (await getCollection('journal'))
   .hero .btn-row { margin-top: var(--space-xl); }
   .hero-figure { position: relative; display: flex; flex-direction: column; }
   /* square (1:1) frame hosting the brand-mark animation (public/hero) */
-  .hero-figure .frame { aspect-ratio: var(--ratio-square); border: 1px solid var(--img-frame); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
+  .hero-figure .frame { aspect-ratio: var(--ratio-square); }
   .hero-figure .frame img { width: 100%; height: 100%; object-fit: cover; }
 
   /* video is wrapped in a button so the whole surface is a click-to-pause
