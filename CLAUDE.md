@@ -98,9 +98,12 @@ home, and the copies drift.
 | --- | --- |
 | Content model, required fields, the build guardrail | `src/content.config.ts` — a missing/wrong-shaped field **fails the build** |
 | Routes and the sitemap | `src/pages/` — the filename is the URL |
-| Design tokens, the ramp, the type scale (`--t-*`), `@font-face` | `src/styles/tokens.css` |
+| Every design token — ramp, tiers, sizes, spacing, motion, `@font-face` | `src/styles/tokens.css` |
 | Design law in prose (type, colour, radius, grid, motion, a11y) | the live `/brand` page |
 | The engagement facet + its labels | `src/lib/work-type.ts` |
+| Collection order, dates, year parsing | `src/lib/content.ts` |
+| Every media path derived from a slug | `src/lib/media.ts` |
+| JSON-LD entity refs + breadcrumbs | `src/lib/schema.ts` |
 | Stack and versions | `package.json`, `astro.config.mjs` |
 
 ## 6. Build rules code can't enforce
@@ -166,6 +169,13 @@ late-painting element. Both respect reduced-motion.
 `tokens.css`. A rule sets **size only** (plus colour / line-height) and composes a
 tier; family, weight and tracking are the system.
 
+**Size: eleven steps, and nothing outside them.** A tier says which face, a
+`--fs-*` step says how big; `--fs-fluid-*` covers type that scales with the
+viewport. A rule composes a step and never writes a px value or a hand-rolled
+`clamp()`. Two exemptions, both commented where they sit: container-query sizing
+(`cqi`), which is measured against a cell rather than the page, and `/brand`'s
+format mockups and logo specimens, which are export-pixel canvases, not UI type.
+
 **How a tier is applied.** Each tier is one grouped rule listing every selector
 that needs it — the `.t-*` block at the top of `global.css`, and a matching block
 at the top of each component's `<style>`. Add your selector to that group; never
@@ -209,6 +219,18 @@ uppercase mono title (muted) + flex rule line.
 `margin` and `gap` resolves to a token. Values under 4px are exempt and stay
 literal — a 1px grid `gap` is a border trick, not rhythm. If a value doesn't fit
 the scale, change the design or the scale; don't add a literal.
+
+**Motion, colour and radius are tokens too.** Every `transition` and `animation`
+duration composes `--dur-*`; every easing `--ease-*`; every `border-radius`
+`--radius-*`. Overlays on media use `--scrim-*` / `--shadow-*`, which are
+`color-mix` on the ramp rather than a frozen `rgba()` copy of it. There is no
+pure white on this site — `--n-0` is warm. The only literal colours left are the
+`theme-color` meta and the pre-paint script, which cannot read a CSS variable.
+
+**Four breakpoints, each with one job**: 1100 (a two-up row stacks), 1000 (a
+content + sticky-aside layout collapses), 900 (the rail becomes the mobile bar),
+560 (the last grids go single-column). They're listed in `tokens.css` as
+documentation — `@media` can't read a custom property. Don't invent a fifth.
 
 **Theme.** Dark and light are both first-class. No-flash inline script,
 `localStorage` with try/catch, follows OS until manual override, respects
@@ -284,35 +306,57 @@ detail; everything older gets cut back to a line or two holding the decision and
 any trap it left behind. If a rule from an old entry is still load-bearing, it
 belongs in §3-§8 or in the code it governs, not in a paragraph down here.
 
-- **2026-07-24** — **Concept "scope, never results" carve-out retired.** The site
-  itself ships as a case study (`portfolio-system`, `type: concept`), and a
-  shipped concept has real, measured results. Concepts now follow the **same**
-  case-study rules as real work: a concept may carry measured results and the
-  orange accent, still gated by the honesty rule. Design-only concepts (The Ninth,
-  Level, WISP) read as scope only because that is all they have, and were not
-  rewritten; disclosure stays required for every concept. Accent parity is full —
-  the rail Type line, the corner `.badge.concept` and the `/work` index badge all
-  accent now, so those three concepts turned orange (intended). The proof surfaces
-  were never type-gated: `figureRuns` keys off the *figure*, not the entry.
+- **2026-07-25** — **The remaining axes got scales, and the duplicated logic got
+  one home.** Type tiers said which face but nothing said how big: 219 font-sizes
+  across 35 values, and 49 literal durations against 4 uses of the `--dur-*`
+  tokens that already existed. Now `--fs-*` (eleven steps, frequency-derived, so
+  119 of 219 declarations kept their exact value) plus `--fs-fluid-*`, and every
+  duration, radius, scrim and shadow composes a token. `--fs-base` (16px) and
+  `--fs-lg` (17px) are separate steps on purpose — they are the document base and
+  prose, the two most-read sizes, and folding either into a neighbour would move
+  them. `--dur-reveal` (280ms) is named rather than rounded because `.rev-load`
+  is a measured Speed Index cost.
+  - **Exemptions are commented where they sit**, not remembered: container-query
+    sizing, `/brand`'s export-pixel mockups and logo specimens, its four "don't"
+    demos, and the `theme-color` meta + pre-paint script, which cannot read a CSS
+    variable.
+  - **1000px is a real breakpoint, not a stray** — it is where a content +
+    sticky-aside layout collapses (about, resume, journal posts). Documented
+    rather than removed. The actual stray was the home page hiding its journal
+    row meta at 700px while `/journal` hid the same element at 900px.
+  - **`.frame` and `PlayButton.astro`** replace five copies of a media frame and
+    two copies of a play button. Both play triangles were hand-nudged and neither
+    was centred; the nudge is `w/6` and is derived now.
+  - **`src/lib/` gained `content.ts`, `media.ts`, `schema.ts`.** The work sort
+    lived in two files with a comment saying they must not drift and nothing
+    enforcing it. The home Bento hardcoded slugs, badge labels and disciplines on
+    a page already querying the collection; it reads the entries now and throws
+    at build time on an unknown slug.
+  - **Not done, deliberately**: a `.meta-label` primitive for the 38 rules that
+    read `--fs-2xs / uppercase / --text-muted`. They repeat, but they resolve to
+    the same tokens, so the value moves in one place already; a class 38 sites
+    must opt into, shipped on all 24 pages, buys nothing the tokens don't.
+  - Verified by computed-style diff over 21 pages x 3 widths, 18,801 elements.
+    Cost: 155-261 bytes gzipped per page. `scripts/_audit/` held the harness and
+    was deleted; rebuild it from this entry if another sweep needs one.
 
-- **2026-07-24 (c)** — **Output width ladders are DEVICE pixels; sources are shot
-  at 2x.** Ladders sized to the CSS slot rendered the galleries soft, and **Astro
-  never upscales**, so a too-short ladder fails silently. `ladderFor` now tops out
-  near 2x the widest slot, `longpage` keeps a shorter `W_LONG` (its sources run
-  9000+px tall), and `sizes` resolves the real cell with `calc()` instead of
-  ignoring the rail. **Screen captures must be shot at `deviceScaleFactor: 2`,
-  never scaled up after** — `scripts/shots/capture.mjs` (`npm run shots`) is the
-  record of those captures.
+- **2026-07-24** — Concept "scope, never results" carve-out retired: a shipped
+  concept follows the same case-study rules as real work, accent included, still
+  gated by the honesty rule. Accent parity is full, so the three design-only
+  concepts' badges and Type lines turned orange (intended). Disclosure stays
+  required for every concept.
 
-- **2026-07-24 (b)** — **The site ships as its own case study** (`portfolio-system`).
+- **2026-07-24 (c)** — Output width ladders are DEVICE pixels and sources are shot
+  at 2x. **Astro never upscales**, so a too-short ladder fails silently and the
+  galleries just render soft. Screen captures must use `deviceScaleFactor: 2`;
+  `scripts/shots/capture.mjs` is the record of them.
+
+- **2026-07-24 (b)** — The site ships as its own case study (`portfolio-system`).
   Three one-offs bespoke to that entry, so don't generalize or delete them:
-  - **`perfTable: true`** renders `PerfTable.astro` in §Proof from
-    `src/data/portfolio-perf.json`, a real dated Lighthouse snapshot. Regenerate
-    with `scripts/perf/`. Off for every other entry.
-  - **Hero-stat `accent` flag** paints a unitless measured result ("100") the
-    signal colour, which `figureRuns` can't detect on its own.
-  - **Output is a device × theme matrix**, captured above the fold so the fixed
-    nav stays in frame — not the tall-scroll `longpage`.
+  `perfTable: true` (renders `PerfTable.astro` from a dated Lighthouse snapshot,
+  regenerate with `scripts/perf/`), the hero-stat `accent` flag (a unitless
+  measured result `figureRuns` can't detect), and an Output section that is a
+  device x theme matrix captured above the fold rather than a `longpage`.
 
 - **2026-07-23** — Mobile weight pass + metric-matched font fallbacks (`72af992`).
   Hover clips gate on `(hover: hover)`, never width: **a `<video>` given a

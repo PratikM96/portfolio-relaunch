@@ -33,7 +33,24 @@ const radii = [
 ];
 const durations = [
   { token: '--dur-fast', name: 'fast', w: 48 }, { token: '--dur-base', name: 'base', w: 80, star: true },
+  { token: '--dur-reveal', name: 'reveal', w: 112 },
   { token: '--dur-slow', name: 'slow', w: 128 }, { token: '--dur-deliberate', name: 'deliberate', w: 200 },
+];
+
+// The size scale, read live like everything else on this page. A tier says
+// which face; a step says how big.
+const sizes = [
+  { token: '--fs-3xs', name: '3xs', for: 'badges, rail keys' },
+  { token: '--fs-2xs', name: '2xs', for: 'kickers, captions, chips' },
+  { token: '--fs-xs', name: 'xs', for: 'rail nav, buttons' },
+  { token: '--fs-sm', name: 'sm', for: 'card copy, secondary' },
+  { token: '--fs-md', name: 'md', for: 'UI body, list copy' },
+  { token: '--fs-base', name: 'base', for: 'document base', star: true },
+  { token: '--fs-lg', name: 'lg', for: 'prose body' },
+  { token: '--fs-xl', name: 'xl', for: 'h3, card titles, lead' },
+  { token: '--fs-2xl', name: '2xl', for: 'sub-heads' },
+  { token: '--fs-3xl', name: '3xl', for: 'large figures' },
+  { token: '--fs-4xl', name: '4xl', for: 'the largest fixed figure' },
 ];
 
 const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
@@ -151,6 +168,19 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
         </tr>
       </tbody>
     </table>
+
+    <div class="subhead">Size · eleven steps</div>
+    <p class="intro">A tier says which face. A step says how big. Every size on the site is one of these, so a rule never writes a pixel value. The steps sit where the design already clustered rather than on a ratio, which is why they crowd at the small end: most of the system is labels and captions.</p>
+    <div class="sizes">
+      {sizes.map((s) => (
+        <div class="z-row">
+          <div class="z-lab">{s.name}{s.star ? ' ★' : ''} · {tokenValue(s.token)}</div>
+          <div class="z-samp" style={`font-size: var(${s.token})`}>One system, end to end.</div>
+          <div class="z-for">{s.for}</div>
+        </div>
+      ))}
+    </div>
+    <div class="mono muted gridnote">plus <code>--fs-fluid-*</code> for type that scales with the viewport. Container-query sizing stays per-component.</div>
   </section>
 
   {/* 04 COLOR */}
@@ -198,7 +228,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   {/* 06 MOTION */}
   <section class="bsec">
     <div class="blabel"><span class="c">[ 06 ]</span><h2 class="t">Motion · functional, not decorative</h2><span class="rule"></span></div>
-    <p class="intro">Quick and confident. One ease-out curve, four durations, short travel, no bounce. Reels inherit this: cuts over fades, snap transitions.</p>
+    <p class="intro">Quick and confident. One ease-out curve, five durations, short travel, no bounce. Reels inherit this: cuts over fades, snap transitions.</p>
     <div class="motion">
       <div class="durs">
         {durations.map((d) => (
@@ -327,6 +357,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .subhead,
   .tyt th,
   .tyt .tier,
+  .z-lab,
+  .z-for,
   .p-lab,
   th,
   .rule-k,
@@ -424,6 +456,20 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .tyt .s { width: 42%; }
   .tyt .v { min-width: 0; color: var(--text); display: inline-block; }
   .tyt .v.disp { line-height: 1; }
+
+  /* size scale — one row per step, sample set at the real token */
+  .sizes { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+  .z-row {
+    display: grid; grid-template-columns: 132px 1fr 200px; gap: var(--space-md);
+    align-items: baseline; padding: var(--space-sm) 0; border-bottom: 1px solid var(--border);
+  }
+  .z-lab { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--accent-text); white-space: nowrap; }
+  .z-samp { color: var(--text); line-height: 1.3; min-width: 0; }
+  .z-for { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; }
+  @media (max-width: 900px) {
+    .z-row { grid-template-columns: 96px 1fr; }
+    .z-for { display: none; }
+  }
 
   /* narrow: drop `where` first */
   @media (max-width: 1100px) { .tyt th:nth-child(5), .tyt td:nth-child(5) { display: none; } }

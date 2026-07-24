@@ -90,9 +90,13 @@ export default defineConfig({
   // Safe here because every page is static; no Sharp runs in the Worker.
   adapter: isDev ? undefined : cloudflare({ imageService: 'compile' }),
   // Inline ALL page CSS into <style> instead of separate /_astro/*.css links.
-  // Total CSS is tiny (~11 KB across Base/index/WorkIndex) but the three
-  // stylesheets were render-blocking (~490 ms on mobile). 'always' folds them
-  // into the HTML so first paint has no CSS round-trip. Safe under the enforced
-  // CSP (style-src allows 'unsafe-inline').
+  // The stylesheets were render-blocking (~490 ms on mobile); 'always' folds
+  // them into the HTML so first paint has no CSS round-trip. Safe under the
+  // enforced CSP (style-src allows 'unsafe-inline').
+  //
+  // Consequence worth knowing before promoting a rule to global.css: every page
+  // carries the whole of it, including pages that never use the rule. Measure a
+  // real build rather than guessing:
+  //   perl -0777 -ne 'while(/<style[^>]*>(.*?)<\/style>/gs){$n+=length($1)} print $n' dist/client/contact.html
   build: { inlineStylesheets: 'always', format: 'file' },
 });
