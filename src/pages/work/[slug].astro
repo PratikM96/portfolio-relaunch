@@ -19,13 +19,12 @@ import PerfTable from '../../components/PerfTable.astro';
 import EmbeddedDemo from '../../components/EmbeddedDemo.astro';
 import PlayButton from '../../components/PlayButton.astro';
 import { TYPE_LABEL, TYPE_SCOREBOARD, isConceptType } from '../../lib/work-type';
+import { sortWork, firstYear, isYearRange } from '../../lib/content';
+import { heroVideo as heroVideoPath, ogCard, conceptView } from '../../lib/media';
 
 export const getStaticPaths = (async () => {
   // Same order as the /work index, so the footer "next" walks it and wraps.
-  const all = (await getCollection('work')).sort((a, b) => {
-    if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
-    return a.data.title.localeCompare(b.data.title);
-  });
+  const all = sortWork(await getCollection('work'));
   return all.map((entry, i) => {
     const nx = all[(i + 1) % all.length].data;
     return {
@@ -53,7 +52,7 @@ const posters = import.meta.glob<{ default: ImageMetadata }>(
 );
 const heroPoster = posters[`../../assets/hero/${d.slug}/poster.webp`]?.default;
 
-const heroVideo = d.heroVideo ? { webm: `/hero/${d.slug}/hero_1080.webm` } : null;
+const heroVideo = d.heroVideo ? { webm: heroVideoPath(d.slug) } : null;
 if (heroVideo && !heroPoster) {
   throw new Error(`heroVideo is set for "${d.slug}" but src/assets/hero/${d.slug}/poster.webp is missing`);
 }
@@ -75,11 +74,11 @@ const sections = spine
   .filter((id) => id !== 'reflection')
   .map((id) => ({ ix: no(id), label: spineLabel[id], href: `#${id}` }));
 // A year range (more than one 4-digit year) pluralizes the rail label.
-const isYearRange = (d.year.match(/\d{4}/g)?.length ?? 0) > 1;
+const yearRange = isYearRange(d.year);
 const scoreboard = [
   { k: 'Type', v: TYPE_SCOREBOARD[d.type], accent: true },
   { k: 'Role', v: d.role },
-  { k: isYearRange ? 'Years' : 'Year', v: d.year },
+  { k: yearRange ? 'Years' : 'Year', v: d.year },
 ];
 
 const pageTitle = isConcept
@@ -97,10 +96,10 @@ const schema = [
     headline: d.title,
     description: d.description,
     url: workUrl,
-    image: `${origin}/og/${d.slug}.png`,
+    image: `${origin}${ogCard(d.slug)}`,
     author: { '@id': `${origin}/#pratik` },
     creator: { '@id': `${origin}/#pratik` },
-    dateCreated: d.year.match(/\d{4}/)?.[0] ?? d.year,
+    dateCreated: firstYear(d.year),
     keywords: d.disciplines.join(', '),
     isPartOf: { '@id': `${origin}/#website` },
   },
@@ -118,7 +117,7 @@ const schema = [
 
 <Base
   variant="case-study"
-  image={`/og/${d.slug}.png`}
+  image={ogCard(d.slug)}
   ogType="article"
   schema={schema}
   title={pageTitle}
@@ -190,7 +189,7 @@ const schema = [
         <EmbeddedDemo
           heading={d.demo.heading}
           tabs={d.demo.tabs}
-          openHref={`/concepts/${d.demo.project}/`}
+          openHref={conceptView(d.demo.project)}
           foot={d.demo.foot}
         />
       )}

@@ -7,11 +7,10 @@
 import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
+import { publishedJournal, formatDate } from '../../lib/content';
 
 export const getStaticPaths = (async () => {
-  const posts = await getCollection('journal');
-  return posts
-    .filter((p) => !p.data.draft)
+  return publishedJournal(await getCollection('journal'))
     .map((post) => ({ params: { slug: post.id }, props: { post } }));
 }) satisfies GetStaticPaths;
 
@@ -19,21 +18,17 @@ const { post } = Astro.props;
 const d = post.data;
 const { Content } = await render(post);
 
-const fmt = (date: Date) =>
-  date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
-
 const scoreboard = [
   d.topic && { k: 'Topic', v: d.topic },
-  { k: 'Published', v: fmt(d.date) },
+  { k: 'Published', v: formatDate(d.date) },
   d.readingTime && { k: 'Read', v: d.readingTime },
 ].filter((x): x is { k: string; v: string } => Boolean(x));
 
-const metaLine = [fmt(d.date), d.readingTime].filter(Boolean).join(' · ');
+const metaLine = [formatDate(d.date), d.readingTime].filter(Boolean).join(' · ');
 
 // Other published posts for the "More writing" lists.
-const others = (await getCollection('journal'))
-  .filter((p) => !p.data.draft && p.id !== post.id)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+const others = publishedJournal(await getCollection('journal'))
+  .filter((p) => p.id !== post.id)
   .slice(0, 4);
 
 // Shared author blurb — rendered in the desktop rail and the mobile post-foot.

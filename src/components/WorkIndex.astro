@@ -9,6 +9,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import { TYPE_LABEL } from '../lib/work-type';
+import { firstYear } from '../lib/content';
 
 interface Props {
   entries: CollectionEntry<'work'>[];
@@ -16,9 +17,6 @@ interface Props {
   stickyFilter?: boolean;
 }
 const { entries, disciplines = false, stickyFilter = false } = Astro.props;
-
-// In the index, a year range collapses to its earliest year (e.g. 2023-2024 -> 2023).
-const earliestYear = (y: string) => y.match(/\d{4}/g)?.at(0) ?? y;
 
 // Six discipline buckets; a project matches if any raw discipline is a member.
 const buckets = [
@@ -36,7 +34,7 @@ const projects = entries.map((e, i) => ({
   name: e.data.title,
   type: e.data.type,
   disc: e.data.disciplines.slice(0, 2).join(' · '),
-  year: earliestYear(e.data.year),
+  year: firstYear(e.data.year),
   href: `/work/${e.data.slug}`,
   // poster + sources derive from the slug alone (/wc/<slug>/)
   slug: e.data.slug,

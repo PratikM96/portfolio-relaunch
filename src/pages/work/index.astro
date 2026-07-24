@@ -9,15 +9,12 @@ import Base from '../../layouts/Base.astro';
 import WorkIndex from '../../components/WorkIndex.astro';
 import CloseCTA from '../../components/CloseCTA.astro';
 import { TYPE_LABEL } from '../../lib/work-type';
+import { sortWork, firstYear } from '../../lib/content';
+import { cardPath } from '../../lib/media';
 
-const entries = (await getCollection('work')).sort((a, b) => {
-  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
-  return a.data.title.localeCompare(b.data.title);
-});
+const entries = sortWork(await getCollection('work'));
 
-// Index views show the earliest year of a range; the kicker count + range derive
-// from the collection so the page never overstates how much work exists.
-const earliestYear = (y: string) => y.match(/\d{4}/g)?.at(0) ?? y;
+// The kicker count + range derive from the collection, never authored.
 const allYears = entries.flatMap((e) => e.data.year.match(/\d{4}/g) ?? []).sort();
 const yearRange =
   allYears.length === 0
@@ -35,7 +32,7 @@ const featured = entries
     type: e.data.type,
     href: `/work/${e.data.slug}`,
     slug: e.data.slug,
-    year: earliestYear(e.data.year),
+    year: firstYear(e.data.year),
     lede: e.data.lede,
     discLines: e.data.disciplines.slice(0, 3),
   }));
@@ -43,7 +40,7 @@ const featured = entries
 
 {/* The first featured poster is the LCP element, and a <video poster> is
     invisible to the preload scanner — hence the explicit preload. */}
-<Base title="Work · Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work" preloadImage={featured.length ? `/wc/${featured[0].slug}/poster.webp` : undefined}>
+<Base title="Work · Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work" preloadImage={featured.length ? cardPath(featured[0].slug).poster : undefined}>
   <header class="phead">
     <div class="page-kicker">[ Work ] · {count} {count === 1 ? 'project' : 'projects'} · {yearRange}</div>
     <h1 class="rev-load page-h1">The work,<br />as <span class="signal">one index.</span></h1>
@@ -57,8 +54,8 @@ const featured = entries
       <a class="card card--interactive fcard" href={p.href}>
         <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
         <div class="im">
-          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} poster={`/wc/${p.slug}/poster.webp`}>
-            <source src={`/wc/${p.slug}/card.webm`} type="video/webm" />
+          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} poster={cardPath(p.slug).poster}>
+            <source src={cardPath(p.slug).webm} type="video/webm" />
           </video>
         </div>
         <div class="meta">
