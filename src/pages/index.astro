@@ -265,7 +265,7 @@ const journalPosts = (await getCollection('journal'))
   .hero { min-height: 100vh; display: flex; align-items: center; padding: var(--space-3xl) 0; }
   .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--space-3xl); align-items: center; width: 100%; }
   .hero-inner > div { display: flex; flex-direction: column; justify-content: center; }
-  .hero .kick { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-lg); }
+  .hero .kick { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-lg); }
   .hero h1 { margin: 0; }
   .hero .lead { margin-top: var(--space-lg); }
   .hero .btn-row { margin-top: var(--space-xl); }
@@ -284,12 +284,12 @@ const journalPosts = (await getCollection('journal'))
     /* fixed box + centered label so Play/Pause swap doesn't resize/shift it */
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 84px; height: 26px; box-sizing: border-box;
-     font-size: 10.5px;
+     font-size: var(--fs-2xs);
     line-height: 1; text-transform: uppercase;
-    color: var(--n-50); background: rgba(11, 11, 10, .55);
+    color: var(--n-50); background: var(--scrim-chip);
     backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
     padding: 0 var(--space-xs); border-radius: var(--radius-none);
-    opacity: 0; transition: opacity .2s var(--ease-standard); pointer-events: none;
+    opacity: 0; transition: opacity var(--dur-base) var(--ease-standard); pointer-events: none;
   }
   .hero-video:hover .hero-video-state,
   .hero-video:focus-visible .hero-video-state,
@@ -309,28 +309,28 @@ const journalPosts = (await getCollection('journal'))
 
   .t-feat { display: flex; flex-direction: column; }
   .t-feat .img { aspect-ratio: var(--ratio-wide); overflow: hidden; position: relative; }
-  .t-feat .img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
+  .t-feat .img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-deliberate) var(--ease-standard); }
   .t-feat:hover .img img { transform: scale(1.03); }
   /* hover-to-play clip over the tile cover; poster shows at rest */
-  .tile-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-standard); }
+  .tile-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-deliberate) var(--ease-standard); }
   .t-feat:hover .tile-video { transform: scale(1.03); }
   .t-feat .meta { padding: var(--space-lg); display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-md); }
-  .t-feat .meta p { font-size: 13.5px; color: var(--text-secondary); margin-top: var(--space-xs); max-width: 38ch; }
-  .t-feat .meta .disc { font-size: 10px; text-transform: uppercase; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
+  .t-feat .meta p { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--space-xs); max-width: 38ch; }
+  .t-feat .meta .disc { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
 
   /* .badge / .badge.in-house / .badge.concept come from global.css */
 
   .t-stat { padding: var(--space-lg); display: flex; flex-direction: column; justify-content: center; gap: var(--space-sm); min-height: 132px; }
-  .t-stat .fig { font-size: clamp(28px, 3vw, 42px); line-height: 1; color: var(--text); }
-  .t-stat .lab { font-size: 10px; text-transform: uppercase; color: var(--text-muted); line-height: 1.5; max-width: 24ch; }
+  .t-stat .fig { font-size: var(--fs-fluid-2xl); line-height: 1; color: var(--text); }
+  .t-stat .lab { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); line-height: 1.5; max-width: 24ch; }
 
   /* ===== MODULES ===== */
   .duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
   /* surface + hover come from global .card / .card--interactive */
   .mod { padding: var(--space-xl); display: flex; flex-direction: column; }
-  .mod .k { font-size: 10.5px; text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-md); }
-  .mod p { font-size: 14px; color: var(--text-secondary); max-width: 46ch; margin-top: var(--space-sm); }
-  .mod .go { font-size: 11px; text-transform: uppercase; color: var(--text); margin-top: auto; padding-top: var(--space-lg); }
+  .mod .k { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-md); }
+  .mod p { font-size: var(--fs-sm); color: var(--text-secondary); max-width: 46ch; margin-top: var(--space-sm); }
+  .mod .go { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text); margin-top: auto; padding-top: var(--space-lg); }
   /* About: headshot side-by-side, stretched to the text column's height */
   .mod-about { flex-direction: row; align-items: stretch; gap: var(--space-lg); }
   .mod-about .face { width: 160px; border-radius: var(--radius-md); flex: none; overflow: hidden; }
@@ -344,17 +344,16 @@ const journalPosts = (await getCollection('journal'))
   /* ===== JOURNAL ===== */
   /* surface comes from global .card */
   .jr-empty { padding: var(--space-2xl); display: flex; flex-direction: column; gap: var(--space-md); align-items: flex-start; }
-  .jr-empty .jr-tag { font-size: 11px; text-transform: uppercase; color: var(--accent-text); }
-  .jr-empty p { font-size: 18px; color: var(--text-secondary); }
+  .jr-empty .jr-tag { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); }
+  .jr-empty p { font-size: var(--fs-xl); color: var(--text-secondary); }
 
   .jr-list { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
-  .jr-row { display: grid; grid-template-columns: 1fr auto; gap: var(--space-xl); align-items: baseline; padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); transition: padding-left 0.2s var(--ease-standard); }
+  .jr-row { display: grid; grid-template-columns: 1fr auto; gap: var(--space-xl); align-items: baseline; padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); transition: padding-left var(--dur-base) var(--ease-standard); }
   .jr-row:hover { padding-left: var(--space-sm); }
-  .jr-t { font-size: clamp(19px, 2.2vw, 24px); color: var(--text-secondary); transition: color 0.2s var(--ease-standard); }
+  .jr-t { font-size: var(--fs-fluid-md); color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard); }
   .jr-row:hover .jr-t { color: var(--text); }
-  .jr-ex { font-size: 14px; color: var(--text-muted); margin-top: var(--space-xs); max-width: 60ch; }
-  .jr-m { font-size: 11px; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }
-  @media (max-width: 700px) { .jr-m { display: none; } }
+  .jr-ex { font-size: var(--fs-sm); color: var(--text-muted); margin-top: var(--space-xs); max-width: 60ch; }
+  .jr-m { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }
 
   /* ===== CLOSE — see CloseCTA.astro ===== */
 
@@ -368,6 +367,8 @@ const journalPosts = (await getCollection('journal'))
     .duo { grid-template-columns: 1fr; }
     .feat-row { grid-template-columns: 1fr; }
     .stat-row { grid-template-columns: repeat(2, 1fr); }
+    /* same row meta, same breakpoint as the /journal index */
+    .jr-m { display: none; }
   }
   @media (max-width: 560px) {
     .stat-row { grid-template-columns: 1fr; }

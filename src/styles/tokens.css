@@ -140,6 +140,35 @@
   --lh-display: 0.98; --lh-h1: 1.05; --lh-h2: 1.1; --lh-h3: 1.25;
   --lh-body: 1.65; --lh-label: 1.5;
 
+  /* --- Size · the eleven steps, and nothing outside them ---
+     A tier says which face; a step says how big. Every `font-size` on the site
+     resolves to one of these. The steps are frequency-derived, not invented:
+     they sit where the design already clustered, so most rules kept their exact
+     value when the scale was adopted. --fs-base is the document base on <body>,
+     which is why 16px is its own step rather than folding into 15 or 17. */
+  --fs-3xs: 10px;    /* badges, rail keys, discipline lists */
+  --fs-2xs: 11px;    /* kickers, captions, figcaptions, filter chips */
+  --fs-xs: 12px;     /* rail nav, buttons, table meta */
+  --fs-sm: 13.5px;   /* card copy, secondary text, rail values */
+  --fs-md: 15px;     /* UI body, list copy */
+  --fs-base: 16px;   /* document base */
+  --fs-lg: 17px;     /* prose body */
+  --fs-xl: 19px;     /* h3, card titles, lead paragraphs */
+  --fs-2xl: 24px;    /* sub-heads, decision titles */
+  --fs-3xl: 30px;    /* large figures, wordmark specimens */
+  --fs-4xl: 42px;    /* the largest fixed figure */
+
+  /* Fluid steps for type that scales with the viewport. Same rule: compose one,
+     never hand-write a clamp(). Container-query sizing (cqi) is NOT here — a
+     figure sized to its own cell is per-component and stays local. */
+  --fs-fluid-hero: clamp(44px, 6.5vw, 86px); /* case-study H1 */
+  --fs-fluid-page: clamp(38px, 5vw, 68px);   /* page head, closing CTA */
+  --fs-fluid-2xl: clamp(28px, 3.4vw, 44px);  /* stat figures, next-case link */
+  --fs-fluid-xl: clamp(26px, 3vw, 35px);     /* h2, journal lead post */
+  --fs-fluid-lg: clamp(21px, 2.4vw, 28px);   /* resume metrics, journal titles */
+  --fs-fluid-md: clamp(19px, 2.2vw, 24px);   /* journal row title */
+  --fs-fluid-sm: clamp(13px, 2vw, 15px);     /* case-study section head */
+
   /* --- Spacing · 4px base --- */
   --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
   --space-lg: 24px; --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px;
@@ -149,9 +178,31 @@
   /* --- Grid · desktop (tablet: 8 col/24/32 · mobile: 4 col/16/20) --- */
   --grid-cols: 12; --grid-max-width: 1200px; --grid-gutter: 24px; --grid-margin: 64px;
 
+  /* --- Breakpoints · four, each with one job ---
+     Declared here as documentation only: `@media` cannot read a custom
+     property, so the queries themselves carry the number. Don't invent a
+     fifth - pick the one whose job matches.
+       1100px  a two-up feature/hero row stacks; the work preview pane drops
+       1000px  a content + sticky-aside layout collapses to one column
+        900px  the console rail is replaced by the mobile bar + drawer
+        560px  the last multi-column grids go single-column */
+  --bp-lg: 1100px; --bp-md: 1000px; --bp-sm: 900px; --bp-xs: 560px;
+
   /* --- Radius --- */
   --radius-none: 0; --radius-sm: 4px; --radius-md: 8px;
   --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
+
+  /* --- Scrims + shadows ---
+     Overlays that sit on media, so they are keyed to the ramp rather than the
+     semantic surfaces: a caption chip on a video has to stay dark in BOTH
+     themes. Built with color-mix on --n-950 so they follow the ramp instead of
+     freezing an rgba() copy of it. */
+  --scrim-strong: color-mix(in srgb, var(--n-950) 60%, transparent); /* demo stage */
+  --scrim-chip: color-mix(in srgb, var(--n-950) 55%, transparent);   /* caption chips */
+  --scrim-base: color-mix(in srgb, var(--n-950) 26%, transparent);   /* play button, rest */
+  --scrim-hover: color-mix(in srgb, var(--n-950) 15%, transparent);  /* play button, hover */
+  --shadow-overlay: 0 8px 28px rgba(0, 0, 0, 0.32); /* the round play button */
+  --shadow-raised: 0 24px 60px -24px rgba(0, 0, 0, 0.55); /* consent banner */
 
   /* --- Image aspect ratios (the ONLY ratios any image slot may use) ---
      A new slot means a new token, never a literal. */
@@ -164,8 +215,14 @@
   --ratio-tall: 3 / 4;         /* flyers / stories */
   --ratio-portrait: 9 / 16;    /* vertical / reel */
 
-  /* --- Motion --- */
-  --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 320ms; --dur-deliberate: 500ms;
+  /* --- Motion ---
+     Every `transition` and `animation` duration on the site composes one of
+     these. --dur-reveal is not a rounder --dur-slow: `.rev-load` animates the
+     whole hero, so its duration lands on Speed Index and 280ms is measured.
+     Don't fold it into a neighbour. */
+  --dur-fast: 120ms; --dur-base: 200ms; --dur-reveal: 280ms;
+  --dur-slow: 320ms; --dur-deliberate: 500ms;
+  --dur-pulse: 2400ms; /* the status dot's ambient loop, not a UI transition */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);  /* entrances / most */
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);      /* exits · faster out */
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);  /* moves that leave and arrive */

@@ -67,6 +67,9 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   <section class="bsec">
     <div class="blabel"><span class="c">[ 02 ]</span><h2 class="t">Logo · the loop</h2><span class="rule"></span></div>
     <p class="intro">One continuous stroke that closes on the orange node: the system, end to end, as a mark. Default to the primary lockup. The wordmark carries the circular period; the lockups don't.</p>
+    {/* Specimen sizes below are literal on purpose: these show the mark and
+        wordmark at chosen physical sizes, the way `Brandmark size={52}` does.
+        They are not UI type, so they don't compose the --fs-* scale. */}
     <div class="logoset rev">
       <div class="tile"><div class="lockrow"><Brandmark size={52} title={undefined} /><span class="wm">Pratik Mehta</span></div></div>
       <div class="tile dark"><div class="lockrow"><Brandmark size={52} title={undefined} /><span class="wm">Pratik Mehta</span></div></div>
@@ -109,42 +112,42 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
         <tr>
           <td class="tier">display</td><td class="meta">Clash Display</td><td class="meta">700</td><td class="meta">-2%</td>
           <td class="meta">every page head, closing CTA, stat figures</td>
-          <td class="s"><span class="v disp" style="font-size:clamp(28px,3.4vw,42px)">One system<span class="signal">.</span></span></td>
+          <td class="s"><span class="v disp" style="font-size:var(--fs-fluid-2xl)">One system<span class="signal">.</span></span></td>
         </tr>
         <tr>
           <td class="tier">h1</td><td class="meta">Clash Display</td><td class="meta">600</td><td class="meta">-1%</td>
           <td class="meta">the wordmark lockup</td>
-          <td class="s"><span class="v t-h1" style="font-size:22px">Pratik Mehta</span></td>
+          <td class="s"><span class="v t-h1" style="font-size:var(--fs-2xl)">Pratik Mehta</span></td>
         </tr>
         <tr>
           <td class="tier">h2</td><td class="meta">Clash Display</td><td class="meta">500</td><td class="meta">-1%</td>
           <td class="meta">section heads, journal lead post, mobile nav</td>
-          <td class="s"><span class="v t-h2" style="font-size:24px">Engineer turned creative.</span></td>
+          <td class="s"><span class="v t-h2" style="font-size:var(--fs-2xl)">Engineer turned creative.</span></td>
         </tr>
         <tr>
           <td class="tier">h3-h6</td><td class="meta">Clash Grotesk</td><td class="meta">500</td><td class="meta">0%</td>
           <td class="meta">card titles, index rows, sub-heads</td>
-          <td class="s"><span class="v t-h3" style="font-size:19px">SPORTIME Clubs</span></td>
+          <td class="s"><span class="v t-h3" style="font-size:var(--fs-xl)">SPORTIME Clubs</span></td>
         </tr>
         <tr>
           <td class="tier">body</td><td class="meta">Clash Grotesk</td><td class="meta">400</td><td class="meta">0%</td>
           <td class="meta">copy · lh 1.65 · <strong style="font-weight:600;color:var(--text-secondary)">strong</strong> = 600</td>
-          <td class="s"><span class="v t-body" style="font-size:15px;line-height:1.6;color:var(--text-secondary)">The work stays coherent and the loop closes.</span></td>
+          <td class="s"><span class="v t-body" style="font-size:var(--fs-md);line-height:1.6;color:var(--text-secondary)">The work stays coherent and the loop closes.</span></td>
         </tr>
         <tr>
           <td class="tier">label</td><td class="meta">JetBrains Mono</td><td class="meta">400</td><td class="meta">+10%</td>
           <td class="meta">kickers, badges, section labels · always uppercase</td>
-          <td class="s"><span class="v t-label" style="font-size:11px;color:var(--text-secondary)">Brand · Social · Performance</span></td>
+          <td class="s"><span class="v t-label" style="font-size:var(--fs-2xs);color:var(--text-secondary)">Brand · Social · Performance</span></td>
         </tr>
         <tr>
           <td class="tier">data / nav</td><td class="meta">JetBrains Mono</td><td class="meta">400</td><td class="meta">+5%</td>
           <td class="meta">rail nav, scoreboard values, the clock · sentence case</td>
-          <td class="s"><span class="v t-data" style="font-size:13px;color:var(--text-secondary)">Home &nbsp;·&nbsp; 2023-2024 &nbsp;·&nbsp; 12:53 PM</span></td>
+          <td class="s"><span class="v t-data" style="font-size:var(--fs-sm);color:var(--text-secondary)">Home &nbsp;·&nbsp; 2023-2024 &nbsp;·&nbsp; 12:53 PM</span></td>
         </tr>
         <tr>
           <td class="tier">emphasis</td><td class="meta">JetBrains Mono</td><td class="meta">600</td><td class="meta">+10%</td>
           <td class="meta">buttons · always uppercase</td>
-          <td class="s"><span class="v t-emphasis" style="font-size:11px">View work</span></td>
+          <td class="s"><span class="v t-emphasis" style="font-size:var(--fs-2xs)">View work</span></td>
         </tr>
       </tbody>
     </table>
@@ -201,9 +204,9 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
         {durations.map((d) => (
           <div class="d-row"><div class="d-lab">{d.name} · {tokenValue(d.token)}{d.star ? ' ★' : ''}</div><div class="d-bar" style={`width:${d.w}px`}></div></div>
         ))}
-        <div class="mono muted" style="font-size:10.5px;margin-top:var(--space-md)">ease · {tokenValue('--ease-standard')}</div>
+        <div class="mono muted" style="font-size:var(--fs-2xs);margin-top:var(--space-md)">ease · {tokenValue('--ease-standard')}</div>
       </div>
-      <div class="hoverdemo"><a class="btn btn-p" href="/work">View work</a><div class="mono muted" style="font-size:10.5px">Hover</div></div>
+      <div class="hoverdemo"><a class="btn btn-p" href="/work">View work</a><div class="mono muted" style="font-size:var(--fs-2xs)">Hover</div></div>
     </div>
   </section>
 
@@ -220,7 +223,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
       <thead><tr><th>Pair</th><th>Ratio</th><th>Verdict</th></tr></thead>
       <tbody>
         <tr><td>Ink on paper</td><td class="r">17.6:1</td><td class="aa">AAA</td></tr>
-        <tr><td>Secondary #615D52 on paper</td><td class="r">5.9:1</td><td class="aa">AA</td></tr>
+        <tr><td>Secondary #{hex('--n-600')} on paper</td><td class="r">5.9:1</td><td class="aa">AA</td></tr>
         <tr><td>Accent-700 text on paper</td><td class="r">4.8:1</td><td class="aa">AA</td></tr>
         <tr><td>Ink on orange fill</td><td class="r">6.3:1</td><td class="aa">AA</td></tr>
         <tr><td>Paper on ink (dark)</td><td class="r">17.6:1</td><td class="aa">AAA</td></tr>
@@ -228,7 +231,10 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     </table>
   </section>
 
-  {/* 08 FORMATS */}
+  {/* 08 FORMATS — every font-size in this section is a literal on purpose.
+      These are 1080x1080 / 1080x1920 / 1920x1080 export canvases shrunk by a
+      fixed transform, so their type is measured in export pixels. A --fs-*
+      token here would claim a relationship to UI type that doesn't exist. */}
   <section class="bsec">
     <div class="blabel"><span class="c">[ 08 ]</span><h2 class="t">Formats · the brand, in format</h2><span class="rule"></span></div>
     <p class="intro">How the system shows up as social posts, reel frames, and a lower-third. Placeholder content at true export dimensions, rendered live so the mockups re-theme with the page.</p>
@@ -352,17 +358,17 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   /* type + measure come from the shared .lead primitive in global.css */
   .bhero p { margin-top: var(--space-lg); }
   .bsec { padding: var(--space-4xl) 0; }
-  .bsec .intro { font-size: 16px; line-height: 1.6; color: var(--text-secondary); max-width: 66ch; margin-bottom: var(--space-xl); }
-  .subhead { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin: var(--space-2xl) 0 var(--space-md); }
-  .cap { font-size: 11px; color: var(--text-muted); margin-top: var(--space-sm); line-height: 1.5; }
+  .bsec .intro { font-size: var(--fs-base); line-height: 1.6; color: var(--text-secondary); max-width: 66ch; margin-bottom: var(--space-xl); }
+  .subhead { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin: var(--space-2xl) 0 var(--space-md); }
+  .cap { font-size: var(--fs-2xs); color: var(--text-muted); margin-top: var(--space-sm); line-height: 1.5; }
   .muted { color: var(--text-muted); }
 
   /* foundation */
   .frow { display: flex; align-items: baseline; gap: var(--space-lg); padding: var(--space-md) 0; border-top: 1px solid var(--border); flex-wrap: wrap; }
-  .fspec { font-size: 11px; color: var(--text-muted); width: 200px; flex-shrink: 0; }
-  .fsamp { flex: 1; min-width: 240px; color: var(--text); font-size: 16px; }
-  .fsamp.tagline { font-size: 24px; }
-  .fsamp.mono { font-size: 14px; }
+  .fspec { font-size: var(--fs-2xs); color: var(--text-muted); width: 200px; flex-shrink: 0; }
+  .fsamp { flex: 1; min-width: 240px; color: var(--text); font-size: var(--fs-base); }
+  .fsamp.tagline { font-size: var(--fs-2xl); }
+  .fsamp.mono { font-size: var(--fs-sm); }
 
   /* logo */
   .logoset { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md); }
@@ -372,10 +378,10 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .tile.dark :global(.brandmark) { color: var(--n-50); }
   .lockrow { display: flex; align-items: center; gap: var(--space-md); }
   .lockcol { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
-  .wm { font-size: 30px; color: var(--n-950); }
+  .wm { font-size: var(--fs-3xl); color: var(--n-950); }
   .tile.dark .wm { color: var(--n-50); }
-  .period { display: inline-block; width: .16em; height: .16em; border-radius: 50%; background: var(--accent-fill); vertical-align: baseline; margin-left: .04em; }
-  .period.sq { border-radius: 0; }
+  .period { display: inline-block; width: .16em; height: .16em; border-radius: var(--radius-full); background: var(--accent-fill); vertical-align: baseline; margin-left: .04em; }
+  .period.sq { border-radius: var(--radius-none); }
   .clearrow { display: flex; align-items: flex-end; gap: var(--space-2xl); flex-wrap: wrap; }
   .clearrow :global(.brandmark) { color: var(--text); }
   .csbox { display: inline-block; border: 1px dashed var(--accent-fill); padding: var(--space-lg); border-radius: var(--radius-sm); }
@@ -386,9 +392,12 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   /* surface comes from global .card */
   .dcard { padding: var(--space-lg); position: relative; min-height: 124px; display: flex; align-items: center; justify-content: center; }
   .dcard :global(.brandmark) { color: var(--text); }
-  .x { position: absolute; top: 12px; left: 12px; width: 20px; height: 20px; border-radius: 50%; background: var(--danger); color: #fff; font-size: 12px; line-height: 20px; text-align: center; }
+  .x { position: absolute; top: 12px; left: 12px; width: 20px; height: 20px; border-radius: var(--radius-full); background: var(--danger); color: var(--n-0); font-size: var(--fs-xs); line-height: 20px; text-align: center; }
   .dwrap { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
-  .dlab { font-size: 10.5px; color: var(--text-secondary); text-align: center; line-height: 1.5; }
+  .dlab { font-size: var(--fs-2xs); color: var(--text-secondary); text-align: center; line-height: 1.5; }
+  /* The four "don't" demos below are deliberately off-system: an off-brand
+     blue and a raw drop-shadow are the violation being shown. Tokens here
+     would defeat the point. */
   .d-stretch :global(.brandmark) { transform: scaleX(1.7); }
   .d-recolor :global(.node) { fill: #2A4DFF; }
   .d-shadow :global(.brandmark) { filter: drop-shadow(3px 4px 3px rgba(0, 0, 0, .4)); }
@@ -398,16 +407,16 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   /* type — a spec table: one column per datum, so nothing wraps */
   .tyt { width: 100%; border-collapse: collapse; table-layout: auto; }
   .tyt th {
-    text-transform: uppercase; font-size: 9.5px; color: var(--text-muted);
+    text-transform: uppercase; font-size: var(--fs-3xs); color: var(--text-muted);
     text-align: left; padding: 0 var(--space-md) var(--space-sm) 0; border-bottom: 1px solid var(--border); white-space: nowrap;
   }
   .tyt td { padding: var(--space-md) var(--space-md) var(--space-md) 0; border-bottom: 1px solid var(--border); vertical-align: middle; }
   .tyt .tier {
-    text-transform: uppercase; font-size: 10.5px; color: var(--accent-text); white-space: nowrap;
+    text-transform: uppercase; font-size: var(--fs-2xs); color: var(--accent-text); white-space: nowrap;
   }
   /* face / wt / track never wrap */
   .tyt .meta {
-    font-size: 10.5px; color: var(--text-muted); line-height: 1.5;
+    font-size: var(--fs-2xs); color: var(--text-muted); line-height: 1.5;
   }
   .tyt th:nth-child(2), .tyt td:nth-child(2),
   .tyt th:nth-child(3), .tyt td:nth-child(3),
@@ -422,24 +431,24 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   /* color */
   .ramp { display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-bottom: var(--space-xs); }
   .chip { width: 62px; }
-  .sw { height: 46px; border-radius: var(--radius-sm); border: 1px solid rgba(128, 128, 128, .18); }
-  .hx { font-size: 9.5px; color: var(--text-muted); margin-top: var(--space-2xs); line-height: 1.4; }
+  .sw { height: 46px; border-radius: var(--radius-sm); border: 1px solid var(--swatch-border); }
+  .hx { font-size: var(--fs-3xs); color: var(--text-muted); margin-top: var(--space-2xs); line-height: 1.4; }
   .panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-xs); }
-  .panel { border-radius: var(--radius-lg); padding: var(--space-lg); border: 1px solid rgba(128, 128, 128, .18); }
-  .p-lab { font-size: 10px; text-transform: uppercase; margin-bottom: var(--space-sm); }
-  .p-h { font-size: 22px; margin-bottom: var(--space-xs); }
-  .p-b { font-size: 13px; line-height: 1.55; margin-bottom: var(--space-md); }
-  .p-pill { display: inline-block; font-size: 10px; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); }
+  .panel { border-radius: var(--radius-lg); padding: var(--space-lg); border: 1px solid var(--swatch-border); }
+  .p-lab { font-size: var(--fs-3xs); text-transform: uppercase; margin-bottom: var(--space-sm); }
+  .p-h { font-size: var(--fs-2xl); margin-bottom: var(--space-xs); }
+  .p-b { font-size: var(--fs-sm); line-height: 1.55; margin-bottom: var(--space-md); }
+  .p-pill { display: inline-block; font-size: var(--fs-3xs); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); }
 
   /* layout */
   .s-row { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xs); }
-  .s-lab { font-size: 11px; color: var(--text-secondary); width: 128px; flex-shrink: 0; }
-  .s-bar { height: 14px; background: var(--accent-fill); border-radius: 2px; }
+  .s-lab { font-size: var(--fs-2xs); color: var(--text-secondary); width: 128px; flex-shrink: 0; }
+  .s-bar { height: 14px; background: var(--accent-fill); border-radius: var(--radius-sm); }
   /* 12-column grid demo (matches the brand guidelines Layout section) */
   /* surface comes from global .card */
   .grid-demo { display: flex; gap: var(--space-xs); padding: 0 var(--space-lg); height: 96px; margin-top: var(--space-xl); }
-  .gcol { flex: 1; background: rgba(255, 90, 31, .10); border-left: 1px solid var(--accent-fill); border-right: 1px solid var(--accent-fill); }
-  .gridnote { font-size: 10.5px; margin-top: var(--space-sm); }
+  .gcol { flex: 1; background: color-mix(in srgb, var(--accent-fill) 10%, transparent); border-left: 1px solid var(--accent-fill); border-right: 1px solid var(--accent-fill); }
+  .gridnote { font-size: var(--fs-2xs); margin-top: var(--space-sm); }
   .r-row { display: flex; gap: var(--space-md); flex-wrap: wrap; }
   .r-box { width: 60px; height: 60px; background: var(--surface); border: 1.5px solid var(--text); }
 
@@ -447,37 +456,38 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .motion { display: flex; gap: var(--space-xl); flex-wrap: wrap; align-items: flex-start; }
   .durs { flex: 1; min-width: 240px; }
   .d-row { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xs); }
-  .d-lab { font-size: 11px; color: var(--text-secondary); width: 160px; flex-shrink: 0; }
-  .d-bar { height: 8px; background: var(--accent-fill); border-radius: 2px; }
+  .d-lab { font-size: var(--fs-2xs); color: var(--text-secondary); width: 160px; flex-shrink: 0; }
+  .d-bar { height: 8px; background: var(--accent-fill); border-radius: var(--radius-sm); }
   /* hover demo: label sits below the button, which lifts on hover */
   .hoverdemo { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
 
   /* a11y */
-  table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: var(--space-xs); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); margin-top: var(--space-xs); }
   th, td { text-align: left; padding: var(--space-sm) var(--space-sm); border-bottom: 1px solid var(--border); }
-  th { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
+  th { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); }
   td.r { color: var(--text); }
-  .aa { color: var(--success-text); font-size: 12px; }
+  .aa { color: var(--success-text); font-size: var(--fs-xs); }
   .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin: var(--space-xs) 0 var(--space-xl); }
   .rule-card { border: 1px solid var(--border); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-md); padding: var(--space-md); }
-  .rule-k { font-size: 10px; text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-xs); }
-  .rule-b { font-size: 13.5px; color: var(--text-secondary); line-height: 1.55; }
+  .rule-k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-xs); }
+  .rule-b { font-size: var(--fs-sm); color: var(--text-secondary); line-height: 1.55; }
 
   /* voice */
   .voice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
   /* surface comes from global .card */
   .vcol { padding: var(--space-lg); }
-  .vcol .h { font-size: 11px; text-transform: uppercase; margin-bottom: var(--space-md); }
+  .vcol .h { font-size: var(--fs-2xs); text-transform: uppercase; margin-bottom: var(--space-md); }
   .vcol.do .h { color: var(--accent-text); }
   .vcol.dont-col .h { color: var(--text-muted); }
   .vcol ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-sm); }
-  .vcol li { font-size: 14px; color: var(--text-secondary); padding-left: var(--space-md); position: relative; }
+  .vcol li { font-size: var(--fs-sm); color: var(--text-secondary); padding-left: var(--space-md); position: relative; }
   .vcol li::before { content: "·"; position: absolute; left: 2px; color: var(--accent-text); }
 
-  /* formats — live mockups at true export dimensions (scaled previews) */
+  /* formats — live mockups at true export dimensions (scaled previews).
+     Sizes here are export pixels, not the --fs-* scale. See §08 above. */
   .fmt-stage { display: flex; gap: var(--space-xl); flex-wrap: wrap; align-items: flex-start; }
   .unit { display: flex; flex-direction: column; gap: var(--space-sm); }
-  .spec { font-size: 11px; color: var(--text-muted); }
+  .spec { font-size: var(--fs-2xs); color: var(--text-muted); }
   .spec b { color: var(--text); font-weight: 400; }
   .fr { overflow: hidden; border-radius: var(--radius-sm); border: 1px solid var(--border); }
   .w360 { width: 340px; height: 340px; }

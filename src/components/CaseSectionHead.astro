@@ -26,7 +26,7 @@ const { no, title } = Astro.props;
   }
 
   .cs-head { display: flex; align-items: baseline; gap: var(--space-md); margin-bottom: var(--space-2xl); }
-  .cs-head .no { font-size: 12px; color: var(--accent-text); }
-  .cs-head h2 { font-size: clamp(13px, 2vw, 15px); text-transform: uppercase; }
+  .cs-head .no { font-size: var(--fs-xs); color: var(--accent-text); }
+  .cs-head h2 { font-size: var(--fs-fluid-sm); text-transform: uppercase; }
   .cs-head .rule { flex: 1; height: 1px; background: var(--border); }
 </style>

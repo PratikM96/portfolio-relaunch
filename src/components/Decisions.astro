@@ -35,9 +35,9 @@ const { decisions } = Astro.props;
 
   .decisions { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
   .decision { display: grid; grid-template-columns: 64px 1fr; gap: var(--space-xl); padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); align-items: start; }
-  .decision .dn { font-size: 32px; color: var(--accent-text); line-height: 1; }
-  .decision h3 { font-size: 24px; margin-bottom: var(--space-sm); line-height: 1.1; }
-  .decision p { font-size: 15.5px; line-height: 1.6; color: var(--text-secondary); max-width: 64ch; }
+  .decision .dn { font-size: var(--fs-3xl); color: var(--accent-text); line-height: 1; }
+  .decision h3 { font-size: var(--fs-2xl); margin-bottom: var(--space-sm); line-height: 1.1; }
+  .decision p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: 64ch; }
 
   @media (max-width: 900px) {
     .decision { grid-template-columns: 1fr; gap: var(--space-sm); }

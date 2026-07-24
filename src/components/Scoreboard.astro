@@ -49,8 +49,8 @@ const { cells } = Astro.props;
     border-radius: var(--radius-md); overflow: hidden; margin-top: var(--space-2xl);
   }
   .sb-cell { background: var(--surface); padding: var(--space-lg) var(--space-lg); container-type: inline-size; }
-  .sb-cell .k { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-sm); }
-  .sb-cell .v { font-size: 16px; color: var(--text); line-height: 1.35; }
+  .sb-cell .k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-sm); }
+  .sb-cell .v { font-size: var(--fs-base); color: var(--text); line-height: 1.35; }
   /* accent flag: paint the whole figure, for a unitless value like "100" */
   .sb-cell .v.acc { color: var(--accent-text); }
   /* container query so the figure scales to its cell and stays on one line */

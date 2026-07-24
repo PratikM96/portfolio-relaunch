@@ -93,21 +93,21 @@ import headshot from '../assets/headshot-4x5.jpg';
   .path { display: flex; flex-direction: column; }
   .path .step { display: grid; grid-template-columns: 160px 1fr; gap: var(--space-xl); padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); align-items: baseline; }
   .path .step:last-child { border-bottom: none; }
-  .path .step .yr { font-size: 12px; text-transform: uppercase; color: var(--accent-text); }
-  .path .step h3 { font-size: 22px; margin-bottom: var(--space-xs); }
-  .path .step p { font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); max-width: 62ch; }
+  .path .step .yr { font-size: var(--fs-xs); text-transform: uppercase; color: var(--accent-text); }
+  .path .step h3 { font-size: var(--fs-2xl); margin-bottom: var(--space-xs); }
+  .path .step p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: 62ch; }
 
   /* principles */
   .princ { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
   /* surface comes from global .card */
   .pcard { padding: var(--space-xl); min-height: 200px; display: flex; flex-direction: column; }
-  .pcard .n { font-size: 11px; color: var(--text-muted); }
-  .pcard h3 { font-size: 20px; margin: auto 0 var(--space-sm); }
-  .pcard p { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); }
+  .pcard .n { font-size: var(--fs-2xs); color: var(--text-muted); }
+  .pcard h3 { font-size: var(--fs-xl); margin: auto 0 var(--space-sm); }
+  .pcard p { font-size: var(--fs-sm); line-height: 1.55; color: var(--text-secondary); }
 
   /* tools */
   .tools { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-lg); }
-  .tools span { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-sm); }
+  .tools span { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-sm); }
 
   /* the closing CTA — see CloseCTA.astro */
 

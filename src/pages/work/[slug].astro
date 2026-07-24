@@ -236,23 +236,23 @@ const schema = [
   /* ===== SCOREBOARD HERO ===== */
   .cs-hero { padding: var(--space-4xl) 0 var(--space-3xl); }
   /* .badge / .badge-lg / in-house / agency / concept come from global.css */
-  .cs-hero h1 { font-size: clamp(44px, 6.5vw, 86px); line-height: 0.95; margin: var(--space-lg) 0 0; }
-  .cs-hero .descr { font-size: 20px; line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: var(--space-lg); }
+  .cs-hero h1 { font-size: var(--fs-fluid-hero); line-height: 0.95; margin: var(--space-lg) 0 0; }
+  .cs-hero .descr { font-size: var(--fs-xl); line-height: 1.5; color: var(--text-secondary); max-width: 54ch; margin-top: var(--space-lg); }
   /* non-affiliation disclosure — a visible notice, not a footnote */
-  .cs-disclosure { margin-top: var(--space-lg); padding: var(--space-sm) var(--space-md); border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); max-width: 64ch; }
+  .cs-disclosure { margin-top: var(--space-lg); padding: var(--space-sm) var(--space-md); border: 1px solid var(--border-strong); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-sm); font-size: var(--fs-xs); line-height: 1.5; color: var(--text-secondary); max-width: 64ch; }
   .cs-wall { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--img-frame); margin-top: var(--space-2xl); aspect-ratio: var(--ratio-wide); background: var(--surface); }
   .cs-wall video { width: 100%; height: 100%; object-fit: cover; display: block; }
   /* the poster sits under the video and is removed once playback starts */
   .cs-wall :global(.cs-poster) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .cs-wall.is-playing :global(.cs-poster) { display: none; }
-  .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-size: 10.5px; text-transform: uppercase; color: #fff; background: rgba(11, 11, 10, .55); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); }
+  .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-size: var(--fs-2xs); text-transform: uppercase; color: var(--n-0); background: var(--scrim-chip); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); }
 
   /* click-to-play overlay; native controls take over after the first play */
-  .cs-video-play { position: absolute; inset: 0; width: 100%; height: 100%; display: grid; place-items: center; border: 0; background: rgba(11, 11, 10, .28); cursor: pointer; transition: background .25s var(--ease-standard); }
-  .cs-video-play:hover { background: rgba(11, 11, 10, .16); }
-  .cs-video-play::before { content: ""; position: absolute; width: 78px; height: 78px; border-radius: var(--radius-full); background: #fff; box-shadow: 0 8px 28px rgba(0, 0, 0, .34); transition: transform .25s var(--ease-standard); }
+  .cs-video-play { position: absolute; inset: 0; width: 100%; height: 100%; display: grid; place-items: center; border: 0; background: var(--scrim-base); cursor: pointer; transition: background var(--dur-base) var(--ease-standard); }
+  .cs-video-play:hover { background: var(--scrim-hover); }
+  .cs-video-play::before { content: ""; position: absolute; width: 78px; height: 78px; border-radius: var(--radius-full); background: var(--n-0); box-shadow: var(--shadow-overlay); transition: transform var(--dur-base) var(--ease-standard); }
   .cs-video-play:hover::before { transform: scale(1.06); }
-  .cs-video-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 13px 0 13px 22px; border-color: transparent transparent transparent #0b0b0a; margin-left: var(--space-xs); }
+  .cs-video-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 13px 0 13px 22px; border-color: transparent transparent transparent var(--n-950); margin-left: var(--space-xs); }
   .cs-wall.is-playing .cs-video-play, .cs-wall.is-playing .cap { display: none; }
 
   /* ===== SECTIONS / PROSE / BODY ===== */
@@ -260,12 +260,12 @@ const schema = [
   /* .prose comes from global.css */
   /* ===== REFLECTION + NEXT ===== */
   .cs-next { border-top: 1px solid var(--border); margin-top: var(--space-3xl); }
-  .cs-next a { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2xl) 0; gap: var(--space-lg); transition: padding-left .25s var(--ease-standard); }
+  .cs-next a { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2xl) 0; gap: var(--space-lg); transition: padding-left var(--dur-base) var(--ease-standard); }
   .cs-next a:hover { padding-left: var(--space-sm); }
-  .cs-next .k { font-size: 11px; text-transform: uppercase; color: var(--text-muted); }
-  .cs-next .t { font-size: clamp(28px, 4vw, 46px); line-height: 1; margin-top: var(--space-sm); }
+  .cs-next .k { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); }
+  .cs-next .t { font-size: var(--fs-fluid-2xl); line-height: 1; margin-top: var(--space-sm); }
   /* Not a type tier: a single → glyph, so it takes the display family only. */
-  .cs-next .arrow { font-family: var(--font-display); font-size: 34px; color: var(--accent-text); }
+  .cs-next .arrow { font-family: var(--font-display); font-size: var(--fs-3xl); color: var(--accent-text); }
 
   /* ===== responsive ===== */
   @media (max-width: 900px) { .cs-hero { padding: var(--space-3xl) 0 var(--space-2xl); } }

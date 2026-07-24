@@ -164,7 +164,7 @@ const schema = [
 
   .ahead { padding: var(--space-4xl) 0 var(--space-3xl); max-width: 74ch; }
   .ahead .cats { display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg); }
-  .ahead .m { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-lg); }
+  .ahead .m { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-lg); }
 
   /* .tag / .tag.acc come from global.css */
 
@@ -172,10 +172,10 @@ const schema = [
   .article { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: var(--space-3xl); align-items: start; padding-bottom: var(--space-4xl); }
   .amain { max-width: 70ch; }
   /* body copy comes from the post markdown — style the rendered elements globally */
-  .amain :global(p) { font-size: 18px; line-height: 1.7; color: var(--text-secondary); margin-bottom: var(--space-lg); }
-  .amain :global(p:first-child) { font-size: 21px; line-height: 1.6; color: var(--text); }
-  .amain :global(h2) { font-size: 26px; margin: var(--space-2xl) 0 var(--space-md); }
-  .amain :global(h3) { font-size: 20px; margin: var(--space-xl) 0 var(--space-sm); }
+  .amain :global(p) { font-size: var(--fs-xl); line-height: 1.7; color: var(--text-secondary); margin-bottom: var(--space-lg); }
+  .amain :global(p:first-child) { font-size: var(--fs-xl); line-height: 1.6; color: var(--text); }
+  .amain :global(h2) { font-size: var(--fs-2xl); margin: var(--space-2xl) 0 var(--space-md); }
+  .amain :global(h3) { font-size: var(--fs-xl); margin: var(--space-xl) 0 var(--space-sm); }
   .amain :global(strong) { color: var(--text); font-weight: 600; }
   .amain :global(a) { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
   .amain :global(ul), .amain :global(ol) { margin: 0 0 var(--space-lg) var(--space-lg); color: var(--text-secondary); }
@@ -184,15 +184,15 @@ const schema = [
 
   .amargin { display: flex; flex-direction: column; gap: var(--space-lg); position: sticky; top: 48px; }
   .m-quote { border-top: 1px solid var(--border-strong); padding-top: var(--space-md); }
-  .m-quote p { font-size: 18px; line-height: 1.25; color: var(--text); }
+  .m-quote p { font-size: var(--fs-xl); line-height: 1.25; color: var(--text); }
 
   /* mobile post-foot: author + more writing, shown only where the rail is hidden */
   .post-foot { display: none; }
-  .pf-k { font-size: 10px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: var(--space-md); }
-  .pf-about p { font-size: 15px; line-height: 1.6; color: var(--text-secondary); max-width: 60ch; }
-  .pf-about a { display: inline-block; margin-top: var(--space-sm); font-size: 11px; text-transform: uppercase; color: var(--accent-text); }
+  .pf-k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: var(--space-md); }
+  .pf-about p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: 60ch; }
+  .pf-about a { display: inline-block; margin-top: var(--space-sm); font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); }
   .pf-more ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-md); }
-  .pf-more a { font-size: 17px; line-height: 1.2; color: var(--text-secondary); transition: color .2s var(--ease-standard); }
+  .pf-more a { font-size: var(--fs-lg); line-height: 1.2; color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard); }
   .pf-more a:hover { color: var(--text); }
 
   @media (max-width: 1000px) {

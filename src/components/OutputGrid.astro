@@ -231,11 +231,11 @@ const clipSrc = (clip: string) => ({
 
   /* ===== typed blocks ===== */
   .out { display: flex; flex-direction: column; gap: var(--space-3xl); }
-  .blk-label { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin: 0 0 var(--space-md); }
+  .blk-label { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin: 0 0 var(--space-md); }
 
   /* shared media frame + caption */
   .out .im { position: relative; overflow: hidden; border: 1px solid var(--img-frame); border-radius: var(--radius-lg); background: var(--surface-raised); }
-  .out figcaption { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-sm); }
+  .out figcaption { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-sm); }
   .out figcaption .hint { color: var(--accent-text); }
   .out figure { margin: 0; }
   .out .im :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -276,10 +276,10 @@ const clipSrc = (clip: string) => ({
   /* video block */
   .blk-video { display: grid; grid-template-columns: repeat(var(--cols, 1), 1fr); gap: var(--space-md); }
   .out .vid video { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .ov-play { position: absolute; inset: 0; display: grid; place-items: center; border: 0; background: rgba(11, 11, 10, 0.24); cursor: pointer; transition: background 0.25s var(--ease-standard); }
-  .ov-play:hover { background: rgba(11, 11, 10, 0.14); }
-  .ov-play::before { content: ''; position: absolute; width: 64px; height: 64px; border-radius: var(--radius-full); background: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); }
-  .ov-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #0b0b0a; margin-left: var(--space-2xs); }
+  .ov-play { position: absolute; inset: 0; display: grid; place-items: center; border: 0; background: var(--scrim-base); cursor: pointer; transition: background var(--dur-base) var(--ease-standard); }
+  .ov-play:hover { background: var(--scrim-hover); }
+  .ov-play::before { content: ''; position: absolute; width: 64px; height: 64px; border-radius: var(--radius-full); background: var(--n-0); box-shadow: var(--shadow-overlay); }
+  .ov-play .tri { position: relative; z-index: 1; width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent var(--n-950); margin-left: var(--space-2xs); }
   .vid.is-playing .ov-play { display: none; }
 
   @media (max-width: 900px) {
@@ -289,7 +289,7 @@ const clipSrc = (clip: string) => ({
     .grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  .out-note { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-md); }
+  .out-note { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-md); }
 </style>
 
 <script>
