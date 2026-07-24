@@ -10,9 +10,16 @@ import CloseCTA from '../components/CloseCTA.astro';
 import Brandmark from '../components/Brandmark.astro';
 // Read as a raw string (Vite ?raw), not node:fs — this has to bundle for the Worker.
 import tokensCss from '../styles/tokens.css?raw';
+
+// Comments are stripped BEFORE the lookup. A comment that explains a token
+// naturally writes its name followed by a colon, and the raw text would then
+// match ahead of the real declaration — that shipped once, printing a sentence
+// of prose where the duration should have been. Declarations only.
+const tokenSource = tokensCss.replace(/\/\*[\s\S]*?\*\//g, '');
 const tokenValue = (name: string) => {
-  const m = tokensCss.match(new RegExp(`${name}\\s*:\\s*([^;]+);`));
-  return m ? m[1].trim() : '';
+  const m = tokenSource.match(new RegExp(`${name}\\s*:\\s*([^;]+);`));
+  if (!m) throw new Error(`/brand reads ${name}, which is not declared in tokens.css`);
+  return m[1].trim();
 };
 const hex = (name: string) => tokenValue(name).replace('#', '').toUpperCase();
 const px = (name: string) => tokenValue(name).replace('px', '');
