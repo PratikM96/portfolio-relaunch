@@ -13,6 +13,7 @@
  * global.css.
  */
 import Base from '../layouts/Base.astro';
+import CloseCTA from '../components/CloseCTA.astro';
 import Brandmark from '../components/Brandmark.astro';
 // Token file read as a raw string at build time (Vite ?raw) — no node:fs,
 // so the page bundles cleanly for the Cloudflare Worker runtime.
@@ -313,6 +314,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
       <div class="card vcol dont-col"><div class="h">Don't</div><ul><li>Inflate or overclaim</li><li>Reach for buzzwords</li><li>Over-polish into AI-speak</li><li>Imply concepts are client work</li></ul></div>
     </div>
   </section>
+
+  <CloseCTA />
 </Base>
 
 <style>

@@ -7,6 +7,7 @@
  */
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import CloseCTA from '../components/CloseCTA.astro';
 import headshot from '../assets/headshot-4x5.jpg';
 ---
 
@@ -64,11 +65,7 @@ import headshot from '../assets/headshot-4x5.jpg';
   </section>
 
   {/* CTA */}
-  <section class="block" style="text-align:left">
-    <h2 class="about-cta-h close-h">Let's build it as one system.</h2>
-    <div class="about-cta-avail">Open to creative or marketing leadership roles · New York</div>
-    <div class="btn-row"><a class="btn btn-p" href="/contact">Start a conversation →</a><a class="btn btn-g" href="/work">See the work →</a><a class="btn btn-g" href="/resume">View resume →</a></div>
-  </section>
+  <CloseCTA />
 </Base>
 
 <style>
@@ -78,8 +75,7 @@ import headshot from '../assets/headshot-4x5.jpg';
     font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
   }
   .path .step .yr,
-  .tools span,
-  .about-cta-avail {
+  .tools span {
     font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
   }
   .pcard .n {
@@ -117,9 +113,7 @@ import headshot from '../assets/headshot-4x5.jpg';
   .tools { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-lg); }
   .tools span { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-sm); }
 
-  /* cta */
-  .about-cta-h { max-width: 16ch; margin-bottom: var(--space-lg); }
-  .about-cta-avail { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-xl); }
+  /* the closing CTA is now the shared CloseCTA component */
 
   @media (max-width: 1000px) {
     .ahero { grid-template-columns: 1fr; }

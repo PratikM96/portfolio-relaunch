@@ -180,7 +180,8 @@ img { display: block; max-width: 100%; }
 .tg .sep { color: var(--text-muted); opacity: .5; }
 
 /* ===== CONSOLE RAIL — case-study variant (section nav + scoreboard) ===== */
-.console.cs .brand { flex-direction: row; align-items: center; gap: var(--space-xs); }
+/* the brand lockup (logomark + wordmark) is the shared `.console .brand`, so the
+   case-study rail reads identically to the default rail — no override here. */
 .console .back {
   font-size: 11px; color: var(--text-secondary); margin-top: var(--space-lg);
   display: flex; align-items: center; gap: var(--space-xs); transition: color .2s var(--ease-standard);

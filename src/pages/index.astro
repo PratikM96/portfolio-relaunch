@@ -13,6 +13,7 @@ import SectionLabel from '../components/SectionLabel.astro';
 import DisciplineStrip from '../components/DisciplineStrip.astro';
 import WorkIndex from '../components/WorkIndex.astro';
 import StatFigure from '../components/StatFigure.astro';
+import CloseCTA from '../components/CloseCTA.astro';
 
 // Curated "Selected work" for the home index. The featured pair (SPORTIME + The
 // Ninth) is showcased in the Bento above, so it's omitted here; the full set
@@ -243,13 +244,7 @@ const journalPosts = (await getCollection('journal'))
   </script>
 
   {/* CLOSE */}
-  <section class="close" id="contact">
-    <div class="rev">
-      <h2 class="big close-h">Open to the right role.</h2>
-      <div class="avail">Open to creative or marketing leadership roles · New York</div>
-      <div class="btn-row"><a class="btn btn-p" href="/contact">Start a conversation →</a><a class="btn btn-g" href="/work">See the work →</a></div>
-    </div>
-  </section>
+  <CloseCTA id="contact" />
 </Base>
 
 <script>
@@ -382,10 +377,7 @@ const journalPosts = (await getCollection('journal'))
   .jr-m { font-size: 11px; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }
   @media (max-width: 700px) { .jr-m { display: none; } }
 
-  /* ===== CLOSE ===== */
-  .close { padding: var(--space-4xl) 0; }
-  .close .big { max-width: 14ch; margin-bottom: var(--space-lg); }
-  .close .avail { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-xl); }
+  /* ===== CLOSE — now the shared CloseCTA component ===== */
 
   /* ===== responsive ===== */
   @media (max-width: 1100px) {

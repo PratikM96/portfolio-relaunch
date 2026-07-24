@@ -12,6 +12,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import WorkIndex from '../../components/WorkIndex.astro';
+import CloseCTA from '../../components/CloseCTA.astro';
 import { TYPE_LABEL } from '../../lib/work-type';
 
 const entries = (await getCollection('work')).sort((a, b) => {
@@ -86,6 +87,8 @@ const featured = entries
   {/* shared filterable index + sticky preview (also used on the home) */}
   <h2 class="sr-only">All projects</h2>
   <WorkIndex entries={entries} disciplines stickyFilter />
+
+  <CloseCTA />
 </Base>
 
 <script>

@@ -1,0 +1,34 @@
+---
+/**
+ * CloseCTA.astro — the shared closing call-to-action above the footer on the main
+ * content pages (home, about, work, journal, brand). It carries the resume button
+ * so every page closes the same way. Case-study and journal-POST pages omit it on
+ * purpose: they end with their own next-case / rail flow, and a second
+ * "what's next" here would compete with it.
+ */
+interface Props {
+  /** Optional anchor id. Home keeps `contact` for backwards-compatible deep links. */
+  id?: string;
+}
+const { id } = Astro.props;
+---
+
+<section class:list={['close-cta', 'rev']} id={id}>
+  <h2 class="close-h cta-h">Let's build it as one system.</h2>
+  <div class="cta-avail">Open to creative or marketing leadership roles · New York</div>
+  <div class="btn-row">
+    <a class="btn btn-p" href="/contact">Start a conversation →</a>
+    <a class="btn btn-g" href="/work">See the work →</a>
+    <a class="btn btn-g" href="/resume">View resume →</a>
+  </div>
+</section>
+
+<style>
+  /* type tier — the availability line is a mono label */
+  .cta-avail { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); }
+
+  /* .close-h (display heading) and .btn / .btn-row come from global.css */
+  .close-cta { padding: var(--space-4xl) 0; }
+  .close-cta .cta-h { max-width: 16ch; margin-bottom: var(--space-lg); }
+  .cta-avail { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-xl); }
+</style>
