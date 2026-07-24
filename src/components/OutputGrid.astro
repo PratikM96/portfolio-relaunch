@@ -31,18 +31,53 @@ interface Props {
 }
 const { slug, blocks, note } = Astro.props;
 
-// Responsive width ladders per surface (kept small — output is below the fold).
+/**
+ * Responsive width ladders, in DEVICE pixels — not CSS px.
+ *
+ * A 2-up cell measures ~516 CSS px at a 1440 viewport, so a 2x display needs
+ * ~1030 real px to render sharp. The old ladders were sized to the CSS slot and
+ * handed every block under four columns the same 560px cap, which is what made
+ * the 2-up galleries render soft. Each ladder now tops out near twice its widest
+ * CSS slot. Astro never upscales, so a ladder wider than the source simply emits
+ * fewer candidates — raising these cannot cost an entry whose assets are small.
+ */
 const W = {
-  full: [768, 1100, 1600],
-  half: [480, 700, 900],
-  third: [320, 420, 560],
-  quarter: [260, 340, 440],
-  long: [900, 1200, 1400],
+  cols1: [640, 1000, 1400, 1800],
+  cols2: [480, 800, 1200, 1600],
+  cols3: [360, 600, 900, 1200],
+  cols4: [280, 460, 700, 940],
 };
-const sizesFor = (cols: number) =>
-  cols <= 1
-    ? '(max-width: 1100px) 100vw, 1100px'
-    : `(max-width: 560px) 100vw, (max-width: 1100px) 50vw, ${Math.round(100 / cols)}vw`;
+const ladderFor = (cols: number) =>
+  cols <= 1 ? W.cols1 : cols === 2 ? W.cols2 : cols === 3 ? W.cols3 : W.cols4;
+
+/**
+ * Longpage keeps a deliberately shorter ladder of its own. Its sources are whole
+ * scrolling pages (up to 1400x9334), so every extra width multiplies against a
+ * 9000px height rather than a cropped 16:9 box — the same reason the export caps
+ * in docs/output-assets.md exist. Sharper than before, still bounded.
+ */
+const W_LONG: Record<number, number[]> = {
+  1: [700, 1000, 1400],
+  2: [560, 900, 1200],
+  3: [420, 600, 800],
+};
+
+/**
+ * `sizes` has to account for the fixed console rail, or it lies to the browser.
+ * The stage is inset by --rail (264px, 0 below 900px) plus .pad (64 / 32 / 24px
+ * a side), and the grid gap is --space-md. Below 560px every grid collapses to
+ * 2-up regardless of `cols` (see .grid in the style block below).
+ */
+const GAP = 16;
+const cell = (inset: number, c: number) => `calc((100vw - ${inset + GAP * (c - 1)}px) / ${c})`;
+const sizesFor = (cols: number) => {
+  const c = Math.max(1, cols);
+  return [
+    `(max-width: 560px) ${cell(48, c > 1 ? 2 : 1)}`,
+    `(max-width: 900px) ${cell(64, c)}`,
+    cell(392, c),
+  ].join(', ');
+};
 
 // Video paths are derived from the case slug + clip name — no paths in content.
 const clipSrc = (clip: string) => ({
@@ -64,11 +99,11 @@ const clipSrc = (clip: string) => ({
                     {it.imgDark ? (
                       // theme-aware pair: dark shows by default, light swaps in via CSS
                       <>
-                        <Image class="m-dark" src={it.imgDark} alt={it.alt ?? ''} widths={W.full} sizes={sizesFor(1)} loading="lazy" />
-                        <Image class="m-light" src={it.img} alt={it.alt ?? ''} widths={W.full} sizes={sizesFor(1)} loading="lazy" />
+                        <Image class="m-dark" src={it.imgDark} alt={it.alt ?? ''} widths={ladderFor(1)} sizes={sizesFor(1)} loading="lazy" />
+                        <Image class="m-light" src={it.img} alt={it.alt ?? ''} widths={ladderFor(1)} sizes={sizesFor(1)} loading="lazy" />
                       </>
                     ) : (
-                      <Image src={it.img} alt={it.alt ?? ''} widths={W.full} sizes={sizesFor(1)} loading="lazy" />
+                      <Image src={it.img} alt={it.alt ?? ''} widths={ladderFor(1)} sizes={sizesFor(1)} loading="lazy" />
                     )}
                   </div>
                   {it.caption && <figcaption>{it.caption}</figcaption>}
@@ -86,7 +121,7 @@ const clipSrc = (clip: string) => ({
                 {b.items.map((it) => (
                   <figure class="cell">
                     <div class="im r-1x1">
-                      <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
+                      <Image src={it.img} alt={it.alt ?? ''} widths={ladderFor(cols)} sizes={sizesFor(cols)} loading="lazy" />
                     </div>
                     {it.caption && <figcaption>{it.caption}</figcaption>}
                   </figure>
@@ -105,7 +140,7 @@ const clipSrc = (clip: string) => ({
                 {b.items.map((it) => (
                   <figure class="cell">
                     <div class:list={['im', rClass, b.fit === 'contain' && 'fit-contain', b.bg === 'paper' && 'bg-paper']}>
-                      <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
+                      <Image src={it.img} alt={it.alt ?? ''} widths={ladderFor(cols)} sizes={sizesFor(cols)} loading="lazy" />
                     </div>
                     {it.caption && <figcaption>{it.caption}</figcaption>}
                   </figure>
@@ -124,7 +159,7 @@ const clipSrc = (clip: string) => ({
                 {b.items.map((it) => (
                   <figure class="cell">
                     <div class:list={['im', rClass, b.fit === 'contain' && 'fit-contain']}>
-                      <Image src={it.img} alt={it.alt ?? ''} widths={cols >= 4 ? W.quarter : W.third} sizes={sizesFor(cols)} loading="lazy" />
+                      <Image src={it.img} alt={it.alt ?? ''} widths={ladderFor(cols)} sizes={sizesFor(cols)} loading="lazy" />
                     </div>
                     {it.caption && <figcaption>{it.caption}</figcaption>}
                   </figure>
@@ -136,7 +171,7 @@ const clipSrc = (clip: string) => ({
         if (b.kind === 'longpage') {
           const h = b.height ?? 600;
           const cols = Math.min(3, Math.max(1, b.cols ?? 2));
-          const lpWidths = cols >= 3 ? W.third : cols === 2 ? W.half : W.long;
+          const lpWidths = W_LONG[cols] ?? W_LONG[3];
           return (
             <div class="blk blk-long" style={`--cols:${cols}`}>
               {b.items.map((it) => {

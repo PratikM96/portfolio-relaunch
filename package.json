@@ -11,7 +11,8 @@
     "astro": "astro",
     "check": "astro check",
     "deploy": "npm run build && node -e \"require('fs').rmSync('.wrangler/deploy/config.json',{force:true})\" && wrangler deploy",
-    "og:cards": "node scripts/og/render-cards.mjs"
+    "og:cards": "node scripts/og/render-cards.mjs",
+    "shots": "node scripts/shots/capture.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.0.1",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@types/node": "^26.0.1",
+    "puppeteer-core": "^25.3.0",
     "typescript": "^6.0.3",
     "wrangler": "^4.107.0"
   }

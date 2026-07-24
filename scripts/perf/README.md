@@ -22,10 +22,6 @@ Needs Chrome and network access to the live site. Runs against `mehtapratik.com`
 
 ## The Output screenshots
 
-`src/assets/work/portfolio-system/{d,m}-<page>-<theme>.webp` are above-the-fold
-captures of the live site: desktop (`d-`, 1440x810) home/brand/dealnews and mobile
-(`m-`, 390x844 @2x) home/about/post, each in dark and light. Captured with a
-headless Chrome (puppeteer-core), consent dismissed (`localStorage pm-consent`),
-theme forced via `localStorage pm-theme` (the site's key, not `theme`), reduced
-motion on so reveal content renders. Viewport shots, not full-page, so the fixed
-nav never scrolls out of frame. Regenerate only when the visual design changes.
+Not here — they are `scripts/shots/capture.mjs` (`npm run shots`), which is the
+record of its own URLs, viewports, and theme forcing. Regenerate only when the
+visual design changes.

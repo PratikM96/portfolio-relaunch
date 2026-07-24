@@ -77,14 +77,25 @@ content `image()` helper → `<Image>` renders build-time webp, a responsive
 `srcset`, and intrinsic dims (no CLS). Only web-optimized deliverables are
 committed; masters stay in gitignored `_reference/`.
 
+**A source has to be ~2x its widest CSS slot, not 1x.** The width ladders in
+`OutputGrid.astro` are device pixels: a 2-up cell measures ~516 CSS px at a 1440
+viewport, so a 2x display asks for ~1030 real px. Export a source at the CSS
+width and it renders soft on every retina screen — Astro never upscales, so the
+ladder silently tops out at whatever the source is. The caps below are already
+2x-sized; treat them as floors when a block is wider than its default `cols`.
+
 Export caps (source webp, before Astro re-optimizes per width):
 
 - **mockup** — 2160p (3840×2160) master → cap **1600w**, webp q82 (~85 KB).
   Two files: `flagship.webp` (light/base) + `flagship-dark.webp`.
 - **social** — cap **1000w**, webp q82 (~40–70 KB).
-- **flyer** — cap **1000w**, webp q82.
+- **flyer** — cap **1000w**, webp q82. Screen captures instead: shoot the CSS
+  viewport at `deviceScaleFactor: 2` rather than scaling a 1x shot up.
+- **gallery** — cap **1600w** at `cols: 2` (the widest cell), **1000w** at 3–4.
 - **longpage** — cap **1400w**, webp q82. Keep under ~600 KB even when very tall;
-  drop quality to q78 for the longest infographics.
+  drop quality to q78 for the longest infographics. This kind deliberately keeps
+  a shorter ladder than the rest (`W_LONG`): its height runs to 9000+px, so each
+  extra width multiplies against that, not against a cropped 16:9 box.
 
 ```bash
 # still → capped webp (adjust scale per kind)

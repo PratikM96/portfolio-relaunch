@@ -316,6 +316,26 @@ Dated so they don't get silently re-litigated. Rationale in the commit.
   §3 (both the concept + accent bullets), §8, and the comments in
   `src/lib/work-type.ts` + `src/content.config.ts`.
 
+- **2026-07-24 (c)** — **Output width ladders are DEVICE pixels, and sources are
+  captured at 2x.** The §Output galleries rendered soft because
+  `OutputGrid.astro` sized its ladders to the CSS slot and gave every block under
+  four columns the same `[320, 420, 560]`: a 2-up cell is ~516 CSS px at a 1440
+  viewport, so a 2x display wanted ~1030 real px and the widest candidate on
+  offer was 560. Ladders are now keyed to `cols` and top out near 2x their widest
+  slot (`ladderFor`); `longpage` keeps a shorter one of its own (`W_LONG`)
+  because its sources run 9000+px tall, so width multiplies against height rather
+  than a cropped box. `sizes` also lied — it claimed `100/cols vw` while the
+  fixed 264px rail plus `.pad` inset the stage, so it now resolves the real cell
+  with `calc()` per breakpoint. **Astro never upscales**, which is why this was
+  invisible: a too-short ladder just emits fewer candidates, silently. The six
+  `d-*` portfolio-system shots were 1x captures and were re-shot at 2880x1620.
+  **Screen captures must be shot at `deviceScaleFactor: 2`, never scaled up
+  after.** `scripts/shots/capture.mjs` (`npm run shots`) is now the record of
+  those captures — it was previously prose in `scripts/perf/README.md`, which had
+  drifted (the mobile viewport is 390x694, exactly 9:16, not 390x844, and the
+  third mobile shot is the journal index, not a post). `puppeteer-core` moved
+  from a transitive dep to a declared one.
+
 - **2026-07-24 (b)** — **The site ships as its own case study** (`portfolio-system`).
   Three one-offs bespoke to this single entry, so don't generalize or delete them
   wondering what they are:
