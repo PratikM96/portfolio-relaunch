@@ -8,6 +8,8 @@ import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
 import { publishedJournal, formatDate } from '../../lib/content';
+import { siteOrigin, personRef, websiteRef, breadcrumb } from '../../lib/schema';
+import { ogCard } from '../../lib/media';
 
 export const getStaticPaths = (async () => {
   return publishedJournal(await getCollection('journal'))
@@ -36,7 +38,7 @@ const bio =
   'Pratik builds creative, social, and performance as one system, from the idea to what it does after it ships. Open to creative or marketing leadership roles.';
 
 // Structured data — BlogPosting + breadcrumb.
-const origin = Astro.site ? Astro.site.origin : 'https://mehtapratik.com';
+const origin = siteOrigin(Astro.site);
 const postUrl = `${origin}/journal/${post.id}`;
 const schema = [
   {
@@ -45,28 +47,24 @@ const schema = [
     headline: d.title,
     description: d.excerpt,
     url: postUrl,
-    image: `${origin}/og/journal.png`,
+    image: `${origin}${ogCard('journal')}`,
     datePublished: d.date.toISOString(),
-    author: { '@id': `${origin}/#pratik` },
-    publisher: { '@id': `${origin}/#pratik` },
+    author: personRef(origin),
+    publisher: personRef(origin),
     keywords: d.tags.join(', '),
-    isPartOf: { '@id': `${origin}/#website` },
+    isPartOf: websiteRef(origin),
   },
-  {
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
-      { '@type': 'ListItem', position: 2, name: 'Journal', item: `${origin}/journal` },
-      { '@type': 'ListItem', position: 3, name: d.title },
-    ],
-  },
+  breadcrumb(origin, [
+    { name: 'Home', path: '/' },
+    { name: 'Journal', path: '/journal' },
+    { name: d.title },
+  ]),
 ];
 ---
 
 <Base
   variant="case-study"
-  image="/og/journal.png"
-  ogType="article"
+  image="/og/journal.png"
   schema={schema}
   title={`${d.title} · Journal · Pratik Mehta`}
   description={d.excerpt}

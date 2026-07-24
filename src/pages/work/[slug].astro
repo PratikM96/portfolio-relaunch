@@ -21,6 +21,7 @@ import PlayButton from '../../components/PlayButton.astro';
 import { TYPE_LABEL, TYPE_SCOREBOARD, isConceptType } from '../../lib/work-type';
 import { sortWork, firstYear, isYearRange } from '../../lib/content';
 import { heroVideo as heroVideoPath, ogCard, conceptView } from '../../lib/media';
+import { siteOrigin, personRef, websiteRef, breadcrumb } from '../../lib/schema';
 
 export const getStaticPaths = (async () => {
   // Same order as the /work index, so the footer "next" walks it and wraps.
@@ -86,7 +87,7 @@ const pageTitle = isConcept
   : `${d.title} · Case study · Pratik Mehta`;
 
 // CreativeWork + breadcrumb; author/publisher reference the site graph in Base.
-const origin = Astro.site ? Astro.site.origin : 'https://mehtapratik.com';
+const origin = siteOrigin(Astro.site);
 const workUrl = `${origin}/work/${d.slug}`;
 const schema = [
   {
@@ -97,34 +98,29 @@ const schema = [
     description: d.description,
     url: workUrl,
     image: `${origin}${ogCard(d.slug)}`,
-    author: { '@id': `${origin}/#pratik` },
-    creator: { '@id': `${origin}/#pratik` },
+    author: personRef(origin),
+    creator: personRef(origin),
     dateCreated: firstYear(d.year),
     keywords: d.disciplines.join(', '),
-    isPartOf: { '@id': `${origin}/#website` },
+    isPartOf: websiteRef(origin),
   },
-  {
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
-      { '@type': 'ListItem', position: 2, name: 'Work', item: `${origin}/work` },
-      { '@type': 'ListItem', position: 3, name: d.title },
-    ],
-  },
+  breadcrumb(origin, [
+    { name: 'Home', path: '/' },
+    { name: 'Work', path: '/work' },
+    { name: d.title },
+  ]),
 ];
 
 ---
 
 <Base
   variant="case-study"
-  image={ogCard(d.slug)}
-  ogType="article"
+  image={ogCard(d.slug)}
   schema={schema}
   title={pageTitle}
   description={d.description}
   sections={sections}
-  scoreboard={scoreboard}
-  back={{ href: '/work', label: '← Index · all work' }}
+  scoreboard={scoreboard}
 >
   {/* SCOREBOARD HERO */}
   <header class="cs-hero">

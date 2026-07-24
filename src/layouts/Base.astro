@@ -9,6 +9,8 @@
 import '../styles/tokens.css';
 import '../styles/global.css';
 import Brandmark from '../components/Brandmark.astro';
+import { siteOrigin, personRef } from '../lib/schema';
+import { ogCard } from '../lib/media';
 
 import type { RailSection, ScoreLine } from '../lib/work-type';
 
@@ -31,7 +33,7 @@ interface Props {
   image?: string;
   /** LCP image to preload with high priority (root-relative), e.g. the home hero poster. */
   preloadImage?: string;
-  /** og:type — 'website' (default) | 'article' | 'profile'. */
+  /** og:type. Defaults to 'article' for a case study, 'website' otherwise. */
   ogType?: string;
   /** Emit a robots noindex directive (e.g. the 404 page). */
   noindex?: boolean;
@@ -47,14 +49,17 @@ const {
   sections = [],
   scoreboard = [],
   back = { href: '/work', label: '← Index · all work' },
-  image = '/og/default.png',
+  image = ogCard('default'),
   preloadImage,
-  ogType = 'website',
+  ogType,
   noindex = false,
   schema = [],
 } = Astro.props;
 
 const isCase = variant === 'case-study';
+// A case study is always an article, so the two travel together rather than
+// every case-study page passing both.
+const resolvedOgType = ogType ?? (isCase ? 'article' : 'website');
 // Case studies pass no activeNav, so highlight Work.
 const drawerActive = isCase ? 'work' : activeNav;
 
@@ -78,7 +83,7 @@ const canonical = new URL(cleanPath, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
 
 // Site-wide Person + WebSite graph, plus per-page nodes from the `schema` prop.
-const origin = Astro.site ? Astro.site.origin : 'https://mehtapratik.com';
+const origin = siteOrigin(Astro.site);
 const ldGraph = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -89,7 +94,7 @@ const ldGraph = {
       url: `${origin}/`,
       jobTitle: 'Creative Marketing Lead',
       email: 'mailto:mehtadpratik@gmail.com',
-      image: `${origin}/og/default.png`,
+      image: `${origin}${ogCard('default')}`,
       address: { '@type': 'PostalAddress', addressLocality: 'New York', addressRegion: 'NY', addressCountry: 'US' },
       alumniOf: { '@type': 'CollegeOrUniversity', name: 'New York University' },
       sameAs: ['https://linkedin.com/in/pratikm96', 'https://instagram.com/pratikm96', 'https://x.com/pratikm96'],
@@ -99,7 +104,7 @@ const ldGraph = {
       '@id': `${origin}/#website`,
       name: 'Pratik Mehta',
       url: `${origin}/`,
-      publisher: { '@id': `${origin}/#pratik` },
+      publisher: personRef(origin),
     },
     ...schema,
   ],
@@ -118,7 +123,7 @@ const ldGraph = {
     {noindex && <meta name="robots" content="noindex, follow" />}
 
     {/* Share cards. Image is a same-origin /og/*.png at 1200x630. */}
-    <meta property="og:type" content={ogType} />
+    <meta property="og:type" content={resolvedOgType} />
     <meta property="og:site_name" content="Pratik Mehta" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
