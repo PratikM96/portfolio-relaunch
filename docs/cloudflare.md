@@ -87,6 +87,11 @@ Read-only dashboards, no toggles that affect delivery.
   from cache — improves LCP/TTFB on second-and-later page views. Safe here: it skips
   Worker-logic routes (you have none — static assets don't run code) and your
   `'unsafe-inline'` CSP isn't the `nonce`/`strict-dynamic` kind it can't work with.
+  Cloudflare will prompt you to **enable RUM to "measure Speed Brain impact" — decline
+  it.** RUM *is* Cloudflare Web Analytics, i.e. the `static.cloudflareinsights.com`
+  beacon you removed for LCP (§13). Speed Brain works fully without it; RUM only adds a
+  dashboard graph you don't need (you measure via Lighthouse/PageSpeed + GA4). Enabling
+  it would re-inject the beacon and require re-adding the CSP entries — a net loss.
 - ⬜ **Cloudflare Fonts** — N/A. It self-hosts *Google Fonts* through Cloudflare; this
   site self-hosts its own woff2 with no third-party fonts, so it does nothing either way.
 - ⬜ **Auto Minify** — gone (Cloudflare removed it in 2024). Astro minifies at build.
