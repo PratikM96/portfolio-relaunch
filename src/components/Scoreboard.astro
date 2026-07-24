@@ -13,6 +13,8 @@ type Cell = {
   stat?: boolean;
   /** Unit suffix (e.g. "M", "%", "screens") — stat cells only. */
   unit?: string;
+  /** Force the whole figure to the signal accent (unitless measured results). */
+  accent?: boolean;
 };
 interface Props {
   cells: Cell[];
@@ -25,7 +27,7 @@ const { cells } = Astro.props;
     cells.map((c) => (
       <div class:list={['sb-cell', c.stat && 'stat']}>
         <div class="k">{c.k}</div>
-        <div class="v">{c.stat ? <StatFigure value={c.v} unit={c.unit} /> : c.v}</div>
+        <div class:list={['v', c.accent && 'acc']}>{c.stat ? <StatFigure value={c.v} unit={c.unit} /> : c.v}</div>
       </div>
     ))
   }
@@ -51,6 +53,9 @@ const { cells } = Astro.props;
   .sb-cell { background: var(--surface); padding: var(--space-lg) var(--space-lg); container-type: inline-size; }
   .sb-cell .k { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-sm); }
   .sb-cell .v { font-size: 16px; color: var(--text); line-height: 1.35; }
+  /* accent flag: paint the whole figure with the signal colour (StatFigure's own
+     accent runs already use it, so a unitless value like "100" turns orange too) */
+  .sb-cell .v.acc { color: var(--accent-text); }
   /* stat figure scales to the cell (container query) and stays on one line; number/accent split is in StatFigure */
   .sb-cell.stat .v { font-size: clamp(18px, 16cqi, 34px); white-space: nowrap; }
 

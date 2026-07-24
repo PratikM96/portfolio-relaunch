@@ -66,13 +66,13 @@ real build rather than assuming either.
 
 Drop a markdown file in `src/content/work/`. The frontmatter is typed and validated by `src/content.config.ts`; the build fails if an entry is missing required fields (every entry needs at least one proof figure). One template renders every entry.
 
-`type` is the engagement facet (`in-house` / `agency` / `concept`, see `src/lib/work-type.ts`) and drives the badge, the filters, and the proof rule: real work carries verified metrics, concepts carry scope only and never claim results. Employment type (Internship, Volunteer) belongs in the scoreboard `role` field, not the badge.
+`type` is the engagement facet (`in-house` / `agency` / `concept`, see `src/lib/work-type.ts`) and drives the badge and the filters. Every entry uses one uniform proof block: a verified metric where one was measured, scope where none exists. A concept follows the same case-study rules as real work — a design-only concept carries scope because it has nothing else, a shipped concept (this site, `portfolio-system`) carries real measured results like any entry. Concepts additionally carry a non-affiliation disclosure. Employment type (Internship, Volunteer) belongs in the scoreboard `role` field, not the badge.
 
 Media is convention-located by slug (no paths in content). Every entry needs its hover-to-play work-card set at `public/wc/<slug>/` — dark and light clip plus both posters. `heroVideo: true` additionally opts an entry into a click-to-play case-study hero, and then requires `coverAlt` and `coverCaption`. Video is webm only. See `docs/hero-pipeline.md` and `docs/work-card-video.md` for the encode recipes.
 
 ## Design system
 
-Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ramp, single signal-orange accent reserved for real results, Clash Display / Clash Grotesk / JetBrains Mono). Dark and light themes are both first-class via a no-flash `data-theme` script. Repeated content patterns (`.card` / `.badge` / `.prose` / `.tag`) live once in `global.css`; pages keep only their own layout.
+Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ramp, a single signal-orange accent that marks measured results for any entry type, Clash Display / Clash Grotesk / JetBrains Mono). Dark and light themes are both first-class via a no-flash `data-theme` script. Repeated content patterns (`.card` / `.badge` / `.prose` / `.tag`) live once in `global.css`; pages keep only their own layout.
 
 ### Fonts
 

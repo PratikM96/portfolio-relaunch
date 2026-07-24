@@ -12,8 +12,11 @@
  * is disclosed in the scoreboard `role` field, not here.
  *
  * `concept` is locked by the masters (positioning.md: concept work is never
- * framed as client or freelance) and still drives the proof rule — concepts
- * carry scope only, never performance results.
+ * framed as client or freelance) and always carries a non-affiliation
+ * `disclosure`. It does NOT gate the proof rule: a concept follows the same
+ * case-study rules as real work. Design-only concepts carry scope because they
+ * have no outcomes; a shipped concept (Portfolio System) may carry real measured
+ * results and the accent, same as any entry. See CLAUDE.md §3.
  */
 export type WorkType = 'in-house' | 'agency' | 'concept';
 
@@ -31,14 +34,16 @@ export const TYPE_SCOREBOARD: Record<WorkType, string> = {
   concept: 'Concept · self-initiated',
 };
 
-/** Real work carries the signal accent; concept scope never does (CLAUDE.md). */
+/** True for self-initiated concept work. Used for the disclosure + page title,
+ *  NOT to gate the accent — measured results earn it regardless of type. */
 export const isConceptType = (t: WorkType) => t === 'concept';
 
 /** One item in the case-study rail's section-index nav (also drives scroll-spy). */
 export type RailSection = { ix: string; label: string; href: string };
 
 /**
- * One line of the case-study rail scoreboard. `accent` marks a value as real
- * work, which earns the signal colour; concept scope never does (CLAUDE.md).
+ * One line of the case-study rail scoreboard. `accent` marks a value for the
+ * signal colour. The rail Type line now accents for every entry (concepts
+ * included) — the accent is not gated on engagement type. See CLAUDE.md §3.
  */
 export type ScoreLine = { k: string; v: string; accent?: boolean };

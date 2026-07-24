@@ -62,12 +62,22 @@ external origin that isn't allowlisted fails silently), and the generated
 - **One value per metric, sourced from the Resume Master.** No exact-value
   variants, no invented precision, no ranges. If a figure on the site is more
   precise than the master's, the site is wrong.
-- **Self-initiated concepts** (The Ninth, Level, WISP) are never professional
-  work. They carry **scope, never results**. When Cloud9 is named, The Ninth
-  carries its disclosure verbatim.
-- **Orange is reserved for real results** — this is a proof rule wearing a colour.
-  One signal per surface, one job. Concept scope and neutral data never get it.
-  (`/brand` owns the rest of the accent rules; it does not state this one.)
+- **Self-initiated concepts** are never professional work, and every concept
+  still carries its non-affiliation `disclosure` (enforced by the schema refine;
+  when Cloud9 is named, The Ninth carries its disclosure verbatim). But a concept
+  is **not barred from results**: it follows the same case-study rules as real
+  work. A concept that only exists as design (The Ninth, Level, WISP) carries
+  **scope**, because it has no outcomes to show; a concept that actually shipped
+  and runs (this site, Portfolio System) may carry **real, measured results**,
+  same as any entry. The line is *did it ship and can the number be measured*, not
+  *is it a concept*. The honesty rule above still governs: measured or sourced, or
+  it does not go on the page.
+- **Orange marks real, measured results** — this is a proof rule wearing a colour.
+  One signal per surface, one job. It is **not gated on engagement type**: a
+  concept's measured results earn it exactly like in-house work (the mechanism is
+  `figureRuns` in `src/lib/figure.ts`, which keys off the *figure*, not the
+  entry). Scope figures and neutral data don't trigger it. (`/brand` owns the rest
+  of the accent rules; it does not state this one.)
 - **Apr 2024 to present** = "Independent Creative Systems Practice", role
   "Creative Technologist". Not a company, agency, consultancy, or freelance shop.
   "Self-directed" is internal classification and never a visible label.
@@ -255,7 +265,10 @@ Three values (`src/lib/work-type.ts`): `in-house` (a role held inside the org),
 entry is a position held, and at RAA / Agency FiveEighty the clients belonged to
 the agency. Employment type (Internship, Volunteer) is disclosed in the
 scoreboard `role` field, never the badge — the badge carries engagement +
-discipline. Real-work proof = verified metric; concept proof = scope + rationale.
+discipline. Proof is one uniform shape for every type: a verified metric where one
+was measured, scope + rationale where none exists. A design-only concept has only
+scope; a shipped concept (Portfolio System) carries measured results like any
+entry. Never invent one to fill the box.
 
 **Concept microsites** are embedded proof inside their case study, not a parallel
 front door. Each is its own world with its own brand, CSS, and fonts, served as
@@ -281,6 +294,43 @@ back. Recipes and caps live in `docs/`:
 ## 9. Decision log
 
 Dated so they don't get silently re-litigated. Rationale in the commit.
+
+- **2026-07-24** — **Concept "scope, never results" carve-out retired.** The site
+  itself ships as a case study (`portfolio-system`, `type: concept`), and a
+  shipped concept has real, measured results. So concepts now follow the **same**
+  case-study rules as real work: a concept may carry measured results and the
+  orange accent; the honesty rule still gates every figure (measured or sourced,
+  or it stays off the page). Design-only concepts (The Ninth, Level, WISP) still
+  read as scope only — because that is all they have, not because a rule forbids
+  results — and are **not** rewritten. Disclosure stays required for every
+  concept (the schema refine is untouched); the live-demo launcher stays the one
+  concept-only feature. The proof surfaces (`ProofBox`, hero `Scoreboard`) were
+  never type-gated — accent is decided by `figureRuns` on the *figure*, not the
+  entry — so measured concept results already earn orange there. **Full accent
+  parity** was chosen for the engagement markers too: the rail Type line
+  (`work/[slug].astro`, `accent: !isConcept` → `accent: true`), the corner
+  `.badge.concept` (`global.css`, folded into the accent rule; `--badge-concept-*`
+  in `tokens.css` now unused), and the `/work` index `.ty.concept` badge
+  (`WorkIndex.astro`) all accent like real work now. Consequence: the three
+  existing concepts' badges + Type lines turn orange (intended). Docs squared:
+  §3 (both the concept + accent bullets), §8, and the comments in
+  `src/lib/work-type.ts` + `src/content.config.ts`.
+
+- **2026-07-24 (b)** — **The site ships as its own case study** (`portfolio-system`).
+  Three one-offs bespoke to this single entry, so don't generalize or delete them
+  wondering what they are:
+  - **`perfTable: true`** (schema flag) renders `PerfTable.astro` inside §Proof,
+    driven by **`src/data/portfolio-perf.json`** — a real, dated Lighthouse
+    snapshot (per-page + mobile/desktop averages), not authored numbers.
+    Regenerate it with **`scripts/perf/`** (`run.sh` measures the live site,
+    `emit.mjs` writes the JSON; see its README). Off for every other entry.
+  - **Hero-stat `accent` flag** (`Scoreboard.astro` + the `hero[]` schema) paints a
+    unitless measured result (e.g. "100") the signal colour, since `figureRuns`
+    only accents units/special chars on its own.
+  - **Output is a device × theme matrix** (desktop + mobile, dark + light shots),
+    not the tall-scroll `longpage` — captured above-the-fold so the fixed nav
+    never scrolls out of frame. The snapshot is dated: after a deploy adds a page,
+    re-run `scripts/perf/` (its `urls.txt` lists what's measured).
 
 - **2026-07-23** — **Mobile weight pass + metric-matched font fallbacks.** `72af992`.
   - **Hover clips are gated on `(hover: hover)`, not on width.** Touch devices

@@ -264,11 +264,11 @@ img { display: block; max-width: 100%; }
 .tag.acc { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 40%, transparent); }
 
 /* Engagement corner badge overlaid on card media. .badge-lg is the static,
-   larger case-study-hero variant. Real work carries the signal accent; concept
-   scope never does — see CLAUDE.md and src/lib/work-type.ts. */
+   larger case-study-hero variant. Every engagement type carries the signal
+   accent (the accent is not gated on type) — see CLAUDE.md §3 and
+   src/lib/work-type.ts. (--badge-concept-* in tokens.css is now unused.) */
 .badge { position: absolute; top: var(--space-md); left: var(--space-md); z-index: 2; font-size: 10px; padding: var(--space-2xs) var(--space-xs); border-radius: var(--radius-none); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-.badge.in-house, .badge.agency { background: color-mix(in srgb, var(--accent-fill) 16%, transparent); color: var(--accent-text); border: 1px solid color-mix(in srgb, var(--accent-fill) 40%, transparent); }
-.badge.concept { background: var(--badge-concept-bg); color: var(--badge-concept-tx); border: 1px solid var(--border-strong); }
+.badge.in-house, .badge.agency, .badge.concept { background: color-mix(in srgb, var(--accent-fill) 16%, transparent); color: var(--accent-text); border: 1px solid color-mix(in srgb, var(--accent-fill) 40%, transparent); }
 .badge-lg { position: static; top: auto; left: auto; display: inline-block; font-size: 10.5px; padding: var(--space-2xs) var(--space-sm); backdrop-filter: none; -webkit-backdrop-filter: none; }
 
 /* ===== shared page-header primitives (used by every page hero/head) ===== */

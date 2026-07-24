@@ -155,10 +155,12 @@ const work = defineCollection({
       // --- identity / facet (build-spec core) ---
       title: z.string(),
       slug: z.string(),
-      // Engagement facet — drives the visible badge + filtering, and gates the
-      // proof rule (concept = scope only, never results). See src/lib/work-type.ts
-      // for why this is not `client`: every non-concept entry is a role held, not
-      // a client engagement.
+      // Engagement facet — drives the visible badge + filtering. It does NOT gate
+      // the proof rule: a concept follows the same case-study rules as real work
+      // (design-only concepts carry scope; a shipped concept may carry measured
+      // results). It only forces the `disclosure` refine below. See
+      // src/lib/work-type.ts for why this is not `client`: every non-concept entry
+      // is a role held, not a client engagement.
       type: z.enum(['in-house', 'agency', 'concept']),
       role: z.string(), // rail scoreboard Role
       year: z.string(), // rail scoreboard Year
@@ -190,6 +192,9 @@ const work = defineCollection({
           v: z.string(),
           stat: z.boolean().optional(), // render v as a large proof figure (+ optional unit)
           unit: z.string().optional(),
+          // Force the whole stat figure to the signal accent (for a measured
+          // result whose value carries no unit to accent on its own, e.g. "100").
+          accent: z.boolean().optional(),
         }),
       ),
 
@@ -217,6 +222,12 @@ const work = defineCollection({
       // page order in [slug].astro, not authored per entry. A required `next`
       // block used to sit here, unread by any template, quietly holding stale
       // "Next case study · Client" labels. Don't reintroduce it.)
+
+      // Opt-in: render the measured per-page Lighthouse table (PerfTable.astro,
+      // data in src/data/portfolio-perf.json) inside §Proof, under the headline
+      // figures. Bespoke to the self-referential Portfolio System case study; the
+      // averages still live in `proof.figures`. Off for every other entry.
+      perfTable: z.boolean().default(false),
 
       // --- proof (one uniform shape for every entry; no metric vs scope split) ---
       // Every entry must carry at least one proof figure. The non-empty `figures`

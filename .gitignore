@@ -27,3 +27,6 @@ npm-debug.log*
 # claude.ai/design sync — account-specific tooling, not site source (public repo keeps this out, like _reference/)
 ds-bundle/
 .design-sync/
+
+# perf: raw Lighthouse runs (regenerate via scripts/perf/run.sh)
+scripts/perf/out/

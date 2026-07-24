@@ -45,7 +45,11 @@ const entries = readdirSync(workDir).filter((f) => f.endsWith('.md')).map((f) =>
 });
 
 const TYPE_LABEL = { 'in-house': 'In-house', agency: 'Agency', concept: 'Concept' };
+// Concepts with their own invented microsite brand (public/concepts/<slug>/) get
+// that brand + name tag. Portfolio System is the exception: it IS the One System
+// brand (the site itself), so it falls back to the onesystem palette + tag below.
 const CONCEPT_TAG = { 'the-ninth': 'The Ninth', level: 'Level', wisp: 'WISP' };
+const CONCEPT_BRAND = { 'the-ninth': 'the-ninth', level: 'level', wisp: 'wisp' };
 
 // --- fixed site pages (no collection to derive from)
 const SITE = [
@@ -62,12 +66,12 @@ const WORK = entries.map((e) => {
   const isConcept = e.type === 'concept';
   return {
     name: e.slug,
-    brand: isConcept ? e.slug : 'onesystem',
+    brand: isConcept ? (CONCEPT_BRAND[e.slug] || 'onesystem') : 'onesystem',
     badge: isConcept ? 'Concept' : `Case study · ${TYPE_LABEL[e.type]}`,
     kick: e.disciplines.join(' · '),
     title: e.title,
     meta: isConcept ? 'Self-initiated · mehtapratik.com' : 'Case study · mehtapratik.com',
-    tag: isConcept ? CONCEPT_TAG[e.slug] : 'One System',
+    tag: isConcept ? (CONCEPT_TAG[e.slug] || 'One System') : 'One System',
   };
 });
 

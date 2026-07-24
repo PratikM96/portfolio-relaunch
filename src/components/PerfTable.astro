@@ -1,0 +1,135 @@
+---
+/**
+ * PerfTable.astro — the measured Lighthouse table for the Portfolio System case
+ * study (§Proof). The four-category averages (Performance, Accessibility, Best
+ * Practices, SEO) are the headline; the full per-page table backs them. Data is
+ * real and committed: src/data/portfolio-perf.json, regenerated from raw
+ * Lighthouse runs (scripts/perf/). Gated by the `perfTable` frontmatter flag, so
+ * it renders on this one self-referential entry only. Numbers, never invented.
+ */
+import data from '../data/portfolio-perf.json';
+
+const { mobile, desktop, pages, measuredOn, lighthouseVersion } = data;
+const s = (ms: number) => (ms / 1000).toFixed(ms < 1000 ? 2 : 1); // seconds
+const kb = (k: number) => (k >= 1024 ? (k / 1024).toFixed(1) + ' MB' : k + ' KB');
+const n1 = (x: number) => (x % 1 === 0 ? String(x) : x.toFixed(1)); // whole or 1dp
+
+// The four PageSpeed categories, per strategy — the recognizable summary.
+const heads = [
+  { k: 'Desktop', a: desktop.average },
+  { k: 'Mobile', a: mobile.average },
+];
+// One row per page; the per-page table uses the mobile run (the tougher test).
+const rows = mobile.rows;
+const avg = mobile.average;
+---
+
+<div class="pt rev">
+  <div class="pt-cap">
+    <span>Measured, not projected</span>
+    <span>{pages} pages · Lighthouse {lighthouseVersion} · {measuredOn}</span>
+  </div>
+
+  {/* Averages — the four-category headline, per strategy */}
+  <div class="pt-avg">
+    {heads.map(({ k, a }) => (
+      <div class="pt-avg-col">
+        <div class="pt-avg-k">{k}</div>
+        <div class="pt-cats">
+          <div class="cat"><span class="cv">{n1(a.perf)}</span><span class="cl">Perf</span></div>
+          <div class="cat"><span class="cv">{a.a11y}</span><span class="cl">A11y</span></div>
+          <div class="cat"><span class="cv">{a.bp}</span><span class="cl">Best Pr.</span></div>
+          <div class="cat"><span class="cv">{a.seo}</span><span class="cl">SEO</span></div>
+        </div>
+        <div class="pt-avg-sub">
+          <span><b>{s(a.lcp)}s</b> LCP</span>
+          <span><b>{a.cls.toFixed(2)}</b> CLS</span>
+          <span><b>{a.tbt}ms</b> TBT</span>
+        </div>
+        <div class="pt-avg-note">
+          {a.perfect === a.count ? `Perfect 100 on all ${a.count} pages` : `${a.perfect}/${a.count} pages at 100`} · CLS 0 on {a.zeroCls}/{a.count}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {/* Full per-page table (mobile run) */}
+  <div class="pt-scroll">
+    <table class="pt-table">
+      <thead>
+        <tr>
+          <th class="l">Page<span class="dim"> · mobile</span></th>
+          <th>Perf</th>
+          <th>A11y</th>
+          <th>Best Pr.</th>
+          <th>SEO</th>
+          <th>LCP</th>
+          <th>CLS</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <td class="l">{r.label}</td>
+            <td><span class:list={['sc', r.perf === 100 && 'ok']}>{r.perf}</span></td>
+            <td class={r.a11y === 100 ? 'ok' : ''}>{r.a11y}</td>
+            <td class={r.bp === 100 ? 'ok' : ''}>{r.bp}</td>
+            <td class={r.seo === 100 ? 'ok' : ''}>{r.seo}</td>
+            <td>{s(r.lcp)}s</td>
+            <td class={r.cls === 0 ? 'ok' : ''}>{r.cls.toFixed(2)}</td>
+            <td>{kb(r.kib)}</td>
+          </tr>
+        ))}
+        <tr class="avg">
+          <td class="l">Average</td>
+          <td><span class:list={['sc', avg.perf === 100 && 'ok']}>{n1(avg.perf)}</span></td>
+          <td class="ok">{avg.a11y}</td>
+          <td class="ok">{avg.bp}</td>
+          <td class="ok">{avg.seo}</td>
+          <td>{s(avg.lcp)}s</td>
+          <td class="ok">{avg.cls.toFixed(2)}</td>
+          <td>{kb(avg.kib)}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  /* type tiers — family/weight/tracking only */
+  .pt-cap, .pt-avg-k, .pt-avg-note, .pt-table, .cat .cl { font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track); }
+  .cat .cv { font-family: var(--t-display-font); font-weight: var(--t-display-weight); letter-spacing: var(--t-display-track); }
+  .pt-table thead th { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); }
+
+  /* sits under the ProofBox in §Proof; keep them from touching */
+  .pt { margin-top: var(--space-2xl); border: 1px solid var(--border-strong); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
+  .pt-cap { display: flex; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap; padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--border); font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); }
+
+  /* averages — the four-category headline */
+  .pt-avg { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
+  .pt-avg-col { background: var(--surface); padding: var(--space-xl) var(--space-lg); }
+  .pt-avg-k { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-md); }
+  .pt-cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-sm); }
+  .cat { display: flex; flex-direction: column; gap: 2px; }
+  .cat .cv { font-size: clamp(26px, 5cqi, 38px); line-height: 1; color: var(--accent-text); }
+  .cat .cl { font-size: 9.5px; text-transform: uppercase; color: var(--text-muted); }
+  .pt-avg-sub { display: flex; gap: var(--space-md); flex-wrap: wrap; margin-top: var(--space-lg); font-size: 12px; color: var(--text-secondary); }
+  .pt-avg-sub b { color: var(--text); font-weight: 400; }
+  .pt-avg-note { margin-top: var(--space-sm); font-size: 10px; text-transform: uppercase; color: var(--text-muted); }
+
+  /* table */
+  .pt-scroll { overflow-x: auto; }
+  .pt-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 620px; }
+  .pt-table th, .pt-table td { padding: var(--space-sm) var(--space-md); text-align: right; color: var(--text-secondary); white-space: nowrap; }
+  .pt-table th.l, .pt-table td.l { text-align: left; }
+  .pt-table thead th { font-size: 9.5px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+  .pt-table thead th .dim { color: var(--text-muted); opacity: .6; }
+  .pt-table tbody td { border-bottom: 1px solid var(--border); }
+  .pt-table td.l { color: var(--text); }
+  .pt-table .sc.ok, .pt-table td.ok { color: var(--accent-text); }
+  .pt-table tr.avg td { border-bottom: none; border-top: 1px solid var(--border-strong); color: var(--text); background: color-mix(in srgb, var(--accent-fill) 6%, transparent); }
+  .pt-table tr.avg td.l { text-transform: uppercase; font-size: 10px; letter-spacing: .06em; }
+
+  @media (max-width: 560px) { .pt-avg { grid-template-columns: 1fr; } }
+</style>

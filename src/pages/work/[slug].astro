@@ -21,6 +21,7 @@ import SysFlow from '../../components/SysFlow.astro';
 import Decisions from '../../components/Decisions.astro';
 import OutputGrid from '../../components/OutputGrid.astro';
 import ProofBox from '../../components/ProofBox.astro';
+import PerfTable from '../../components/PerfTable.astro';
 import EmbeddedDemo from '../../components/EmbeddedDemo.astro';
 import { TYPE_LABEL, TYPE_SCOREBOARD, isConceptType } from '../../lib/work-type';
 
@@ -92,7 +93,7 @@ const sections = spine
 // A year range (more than one 4-digit year) pluralizes the rail label.
 const isYearRange = (d.year.match(/\d{4}/g)?.length ?? 0) > 1;
 const scoreboard = [
-  { k: 'Type', v: TYPE_SCOREBOARD[d.type], accent: !isConcept },
+  { k: 'Type', v: TYPE_SCOREBOARD[d.type], accent: true },
   { k: 'Role', v: d.role },
   { k: isYearRange ? 'Years' : 'Year', v: d.year },
 ];
@@ -220,6 +221,7 @@ const schema = [
   <section class="cs-sec" id="proof">
     <CaseSectionHead no={no('proof')} title="Proof" />
     <ProofBox figures={d.proof.figures} note={d.proof.note} />
+    {d.perfTable && <PerfTable />}
   </section>
 
   {/* REFLECTION + NEXT */}
