@@ -59,11 +59,11 @@ import headshot from '../assets/headshot-4x5.jpg';
     <div class="prose rev">
       <p><strong>AI-forward across the workflow.</strong> I use AI across research, production, and iteration, to move faster and cover more of the system. It speeds the work; it does not do the thinking.</p>
     </div>
-    {/* Capabilities, not tools. The actual tool inventory lives on /resume. */}
+    {/* Capabilities, not tools. The tool inventory belongs to /resume and is not repeated
+        here: a second list drifts, and the hero already links to the resume. */}
     <div class="tools rev">
       <span>Brand systems</span><span>Social &amp; content</span><span>UI/UX</span><span>Motion</span><span>Performance</span><span>Design tokens</span><span>Front-end</span><span>AI workflow</span>
     </div>
-    <p class="tools-note rev">Figma, Adobe Creative Cloud, After Effects, Premiere Pro, GA4, paid-media platforms, and AI-assisted production tools. The full list is on the <a href="/resume">resume</a>.</p>
   </section>
 
   {/* CTA */}
@@ -114,8 +114,6 @@ import headshot from '../assets/headshot-4x5.jpg';
   /* tools */
   .tools { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-lg); }
   .tools span { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-sm); }
-  .tools-note { font-size: var(--fs-sm); line-height: 1.6; color: var(--text-muted); max-width: 68ch; margin-top: var(--space-lg); }
-  .tools-note a { color: var(--accent-text); }
 
   /* the closing CTA — see CloseCTA.astro */
 
