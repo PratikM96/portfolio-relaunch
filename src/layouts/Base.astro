@@ -118,7 +118,12 @@ const ldGraph = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
-    <link rel="canonical" href={canonical} />
+    {/* No canonical on a noindex page — naming a preferred URL for a page you
+        are also telling crawlers to drop is a contradictory pair of signals. */}
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {/* Feed autodiscovery, site-wide on purpose: the title names the FEED, not
+        the page, so a reader can subscribe from anywhere. Matches rss.xml's own
+        <title>; if that changes, change this too. */}
     <link rel="alternate" type="application/rss+xml" title="Pratik Mehta · Journal" href="/rss.xml" />
     {noindex && <meta name="robots" content="noindex, follow" />}
 
@@ -132,7 +137,9 @@ const ldGraph = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={title} />
+    {/* Describes the card as an image, not the page — og:title already carries
+        the page title, and the card renders that same title as its artwork. */}
+    <meta property="og:image:alt" content="Pratik Mehta share card" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@pratikm96" />
     <meta name="twitter:title" content={title} />
