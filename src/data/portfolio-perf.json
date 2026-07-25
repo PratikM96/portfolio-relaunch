@@ -1,5 +1,5 @@
 {
-  "measuredOn": "2026-07-24",
+  "measuredOn": "2026-07-25",
   "lighthouseVersion": "13.4.1",
   "pages": 23,
   "mobile": {
@@ -7,15 +7,15 @@
       {
         "slug": "home",
         "label": "Home",
-        "perf": 95,
+        "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2889,
+        "lcp": 2274,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1646,
-        "kib": 1377
+        "fcp": 1029,
+        "kib": 1390
       },
       {
         "slug": "about",
@@ -305,15 +305,15 @@
       }
     ],
     "average": {
-      "perf": 98.3,
+      "perf": 98.5,
       "a11y": 100,
       "bp": 100,
       "seo": 100,
-      "lcp": 2169,
+      "lcp": 2143,
       "cls": 0,
       "tbt": 0,
-      "fcp": 1076,
-      "kib": 254,
+      "fcp": 1049,
+      "kib": 255,
       "perfect": 6,
       "zeroCls": 23,
       "count": 23
@@ -328,11 +328,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 492,
+        "lcp": 735,
         "cls": 0,
         "tbt": 0,
-        "fcp": 294,
-        "kib": 1627
+        "fcp": 424,
+        "kib": 1914
       },
       {
         "slug": "about",
@@ -626,11 +626,11 @@
       "a11y": 100,
       "bp": 100,
       "seo": 100,
-      "lcp": 499,
+      "lcp": 509,
       "cls": 0,
       "tbt": 0,
-      "fcp": 278,
-      "kib": 322,
+      "fcp": 284,
+      "kib": 334,
       "perfect": 23,
       "zeroCls": 23,
       "count": 23
