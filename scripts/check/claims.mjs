@@ -75,6 +75,7 @@ const BANNED = [
   // --- rot ---
   { re: /\b1[0-9]{2}\s+commits\b/i, why: 'Never publish a commit count; it rots immediately (CLAUDE.md §10).' },
   { re: /all \d+ pages/i, why: 'Never publish a page count; PerfTable derives it from portfolio-perf.json.' },
+  { re: /Lighthouse \d+\.\d+/i, why: 'Never publish the Lighthouse version in copy; PerfTable renders it from portfolio-perf.json, and a hardcoded one goes stale on the next run.' },
 ];
 
 /** Strip comments so an intentional note ABOUT a banned string does not trip the check. */

@@ -5,9 +5,10 @@
 # Numbers are measured on the live build, 2026-07-24, Lighthouse 13.4.1; the proof averages
 # also render live via PerfTable (perfTable: true).
 #
-# NEVER put a page count, commit count, line count, or hour count in this copy. Every one
-# of those rots (CLAUDE.md §10) and two of them already did. PerfTable derives the page
-# count from src/data/portfolio-perf.json, which is the only place it belongs.
+# NEVER put a page count, commit count, line count, hour count, Lighthouse version, or
+# measurement date in this copy. Every one rots (CLAUDE.md §10) and three already did.
+# PerfTable renders pages / version / date from src/data/portfolio-perf.json, which is the
+# only place they belong.
 title: Portfolio System
 slug: portfolio-system
 type: concept
@@ -118,7 +119,7 @@ proof:
     # actual 143), which is exactly what CLAUDE.md §10 forbids. PerfTable renders the real
     # page count from portfolio-perf.json, so stating it twice only creates a second
     # number to keep true.
-    text: "Measured on the live build, not projected. Lighthouse 13.4.1 across every page, mobile and desktop, on 2026-07-24. The full per-page table is below. Self-initiated: designed, written, and built solo since March 2026, in a public repo."
+    text: "Measured on the live build, not projected, mobile and desktop. The table below carries the page count, the Lighthouse version, and the date it was run. Self-initiated: designed, written, and built solo since March 2026, in a public repo."
 
 reflection:
   prose:
