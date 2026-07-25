@@ -117,12 +117,14 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
           </a>
         ))}
       </div>
-      {/* Practice-level career totals (System Master), never case-study numbers. */}
+      {/* Practice-level career totals, never case-study numbers. Values and labels are the
+          Claim Registry's public wording verbatim, and /resume renders the same strings:
+          "10K+" was a variant of "10,000+" and drifted from it. */}
       <div class="stat-row">
-        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="10+" unit=" yrs" /></div><div class="lab">creative & marketing</div></div>
-        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="20+" /></div><div class="lab">brands, partners & organizations</div></div>
+        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="10+" /></div><div class="lab">years of cross-channel experience</div></div>
+        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="20+" /></div><div class="lab">brands, partners, and organizations</div></div>
         <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="75+" /></div><div class="lab">campaigns launched</div></div>
-        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="10K+" /></div><div class="lab">design assets produced</div></div>
+        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="10,000+" /></div><div class="lab">design assets produced</div></div>
       </div>
     </div>
   </section>
@@ -337,9 +339,12 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
 
   /* .badge / .badge.in-house / .badge.concept come from global.css */
 
-  .t-stat { padding: var(--space-lg); display: flex; flex-direction: column; justify-content: center; gap: var(--space-sm); min-height: 132px; }
+  /* Figures top-align and labels bottom-align, so a two-line label cannot shift its
+     figure out of line with the others. Centring the whole stack put cards 2 and 4 seven
+     pixels above cards 1 and 3. The label reserves two lines for the same reason. */
+  .t-stat { padding: var(--space-lg); display: flex; flex-direction: column; justify-content: space-between; gap: var(--space-sm); min-height: 132px; }
   .t-stat .fig { font-size: var(--fs-fluid-2xl); line-height: 1; color: var(--text); }
-  .t-stat .lab { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); line-height: 1.5; max-width: 24ch; }
+  .t-stat .lab { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); line-height: 1.5; max-width: 26ch; min-height: 3em; }
 
   /* ===== MODULES ===== */
   .duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }

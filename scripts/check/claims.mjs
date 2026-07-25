@@ -42,6 +42,7 @@ const BANNED = [
   { re: /\b3\+\s*(live |streamed )*use cases?/i, why: 'WISP is 3 use cases, not "3+".' },
   { re: /\b20\+\s*UI components?/i, why: 'Pipeline Medical is 20 UI components, not "20+".' },
   { re: /patterns coded/i, why: 'WISP has "prompt and response patterns"; "coded" overstates it as engineering.' },
+  { re: /\b10K\+/i, why: 'Design assets produced is "10,000+". 10K+ is an abbreviated variant of the same value.' },
 
   // --- stripped hedges: the registry hedges, so the site must too ---
   { re: /\b300\+\s*(digital )?(production )?assets/i, why: 'RAA is "roughly 300" digital assets. Keep the hedge; never "300+".' },
