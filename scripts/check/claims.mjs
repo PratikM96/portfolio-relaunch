@@ -50,7 +50,7 @@ const BANNED = [
   // Bare 60 only: "nearly 60" is the approved wording.
   { re: /(?<!nearly\s)(?<!~)\b60\s+environmental/i, why: 'RAA is "nearly 60" environmental pieces. A bare 60 rounds up past the approved value.' },
 
-  // --- retired exact-value variants (System Master, July 14 2026) ---
+  // --- retired exact-value variants ---
   { re: /29\.81|1\.74\s*%|6\.6\s*%|7\.5\s*%|\$70\.11/, why: 'Retired exact-value metric variant. Use the approved value.' },
 
   // --- claim boundaries ---
@@ -63,7 +63,7 @@ const BANNED = [
   { re: /for a real launch/i, why: 'Pipeline Medical’s launch is not verified. Say "developer handoff and a planned launch".' },
   { re: /survived the founder leaving/i, why: 'Reads as the organisation’s founder. Say the team continued after the handoff.' },
   { re: /can’t drift from the real|can't drift from the real/i, why: '/brand only renders TOKEN VALUES live. Prose, examples and the contrast ratios can all drift.' },
-  { re: /concept case studies carry scope only|scope and rationale, never performance results/i, why: 'Retired 2026-07-24. A shipped concept follows the same rules as real work.' },
+  { re: /concept case studies carry scope only|scope and rationale, never performance results/i, why: 'A shipped concept follows the same rules as real work.' },
 
   // --- style defaults ---
   { re: /·/, why: 'The middle dot is retired from copy. Use | in titles, nothing in meta descriptions, / in label rows.', allow: ['src/layouts/Base.astro', 'src/pages/brand.astro'] },

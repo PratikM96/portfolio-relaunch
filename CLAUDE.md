@@ -96,8 +96,7 @@ the answer. No inflated claims, no buzzwords, no unsupported proof.
 a claim rule (System Master §7), so it is arguable for a specific sentence.
 
 **Separators are contextual.** `|` in `<title>`, none in meta descriptions (write
-sentences), ` / ` in on-page label and data rows. The middle dot is retired from copy; the
-only survivors are structural and commented where they sit, in `Base.astro` and `/brand`.
+sentences), ` / ` in on-page label and data rows. No middle dot in copy; the only ones left are structural and commented where they sit, in `Base.astro` and `/brand`.
 
 Full rules — the declarative-reversal lead, the proof sentence, the honesty
 register, the avoid list — are System Master §5. Don't write in his voice without

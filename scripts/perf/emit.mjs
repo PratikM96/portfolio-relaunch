@@ -48,12 +48,14 @@ function read(strat, slug) {
 const avg = (a) => a.reduce((s, x) => s + x, 0) / a.length;
 
 let lhVersion = '', fetchTime = '';
+const runDays = new Set();
 const build = (strat) => {
   const rows = lines.map((l) => {
     const slug = l.split('|')[0];
     const m = read(strat, slug);
     if (!m) return null;
     lhVersion = m.lhVersion; if (m.fetchTime > fetchTime) fetchTime = m.fetchTime;
+    runDays.add(m.fetchTime.slice(0, 10));
     return { slug, label: LABEL[slug] || slug, perf: m.perf, a11y: m.a11y, bp: m.bp, seo: m.seo, lcp: m.lcp, cls: m.cls, tbt: m.tbt, fcp: m.fcp, kib: m.kib };
   }).filter(Boolean);
   const average = {
@@ -76,6 +78,14 @@ const build = (strat) => {
 const mobile = build('mobile');
 const desktop = build('desktop');
 if (!mobile.rows.length) { console.error('No runs found in scripts/perf/out/. Run scripts/perf/run.sh first.'); process.exit(1); }
+// `measuredOn` is the newest fetchTime, so a half-finished batch would silently inherit
+// today's date while carrying rows from an older run. out/ is gitignored and never
+// cleared, so leftovers survive an interrupted run.sh. Refuse to stamp a mixed set.
+if (runDays.size > 1) {
+  console.error(`Runs span ${runDays.size} days: ${[...runDays].sort().join(', ')}.`);
+  console.error('A snapshot must come from one batch. Re-run scripts/perf/run.sh to completion, then retry.');
+  process.exit(1);
+}
 const data = { measuredOn: fetchTime.slice(0, 10), lighthouseVersion: lhVersion, pages: mobile.rows.length, mobile, desktop };
 const dest = path.join(ROOT, 'src/data/portfolio-perf.json');
 fs.mkdirSync(path.dirname(dest), { recursive: true });

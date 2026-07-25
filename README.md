@@ -20,9 +20,7 @@ npm run check:claims # metric wording, retired claims, style defaults
 ```
 
 `check:claims` runs first in `build` and fails it. The content schema validates the
-*shape* of an entry; this validates the *values*, which is the gap that let 13 metric
-figures drift upward before it existed. Its rules and the Resume Master's Claim Registry
-have to change together.
+*shape* of an entry; this validates the *values*. Its rules and the Resume Master's Claim Registry change together.
 
 ## Project structure
 

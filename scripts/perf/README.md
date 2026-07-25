@@ -13,7 +13,9 @@ node scripts/perf/emit.mjs        # distill runs -> src/data/portfolio-perf.json
 
 - `urls.txt` — the pages measured (the live portfolio, one per line, `slug|url`).
   Add a line when a page ships, then re-run both steps.
-- `run.sh` writes raw Lighthouse JSON to `scripts/perf/out/` (gitignored).
+- `run.sh` writes raw Lighthouse JSON to `scripts/perf/out/` (gitignored). Let it finish:
+  `out/` is never cleared, so an interrupted batch leaves older runs behind. `emit.mjs`
+  refuses to stamp a set that spans more than one day.
 - `emit.mjs` reads that and writes the committed JSON: per-page rows plus
   mobile/desktop averages, stamped with the Lighthouse version and fetch date.
 

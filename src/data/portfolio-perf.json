@@ -24,10 +24,10 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1980,
+        "lcp": 1978,
         "cls": 0,
-        "tbt": 0,
-        "fcp": 833,
+        "tbt": 11,
+        "fcp": 830,
         "kib": 229
       },
       {
@@ -37,11 +37,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1976,
+        "lcp": 1824,
         "cls": 0,
-        "tbt": 0,
-        "fcp": 1079,
-        "kib": 189
+        "tbt": 50,
+        "fcp": 1146,
+        "kib": 190
       },
       {
         "slug": "contact",
@@ -50,11 +50,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1676,
+        "lcp": 1671,
         "cls": 0,
         "tbt": 0,
-        "fcp": 831,
-        "kib": 182
+        "fcp": 823,
+        "kib": 183
       },
       {
         "slug": "journal",
@@ -63,10 +63,10 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1677,
+        "lcp": 1672,
         "cls": 0,
-        "tbt": 0,
-        "fcp": 843,
+        "tbt": 9,
+        "fcp": 824,
         "kib": 183
       },
       {
@@ -76,11 +76,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1676,
+        "lcp": 1671,
         "cls": 0,
         "tbt": 0,
-        "fcp": 820,
-        "kib": 185
+        "fcp": 823,
+        "kib": 183
       },
       {
         "slug": "resume",
@@ -89,24 +89,24 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1973,
+        "lcp": 1970,
         "cls": 0,
         "tbt": 0,
-        "fcp": 999,
-        "kib": 186
+        "fcp": 988,
+        "kib": 187
       },
       {
         "slug": "work",
         "label": "Work index",
-        "perf": 100,
+        "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1832,
+        "lcp": 2127,
         "cls": 0,
         "tbt": 0,
-        "fcp": 932,
-        "kib": 210
+        "fcp": 997,
+        "kib": 206
       },
       {
         "slug": "journal-engineer-to-creative",
@@ -115,37 +115,37 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1677,
+        "lcp": 1672,
         "cls": 0,
         "tbt": 0,
-        "fcp": 843,
-        "kib": 186
+        "fcp": 827,
+        "kib": 185
       },
       {
         "slug": "journal-handoff",
         "label": "Journal: the handoff",
-        "perf": 98,
+        "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2287,
+        "lcp": 1972,
         "cls": 0,
         "tbt": 0,
-        "fcp": 830,
-        "kib": 187
+        "fcp": 987,
+        "kib": 186
       },
       {
         "slug": "journal-ai",
         "label": "Journal: AI + creative",
-        "perf": 100,
+        "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1673,
+        "lcp": 1973,
         "cls": 0,
         "tbt": 0,
-        "fcp": 839,
-        "kib": 185
+        "fcp": 990,
+        "kib": 188
       },
       {
         "slug": "work-agency-fiveeighty",
@@ -154,11 +154,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2748,
+        "lcp": 2731,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1485,
-        "kib": 218
+        "fcp": 1463,
+        "kib": 219
       },
       {
         "slug": "work-dealnews",
@@ -167,7 +167,7 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2120,
+        "lcp": 2122,
         "cls": 0,
         "tbt": 0,
         "fcp": 1008,
@@ -176,28 +176,28 @@
       {
         "slug": "work-frc",
         "label": "Case: Forest Road",
-        "perf": 97,
+        "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2585,
+        "lcp": 1968,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1169,
-        "kib": 200
+        "fcp": 1005,
+        "kib": 198
       },
       {
         "slug": "work-jmtp",
         "label": "Case: JMTP",
-        "perf": 98,
+        "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2276,
+        "lcp": 2273,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1008,
-        "kib": 251
+        "fcp": 1014,
+        "kib": 252
       },
       {
         "slug": "work-level",
@@ -209,34 +209,34 @@
         "lcp": 1971,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1014,
-        "kib": 191
+        "fcp": 996,
+        "kib": 190
       },
       {
         "slug": "work-pipeline-medical",
         "label": "Case: Pipeline Medical",
-        "perf": 96,
+        "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2738,
+        "lcp": 2117,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1388,
-        "kib": 229
+        "fcp": 1009,
+        "kib": 226
       },
       {
         "slug": "work-raa",
         "label": "Case: RAA",
-        "perf": 98,
+        "perf": 95,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2279,
+        "lcp": 2895,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1028,
-        "kib": 239
+        "fcp": 1395,
+        "kib": 243
       },
       {
         "slug": "work-sportime-clubs",
@@ -245,76 +245,76 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2123,
+        "lcp": 2135,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1027,
+        "fcp": 1120,
         "kib": 231
       },
       {
         "slug": "work-sr-love-and-care",
         "label": "Case: SR Love & Care",
-        "perf": 96,
-        "a11y": 100,
-        "bp": 100,
-        "seo": 100,
-        "lcp": 2600,
-        "cls": 0,
-        "tbt": 0,
-        "fcp": 1488,
-        "kib": 194
-      },
-      {
-        "slug": "work-the-ninth",
-        "label": "Case: The Ninth",
         "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 1976,
+        "lcp": 1979,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1003,
-        "kib": 190
+        "fcp": 1018,
+        "kib": 193
+      },
+      {
+        "slug": "work-the-ninth",
+        "label": "Case: The Ninth",
+        "perf": 97,
+        "a11y": 100,
+        "bp": 100,
+        "seo": 100,
+        "lcp": 2570,
+        "cls": 0,
+        "tbt": 0,
+        "fcp": 1150,
+        "kib": 194
       },
       {
         "slug": "work-wisp",
         "label": "Case: WISP",
-        "perf": 97,
+        "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2576,
+        "lcp": 1971,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1158,
-        "kib": 192
+        "fcp": 995,
+        "kib": 190
       },
       {
         "slug": "work-portfolio-system",
         "label": "Case: Portfolio System",
-        "perf": 97,
+        "perf": 99,
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 2589,
+        "lcp": 1969,
         "cls": 0,
         "tbt": 0,
-        "fcp": 1473,
-        "kib": 196
+        "fcp": 1008,
+        "kib": 194
       }
     ],
     "average": {
-      "perf": 98.5,
+      "perf": 98.8,
       "a11y": 100,
       "bp": 100,
       "seo": 100,
-      "lcp": 2143,
+      "lcp": 2065,
       "cls": 0,
-      "tbt": 0,
-      "fcp": 1049,
-      "kib": 255,
-      "perfect": 6,
+      "tbt": 3,
+      "fcp": 1019,
+      "kib": 254,
+      "perfect": 4,
       "zeroCls": 23,
       "count": 23
     }
@@ -344,8 +344,8 @@
         "lcp": 427,
         "cls": 0,
         "tbt": 0,
-        "fcp": 242,
-        "kib": 228
+        "fcp": 251,
+        "kib": 230
       },
       {
         "slug": "brand",
@@ -354,11 +354,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 465,
+        "lcp": 461,
         "cls": 0,
         "tbt": 0,
-        "fcp": 300,
-        "kib": 189
+        "fcp": 305,
+        "kib": 192
       },
       {
         "slug": "contact",
@@ -367,11 +367,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 594,
+        "lcp": 385,
         "cls": 0,
         "tbt": 0,
-        "fcp": 229,
-        "kib": 185
+        "fcp": 236,
+        "kib": 182
       },
       {
         "slug": "journal",
@@ -380,11 +380,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 394,
+        "lcp": 390,
         "cls": 0,
         "tbt": 0,
-        "fcp": 248,
-        "kib": 185
+        "fcp": 243,
+        "kib": 184
       },
       {
         "slug": "privacy",
@@ -393,11 +393,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 589,
+        "lcp": 385,
         "cls": 0,
         "tbt": 0,
-        "fcp": 227,
-        "kib": 184
+        "fcp": 237,
+        "kib": 183
       },
       {
         "slug": "resume",
@@ -406,11 +406,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 466,
+        "lcp": 629,
         "cls": 0,
         "tbt": 0,
-        "fcp": 284,
-        "kib": 186
+        "fcp": 271,
+        "kib": 188
       },
       {
         "slug": "work",
@@ -419,11 +419,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 432,
+        "lcp": 464,
         "cls": 0,
         "tbt": 0,
-        "fcp": 272,
-        "kib": 455
+        "fcp": 284,
+        "kib": 399
       },
       {
         "slug": "journal-engineer-to-creative",
@@ -432,11 +432,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 553,
+        "lcp": 382,
         "cls": 0,
         "tbt": 0,
-        "fcp": 231,
-        "kib": 186
+        "fcp": 237,
+        "kib": 185
       },
       {
         "slug": "journal-handoff",
@@ -445,10 +445,10 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 539,
+        "lcp": 461,
         "cls": 0,
         "tbt": 0,
-        "fcp": 223,
+        "fcp": 275,
         "kib": 187
       },
       {
@@ -458,11 +458,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 388,
+        "lcp": 591,
         "cls": 0,
         "tbt": 0,
-        "fcp": 244,
-        "kib": 185
+        "fcp": 272,
+        "kib": 188
       },
       {
         "slug": "work-agency-fiveeighty",
@@ -471,11 +471,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 526,
+        "lcp": 677,
         "cls": 0,
         "tbt": 0,
-        "fcp": 290,
-        "kib": 357
+        "fcp": 426,
+        "kib": 298
       },
       {
         "slug": "work-dealnews",
@@ -484,11 +484,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 467,
+        "lcp": 471,
         "cls": 0,
         "tbt": 0,
-        "fcp": 291,
-        "kib": 320
+        "fcp": 296,
+        "kib": 270
       },
       {
         "slug": "work-frc",
@@ -497,11 +497,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 475,
+        "lcp": 464,
         "cls": 0,
         "tbt": 0,
-        "fcp": 297,
-        "kib": 200
+        "fcp": 287,
+        "kib": 201
       },
       {
         "slug": "work-jmtp",
@@ -510,11 +510,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 815,
+        "lcp": 547,
         "cls": 0,
         "tbt": 0,
-        "fcp": 401,
-        "kib": 461
+        "fcp": 293,
+        "kib": 382
       },
       {
         "slug": "work-level",
@@ -526,8 +526,8 @@
         "lcp": 462,
         "cls": 0,
         "tbt": 0,
-        "fcp": 281,
-        "kib": 263
+        "fcp": 280,
+        "kib": 264
       },
       {
         "slug": "work-pipeline-medical",
@@ -539,8 +539,8 @@
         "lcp": 509,
         "cls": 0,
         "tbt": 0,
-        "fcp": 293,
-        "kib": 311
+        "fcp": 294,
+        "kib": 277
       },
       {
         "slug": "work-raa",
@@ -549,11 +549,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 531,
+        "lcp": 528,
         "cls": 0,
         "tbt": 0,
-        "fcp": 294,
-        "kib": 302
+        "fcp": 295,
+        "kib": 300
       },
       {
         "slug": "work-sportime-clubs",
@@ -562,11 +562,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 508,
+        "lcp": 505,
         "cls": 0,
         "tbt": 0,
-        "fcp": 292,
-        "kib": 384
+        "fcp": 289,
+        "kib": 315
       },
       {
         "slug": "work-sr-love-and-care",
@@ -578,8 +578,8 @@
         "lcp": 425,
         "cls": 0,
         "tbt": 0,
-        "fcp": 287,
-        "kib": 282
+        "fcp": 293,
+        "kib": 272
       },
       {
         "slug": "work-the-ninth",
@@ -588,10 +588,10 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 464,
+        "lcp": 461,
         "cls": 0,
         "tbt": 0,
-        "fcp": 284,
+        "fcp": 279,
         "kib": 247
       },
       {
@@ -601,10 +601,10 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 465,
+        "lcp": 463,
         "cls": 0,
         "tbt": 0,
-        "fcp": 284,
+        "fcp": 282,
         "kib": 223
       },
       {
@@ -614,11 +614,11 @@
         "a11y": 100,
         "bp": 100,
         "seo": 100,
-        "lcp": 481,
+        "lcp": 467,
         "cls": 0,
         "tbt": 0,
-        "fcp": 305,
-        "kib": 259
+        "fcp": 289,
+        "kib": 249
       }
     ],
     "average": {
@@ -626,11 +626,11 @@
       "a11y": 100,
       "bp": 100,
       "seo": 100,
-      "lcp": 509,
+      "lcp": 491,
       "cls": 0,
       "tbt": 0,
-      "fcp": 284,
-      "kib": 334,
+      "fcp": 289,
+      "kib": 319,
       "perfect": 23,
       "zeroCls": 23,
       "count": 23

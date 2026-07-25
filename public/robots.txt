@@ -1,3 +1,5 @@
+# Everything here is meant to be found, by search engines and AI crawlers alike. This is a
+# hiring asset, and /llms.txt exists so machine readers describe it correctly.
 User-agent: *
 Allow: /
 

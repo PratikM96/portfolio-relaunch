@@ -11,7 +11,7 @@ click-to-play, and carries audio.
   no paths in content, no frontmatter flag. A new entry needs its own set.
 - **Filenames are a contract:** exactly `card.webm`, `poster.webp`,
   `card-light.webm`, `poster-light.webp`. All four required; a typo is a silent 404.
-- **webm only.** The H.264 fallback was dropped (2026-07-22). Don't add it back.
+- **webm only.** No H.264 fallback; don't add one.
 - **Masters (NOT in repo):** gitignored `_reference/media/wc-animations/`.
 
 ## Surfaces that render a card clip
