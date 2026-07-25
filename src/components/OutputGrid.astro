@@ -8,6 +8,7 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import PlayButton from './PlayButton.astro';
+import { outputClip } from '../lib/media';
 
 type Still = { img: ImageMetadata; imgDark?: ImageMetadata; alt?: string; caption?: string };
 type Block =
@@ -64,11 +65,7 @@ const sizesFor = (cols: number) => {
   ].join(', ');
 };
 
-// Derived from slug + clip name — no paths in content.
-const clipSrc = (clip: string) => ({
-  webm: `/ov/${slug}/${clip}.webm`,
-  poster: `/ov/${slug}/${clip}-poster.webp`,
-});
+const clipSrc = (clip: string) => outputClip(slug, clip);
 ---
 
 {

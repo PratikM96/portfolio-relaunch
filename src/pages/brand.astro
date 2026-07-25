@@ -1,14 +1,11 @@
 ---
 /**
- * Brand — the living brand reference. Rules are transcribed from
+ * Brand — the living brand reference. Rules transcribed from
  * One-System-Brand-Guidelines v1.0 (Drive); voice comes from System Master.
  *
- * TOKEN VALUES are read live from tokens.css at build time, so those cannot drift, and
- * `tokenValue` throws if a token disappears. Everything else on this page is hand
- * maintained and CAN drift: the prose, the usage guidance, the format mockups, and the
- * §07 contrast ratios. The ratios are the sharpest case, since they sit beside
- * live-rendered hexes and are computed FROM them, so moving a ramp value updates the hex
- * and silently leaves the ratio wrong. Re-measure §07 whenever the ramp moves.
+ * Token VALUES read live from tokens.css and `tokenValue` throws on a missing one.
+ * Everything else is hand maintained and can drift: prose, usage guidance, format
+ * mockups, and the §07 contrast ratios. Re-measure §07 when the ramp moves.
  */
 import Base from '../layouts/Base.astro';
 import CloseCTA from '../components/CloseCTA.astro';
@@ -16,10 +13,8 @@ import Brandmark from '../components/Brandmark.astro';
 // Read as a raw string (Vite ?raw), not node:fs — this has to bundle for the Worker.
 import tokensCss from '../styles/tokens.css?raw';
 
-// Comments are stripped BEFORE the lookup. A comment that explains a token
-// naturally writes its name followed by a colon, and the raw text would then
-// match ahead of the real declaration — that shipped once, printing a sentence
-// of prose where the duration should have been. Declarations only.
+// Strip comments BEFORE the lookup: a comment explaining a token writes its name
+// followed by a colon, which would match ahead of the real declaration.
 const tokenSource = tokensCss.replace(/\/\*[\s\S]*?\*\//g, '');
 const tokenValue = (name: string) => {
   const m = tokenSource.match(new RegExp(`${name}\\s*:\\s*([^;]+);`));

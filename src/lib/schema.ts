@@ -8,10 +8,8 @@
 export const siteOrigin = (site: URL | undefined): string =>
   site ? site.origin : 'https://mehtapratik.com';
 
-/** Reference to the site-wide Person node in Base's graph. */
 export const personRef = (origin: string) => ({ '@id': `${origin}/#pratik` });
 
-/** Reference to the site-wide WebSite node in Base's graph. */
 export const websiteRef = (origin: string) => ({ '@id': `${origin}/#website` });
 
 /**

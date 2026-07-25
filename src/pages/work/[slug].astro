@@ -82,9 +82,8 @@ const scoreboard = [
   { k: yearRange ? 'Years' : 'Year', v: d.year },
 ];
 
-// Three segments, always. "concept" used to be a fourth on concept entries, but the
-// hero badge and the disclosure both say so already, and a four-part title just gets
-// truncated in search results. Pipes because a <title> is a scan target, not prose.
+// Three segments. The badge and disclosure already mark a concept, and a fourth
+// segment just gets truncated in search results.
 const pageTitle = `${d.title} | Case study | Pratik Mehta`;
 
 // CreativeWork + breadcrumb; author/publisher reference the site graph in Base.

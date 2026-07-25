@@ -65,12 +65,8 @@ const resolvedOgType = ogType ?? (isCase ? 'article' : 'website');
 // Case studies pass no activeNav, so highlight Work.
 const drawerActive = isCase ? 'work' : activeNav;
 
-// Default rail nav; `id` is matched against the `activeNav` prop.
-//
-// Resume is item 04 and is NOT optional: the site is a hiring asset, the resume is a
-// primary hiring route, and /resume passes activeNav="resume". Before 2026-07-25 the rail
-// had no such item, so the resume page highlighted nothing at all. The mobile drawer
-// renders this same list, so adding here fixes both.
+// Default rail nav; `id` is matched against the `activeNav` prop. The mobile drawer
+// renders the same list. Resume is required here: /resume passes activeNav="resume".
 const nav = [
   { ix: '01', id: 'home', label: 'Home', href: '/' },
   { ix: '02', id: 'work', label: 'Work', href: '/work' },

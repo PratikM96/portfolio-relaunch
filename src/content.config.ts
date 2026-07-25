@@ -152,8 +152,8 @@ const work = defineCollection({
           v: z.string(),
           stat: z.boolean().optional(), // render v as a large proof figure
           unit: z.string().optional(),
-          // No `accent` flag: figureRuns accents every numeral, so a unitless value
-          // like "100" needs no override. Removed 2026-07-25; don't reintroduce it.
+          // No `accent` flag: figureRuns accents every numeral, including a unitless
+          // "100". Don't reintroduce it.
         }),
       ),
 

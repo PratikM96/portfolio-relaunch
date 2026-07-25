@@ -20,9 +20,6 @@ export const TYPE_SCOREBOARD: Record<WorkType, string> = {
   concept: 'Concept / self-initiated',
 };
 
-/** Drives the disclosure + page title. Never gates the accent. */
-export const isConceptType = (t: WorkType) => t === 'concept';
-
 /** One item in the case-study rail's section-index nav (also drives scroll-spy). */
 export type RailSection = { ix: string; label: string; href: string };
 

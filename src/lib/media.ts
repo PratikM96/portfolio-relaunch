@@ -1,12 +1,12 @@
 /**
- * Every media path on the site, derived from a slug. Nothing here is authored
- * in content — the templates call these, so adding an entry means adding its
- * files under the same convention and nothing else.
+ * Media paths derived from a slug. Templates call these, so adding an entry means adding
+ * its files under the same convention and nothing else. (Concept demo tabs are the
+ * exception: those `img` paths are authored in content.)
  *
- * These filenames are a contract: they are unhashed and `public/_headers`
- * caches them immutable for a year, so replacing one's bytes in place will not
- * reach a returning visitor. Adding a new slug is always safe; changing an
- * existing file means renaming it. Encode recipes live in docs/.
+ * These filenames are a contract. They are unhashed and `public/_headers` caches them
+ * immutable for a year, so replacing one's bytes in place will not reach a returning
+ * visitor: adding a slug is safe, changing an existing file means renaming it. Encode
+ * recipes live in docs/.
  */
 
 /** Work-card hover clip + poster. `-light` is the light-theme sibling. */
@@ -28,8 +28,6 @@ export const outputClip = (slug: string, clip: string) => ({
 /** Share card. Rendered by scripts/og/render-cards.mjs. */
 export const ogCard = (name: string) => `/og/${name}.png`;
 
-/** A concept microsite view, and its preview still. */
+/** A concept microsite view. */
 export const conceptView = (project: string, view?: string) =>
   view ? `/concepts/${project}/${view}` : `/concepts/${project}/`;
-export const conceptPreview = (project: string, view: string) =>
-  `/concepts/${project}/preview-${view}.webp`;

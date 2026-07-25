@@ -7,9 +7,9 @@
 import type { CollectionEntry } from 'astro:content';
 
 /**
- * Index order: featured first, newest of them leading, then the rest alphabetically.
- * Featured sort by year descending so the most recent paid proof leads; alphabetical put
- * DealNews ahead of SPORTIME and contradicted the home page's order.
+ * Index order: featured first and newest of those leading, then the rest alphabetically.
+ * Featured sort by year descending so the most recent paid proof leads, matching the
+ * home page's curated order.
  */
 export function sortWork(entries: CollectionEntry<'work'>[]): CollectionEntry<'work'>[] {
   return [...entries].sort((a, b) => {
@@ -48,11 +48,9 @@ export function formatDate(d: Date): string {
 export const firstYear = (year: string): string => year.match(/\d{4}/g)?.[0] ?? year;
 
 /**
- * A `role` with its trailing parenthetical dropped, for compact surfaces like the work
- * index: "Graphic and Motion Designer (Internship)" -> "Graphic and Motion Designer".
- *
- * Employment type is still disclosed where CLAUDE.md §8 requires it, on the case-study
- * scoreboard, which renders the full `role`. This only shortens the index row.
+ * A `role` without its trailing parenthetical, for the work index:
+ * "Graphic and Motion Designer (Internship)" -> "Graphic and Motion Designer".
+ * Employment type stays disclosed on the case-study scoreboard, which renders full `role`.
  */
 export const roleShort = (role: string): string => role.replace(/\s*\([^)]*\)\s*$/, '');
 
