@@ -106,7 +106,7 @@ output:
         - { img: ../../assets/work/dealnews/social-2.webp, alt: "DealNews social post" }
         - { img: ../../assets/work/dealnews/social-3.webp, alt: "DealNews social post" }
         - { img: ../../assets/work/dealnews/social-4.webp, alt: "DealNews social post" }
-  note: "DealNews assets, first pass. Flagship mockup pending."
+  note: "Selected in-house work across social, web, email, and editorial."
 
 reflection:
   prose:
@@ -127,5 +127,5 @@ proof:
     - { value: "30", unit: "%", label: "Email open rate" }
     - { value: "7", unit: "%", label: "Paid-search CTR" }
     - { value: "8", unit: "%", label: "Paid-search conversion" }
-    - { value: "$70.11", label: "Cost per lead" }
+    - { value: "$70", label: "Cost per lead" }
 ---
