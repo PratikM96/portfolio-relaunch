@@ -1,8 +1,8 @@
 ---
 title: "Most creative dies in the handoff"
 date: 2026-04-30
-excerpt: "Creative quality is the biggest controllable driver of marketing return, and the thing teams are most willing to hand off and stop watching. The fix is structural, not a better brief."
-topic: "Systems · Marketing"
+excerpt: "Across the research, creative quality is one of the largest controllable drivers of marketing return. It is also the thing teams are most willing to hand off and stop watching. The fix is structural, not a better brief."
+topic: "Systems / Marketing"
 tags: ["systems", "creative", "marketing", "brand and performance"]
 readingTime: "4 min"
 pullquote: "Make it, then make it perform. Same system, same people, same loop."
@@ -18,7 +18,7 @@ This isn't a talent problem. It's a structural one. In most marketing orgs, the 
 
 ## Why the leak is expensive
 
-Here's the part that should bother you. Creative quality is the single biggest controllable driver of advertising return, by a wide margin. Nielsen's analysis of hundreds of campaigns put creative at close to half of a brand's sales lift from advertising, more than targeting, reach, and recency combined. A separate study Google commissioned from Nielsen put it nearer 70 percent. The exact figure moves around by medium and method, but the direction never does: what the work says, and how it says it, matters more than where you put it.
+Here's the part that should bother you. Across the studies below, creative quality comes out as one of the largest controllable drivers of advertising return. Nielsen's analysis of hundreds of campaigns put creative at close to half of a brand's sales lift from advertising, more than targeting, reach, and recency combined. A separate study Google commissioned from Nielsen put it nearer 70 percent. The exact figure moves around by medium and method, but the direction never does: what the work says, and how it says it, matters more than where you put it.
 
 And when creative degrades, you pay for it in media. System1 and Peter Field have a name for the failure mode. They call it dull. Their research found that emotionally flat, forgettable ads need roughly 2.6 times the media spend to move market share the way an interesting ad does. Dull is a tax. The handoff is where interesting goes to become dull.
 
@@ -40,7 +40,7 @@ Creative is the most valuable thing most marketing teams produce, and the thing 
 
 **Sources**
 
-- Nielsen / NCSolutions, creative's share of sales lift: [marketingcharts.com](https://www.marketingcharts.com/advertising-trends-230468) · [nielsen.com](https://www.nielsen.com/insights/2017/perspectives-want-a-successful-ad-get-creative/)
+- Nielsen / NCSolutions, creative's share of sales lift: [marketingcharts.com](https://www.marketingcharts.com/advertising-trends-230468) / [nielsen.com](https://www.nielsen.com/insights/2017/perspectives-want-a-successful-ad-get-creative/)
 - Nielsen study commissioned by Google (creative ~70%): [Meta for Business](https://www.facebook.com/business/news/insights/high-quality-creative-increases-ad-roi)
 - System1 / eatbigfish, "The Extraordinary Cost of Dull": [system1group.com](https://system1group.com/the-extraordinary-cost-of-dull)
 - Binet & Field, "The Long and the Short of It" (IPA): [summary](https://www.alexmurrell.co.uk/summaries/les-binet-and-peter-field-the-long-and-the-short-of-it)

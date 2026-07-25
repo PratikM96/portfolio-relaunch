@@ -2,7 +2,7 @@
 title: "Engineer to creative: why I think in systems"
 date: 2026-06-30
 excerpt: "A computer science background isn't a detour from creative work. It's where the advantage comes from."
-topic: "Career · Systems"
+topic: "Career / Systems"
 tags: ["systems thinking", "career", "creative technologist"]
 readingTime: "3 min"
 pullquote: "Creative work is a system too, and most people are treating it like a pile of separate parts."
@@ -18,7 +18,7 @@ Here's why. Engineering teaches you to see systems before you see parts. You lea
 
 Design is what pulled me forward. I was leading a volunteer marketing and design team for a nonprofit, and somewhere in building that team I realized I cared more about the people the work was for than the code underneath it. Design moved me toward the audience. Marketing kept me there, because marketing makes the work accountable, it has to actually do something once it's in front of someone. Motion, social, UI, content, and performance stacked on top of that over the years. The thread through all of it was never the medium. It was the system.
 
-That background is an advantage in a field that mostly doesn't have it. Most creative and marketing work fails in the gaps between specialties: the brand team and the performance team optimizing against each other, the work degrading every time it's passed along. An engineer's instinct runs the other way. You close the loop. You instrument the inputs. You design for the feedback, not just the output. When I build creative, social, and performance as one system instead of three handoffs, that isn't a marketing philosophy I picked up somewhere. It's how I was taught to think about machines, pointed at audiences instead.
+That background gives me a real advantage in roles where creative, product, distribution, and measurement have to connect. Most creative and marketing work fails in the gaps between specialties: the brand team and the performance team optimizing against each other, the work degrading every time it's passed along. An engineer's instinct runs the other way. You close the loop. You instrument the inputs. You design for the feedback, not just the output. When I build creative, social, and performance as one system instead of three handoffs, that isn't a marketing philosophy I picked up somewhere. It's how I was taught to think about machines, pointed at audiences instead.
 
 ## The hybrid has a name now
 
@@ -28,8 +28,10 @@ I'm not the best pure designer in any room, and I haven't shipped production cod
 
 ---
 
-**Sources**
+**Further reading**
 
-- "From Strategy To Execution: The Role Of A Systems Mindset In Marketing Leadership," Forbes Communications Council (2023): [forbes.com](https://www.forbes.com/councils/forbescommunicationscouncil/2023/10/30/from-strategy-to-execution-the-role-of-a-systems-mindset-in-marketing-leadership/)
+Practitioner writing rather than research, which is the right weight for a piece that is mostly my own argument.
+
+- On a systems mindset in marketing leadership, Forbes Communications Council (2023), a contributor column: [forbes.com](https://www.forbes.com/councils/forbescommunicationscouncil/2023/10/30/from-strategy-to-execution-the-role-of-a-systems-mindset-in-marketing-leadership/)
 - On the T-shaped creative: [cxl.com](https://cxl.com/blog/t-shaped-marketer/)
 - On the design engineer / creative technologist path: [Adobe Design](https://adobe.design/stories/leading-design/should-you-pursue-a-career-in-design-engineering)

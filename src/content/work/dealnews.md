@@ -1,7 +1,8 @@
 ---
-# DealNews - content entry (refit to real schema). Drop-in for src/content/work/dealnews.md
-# Client. Headline = 110K+ audience (approved). Numbers distributed: audience in problem, in-house breadth in
-# system, landing-page conv in reflection, performance results in ProofBox. No em/en dashes.
+# DealNews - content entry. In-house role, not a client engagement. Headline figure is the
+# FACEBOOK following (110K), labelled as such; the combined audience is roughly 130K.
+# Numbers distributed: audience in problem, in-house breadth in system, landing-page
+# conversion in reflection, performance results in ProofBox.
 title: DealNews
 slug: dealnews
 type: in-house
@@ -9,24 +10,34 @@ role: Social and Graphic Manager
 year: "2020-2022"
 disciplines: [Brand, Social, Design, Paid]
 coverAlt: "DealNews in-house social and design"
-coverCaption: "DealNews · in-house social, paid, and design"
+coverCaption: "DealNews / in-house social, paid, and design"
 heroVideo: true # files at /hero/dealnews/ (see docs/hero-pipeline.md)
-featured: false
+# Featured alongside SPORTIME: the two paid-role stories that carry scale and the
+# creative-to-performance loop. See CLAUDE.md decision log, 2026-07-25 (b).
+featured: true
 description: "Social, paid media, and in-house design across web, app, and marketing collateral for an ecommerce deals brand."
-badge: "In-house · Social & Design"
+badge: "In-house / Social & Design"
 lede: "In-house social, paid, and design for an ecommerce deals brand, run end to end by one person."
 
 hero:
   - { k: Role, v: "Social and Graphic Manager" }
-  - { k: Disciplines, v: "Brand · Social · Design · Paid" }
+  - { k: Disciplines, v: "Brand, Social, Design, Paid" }
   - { k: Timeframe, v: "2020-2022" }
-  - { k: Audience, v: "110K+", stat: true }
+  # Labelled Facebook, not "Audience": 110K is the Facebook following alone, and the
+  # margin block beside it breaks out Instagram and LinkedIn separately.
+  - { k: "Facebook audience", v: "110K", stat: true }
+
+# [NEEDS: Pratik] a verified `collaborators` line. Omitted rather than guessed.
+contribution:
+  owned: "Social, paid, and in-house design as one function: social content, paid campaigns, email, landing pages, app updates, infographics, logos, and sales materials."
+  team: "No reports. Sole owner of the function inside a much larger company."
+  constraints: "A deals platform running on volume and speed, where an offer has to read instantly, across a following of roughly 130,000 people."
 
 problem:
   prose:
-    - lead: "One brand, every surface, one person."
+    - lead: "One brand, every surface, one owner."
       text: "DealNews lives on volume and speed. Content moves constantly across social, email, paid, and product surfaces, and the audience only cares if the deal is clear and fast."
-    - text: "The problem was coverage: be the social manager, the lead designer, and the paid support across a 110K+ following without the work getting thin."
+    - text: "The problem was coverage: be the social manager, the lead designer, and the paid support across a following of roughly 130,000 people without the work getting thin."
   margin:
     - type: meta
       label: "The audience"
@@ -37,8 +48,8 @@ problem:
 
 system:
   prose:
-    - lead: "One in-house creative as the whole pipeline."
-      text: "Social content, paid campaigns, email, landing pages, app updates, infographics, and logos all ran through a single owner. That kept the brand consistent across every surface and put creative decisions and performance feedback in the same hands."
+    - lead: "One in-house owner connecting every marketing surface."
+      text: "Social content, paid campaigns, email, landing pages, app updates, infographics, and logos all ran through a single owner inside a much larger company. That kept the brand consistent across every surface and put creative decisions and performance feedback in the same hands."
     - text: "Design served distribution: every asset was built for where it had to perform, feed, inbox, paid placement, or landing page."
   margin:
     - type: stat
@@ -73,7 +84,7 @@ output:
         - img: ../../assets/work/dealnews/flagship.webp
           imgDark: ../../assets/work/dealnews/flagship-dark.webp
           alt: "DealNews in-house design across social, email, paid, and web"
-          caption: "In-house design system · social, paid, email, web"
+          caption: "In-house design system / social, paid, email, web"
     - kind: longpage          # websites, 2-up, browser chrome
       cols: 2
       height: 620
@@ -114,7 +125,7 @@ reflection:
   margin:
     - type: stat
       label: "Landing pages"
-      value: "7"
+      value: "~7"
       unit: "%"
       desc: "median conversion"
     - type: note

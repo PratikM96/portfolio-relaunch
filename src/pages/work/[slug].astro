@@ -10,6 +10,7 @@ import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CaseSectionHead from '../../components/CaseSectionHead.astro';
 import Scoreboard from '../../components/Scoreboard.astro';
+import ContributionBox from '../../components/ContributionBox.astro';
 import ProseSection from '../../components/ProseSection.astro';
 import SysFlow from '../../components/SysFlow.astro';
 import Decisions from '../../components/Decisions.astro';
@@ -18,7 +19,7 @@ import ProofBox from '../../components/ProofBox.astro';
 import PerfTable from '../../components/PerfTable.astro';
 import EmbeddedDemo from '../../components/EmbeddedDemo.astro';
 import PlayButton from '../../components/PlayButton.astro';
-import { TYPE_LABEL, TYPE_SCOREBOARD, isConceptType } from '../../lib/work-type';
+import { TYPE_LABEL, TYPE_SCOREBOARD } from '../../lib/work-type';
 import { sortWork, firstYear, isYearRange } from '../../lib/content';
 import { heroVideo as heroVideoPath, ogCard, conceptView } from '../../lib/media';
 import { siteOrigin, personRef, websiteRef, breadcrumb } from '../../lib/schema';
@@ -38,11 +39,10 @@ export const getStaticPaths = (async () => {
 const { entry, nextEntry } = Astro.props;
 const d = entry.data;
 const csNext = {
-  kicker: `Next case study · ${TYPE_LABEL[nextEntry.type]}`,
+  kicker: `Next case study / ${TYPE_LABEL[nextEntry.type]}`,
   title: nextEntry.title,
   href: `/work/${nextEntry.slug}`,
 };
-const isConcept = isConceptType(d.type);
 
 // Optional hero video, located by slug. The poster goes through the image
 // pipeline (src/assets/) because it is the LCP element; only the video, which
@@ -82,9 +82,10 @@ const scoreboard = [
   { k: yearRange ? 'Years' : 'Year', v: d.year },
 ];
 
-const pageTitle = isConcept
-  ? `${d.title} · Case study · concept · Pratik Mehta`
-  : `${d.title} · Case study · Pratik Mehta`;
+// Three segments, always. "concept" used to be a fourth on concept entries, but the
+// hero badge and the disclosure both say so already, and a four-part title just gets
+// truncated in search results. Pipes because a <title> is a scan target, not prose.
+const pageTitle = `${d.title} | Case study | Pratik Mehta`;
 
 // CreativeWork + breadcrumb; author/publisher reference the site graph in Base.
 const origin = siteOrigin(Astro.site);
@@ -115,12 +116,12 @@ const schema = [
 
 <Base
   variant="case-study"
-  image={ogCard(d.slug)}
+  image={ogCard(d.slug)}
   schema={schema}
   title={pageTitle}
   description={d.description}
   sections={sections}
-  scoreboard={scoreboard}
+  scoreboard={scoreboard}
 >
   {/* SCOREBOARD HERO */}
   <header class="cs-hero">
@@ -129,6 +130,7 @@ const schema = [
     <p class="descr rev-load">{d.lede}</p>
     {d.disclosure && <p class="cs-disclosure rev-load">{d.disclosure}</p>}
     <Scoreboard cells={d.hero} />
+    {d.contribution && <ContributionBox contribution={d.contribution} />}
     {heroVideo && heroPoster && (
       <div class="frame cs-wall rev-load" data-cs-video>
         {/* A real <img>, not the video's `poster` attribute, so it gets a

@@ -24,7 +24,7 @@ const avg = mobile.average;
 <div class="pt rev">
   <div class="pt-cap">
     <span>Measured, not projected</span>
-    <span>{pages} pages · Lighthouse {lighthouseVersion} · {measuredOn}</span>
+    <span>{pages} pages / Lighthouse {lighthouseVersion} / {measuredOn}</span>
   </div>
 
   {/* Averages — the four-category headline, per strategy */}
@@ -44,7 +44,7 @@ const avg = mobile.average;
           <span><b>{a.tbt}ms</b> TBT</span>
         </div>
         <div class="pt-avg-note">
-          {a.perfect === a.count ? `Perfect 100 on all ${a.count} pages` : `${a.perfect}/${a.count} pages at 100`} · CLS 0 on {a.zeroCls}/{a.count}
+          {a.perfect === a.count ? `Perfect 100 on all ${a.count} pages` : `${a.perfect}/${a.count} pages at 100`} / CLS 0 on {a.zeroCls}/{a.count}
         </div>
       </div>
     ))}
@@ -55,7 +55,7 @@ const avg = mobile.average;
     <table class="pt-table">
       <thead>
         <tr>
-          <th class="l">Page<span class="dim"> · mobile</span></th>
+          <th class="l">Page<span class="dim"> / mobile</span></th>
           <th>Perf</th>
           <th>A11y</th>
           <th>Best Pr.</th>

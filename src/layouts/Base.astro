@@ -9,8 +9,10 @@
 import '../styles/tokens.css';
 import '../styles/global.css';
 import Brandmark from '../components/Brandmark.astro';
+import { getImage } from 'astro:assets';
 import { siteOrigin, personRef } from '../lib/schema';
 import { ogCard } from '../lib/media';
+import headshot from '../assets/headshot-4x5.jpg';
 
 import type { RailSection, ScoreLine } from '../lib/work-type';
 
@@ -42,13 +44,13 @@ interface Props {
 }
 
 const {
-  title = 'Pratik Mehta · Creative Marketing Lead',
+  title = 'Pratik Mehta | Creative Marketing Lead',
   description,
   variant = 'default',
   activeNav = 'home',
   sections = [],
   scoreboard = [],
-  back = { href: '/work', label: '← Index · all work' },
+  back = { href: '/work', label: '← Index, all work' },
   image = ogCard('default'),
   preloadImage,
   ogType,
@@ -64,13 +66,19 @@ const resolvedOgType = ogType ?? (isCase ? 'article' : 'website');
 const drawerActive = isCase ? 'work' : activeNav;
 
 // Default rail nav; `id` is matched against the `activeNav` prop.
+//
+// Resume is item 04 and is NOT optional: the site is a hiring asset, the resume is a
+// primary hiring route, and /resume passes activeNav="resume". Before 2026-07-25 the rail
+// had no such item, so the resume page highlighted nothing at all. The mobile drawer
+// renders this same list, so adding here fixes both.
 const nav = [
   { ix: '01', id: 'home', label: 'Home', href: '/' },
   { ix: '02', id: 'work', label: 'Work', href: '/work' },
   { ix: '03', id: 'about', label: 'About', href: '/about' },
-  { ix: '04', id: 'brand', label: 'Brand', href: '/brand' },
-  { ix: '05', id: 'journal', label: 'Journal', href: '/journal' },
-  { ix: '06', id: 'contact', label: 'Contact', href: '/contact' },
+  { ix: '04', id: 'resume', label: 'Resume', href: '/resume' },
+  { ix: '05', id: 'brand', label: 'Brand', href: '/brand' },
+  { ix: '06', id: 'journal', label: 'Journal', href: '/journal' },
+  { ix: '07', id: 'contact', label: 'Contact', href: '/contact' },
 ];
 
 const year = 2026; // static; avoids per-request Date() in the worker
@@ -84,6 +92,9 @@ const ogImage = new URL(image, Astro.site).href;
 
 // Site-wide Person + WebSite graph, plus per-page nodes from the `schema` prop.
 const origin = siteOrigin(Astro.site);
+// Person.image wants a photo OF the person, not a branded share card. Run it through the
+// image pipeline so the URL is the hashed, optimized asset the pages already serve.
+const personImage = await getImage({ src: headshot, width: 800, format: 'webp' });
 const ldGraph = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -94,7 +105,7 @@ const ldGraph = {
       url: `${origin}/`,
       jobTitle: 'Creative Marketing Lead',
       email: 'mailto:mehtadpratik@gmail.com',
-      image: `${origin}${ogCard('default')}`,
+      image: `${origin}${personImage.src}`,
       address: { '@type': 'PostalAddress', addressLocality: 'New York', addressRegion: 'NY', addressCountry: 'US' },
       alumniOf: { '@type': 'CollegeOrUniversity', name: 'New York University' },
       sameAs: ['https://linkedin.com/in/pratikm96', 'https://instagram.com/pratikm96', 'https://x.com/pratikm96'],
@@ -124,7 +135,7 @@ const ldGraph = {
     {/* Feed autodiscovery, site-wide on purpose: the title names the FEED, not
         the page, so a reader can subscribe from anywhere. Matches rss.xml's own
         <title>; if that changes, change this too. */}
-    <link rel="alternate" type="application/rss+xml" title="Pratik Mehta · Journal" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Pratik Mehta | Journal" href="/rss.xml" />
     {noindex && <meta name="robots" content="noindex, follow" />}
 
     {/* Share cards. Image is a same-origin /og/*.png at 1200x630. */}
@@ -260,7 +271,7 @@ const ldGraph = {
             <div class="readout">
               <div class="status"><span class="dot" />Open to roles</div>
               <div class="line"><span>Loc</span><b>New York</b></div>
-              <div class="line"><span>Local</span><b id="clock">··</b></div>
+              <div class="line"><span>Local</span><b id="clock">//</b></div>
               <div class="line theme-line">
                 <span>Theme</span>
                 <span class="tg" role="group" aria-label="Color theme">
@@ -309,9 +320,11 @@ const ldGraph = {
             {n.label}
           </a>
         ))}
-        <a href="/resume"><span class="ix">07</span>Resume</a>
       </nav>
       <div class="m-readout">
+        {/* The market identity lives in the desktop rail, which is hidden below 900px, so
+            without this line mobile carried no identity anywhere on the site. */}
+        <div class="line"><span>Role</span><b>Creative Marketing Lead</b></div>
         <div class="status"><span class="dot" />Open to roles</div>
         <div class="line"><span>Loc</span><b>New York</b></div>
         <div class="line theme-line">
@@ -332,7 +345,7 @@ const ldGraph = {
         </main>
 
         <footer class="foot">
-          <span class="mono">© {year} Pratik Mehta · One system, end to end</span>
+          <span class="mono">© {year} Pratik Mehta / One system, end to end</span>
           <div class="fl">
             <a href="/work">Work</a>
             <a href="/about">About</a>

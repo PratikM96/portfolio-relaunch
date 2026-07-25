@@ -24,15 +24,23 @@ const pick = (slug: string) => {
   return e.data;
 };
 
-// "Selected work" — curated, minus the featured pair already in the Bento.
-const SELECTED = ['dealnews', 'raa', 'agency-fiveeighty', 'level', 'wisp'];
+// "Selected work" — curated, minus the four featured cards above it.
+const SELECTED = ['raa', 'frc', 'agency-fiveeighty', 'level', 'wisp'];
 const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== undefined);
 
-// The two Bento tiles. Slug, type label and disciplines come from the entry;
-// only the blurb is home-page copy, deliberately shorter than the case-study lede.
+/**
+ * The four featured cards. Slug, type label and disciplines come from the entry; only the
+ * blurb is home-page copy, deliberately shorter than the case-study lede.
+ *
+ * Order carries the evidence hierarchy: the two paid roles first, then the self-initiated
+ * work. The first two must match the `featured: true` entries, or / and /work disagree
+ * about what the featured pair is.
+ */
 const BENTO: { slug: string; blurb: string }[] = [
   { slug: 'sportime-clubs', blurb: 'A video-first content engine across tennis, pickleball, and a $75M expansion. 11.7M cross-platform impressions in a year.' },
-  { slug: 'the-ninth', blurb: 'A self-initiated esports membership system built around Cloud9, brand through product, with a live AI moment-clipper at the center.' },
+  { slug: 'dealnews', blurb: 'Social, paid, and in-house design run as one function, so creative decisions and performance feedback stayed in the same hands.' },
+  { slug: 'portfolio-system', blurb: 'This site, built as one system and measured on itself: 100 desktop Lighthouse and zero layout shift on every page.' },
+  { slug: 'the-ninth', blurb: 'A self-initiated esports membership concept, brand through product, with an AI moment-clipper prototype at the center.' },
 ];
 const bento = BENTO.map(({ slug, blurb }) => {
   const d = pick(slug);
@@ -45,7 +53,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
 ---
 
 <Base
-  title="Pratik Mehta · Creative Marketing Lead"
+  title="Pratik Mehta | Creative Marketing Lead"
   description="I build creative, social, and performance as one system. Creative Marketing Lead in New York, with an AI-forward workflow."
   preloadImage="/hero/home/poster.webp"
 >
@@ -53,10 +61,12 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   <section class="hero">
     <div class="hero-inner">
       <div>
-        <div class="kick rev-load">Open to creative or marketing leadership roles · New York</div>
+        {/* Availability and location are two lines, never joined by a separator: a `/`
+            between them reads as "roles in New York", which is not the scope. */}
+        <div class="kick rev-load">Open to creative or marketing leadership roles<br />Based in New York</div>
         <h1 class="rev-load page-h1">I build creative, social, and performance as <span class="signal">one system.</span></h1>
-        <p class="lead rev-load">I connect the creation of creative to the marketing system that makes it perform, and own it from the idea to what it does after it ships.</p>
-        <div class="btn-row rev-load"><a class="btn btn-p" href="/work">See the work →</a><a class="btn btn-g" href="/contact">Start a conversation →</a></div>
+        <p class="lead rev-load">I build the creative, the channel system, and the feedback loop around it, from the idea through what happens after launch.</p>
+        <div class="btn-row rev-load"><a class="btn btn-p" href="/work">View work →</a><a class="btn btn-g" href="/contact">Get in touch →</a></div>
       </div>
       <figure class="hero-figure rev-load">
         {/* 1:1 brand-mark animation; JS hook is data-hero-video. */}
@@ -123,12 +133,13 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
     <WorkIndex entries={selectedWork} />
   </section>
 
+
   {/* MODULES */}
   <section class="block">
     <SectionLabel code="03" title="The practice" />
     <div class="duo">
       <a class="card card--interactive mod rev" id="brand" href="/brand">
-        <div class="k">One System · brand</div>
+        <div class="k">One System / brand</div>
         <h3 class="h2">One system, end to end.</h3>
         <p>The brand, the work, and the thinking run on the same logic: built like a system, accountable to what it does after it ships.</p>
         <span class="go">See the brand system →</span>
@@ -167,7 +178,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
                 <div class="jr-ex">{p.data.excerpt}</div>
               </div>
               <div class="jr-m">
-                {[p.data.topic, formatDate(p.data.date), p.data.readingTime].filter(Boolean).join(' · ')}
+                {[p.data.topic, formatDate(p.data.date), p.data.readingTime].filter(Boolean).join(' / ')}
               </div>
             </a>
           ))}
@@ -271,7 +282,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   .hero { min-height: 100vh; display: flex; align-items: center; padding: var(--space-3xl) 0; }
   .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--space-3xl); align-items: center; width: 100%; }
   .hero-inner > div { display: flex; flex-direction: column; justify-content: center; }
-  .hero .kick { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-lg); }
+  .hero .kick { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-lg); line-height: 1.7; }
   .hero h1 { margin: 0; }
   .hero .lead { margin-top: var(--space-lg); }
   .hero .btn-row { margin-top: var(--space-xl); }

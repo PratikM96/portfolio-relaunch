@@ -1,6 +1,8 @@
 ---
-# SPORTIME Clubs - content entry (refit to real schema). Drop-in for src/content/work/sportime-clubs.md
-# All copy final/verified. Cover image + alt are Pratik's to supply. No em/en dashes anywhere (hyphens only).
+# SPORTIME Clubs - content entry. In-house role, and the lead proof story for scale and
+# team direction. Figures come from the Resume Master's Claim Registry: followers are
+# "nearly 17K" (never 16.8K) and the team is "3+" reports, stated the same way in the
+# prose, the contribution block, and the margin stat.
 title: SPORTIME Clubs
 slug: sportime-clubs
 type: in-house
@@ -8,18 +10,27 @@ role: Marketing Manager
 year: "2023-2024"
 disciplines: [Brand, Social, Content, Motion, Photo]
 coverAlt: "SPORTIME Clubs video-first content system"
-coverCaption: "SPORTIME teaser · 2023-2024"
+coverCaption: "SPORTIME teaser / 2023-2024"
 heroVideo: true # files at /hero/sportime-clubs/ (see docs/hero-pipeline.md)
 featured: true
 description: "A video-first content engine across tennis, pickleball, and a $75M expansion. 11.7M cross-platform impressions in a year."
-badge: "In-house · Brand & Content"
+badge: "In-house / Brand & Content"
 lede: "Brand and a video-first content engine across tennis, pickleball, and the marketing built around a $75M expansion."
 
 hero:
   - { k: Role, v: "Marketing Manager" }
-  - { k: Disciplines, v: "Brand · Social · Content · Motion · Photo" }
-  - { k: Timeframe, v: "2023-2024 · one year" }
+  - { k: Disciplines, v: "Brand, Social, Content, Motion, Photo" }
+  - { k: Timeframe, v: "2023-2024 / one year" }
   - { k: "Headline result", v: "11.7", stat: true, unit: "M" }
+
+# Rows omitted where the fact is not in the Resume Master. `collaborators` in particular
+# is left out on purpose across these entries: naming who else was in the room is exactly
+# the kind of plausible detail the claim rules forbid inventing.
+# [NEEDS: Pratik] a verified `collaborators` line, if you want one here.
+contribution:
+  owned: "Marketing across 13+ clubs and 25+ social accounts: the brand foundation, the video-first content engine, the per-club distribution structure, and the weekly reporting loop that steered the calendar."
+  team: "3+ social and design reports, including club-level creative leads producing to one central strategy."
+  constraints: "Two racquet-sport audiences under one brand, a network of clubs each with local needs, and a calendar moving faster than post-by-post production could serve."
 
 problem:
   prose:
@@ -31,14 +42,14 @@ problem:
       label: "The brief, in short"
       rows:
         - { k: Audience, v: "Tennis + pickleball" }
-        - { k: Scale, v: "13+ clubs · 25+ accounts" }
+        - { k: Scale, v: "13+ clubs / 25+ accounts" }
         - { k: Pressure, v: "Throughput at scale" }
 
 system:
   prose:
     - lead: "A video-first system, not a bigger backlog."
       text: "One brand foundation fed a repeatable production engine, distributed through a per-club account structure, with reporting feeding back into what got made next."
-    - text: "A team of three to four social and design reports plus club-level creative leads produced to one central strategy, so local relevance never cost brand consistency."
+    - text: "A team of 3+ social and design reports, including club-level creative leads, produced to one central strategy, so local relevance never cost brand consistency."
   margin:
     - type: stat
       label: "Distribution"
@@ -85,7 +96,7 @@ output:
         - { clip: head-boom, alt: "SPORTIME tennis brand film", caption: "Tennis brand film" }
         - { clip: wilson, alt: "SPORTIME tennis motion", caption: "Tennis motion" }
     - kind: social
-      label: "Social · tennis, pickleball, JMTA"
+      label: "Social / tennis, pickleball, JMTA"
       cols: 4
       items:
         - { img: ../../assets/work/sportime-clubs/soc-1.webp, alt: "SPORTIME tennis social" }
@@ -129,7 +140,7 @@ reflection:
     - type: stat
       label: "The team"
       value: "3+"
-      desc: "Reports and leads"
+      desc: "Reports, including club-level creative leads"
     - type: note
       label: "How it ran"
       text: "One central strategy, executed per club."
@@ -138,7 +149,9 @@ reflection:
 proof:
   figures:
     - { value: "11.7", unit: "M", label: "Cross-platform impressions" }
-    - { value: "16.8", unit: "K", label: "Net new followers, one year" }
+    # "nearly 17K", never 16.8K. The registry's wording is the public wording, and a
+    # figure more precise than it is wrong by definition (CLAUDE.md §3).
+    - { value: "~17", unit: "K", label: "Net new followers, one year" }
     - { value: "+510", unit: "%", label: "Instagram publishing" }
     - { value: "+2,115", unit: "%", label: "Reels output" }
 ---

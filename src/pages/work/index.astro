@@ -1,6 +1,6 @@
 ---
 /**
- * /work — the full work index: page head, featured pair, then the shared
+ * /work - the full work index: page head, featured pair, then the shared
  * WorkIndex. Driven by the `work` collection, so the count and year range
  * derive from real entries rather than being authored.
  */
@@ -21,7 +21,7 @@ const yearRange =
     ? ''
     : allYears[0] === allYears.at(-1)
       ? allYears[0]
-      : `${allYears[0]}—${allYears.at(-1)}`;
+      : `${allYears[0]}-${allYears.at(-1)}`;
 const count = entries.length;
 
 // Featured pair, shown above the shared index.
@@ -36,16 +36,79 @@ const featured = entries
     lede: e.data.lede,
     discLines: e.data.disciplines.slice(0, 3),
   }));
+
+/**
+ * Hiring-problem router. Filters answer "what engagement was this"; this answers "which
+ * two or three should I open". Routes mirror the Job Search Targeting proof router.
+ * Titles read from the collection; an unknown slug throws at build time.
+ */
+const bySlug = new Map(entries.map((e) => [e.data.slug, e]));
+// Short labels so each route stays on one line. Full titles wrapped and broke the leader
+// rule. Every slug used in ROUTES needs one, or the build throws.
+const SHORT: Record<string, string> = {
+  'sportime-clubs': 'SPORTIME',
+  dealnews: 'DealNews',
+  frc: 'Forest Road',
+  raa: 'RAA',
+  'agency-fiveeighty': 'FiveEighty',
+  'pipeline-medical': 'Pipeline',
+  'sr-love-and-care': 'SR Love and Care',
+  jmtp: 'JMTP',
+  'the-ninth': 'The Ninth',
+  level: 'Level',
+  wisp: 'WISP',
+  'portfolio-system': 'Portfolio System',
+};
+const label = (slug: string) => {
+  if (!bySlug.has(slug)) throw new Error(`/work router references "${slug}", which is not in the work collection`);
+  const s = SHORT[slug];
+  if (!s) throw new Error(`/work router has no SHORT label for "${slug}"`);
+  return s;
+};
+const ROUTES: { need: string; slugs: string[] }[] = [
+  { need: 'Creative marketing leadership', slugs: ['sportime-clubs', 'dealnews'] },
+  { need: 'Social and content leadership', slugs: ['sportime-clubs', 'dealnews', 'frc'] },
+  { need: 'Brand and art direction', slugs: ['raa', 'agency-fiveeighty', 'pipeline-medical'] },
+  { need: 'Integrated campaign systems', slugs: ['sportime-clubs', 'dealnews', 'raa'] },
+  { need: 'Product and AI-adjacent creative', slugs: ['the-ninth', 'wisp', 'level'] },
+  { need: 'Design systems and front-end', slugs: ['portfolio-system', 'the-ninth'] },
+  { need: 'Team building and mentorship', slugs: ['sportime-clubs', 'sr-love-and-care'] },
+  { need: 'Experiential and live production', slugs: ['raa', 'jmtp', 'agency-fiveeighty'] },
+];
+const routes = ROUTES.map((r) => ({
+  need: r.need,
+  items: r.slugs.map((s) => ({ slug: s, name: label(s), href: `/work/${s}` })),
+}));
 ---
 
 {/* The first featured poster is the LCP element, and a <video poster> is
-    invisible to the preload scanner — hence the explicit preload. */}
-<Base title="Work · Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work" preloadImage={featured.length ? cardPath(featured[0].slug).poster : undefined}>
+    invisible to the preload scanner - hence the explicit preload. */}
+<Base title="Work | Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work" preloadImage={featured.length ? cardPath(featured[0].slug).poster : undefined}>
   <header class="phead">
-    <div class="page-kicker">[ Work ] · {count} {count === 1 ? 'project' : 'projects'} · {yearRange}</div>
+    <div class="page-kicker">[ Work ] / {count} {count === 1 ? 'project' : 'projects'} / {yearRange}</div>
     <h1 class="rev-load page-h1">The work,<br />as <span class="signal">one index.</span></h1>
-    <p class="lead rev-load">In-house, agency, and concept, filterable by type and discipline. Pick the two or three that answer your question. Each one opens to a full case study.</p>
+    <p class="lead rev-load">Start with the project closest to the role you are hiring for. The index below covers in-house, agency, volunteer, and self-initiated work, filterable by engagement and discipline, and each one opens to a full case study.</p>
   </header>
+
+  {/* HIRING ROUTER — answers "which two or three", which the lead invites.
+      rev-load because it lands above the fold on desktop; see CLAUDE.md §6 on why
+      opacity-based reveals do not belong up here. */}
+  <section class="router rev-load">
+    <h2 class="router-h">Start with the hiring problem</h2>
+    <dl class="router-grid">
+      {routes.map((r) => (
+        <div class="router-row">
+          <dt>{r.need}</dt>
+          <span class="lead-rule" aria-hidden="true"></span>
+          <dd>
+            {r.items.map((it, i) => (
+              <Fragment>{i > 0 && <span class="sep" aria-hidden="true">/</span>}<a href={it.href}>{it.name}</a></Fragment>
+            ))}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </section>
 
   {/* featured pair */}
   <h2 class="sr-only">Featured projects</h2>
@@ -84,12 +147,12 @@ const featured = entries
 <script>
   import { wireHoverCards } from '../../scripts/card-video';
 
-  // Featured cards — same controller as the home bento tiles.
+  // Featured cards - same controller as the home bento tiles.
   wireHoverCards('.fcard', 'video');
 </script>
 
 <style>
-  /* type tiers — family/weight/tracking only; rules below set size + colour */
+  /* type tiers - family/weight/tracking only; rules below set size + colour */
   .fcard h3 {
     font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
   }
@@ -99,7 +162,37 @@ const featured = entries
   .fcard .yr {
     font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track);
   }
+  /* label tier: the router head and its project lists are uppercase mono */
+  .router-h,
+  .router-row dd {
+    font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
+  }
 
+
+  /* ===== hiring router ===== */
+  .router { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: var(--space-xl) 0; margin-bottom: var(--space-3xl); }
+  .router-h { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-lg); }
+  /* auto-fit, not a fixed 2 columns: the project lists are `nowrap`, so a column narrower
+     than ~500px pushed them past the viewport and the page scrolled sideways at 1100px.
+     This drops to one column whenever two would be too tight, at any width. */
+  .router-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr)); gap: var(--space-xs) var(--space-2xl); }
+  /* Need and projects on one line, joined by a dotted leader. Short labels (SHORT above)
+     are what keep it to one line; full titles wrapped and broke the rule. */
+  .router-row { display: flex; align-items: baseline; gap: var(--space-sm); padding: var(--space-xs) 0; }
+  .router-row dt { font-size: var(--fs-sm); color: var(--text-secondary); white-space: nowrap; }
+  .router-row .lead-rule { flex: 1; min-width: var(--space-lg); border-bottom: 1px dotted var(--border-strong); transform: translateY(-3px); }
+  .router-row dd { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin: 0; white-space: nowrap; }
+  .router-row dd a { color: var(--text-muted); transition: color var(--dur-base) var(--ease-standard); }
+  .router-row dd a:hover { color: var(--accent-text); }
+  .router-row dd .sep { padding: 0 var(--space-2xs); opacity: 0.5; }
+
+  @media (max-width: 560px) {
+    /* The leader has nowhere to go at this width, so stack instead. */
+    .router-row { flex-direction: column; align-items: flex-start; gap: var(--space-2xs); }
+    .router-row dt { white-space: normal; }
+    .router-row .lead-rule { display: none; }
+    .router-row dd { white-space: normal; line-height: 1.7; }
+  }
 
   /* page head */
   .phead { padding: var(--space-4xl) 0 var(--space-3xl); }

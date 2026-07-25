@@ -6,7 +6,7 @@ import { publishedJournal } from '../lib/content';
 export async function GET(context) {
   const posts = publishedJournal(await getCollection('journal'));
   return rss({
-    title: 'Pratik Mehta · Journal',
+    title: 'Pratik Mehta | Journal',
     description: 'Notes on building creative as a system, what makes work distinctive, and where AI changes the job.',
     site: context.site,
     // @astrojs/rss appends a trailing slash unless told not to, and the slash

@@ -12,11 +12,17 @@ Pratik Mehta's personal portfolio, built on the **One System** brand. Brand, soc
 
 ```bash
 npm install
-npm run dev      # local dev server at http://localhost:4321
-npm run build    # production build (validates content collections)
-npm run preview  # preview the build
-npm run check    # astro check (types + content)
+npm run dev          # local dev server at http://localhost:4321
+npm run build        # claim check, then astro check, then production build
+npm run preview      # preview the build
+npm run check        # astro check (types + content)
+npm run check:claims # metric wording, retired claims, style defaults
 ```
+
+`check:claims` runs first in `build` and fails it. The content schema validates the
+*shape* of an entry; this validates the *values*, which is the gap that let 13 metric
+figures drift upward before it existed. Its rules and the Resume Master's Claim Registry
+have to change together.
 
 ## Project structure
 

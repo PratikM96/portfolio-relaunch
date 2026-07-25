@@ -1,6 +1,7 @@
 ---
-# Agency FiveEighty - content entry (refit). Drop-in for src/content/work/agency-fiveeighty.md
-# Client, internship. Agency production contribution (not sole authorship). Proof is scope. No em/en dashes.
+# Agency FiveEighty - content entry. Agency role, internship. The brands were the
+# AGENCY's clients, never Pratik's: label them "campaign brands". This was a production
+# contribution inside a pipeline, not sole authorship, and the copy says so.
 title: Agency FiveEighty
 slug: agency-fiveeighty
 type: agency
@@ -8,18 +9,26 @@ role: Graphic and Motion Designer (Internship)
 year: "2018-2019"
 disciplines: [Motion, Broadcast, Design]
 coverAlt: "Broadcast motion and title sequences"
-coverCaption: "Agency FiveEighty · broadcast motion"
+coverCaption: "Agency FiveEighty / broadcast motion"
 heroVideo: true # files at /hero/agency-fiveeighty/ (see docs/hero-pipeline.md)
 featured: false
 description: "Broadcast motion and title sequences for agency campaigns including Spectrum, the New York Jets, and Coca-Cola."
-badge: "Agency · Motion & Broadcast"
+badge: "Agency / Motion & Broadcast"
 lede: "Broadcast-ready motion and title sequences at an agency, on campaigns for Spectrum, the New York Jets, Coca-Cola, and FISLL."
 
 hero:
   - { k: Role, v: "Graphic & Motion Designer (Intern)" }
-  - { k: Disciplines, v: "Motion · Broadcast · Design" }
+  - { k: Disciplines, v: "Motion, Broadcast, Design" }
   - { k: Timeframe, v: "2018-2019" }
-  - { k: Clients, v: "4", stat: true, unit: " brands" }
+  # "Campaign brands", never "Clients": these were the agency's clients, not Pratik's.
+  - { k: "Campaign brands", v: "4", stat: true }
+
+# Internship, and a contribution inside an agency pipeline. The block says so plainly:
+# the alternative is a page that reads as sole authorship of Coca-Cola campaign work.
+contribution:
+  owned: "Motion graphics and title sequences from concept through broadcast-ready delivery: 15 and 30 second cutdowns across 3 aspect ratios and 10+ formats per campaign."
+  team: "An agency creative team. Graphic and Motion Designer, on an internship."
+  constraints: "A broadcast-ready bar, agency turnaround, and 5+ revision rounds per campaign."
 
 problem:
   prose:
@@ -36,7 +45,7 @@ problem:
 
 system:
   prose:
-    - lead: "Concept to delivery, inside an agency pipeline."
+    - lead: "Supporting concept through broadcast-ready delivery, inside an agency pipeline."
       text: "Each campaign meant motion graphics and title sequences cut down to 15 and 30 seconds, delivered across three aspect ratios and 10+ formats, through 5+ revision rounds."
     - text: "The job was holding craft and brand consistency across every cutdown while moving at agency speed."
   margin:
@@ -84,14 +93,14 @@ output:
         - { clip: google, alt: "FISLL brand animation", caption: "FISLL animation" }
         - { clip: netflix, alt: "FISLL brand animation", caption: "FISLL animation" }
     - kind: gallery
-      label: "NY Jets · web"
+      label: "NY Jets / web"
       ratio: "16:9"
       cols: 2
       items:
         - { img: ../../assets/work/agency-fiveeighty/web-jets-game.webp, alt: "NY Jets game-day web experience" }
         - { img: ../../assets/work/agency-fiveeighty/web-jets-pigskin.webp, alt: "NY Jets Pigskin web experience" }
     - kind: gallery
-      label: "FISLL · event"
+      label: "FISLL / event"
       ratio: "3:2"
       cols: 3
       items:
@@ -119,7 +128,8 @@ reflection:
 
 proof:
   figures:
-    - { value: "30s", label: "Broadcast cutdowns" }
+    # 15s AND 30s. The body copy above already said both; only this box said 30s.
+    - { value: "15s and 30s", label: "Broadcast cutdowns" }
     - { value: "3", label: "Ratios per cutdown" }
     - { value: "10+", label: "Formats per campaign" }
 ---

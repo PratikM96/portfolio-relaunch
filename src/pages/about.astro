@@ -11,17 +11,17 @@ import headshot from '../assets/headshot-4x5.jpg';
 
 <Base
   image="/og/about.png"
-  title="About · Pratik Mehta"
+  title="About | Pratik Mehta"
   description="Creative Marketing Lead in New York. I started in computer science and build creative, social, and performance as one system."
   activeNav="about"
 >
   {/* HERO */}
   <section class="ahero">
     <div>
-      <div class="page-kicker rev-load">[ About ] · the practice</div>
+      <div class="page-kicker rev-load">[ About ] / the practice</div>
       <h1 class="rev-load page-h1">I came to creative through <span class="signal">code.</span></h1>
-      <p class="lead rev-load">I started in computer science and kept following the path toward the people the work was for, through design and into marketing. The systems habit stayed with me, now pointed at things an audience actually sees.</p>
-      <div class="btn-row rev-load"><a class="btn btn-p" href="/resume">View resume →</a><a class="btn btn-g" href="/work">See the work →</a></div>
+      <p class="lead rev-load">I started in computer science, then moved toward the part of the work people actually experience, first through design, then marketing. The systems habit stayed with me, now pointed at brand, content, products, and campaigns.</p>
+      <div class="btn-row rev-load"><a class="btn btn-p" href="/resume">View resume →</a><a class="btn btn-g" href="/work">View work →</a></div>
     </div>
     {/* The portrait is this page's LCP element, so it overrides Astro's lazy
         default. Width 760 because it renders at most 592px CSS. */}
@@ -33,7 +33,7 @@ import headshot from '../assets/headshot-4x5.jpg';
     <div class="blabel"><span class="c">[ 01 ]</span><h2 class="t">The path</h2><span class="rule"></span></div>
     <div class="path rev">
       <div class="step"><div class="yr">Foundation</div><div><h3>Engineer</h3><p>I started in computer science at NYU. Before any design or marketing, I learned to think in systems: how the parts connect, and where they break.</p></div></div>
-      <div class="step"><div class="yr">The turn</div><div><h3>Design</h3><p>Leading a volunteer design team is where it clicked that I cared more about the people the work was for than the code behind it. I moved toward design.</p></div></div>
+      <div class="step"><div class="yr">The turn</div><div><h3>Design</h3><p>Leading the volunteer marketing and design team at SR Love and Care is where it clicked that I cared more about the people the work was for than the code behind it. I moved toward design.</p></div></div>
       <div class="step"><div class="yr">The anchor</div><div><h3>Marketing</h3><p>Design pulled me into marketing, because work that looks right still has to perform. I started tying the making of the creative to what it actually returned.</p></div></div>
       <div class="step"><div class="yr">Apr 2024 to present</div><div><h3>Independent practice</h3><p>Now I run an independent creative systems practice: brand, social, and performance built as one system, plus self-initiated concepts like The Ninth, Level, and WISP to push the idea further.</p></div></div>
     </div>
@@ -51,13 +51,19 @@ import headshot from '../assets/headshot-4x5.jpg';
 
   {/* TOOLS & AI */}
   <section class="block">
-    <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Tools &amp; AI workflow</h2><span class="rule"></span></div>
+    {/* "AI-forward" is deliberate here and approved: this section's declared subject IS
+        the AI workflow, so leading with it is accurate rather than inflated. The
+        "AI is never the identity" rule is scoped to HEADLINE identity (System Master §2,
+        AI Behavior §4). Don't hedge it back. */}
+    <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Capabilities &amp; workflow</h2><span class="rule"></span></div>
     <div class="prose rev">
       <p><strong>AI-forward across the workflow.</strong> I use AI across research, production, and iteration, to move faster and cover more of the system. It speeds the work; it does not do the thinking.</p>
     </div>
+    {/* Capabilities, not tools. The actual tool inventory lives on /resume. */}
     <div class="tools rev">
       <span>Brand systems</span><span>Social &amp; content</span><span>UI/UX</span><span>Motion</span><span>Performance</span><span>Design tokens</span><span>Front-end</span><span>AI workflow</span>
     </div>
+    <p class="tools-note rev">Figma, Adobe Creative Cloud, After Effects, Premiere Pro, GA4, paid-media platforms, and AI-assisted production tools. The full list is on the <a href="/resume">resume</a>.</p>
   </section>
 
   {/* CTA */}
@@ -108,6 +114,8 @@ import headshot from '../assets/headshot-4x5.jpg';
   /* tools */
   .tools { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-lg); }
   .tools span { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-sm); }
+  .tools-note { font-size: var(--fs-sm); line-height: 1.6; color: var(--text-muted); max-width: 68ch; margin-top: var(--space-lg); }
+  .tools-note a { color: var(--accent-text); }
 
   /* the closing CTA — see CloseCTA.astro */
 

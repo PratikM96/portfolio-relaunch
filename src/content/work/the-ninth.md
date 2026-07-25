@@ -1,30 +1,35 @@
 ---
-# The Ninth - content entry (refit to real schema). Drop-in for src/content/work/the-ninth.md
-# Concept, self-initiated. role = Creative Technologist (locked). Cloud9 named here only; disclosure required.
-# proof.figures kept from Code's populated entry (verified, already 2-line-safe). No em/en dashes.
+# The Ninth - content entry. Concept, self-initiated. role = Creative Technologist.
+# The organization it is built around is NOT named on this or any portfolio surface
+# (CLAUDE.md §3, 2026-07-25). Say "a global esports organization". The embedded microsite
+# under public/concepts/the-ninth/ is the deliberate exception and carries its own
+# per-page non-affiliation footer. Figures are the registry's exact counts: no "+".
 title: The Ninth
 slug: the-ninth
 type: concept
 role: Creative Technologist
 year: "2026"
 disciplines: [Brand, UI/UX, AI, Motion]
-featured: true
-description: "A self-initiated esports membership system built around Cloud9, brand through product, with a live AI moment-clipper at the center."
-badge: "Concept · Self-initiated"
-lede: "A self-initiated esports membership system that turns Cloud9 fans into members, built brand through product, with a live AI moment-clipper at the center."
-disclosure: "An unaffiliated concept built around Cloud9. Not commissioned by or affiliated with Cloud9."
+# Not featured: paid proof leads the index and the home page, concept work supports it
+# (Job Search Targeting's evidence hierarchy). The Ninth leads the home "Current practice"
+# module instead, which is where current-direction proof belongs.
+featured: false
+description: "A self-initiated esports membership concept for a global esports organization, brand through product, with an AI moment-clipper prototype at the center."
+badge: "Concept / Self-initiated"
+lede: "A self-initiated esports membership concept designed around turning passive fandom into year-round membership, brand through product, with an AI moment-clipper prototype at the center."
+disclosure: "Self-initiated concept, designed around a real global esports organization. Unaffiliated, not commissioned, and not endorsed by it."
 
 hero:
   - { k: Role, v: "Creative Technologist" }
-  - { k: Disciplines, v: "Brand · UI/UX · AI · Motion" }
-  - { k: Type, v: "Self-initiated · 2026" }
-  - { k: Scope, v: "40+", stat: true, unit: " screens" }
+  - { k: Disciplines, v: "Brand, UI/UX, AI, Motion" }
+  - { k: Type, v: "Self-initiated, 2026" }
+  - { k: Scope, v: "40", stat: true, unit: " screens" }
 
 problem:
   prose:
     - lead: "Esports has a membership problem."
       text: "Huge audiences, thin membership. Fans show up for the moments and leave, and most orgs treat them as viewers to monetize instead of members to build around."
-    - text: "The Ninth starts from the opposite idea: what if fandom, community, and year-round engagement are the product, not just the broadcast? Built around Cloud9, a real global esports org, so every decision stays concrete."
+    - text: "The Ninth starts from the opposite idea: what if fandom, community, and year-round engagement are the product, not just the broadcast? It is designed around a real global esports organization rather than an invented one, so every decision stays concrete."
   margin:
     - type: meta
       label: "The premise"
@@ -63,34 +68,34 @@ decisions:
 
 reflection:
   prose:
-    - text: "The Ninth is where the systems thinking runs without a client's constraints. It shows how I build brand, product UI, AI feature logic, motion, and launch thinking as one system, around a single idea about esports membership. And it proves the AI part with a working clipper instead of a slide that says AI."
+    - text: "The Ninth is where the systems thinking runs without a client's constraints. It shows how I build brand, product UI, AI feature logic, motion, and launch thinking as one system, around a single idea about esports membership. And it proves the AI part with a working clipper prototype instead of a slide that says AI."
   margin:
     - type: note
       label: "Self-initiated"
-      text: "Own concept. No results claimed. Cloud9 unaffiliated."
+      text: "Own concept, unaffiliated. No results claimed."
     - type: note
-      label: "Live demo"
+      label: "Demo"
       text: "Five views, open any tab to launch."
 
 
 proof:
   figures:
-    - { value: "40+", label: "UI screens" }
-    - { value: "5+", label: "views" }
-    - { value: "3+", label: "membership tiers" }
-    - { value: "8+", label: "features added" }
+    - { value: "40", label: "UI screens" }
+    - { value: "5", label: "Demo views" }
+    - { value: "3+", label: "Membership tiers" }
+    - { value: "8", label: "AI-assisted features" }
   note:
-    label: "Why it exists · what it proves"
-    text: "The Ninth is self-initiated. The figures above are scope, not outcomes. No audience, engagement, or revenue is claimed."
+    label: "Why it exists / what it proves"
+    text: "The Ninth is self-initiated. The figures above are scope, not outcomes. No audience, engagement, or revenue is claimed. The clipper is a functional interaction prototype: its signal inputs and approval flow are demonstrated, and it is not a production deployment."
 
 demo:
   project: the-ninth
-  heading: "Live demo · The Ninth"
-  foot: "Five live views. The AI moment-clipper is the centerpiece. Open any tab to launch it."
+  heading: "Demo / The Ninth"
+  foot: "Five views. The AI moment-clipper prototype is the centerpiece. Open any tab to launch it."
   tabs:
-    - { img: "/concepts/the-ninth/preview-clipper.webp", label: Clipper, cap: "AI moment-clipper · three signals fuse into an instant auto-clip", href: "/concepts/the-ninth/clipper", featured: true }
-    - { img: "/concepts/the-ninth/preview-app.webp", label: App, cap: "Membership app · watch, predict, belong, climb", href: "/concepts/the-ninth/app" }
-    - { img: "/concepts/the-ninth/preview-broadcast.webp", label: Broadcast, cap: "Broadcast · kinetic overlay package", href: "/concepts/the-ninth/broadcast" }
-    - { img: "/concepts/the-ninth/preview-social.webp", label: Social, cap: "Social content engine · one match, a week of output", href: "/concepts/the-ninth/social" }
-    - { img: "/concepts/the-ninth/preview-brand.webp", label: Brand, cap: "Brand · the altitude system", href: "/concepts/the-ninth/brand" }
+    - { img: "/concepts/the-ninth/preview-clipper.webp", label: Clipper, cap: "AI moment-clipper / three signals fuse into an instant auto-clip", href: "/concepts/the-ninth/clipper", featured: true }
+    - { img: "/concepts/the-ninth/preview-app.webp", label: App, cap: "Membership app / watch, predict, belong, climb", href: "/concepts/the-ninth/app" }
+    - { img: "/concepts/the-ninth/preview-broadcast.webp", label: Broadcast, cap: "Broadcast / kinetic overlay package", href: "/concepts/the-ninth/broadcast" }
+    - { img: "/concepts/the-ninth/preview-social.webp", label: Social, cap: "Social content engine / one match, a week of output", href: "/concepts/the-ninth/social" }
+    - { img: "/concepts/the-ninth/preview-brand.webp", label: Brand, cap: "Brand / the altitude system", href: "/concepts/the-ninth/brand" }
 ---

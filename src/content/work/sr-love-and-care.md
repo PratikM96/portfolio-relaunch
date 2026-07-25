@@ -4,27 +4,32 @@
 title: SR Love and Care
 slug: sr-love-and-care
 type: in-house
-# Volunteer per the Resume Master ("Volunteer · New York"). Disclosed here in the
+# Volunteer per the Resume Master ("Volunteer / New York"). Disclosed here in the
 # role, the way the two internships are — the badge carries engagement, not type.
 role: Marketing and Design Team Lead (Volunteer)
 year: "2016-2020"
 disciplines: [Social, Design, Leadership]
 featured: false
 description: "Built, scaled, and handed off a volunteer marketing and design team for a global humanitarian nonprofit."
-badge: "In-house · Leadership"
+badge: "In-house / Leadership"
 lede: "Built and handed off a volunteer design team for a global humanitarian nonprofit."
 
 hero:
-  - { k: Role, v: "Marketing and Design Team Lead" }
-  - { k: Disciplines, v: "Social · Design · Leadership" }
-  - { k: Timeframe, v: "2016-2020 · volunteer" }
+  - { k: Role, v: "Marketing and Design Team Lead, Volunteer" }
+  - { k: Disciplines, v: "Social, Design, Leadership" }
+  - { k: Timeframe, v: "2016-2020" }
   - { k: Team, v: "5 to 15+", stat: true }
+
+contribution:
+  owned: "Building and leading the volunteer marketing function: growing it from 5 to over 15 members, founding a dedicated 5-person design team inside it, and setting the workflows, standards, and mentorship before handing it off."
+  team: "15+ volunteers by 2020, including the 5-person design team he founded."
+  constraints: "An all-volunteer team with no budget and turnover, across four years and a global organization."
 
 problem:
   prose:
     - lead: "Output needs, no structure to meet them."
       text: "A global humanitarian nonprofit needed real marketing and design but had a handful of volunteers and no system to scale them."
-    - text: "The problem was building a function, not just making assets: grow a team, give it standards, and make it able to run without its founder."
+    - text: "The problem was building a function, not just making assets: grow a team, give it standards, and make it able to run without the person who started it."
   margin:
     - type: meta
       label: "The brief"
@@ -58,7 +63,7 @@ decisions:
   items:
     - { n: "01", title: "Build a function, not a backlog", text: "A team that keeps producing, not a pile of one-off assets." }
     - { n: "02", title: "Spin out design when it earned it", text: "A dedicated design team, founded only once demand outgrew marketing." }
-    - { n: "03", title: "Design for handoff", text: "Workflows and mentorship meant it survived the founder leaving." }
+    - { n: "03", title: "Design for handoff", text: "Workflows and mentorship meant the team could keep running after I handed the function off." }
 
 output:
   blocks:
@@ -68,7 +73,7 @@ output:
         - img: ../../assets/work/sr-love-and-care/flagship.webp
           imgDark: ../../assets/work/sr-love-and-care/flagship-dark.webp
           alt: "SR Love & Care relief campaign work"
-          caption: "Relief campaign · social, print, and video"
+          caption: "Relief campaign / social, print, and video"
     - kind: video
       audio: true
       cols: 1
@@ -129,6 +134,6 @@ reflection:
 proof:
   figures:
     - { value: "15+", label: "Team by 2020" }
-    - { value: "5", label: "Person design team" }
-    - { value: "4+", label: "years volunteered" }
+    - { value: "5", label: "Person design team founded" }
+    - { value: "4", label: "Years volunteered" }
 ---

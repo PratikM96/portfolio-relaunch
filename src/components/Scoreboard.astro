@@ -7,12 +7,10 @@ import StatFigure from './StatFigure.astro';
 type Cell = {
   k: string;
   v: string;
-  /** Render `v` as a large proof figure (with an optional accent unit). */
+  /** Render `v` as a large proof figure. */
   stat?: boolean;
   /** Unit suffix (e.g. "M", "%", "screens") — stat cells only. */
   unit?: string;
-  /** Force the whole figure to the signal accent (unitless measured results). */
-  accent?: boolean;
 };
 interface Props {
   cells: Cell[];
@@ -25,7 +23,7 @@ const { cells } = Astro.props;
     cells.map((c) => (
       <div class:list={['sb-cell', c.stat && 'stat']}>
         <div class="k">{c.k}</div>
-        <div class:list={['v', c.accent && 'acc']}>{c.stat ? <StatFigure value={c.v} unit={c.unit} /> : c.v}</div>
+        <div class="v">{c.stat ? <StatFigure value={c.v} unit={c.unit} /> : c.v}</div>
       </div>
     ))
   }
@@ -51,8 +49,8 @@ const { cells } = Astro.props;
   .sb-cell { background: var(--surface); padding: var(--space-lg) var(--space-lg); container-type: inline-size; }
   .sb-cell .k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-sm); }
   .sb-cell .v { font-size: var(--fs-base); color: var(--text); line-height: 1.35; }
-  /* accent flag: paint the whole figure, for a unitless value like "100" */
-  .sb-cell .v.acc { color: var(--accent-text); }
+  /* No accent override here: figureRuns accents every numeral, including a unitless
+     one like "100", so the old `.acc` flag had nothing left to do. */
   /* container query so the figure scales to its cell and stays on one line */
   .sb-cell.stat .v { font-size: clamp(18px, 16cqi, 34px); white-space: nowrap; }
 

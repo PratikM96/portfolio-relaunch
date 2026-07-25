@@ -9,20 +9,22 @@ const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
 ---
 
 <Base
-  title="Contact · Pratik Mehta"
-  description="Get in touch with Pratik Mehta, Creative Marketing Lead in New York. Open to creative or marketing leadership roles."
+  title="Contact | Pratik Mehta"
+  description="Get in touch with Pratik Mehta, Creative Marketing Lead based in New York. Open to creative or marketing leadership roles."
   activeNav="contact"
 >
   <section class="chero">
     <div class="page-kicker rev">[ Contact ]</div>
-    <h1 class="rev page-h1">Let's build it as <span class="signal">one system.</span></h1>
-    <div class="avail rev">Open to creative or marketing leadership roles · New York</div>
+    <h1 class="rev page-h1">Let's talk about the role, team, or <span class="signal">problem.</span></h1>
+    {/* Availability and location stay on separate lines; joined by a separator they read
+        as a restriction on where the roles can be. */}
+    <div class="avail rev">Open to creative or marketing leadership roles<br />Based in New York</div>
 
     <div class="cgrid rev">
       <a class="ccell" href={`mailto:${EMAIL}`}><span class="k">Email</span><span class="v">{EMAIL}</span></a>
       <a class="ccell" href={LINKEDIN} target="_blank" rel="noopener"><span class="k">LinkedIn</span><span class="v">in / pratikm96</span></a>
-      <a class="ccell" href="/resume"><span class="k">Resume</span><span class="v">Read the resume →</span></a>
-      <a class="ccell" href="/work"><span class="k">Work</span><span class="v">See the work →</span></a>
+      <a class="ccell" href="/resume"><span class="k">Resume</span><span class="v">View resume →</span></a>
+      <a class="ccell" href="/work"><span class="k">Work</span><span class="v">View work →</span></a>
     </div>
   </section>
 </Base>
@@ -39,8 +41,8 @@ const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
 
 
   .chero { padding: var(--space-4xl) 0 var(--space-4xl); }
-  .chero h1 { max-width: 16ch; }
-  .chero .avail { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); margin-top: var(--space-xl); }
+  .chero h1 { max-width: 22ch; }
+  .chero .avail { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); margin-top: var(--space-xl); line-height: 1.7; }
 
   /* one row of four on desktop; 2-up on tablet, 1-up on mobile */
   .cgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-top: var(--space-2xl); max-width: 1040px; }

@@ -13,10 +13,12 @@ const { id } = Astro.props;
 
 <section class:list={['close-cta', 'rev']} id={id}>
   <h2 class="close-h cta-h">Let's build it as one system.</h2>
-  <div class="cta-avail">Open to creative or marketing leadership roles · New York</div>
+  {/* Two lines, not one joined by a separator: "roles / New York" reads as a geographic
+      restriction on the roles, which is not the scope. */}
+  <div class="cta-avail">Open to creative or marketing leadership roles<br />Based in New York</div>
   <div class="btn-row">
-    <a class="btn btn-p" href="/contact">Start a conversation →</a>
-    <a class="btn btn-g" href="/work">See the work →</a>
+    <a class="btn btn-p" href="/contact">Get in touch →</a>
+    <a class="btn btn-g" href="/work">View work →</a>
     <a class="btn btn-g" href="/resume">View resume →</a>
   </div>
 </section>
@@ -28,5 +30,5 @@ const { id } = Astro.props;
   /* .close-h (display heading) and .btn / .btn-row come from global.css */
   .close-cta { padding: var(--space-4xl) 0; }
   .close-cta .cta-h { max-width: 16ch; margin-bottom: var(--space-lg); }
-  .cta-avail { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-xl); }
+  .cta-avail { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-xl); line-height: 1.7; }
 </style>

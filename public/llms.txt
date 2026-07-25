@@ -1,6 +1,6 @@
 # Pratik Mehta
 
-> Personal portfolio of Pratik Mehta, a Creative Marketing Lead working across brand, social, content, UI/UX, motion, and performance as one connected system. Built on the One System brand. New York. Open to creative or marketing leadership roles.
+> Personal portfolio of Pratik Mehta, a Creative Marketing Lead working across brand, social, content, UI/UX, motion, and performance as one connected system. Built on the One System brand. Based in New York. Open to creative or marketing leadership roles.
 
 ## Site
 
@@ -20,7 +20,7 @@ Each entry is labelled by engagement: the role Pratik held, not a client relatio
 ### In-house (a role held inside the organization)
 
 - [SPORTIME Clubs](https://mehtapratik.com/work/sportime-clubs): A video-first content engine across tennis, pickleball, and a $75M expansion. Marketing Manager.
-- [Johnny Mac Tennis Project](https://mehtapratik.com/work/jmtp): Photography, video, and event production for SPORTIME's nonprofit partner. Marketing Manager, SPORTIME.
+- [Johnny Mac Tennis Project](https://mehtapratik.com/work/jmtp): Photography, video, and event production for SPORTIME's nonprofit, inside the SPORTIME role. Marketing Manager, SPORTIME.
 - [DealNews](https://mehtapratik.com/work/dealnews): In-house social, paid, and design for an ecommerce deals brand. Social and Graphic Manager.
 - [The Forest Road Company](https://mehtapratik.com/work/frc): Social direction, paid campaigns, and executive reporting for a media-finance firm. Social Media Director.
 - [Pipeline Medical](https://mehtapratik.com/work/pipeline-medical): Brand and a B2B supplier marketplace built from zero, logo system through procurement screens. Designer (Internship).
@@ -33,9 +33,10 @@ Each entry is labelled by engagement: the role Pratik held, not a client relatio
 
 ### Concept (self-initiated, never commissioned)
 
-- [The Ninth](https://mehtapratik.com/work/the-ninth): Self-initiated esports membership system, brand through product, with a live AI moment-clipper. An unaffiliated concept built around Cloud9, not commissioned by or affiliated with Cloud9.
-- [Level](https://mehtapratik.com/work/level): Self-initiated prediction-market concept built around responsible use and product trust.
-- [WISP](https://mehtapratik.com/work/wisp): Self-initiated concept for a faceless live AI host presence.
+- [The Ninth](https://mehtapratik.com/work/the-ninth): Self-initiated esports membership concept, brand through product, with an AI moment-clipper prototype. Designed around a real global esports organization; unaffiliated, not commissioned, and not endorsed by it.
+- [Level](https://mehtapratik.com/work/level): Self-initiated prediction-market concept built around responsible use and product trust. Its own invented brand, not a real product.
+- [WISP](https://mehtapratik.com/work/wisp): Self-initiated concept for a faceless AI host presence. A scripted demonstration of an interaction model, not a live AI model.
+- [Portfolio System](https://mehtapratik.com/work/portfolio-system): This site, as its own case study. Design system, front-end, and infrastructure built solo, then measured on itself: 100 desktop Lighthouse and zero layout shift on every page.
 
 ## Concept microsites (live demos, embedded as proof inside their case study)
 
@@ -52,6 +53,7 @@ Each entry is labelled by engagement: the role Pratik held, not a client relatio
 ## Notes
 
 - "In-house" and "agency" describe the role Pratik held. None of this work was a client engagement, and the agency entries were roles at the agency: those clients were the agency's, not his.
-- Self-initiated concepts (The Ninth, Level, WISP) are not professional work and were never commissioned. They carry scope and rationale, never performance results.
-- In-house and agency case studies carry verified metrics; concept case studies carry scope only.
+- Self-initiated systems (The Ninth, Level, WISP, Portfolio System) are not professional work and were never commissioned. Each carries a visible non-affiliation disclosure.
+- Every case study uses one proof shape: a verified metric where one was measured, scope and rationale where none exists. This is not decided by engagement type. The three design-only concepts carry scope; Portfolio System shipped and runs, so it carries measured results.
+- Figures described as scope are counts of what was designed, never claims about audience, engagement, adoption, or revenue.
 - Employment type (internship, volunteer) is stated in each case study's Role field.

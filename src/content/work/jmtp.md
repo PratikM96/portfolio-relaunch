@@ -9,22 +9,27 @@ role: Marketing Manager, SPORTIME
 year: "2023-2024"
 disciplines: [Photography, Video, Event]
 coverAlt: "Johnny Mac Tennis Project fundraiser production"
-coverCaption: "Johnny Mac Tennis Project · fundraiser production"
+coverCaption: "Johnny Mac Tennis Project / fundraiser production"
 heroVideo: true # files at /hero/jmtp/ (see docs/hero-pipeline.md)
 featured: false
 description: "Photography, video, and event production for the Johnny Mac Tennis Project, SPORTIME's nonprofit."
-badge: "In-house · Photo, Video & Event"
+badge: "In-house / Photo, Video & Event"
 lede: "Photography, video, and event production for the Johnny Mac Tennis Project, SPORTIME's nonprofit."
 
 hero:
   - { k: Role, v: "Marketing Manager, SPORTIME" }
-  - { k: Disciplines, v: "Photography · Video · Event" }
+  - { k: Disciplines, v: "Photography, Video, Event" }
   - { k: Timeframe, v: "2023-2024" }
   - { k: Assets, v: "500+", stat: true }
 
+contribution:
+  owned: "Photo and video production at the fundraisers, retouching and edit in post, event graphics, and event management on the day: 500+ assets captured, 150+ retouched and delivered."
+  team: "Part of the SPORTIME marketing function, on the nonprofit's events."
+  constraints: "Live events with one chance to capture them, and a nonprofit's resources rather than the parent brand's."
+
 problem:
   prose:
-    - lead: "A nonprofit's fundraisers needed production-grade creative."
+    - lead: "A nonprofit's fundraisers needed the same production standard as the brand."
       text: "The Johnny Mac Tennis Project is SPORTIME's nonprofit. Its fundraisers needed real photography, video, and on-the-ground event support, not brand-system work."
     - text: "This was a different job from the rest of the SPORTIME role: capture live events well, turn them around clean, and help run the production itself."
   margin:
@@ -58,7 +63,9 @@ decisions:
       quote: "Treat the nonprofit like the brand."
       who: "Operating principle"
   items:
-    - { n: "01", title: "Production quality for the nonprofit", text: "The fundraisers got real production, not volunteer-grade output." }
+    # Not "volunteer-grade": SR Love and Care is a volunteer role this site uses as its
+    # leadership proof, so disparaging volunteer work undercuts another entry.
+    - { n: "01", title: "Production quality for the nonprofit", text: "The fundraisers got the same production standard as the parent brand." }
     - { n: "02", title: "Own it end to end", text: "Shoot, retouch, edit, and help run the event, so creative and logistics stayed in one set of hands." }
     - { n: "03", title: "Shoot wide, finish tight", text: "Capture everything live, then retouch and cut down to the strongest, finished set." }
 

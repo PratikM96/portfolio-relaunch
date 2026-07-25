@@ -13,17 +13,17 @@ const posts = publishedJournal(await getCollection('journal'));
 const lead = posts.find((p) => p.data.featured) ?? posts[0];
 const rest = posts.filter((p) => p.id !== lead?.id);
 const meta = (p: (typeof posts)[number]) =>
-  [p.data.topic, formatDate(p.data.date), p.data.readingTime].filter(Boolean).join(' · ');
+  [p.data.topic, formatDate(p.data.date), p.data.readingTime].filter(Boolean).join(' / ');
 ---
 
 <Base
   image="/og/journal.png"
-  title="Journal · Pratik Mehta"
+  title="Journal | Pratik Mehta"
   description="Working notes on building creative as a system, what makes work distinctive, and where AI actually changes the job."
   activeNav="journal"
 >
   <header class="phead">
-    <div class="page-kicker">[ Journal ] · on systems, brand, and AI</div>
+    <div class="page-kicker">[ Journal ] / on systems, brand, and AI</div>
     <h1 class="rev page-h1">Working notes,<br />not <span class="signal">hot takes.</span></h1>
     <p class="lead rev">Short pieces on building creative as a system, what makes work distinctive, and where AI actually changes the job, not where it's just hype.</p>
   </header>
@@ -47,7 +47,7 @@ const meta = (p: (typeof posts)[number]) =>
               </div>
               <h2>{lead.data.title}</h2>
               <p>{lead.data.excerpt}</p>
-              <div class="m">{[formatDate(lead.data.date), lead.data.readingTime].filter(Boolean).join(' · ')}</div>
+              <div class="m">{[formatDate(lead.data.date), lead.data.readingTime].filter(Boolean).join(' / ')}</div>
             </div>
           </a>
         )}

@@ -1,7 +1,7 @@
 # CLAUDE.md — mehtapratik.com (One System portfolio)
 
 ```
-updated:  2026-07-24
+updated:  2026-07-25
 owns:     build rules for this repo that code cannot enforce
 wins:     how to change this repo
 defers:   facts -> Resume Master · copy -> the live site · positioning + voice
@@ -22,7 +22,8 @@ before proposing anything:
 | How to operate, task modes, failure states | `_reference/masters/ai-behavior.md` |
 | What is live at which URL | `_reference/masters/portfolio-url-index.md` |
 
-`ai-behavior.md`: *"If a fact is not in one of these, it does not exist. Say so."*
+`ai-behavior.md`: a fact not supported by one of these is **unverified**. Do not publish it;
+name the gap.
 
 `_reference/masters/` also holds `job-search-targeting.md` and
 `system-locations.md` — job-search machinery, not site scope, and private.
@@ -59,20 +60,28 @@ external origin that isn't allowlisted fails silently), and the generated
 - **Never invent** metrics, clients, roles, revenue, awards, responsibilities,
   outcomes, or claims. Missing or uncertain → say so, leave a TODO in the file
   that needs it. Never fill a gap with a plausible number.
-- **One value per metric, sourced from the Resume Master.** No exact-value
-  variants, no invented precision, no ranges. If a figure on the site is more
-  precise than the master's, the site is wrong.
-- **Self-initiated concepts** are never professional work, and every concept
-  carries its non-affiliation `disclosure` (enforced by the schema refine). But a
-  concept is **not barred from results** — it follows the same case-study rules as
-  real work. The line is *did it ship and can the number be measured*, not *is it
-  a concept*: a design-only concept carries scope, a shipped one (Portfolio
-  System) carries measured results. The honesty rule above still governs.
-- **Orange marks real, measured results** — a proof rule wearing a colour, one
-  signal per surface. **Not gated on engagement type**: the mechanism is
-  `figureRuns` in `src/lib/figure.ts`, which keys off the *figure*, not the entry.
-  Scope figures and neutral data don't trigger it. (`/brand` owns the rest of the
-  accent rules; it does not state this one.)
+- **One value per metric, sourced from the Resume Master's Claim Registry**, in its exact
+  public wording. No variants, no invented precision, no ranges. A figure more precise than
+  its public wording is wrong. **Hedges are part of the value** ("roughly 300", "nearly 60",
+  "nearly 17K"), and **never add a `+` the registry does not carry.** Enforced by
+  `scripts/check/claims.mjs`.
+- **Self-initiated concepts** are never professional work, and every concept carries its
+  non-affiliation `disclosure` (enforced by the schema refine). A concept is **not barred
+  from results**: the line is *did it ship and can the number be measured*. Design-only
+  concepts carry scope; Portfolio System shipped and carries measured results.
+  **Four self-initiated systems:** The Ninth, Level, WISP, Portfolio System.
+- **The Ninth does not name the organization it is built around.** Public copy says "a
+  global esports organization". The microsite under `public/concepts/the-ninth/` is the
+  exception, since the sub-brand is built on that identity and each page carries its own
+  non-affiliation footer. Don't reintroduce the name into `src/` or `llms.txt`; don't strip
+  it from the microsite.
+- **Orange marks numbers.** In any stat string the numeral runs are accent; symbols, units,
+  magnitude letters and words take normal text colour. `figureRuns` in `src/lib/figure.ts`
+  is the whole mechanism and `StatFigure.astro` its only consumer, so every stat surface
+  moves together. **A number keeps its internal `.` and `,` inside one run**, or `11.7M`
+  splits into two orange fragments around a neutral dot. The colour is a typographic
+  signal, not a claim: nothing about it is gated on engagement type. (`/brand` owns the
+  rest of the accent rules.)
 - **Apr 2024 to present** = "Independent Creative Systems Practice", role
   "Creative Technologist". Not a company, agency, consultancy, or freelance shop.
   "Self-directed" is internal classification and never a visible label.
@@ -83,7 +92,12 @@ external origin that isn't allowlisted fails silently), and the generated
 Direct, specific, natural, not over-polished, not obviously AI-written. Lead with
 the answer. No inflated claims, no buzzwords, no unsupported proof.
 
-**No em or en dashes in external-facing copy, except date ranges.** Absolute.
+**No em or en dashes in external-facing copy.** Date ranges use hyphens. A style rule, not
+a claim rule (System Master §7), so it is arguable for a specific sentence.
+
+**Separators are contextual.** `|` in `<title>`, none in meta descriptions (write
+sentences), ` / ` in on-page label and data rows. The middle dot is retired from copy; the
+only survivors are structural and commented where they sit, in `Base.astro` and `/brand`.
 
 Full rules — the declarative-reversal lead, the proof sentence, the honesty
 register, the avoid list — are System Master §5. Don't write in his voice without
@@ -97,6 +111,9 @@ home, and the copies drift.
 | Concern | Source of truth |
 | --- | --- |
 | Content model, required fields, the build guardrail | `src/content.config.ts` — a missing/wrong-shaped field **fails the build** |
+| Metric wording, retired claims, style defaults | `scripts/check/claims.mjs` — a drifted figure or a retired phrase **fails the build** (`npm run build` runs it first). The schema checks shape; this checks values. |
+| What Pratik owned vs didn't, per case study | `contribution` in the entry + `ContributionBox.astro` |
+| Which projects answer which hiring need | the `ROUTES` table in `src/pages/work/index.astro`, mirroring Job Search Targeting §4 |
 | Routes and the sitemap | `src/pages/` — the filename is the URL |
 | Every design token — ramp, tiers, sizes, spacing, motion, `@font-face` | `src/styles/tokens.css` |
 | Design law in prose (type, colour, radius, grid, motion, a11y) | the live `/brand` page |
@@ -306,6 +323,37 @@ detail; everything older gets cut back to a line or two holding the decision and
 any trap it left behind. If a rule from an old entry is still load-bearing, it
 belongs in §3-§8 or in the code it governs, not in a paragraph down here.
 
+- **2026-07-25 (b)** — **Audit sweep.** Triggered by 13 metric figures inflated against
+  the Resume Master, all upward: seven gained a `+` (40, 8, 30, 12, 20, 5, 3), five
+  stripped a hedge, and SPORTIME's "nearly 17,000" became a falsely exact `16.8K`.
+  - **The Claim Registry** lives in the Resume Master and is the only home for metric
+    values, hedges included. System Master §3's duplicate is deleted.
+  - **Accent inverted to numbers-orange**, retiring "orange marks measured results" and
+    the hero-stat `accent` flag. **A number keeps its internal `.` and `,` in one run** or
+    `11.7M` breaks into two orange fragments. That regex is the whole trap.
+  - **The Ninth stops naming the organization** on portfolio surfaces (§3); the microsite
+    keeps it.
+  - **`llms.txt` asserted a rule retired the day before** ("concept case studies carry
+    scope only"). Machine-readable surfaces need the same sweep as pages.
+  - **Availability and location split into two lines**; joined they read as a geographic
+    restriction.
+  - **Separators are contextual** (§4). **Date ranges normalised to hyphens**, which is
+    what lets the em-dash rule be absolute.
+  - **Governance:** voice authority de-looped, four change classes replace "do not edit
+    without confirmation", the AI-identity rule bounded to *headline* identity, Portfolio
+    System adopted as the fourth self-initiated system and added to both address books.
+  - **Two rotted counts cut, not corrected**: "22 pages" (the JSON said 23) and
+    "131 commits" (actual 143). Correcting them only resets the clock.
+  - **`scripts/check/claims.mjs`** gates the build on values, since the schema only checks
+    shape. Hedged values need a negative lookbehind, or `nearly 60` trips a rule meant for
+    a bare `60`.
+  - **Evidence architecture.** `contribution` + `ContributionBox.astro` under the hero on
+    the 8 paid entries; `collaborators` left blank everywhere because it is not in the
+    master. `/work` gained a hiring-problem router; the mobile index stopped hiding
+    discipline and year at 560px.
+  - **A stale preview server holds `dist` open on Windows**, so a rebuild appears to
+    succeed while serving old CSS. Kill it and `rm -rf dist` before believing a build.
+
 - **2026-07-25** — **The remaining axes got scales, and the duplicated logic got
   one home.** Type tiers said which face but nothing said how big: 219 font-sizes
   across 35 values, and 49 literal durations against 4 uses of the `--dur-*`
@@ -352,11 +400,12 @@ belongs in §3-§8 or in the code it governs, not in a paragraph down here.
   `scripts/shots/capture.mjs` is the record of them.
 
 - **2026-07-24 (b)** — The site ships as its own case study (`portfolio-system`).
-  Three one-offs bespoke to that entry, so don't generalize or delete them:
+  Two one-offs bespoke to that entry, so don't generalize or delete them:
   `perfTable: true` (renders `PerfTable.astro` from a dated Lighthouse snapshot,
-  regenerate with `scripts/perf/`), the hero-stat `accent` flag (a unitless
-  measured result `figureRuns` can't detect), and an Output section that is a
-  device x theme matrix captured above the fold rather than a `longpage`.
+  regenerate with `scripts/perf/`), and an Output section that is a device x theme
+  matrix captured above the fold rather than a `longpage`. *The third, the hero-stat
+  `accent` flag, was deleted 2026-07-25: the numbers-orange rule accents a unitless
+  `100` on its own, so the override had nothing left to do.*
 
 - **2026-07-23** — Mobile weight pass + metric-matched font fallbacks (`72af992`).
   Hover clips gate on `(hover: hover)`, never width: **a `<video>` given a

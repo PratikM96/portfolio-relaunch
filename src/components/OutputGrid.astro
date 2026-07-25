@@ -11,12 +11,12 @@ import PlayButton from './PlayButton.astro';
 
 type Still = { img: ImageMetadata; imgDark?: ImageMetadata; alt?: string; caption?: string };
 type Block =
-  | { kind: 'mockup'; flagship?: boolean; items: Still[] }
-  | { kind: 'social'; label?: string; cols?: number; items: Still[] }
-  | { kind: 'flyer'; label?: string; ratio?: '3:4' | '9:16'; cols?: number; fit?: 'cover' | 'contain'; bg?: 'surface' | 'paper'; items: Still[] }
-  | { kind: 'gallery'; label?: string; ratio?: '3:2' | '4:3' | '16:9' | '2:1'; cols?: number; fit?: 'cover' | 'contain'; items: Still[] }
-  | { kind: 'longpage'; cols?: number; height?: number; chrome?: 'browser' | 'plain'; items: Still[] }
-  | { kind: 'video'; audio?: boolean; ratio?: '16:9' | '1:1'; cols?: number; items: { clip: string; audio?: boolean; alt?: string; caption?: string }[] };
+ | { kind: 'mockup'; flagship?: boolean; items: Still[] }
+ | { kind: 'social'; label?: string; cols?: number; items: Still[] }
+ | { kind: 'flyer'; label?: string; ratio?: '3:4' | '9:16'; cols?: number; fit?: 'cover' | 'contain'; bg?: 'surface' | 'paper'; items: Still[] }
+ | { kind: 'gallery'; label?: string; ratio?: '3:2' | '4:3' | '16:9' | '2:1'; cols?: number; fit?: 'cover' | 'contain'; items: Still[] }
+ | { kind: 'longpage'; cols?: number; height?: number; chrome?: 'browser' | 'plain'; items: Still[] }
+ | { kind: 'video'; audio?: boolean; ratio?: '16:9' | '1:1'; cols?: number; items: { clip: string; audio?: boolean; alt?: string; caption?: string }[] };
 
 interface Props {
   slug: string;
@@ -173,7 +173,7 @@ const clipSrc = (clip: string) => ({
                         <Image src={it.img} alt={it.alt ?? ''} widths={lpWidths} sizes={sizesFor(cols)} loading="lazy" />
                       </div>
                     </div>
-                    {it.caption && <figcaption>{it.caption} <span class="hint">· scroll to explore</span></figcaption>}
+                    {it.caption && <figcaption>{it.caption} <span class="hint">/ scroll to explore</span></figcaption>}
                   </figure>
                 );
               })}

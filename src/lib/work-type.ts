@@ -17,7 +17,7 @@ export const TYPE_LABEL: Record<WorkType, string> = {
 export const TYPE_SCOREBOARD: Record<WorkType, string> = {
   'in-house': 'In-house',
   agency: 'Agency',
-  concept: 'Concept · self-initiated',
+  concept: 'Concept / self-initiated',
 };
 
 /** Drives the disclosure + page title. Never gates the accent. */

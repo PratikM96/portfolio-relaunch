@@ -1,6 +1,8 @@
 ---
-# The Forest Road Company - content entry (refit). Drop-in for src/content/work/frc.md
-# Client. Real performance results. Framed as B2B social/reporting, not finance messaging. No em/en dashes.
+# The Forest Road Company - content entry. In-house role, not a client engagement.
+# Real performance results. Framed as B2B social/reporting, not finance messaging.
+# "Answerable to a forecast" means campaign performance and executive reporting, never
+# company revenue forecasting.
 title: The Forest Road Company
 slug: frc
 type: in-house
@@ -9,20 +11,28 @@ year: "2022"
 disciplines: [Social, Paid, Content, Strategy]
 # The brand history film is FRC's only deliverable, so it plays in the hero wall
 # (below the scoreboard) and the entry carries no Output section. Files at
-# /hero/frc/{hero_1080.webm,hero_1080.mp4,poster.webp}. See docs/hero-pipeline.md.
+# /hero/frc/hero_1080.webm plus src/assets/hero/frc/poster.webp (webm only; the mp4
+# fallback was retired 2026-07-22). See docs/hero-pipeline.md.
 heroVideo: true
 coverAlt: "Forest Road Company brand history film"
-coverCaption: "The Forest Road Company · B2B social"
+coverCaption: "The Forest Road Company / B2B social"
 featured: false
 description: "Social media direction, paid campaigns, and executive reporting for a media-finance firm."
-badge: "In-house · Social & Paid"
+badge: "In-house / Social & Paid"
 lede: "Social direction and B2B campaigns for a media-finance firm, tracked and reported to senior leadership."
 
 hero:
   - { k: Role, v: "Social Media Director" }
-  - { k: Disciplines, v: "Social · Paid · Content · Strategy" }
+  - { k: Disciplines, v: "Social, Paid, Content, Strategy" }
   - { k: Timeframe, v: "2022" }
-  - { k: "Lead-gen conversion", v: "8", stat: true, unit: "%" }
+  # Specific channel and form, matching the ProofBox below. "Lead-gen conversion" alone
+  # implied a broader funnel figure than the one that was measured.
+  - { k: "LinkedIn Lead Gen Form", v: "~8", stat: true, unit: "%" }
+
+contribution:
+  owned: "Brand social end to end: campaign concept and execution across still and video, LinkedIn paid, daily X content, the tracking layer, and the reporting that went to senior leadership."
+  team: "No reports. Sole owner of social."
+  constraints: "A B2B media-finance audience, a short tenure, and a narrow channel mix."
 
 problem:
   prose:
@@ -79,7 +89,7 @@ reflection:
 
 proof:
   figures:
-    - { value: "8", unit: "%", label: "Lead Gen Form conversion" }
-    - { value: "0.65", unit: "%", label: "LinkedIn Sponsored CTR" }
-    - { value: "$90", label: "Cost per lead" }
+    - { value: "~8", unit: "%", label: "LinkedIn Lead Gen Form conversion" }
+    - { value: "0.65", unit: "%", label: "LinkedIn Sponsored Content CTR" }
+    - { value: "~$90", label: "Cost per lead" }
 ---

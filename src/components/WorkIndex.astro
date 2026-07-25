@@ -9,7 +9,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import { TYPE_LABEL } from '../lib/work-type';
-import { firstYear } from '../lib/content';
+import { firstYear, roleShort } from '../lib/content';
 
 interface Props {
   entries: CollectionEntry<'work'>[];
@@ -33,7 +33,10 @@ const projects = entries.map((e, i) => ({
   n: String(i + 1).padStart(2, '0'),
   name: e.data.title,
   type: e.data.type,
-  disc: e.data.disciplines.slice(0, 2).join(' · '),
+  disc: e.data.disciplines.slice(0, 2).join(', '),
+  // "In-house" says the engagement; the role says what he was inside it. Shortened here:
+  // the full role, with its employment type, renders on the case-study scoreboard.
+  role: roleShort(e.data.role),
   year: firstYear(e.data.year),
   href: `/work/${e.data.slug}`,
   // poster + sources derive from the slug alone (/wc/<slug>/)
@@ -62,7 +65,16 @@ const first = projects[0]!;
 
 <div class:list={['index-wrap', stickyFilter && 'has-sticky-filter']}>
   <div class="idx" id="idx">
-    <div class="idx-head"><span>#</span><span>Project</span><span>Discipline</span><span>Year</span></div>
+    {/* Two-line row. `#` and Year bracket a 2x2 block: project + role on the first line,
+        category + disciplines on the second. Four facets across one line never fitted here,
+        because the sticky preview pane leaves the table about 620px at 1440. */}
+    {/* Header labels only the first line. Category and Discipline are self-evident on the
+        second, and labelling them made the header two rows tall for no gain. */}
+    <div class="idx-head">
+      <span class="ix">#</span>
+      <span class="cells"><span>Project</span><span>Role</span></span>
+      <span class="yr">Year</span>
+    </div>
     {projects.map((p, i) => (
       <a
         class:list={['idx-row', i === 0 && 'active']}
@@ -73,11 +85,12 @@ const first = projects[0]!;
         data-d={p.lede}
       >
         <span class="ix">{p.n}</span>
-        <span class="nm">
-          <b>{p.name}</b>
+        <span class="cells">
+          <span class="nm"><b>{p.name}</b></span>
+          <span class="role">{p.role}</span>
           <span class:list={['ty', p.type]}>{TYPE_LABEL[p.type]}</span>
+          <span class="disc">{p.disc}</span>
         </span>
-        <span class="disc">{p.disc}</span>
         <span class="yr">{p.year}</span>
       </a>
     ))}
@@ -184,7 +197,8 @@ const first = projects[0]!;
   .filters .fl-k,
   .filters button,
   .idx-head span,
-  .idx-row .nm .ty,
+  .idx-row .ty,
+  .idx-row .role,
   .idx-row .disc,
   .idx-empty,
   .preview .pv-open {
@@ -210,22 +224,25 @@ const first = projects[0]!;
   /* on /work the index is last before the footer, so it owns the gap;
      on the home the wrapping .block section already provides it */
   .index-wrap.has-sticky-filter { padding-bottom: var(--space-4xl); }
-  .idx-head, .idx-row { display: grid; grid-template-columns: 34px 1.5fr .9fr 56px; gap: var(--space-md); align-items: center; }
+  /* # and Year bracket a 2x2 block, so each line carries two facets instead of four. */
+  .idx-head, .idx-row { display: grid; grid-template-columns: 34px minmax(0, 1fr) 56px; gap: var(--space-md); align-items: center; }
+  .cells { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--space-2xs) var(--space-md); align-items: baseline; min-width: 0; }
   .idx-head { padding: var(--space-sm) 0; border-bottom: 1px solid var(--border); }
   .idx-head span { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); }
-  .idx-head span:last-child { text-align: right; }
+  .idx-head .yr { text-align: right; }
   .idx-row { padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: padding-left var(--dur-base) var(--ease-standard); }
   .idx-row.hidden { display: none; }
   .idx-row:last-of-type { border-bottom: none; }
   .idx-row:hover, .idx-row.active { padding-left: var(--space-sm); }
   .idx-row .ix { font-size: var(--fs-xs); color: var(--text-muted); }
   .idx-row.active .ix { color: var(--accent-text); }
-  .idx-row .nm { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
   .idx-row .nm b { font-size: var(--fs-xl); color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard); }
   .idx-row:hover .nm b, .idx-row.active .nm b { color: var(--text); }
-  .idx-row .nm .ty { font-size: var(--fs-3xs); text-transform: uppercase; padding: 3px var(--space-xs); border-radius: var(--radius-none); border: 1px solid var(--border-strong); color: var(--text-muted); }
+  /* the category chip sits on the second line, under the title it qualifies */
+  .idx-row .ty { justify-self: start; font-size: var(--fs-3xs); text-transform: uppercase; padding: 3px var(--space-xs); border-radius: var(--radius-none); border: 1px solid var(--border-strong); color: var(--text-muted); white-space: nowrap; }
   /* every engagement type accents — not gated on type (CLAUDE.md §3) */
-  .idx-row .nm .ty.in-house, .idx-row .nm .ty.agency, .idx-row .nm .ty.concept { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 35%, transparent); }
+  .idx-row .ty.in-house, .idx-row .ty.agency, .idx-row .ty.concept { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 35%, transparent); }
+  .idx-row .role { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); }
   .idx-row .disc { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); }
   .idx-row .yr { font-size: var(--fs-xs); color: var(--text-secondary); text-align: right; }
   .idx-empty { padding: var(--space-xl) 0; font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); }
@@ -248,7 +265,9 @@ const first = projects[0]!;
   }
   @media (max-width: 560px) {
     .idx-head { display: none; }
-    .idx-row { grid-template-columns: 24px 1fr; gap: var(--space-sm); }
-    .idx-row .disc, .idx-row .yr { display: none; }
+    /* One cell per line, and the year joins the stack rather than holding a column. */
+    .idx-row { grid-template-columns: 24px minmax(0, 1fr); gap: var(--space-2xs) var(--space-sm); }
+    .cells { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
+    .idx-row .yr { grid-column: 2; text-align: left; }
   }
 </style>

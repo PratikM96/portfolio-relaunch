@@ -152,11 +152,22 @@ const work = defineCollection({
           v: z.string(),
           stat: z.boolean().optional(), // render v as a large proof figure
           unit: z.string().optional(),
-          // Force the accent on a unitless measured result (e.g. "100"), which
-          // figureRuns can't detect on its own.
-          accent: z.boolean().optional(),
+          // No `accent` flag: figureRuns accents every numeral, so a unitless value
+          // like "100" needs no override. Removed 2026-07-25; don't reintroduce it.
         }),
       ),
+
+      // What Pratik owned on a case study, rendered under the hero scoreboard by
+      // ContributionBox.astro. Every row optional: omit one rather than guessing, since
+      // collaborator names are usually not in the Resume Master.
+      contribution: z
+        .object({
+          owned: z.string().optional(),
+          team: z.string().optional(),
+          collaborators: z.string().optional(),
+          constraints: z.string().optional(),
+        })
+        .optional(),
 
       // --- spine sections ---
       problem: proseSection,
@@ -226,7 +237,7 @@ const journal = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     excerpt: z.string(),
-    topic: z.string().optional(), // rail/meta topic line, e.g. "Brand systems · AI"
+    topic: z.string().optional(), // rail/meta topic line, e.g. "Brand systems / AI"
     tags: z.array(z.string()).default([]),
     readingTime: z.string().optional(), // e.g. "5 min"
     pullquote: z.string().optional(), // optional margin pull-quote

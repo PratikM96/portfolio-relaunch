@@ -2,7 +2,7 @@
 title: "Where AI actually changes creative work (and where it's just noise)"
 date: 2026-05-31
 excerpt: "AI changes the production layer a lot and the thinking barely at all. The useful skill now is knowing which is which."
-topic: "AI · Creative"
+topic: "AI / Creative"
 tags: ["AI", "creative", "workflow", "production"]
 readingTime: "5 min"
 pullquote: "It's best at volume and speed, worst at taste and judgment, and taste and judgment are the whole job."
@@ -12,7 +12,7 @@ draft: false
 
 Two things people say about AI and creative work are both wrong. One is that it replaces creatives. The other is that it's all slop. The truth is more specific, and more useful: it changes some parts of the work a lot, and other parts barely at all. The skill now is knowing which is which.
 
-Start with the part that isn't up for debate. Adoption is already here. McKinsey's latest survey has most organizations using the technology in at least one function, with marketing among the most common. A 2025 study of brand marketers found more than half already use it to generate content and campaign ideas. This isn't a coming wave to prepare for. It's the current baseline.
+Start with the part that is hardest to argue with. By 2025, adoption was already wide enough that the useful question had moved from whether teams would use AI to where it actually improved the work. McKinsey's 2025 survey has most organizations using the technology in at least one function, with marketing among the most common. A 2025 study of brand marketers found more than half already use it to generate content and campaign ideas. This isn't a coming wave to prepare for. It's the current baseline.
 
 ## Where it genuinely changes the work
 

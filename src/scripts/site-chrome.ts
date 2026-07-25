@@ -86,7 +86,7 @@ function tick() {
       minute: '2-digit',
     });
   } catch (e) {
-    clk.textContent = '··';
+    clk.textContent = '//';
   }
 }
 if (clk) {

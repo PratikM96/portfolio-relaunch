@@ -10,19 +10,19 @@ year: "2025"
 disciplines: [Brand, UI/UX, AI, Motion]
 featured: false
 description: "A self-initiated prediction-market concept built around responsible use and product trust. Its own brand, not a real product."
-badge: "Concept · Self-initiated"
+badge: "Concept / Self-initiated"
 lede: "A prediction-market app built around restraint, where understanding the bet is the product, not the thrill of it."
 disclosure: "Self-initiated concept. Its own invented brand, not a real product."
 
 hero:
   - { k: Role, v: "Creative Technologist" }
-  - { k: Disciplines, v: "Brand · UI/UX · AI · Motion" }
-  - { k: Type, v: "Self-initiated · 2025" }
-  - { k: Scope, v: "30+", stat: true, unit: " screens" }
+  - { k: Disciplines, v: "Brand, UI/UX, AI, Motion" }
+  - { k: Type, v: "Self-initiated / 2025" }
+  - { k: Scope, v: "30", stat: true, unit: " screens" }
 
 problem:
   prose:
-    - lead: "Prediction markets are built like casinos."
+    - lead: "Most prediction markets borrow their mechanics from casinos."
       text: "Celebrate the win, hide the risk, push the next bet. Level starts from the opposite stance: make the odds legible, slow the user at the right moments, and treat a win and a loss as the same event."
     - text: "The concept is an argument that you can design this category for trust instead of compulsion."
   margin:
@@ -58,7 +58,7 @@ decisions:
   items:
     - { n: "01", title: "Limits on by default", text: "Responsible use is the default state, not a setting a careful user has to find." }
     - { n: "02", title: "Understanding as a gate", text: "You can't stake on a market until you've engaged with what it actually means." }
-    - { n: "03", title: "No celebration", text: "Winning and losing resolve the same way, so it never trains a dopamine loop." }
+    - { n: "03", title: "No celebration", text: "Winning and losing resolve with the same visual weight, so the interface never rewards one outcome over the other." }
     - { n: "04", title: "Make probability legible", text: "Risk and odds get real visual treatment instead of fine print." }
 
 reflection:
@@ -72,21 +72,21 @@ reflection:
 
 proof:
   figures:
-    - { value: "30+", label: "UI screens" }
-    - { value: "5", label: "responsible-use flows" }
-    - { value: "5+", label: "risk visuals" }
-    - { value: "40+", label: "total components" }
+    - { value: "30", label: "UI screens" }
+    - { value: "5", label: "Responsible-use guardrail flows" }
+    - { value: "5", label: "Probability and risk visualizations" }
+    - { value: "40+", label: "UI components" }
   note:
-    label: "Why it exists · what it proves"
+    label: "Why it exists / what it proves"
     text: "Level is self-initiated and its own invented brand. The figures are scope, not outcomes. No users, engagement, or revenue is claimed, and it is not a real financial product."
 
 demo:
   project: level
-  heading: "Live demo · Level"
+  heading: "Live demo / Level"
   foot: "Four live views. The explainer is a scripted demonstration, not a live model."
   tabs:
-    - { img: "/concepts/level/preview-explainer.webp", label: Explainer, cap: "Explain this market · understanding gates the stake (scripted)", href: "/concepts/level/explainer", featured: true }
-    - { img: "/concepts/level/preview-app.webp", label: App, cap: "App · limits on by default, restraint by design", href: "/concepts/level/app" }
-    - { img: "/concepts/level/preview-motion.webp", label: Motion, cap: "Motion · probability made legible, no celebration", href: "/concepts/level/motion" }
-    - { img: "/concepts/level/preview-brand.webp", label: Brand, cap: "Brand · the restraint system", href: "/concepts/level/brand" }
+    - { img: "/concepts/level/preview-explainer.webp", label: Explainer, cap: "Explain this market / understanding gates the stake (scripted)", href: "/concepts/level/explainer", featured: true }
+    - { img: "/concepts/level/preview-app.webp", label: App, cap: "App / limits on by default, restraint by design", href: "/concepts/level/app" }
+    - { img: "/concepts/level/preview-motion.webp", label: Motion, cap: "Motion / probability made legible, no celebration", href: "/concepts/level/motion" }
+    - { img: "/concepts/level/preview-brand.webp", label: Brand, cap: "Brand / the restraint system", href: "/concepts/level/brand" }
 ---

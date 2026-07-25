@@ -9,14 +9,14 @@ year: "2024"
 disciplines: [UI/UX, AI, Motion]
 featured: false
 description: "A self-initiated concept for a faceless live AI host. Its own brand. A scripted demonstration of an interaction model, not a live AI."
-badge: "Concept · Self-initiated"
-lede: "A live AI host with presence and no face, built to feel like something is there without pretending to be someone."
+badge: "Concept / Self-initiated"
+lede: "An AI host with presence and no face, built to feel like something is there without pretending to be someone."
 disclosure: "Self-initiated concept. Its own brand. A scripted demonstration, not a live AI model."
 
 hero:
   - { k: Role, v: "Creative Technologist" }
-  - { k: Disciplines, v: "UI/UX · AI · Motion" }
-  - { k: Type, v: "Self-initiated · 2024" }
+  - { k: Disciplines, v: "UI/UX, AI, Motion" }
+  - { k: Type, v: "Self-initiated / 2024" }
   - { k: Scope, v: "7", stat: true, unit: " states" }
 
 problem:
@@ -55,14 +55,14 @@ decisions:
       quote: "Not a person. Not pretending."
       who: "Core principle"
   items:
-    - { n: "01", title: "Feeling without a face", text: "Presence from light and motion, not an avatar, so it never falls into the uncanny valley." }
+    - { n: "01", title: "Feeling without a face", text: "Presence from light and motion, not an avatar, so the system never depends on human likeness and sidesteps the uncanny-valley risk entirely." }
     - { n: "02", title: "Honesty is the design", text: "It states what it is. Admitting it makes it more trustworthy, not less." }
     - { n: "03", title: "Seven states, one mechanic", text: "A small, legible emotional vocabulary reads instantly." }
     - { n: "04", title: "Warm, not cold-tech", text: "A live host has to feel inviting to sit with." }
 
 reflection:
   prose:
-    - text: "WISP is about interaction design for AI presence, the part most AI products skip. It shows how presence, motion, and honesty combine into something that feels live and usable on screen, without faking a human to get there."
+    - text: "WISP is about interaction design for AI presence, the part most AI products skip. It shows how presence, motion, and honesty combine into a live-feeling interaction model on screen, without faking a human to get there."
   margin:
     - type: note
       label: "Self-initiated"
@@ -71,19 +71,19 @@ reflection:
 
 proof:
   figures:
-    - { value: "12+", label: "total screens" }
-    - { value: "7", label: "states" }
-    - { value: "50+", label: "patterns coded" }
-    - { value: "3+", label: "use cases across platforms" }
+    - { value: "12", label: "Core screens" }
+    - { value: "7", label: "Motion states" }
+    - { value: "50+", label: "Prompt and response patterns" }
+    - { value: "3", label: "Live and streamed use cases" }
   note:
-    label: "Why it exists · what it proves"
+    label: "Why it exists / what it proves"
     text: "WISP is self-initiated and its own invented brand. The figures are scope, not outcomes. The demo is a scripted presentation of an interaction model, not a live AI product."
 
 demo:
   project: wisp
-  heading: "Live demo · WISP"
+  heading: "Live demo / WISP"
   foot: "Type to it and the presence reacts. A scripted demonstration, not a live model."
   tabs:
-    - { img: "/concepts/wisp/preview-demo.webp", label: Demo, cap: "Live presence · type and it moves through its states", href: "/concepts/wisp/demo", featured: true }
-    - { img: "/concepts/wisp/preview-brand.webp", label: Brand, cap: "Brand · the presence system, warm not cold-tech", href: "/concepts/wisp/brand" }
+    - { img: "/concepts/wisp/preview-demo.webp", label: Demo, cap: "Live presence / type and it moves through its states", href: "/concepts/wisp/demo", featured: true }
+    - { img: "/concepts/wisp/preview-brand.webp", label: Brand, cap: "Brand / the presence system, warm not cold-tech", href: "/concepts/wisp/brand" }
 ---

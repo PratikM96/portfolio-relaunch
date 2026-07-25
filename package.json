@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "npm run check:claims && astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "check:claims": "node scripts/check/claims.mjs",
     "deploy": "npm run build && node -e \"require('fs').rmSync('.wrangler/deploy/config.json',{force:true})\" && wrangler deploy",
     "og:cards": "node scripts/og/render-cards.mjs",
     "shots": "node scripts/shots/capture.mjs"

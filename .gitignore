@@ -28,5 +28,8 @@ npm-debug.log*
 ds-bundle/
 .design-sync/
 
+# local agent state: settings plus git worktrees that contain their own .wrangler/.astro
+.claude/
+
 # perf: raw Lighthouse runs (regenerate via scripts/perf/run.sh)
 scripts/perf/out/

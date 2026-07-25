@@ -2,8 +2,13 @@
 /**
  * Brand — the living brand reference. Rules are transcribed from
  * One-System-Brand-Guidelines v1.0 (Drive); voice comes from System Master.
- * Tokens are read live from tokens.css at build time and rendered with var(),
- * so the page can't drift from the real system.
+ *
+ * TOKEN VALUES are read live from tokens.css at build time, so those cannot drift, and
+ * `tokenValue` throws if a token disappears. Everything else on this page is hand
+ * maintained and CAN drift: the prose, the usage guidance, the format mockups, and the
+ * §07 contrast ratios. The ratios are the sharpest case, since they sit beside
+ * live-rendered hexes and are computed FROM them, so moving a ramp value updates the hex
+ * and silently leaves the ratio wrong. Re-measure §07 whenever the ramp moves.
  */
 import Base from '../layouts/Base.astro';
 import CloseCTA from '../components/CloseCTA.astro';
@@ -65,31 +70,31 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
 <Base
   image="/og/brand.png"
-  title="Brand · One System · Pratik Mehta"
-  description="One System is the design system this site runs on: foundation, logo, type, color, layout, motion, and access. Rendered from the live tokens, so it can't drift."
+  title="Brand | One System | Pratik Mehta"
+  description="One System is the design system this site runs on: foundation, logo, type, color, layout, motion, and access. Core token values render from the live CSS."
   activeNav="brand"
 >
   <header class="bhero">
-    <div class="page-kicker rev">[ Brand ] · One System · v1.0</div>
+    <div class="page-kicker rev">[ Brand ] / One System / v1.0</div>
     <h1 class="rev page-h1">The brand,<br />built like a <span class="signal">product.</span></h1>
-    <p class="lead rev">One System is the identity this site runs on: foundation, logo, type, color, layout, motion, and access, in one place. It is a working reference and a case study of the thinking behind it. The page renders from the live tokens, so it can't drift from the real site.</p>
+    <p class="lead rev">One System is the identity this site runs on: foundation, logo, type, color, layout, motion, and access, in one place. It is a working reference and a case study of the thinking behind it. Core token values render from the live CSS, so the numbers below are the real ones; the usage guidance and examples are maintained alongside them.</p>
   </header>
 
   {/* 01 FOUNDATION */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 01 ]</span><h2 class="t">Foundation · the spine</h2><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 01 ]</span><h2 class="t">Foundation / the spine</h2><span class="rule"></span></div>
     <p class="intro">Creative built like a system and accountable to what it does after it ships. The breadth is the proof of the idea, not a separate selling point.</p>
     <div class="frow" style="border-top:none">
       <div class="fspec">tagline</div>
       <div class="fsamp tagline">One system, end to end<span class="signal">.</span></div>
     </div>
     <div class="frow"><div class="fspec">reserve line</div><div class="fsamp">Built, not briefed.</div></div>
-    <div class="frow"><div class="fspec">accent signal</div><div class="fsamp mono">Signal orange · #{hex('--accent-500')} · used once, to do one job</div></div>
+    <div class="frow"><div class="fspec">accent signal</div><div class="fsamp mono">Signal orange / #{hex('--accent-500')} / used once, to do one job</div></div>
   </section>
 
   {/* 02 LOGO */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 02 ]</span><h2 class="t">Logo · the loop</h2><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 02 ]</span><h2 class="t">Logo / the loop</h2><span class="rule"></span></div>
     <p class="intro">One continuous stroke that closes on the orange node: the system, end to end, as a mark. Default to the primary lockup. The wordmark carries the circular period; the lockups don't.</p>
     {/* Specimen sizes below are literal on purpose: these show the mark and
         wordmark at chosen physical sizes, the way `Brandmark size={52}` does.
@@ -100,13 +105,13 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
       <div class="tile"><div class="lockcol"><Brandmark size={44} title={undefined} /><span class="wm" style="font-size:24px">Pratik Mehta</span></div></div>
       <div class="tile"><span class="wm" style="font-size:31px">Pratik Mehta<span class="period"></span></span></div>
     </div>
-    <div class="cap">primary (ink / paper) · stacked · wordmark with period. Use the mono mark where the accent can't appear.</div>
+    <div class="cap">primary (ink or paper), stacked, and wordmark with period. Use the mono mark where the accent can't appear.</div>
 
     <div class="subhead">Clear space &amp; minimum size</div>
     <div class="clearrow">
       <div><div class="csbox"><Brandmark size={72} title={undefined} /></div><div class="cap">keep-out = 0.25 × mark height</div></div>
-      <div class="mincol"><Brandmark size={24} title={undefined} /><div class="cap">mark · 24px floor</div></div>
-      <div class="mincol"><Brandmark size={16} title={undefined} /><div class="cap">favicon cut · 16px</div></div>
+      <div class="mincol"><Brandmark size={24} title={undefined} /><div class="cap">mark / 24px floor</div></div>
+      <div class="mincol"><Brandmark size={16} title={undefined} /><div class="cap">favicon cut / 16px</div></div>
     </div>
 
     <div class="subhead">Never do this</div>
@@ -122,7 +127,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 03 TYPE */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Type · three faces, one system</h2><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Type / three faces, one system</h2><span class="rule"></span></div>
     <p class="intro">Each face has one job. Clash Display is the voice: display, h1, h2. Clash Grotesk is reading type: sub-headings and body. JetBrains Mono is the system layer: labels, data, and code. All three ship as one variable file per family, so every weight below is real rather than the nearest available one.</p>
     <p class="intro">Tracking is optical, not decorative. It tightens as type gets bigger, sits at zero for reading, and opens up for uppercase mono. Mono labels and emphasis are always uppercase, because heavy tracking is an uppercase device and breaks apart on lowercase; sentence-case mono is the data tier at +5% instead.</p>
     {/* One column per datum so nothing wraps mid-font-name. Every sample is a
@@ -155,33 +160,33 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
         </tr>
         <tr>
           <td class="tier">body</td><td class="meta">Clash Grotesk</td><td class="meta">400</td><td class="meta">0%</td>
-          <td class="meta">copy · lh 1.65 · <strong style="font-weight:600;color:var(--text-secondary)">strong</strong> = 600</td>
+          <td class="meta">copy / lh 1.65 / <strong style="font-weight:600;color:var(--text-secondary)">strong</strong> = 600</td>
           <td class="s"><span class="v t-body" style="font-size:var(--fs-md);line-height:1.6;color:var(--text-secondary)">The work stays coherent and the loop closes.</span></td>
         </tr>
         <tr>
           <td class="tier">label</td><td class="meta">JetBrains Mono</td><td class="meta">400</td><td class="meta">+10%</td>
-          <td class="meta">kickers, badges, section labels · always uppercase</td>
-          <td class="s"><span class="v t-label" style="font-size:var(--fs-2xs);color:var(--text-secondary)">Brand · Social · Performance</span></td>
+          <td class="meta">kickers, badges, section labels / always uppercase</td>
+          <td class="s"><span class="v t-label" style="font-size:var(--fs-2xs);color:var(--text-secondary)">Brand / Social / Performance</span></td>
         </tr>
         <tr>
           <td class="tier">data / nav</td><td class="meta">JetBrains Mono</td><td class="meta">400</td><td class="meta">+5%</td>
-          <td class="meta">rail nav, scoreboard values, the clock · sentence case</td>
-          <td class="s"><span class="v t-data" style="font-size:var(--fs-sm);color:var(--text-secondary)">Home &nbsp;·&nbsp; 2023-2024 &nbsp;·&nbsp; 12:53 PM</span></td>
+          <td class="meta">rail nav, scoreboard values, the clock / sentence case</td>
+          <td class="s"><span class="v t-data" style="font-size:var(--fs-sm);color:var(--text-secondary)">Home &nbsp;/&nbsp; 2023-2024 &nbsp;/&nbsp; 12:53 PM</span></td>
         </tr>
         <tr>
           <td class="tier">emphasis</td><td class="meta">JetBrains Mono</td><td class="meta">600</td><td class="meta">+10%</td>
-          <td class="meta">buttons · always uppercase</td>
+          <td class="meta">buttons / always uppercase</td>
           <td class="s"><span class="v t-emphasis" style="font-size:var(--fs-2xs)">View work</span></td>
         </tr>
       </tbody>
     </table>
 
-    <div class="subhead">Size · eleven steps</div>
+    <div class="subhead">Size / eleven steps</div>
     <p class="intro">A tier says which face. A step says how big. Every size on the site is one of these, so a rule never writes a pixel value. The steps sit where the design already clustered rather than on a ratio, which is why they crowd at the small end: most of the system is labels and captions.</p>
     <div class="sizes">
       {sizes.map((s) => (
         <div class="z-row">
-          <div class="z-lab">{s.name}{s.star ? ' ★' : ''} · {tokenValue(s.token)}</div>
+          <div class="z-lab">{s.name}{s.star ? ' ★' : ''} / {tokenValue(s.token)}</div>
           <div class="z-samp" style={`font-size: var(${s.token})`}>One system, end to end.</div>
           <div class="z-for">{s.for}</div>
         </div>
@@ -192,56 +197,56 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 04 COLOR */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 04 ]</span><h2 class="t">Color · warm monochrome, one accent</h2><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 04 ]</span><h2 class="t">Color / warm monochrome, one accent</h2><span class="rule"></span></div>
     <p class="intro">A warm neutral ramp from paper to ink, a single signal-orange accent, and a restrained state set. Both light and dark are first-class.</p>
-    <div class="subhead">Neutral · warm ramp</div>
+    <div class="subhead">Neutral / warm ramp</div>
     <div class="ramp">
       {neutral.map((t) => (
         <div class="chip"><div class="sw" style={`background: var(${t})`}></div><div class="hx">{stepOf(t)}<br />{hex(t)}</div></div>
       ))}
     </div>
-    <div class="subhead">Accent · signal orange <span class="signal">★ 500</span></div>
+    <div class="subhead">Accent / signal orange <span class="signal">★ 500</span></div>
     <div class="ramp">
       {accent.map((t) => (
         <div class="chip"><div class="sw" style={`background: var(${t});${t === '--accent-500' ? ' outline:2px solid var(--text); outline-offset:1px;' : ''}`}></div><div class="hx">{stepOf(t)}{t === '--accent-500' ? '★' : ''}<br />{hex(t)}</div></div>
       ))}
     </div>
-    <div class="subhead">Surfaces · light &amp; dark</div>
+    <div class="subhead">Surfaces / light &amp; dark</div>
     <div class="panels">
-      <div class="panel" style="background:var(--n-50)"><div class="p-lab" style="color:var(--n-550)">light · paper</div><div class="p-h" style="color:var(--n-950)">One system<span style="color:var(--accent-500)">.</span></div><div class="p-b" style="color:var(--n-600)">Body in graphite on paper. The accent does one job.</div><span class="p-pill" style="background:var(--accent-50);color:var(--accent-800)">brand · social · perf</span></div>
-      <div class="panel" style="background:var(--n-950);border-color:var(--n-800)"><div class="p-lab" style="color:var(--n-400)">dark · ink</div><div class="p-h" style="color:var(--n-50)">One system<span style="color:var(--accent-500)">.</span></div><div class="p-b" style="color:var(--n-400)">Same system inverted. Orange stays the single accent.</div><span class="p-pill" style="background:var(--n-800);color:var(--accent-400)">brand · social · perf</span></div>
+      <div class="panel" style="background:var(--n-50)"><div class="p-lab" style="color:var(--n-550)">light / paper</div><div class="p-h" style="color:var(--n-950)">One system<span style="color:var(--accent-500)">.</span></div><div class="p-b" style="color:var(--n-600)">Body in graphite on paper. The accent does one job.</div><span class="p-pill" style="background:var(--accent-50);color:var(--accent-800)">brand / social / perf</span></div>
+      <div class="panel" style="background:var(--n-950);border-color:var(--n-800)"><div class="p-lab" style="color:var(--n-400)">dark / ink</div><div class="p-h" style="color:var(--n-50)">One system<span style="color:var(--accent-500)">.</span></div><div class="p-b" style="color:var(--n-400)">Same system inverted. Orange stays the single accent.</div><span class="p-pill" style="background:var(--n-800);color:var(--accent-400)">brand / social / perf</span></div>
     </div>
   </section>
 
   {/* 05 LAYOUT */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 05 ]</span><h2 class="t">Layout · a 4px base</h2><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 05 ]</span><h2 class="t">Layout / a 4px base</h2><span class="rule"></span></div>
     <p class="intro">Everything measures from a 4px unit. Layout is a {px('--grid-cols')}-column grid, max-width {px('--grid-max-width')}, {px('--grid-gutter')} gutters, {px('--grid-margin')} margins. Radius base is {px('--radius-md')}px; the mono system layer uses sharp 0 corners.</p>
     <div class="scale">
       {spacing.map((s) => (
-        <div class="s-row"><div class="s-lab">{s.name} · {tokenValue(s.token)}</div><div class="s-bar" style={`width: var(${s.token})`}></div></div>
+        <div class="s-row"><div class="s-lab">{s.name} / {tokenValue(s.token)}</div><div class="s-bar" style={`width: var(${s.token})`}></div></div>
       ))}
     </div>
     <div class="card grid-demo" aria-hidden="true">{Array.from({ length: 12 }).map(() => (<div class="gcol"></div>))}</div>
-    <div class="mono muted gridnote">{px('--grid-cols')} columns · max {px('--grid-max-width')} · gutter {px('--grid-gutter')} · margin {px('--grid-margin')}</div>
+    <div class="mono muted gridnote">{px('--grid-cols')} columns / max {px('--grid-max-width')} / gutter {px('--grid-gutter')} / margin {px('--grid-margin')}</div>
     <div class="subhead" style="margin-top:var(--space-xl)">Radius</div>
     <div class="r-row">
       {radii.map((r) => (
-        <div><div class="r-box" style={`border-radius: var(${r.token})`}></div><div class="hx">{r.name}{r.star ? ' ★' : ''} · {r.name === 'full' ? 'pill' : px(r.token)}</div></div>
+        <div><div class="r-box" style={`border-radius: var(${r.token})`}></div><div class="hx">{r.name}{r.star ? ' ★' : ''} / {r.name === 'full' ? 'pill' : px(r.token)}</div></div>
       ))}
     </div>
   </section>
 
   {/* 06 MOTION */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 06 ]</span><h2 class="t">Motion · functional, not decorative</h2><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 06 ]</span><h2 class="t">Motion / functional, not decorative</h2><span class="rule"></span></div>
     <p class="intro">Quick and confident. One ease-out curve, five durations, short travel, no bounce. Reels inherit this: cuts over fades, snap transitions.</p>
     <div class="motion">
       <div class="durs">
         {durations.map((d) => (
-          <div class="d-row"><div class="d-lab">{d.name} · {tokenValue(d.token)}{d.star ? ' ★' : ''}</div><div class="d-bar" style={`width:${d.w}px`}></div></div>
+          <div class="d-row"><div class="d-lab">{d.name} / {tokenValue(d.token)}{d.star ? ' ★' : ''}</div><div class="d-bar" style={`width:${d.w}px`}></div></div>
         ))}
-        <div class="mono muted" style="font-size:var(--fs-2xs);margin-top:var(--space-md)">ease · {tokenValue('--ease-standard')}</div>
+        <div class="mono muted" style="font-size:var(--fs-2xs);margin-top:var(--space-md)">ease / {tokenValue('--ease-standard')}</div>
       </div>
       <div class="hoverdemo"><a class="btn btn-p" href="/work">View work</a><div class="mono muted" style="font-size:var(--fs-2xs)">Hover</div></div>
     </div>
@@ -249,7 +254,9 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 07 ACCESSIBILITY */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 07 ]</span><h2 class="t">Accessibility · tuned to WCAG AA</h2><span class="rule"></span></div>
+    {/* Contrast pairs only, not WCAG AA conformance. Ratios below are hand-measured:
+        re-measure when a ramp step moves. */}
+    <div class="blabel"><span class="c">[ 07 ]</span><h2 class="t">Colour contrast / checked against WCAG AA</h2><span class="rule"></span></div>
     <p class="intro">The single orange signal can't sit on top of itself. Three rules carry most of it.</p>
     <div class="rules rev">
       <div class="rule-card"><div class="rule-k">Orange text</div><div class="rule-b">On light, orange text is accent-700 (#{hex('--accent-700')}), never 500. On dark, accent-400.</div></div>
@@ -273,10 +280,10 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
       fixed transform, so their type is measured in export pixels. A --fs-*
       token here would claim a relationship to UI type that doesn't exist. */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 08 ]</span><h2 class="t">Formats · the brand, in format</h2><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 08 ]</span><h2 class="t">Formats / the brand, in format</h2><span class="rule"></span></div>
     <p class="intro">How the system shows up as social posts, reel frames, and a lower-third. Placeholder content at true export dimensions, rendered live so the mockups re-theme with the page.</p>
 
-    <div class="subhead">Social · 1080 × 1080</div>
+    <div class="subhead">Social / 1080 × 1080</div>
     <div class="fmt-stage">
       <div class="unit">
         <div class="fr w360"><div class="b1x1 bg-paper"><div class="fmt-pad">
@@ -284,7 +291,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
           <div class="fmt-disp t-ink" style="font-size:128px;line-height:0.98">One system,<br />end to end<span class="t-acc">.</span></div>
           <div class="ffoot"><div class="foot2 k-mut">mehtapratik.com</div><Brandmark size={104} title={undefined} class="fmt-mk-ink" /></div>
         </div></div></div>
-        <div class="spec"><b>feed</b> · statement</div>
+        <div class="spec"><b>feed</b> / statement</div>
       </div>
       <div class="unit">
         <div class="fr w360"><div class="b1x1 bg-ink"><div class="fmt-pad">
@@ -292,27 +299,27 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
           <div class="fmt-disp t-paper" style="font-size:104px;line-height:1.0">Placeholder<br />headline goes<br />right here<span class="t-acc">.</span></div>
           <div class="ffoot"><div class="foot2 k-paper">@pratikm96</div><Brandmark size={104} title={undefined} class="fmt-mk-paper" /></div>
         </div></div></div>
-        <div class="spec"><b>feed</b> · inverted</div>
+        <div class="spec"><b>feed</b> / inverted</div>
       </div>
       <div class="unit">
         <div class="fr w360"><div class="b1x1 bg-paper"><div class="fmt-pad">
-          <div class="kick k-mut">metric · placeholder</div>
+          <div class="kick k-mut">metric / placeholder</div>
           <div><div class="fmt-disp t-acc" style="font-size:240px;line-height:0.9">00.0</div><div class="kick k-ink" style="font-size:30px;margin-top:var(--space-md)">metric label goes here</div></div>
           <div class="ffoot"><div class="foot2 k-mut">mehtapratik.com</div><Brandmark size={104} title={undefined} class="fmt-mk-ink" /></div>
         </div></div></div>
-        <div class="spec"><b>feed</b> · data</div>
+        <div class="spec"><b>feed</b> / data</div>
       </div>
     </div>
 
-    <div class="subhead">Reel / story · 1080 × 1920</div>
+    <div class="subhead">Reel / story / 1080 × 1920</div>
     <div class="fmt-stage">
       <div class="unit">
         <div class="fr w270"><div class="b9x16 bg-ink"><div class="fmt-pad fmt-pad-v" style="justify-content:space-between">
-          <div class="kick k-acc">reel · intro frame</div>
+          <div class="kick k-acc">reel / intro frame</div>
           <div><div class="fmt-disp t-paper" style="font-size:150px;line-height:0.96">Built,<br />not<br />briefed<span class="t-acc">.</span></div><div class="rule8" style="margin-top:var(--space-2xl)"></div></div>
           <div class="ffoot"><div class="foot2 k-paper" style="line-height:1.5">placeholder<br />caption line</div><Brandmark size={104} title={undefined} class="fmt-mk-paper" /></div>
         </div></div></div>
-        <div class="spec"><b>reel</b> · intro</div>
+        <div class="spec"><b>reel</b> / intro</div>
       </div>
       <div class="unit">
         <div class="fr w270"><div class="b9x16 bg-accent"><div class="fmt-pad fmt-pad-v" style="justify-content:space-between">
@@ -320,25 +327,25 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
           <div class="fmt-disp t-ink" style="font-size:140px;line-height:0.96">Let's<br />build<span style="opacity:0.55">.</span></div>
           <div class="ffoot"><div class="foot2 t-ink" style="line-height:1.5">mehtapratik.com<br />@pratikm96</div><Brandmark size={104} title={undefined} class="fmt-mk-mono" /></div>
         </div></div></div>
-        <div class="spec"><b>reel</b> · end card · accent surface → mono mark</div>
+        <div class="spec"><b>reel</b> / end card / accent surface → mono mark</div>
       </div>
     </div>
 
-    <div class="subhead">Lower-third · 1920 × 1080</div>
+    <div class="subhead">Lower-third / 1920 × 1080</div>
     <div class="fmt-stage">
       <div class="unit">
         <div class="fr w480"><div class="b16x9 lt-bg">
           <div class="lt-ph">▢ video placeholder</div>
           <div class="lt-bar"><div class="lt-edge"></div><div class="lt-box"><div class="lt-name">Pratik Mehta</div><div class="lt-title">Creative Marketing Lead</div></div></div>
         </div></div>
-        <div class="spec"><b>caption</b> · over video</div>
+        <div class="spec"><b>caption</b> / over video</div>
       </div>
     </div>
   </section>
 
   {/* 09 VOICE */}
   <section class="bsec">
-    <div class="blabel"><span class="c">[ 09 ]</span><h2 class="t">Voice · source: System Master</h2><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ 09 ]</span><h2 class="t">Voice / source: System Master</h2><span class="rule"></span></div>
     <p class="intro">Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. No inflated claims, no buzzwords, no unsupported proof. No em or en dashes.</p>
     <div class="voice rev">
       <div class="card vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
@@ -400,6 +407,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .bsec .intro { font-size: var(--fs-base); line-height: 1.6; color: var(--text-secondary); max-width: 66ch; margin-bottom: var(--space-xl); }
   .subhead { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin: var(--space-2xl) 0 var(--space-md); }
   .cap { font-size: var(--fs-2xs); color: var(--text-muted); margin-top: var(--space-sm); line-height: 1.5; }
+  /* version + review stamp under the page lead */
   .muted { color: var(--text-muted); }
 
   /* foundation */

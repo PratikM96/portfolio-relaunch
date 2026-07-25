@@ -6,10 +6,19 @@
  */
 import type { CollectionEntry } from 'astro:content';
 
-/** Index order: featured first, then alphabetical. */
+/**
+ * Index order: featured first, newest of them leading, then the rest alphabetically.
+ * Featured sort by year descending so the most recent paid proof leads; alphabetical put
+ * DealNews ahead of SPORTIME and contradicted the home page's order.
+ */
 export function sortWork(entries: CollectionEntry<'work'>[]): CollectionEntry<'work'>[] {
   return [...entries].sort((a, b) => {
     if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+    if (a.data.featured) {
+      const ay = firstYear(a.data.year);
+      const by = firstYear(b.data.year);
+      if (ay !== by) return by.localeCompare(ay); // newest first
+    }
     return a.data.title.localeCompare(b.data.title);
   });
 }
@@ -37,6 +46,15 @@ export function formatDate(d: Date): string {
 
 /** First year of a `year` field, which may be a range like "2023-2024". */
 export const firstYear = (year: string): string => year.match(/\d{4}/g)?.[0] ?? year;
+
+/**
+ * A `role` with its trailing parenthetical dropped, for compact surfaces like the work
+ * index: "Graphic and Motion Designer (Internship)" -> "Graphic and Motion Designer".
+ *
+ * Employment type is still disclosed where CLAUDE.md §8 requires it, on the case-study
+ * scoreboard, which renders the full `role`. This only shortens the index row.
+ */
+export const roleShort = (role: string): string => role.replace(/\s*\([^)]*\)\s*$/, '');
 
 /** True when a `year` field names more than one year. */
 export const isYearRange = (year: string): boolean => (year.match(/\d{4}/g)?.length ?? 0) > 1;

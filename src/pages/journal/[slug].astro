@@ -26,7 +26,7 @@ const scoreboard = [
   d.readingTime && { k: 'Read', v: d.readingTime },
 ].filter((x): x is { k: string; v: string } => Boolean(x));
 
-const metaLine = [formatDate(d.date), d.readingTime].filter(Boolean).join(' · ');
+const metaLine = [formatDate(d.date), d.readingTime].filter(Boolean).join(' / ');
 
 // Other published posts for the "More writing" lists.
 const others = publishedJournal(await getCollection('journal'))
@@ -66,11 +66,11 @@ const schema = [
   variant="case-study"
   image="/og/journal.png"
   schema={schema}
-  title={`${d.title} · Journal · Pratik Mehta`}
+  title={`${d.title} | Journal | Pratik Mehta`}
   description={d.excerpt}
   sections={[]}
   scoreboard={scoreboard}
-  back={{ href: '/journal', label: '← Journal · all writing' }}
+  back={{ href: '/journal', label: '← Journal / all writing' }}
 >
   <header class="ahead">
     {d.tags.length > 0 && (

@@ -49,10 +49,10 @@ const CONCEPT_BRAND = { 'the-ninth': 'the-ninth', level: 'level', wisp: 'wisp' }
 const SITE = [
   { name: 'default', badge: 'Portfolio', kick: 'Creative Marketing Lead', title: 'One system, end to end.', meta: 'mehtapratik.com', tag: 'One System' },
   { name: 'about', badge: 'About', kick: 'The full creative stack', title: 'Pratik Mehta', meta: 'mehtapratik.com', tag: 'One System' },
-  { name: 'work', badge: 'Work', kick: 'In-house · Agency · Concept', title: 'The work, as one index.', meta: 'mehtapratik.com', tag: 'One System' },
+  { name: 'work', badge: 'Work', kick: 'In-house / Agency / Concept', title: 'The work, as one index.', meta: 'mehtapratik.com', tag: 'One System' },
   { name: 'resume', badge: 'Resume', kick: 'Ten years, one system', title: 'Pratik Mehta', meta: 'mehtapratik.com', tag: 'One System' },
   { name: 'journal', badge: 'Journal', kick: 'Notes on systems, brand, AI', title: 'Working notes, not takes.', meta: 'mehtapratik.com', tag: 'One System' },
-  { name: 'brand', badge: 'Brand', kick: 'One System · v1.0', title: 'The brand, built like a product.', meta: 'mehtapratik.com', tag: 'One System' },
+  { name: 'brand', badge: 'Brand', kick: 'One System / v1.0', title: 'The brand, built like a product.', meta: 'mehtapratik.com', tag: 'One System' },
 ];
 
 // --- per-case-study, derived
@@ -61,10 +61,10 @@ const WORK = entries.map((e) => {
   return {
     name: e.slug,
     brand: isConcept ? (CONCEPT_BRAND[e.slug] || 'onesystem') : 'onesystem',
-    badge: isConcept ? 'Concept' : `Case study · ${TYPE_LABEL[e.type]}`,
-    kick: e.disciplines.join(' · '),
+    badge: isConcept ? 'Concept' : `Case study / ${TYPE_LABEL[e.type]}`,
+    kick: e.disciplines.join(' / '),
     title: e.title,
-    meta: isConcept ? 'Self-initiated · mehtapratik.com' : 'Case study · mehtapratik.com',
+    meta: isConcept ? 'Self-initiated / mehtapratik.com' : 'Case study / mehtapratik.com',
     tag: isConcept ? (CONCEPT_TAG[e.slug] || 'One System') : 'One System',
   };
 });

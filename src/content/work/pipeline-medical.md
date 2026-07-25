@@ -1,7 +1,8 @@
 ---
-# Pipeline Medical - content entry (refit). Drop-in for src/content/work/pipeline-medical.md
-# Client, internship (do not inflate). Proof is scope. Framed as product/marketplace from zero, not healthcare
-# messaging. Scope-rich role: margins lean qualitative. No em/en dashes.
+# Pipeline Medical - content entry. In-house internship (do not inflate). Proof is scope.
+# Framed as product/marketplace from zero, not healthcare messaging. Scope-rich role, so
+# margins lean qualitative. The launch itself is NOT verified: say "developer handoff and a
+# planned launch", never "a real launch".
 title: Pipeline Medical
 slug: pipeline-medical
 type: in-house
@@ -9,18 +10,23 @@ role: Designer (Internship)
 year: "2017"
 disciplines: [Brand, UI/UX, Product]
 coverAlt: "Pipeline Medical brand and marketplace"
-coverCaption: "Pipeline Medical · brand & B2B marketplace"
+coverCaption: "Pipeline Medical / brand & B2B marketplace"
 heroVideo: true # files at /hero/pipeline-medical/ (see docs/hero-pipeline.md)
 featured: false
 description: "Brand and a B2B supplier marketplace built from zero, logo system, core procurement screens, and developer handoff."
-badge: "In-house · Brand & Product"
+badge: "In-house / Brand & Product"
 lede: "Brand identity and a B2B supplier marketplace, designed from zero."
 
 hero:
   - { k: Role, v: "Designer (Internship)" }
-  - { k: Disciplines, v: "Brand · UI/UX · Product" }
+  - { k: Disciplines, v: "Brand, UI/UX, Product" }
   - { k: Timeframe, v: "2017" }
   - { k: Built, v: "0→1", stat: true }
+
+contribution:
+  owned: "Brand identity and the B2B marketplace design from zero: logo system, roughly 15 core screens, 4 procurement flows, 20 UI components, plus display ads, social, and buyer-education collateral."
+  team: "A startup team, with a programming team building what he handed over. Designer, on an internship."
+  constraints: "No existing brand or product to work from, B2B buying behaviour rather than consumer checkout, and a design that had to be buildable by someone else."
 
 problem:
   prose:
@@ -102,7 +108,7 @@ output:
 
 reflection:
   prose:
-    - text: "Pipeline is the from-zero proof: brand and product built together for a real launch and a real dev team. It's where the systems-from-scratch instinct shows up earliest, the brand and the product designed as one thing, not handed between people."
+    - text: "Pipeline is the from-zero proof: brand and product built together for developer handoff and a planned launch. It's where the systems-from-scratch instinct shows up earliest, the brand and the product designed as one thing, not handed between people."
   margin:
     - type: note
       label: "Earliest proof"
@@ -111,7 +117,7 @@ reflection:
 
 proof:
   figures:
-    - { value: "15", label: "Core product screens" }
-    - { value: "4", label: "Procurement flows, bulk & repeat" }
-    - { value: "20+", label: "UI components" }
+    - { value: "~15", label: "Core product screens" }
+    - { value: "4", label: "Procurement flows, bulk and repeat" }
+    - { value: "20", label: "UI components" }
 ---

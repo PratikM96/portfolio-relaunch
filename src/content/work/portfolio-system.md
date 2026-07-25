@@ -1,9 +1,13 @@
 ---
-# Portfolio System — the site itself, as a case study. Self-initiated, so type: concept
-# (role Creative Technologist, locked). Unlike the design-only concepts it shipped and
-# runs, so it carries real, measured results (Lighthouse, CLS, payload). Numbers are
-# measured/computed on the live build (2026-07-24) or Pratik-verified (200+ hrs). No
-# em/en dashes. proof averages also render live via PerfTable (perfTable: true).
+# Portfolio System - the site itself, as a case study. Self-initiated, so type: concept
+# (role Creative Technologist). Unlike the three design-only concepts it shipped and runs,
+# so it carries real, measured results (Lighthouse, CLS, payload) rather than scope.
+# Numbers are measured on the live build, 2026-07-24, Lighthouse 13.4.1; the proof averages
+# also render live via PerfTable (perfTable: true).
+#
+# NEVER put a page count, commit count, line count, or hour count in this copy. Every one
+# of those rots (CLAUDE.md §10) and two of them already did. PerfTable derives the page
+# count from src/data/portfolio-perf.json, which is the only place it belongs.
 title: Portfolio System
 slug: portfolio-system
 type: concept
@@ -12,15 +16,17 @@ year: "2026"
 disciplines: [Design Systems, Front-end, Brand, Motion]
 featured: false
 description: "The portfolio you are reading, built as one system: brand, front-end, and performance in one artifact. Astro on Cloudflare Workers, self-hosted, measured on itself: 100 Lighthouse on desktop across every page and zero layout shift."
-badge: "Concept · Self-initiated"
+badge: "Concept / Self-initiated"
 lede: "The portfolio is the proof. One system from brand to front-end to performance, designed, written, and shipped solo, then measured on itself instead of described."
 disclosure: "Self-initiated. This is the site you are reading, designed, written, and built by Pratik Mehta. No client, no team, no template."
 
 hero:
   - { k: Role, v: "Creative Technologist" }
-  - { k: Disciplines, v: "Design Systems · Front-end · Brand" }
-  - { k: Type, v: "Self-initiated · 2026" }
-  - { k: "Desktop Lighthouse", v: "100", stat: true, accent: true }
+  - { k: Disciplines, v: "Design Systems, Front-end, Brand" }
+  - { k: Type, v: "Self-initiated / 2026" }
+  # No `accent: true` any more: figureRuns accents every numeral, so a unitless 100
+  # colours itself. The flag was removed from the schema 2026-07-25.
+  - { k: "Desktop Lighthouse", v: "100", stat: true }
 
 problem:
   prose:
@@ -71,30 +77,30 @@ decisions:
 output:
   blocks:
     - kind: gallery
-      label: "Desktop · one system, both themes"
+      label: "Desktop / one system, both themes"
       ratio: "16:9"
       cols: 2
       fit: cover
       items:
-        - { img: ../../assets/work/portfolio-system/d-home-dark.webp, alt: "Home page, dark theme", caption: "Home · dark" }
-        - { img: ../../assets/work/portfolio-system/d-home-light.webp, alt: "Home page, light theme", caption: "Home · light" }
-        - { img: ../../assets/work/portfolio-system/d-brand-dark.webp, alt: "Brand and design-system page, dark theme", caption: "Brand · dark" }
-        - { img: ../../assets/work/portfolio-system/d-brand-light.webp, alt: "Brand and design-system page, light theme", caption: "Brand · light" }
-        - { img: ../../assets/work/portfolio-system/d-dealnews-dark.webp, alt: "DealNews case study, dark theme", caption: "Case study · dark" }
-        - { img: ../../assets/work/portfolio-system/d-dealnews-light.webp, alt: "DealNews case study, light theme", caption: "Case study · light" }
+        - { img: ../../assets/work/portfolio-system/d-home-dark.webp, alt: "Home page, dark theme", caption: "Home / dark" }
+        - { img: ../../assets/work/portfolio-system/d-home-light.webp, alt: "Home page, light theme", caption: "Home / light" }
+        - { img: ../../assets/work/portfolio-system/d-brand-dark.webp, alt: "Brand and design-system page, dark theme", caption: "Brand / dark" }
+        - { img: ../../assets/work/portfolio-system/d-brand-light.webp, alt: "Brand and design-system page, light theme", caption: "Brand / light" }
+        - { img: ../../assets/work/portfolio-system/d-dealnews-dark.webp, alt: "DealNews case study, dark theme", caption: "Case study / dark" }
+        - { img: ../../assets/work/portfolio-system/d-dealnews-light.webp, alt: "DealNews case study, light theme", caption: "Case study / light" }
     - kind: flyer
-      label: "Mobile · the same system, responsive"
+      label: "Mobile / the same system, responsive"
       ratio: "9:16"
       cols: 3
       fit: cover
       bg: surface
       items:
-        - { img: ../../assets/work/portfolio-system/m-home-dark.webp, alt: "Home page on mobile, dark theme", caption: "Home · dark" }
-        - { img: ../../assets/work/portfolio-system/m-about-dark.webp, alt: "About page on mobile, dark theme", caption: "About · dark" }
-        - { img: ../../assets/work/portfolio-system/m-journal-dark.webp, alt: "Journal on mobile, dark theme", caption: "Journal · dark" }
-        - { img: ../../assets/work/portfolio-system/m-home-light.webp, alt: "Home page on mobile, light theme", caption: "Home · light" }
-        - { img: ../../assets/work/portfolio-system/m-about-light.webp, alt: "About page on mobile, light theme", caption: "About · light" }
-        - { img: ../../assets/work/portfolio-system/m-journal-light.webp, alt: "Journal on mobile, light theme", caption: "Journal · light" }
+        - { img: ../../assets/work/portfolio-system/m-home-dark.webp, alt: "Home page on mobile, dark theme", caption: "Home / dark" }
+        - { img: ../../assets/work/portfolio-system/m-about-dark.webp, alt: "About page on mobile, dark theme", caption: "About / dark" }
+        - { img: ../../assets/work/portfolio-system/m-journal-dark.webp, alt: "Journal on mobile, dark theme", caption: "Journal / dark" }
+        - { img: ../../assets/work/portfolio-system/m-home-light.webp, alt: "Home page on mobile, light theme", caption: "Home / light" }
+        - { img: ../../assets/work/portfolio-system/m-about-light.webp, alt: "About page on mobile, light theme", caption: "About / light" }
+        - { img: ../../assets/work/portfolio-system/m-journal-light.webp, alt: "Journal on mobile, light theme", caption: "Journal / light" }
   note: "Captured from the live site, both themes, desktop and mobile. The whole thing runs same-origin on Cloudflare Workers."
 
 perfTable: true
@@ -106,8 +112,13 @@ proof:
     - { value: "0.5", unit: "s", label: "LCP, desktop" }
     - { value: "7", unit: "KB", label: "JS, heaviest page" }
   note:
-    label: "Why it exists · what it proves"
-    text: "Measured on the live build, not projected. Lighthouse 13.4.1 across all 22 pages, mobile and desktop, on 2026-07-24. The full per-page table is below. Self-initiated: designed, written, and built solo across 200+ hours since March 2026, in a public repo."
+    label: "Why it exists / what it proves"
+    # No page count and no commit count here. Both rotted within a day of shipping (the
+    # copy claimed 22 pages while the JSON beside it said 23, and 131 commits against an
+    # actual 143), which is exactly what CLAUDE.md §10 forbids. PerfTable renders the real
+    # page count from portfolio-perf.json, so stating it twice only creates a second
+    # number to keep true.
+    text: "Measured on the live build, not projected. Lighthouse 13.4.1 across every page, mobile and desktop, on 2026-07-24. The full per-page table is below. Self-initiated: designed, written, and built solo since March 2026, in a public repo."
 
 reflection:
   prose:
@@ -115,7 +126,7 @@ reflection:
   margin:
     - type: note
       label: "Self-initiated"
-      text: "Own system, solo build, public repo. 200+ hours since March 2026, 131 commits, roughly 5,500 lines. Every figure measured or verified, none invented."
+      text: "Own system, solo build, public repo. Every figure on this page is measured or verified, none invented."
     - type: stat
       label: "Words written"
       value: "10K"
