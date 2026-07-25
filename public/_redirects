@@ -130,20 +130,9 @@
 /blog/sub-brands-without-chaos                   /journal   301
 /blog/sub-brands-without-chaos/                  /journal   301
 
-# --- Old WordPress project archives -> work index ---
-/project-type/*         /work      301
-/project-attributes/*   /work      301
-
-# --- Blog -> journal (catch-all; keep AFTER the specific /blog rules above) ---
-# Destination is the /journal INDEX, never /journal/:splat — journal slugs do NOT
-# match old blog slugs (only 3 posts exist), so :splat manufactured redirects to
-# non-existent /journal/<old-slug> pages (a 301 -> 404, worse than a plain 404).
-# This catches everything the specific rules above miss: `.html` forms, WordPress
-# tag/category/date archives, and any slug with no mapping. Dedicated
-# /blog/tag/*, /blog/category/* and /blog/2026/* rules used to sit here; they
-# pointed at /journal too, so they were doing nothing this line doesn't.
+# --- Blog index -> journal ---
+# The /blog/* catch-all lives in the WILDCARDS block at the foot of this file.
 /blog        /journal   301
-/blog/*      /journal   301
 
 # --- Old standalone pages (bare + trailing-slash twin) ---
 /services             /          301
@@ -200,8 +189,8 @@
 #
 # Concept hubs are deliberately absent: they are folder-based and
 # slash-canonical (/concepts/<slug>/), so normalising them would break them.
-# Keep this block LAST -- the :slug placeholders would otherwise swallow the
-# explicit legacy rules above (e.g. /work/photography/).
+# The /work/:slug/ and /journal/:slug/ placeholders live in the WILDCARDS block
+# at the foot of this file.
 
 # trailing slash -> bare
 /about/                           /about                            301
@@ -211,8 +200,6 @@
 /contact/                         /contact                          301
 /resume/                          /resume                           301
 /privacy/                         /privacy                          301
-/work/:slug/                      /work/:slug                       301
-/journal/:slug/                   /journal/:slug                    301
 
 # .html -> bare
 /index.html                       /                                 301
@@ -241,3 +228,33 @@
 # the old blog index also existed as .html; /blog/* does not match it
 /blog.html                        /journal                          301
 
+
+# =============================================================================
+# WILDCARDS -- KEEP THIS BLOCK LAST
+# =============================================================================
+# Cloudflare matches static rules on a fast path and evaluates splat/placeholder
+# rules in order, so every static rule above must precede these. With a wildcard
+# sitting mid-file, Wrangler warns on all 71 static rules below it on every deploy,
+# which buries real warnings.
+#
+# Verified safe to demote: no static rule above is matched by any of these, so
+# none was ever shadowed and none changes behaviour by moving up.
+#
+# Order within this block matters. The two :slug rules must stay after the splats
+# and after every explicit legacy rule (e.g. /work/photography/), or they swallow
+# them.
+
+# Old WordPress project archives -> work index
+/project-type/*                   /work                             301
+/project-attributes/*             /work                             301
+
+# Blog catch-all. Destination is the /journal INDEX, never /journal/:splat --
+# journal slugs do NOT match old blog slugs (only 3 posts exist), so :splat
+# manufactured redirects to non-existent pages (a 301 -> 404, worse than a 404).
+# Catches what the specific /blog rules miss: .html forms, WordPress tag/category/
+# date archives, any unmapped slug.
+/blog/*                           /journal                          301
+
+# Trailing slash -> bare, for case studies and journal posts
+/work/:slug/                      /work/:slug                       301
+/journal/:slug/                   /journal/:slug                    301
