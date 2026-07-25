@@ -65,7 +65,9 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
             between them reads as "roles in New York", which is not the scope. */}
         <div class="kick rev-load">Open to creative or marketing leadership roles<br />Based in New York</div>
         <h1 class="rev-load page-h1">I build creative, social, and performance as <span class="signal">one system.</span></h1>
-        <p class="lead rev-load">I build the creative, the channel system, and the feedback loop around it, from the idea through what happens after launch.</p>
+        {/* Must not open with "I build" or repeat "system": the h1 does both, and its
+            accent lands on "one system." */}
+        <p class="lead rev-load">I own the whole arc: concept, production, the channels it runs in, and the reporting that decides what gets made next.</p>
         <div class="btn-row rev-load"><a class="btn btn-p" href="/work">View work →</a><a class="btn btn-g" href="/contact">Get in touch →</a></div>
       </div>
       <figure class="hero-figure rev-load">
