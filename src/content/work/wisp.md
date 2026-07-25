@@ -84,6 +84,6 @@ demo:
   heading: "Live demo / WISP"
   foot: "Type to it and the presence reacts. A scripted demonstration, not a live model."
   tabs:
-    - { img: "/concepts/wisp/preview-demo.webp", label: Demo, cap: "Live presence / type and it moves through its states", href: "/concepts/wisp/demo", featured: true }
-    - { img: "/concepts/wisp/preview-brand.webp", label: Brand, cap: "Brand / the presence system, warm not cold-tech", href: "/concepts/wisp/brand" }
+    - { view: demo, label: Demo, cap: "Live presence / type and it moves through its states", featured: true }
+    - { view: brand, label: Brand, cap: "Brand / the presence system, warm not cold-tech" }
 ---

@@ -14,6 +14,9 @@ document.querySelectorAll<HTMLElement>('.embed').forEach((embed) => {
     tab.classList.add('on');
     if (cap) cap.textContent = tab.dataset.cap ?? '';
     if (img) {
+      // srcset first: setting src alone would leave the previous view's srcset in place,
+      // and the browser picks from srcset over src.
+      if (tab.dataset.srcset) img.srcset = tab.dataset.srcset;
       if (tab.dataset.img) img.src = tab.dataset.img;
       img.alt = tab.dataset.cap ?? '';
     }

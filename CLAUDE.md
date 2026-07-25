@@ -296,7 +296,10 @@ none exists. Never invent one to fill the box.
 
 **Concept microsites** are embedded proof inside their case study, not a parallel
 front door. Each is its own world with its own brand, CSS, and fonts, served as
-static passthrough HTML from `public/concepts/<slug>/`.
+static passthrough HTML from `public/concepts/<slug>/`. Their launcher stills are
+NOT there: they are case-study assets, so they sit in
+`src/assets/concepts/<slug>/preview-<view>.webp` and go through the image pipeline.
+A demo tab authors only its `view`; the link and the still both derive from it.
 
 **Media is convention-located by slug — never a path in content.** Adding an entry
 means adding its `public/wc/<slug>/` set (all four files). The one opt-in flag

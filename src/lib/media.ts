@@ -1,7 +1,6 @@
 /**
- * Media paths derived from a slug. Templates call these, so adding an entry means adding
- * its files under the same convention and nothing else. (Concept demo tabs are the
- * exception: those `img` paths are authored in content.)
+ * Media paths derived from a slug. Nothing is authored in content: templates call these,
+ * so adding an entry means adding its files under the same convention and nothing else.
  *
  * These filenames are a contract. They are unhashed and `public/_headers` caches them
  * immutable for a year, so replacing one's bytes in place will not reach a returning

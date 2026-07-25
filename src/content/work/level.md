@@ -85,8 +85,8 @@ demo:
   heading: "Live demo / Level"
   foot: "Four live views. The explainer is a scripted demonstration, not a live model."
   tabs:
-    - { img: "/concepts/level/preview-explainer.webp", label: Explainer, cap: "Explain this market / understanding gates the stake (scripted)", href: "/concepts/level/explainer", featured: true }
-    - { img: "/concepts/level/preview-app.webp", label: App, cap: "App / limits on by default, restraint by design", href: "/concepts/level/app" }
-    - { img: "/concepts/level/preview-motion.webp", label: Motion, cap: "Motion / probability made legible, no celebration", href: "/concepts/level/motion" }
-    - { img: "/concepts/level/preview-brand.webp", label: Brand, cap: "Brand / the restraint system", href: "/concepts/level/brand" }
+    - { view: explainer, label: Explainer, cap: "Explain this market / understanding gates the stake (scripted)", featured: true }
+    - { view: app, label: App, cap: "App / limits on by default, restraint by design" }
+    - { view: motion, label: Motion, cap: "Motion / probability made legible, no celebration" }
+    - { view: brand, label: Brand, cap: "Brand / the restraint system" }
 ---

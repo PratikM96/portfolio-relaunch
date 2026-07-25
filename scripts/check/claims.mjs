@@ -93,6 +93,28 @@ function visibleCopy(src, file) {
 }
 
 let failures = 0;
+
+/**
+ * Every demo tab's `view` needs its still at src/assets/concepts/<project>/preview-<view>.webp.
+ * EmbeddedDemo throws on a miss, but that throw does not fail `astro build` — verified by
+ * removing a still and watching the build exit 0 with the demo silently absent. This does
+ * fail it, because check:claims runs first.
+ */
+for (const f of readdirSync(join(ROOT, 'src/content/work')).filter((x) => x.endsWith('.md'))) {
+  const src = readFileSync(join(ROOT, 'src/content/work', f), 'utf8');
+  const project = src.match(/^\s*project:\s*(\S+)/m)?.[1];
+  if (!project) continue;
+  for (const m of src.matchAll(/^\s*-\s*\{\s*view:\s*([^,\s]+)/gm)) {
+    const view = m[1];
+    const still = join(ROOT, 'src/assets/concepts', project, `preview-${view}.webp`);
+    if (!existsSync(still)) {
+      failures++;
+      console.error(`\n  src/content/work/${f}`);
+      console.error(`    demo tab view "${view}" has no still at src/assets/concepts/${project}/preview-${view}.webp`);
+    }
+  }
+}
+
 for (const rel of TARGETS) {
   const abs = join(ROOT, rel);
   if (!existsSync(abs)) continue;

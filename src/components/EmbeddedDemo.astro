@@ -3,30 +3,54 @@
  * EmbeddedDemo.astro — concept launcher. Each tab is an anchor to a live view
  * under /concepts/[project]/: hover or focus previews it in the stage, click
  * launches it. The `featured` tab shows by default.
+ *
+ * A tab authors only its `view`. The link and the still both derive from it, the still
+ * through the image pipeline like every other case-study asset.
  */
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { conceptView } from '../lib/media';
+
 type Tab = {
   /** Tab label (e.g. "Clipper"). */
   label: string;
   /** Caption shown over the stage when active. */
   cap: string;
-  /** Stage preview image for this view (/concepts/<slug>/preview-<view>.webp). */
-  img: string;
-  /** Live view URL under /concepts/[project]/. */
-  href: string;
+  /** Microsite route segment; the link and the still both derive from it. */
+  view: string;
   /** Centerpiece view, shown by default. */
   featured?: boolean;
 };
 interface Props {
   heading: string;
+  /** Concept slug under /concepts/ and src/assets/concepts/. */
+  project: string;
   tabs: Tab[];
   /** "Open full demo" target (the concept index). */
   openHref: string;
   foot: string;
 }
-const { heading, tabs, openHref, foot } = Astro.props;
-const featuredIndex = tabs.findIndex((t) => t.featured);
+const { heading, project, tabs, openHref, foot } = Astro.props;
+
+const stills = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/concepts/*/preview-*.webp',
+  { eager: true },
+);
+// Resolved up front: the stage swaps images at runtime, so each tab carries its processed
+// src and srcset rather than a path the browser has to guess at.
+const resolved = await Promise.all(
+  tabs.map(async (t) => {
+    const key = `../assets/concepts/${project}/preview-${t.view}.webp`;
+    const mod = stills[key];
+    if (!mod) throw new Error(`EmbeddedDemo: missing ${key.replace('../', 'src/')} for tab "${t.label}"`);
+    const img = await getImage({ src: mod.default, widths: [480, 800, 1280, 1600], format: 'webp' });
+    return { ...t, href: conceptView(project, t.view), src: img.src, srcset: img.srcSet.attribute };
+  }),
+);
+const featuredIndex = resolved.findIndex((t) => t.featured);
 const activeIndex = featuredIndex >= 0 ? featuredIndex : 0;
-const active = tabs[activeIndex] ?? tabs[0];
+const active = resolved[activeIndex] ?? resolved[0];
+const SIZES = '(max-width: 900px) 100vw, (max-width: 1400px) 70vw, 1100px';
 ---
 
 <div class="embed rev">
@@ -36,17 +60,33 @@ const active = tabs[activeIndex] ?? tabs[0];
   </div>
   <div class="etabs">
     {
-      tabs.map((t, i) => (
-        <a class:list={['etab', i === activeIndex && 'on']} href={t.href} data-cap={t.cap} data-img={t.img}>
+      resolved.map((t, i) => (
+        <a
+          class:list={['etab', i === activeIndex && 'on']}
+          href={t.href}
+          data-cap={t.cap}
+          data-img={t.src}
+          data-srcset={t.srcset}
+        >
           {t.label}
         </a>
       ))
     }
   </div>
   <a class="estage" href={active.href} aria-label={`Open the ${active.label} view`}>
-    {/* Swapped at runtime by embedded-demo.ts, so it can't go through the image
-        pipeline. Lazy because it sits far below the fold. */}
-    <img class="estage-img" src={active.img} alt={active.cap} width="1600" height="900" loading="lazy" decoding="async" />
+    {/* A plain <img>, not <Image>: embedded-demo.ts swaps src + srcset on tab change, so
+        the markup has to stay writable. Lazy because it sits far below the fold. */}
+    <img
+      class="estage-img"
+      src={active.src}
+      srcset={active.srcset}
+      sizes={SIZES}
+      alt={active.cap}
+      width="1600"
+      height="900"
+      loading="lazy"
+      decoding="async"
+    />
     <div class="scrim"><span class="cap estage-cap">{active.cap}</span></div>
     <span class="estage-go">Open ↗</span>
   </a>

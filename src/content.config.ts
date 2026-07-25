@@ -210,8 +210,11 @@ const work = defineCollection({
             z.object({
               label: z.string(),
               cap: z.string(),
-              img: z.string(), // /concepts/<slug>/preview-<view>.webp
-              href: z.string(),
+              // The microsite route segment. Both the link (/concepts/<project>/<view>)
+              // and the still (src/assets/concepts/<project>/preview-<view>.webp) derive
+              // from it. scripts/check/claims.mjs fails the build on a missing still;
+              // EmbeddedDemo's own throw does not, so don't rely on it.
+              view: z.string(),
               featured: z.boolean().optional(), // the centerpiece view, shown by default
             }),
           ),

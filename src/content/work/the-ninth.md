@@ -93,9 +93,9 @@ demo:
   heading: "Demo / The Ninth"
   foot: "Five views. The AI moment-clipper prototype is the centerpiece. Open any tab to launch it."
   tabs:
-    - { img: "/concepts/the-ninth/preview-clipper.webp", label: Clipper, cap: "AI moment-clipper / three signals fuse into an instant auto-clip", href: "/concepts/the-ninth/clipper", featured: true }
-    - { img: "/concepts/the-ninth/preview-app.webp", label: App, cap: "Membership app / watch, predict, belong, climb", href: "/concepts/the-ninth/app" }
-    - { img: "/concepts/the-ninth/preview-broadcast.webp", label: Broadcast, cap: "Broadcast / kinetic overlay package", href: "/concepts/the-ninth/broadcast" }
-    - { img: "/concepts/the-ninth/preview-social.webp", label: Social, cap: "Social content engine / one match, a week of output", href: "/concepts/the-ninth/social" }
-    - { img: "/concepts/the-ninth/preview-brand.webp", label: Brand, cap: "Brand / the altitude system", href: "/concepts/the-ninth/brand" }
+    - { view: clipper, label: Clipper, cap: "AI moment-clipper / three signals fuse into an instant auto-clip", featured: true }
+    - { view: app, label: App, cap: "Membership app / watch, predict, belong, climb" }
+    - { view: broadcast, label: Broadcast, cap: "Broadcast / kinetic overlay package" }
+    - { view: social, label: Social, cap: "Social content engine / one match, a week of output" }
+    - { view: brand, label: Brand, cap: "Brand / the altitude system" }
 ---
