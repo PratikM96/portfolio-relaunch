@@ -8,10 +8,16 @@ const themeBtns = Array.prototype.slice.call(
   document.querySelectorAll('[data-set]'),
 ) as HTMLElement[];
 
-/** Browser UI tint follows the resolved theme, not the OS preference. */
+/**
+ * Browser UI tint follows the resolved theme, not the OS preference.
+ * The hexes are --bg's two ends, --n-50 light and --n-950 dark, hardcoded
+ * because this also runs pre-paint in Base.astro where no CSS variable is
+ * readable yet. Base.astro holds the other copy and site.webmanifest the
+ * third; all three move together.
+ */
 function setThemeColor(t: string) {
   const m = document.querySelector('meta[name="theme-color"]');
-  if (m) m.setAttribute('content', t === 'light' ? '#FBFAF6' : '#0B0B0A');
+  if (m) m.setAttribute('content', t === 'light' ? '#F4F2EB' : '#0B0B0A');
 }
 
 function applyTheme(t: string) {

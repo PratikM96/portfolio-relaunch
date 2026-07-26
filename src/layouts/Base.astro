@@ -155,9 +155,13 @@ const ldGraph = {
 
     {/* Browser UI tint. No `media` — the theme is [data-theme], not the OS
         preference; the no-flash script below rewrites `content` to match.
-        These two hexes are the only place --n-950 / --n-0 are written out:
-        a <meta> attribute and a pre-paint script can't read a CSS variable.
-        If the ramp ends move, move them here too. */}
+        The tint has to equal --bg, which is --n-950 dark and **--n-50** light.
+        Light was --n-0 (#FBFAF6), the SURFACE step, so the browser chrome sat a
+        shade off the page it framed and disagreed with site.webmanifest's
+        background_color. These are the only place those two steps are written
+        out: a <meta> attribute and a pre-paint script can't read a CSS
+        variable. Third copy in scripts/site-chrome.ts — move all three, and
+        keep the manifest in step. */}
     <meta name="theme-color" content="#0B0B0A" />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(ldGraph)} />
@@ -184,7 +188,7 @@ const ldGraph = {
           }
           document.documentElement.setAttribute('data-theme', t);
           var m = document.querySelector('meta[name="theme-color"]');
-          if (m) m.setAttribute('content', t === 'light' ? '#FBFAF6' : '#0B0B0A');
+          if (m) m.setAttribute('content', t === 'light' ? '#F4F2EB' : '#0B0B0A');
         } catch (e) {}
       })();
     </script>
