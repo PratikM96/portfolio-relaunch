@@ -163,7 +163,7 @@ const schema = [
   /* Deliberately shallower than the other page heads: this one is followed by body
      copy rather than a section, and at 4xl/3xl the title and meta filled the first
      screen on their own. */
-  .ahead { padding: var(--space-2xl) 0 var(--space-xl); max-width: 74ch; }
+  .ahead { padding: var(--space-2xl) 0 var(--space-xl); max-width: var(--measure-3xl); }
   /* wrap: a category chip is `nowrap`, so the ROW has to be what gives */
   .ahead .cats { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-lg); }
   .ahead .m { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-lg); }
@@ -172,7 +172,7 @@ const schema = [
 
 
   .article { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: var(--space-3xl); align-items: start; padding-bottom: var(--space-4xl); }
-  .amain { max-width: 70ch; }
+  .amain { max-width: var(--measure-3xl); }
   /* body copy comes from the post markdown — style the rendered elements globally */
   .amain :global(p) { font-size: var(--fs-xl); line-height: 1.7; color: var(--text-secondary); margin-bottom: var(--space-lg); }
   /* The lede. h3 TIER at the 2xl step, so the weight is one the system already
@@ -197,7 +197,7 @@ const schema = [
   /* mobile post-foot: author + more writing, shown only where the rail is hidden */
   .post-foot { display: none; }
   .pf-k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: var(--space-md); }
-  .pf-about p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: 60ch; }
+  .pf-about p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: var(--measure-xl); }
   .pf-about a { display: inline-block; margin-top: var(--space-sm); font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); }
   .pf-more ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-md); }
   .pf-more a { font-size: var(--fs-lg); line-height: 1.2; color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard); }

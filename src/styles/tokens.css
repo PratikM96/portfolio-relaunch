@@ -233,6 +233,24 @@
   --badge-concept-bg: rgba(244, 242, 235, .7);
   --badge-concept-tx: var(--n-900);
   --img-frame: var(--n-200);
+
+  /* --- Measure · nine steps, and nothing outside them ---
+     Every prose `max-width` on the site resolves to one of these — never a
+     hand-written ch value. Frequency-derived like the Size scale: the steps
+     sit where the 24 existing max-width rules already clustered, so most
+     kept their exact value when the scale was adopted. --measure-lg and
+     --measure-2xl are the two anchors everything else was picked around —
+     they're `.lead` and `.prose` below, already the site's shared measure
+     primitives before this scale existed. */
+  --measure-3xs: 16ch;  /* forced headline wrap: closing CTA */
+  --measure-2xs: 22ch;  /* forced headline wrap: a page h1 */
+  --measure-xs: 26ch;   /* short label / stat caption */
+  --measure-sm: 30ch;   /* small aside copy */
+  --measure-md: 46ch;   /* compact card / meta body copy */
+  --measure-lg: 56ch;   /* lead paragraphs (the .lead primitive) */
+  --measure-xl: 64ch;   /* secondary long-form: disclosures, decisions, excerpts */
+  --measure-2xl: 68ch;  /* primary long-form prose (the .prose primitive) */
+  --measure-3xl: 74ch;  /* full-width article column */
 }
 
 /* ===== Semantic surfaces · DARK ===== */

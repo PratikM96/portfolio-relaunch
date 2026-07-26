@@ -122,7 +122,7 @@ img { display: block; max-width: 100%; }
 .console .bio-k {
   font-size: var(--fs-3xs); color: var(--text-muted); display: block; margin-bottom: var(--space-xs);
 }
-.console .rail-bio p { font-size: var(--fs-xs); line-height: 1.55; color: var(--text-secondary); max-width: 30ch; }
+.console .rail-bio p { font-size: var(--fs-xs); line-height: 1.55; color: var(--text-secondary); max-width: var(--measure-sm); }
 .console .spacer { flex: 1; }
 .console .readout {
   border-top: 1px solid var(--border); padding-top: var(--space-md);
@@ -233,7 +233,7 @@ img { display: block; max-width: 100%; }
 
 .h2 { font-size: var(--fs-fluid-xl); line-height: var(--lh-h2); }
 .h3 { font-size: var(--fs-xl); line-height: var(--lh-h3); }
-.lead { font-size: var(--fs-xl); line-height: 1.5; color: var(--text-secondary); max-width: 56ch; }
+.lead { font-size: var(--fs-xl); line-height: 1.5; color: var(--text-secondary); max-width: var(--measure-lg); }
 
 /* ===== shared content primitives =====
    Consumers keep only their own delta (padding, grid, size). */
@@ -244,7 +244,7 @@ img { display: block; max-width: 100%; }
 .card--interactive:hover { border-color: var(--border-strong); }
 
 /* Long-form body copy (about + case-study narrative). */
-.prose { max-width: 68ch; }
+.prose { max-width: var(--measure-2xl); }
 .prose p { font-size: var(--fs-lg); line-height: 1.66; color: var(--text-secondary); margin-bottom: var(--space-md); }
 /* the only Grotesk 600 on the site; everything else in that family is 400 or h3 500 */
 .prose p strong { color: var(--text); font-weight: var(--t-strong-weight); }

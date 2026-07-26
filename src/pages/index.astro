@@ -337,7 +337,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   .tile-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-deliberate) var(--ease-standard); }
   .t-feat:hover .tile-video { transform: scale(1.03); }
   .t-feat .meta { padding: var(--space-lg); display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-md); }
-  .t-feat .meta p { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--space-xs); max-width: 38ch; }
+  .t-feat .meta p { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--space-xs); max-width: var(--measure-md); }
   .t-feat .meta .disc { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
 
   /* .badge / .badge.in-house / .badge.concept come from global.css */
@@ -347,14 +347,14 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
      pixels above cards 1 and 3. The label reserves two lines for the same reason. */
   .t-stat { padding: var(--space-lg); display: flex; flex-direction: column; justify-content: space-between; gap: var(--space-sm); min-height: 132px; }
   .t-stat .fig { font-size: var(--fs-fluid-2xl); line-height: 1; color: var(--text); }
-  .t-stat .lab { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); line-height: 1.5; max-width: 26ch; min-height: 3em; }
+  .t-stat .lab { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); line-height: 1.5; max-width: var(--measure-xs); min-height: 3em; }
 
   /* ===== MODULES ===== */
   .duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
   /* surface + hover come from global .card / .card--interactive */
   .mod { padding: var(--space-xl); display: flex; flex-direction: column; }
   .mod .k { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-md); }
-  .mod p { font-size: var(--fs-sm); color: var(--text-secondary); max-width: 46ch; margin-top: var(--space-sm); }
+  .mod p { font-size: var(--fs-sm); color: var(--text-secondary); max-width: var(--measure-md); margin-top: var(--space-sm); }
   .mod .go { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text); margin-top: auto; padding-top: var(--space-lg); }
   /* About: headshot side-by-side, stretched to the text column's height */
   .mod-about { flex-direction: row; align-items: stretch; gap: var(--space-lg); }
@@ -377,7 +377,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   .jr-row:hover { padding-left: var(--space-sm); }
   .jr-t { font-size: var(--fs-fluid-md); color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard); }
   .jr-row:hover .jr-t { color: var(--text); }
-  .jr-ex { font-size: var(--fs-sm); color: var(--text-muted); margin-top: var(--space-xs); max-width: 60ch; }
+  .jr-ex { font-size: var(--fs-sm); color: var(--text-muted); margin-top: var(--space-xs); max-width: var(--measure-xl); }
   .jr-m { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }
 
   /* ===== CLOSE — see CloseCTA.astro ===== */

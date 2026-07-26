@@ -68,7 +68,7 @@ If the code enforces it, read the code. Restating it here gives the fact a secon
 | What Pratik owned vs didn't, per case study | `contribution` in the entry + `ContributionBox.astro` |
 | Which projects answer which hiring need | the `ROUTES` table in `src/pages/work/index.astro`, mirroring Job Search Targeting §4 |
 | Routes and the sitemap | `src/pages/` — the filename is the URL |
-| Every design token — ramp, tiers, sizes, spacing, motion, `@font-face` | `src/styles/tokens.css` |
+| Every design token — ramp, tiers, sizes, spacing, measure, motion, `@font-face` | `src/styles/tokens.css` |
 | Design law in prose (type, colour, radius, grid, motion, a11y) | the live `/brand` page |
 | The engagement facet + its labels | `src/lib/work-type.ts` |
 | Collection order, dates, year parsing | `src/lib/content.ts` |
@@ -129,6 +129,8 @@ Kicker: `label` tier, 11px, accent-text. Section label: `[ 0N ]` (accent mono) +
 
 **Spacing: the '--space-*' scale, and nothing outside it.*** Every `padding`, `margin` and `gap` resolves to a token. Values under 4px are exempt and stay literal — a 1px grid `gap` is a border trick, not rhythm. If a value doesn't fit the scale, change the design or the scale; don't add a literal.
 
+**Measure: nine steps, and nothing outside them.** Every prose `max-width` resolves to a `--measure-*` token — never a hand-written `ch` value. Frequency-derived like the Size scale: the steps sit where the 24 max-width rules already clustered before the scale existed. `--measure-lg` (56ch) and `--measure-2xl` (68ch) are the two anchors everything else was picked around — they're `.lead` and `.prose`, the shared measure primitives in `global.css`. `/brand` §03 renders the ladder live, same as the type-size table.
+
 **Motion, colour and radius are tokens too.** Every `transition` and `animation` duration composes `--dur-*`; every easing `--ease-*`; every `border-radius` `--radius-*`. Overlays on media use `--scrim-*` / `--shadow-*`, which are `color-mix` on the ramp rather than a frozen `rgba()` copy of it. There is no pure white on this site — `--n-0` is warm. The only literal colours left are the
 `theme-color` meta and the pre-paint script, which cannot read a CSS variable.
 
@@ -171,6 +173,8 @@ One case-study design for every entry. Spine: Scoreboard → Problem → System 
 Dated so they don't get silently re-litigated. Full rationale in the commit.
 
 **Adding an entry compresses the ones above it.** Only the newest entry keeps its detail; everything older gets cut back to a line or two holding the decision and any trap it left behind. If a rule from an old entry is still load-bearing, it belongs in §3-§8 or in the code it governs, not in a paragraph down here.
+
+- **2026-07-26 (b)** — **Measure tokenized.** The 24 hand-written `max-width: Nch` prose-column rules across the site (19 distinct values, 16-74ch, no shared source) became a nine-step `--measure-*` scale in `tokens.css`, following the Size/Spacing precedent. Prompted by Pratik asking why body copy (the home page's Section 3 card, every `/brand` intro paragraph) didn't reach its container edge — the answer was intentional line-length capping for readability, just never tokenized. `.lead` (56ch) and `.prose` (68ch) were kept exact as the scale's anchors since other files already treated them as shared primitives; everything else shifted by at most 8ch (most ≤4ch) to land on a step. `/brand` §03 gained a live ladder for it, matching every other token axis.
 
 - **2026-07-26** — **Repo-wide hard-wrap cleanup.** Docs and every code/content comment that had been manually line-broken mid-sentence (a pattern from prior AI-authored edits) got joined back to one line per paragraph or comment thought; rendered site copy and case-study YAML values were already clean and untouched. The §6 rule above is what stops it recurring.
 

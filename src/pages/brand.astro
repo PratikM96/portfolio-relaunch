@@ -55,6 +55,19 @@ const sizes = [
   { token: '--fs-4xl', name: '4xl', for: 'the largest fixed figure' },
 ];
 
+// The measure scale — a prose column's max-width, read live like the size scale above.
+const measures = [
+  { token: '--measure-3xs', name: '3xs', for: 'forced headline wrap: CTA' },
+  { token: '--measure-2xs', name: '2xs', for: 'forced headline wrap: page h1' },
+  { token: '--measure-xs', name: 'xs', for: 'short label / caption' },
+  { token: '--measure-sm', name: 'sm', for: 'small aside copy' },
+  { token: '--measure-md', name: 'md', for: 'compact card / meta copy' },
+  { token: '--measure-lg', name: 'lg', for: 'lead paragraphs (.lead)' },
+  { token: '--measure-xl', name: 'xl', for: 'disclosures, decisions, excerpts' },
+  { token: '--measure-2xl', name: '2xl', for: 'long-form prose (.prose)' },
+  { token: '--measure-3xl', name: '3xl', for: 'full-width article column' },
+];
+
 const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 ---
 
@@ -179,6 +192,18 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
       ))}
     </div>
     <div class="mono muted gridnote">plus <code>--fs-fluid-*</code> for type that scales with the viewport. Container-query sizing stays per-component.</div>
+
+    <div class="subhead">Measure / nine steps</div>
+    <p class="intro">A prose column's max-width, capped for reading comfort rather than let run to the edge of its box. Same sample at every step, so the wrap itself is the demonstration. <code>lg</code> and <code>2xl</code> are the two anchors, <code>.lead</code> and <code>.prose</code>; everything else was picked around them.</p>
+    <div class="measures">
+      {measures.map((m) => (
+        <div class="m-row">
+          <div class="z-lab">{m.name} / {tokenValue(m.token)}</div>
+          <div class="m-samp" style={`max-width: var(${m.token})`}>Creative built like a system and accountable to what it does after it ships. The breadth is the proof of the idea, not a separate selling point.</div>
+          <div class="z-for">{m.for}</div>
+        </div>
+      ))}
+    </div>
   </section>
 
   {/* 04 COLOR */}
@@ -386,7 +411,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   /* type + measure come from the shared .lead primitive in global.css */
   .bhero p { margin-top: var(--space-lg); }
   .bsec { padding: var(--space-4xl) 0; }
-  .bsec .intro { font-size: var(--fs-base); line-height: 1.6; color: var(--text-secondary); max-width: 66ch; margin-bottom: var(--space-xl); }
+  .bsec .intro { font-size: var(--fs-base); line-height: 1.6; color: var(--text-secondary); max-width: var(--measure-xl); margin-bottom: var(--space-xl); }
   .subhead { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin: var(--space-2xl) 0 var(--space-md); }
   .cap { font-size: var(--fs-2xs); color: var(--text-muted); margin-top: var(--space-sm); line-height: 1.5; }
   /* version + review stamp under the page lead */
@@ -467,6 +492,18 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   @media (max-width: 900px) {
     .z-row { grid-template-columns: 96px 1fr; }
     .z-for { display: none; }
+  }
+
+  /* measure scale — one row per step, same sample text clipped to the real token so the wrap demonstrates it */
+  .measures { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+  .m-row {
+    display: grid; grid-template-columns: 132px 1fr 200px; gap: var(--space-md);
+    align-items: start; padding: var(--space-md) 0; border-bottom: 1px solid var(--border);
+  }
+  .m-samp { font-size: var(--fs-sm); line-height: 1.5; color: var(--text-secondary); border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); padding: var(--space-sm); }
+  @media (max-width: 900px) {
+    .m-row { grid-template-columns: 96px 1fr; }
+    .m-row .z-for { display: none; }
   }
 
   /* Narrow: shed columns in order of what the table is for. `where` goes first, then `track` — the tracking values are documented in the prose above and in tokens.css, so the tier/face/sample triple is what has to survive. */
