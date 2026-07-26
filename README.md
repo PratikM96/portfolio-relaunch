@@ -19,8 +19,7 @@ npm run check        # astro check (types + content)
 npm run check:claims # metric wording, retired claims, style defaults
 ```
 
-`check:claims` runs first in `build` and fails it. The content schema validates the
-*shape* of an entry; this validates the *values*. Its rules and the Resume Master's Claim Registry change together.
+`check:claims` runs first in `build` and fails it. The content schema validates the *shape* of an entry; this validates the *values*. Its rules and the Resume Master's Claim Registry change together.
 
 ## Project structure
 
@@ -59,10 +58,7 @@ docs/
   utm-tagging.md      # UTM conventions + GA4 notes
 ```
 
-Client behaviour lives in `src/scripts/`, never re-typed per page; the only
-hand-written inline script is the pre-paint no-flash theme set in `Base.astro`.
-Whether a bundle ships inline or as a hashed `/_astro/` file is Vite's call
-(4 KB `assetsInlineLimit`), so check a real build rather than assuming.
+Client behaviour lives in `src/scripts/`, never re-typed per page; the only hand-written inline script is the pre-paint no-flash theme set in `Base.astro`. Whether a bundle ships inline or as a hashed `/_astro/` file is Vite's call (4 KB `assetsInlineLimit`), so check a real build rather than assuming.
 
 ## Adding a case study
 

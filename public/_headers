@@ -1,17 +1,5 @@
 # Cloudflare _headers — security + caching defaults.
-# The @astrojs/cloudflare adapter APPENDS its own immutable rule for /_astro/*
-# to this file at build, so hashed asset caching is handled there; the rules
-# below cover everything else. The CSP below is ENFORCED. It allows the inline
-# theme/consent/demo scripts and inline style attributes via 'unsafe-inline'
-# (acceptable on a static, no-user-input site) while locking external sources to
-# self + Google Analytics only. (Cloudflare Web Analytics is OFF — its
-# static.cloudflareinsights.com beacon slowed LCP — so its origins were dropped
-# from script-src/connect-src here; re-add them if you ever re-enable it.) The
-# external set is small and audited; a NEW external source will now fail silently,
-# so add it here when you add an integration. To harden script-src further, drop
-# 'unsafe-inline' by hashing the inline scripts (or add a nonce via SSR). For a
-# monitored change, temporarily switch back to Content-Security-Policy-Report-Only
-# and point report-uri at a collector before re-enforcing.
+# The @astrojs/cloudflare adapter APPENDS its own immutable rule for /_astro/* to this file at build, so hashed asset caching is handled there; the rules below cover everything else. The CSP below is ENFORCED. It allows the inline theme/consent/demo scripts and inline style attributes via 'unsafe-inline' (acceptable on a static, no-user-input site) while locking external sources to self + Google Analytics only. (Cloudflare Web Analytics is OFF — its static.cloudflareinsights.com beacon slowed LCP — so its origins were dropped from script-src/connect-src here; re-add them if you ever re-enable it.) The external set is small and audited; a NEW external source will now fail silently, so add it here when you add an integration. To harden script-src further, drop 'unsafe-inline' by hashing the inline scripts (or add a nonce via SSR). For a monitored change, temporarily switch back to Content-Security-Policy-Report-Only and point report-uri at a collector before re-enforcing.
 
 /*
   X-Content-Type-Options: nosniff
@@ -21,21 +9,11 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; upgrade-insecure-requests
 
-# Everything below is `immutable` for a year at a CONTRACT-NAMED, UNHASHED URL.
-# Only /_astro/* is content-hashed (the adapter appends that rule at build);
-# public/ ships verbatim, and these filenames are fixed by contract on purpose
-# (@font-face, preloads, and the per-slug video conventions all hardcode them).
+# Everything below is `immutable` for a year at a CONTRACT-NAMED, UNHASHED URL. Only /_astro/* is content-hashed (the adapter appends that rule at build); public/ ships verbatim, and these filenames are fixed by contract on purpose (@font-face, preloads, and the per-slug video conventions all hardcode them).
 #
-# The tradeoff that buys: changing an existing file's BYTES without changing its
-# NAME will not reach a returning visitor for up to a year. So re-encoding
-# /wc/<slug>/card.webm or re-cutting a font in place only reliably serves new
-# visitors. If a change must reach everyone, rename the file (and its reference)
-# or drop `immutable` here first. Adding a new slug or face is always safe — new
-# URL, no cache to beat.
+# The tradeoff that buys: changing an existing file's BYTES without changing its NAME will not reach a returning visitor for up to a year. So re-encoding /wc/<slug>/card.webm or re-cutting a font in place only reliably serves new visitors. If a change must reach everyone, rename the file (and its reference) or drop `immutable` here first. Adding a new slug or face is always safe — new URL, no cache to beat.
 #
-# Known and accepted: the Clash faces were re-cut in place on 2026-07-15
-# (subset -> verbatim). A cached subset still carries every glyph the site
-# renders, so returning visitors see no difference.
+# Known and accepted: the Clash faces were re-cut in place on 2026-07-15 (subset -> verbatim). A cached subset still carries every glyph the site renders, so returning visitors see no difference.
 
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
@@ -50,13 +28,7 @@
 /ov/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Concept microsite fonts. Same contract as /fonts/* — vendor filenames, fixed
-# by each concept's own @font-face, and a face is only ever ADDED under a new
-# name, never re-cut in place. Listed per slug rather than /concepts/*/fonts/*
-# because only a single trailing wildcard is reliably supported, and a bare
-# /concepts/* would sweep the microsite HTML into a year of immutable caching.
-# Everything else under /concepts/ is deliberately left on the revalidating
-# default until the microsite pass lands.
+# Concept microsite fonts. Same contract as /fonts/* — vendor filenames, fixed by each concept's own @font-face, and a face is only ever ADDED under a new name, never re-cut in place. Listed per slug rather than /concepts/*/fonts/* because only a single trailing wildcard is reliably supported, and a bare /concepts/* would sweep the microsite HTML into a year of immutable caching. Everything else under /concepts/ is deliberately left on the revalidating default until the microsite pass lands.
 /concepts/level/fonts/*
   Cache-Control: public, max-age=31536000, immutable
 /concepts/the-ninth/fonts/*
@@ -64,20 +36,24 @@
 /concepts/wisp/fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Favicons, touch icon, manifest and share cards. Unhashed and contract-named
-# (the <link> tags hardcode them), so they can't carry a content hash — but
-# unlike the sets above they do get redrawn occasionally. 30 days, NOT a year
-# and NOT immutable: long enough to kill the per-navigation revalidation these
-# were doing, short enough that replacing one in place still reaches people.
+# Favicons, touch icon, manifest and share cards. Unhashed and contract-named (the <link> tags hardcode them), so they can't carry a content hash — but unlike the sets above they do get redrawn occasionally. 30 days, NOT a year and NOT immutable: long enough to kill the per-navigation revalidation these were doing, short enough that replacing one in place still reaches people.
 /favicon.ico
   Cache-Control: public, max-age=2592000
 /favicon.svg
+  Cache-Control: public, max-age=2592000
+/favicon-16x16.png
+  Cache-Control: public, max-age=2592000
+/favicon-32x32.png
   Cache-Control: public, max-age=2592000
 /favicon-96x96.png
   Cache-Control: public, max-age=2592000
 /apple-touch-icon.png
   Cache-Control: public, max-age=2592000
 /site.webmanifest
+  Cache-Control: public, max-age=2592000
+/android-chrome-192x192.png
+  Cache-Control: public, max-age=2592000
+/android-chrome-512x512.png
   Cache-Control: public, max-age=2592000
 /og/*
   Cache-Control: public, max-age=2592000
