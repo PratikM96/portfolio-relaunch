@@ -1,14 +1,11 @@
 /**
- * Claim check — fails when a metric on the site drifts from its approved public wording,
- * or when a retired claim comes back.
+ * Claim check — fails when a metric on the site drifts from its approved public wording, or when a retired claim comes back.
  *
  *   npm run check:claims
  *
  * The content schema validates an entry's SHAPE; this validates its VALUES.
  *
- * Approved wordings are embedded here rather than read from the Resume Master's Claim
- * Registry: that lives in gitignored `_reference/`, so a check reading it would pass
- * silently wherever the Drive junction is missing. Change both in the same commit.
+ * Approved wordings are embedded here rather than read from the Resume Master's Claim Registry: that lives in gitignored `_reference/`, so a check reading it would pass silently wherever the Drive junction is missing. Change both in the same commit.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -95,10 +92,7 @@ function visibleCopy(src, file) {
 let failures = 0;
 
 /**
- * Every demo tab's `view` needs its still at src/assets/concepts/<project>/preview-<view>.webp.
- * EmbeddedDemo throws on a miss, but that throw does not fail `astro build` — verified by
- * removing a still and watching the build exit 0 with the demo silently absent. This does
- * fail it, because check:claims runs first.
+ * Every demo tab's `view` needs its still at src/assets/concepts/<project>/preview-<view>.webp. EmbeddedDemo throws on a miss, but that throw does not fail `astro build` — verified by removing a still and watching the build exit 0 with the demo silently absent. This does fail it, because check:claims runs first.
  */
 for (const f of readdirSync(join(ROOT, 'src/content/work')).filter((x) => x.endsWith('.md'))) {
   const src = readFileSync(join(ROOT, 'src/content/work', f), 'utf8');

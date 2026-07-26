@@ -1,14 +1,8 @@
 ---
-# Portfolio System - the site itself, as a case study. Self-initiated, so type: concept
-# (role Creative Technologist). Unlike the three design-only concepts it shipped and runs,
-# so it carries real, measured results (Lighthouse, CLS, payload) rather than scope.
-# Numbers are measured on the live build, 2026-07-24, Lighthouse 13.4.1; the proof averages
-# also render live via PerfTable (perfTable: true).
+# Portfolio System - the site itself, as a case study. Self-initiated, so type: concept (role Creative Technologist). Unlike the three design-only concepts it shipped and runs, so it carries real, measured results (Lighthouse, CLS, payload) rather than scope.
+# Numbers are measured on the live build, 2026-07-24, Lighthouse 13.4.1; the proof averages also render live via PerfTable (perfTable: true).
 #
-# NEVER put a page count, commit count, line count, hour count, Lighthouse version, or
-# measurement date in this copy. Every one rots (CLAUDE.md §10) and three already did.
-# PerfTable renders pages / version / date from src/data/portfolio-perf.json, which is the
-# only place they belong.
+# NEVER put a page count, commit count, line count, hour count, Lighthouse version, or measurement date in this copy. Every one rots (CLAUDE.md §10) and three already did. PerfTable renders pages / version / date from src/data/portfolio-perf.json, which is the only place they belong.
 title: Portfolio System
 slug: portfolio-system
 type: concept
@@ -25,8 +19,7 @@ hero:
   - { k: Role, v: "Creative Technologist" }
   - { k: Disciplines, v: "Design Systems, Front-end, Brand" }
   - { k: Type, v: "Self-initiated / 2026" }
-  # No `accent: true` any more: figureRuns accents every numeral, so a unitless 100
-  # colours itself. The flag was removed from the schema 2026-07-25.
+  # No `accent: true` any more: figureRuns accents every numeral, so a unitless 100 colours itself. The flag was removed from the schema 2026-07-25.
   - { k: "Desktop Lighthouse", v: "100", stat: true }
 
 problem:
@@ -114,11 +107,7 @@ proof:
     - { value: "7", unit: "KB", label: "JS, heaviest page" }
   note:
     label: "Why it exists / what it proves"
-    # No page count and no commit count here. Both rotted within a day of shipping (the
-    # copy claimed 22 pages while the JSON beside it said 23, and 131 commits against an
-    # actual 143), which is exactly what CLAUDE.md §10 forbids. PerfTable renders the real
-    # page count from portfolio-perf.json, so stating it twice only creates a second
-    # number to keep true.
+    # No page count and no commit count here. Both rotted within a day of shipping (the copy claimed 22 pages while the JSON beside it said 23, and 131 commits against an actual 143), which is exactly what CLAUDE.md §10 forbids. PerfTable renders the real page count from portfolio-perf.json, so stating it twice only creates a second number to keep true.
     text: "Measured on the live build, not projected, mobile and desktop. The table below carries the page count, the Lighthouse version, and the date it was run. Self-initiated: designed, written, and built solo since March 2026, in a public repo."
 
 reflection:

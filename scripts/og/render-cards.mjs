@@ -1,7 +1,5 @@
 /**
- * OG share cards — this file IS the record of every card's params, so the whole
- * set can be regenerated after a font or token change. Case-study params derive
- * from the content entries and so can't drift; fixed pages are listed by hand.
+ * OG share cards — this file IS the record of every card's params, so the whole set can be regenerated after a font or token change. Case-study params derive from the content entries and so can't drift; fixed pages are listed by hand.
  *
  *   node scripts/og/render-cards.mjs            # all
  *   node scripts/og/render-cards.mjs dealnews   # one, by output name

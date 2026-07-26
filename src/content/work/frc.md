@@ -1,18 +1,13 @@
 ---
-# The Forest Road Company - content entry. In-house role, not a client engagement.
-# Real performance results. Framed as B2B social/reporting, not finance messaging.
-# "Answerable to a forecast" means campaign performance and executive reporting, never
-# company revenue forecasting.
+# The Forest Road Company - content entry. In-house role, not a client engagement. Real performance results. Framed as B2B social/reporting, not finance messaging.
+# "Answerable to a forecast" means campaign performance and executive reporting, never company revenue forecasting.
 title: The Forest Road Company
 slug: frc
 type: in-house
 role: Social Media Director
 year: "2022"
 disciplines: [Social, Paid, Content, Strategy]
-# The brand history film is FRC's only deliverable, so it plays in the hero wall
-# (below the scoreboard) and the entry carries no Output section. Files at
-# /hero/frc/hero_1080.webm plus src/assets/hero/frc/poster.webp (webm only; the mp4
-# fallback was retired 2026-07-22). See docs/hero-pipeline.md.
+# The brand history film is FRC's only deliverable, so it plays in the hero wall (below the scoreboard) and the entry carries no Output section. Files at /hero/frc/hero_1080.webm plus src/assets/hero/frc/poster.webp (webm only; the mp4 fallback was retired 2026-07-22). See docs/hero-pipeline.md.
 heroVideo: true
 coverAlt: "Forest Road Company brand history film"
 coverCaption: "The Forest Road Company / B2B social"
@@ -25,8 +20,7 @@ hero:
   - { k: Role, v: "Social Media Director" }
   - { k: Disciplines, v: "Social, Paid, Content, Strategy" }
   - { k: Timeframe, v: "2022" }
-  # Specific channel and form, matching the ProofBox below. "Lead-gen conversion" alone
-  # implied a broader funnel figure than the one that was measured.
+  # Specific channel and form, matching the ProofBox below. "Lead-gen conversion" alone implied a broader funnel figure than the one that was measured.
   - { k: "LinkedIn Lead Gen Form", v: "~8", stat: true, unit: "%" }
 
 contribution:
@@ -75,8 +69,7 @@ decisions:
     - { n: "03", title: "Report up, in their language", text: "Performance became recommendations leadership could act on." }
     - { n: "04", title: "Pair paid with daily presence", text: "LinkedIn paid drove leads while daily X kept the brand present." }
 
-# No output section — the brand history film is the only asset and plays in the
-# hero wall (heroVideo above). The template drops §Output + its rail entry.
+# No output section — the brand history film is the only asset and plays in the hero wall (heroVideo above). The template drops §Output + its rail entry.
 
 reflection:
   prose:

@@ -136,6 +136,8 @@ Kicker: `label` tier, 11px, accent-text. Section label: `[ 0N ]` (accent mono) +
 
 **Theme.** Dark and light are both first-class. No-flash inline script, `localStorage` with try/catch, follows OS until manual override, respects reduced-motion.
 
+**Prose and comments are never hard-wrapped.** Write one paragraph, list item, or comment thought as one continuous line, however long, and let the viewer's own soft-wrap handle display width — Notepad++, GitHub, and every other place this repo gets read already does that. Never insert a line break mid-sentence to hit a column target. Applies everywhere text is authored in this repo: docs, code comments, JSDoc, YAML frontmatter comments, HTML comments. Markdown/JSON/YAML *structural* line breaks (headers, list items, key/value pairs, code fences, table rows) are unaffected — those stay one per line.
+
 ## 7. Naming (one standard — match it, don't invent)
 
 - Components → `PascalCase.astro`. Routes → `kebab.astro`. Scripts / styles / lib → `kebab.ts`. Docs → `kebab.md`. Content slugs → `kebab`.
@@ -169,6 +171,8 @@ One case-study design for every entry. Spine: Scoreboard → Problem → System 
 Dated so they don't get silently re-litigated. Full rationale in the commit.
 
 **Adding an entry compresses the ones above it.** Only the newest entry keeps its detail; everything older gets cut back to a line or two holding the decision and any trap it left behind. If a rule from an old entry is still load-bearing, it belongs in §3-§8 or in the code it governs, not in a paragraph down here.
+
+- **2026-07-26** — **Repo-wide hard-wrap cleanup.** Docs and every code/content comment that had been manually line-broken mid-sentence (a pattern from prior AI-authored edits) got joined back to one line per paragraph or comment thought; rendered site copy and case-study YAML values were already clean and untouched. The §6 rule above is what stops it recurring.
 
 - **2026-07-25 (c)** — **Small-screen pass.** Layout and copy fixes below 1100, plus four defects the pass exposed that were not visual at all.
   - **`--swatch-border` was never declared.** `/brand` used it twice. An unresolvable `var()` inside the `border` shorthand is invalid at computed-value time, so the whole declaration resolves to `border-style: none` — **not** a fallback border. Both the surface panels and every ramp swatch had silently had no border at all. A token typo fails *silently* in a shorthand; grep tokens.css before trusting a `var()` name.

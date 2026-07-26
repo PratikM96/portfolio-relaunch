@@ -1,18 +1,13 @@
 ---
 # The Ninth - content entry. Concept, self-initiated. role = Creative Technologist.
-# The organization it is built around is NOT named on this or any portfolio surface
-# (CLAUDE.md §3, 2026-07-25). Say "a global esports organization". The embedded microsite
-# under public/concepts/the-ninth/ is the deliberate exception and carries its own
-# per-page non-affiliation footer. Figures are the registry's exact counts: no "+".
+# The organization it is built around is NOT named on this or any portfolio surface (CLAUDE.md §3, 2026-07-25). Say "a global esports organization". The embedded microsite under public/concepts/the-ninth/ is the deliberate exception and carries its own per-page non-affiliation footer. Figures are the registry's exact counts: no "+".
 title: The Ninth
 slug: the-ninth
 type: concept
 role: Creative Technologist
 year: "2026"
 disciplines: [Brand, UI/UX, AI, Motion]
-# Not featured: paid proof leads the index and the home page, concept work supports it
-# (Job Search Targeting's evidence hierarchy). The Ninth leads the home "Current practice"
-# module instead, which is where current-direction proof belongs.
+# Not featured: paid proof leads the index and the home page, concept work supports it (Job Search Targeting's evidence hierarchy). The Ninth leads the home "Current practice" module instead, which is where current-direction proof belongs.
 featured: false
 description: "A self-initiated esports membership concept for a global esports organization, brand through product, with an AI moment-clipper prototype at the center."
 badge: "Concept / Self-initiated"

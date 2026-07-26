@@ -1,11 +1,8 @@
 ---
 /**
- * Brand — the living brand reference. Rules transcribed from
- * One-System-Brand-Guidelines v1.0 (Drive); voice comes from System Master.
+ * Brand — the living brand reference. Rules transcribed from One-System-Brand-Guidelines v1.0 (Drive); voice comes from System Master.
  *
- * Token VALUES read live from tokens.css and `tokenValue` throws on a missing one.
- * Everything else is hand maintained and can drift: prose, usage guidance, format
- * mockups, and the §07 contrast ratios. Re-measure §07 when the ramp moves.
+ * Token VALUES read live from tokens.css and `tokenValue` throws on a missing one. Everything else is hand maintained and can drift: prose, usage guidance, format mockups, and the §07 contrast ratios. Re-measure §07 when the ramp moves.
  */
 import Base from '../layouts/Base.astro';
 import CloseCTA from '../components/CloseCTA.astro';
@@ -13,8 +10,7 @@ import Brandmark from '../components/Brandmark.astro';
 // Read as a raw string (Vite ?raw), not node:fs — this has to bundle for the Worker.
 import tokensCss from '../styles/tokens.css?raw';
 
-// Strip comments BEFORE the lookup: a comment explaining a token writes its name
-// followed by a colon, which would match ahead of the real declaration.
+// Strip comments BEFORE the lookup: a comment explaining a token writes its name followed by a colon, which would match ahead of the real declaration.
 const tokenSource = tokensCss.replace(/\/\*[\s\S]*?\*\//g, '');
 const tokenValue = (name: string) => {
   const m = tokenSource.match(new RegExp(`${name}\\s*:\\s*([^;]+);`));
@@ -44,8 +40,7 @@ const durations = [
   { token: '--dur-slow', name: 'slow', w: 128 }, { token: '--dur-deliberate', name: 'deliberate', w: 200 },
 ];
 
-// The size scale, read live like everything else on this page. A tier says
-// which face; a step says how big.
+// The size scale, read live like everything else on this page. A tier says which face; a step says how big.
 const sizes = [
   { token: '--fs-3xs', name: '3xs', for: 'badges, rail keys' },
   { token: '--fs-2xs', name: '2xs', for: 'kickers, captions, chips' },
@@ -91,9 +86,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   <section class="bsec">
     <div class="blabel"><span class="c">[ 02 ]</span><h2 class="t">Logo / the loop</h2><span class="rule"></span></div>
     <p class="intro">One continuous stroke that closes on the orange node: the system, end to end, as a mark. Default to the primary lockup. The wordmark carries the circular period; the lockups don't.</p>
-    {/* Specimen sizes below are literal on purpose: these show the mark and
-        wordmark at chosen physical sizes, the way `Brandmark size={52}` does.
-        They are not UI type, so they don't compose the --fs-* scale. */}
+    {/* Specimen sizes below are literal on purpose: these show the mark and wordmark at chosen physical sizes, the way `Brandmark size={52}` does. They are not UI type, so they don't compose the --fs-* scale. */}
     <div class="logoset rev">
       <div class="tile"><div class="lockrow"><Brandmark size={52} title={undefined} /><span class="wm">Pratik Mehta</span></div></div>
       <div class="tile dark"><div class="lockrow"><Brandmark size={52} title={undefined} /><span class="wm">Pratik Mehta</span></div></div>
@@ -125,9 +118,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Type / three faces, one system</h2><span class="rule"></span></div>
     <p class="intro">Each face has one job. Clash Display is the voice: display, h1, h2. Clash Grotesk is reading type: sub-headings and body. JetBrains Mono is the system layer: labels, data, and code. All three ship as one variable file per family, so every weight below is real rather than the nearest available one.</p>
     <p class="intro">Tracking is optical, not decorative. It tightens as type gets bigger, sits at zero for reading, and opens up for uppercase mono. Mono labels and emphasis are always uppercase, because heavy tracking is an uppercase device and breaks apart on lowercase; sentence-case mono is the data tier at +5% instead.</p>
-    {/* One column per datum so nothing wraps mid-font-name. Every sample is a
-        REAL use of that tier on this site — the samples are the proof. Keep the
-        `where` column honest if a tier moves. */}
+    {/* One column per datum so nothing wraps mid-font-name. Every sample is a REAL use of that tier on this site — the samples are the proof. Keep the `where` column honest if a tier moves. */}
     <table class="tyt">
       <thead>
         <tr><th>tier</th><th>face</th><th>wt</th><th>track</th><th>where</th><th class="s">sample</th></tr>
@@ -249,8 +240,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
   {/* 07 ACCESSIBILITY */}
   <section class="bsec">
-    {/* Contrast pairs only, not WCAG AA conformance. Ratios below are hand-measured:
-        re-measure when a ramp step moves. */}
+    {/* Contrast pairs only, not WCAG AA conformance. Ratios below are hand-measured: re-measure when a ramp step moves. */}
     <div class="blabel"><span class="c">[ 07 ]</span><h2 class="t">Colour contrast / checked against WCAG AA</h2><span class="rule"></span></div>
     <p class="intro">The single orange signal can't sit on top of itself. Three rules carry most of it.</p>
     <div class="rules rev">
@@ -270,10 +260,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     </table>
   </section>
 
-  {/* 08 FORMATS — every font-size in this section is a literal on purpose.
-      These are 1080x1080 / 1080x1920 / 1920x1080 export canvases shrunk by a
-      fixed transform, so their type is measured in export pixels. A --fs-*
-      token here would claim a relationship to UI type that doesn't exist. */}
+  {/* 08 FORMATS — every font-size in this section is a literal on purpose. These are 1080x1080 / 1080x1920 / 1920x1080 export canvases shrunk by a fixed transform, so their type is measured in export pixels. A --fs-* token here would claim a relationship to UI type that doesn't exist. */}
   <section class="bsec">
     <div class="blabel"><span class="c">[ 08 ]</span><h2 class="t">Formats / the brand, in format</h2><span class="rule"></span></div>
     <p class="intro">How the system shows up as social posts, reel frames, and a lower-third. Placeholder content at true export dimensions, rendered live so the mockups re-theme with the page.</p>
@@ -423,8 +410,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   /* Ink, because the tiles force their own paper background regardless of theme. */
   .wm { font-size: var(--fs-3xl); color: var(--n-950); }
   .tile.dark .wm { color: var(--n-50); }
-  /* A don't-card is a themed surface, not a forced-paper tile, so the wordmark
-     specimen inside it has to follow the theme or it vanishes in dark mode. */
+  /* A don't-card is a themed surface, not a forced-paper tile, so the wordmark specimen inside it has to follow the theme or it vanishes in dark mode. */
   .dcard .wm { color: var(--text); }
   .period { display: inline-block; width: .16em; height: .16em; border-radius: var(--radius-full); background: var(--accent-fill); vertical-align: baseline; margin-left: .04em; }
   .period.sq { border-radius: var(--radius-none); }
@@ -441,9 +427,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .x { position: absolute; top: 12px; left: 12px; width: 20px; height: 20px; border-radius: var(--radius-full); background: var(--danger); color: var(--n-0); font-size: var(--fs-xs); line-height: 20px; text-align: center; }
   .dwrap { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
   .dlab { font-size: var(--fs-2xs); color: var(--text-secondary); text-align: center; line-height: 1.5; }
-  /* The four "don't" demos below are deliberately off-system: an off-brand
-     blue and a raw drop-shadow are the violation being shown. Tokens here
-     would defeat the point. */
+  /* The four "don't" demos below are deliberately off-system: an off-brand blue and a raw drop-shadow are the violation being shown. Tokens here would defeat the point. */
   .d-stretch :global(.brandmark) { transform: scaleX(1.7); }
   .d-recolor :global(.node) { fill: #2A4DFF; }
   .d-shadow :global(.brandmark) { filter: drop-shadow(3px 4px 3px rgba(0, 0, 0, .4)); }
@@ -485,9 +469,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     .z-for { display: none; }
   }
 
-  /* Narrow: shed columns in order of what the table is for. `where` goes first,
-     then `track` — the tracking values are documented in the prose above and in
-     tokens.css, so the tier/face/sample triple is what has to survive. */
+  /* Narrow: shed columns in order of what the table is for. `where` goes first, then `track` — the tracking values are documented in the prose above and in tokens.css, so the tier/face/sample triple is what has to survive. */
   @media (max-width: 1100px) { .tyt th:nth-child(5), .tyt td:nth-child(5) { display: none; } }
   @media (max-width: 560px) {
     .tyt th:nth-child(4), .tyt td:nth-child(4) { display: none; }
@@ -502,14 +484,11 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   /* color */
   .ramp { display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-bottom: var(--space-xs); }
   .chip { width: 62px; }
-  /* A swatch needs an edge of its own: the ramp ends match the page surfaces, so
-     --n-0 is invisible on light and --n-950 on dark without one. */
+  /* A swatch needs an edge of its own: the ramp ends match the page surfaces, so --n-0 is invisible on light and --n-950 on dark without one. */
   .sw { height: 46px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); }
   .hx { font-size: var(--fs-3xs); color: var(--text-muted); margin-top: var(--space-2xs); line-height: 1.4; }
   .panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-xs); }
-  /* Both panels are fixed light/dark specimens, so their borders key to the RAMP,
-     not the theme: --n-200 for the paper panel, and the ink panel overrides to
-     --n-800 inline. Otherwise each blends into the page in its matching theme. */
+  /* Both panels are fixed light/dark specimens, so their borders key to the RAMP, not the theme: --n-200 for the paper panel, and the ink panel overrides to --n-800 inline. Otherwise each blends into the page in its matching theme. */
   .panel { border-radius: var(--radius-lg); padding: var(--space-lg); border: 1px solid var(--n-200); }
   .p-lab { font-size: var(--fs-3xs); text-transform: uppercase; margin-bottom: var(--space-sm); }
   .p-h { font-size: var(--fs-2xl); margin-bottom: var(--space-xs); }
@@ -559,8 +538,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .vcol li { font-size: var(--fs-sm); color: var(--text-secondary); padding-left: var(--space-md); position: relative; }
   .vcol li::before { content: "·"; position: absolute; left: 2px; color: var(--accent-text); }
 
-  /* formats — live mockups at true export dimensions (scaled previews).
-     Sizes here are export pixels, not the --fs-* scale. See §08 above. */
+  /* formats — live mockups at true export dimensions (scaled previews). Sizes here are export pixels, not the --fs-* scale. See §08 above. */
   .fmt-stage { display: flex; gap: var(--space-xl); flex-wrap: wrap; align-items: flex-start; }
   .unit { display: flex; flex-direction: column; gap: var(--space-sm); }
   .spec { font-size: var(--fs-2xs); color: var(--text-muted); }
@@ -611,8 +589,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   @media (max-width: 900px) { .bhero { padding: var(--space-3xl) 0 0; } }
   @media (max-width: 560px) {
     .dont { grid-template-columns: 1fr; }
-    /* Format mockups are fixed export-pixel designs and don't reflow, so
-       wrapper and scale shrink in lockstep to fit a ~320px screen. */
+    /* Format mockups are fixed export-pixel designs and don't reflow, so wrapper and scale shrink in lockstep to fit a ~320px screen. */
     .fmt-stage { gap: var(--space-lg); }
     .w360 { width: 260px; height: 260px; } .b1x1 { transform: scale(.24074); }
     .w270 { width: 220px; height: 391px; } .b9x16 { transform: scale(.2037); }

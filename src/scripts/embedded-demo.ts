@@ -1,7 +1,5 @@
 /**
- * Concept-launcher tabs. Hovering or focusing a tab previews that view in the
- * stage (swapping the image, caption and link); clicking follows the link to the
- * live view under /concepts/<project>/. Generic over every .embed on the page.
+ * Concept-launcher tabs. Hovering or focusing a tab previews that view in the stage (swapping the image, caption and link); clicking follows the link to the live view under /concepts/<project>/. Generic over every .embed on the page.
  */
 document.querySelectorAll<HTMLElement>('.embed').forEach((embed) => {
   const tabs = [...embed.querySelectorAll<HTMLAnchorElement>('.etabs .etab')];
@@ -14,8 +12,7 @@ document.querySelectorAll<HTMLElement>('.embed').forEach((embed) => {
     tab.classList.add('on');
     if (cap) cap.textContent = tab.dataset.cap ?? '';
     if (img) {
-      // srcset first: setting src alone would leave the previous view's srcset in place,
-      // and the browser picks from srcset over src.
+      // srcset first: setting src alone would leave the previous view's srcset in place, and the browser picks from srcset over src.
       if (tab.dataset.srcset) img.srcset = tab.dataset.srcset;
       if (tab.dataset.img) img.src = tab.dataset.img;
       img.alt = tab.dataset.cap ?? '';

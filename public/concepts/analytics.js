@@ -52,13 +52,11 @@
   document.head.appendChild(s);
 
   /* ---- Demo-interaction events ------------------------------------------
-   * Enhanced Measurement already gives page_view + scroll + engagement time
-   * on these pages. These add the "did they actually play with it" layer.
+   * Enhanced Measurement already gives page_view + scroll + engagement time on these pages. These add the "did they actually play with it" layer.
    * concept/view come from the URL so every event is segmentable:
    *   /concepts/wisp/demo -> concept=wisp, view=demo
    *   /concepts/wisp/      -> concept=wisp, view=hub
-   * (To slice by these in reports, register concept/view/control as custom
-   *  dimensions in GA4 Admin -> Custom definitions; they're collected either way.)
+   * (To slice by these in reports, register concept/view/control as custom dimensions in GA4 Admin -> Custom definitions; they're collected either way.)
    */
   var parts = location.pathname.replace(/^\/+concepts\/+/, '').replace(/\/+$/, '').split('/');
   var concept = parts[0] || 'unknown';

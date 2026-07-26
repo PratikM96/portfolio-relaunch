@@ -1,7 +1,6 @@
 ---
 # Johnny Mac Tennis Project (JMTP) - content entry. Drop-in for src/content/work/jmtp.md
-# Numbers confirmed. JMTP is SPORTIME's nonprofit; this is the production/event/craft work,
-# distinct from the SPORTIME brand-system entry. Cover + assets still Pratik's to supply. No em/en dashes.
+# Numbers confirmed. JMTP is SPORTIME's nonprofit; this is the production/event/craft work, distinct from the SPORTIME brand-system entry. Cover + assets still Pratik's to supply. No em/en dashes.
 title: Johnny Mac Tennis Project
 slug: jmtp
 type: in-house
@@ -63,8 +62,7 @@ decisions:
       quote: "Treat the nonprofit like the brand."
       who: "Operating principle"
   items:
-    # Not "volunteer-grade": SR Love and Care is a volunteer role this site uses as its
-    # leadership proof, so disparaging volunteer work undercuts another entry.
+    # Not "volunteer-grade": SR Love and Care is a volunteer role this site uses as its leadership proof, so disparaging volunteer work undercuts another entry.
     - { n: "01", title: "Production quality for the nonprofit", text: "The fundraisers got the same production standard as the parent brand." }
     - { n: "02", title: "Own it end to end", text: "Shoot, retouch, edit, and help run the event, so creative and logistics stayed in one set of hands." }
     - { n: "03", title: "Shoot wide, finish tight", text: "Capture everything live, then retouch and cut down to the strongest, finished set." }

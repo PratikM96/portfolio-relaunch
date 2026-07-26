@@ -1,7 +1,6 @@
 ---
 # Level - content entry (refit to real schema). Drop-in for src/content/work/level.md
-# Concept, self-initiated. role = Creative Technologist. Own invented brand. Framed as responsible product trust,
-# never gambling/crypto (System Master rule). Explainer is scripted, not a live model. No em/en dashes.
+# Concept, self-initiated. role = Creative Technologist. Own invented brand. Framed as responsible product trust, never gambling/crypto (System Master rule). Explainer is scripted, not a live model. No em/en dashes.
 title: Level
 slug: level
 type: concept

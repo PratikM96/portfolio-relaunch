@@ -1,6 +1,5 @@
 /**
- * Work-card hover clips. Every entry ships both variants at /wc/<slug>/: the
- * dark set (card.webm / poster.webp) and a `-light` sibling.
+ * Work-card hover clips. Every entry ships both variants at /wc/<slug>/: the dark set (card.webm / poster.webp) and a `-light` sibling.
  */
 import { prefersReducedMotion } from './motion';
 
@@ -15,8 +14,7 @@ function cardPaths(slug: string): CardPaths {
 }
 
 /**
- * Gate hover clips on this, never on width. A touch device can't play them, and
- * they aren't free: load() with a fresh <source> fetches despite preload="none".
+ * Gate hover clips on this, never on width. A touch device can't play them, and they aren't free: load() with a fresh <source> fetches despite preload="none".
  */
 export function canHover(): boolean {
   return window.matchMedia('(hover: hover)').matches;
@@ -47,10 +45,7 @@ export function onThemeChange(cb: () => void): () => void {
 }
 
 /**
- * Wire hover-to-play work cards: play the muted loop on enter, snap back to the
- * poster on leave, re-point at the matching variant on a theme flip. Used by the
- * home bento tiles and the /work featured pair. Reduced motion or no hovering
- * pointer → poster only (and no hover means the clip is never fetched).
+ * Wire hover-to-play work cards: play the muted loop on enter, snap back to the poster on leave, re-point at the matching variant on a theme flip. Used by the home bento tiles and the /work featured pair. Reduced motion or no hovering pointer → poster only (and no hover means the clip is never fetched).
  */
 export function wireHoverCards(cardSelector: string, videoSelector: string): void {
   const reduce = prefersReducedMotion();

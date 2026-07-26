@@ -1,7 +1,5 @@
 /**
- * JSON-LD helpers. Base.astro emits a site-wide Person + WebSite graph and
- * merges each page's extra nodes into it, so a page node references those two
- * by @id rather than restating them. These keep the ids in one place.
+ * JSON-LD helpers. Base.astro emits a site-wide Person + WebSite graph and merges each page's extra nodes into it, so a page node references those two by @id rather than restating them. These keep the ids in one place.
  */
 
 /** Absolute origin. Astro.site is the production domain even in a local build. */
@@ -13,8 +11,7 @@ export const personRef = (origin: string) => ({ '@id': `${origin}/#pratik` });
 export const websiteRef = (origin: string) => ({ '@id': `${origin}/#website` });
 
 /**
- * A breadcrumb trail. The last crumb is the current page, so it carries a name
- * with no `item` — Google treats a self-link as redundant.
+ * A breadcrumb trail. The last crumb is the current page, so it carries a name with no `item` — Google treats a self-link as redundant.
  */
 export const breadcrumb = (origin: string, crumbs: { name: string; path?: string }[]) => ({
   '@type': 'BreadcrumbList',

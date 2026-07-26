@@ -1,7 +1,6 @@
 import { defineCollection, type SchemaContext } from 'astro:content';
 import { glob } from 'astro/loaders';
-// 'astro/zod', not 'astro:content' — that re-export is deprecated and raises
-// ts(6385) on Astro 7.
+// 'astro/zod', not 'astro:content' — that re-export is deprecated and raises ts(6385) on Astro 7.
 import { z } from 'astro/zod';
 
 // Content collections. A missing or wrong-shaped required field fails the build.
@@ -42,9 +41,7 @@ const proseSection = z.object({
 });
 
 /**
- * Output gallery — an ordered list of typed blocks, one asset family per block.
- * A factory, not a const, because `image()` only exists inside the schema
- * function. See docs/output-assets.md.
+ * Output gallery — an ordered list of typed blocks, one asset family per block. A factory, not a const, because `image()` only exists inside the schema function. See docs/output-assets.md.
  */
 const outputBlocks = (image: SchemaContext['image']) => {
   const still = z.object({
@@ -68,8 +65,7 @@ const outputBlocks = (image: SchemaContext['image']) => {
         cols: z.number().int().min(2).max(4).default(3),
         items: z.array(still),
       }),
-      // Flyers / stories — portrait grid. `fit: contain` + `bg: paper` suits
-      // transparent or edge-light artwork.
+      // Flyers / stories — portrait grid. `fit: contain` + `bg: paper` suits transparent or edge-light artwork.
       z.object({
         kind: z.literal('flyer'),
         label: z.string().optional(),
@@ -88,8 +84,7 @@ const outputBlocks = (image: SchemaContext['image']) => {
         fit: z.enum(['cover', 'contain']).default('cover'),
         items: z.array(still),
       }),
-      // Long pages (websites, tall infographics) — capped internal-scroll
-      // frames, laid out N-up. One block per family.
+      // Long pages (websites, tall infographics) — capped internal-scroll frames, laid out N-up. One block per family.
       z.object({
         kind: z.literal('longpage'),
         cols: z.number().int().min(1).max(3).default(2),
@@ -125,8 +120,7 @@ const work = defineCollection({
       // --- identity / facet ---
       title: z.string(),
       slug: z.string(),
-      // Engagement facet — drives the badge + filtering, and forces the
-      // `disclosure` refine below. Does not gate the proof rule.
+      // Engagement facet — drives the badge + filtering, and forces the `disclosure` refine below. Does not gate the proof rule.
       type: z.enum(['in-house', 'agency', 'concept']),
       role: z.string(), // rail scoreboard Role
       year: z.string(), // rail scoreboard Year
@@ -137,14 +131,12 @@ const work = defineCollection({
       // --- hero ---
       badge: z.string(),
       lede: z.string(),
-      // Non-affiliation / self-initiated notice, rendered in the hero under the
-      // lede. Required for concepts (refine below).
+      // Non-affiliation / self-initiated notice, rendered in the hero under the lede. Required for concepts (refine below).
       disclosure: z.string().optional(),
       // Hero-wall accessible name + caption; required when `heroVideo` is set.
       coverAlt: z.string().optional(),
       coverCaption: z.string().optional(),
-      // Opts into the click-to-play hero wall, located by slug at
-      // /hero/<slug>/. See docs/hero-pipeline.md.
+      // Opts into the click-to-play hero wall, located by slug at /hero/<slug>/. See docs/hero-pipeline.md.
       heroVideo: z.boolean().default(false),
       hero: z.array(
         z.object({
@@ -152,14 +144,11 @@ const work = defineCollection({
           v: z.string(),
           stat: z.boolean().optional(), // render v as a large proof figure
           unit: z.string().optional(),
-          // No `accent` flag: figureRuns accents every numeral, including a unitless
-          // "100". Don't reintroduce it.
+          // No `accent` flag: figureRuns accents every numeral, including a unitless "100". Don't reintroduce it.
         }),
       ),
 
-      // What Pratik owned on a case study, rendered under the hero scoreboard by
-      // ContributionBox.astro. Every row optional: omit one rather than guessing, since
-      // collaborator names are usually not in the Resume Master.
+      // What Pratik owned on a case study, rendered under the hero scoreboard by ContributionBox.astro. Every row optional: omit one rather than guessing, since collaborator names are usually not in the Resume Master.
       contribution: z
         .object({
           owned: z.string().optional(),
@@ -177,8 +166,7 @@ const work = defineCollection({
       decisions: proseSection.extend({
         items: z.array(z.object({ n: z.string(), title: z.string(), text: z.string() })),
       }),
-      // Optional — an entry with no output drops the §Output section and its
-      // rail entry. See docs/output-assets.md.
+      // Optional — an entry with no output drops the §Output section and its rail entry. See docs/output-assets.md.
       output: z
         .object({
           blocks: outputBlocks(image).optional(),
@@ -186,11 +174,9 @@ const work = defineCollection({
         })
         .optional(),
       reflection: proseSection,
-      // No `next` field — the footer's next-case link is computed from the /work
-      // page order in [slug].astro. Don't reintroduce it.
+      // No `next` field — the footer's next-case link is computed from the /work page order in [slug].astro. Don't reintroduce it.
 
-      // Opt-in: renders PerfTable.astro (src/data/portfolio-perf.json) inside
-      // §Proof. Bespoke to the portfolio-system entry; off for every other.
+      // Opt-in: renders PerfTable.astro (src/data/portfolio-perf.json) inside §Proof. Bespoke to the portfolio-system entry; off for every other.
       perfTable: z.boolean().default(false),
 
       // --- proof (one uniform shape for every entry) ---
@@ -210,10 +196,7 @@ const work = defineCollection({
             z.object({
               label: z.string(),
               cap: z.string(),
-              // The microsite route segment. Both the link (/concepts/<project>/<view>)
-              // and the still (src/assets/concepts/<project>/preview-<view>.webp) derive
-              // from it. scripts/check/claims.mjs fails the build on a missing still;
-              // EmbeddedDemo's own throw does not, so don't rely on it.
+              // The microsite route segment. Both the link (/concepts/<project>/<view>) and the still (src/assets/concepts/<project>/preview-<view>.webp) derive from it. scripts/check/claims.mjs fails the build on a missing still; EmbeddedDemo's own throw does not, so don't rely on it.
               view: z.string(),
               featured: z.boolean().optional(), // the centerpiece view, shown by default
             }),

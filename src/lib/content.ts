@@ -1,15 +1,10 @@
 /**
- * Collection ordering + the small readers every page shares. The `work` order
- * in particular has to be one function: /work renders the index in it and
- * /work/[slug] walks it for the footer "next" link, so two copies would drift
- * and the footer would start lying about what comes next.
+ * Collection ordering + the small readers every page shares. The `work` order in particular has to be one function: /work renders the index in it and /work/[slug] walks it for the footer "next" link, so two copies would drift and the footer would start lying about what comes next.
  */
 import type { CollectionEntry } from 'astro:content';
 
 /**
- * Index order: featured first and newest of those leading, then the rest alphabetically.
- * Featured sort by year descending so the most recent paid proof leads, matching the
- * home page's curated order.
+ * Index order: featured first and newest of those leading, then the rest alphabetically. Featured sort by year descending so the most recent paid proof leads, matching the home page's curated order.
  */
 export function sortWork(entries: CollectionEntry<'work'>[]): CollectionEntry<'work'>[] {
   return [...entries].sort((a, b) => {
@@ -31,9 +26,7 @@ export function publishedJournal(posts: CollectionEntry<'journal'>[]): Collectio
 }
 
 /**
- * The one display date format. UTC because `z.coerce.date()` parses a
- * YYYY-MM-DD frontmatter date as UTC midnight — read it in a western timezone
- * without this and every post shows the day before.
+ * The one display date format. UTC because `z.coerce.date()` parses a YYYY-MM-DD frontmatter date as UTC midnight — read it in a western timezone without this and every post shows the day before.
  */
 export function formatDate(d: Date): string {
   return d.toLocaleDateString('en-US', {
@@ -48,9 +41,7 @@ export function formatDate(d: Date): string {
 export const firstYear = (year: string): string => year.match(/\d{4}/g)?.[0] ?? year;
 
 /**
- * A `role` without its trailing parenthetical, for the work index:
- * "Graphic and Motion Designer (Internship)" -> "Graphic and Motion Designer".
- * Employment type stays disclosed on the case-study scoreboard, which renders full `role`.
+ * A `role` without its trailing parenthetical, for the work index: "Graphic and Motion Designer (Internship)" -> "Graphic and Motion Designer". Employment type stays disclosed on the case-study scoreboard, which renders full `role`.
  */
 export const roleShort = (role: string): string => role.replace(/\s*\([^)]*\)\s*$/, '');
 

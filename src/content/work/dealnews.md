@@ -1,8 +1,6 @@
 ---
-# DealNews - content entry. In-house role, not a client engagement. Headline figure is the
-# FACEBOOK following (110K), labelled as such; the combined audience is roughly 130K.
-# Numbers distributed: audience in problem, in-house breadth in system, landing-page
-# conversion in reflection, performance results in ProofBox.
+# DealNews - content entry. In-house role, not a client engagement. Headline figure is the FACEBOOK following (110K), labelled as such; the combined audience is roughly 130K.
+# Numbers distributed: audience in problem, in-house breadth in system, landing-page conversion in reflection, performance results in ProofBox.
 title: DealNews
 slug: dealnews
 type: in-house
@@ -12,8 +10,7 @@ disciplines: [Brand, Social, Design, Paid]
 coverAlt: "DealNews in-house social and design"
 coverCaption: "DealNews / in-house social, paid, and design"
 heroVideo: true # files at /hero/dealnews/ (see docs/hero-pipeline.md)
-# Featured alongside SPORTIME: the two paid-role stories that carry scale and the
-# creative-to-performance loop. See CLAUDE.md decision log, 2026-07-25 (b).
+# Featured alongside SPORTIME: the two paid-role stories that carry scale and the creative-to-performance loop. See CLAUDE.md decision log, 2026-07-25 (b).
 featured: true
 description: "Social, paid media, and in-house design across web, app, and marketing collateral for an ecommerce deals brand."
 badge: "In-house / Social & Design"
@@ -23,8 +20,7 @@ hero:
   - { k: Role, v: "Social and Graphic Manager" }
   - { k: Disciplines, v: "Brand, Social, Design, Paid" }
   - { k: Timeframe, v: "2020-2022" }
-  # Labelled Facebook, not "Audience": 110K is the Facebook following alone, and the
-  # margin block beside it breaks out Instagram and LinkedIn separately.
+  # Labelled Facebook, not "Audience": 110K is the Facebook following alone, and the margin block beside it breaks out Instagram and LinkedIn separately.
   - { k: "Facebook audience", v: "110K", stat: true }
 
 # [NEEDS: Pratik] a verified `collaborators` line. Omitted rather than guessed.

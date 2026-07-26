@@ -1,11 +1,8 @@
 # Hero video pipeline
 
-How to produce and wire the click-to-play hero video in a case study's scoreboard
-wall. Convention over configuration: name the files right, drop them in the slug
-folder, flip one flag. No code or path edits per study.
+How to produce and wire the click-to-play hero video in a case study's scoreboard wall. Convention over configuration: name the files right, drop them in the slug folder, flip one flag. No code or path edits per study.
 
-The hover-to-play logo animations on the work index are a separate system —
-`docs/work-card-video.md`.
+The hover-to-play logo animations on the work index are a separate system — `docs/work-card-video.md`.
 
 ## The contract (do not improvise names)
 
@@ -16,14 +13,9 @@ public/hero/<slug>/hero_1080.webm       VP9, 1080p, with audio
 src/assets/hero/<slug>/poster.webp      still shown before play
 ```
 
-**The poster lives in `src/assets/`, not beside the video.** It is the LCP
-element, so it goes through Astro's image pipeline — export it at full size and
-let the pipeline downscale. It renders as a real `<img>` (`.cs-poster`), not the
-video's `poster` attribute, which can't be responsive. The build throws if
-`heroVideo` is set and the poster is missing.
+**The poster lives in `src/assets/`, not beside the video.** It is the LCP element, so it goes through Astro's image pipeline — export it at full size and let the pipeline downscale. It renders as a real `<img>` (`.cs-poster`), not the video's `poster` attribute, which can't be responsive. The build throws if `heroVideo` is set and the poster is missing.
 
-The home page uses the same shape at `public/hero/home/`, but autoplays muted and
-loops since it has no audio.
+The home page uses the same shape at `public/hero/home/`, but autoplays muted and loops since it has no audio.
 
 **Masters — local, gitignored, never committed:**
 
@@ -35,12 +27,10 @@ _reference/media/case-study-animations/<slug>/
   (Footage)/           source footage for the comp
 ```
 
-Only the two web deliverables above ship. Not every hero has a project here — a
-supplied brand film is just transcoded, with no comp to keep.
+Only the two web deliverables above ship. Not every hero has a project here — a supplied brand film is just transcoded, with no comp to keep.
 
 **Hard limits:**
-- Each served file must stay under Cloudflare's **25 MiB** per-file cap. 1080p at
-  the CRF below lands well under it; check after encoding.
+- Each served file must stay under Cloudflare's **25 MiB** per-file cap. 1080p at the CRF below lands well under it; check after encoding.
 - Filenames are exact. A typo is a silent 404, not an error.
 
 ## Step 1 - master out of After Effects / Media Encoder
@@ -55,8 +45,7 @@ Export a visually-lossless master, do no scaling here (that happens in Step 2):
 
 ## Step 2 - transcode the web deliverables (FFmpeg)
 
-Set `$slug`, point `$master` at your local copy of the Drive master, and run.
-Outputs land straight in the served folders.
+Set `$slug`, point `$master` at your local copy of the Drive master, and run. Outputs land straight in the served folders.
 
 ```powershell
 $slug   = "dealnews"   # <-- change per case study
@@ -84,11 +73,9 @@ Get-ChildItem $out | Select-Object Name, @{n='MiB';e={[math]::Round($_.Length/1M
 ```
 
 **Tuning knobs (only if needed):**
-- **CRF** is quality; lower = sharper/bigger. 30 is a good start, 28 for
-  motion-heavy footage. If a file creeps toward ~20 MB, raise CRF by 2.
+- **CRF** is quality; lower = sharper/bigger. 30 is a good start, 28 for motion-heavy footage. If a file creeps toward ~20 MB, raise CRF by 2.
 - Keep the `-color_*` tags — they prevent the washed-out browser colour bug.
-- `preload="none"` means nothing downloads until the click, so a 15 MB clip
-  costs nothing on load.
+- `preload="none"` means nothing downloads until the click, so a 15 MB clip costs nothing on load.
 
 ## Step 3 - wire it in (one line)
 
@@ -98,9 +85,7 @@ In `src/content/work/<slug>.md` frontmatter:
 heroVideo: true
 ```
 
-That is the whole wiring — the template derives both paths from the slug. Set the
-caption via `coverCaption` (the schema requires it, plus `coverAlt`, whenever
-`heroVideo` is on). Leave the flag off and the entry renders no wall at all.
+That is the whole wiring — the template derives both paths from the slug. Set the caption via `coverCaption` (the schema requires it, plus `coverAlt`, whenever `heroVideo` is on). Leave the flag off and the entry renders no wall at all.
 
 ## Which studies have one
 
@@ -111,5 +96,4 @@ ls public/hero/                          # slugs with shipped files
 grep -l "^heroVideo: true" src/content/work/*.md   # slugs with the flag on
 ```
 
-The two should always agree. Files without the flag render nothing; the flag
-without files is a silent 404. An entry without a hero renders no wall.
+The two should always agree. Files without the flag render nothing; the flag without files is a silent 404. An entry without a hero renders no wall.

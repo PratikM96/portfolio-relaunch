@@ -1,12 +1,7 @@
 /**
  * Cookie consent + GA4 + custom conversion events.
  *
- * gtag loads only after an explicit Accept; the choice persists in localStorage
- * and the footer "Cookies" button reopens the banner. The banner IS the consent
- * gate, so Consent Mode is granted explicitly (see CONSENT below) to override
- * the property's container-scoped defaults, which would otherwise withhold every
- * hit including page_view. Those defaults live in GA4 Admin -> Data streams ->
- * Configure tag settings -> Consent settings.
+ * gtag loads only after an explicit Accept; the choice persists in localStorage and the footer "Cookies" button reopens the banner. The banner IS the consent gate, so Consent Mode is granted explicitly (see CONSENT below) to override the property's container-scoped defaults, which would otherwise withhold every hit including page_view. Those defaults live in GA4 Admin -> Data streams -> Configure tag settings -> Consent settings.
  *
  * Custom events cover only what Enhanced Measurement does not:
  *   generate_lead   -> mailto: clicks (the primary conversion; mark it a Key event)
@@ -35,9 +30,7 @@ function loadGA(): void {
   w.__ga = true;
 
   w.dataLayer = w.dataLayer || [];
-  // Must push the `arguments` object itself. gtag.js silently ignores a real
-  // array, so a spread arrow function sends nothing at all — hence the plain
-  // function here, typed variadic only so the calls below type-check.
+  // Must push the `arguments` object itself. gtag.js silently ignores a real array, so a spread arrow function sends nothing at all — hence the plain function here, typed variadic only so the calls below type-check.
   const gtag: (...args: unknown[]) => void = function () {
     w.dataLayer!.push(arguments);
   };

@@ -4,8 +4,7 @@
 title: SR Love and Care
 slug: sr-love-and-care
 type: in-house
-# Volunteer per the Resume Master ("Volunteer / New York"). Disclosed here in the
-# role, the way the two internships are — the badge carries engagement, not type.
+# Volunteer per the Resume Master ("Volunteer / New York"). Disclosed here in the role, the way the two internships are — the badge carries engagement, not type.
 role: Marketing and Design Team Lead (Volunteer)
 year: "2016-2020"
 disciplines: [Social, Design, Leadership]

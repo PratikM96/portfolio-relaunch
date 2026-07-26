@@ -1,18 +1,13 @@
 /**
- * §Output screenshots for the Portfolio System case study — a device x theme
- * matrix of the live site. This file IS the record of how they were captured.
+ * §Output screenshots for the Portfolio System case study — a device x theme matrix of the live site. This file IS the record of how they were captured.
  *
  *   node scripts/shots/capture.mjs             # all 12
  *   node scripts/shots/capture.mjs desktop     # one device
  *   node scripts/shots/capture.mjs d-home      # one shot, by output name
  *
- * Requires Chrome + network. Writes into src/assets/work/portfolio-system/, so
- * these are SOURCES: captured at high quality, never at delivery size.
+ * Requires Chrome + network. Writes into src/assets/work/portfolio-system/, so these are SOURCES: captured at high quality, never at delivery size.
  *
- * The viewports are exact block ratios — desktop 1440x810 (16:9, `gallery`),
- * mobile 390x694 (9:16, `flyer`) — both at deviceScaleFactor 2, because 1x is
- * what made the desktop shots read soft. Viewport shots, never full-page: the
- * nav is fixed, and a full-page capture scrolls it out of frame.
+ * The viewports are exact block ratios — desktop 1440x810 (16:9, `gallery`), mobile 390x694 (9:16, `flyer`) — both at deviceScaleFactor 2, because 1x is what made the desktop shots read soft. Viewport shots, never full-page: the nav is fixed, and a full-page capture scrolls it out of frame.
  */
 import { writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -77,8 +72,7 @@ for (const s of shots) {
     { name: 'prefers-color-scheme', value: s.theme },
   ]);
 
-  // Both keys are read before first paint, so this must be
-  // evaluate-on-new-document, not a post-load evaluate.
+  // Both keys are read before first paint, so this must be evaluate-on-new-document, not a post-load evaluate.
   await page.evaluateOnNewDocument((theme) => {
     try {
       localStorage.setItem('pm-theme', theme);

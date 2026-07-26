@@ -1,7 +1,6 @@
 ---
-# Agency FiveEighty - content entry. Agency role, internship. The brands were the
-# AGENCY's clients, never Pratik's: label them "campaign brands". This was a production
-# contribution inside a pipeline, not sole authorship, and the copy says so.
+# Agency FiveEighty - content entry. Agency role, internship. The brands were the AGENCY's clients, never Pratik's: label them "campaign brands".
+# This was a production contribution inside a pipeline, not sole authorship, and the copy says so.
 title: Agency FiveEighty
 slug: agency-fiveeighty
 type: agency
@@ -23,8 +22,7 @@ hero:
   # "Campaign brands", never "Clients": these were the agency's clients, not Pratik's.
   - { k: "Campaign brands", v: "4", stat: true }
 
-# Internship, and a contribution inside an agency pipeline. The block says so plainly:
-# the alternative is a page that reads as sole authorship of Coca-Cola campaign work.
+# Internship, and a contribution inside an agency pipeline. The block says so plainly: the alternative is a page that reads as sole authorship of Coca-Cola campaign work.
 contribution:
   owned: "Motion graphics and title sequences from concept through broadcast-ready delivery: 15 and 30 second cutdowns across 3 aspect ratios and 10+ formats per campaign."
   team: "An agency creative team. Graphic and Motion Designer, on an internship."

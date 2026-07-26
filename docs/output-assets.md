@@ -1,18 +1,14 @@
 # Output gallery pipeline
 
-The case-study **Output** section is an ordered list of typed **blocks**, one
-asset family per block. Rendered by `OutputGrid.astro` from `output.blocks`.
+The case-study **Output** section is an ordered list of typed **blocks**, one asset family per block. Rendered by `OutputGrid.astro` from `output.blocks`.
 
-The site's other two video systems are separate: **hero**
-(`docs/hero-pipeline.md`) and **work-card** (`docs/work-card-video.md`).
+The site's other two video systems are separate: **hero** (`docs/hero-pipeline.md`) and **work-card** (`docs/work-card-video.md`).
 
 ## Authoring model (`output.blocks`)
 
-Blocks render top to bottom in the order listed. `blocks` is the only output
-model, so a new asset family is a new block kind.
+Blocks render top to bottom in the order listed. `blocks` is the only output model, so a new asset family is a new block kind.
 
-A **composite** of the common kinds, not a real entry — for a working reference
-read `src/content/work/dealnews.md` (stills) or `sportime-clubs.md` (video):
+A **composite** of the common kinds, not a real entry — for a working reference read `src/content/work/dealnews.md` (stills) or `sportime-clubs.md` (video):
 
 ```yaml
 output:
@@ -64,37 +60,24 @@ output:
 
 ## Asset pipeline
 
-**Stills** live in `src/assets/work/<slug>/`, referenced by relative path from
-the entry `.md`. They go through Astro's `image()` helper, so `<Image>` emits
-build-time webp, a responsive `srcset`, and intrinsic dims. Only web-optimized
-deliverables are committed; masters stay in gitignored `_reference/`.
+**Stills** live in `src/assets/work/<slug>/`, referenced by relative path from the entry `.md`. They go through Astro's `image()` helper, so `<Image>` emits build-time webp, a responsive `srcset`, and intrinsic dims. Only web-optimized deliverables are committed; masters stay in gitignored `_reference/`.
 
-**A source has to be ~2x its widest CSS slot, not 1x.** The ladders in
-`OutputGrid.astro` are device pixels, and Astro never upscales — a 1x source
-silently tops the ladder out and renders soft on retina. The caps below are
-already 2x-sized; treat them as floors when a block is wider than its default.
+**A source has to be ~2x its widest CSS slot, not 1x.** The ladders in `OutputGrid.astro` are device pixels, and Astro never upscales — a 1x source silently tops the ladder out and renders soft on retina. The caps below are already 2x-sized; treat them as floors when a block is wider than its default.
 
 Export caps (source webp, before Astro re-optimizes per width):
 
-- **mockup** — 2160p (3840×2160) master → cap **1600w**, webp q82 (~85 KB).
-  Two files: `flagship.webp` (light/base) + `flagship-dark.webp`.
+- **mockup** — 2160p (3840×2160) master → cap **1600w**, webp q82 (~85 KB). Two files: `flagship.webp` (light/base) + `flagship-dark.webp`.
 - **social** — cap **1000w**, webp q82 (~40–70 KB).
-- **flyer** — cap **1000w**, webp q82. Screen captures instead: shoot the CSS
-  viewport at `deviceScaleFactor: 2` rather than scaling a 1x shot up.
+- **flyer** — cap **1000w**, webp q82. Screen captures instead: shoot the CSS viewport at `deviceScaleFactor: 2` rather than scaling a 1x shot up.
 - **gallery** — cap **1600w** at `cols: 2` (the widest cell), **1000w** at 3–4.
-- **longpage** — cap **1400w**, webp q82; keep under ~600 KB even when very tall
-  (q78 for the longest). Keeps a shorter ladder than the rest (`W_LONG`) because
-  its height runs to 9000+px.
+- **longpage** — cap **1400w**, webp q82; keep under ~600 KB even when very tall (q78 for the longest). Keeps a shorter ladder than the rest (`W_LONG`) because its height runs to 9000+px.
 
 ```bash
 # still → capped webp (adjust scale per kind)
 ffmpeg -y -i in.png -vf scale=1600:-2 -c:v libwebp -quality 82 out.webp
 ```
 
-**Video** is convention-located by slug — no paths in content. Files:
-`public/ov/<case-slug>/<clip>.webm` + `<clip>-poster.webp`.
-`OutputGrid` derives the paths from the entry slug + the block item's `clip`.
-720p, under Cloudflare's 25 MiB per-file cap; muted loops carry no audio track.
+**Video** is convention-located by slug — no paths in content. Files: `public/ov/<case-slug>/<clip>.webm` + `<clip>-poster.webp`. `OutputGrid` derives the paths from the entry slug + the block item's `clip`. 720p, under Cloudflare's 25 MiB per-file cap; muted loops carry no audio track.
 
 ```bash
 IN=master.mp4; OUT=public/ov/<slug>
@@ -104,15 +87,10 @@ ffmpeg -y -ss 0 -i "$IN" -vf scale=1280:-2 -frames:v 1 -c:v libwebp -quality 82 
 
 ## Performance
 
-The gallery sits below the fold, so it never touches LCP. Stills are lazy;
-videos are `preload="none"` and their posters deferred. Muted loops play/pause
-via `IntersectionObserver`. Long pages scroll *inside* a capped frame.
+The gallery sits below the fold, so it never touches LCP. Stills are lazy; videos are `preload="none"` and their posters deferred. Muted loops play/pause via `IntersectionObserver`. Long pages scroll *inside* a capped frame.
 
-Theme-aware mockups render both variants and toggle in CSS. Tradeoff: both can
-download. Acceptable at ~85 KB each below the fold — revisit with a JS src-swap
-only if an entry stacks many themed mockups.
+Theme-aware mockups render both variants and toggle in CSS. Tradeoff: both can download. Acceptable at ~85 KB each below the fold — revisit with a JS src-swap only if an entry stacks many themed mockups.
 
 ## Filenames are a contract
 
-Video: exactly `<clip>.webm`, `<clip>-poster.webp` under
-`public/ov/<slug>/`. A typo is a silent 404 — don't improvise names.
+Video: exactly `<clip>.webm`, `<clip>-poster.webp` under `public/ov/<slug>/`. A typo is a silent 404 — don't improvise names.

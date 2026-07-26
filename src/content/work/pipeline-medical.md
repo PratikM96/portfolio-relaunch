@@ -1,8 +1,6 @@
 ---
 # Pipeline Medical - content entry. In-house internship (do not inflate). Proof is scope.
-# Framed as product/marketplace from zero, not healthcare messaging. Scope-rich role, so
-# margins lean qualitative. The launch itself is NOT verified: say "developer handoff and a
-# planned launch", never "a real launch".
+# Framed as product/marketplace from zero, not healthcare messaging. Scope-rich role, so margins lean qualitative. The launch itself is NOT verified: say "developer handoff and a planned launch", never "a real launch".
 title: Pipeline Medical
 slug: pipeline-medical
 type: in-house

@@ -4,9 +4,7 @@ How to publish this site to Cloudflare.
 
 ## Read this first
 
-**`npm run deploy` ships to the live domain.** The `portfolio-relaunch` worker
-serves `mehtapratik.com` and there is no staging URL in the loop, so a deploy is
-immediately public. (Pre-cutover this doc claimed otherwise; ignore that.)
+**`npm run deploy` ships to the live domain.** The `portfolio-relaunch` worker serves `mehtapratik.com` and there is no staging URL in the loop, so a deploy is immediately public. (Pre-cutover this doc claimed otherwise; ignore that.)
 
 Deploys are manual. A push to `main` is **not** an auto-deploy.
 
@@ -20,8 +18,7 @@ Deploys are manual. A push to `main` is **not** an auto-deploy.
 npx wrangler login
 ```
 
-Authorize in the browser tab that opens; the terminal prints
-`Successfully logged in.`
+Authorize in the browser tab that opens; the terminal prints `Successfully logged in.`
 
 ## Validate before you ship
 
@@ -34,11 +31,8 @@ npm run preview    # serve the built output
 
 Check on the preview build:
 
-- Home, Work, each case study, About, Journal + a post, Resume, Contact, Brand,
-  Privacy, and a deliberate miss (any bad URL) to confirm the styled 404 serves.
-- Concept demos (The Ninth / Level / WISP) **and their sub-pages** — these clean
-  URLs resolve in preview and production but **not** under `npm run dev`, so
-  preview is the only local place to catch a broken concept route.
+- Home, Work, each case study, About, Journal + a post, Resume, Contact, Brand, Privacy, and a deliberate miss (any bad URL) to confirm the styled 404 serves.
+- Concept demos (The Ninth / Level / WISP) **and their sub-pages** — these clean URLs resolve in preview and production but **not** under `npm run dev`, so preview is the only local place to catch a broken concept route.
 - Light/dark toggle, mobile layout.
 
 ## Deploy
@@ -47,14 +41,9 @@ Check on the preview build:
 npm run deploy
 ```
 
-This runs `astro check && astro build`, deletes the adapter's generated redirect
-file (`.wrangler/deploy/config.json`) so wrangler reads the clean
-`wrangler.jsonc`, then runs `wrangler deploy`. On success the site is live at
-`mehtapratik.com`.
+This runs `astro check && astro build`, deletes the adapter's generated redirect file (`.wrangler/deploy/config.json`) so wrangler reads the clean `wrangler.jsonc`, then runs `wrangler deploy`. On success the site is live at `mehtapratik.com`.
 
-The redirect deletion is the load-bearing part: skip it and wrangler deploys the
-adapter's generated config, which carries the wrong worker name and a stray
-SESSION KV binding.
+The redirect deletion is the load-bearing part: skip it and wrangler deploys the adapter's generated config, which carries the wrong worker name and a stray SESSION KV binding.
 
 ## Manual deploy (bypassing the npm script)
 
@@ -66,15 +55,11 @@ npx wrangler deploy
 
 ## Rollback
 
-Cloudflare dashboard → **Workers & Pages** → the **`portfolio-relaunch`** worker
-→ **Deployments** → pick a previous version → **Rollback**.
+Cloudflare dashboard → **Workers & Pages** → the **`portfolio-relaunch`** worker → **Deployments** → pick a previous version → **Rollback**.
 
 ## What governs the live domain
 
-- `public/_redirects` — old-URL 301s. Redirect *sources* need explicit
-  trailing-slash twins (both `/foo` and `/foo/`); the Worker only normalizes
-  trailing slashes for real pages, not redirect sources.
+- `public/_redirects` — old-URL 301s. Redirect *sources* need explicit trailing-slash twins (both `/foo` and `/foo/`); the Worker only normalizes trailing slashes for real pages, not redirect sources.
 - `public/robots.txt`
-- `public/_headers` — security headers, including the **enforced** CSP. A new
-  external origin that isn't in the allowlist fails silently in the browser.
+- `public/_headers` — security headers, including the **enforced** CSP. A new external origin that isn't in the allowlist fails silently in the browser.
 - the generated `sitemap-index.xml`

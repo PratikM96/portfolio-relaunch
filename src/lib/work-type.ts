@@ -1,8 +1,5 @@
 /**
- * The work `type` facet — one source of truth for its labels. It describes the
- * ENGAGEMENT, not the discipline: a role held inside the org (`in-house`), a
- * role at an agency (`agency`), or self-initiated work (`concept`). Never
- * "client" — no entry was a client engagement. See CLAUDE.md §3.
+ * The work `type` facet — one source of truth for its labels. It describes the ENGAGEMENT, not the discipline: a role held inside the org (`in-house`), a role at an agency (`agency`), or self-initiated work (`concept`). Never "client" — no entry was a client engagement. See CLAUDE.md §3.
  */
 export type WorkType = 'in-house' | 'agency' | 'concept';
 

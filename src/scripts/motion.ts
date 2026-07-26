@@ -1,6 +1,5 @@
 /**
- * Shared motion/video helpers: the reduced-motion check, muted-loop
- * autoplay-in-view, and the click-to-play → native-controls handoff.
+ * Shared motion/video helpers: the reduced-motion check, muted-loop autoplay-in-view, and the click-to-play → native-controls handoff.
  */
 
 /** True when the visitor asked the OS to minimise motion. Read at call time. */
@@ -8,8 +7,7 @@ export const prefersReducedMotion = (): boolean =>
   matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /**
- * Play each muted-loop <video> in view, pause it on leave. Nothing fetches until
- * play(). Returns the observer, or null if there's nothing to watch.
+ * Play each muted-loop <video> in view, pause it on leave. Nothing fetches until play(). Returns the observer, or null if there's nothing to watch.
  */
 export function autoPlayInView(
   videos: HTMLVideoElement[],
@@ -31,8 +29,7 @@ export function autoPlayInView(
 }
 
 /**
- * First click enables native controls, marks the container `.is-playing`, and
- * plays with sound. The flag clears on `ended` so the overlay returns.
+ * First click enables native controls, marks the container `.is-playing`, and plays with sound. The flag clears on `ended` so the overlay returns.
  */
 export function wireClickToPlay(
   container: Element,

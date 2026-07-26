@@ -1,7 +1,5 @@
 /**
- * Distill the raw Lighthouse runs in scripts/perf/out/ (see run.sh) into the
- * committed src/data/portfolio-perf.json that PerfTable.astro renders. One row
- * per page, plus mobile/desktop averages. Measured, never authored.
+ * Distill the raw Lighthouse runs in scripts/perf/out/ (see run.sh) into the committed src/data/portfolio-perf.json that PerfTable.astro renders. One row per page, plus mobile/desktop averages. Measured, never authored.
  *
  *   node scripts/perf/emit.mjs
  */
@@ -78,9 +76,7 @@ const build = (strat) => {
 const mobile = build('mobile');
 const desktop = build('desktop');
 if (!mobile.rows.length) { console.error('No runs found in scripts/perf/out/. Run scripts/perf/run.sh first.'); process.exit(1); }
-// `measuredOn` is the newest fetchTime, so a half-finished batch would silently inherit
-// today's date while carrying rows from an older run. out/ is gitignored and never
-// cleared, so leftovers survive an interrupted run.sh. Refuse to stamp a mixed set.
+// `measuredOn` is the newest fetchTime, so a half-finished batch would silently inherit today's date while carrying rows from an older run. out/ is gitignored and never cleared, so leftovers survive an interrupted run.sh. Refuse to stamp a mixed set.
 if (runDays.size > 1) {
   console.error(`Runs span ${runDays.size} days: ${[...runDays].sort().join(', ')}.`);
   console.error('A snapshot must come from one batch. Re-run scripts/perf/run.sh to completion, then retry.');

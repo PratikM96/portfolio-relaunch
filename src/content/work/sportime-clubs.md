@@ -1,8 +1,6 @@
 ---
-# SPORTIME Clubs - content entry. In-house role, and the lead proof story for scale and
-# team direction. Figures come from the Resume Master's Claim Registry: followers are
-# "nearly 17K" (never 16.8K) and the team is "3+" reports, stated the same way in the
-# prose, the contribution block, and the margin stat.
+# SPORTIME Clubs - content entry. In-house role, and the lead proof story for scale and team direction.
+# Figures come from the Resume Master's Claim Registry: followers are "nearly 17K" (never 16.8K) and the team is "3+" reports, stated the same way in the prose, the contribution block, and the margin stat.
 title: SPORTIME Clubs
 slug: sportime-clubs
 type: in-house
@@ -23,9 +21,7 @@ hero:
   - { k: Timeframe, v: "2023-2024 / one year" }
   - { k: "Headline result", v: "11.7", stat: true, unit: "M" }
 
-# Rows omitted where the fact is not in the Resume Master. `collaborators` in particular
-# is left out on purpose across these entries: naming who else was in the room is exactly
-# the kind of plausible detail the claim rules forbid inventing.
+# Rows omitted where the fact is not in the Resume Master. `collaborators` in particular is left out on purpose across these entries: naming who else was in the room is exactly the kind of plausible detail the claim rules forbid inventing.
 # [NEEDS: Pratik] a verified `collaborators` line, if you want one here.
 contribution:
   owned: "Marketing across 13+ clubs and 25+ social accounts: the brand foundation, the video-first content engine, the per-club distribution structure, and the weekly reporting loop that steered the calendar."
@@ -149,8 +145,7 @@ reflection:
 proof:
   figures:
     - { value: "11.7", unit: "M", label: "Cross-platform impressions" }
-    # "nearly 17K", never 16.8K. The registry's wording is the public wording, and a
-    # figure more precise than it is wrong by definition (CLAUDE.md §3).
+    # "nearly 17K", never 16.8K. The registry's wording is the public wording, and a figure more precise than it is wrong by definition (CLAUDE.md §3).
     - { value: "~17", unit: "K", label: "Net new followers, one year" }
     - { value: "+510", unit: "%", label: "Instagram publishing" }
     - { value: "+2,115", unit: "%", label: "Reels output" }

@@ -1,35 +1,18 @@
 {
   // Cloudflare Workers (Static Assets) deploy config for the NEW site.
-  // Static build (astro output:'static') -> the whole site is dist/client, served
-  // as Workers static assets. No `main` (no server code) and no bindings: a purely
-  // static Astro site can't use bindings, so there is intentionally no SESSION KV
-  // here (unlike the adapter's auto-generated dist/client/wrangler.json).
+  // Static build (astro output:'static') -> the whole site is dist/client, served as Workers static assets. No `main` (no server code) and no bindings: a purely static Astro site can't use bindings, so there is intentionally no SESSION KV here (unlike the adapter's auto-generated dist/client/wrangler.json).
   //
   // Deploy:  npm run deploy
-  //   The @astrojs/cloudflare adapter writes a redirect (.wrangler/deploy/
-  //   config.json) that would make `wrangler deploy` use its generated
-  //   dist/client/wrangler.json instead of THIS file — which carries the wrong
-  //   worker name AND a stray SESSION KV binding. The `deploy` npm script deletes
-  //   that redirect after build so wrangler uses this clean config. If you deploy
-  //   by hand, run: npm run build && rm .wrangler/deploy/config.json && wrangler deploy
+  //   The @astrojs/cloudflare adapter writes a redirect (.wrangler/deploy/config.json) that would make `wrangler deploy` use its generated dist/client/wrangler.json instead of THIS file — which carries the wrong worker name AND a stray SESSION KV binding. The `deploy` npm script deletes that redirect after build so wrangler uses this clean config. If you deploy by hand, run: npm run build && rm .wrangler/deploy/config.json && wrangler deploy
   //
-  // `name` is the PRODUCTION worker: the custom domain mehtapratik.com is bound
-  // to "portfolio-relaunch" in the Cloudflare dashboard. Deploying here is live.
-  // (It reads like a staging name for historical reasons — it predates the
-  // cutover, when a separate worker served the domain. Renaming it now would
-  // orphan the domain binding, so the name stays.)
+  // `name` is the PRODUCTION worker: the custom domain mehtapratik.com is bound to "portfolio-relaunch" in the Cloudflare dashboard. Deploying here is live. (It reads like a staging name for historical reasons — it predates the cutover, when a separate worker served the domain. Renaming it now would orphan the domain binding, so the name stays.)
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "portfolio-relaunch",
-  // Matches the pinned workerd build (1.20260625.1). A date ahead of the
-  // installed runtime warns on every dev/deploy and enables nothing.
+  // Matches the pinned workerd build (1.20260625.1). A date ahead of the installed runtime warns on every dev/deploy and enables nothing.
   "compatibility_date": "2026-06-25",
   "assets": {
     "directory": "./dist/client",
-    // Serve the built 404.html on a miss. Without this the default is "none",
-    // which returns a bare body — the styled 404 page shipped but was
-    // unreachable. html_handling is deliberately left at its default:
-    // astro.config's `format: 'file'` + trailingSlash 'never' depend on
-    // Cloudflare serving /foo.html at /foo and redirecting /foo/ -> /foo.
+    // Serve the built 404.html on a miss. Without this the default is "none", which returns a bare body — the styled 404 page shipped but was unreachable. html_handling is deliberately left at its default: astro.config's `format: 'file'` + trailingSlash 'never' depend on Cloudflare serving /foo.html at /foo and redirecting /foo/ -> /foo.
     "not_found_handling": "404-page"
   }
 }

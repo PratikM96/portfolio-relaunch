@@ -1,7 +1,5 @@
 /**
- * Site chrome: theme toggle, OS-theme follow, mobile drawer, NY clock,
- * reveal-on-scroll, rail scroll-spy. All deferred — the no-flash theme set in
- * Base.astro's <head> is the only pre-paint script.
+ * Site chrome: theme toggle, OS-theme follow, mobile drawer, NY clock, reveal-on-scroll, rail scroll-spy. All deferred — the no-flash theme set in Base.astro's <head> is the only pre-paint script.
  */
 const root = document.documentElement;
 const themeBtns = Array.prototype.slice.call(
@@ -9,11 +7,7 @@ const themeBtns = Array.prototype.slice.call(
 ) as HTMLElement[];
 
 /**
- * Browser UI tint follows the resolved theme, not the OS preference.
- * The hexes are --bg's two ends, --n-50 light and --n-950 dark, hardcoded
- * because this also runs pre-paint in Base.astro where no CSS variable is
- * readable yet. Base.astro holds the other copy and site.webmanifest the
- * third; all three move together.
+ * Browser UI tint follows the resolved theme, not the OS preference. The hexes are --bg's two ends, --n-50 light and --n-950 dark, hardcoded because this also runs pre-paint in Base.astro where no CSS variable is readable yet. Base.astro holds the other copy and site.webmanifest the third; all three move together.
  */
 function setThemeColor(t: string) {
   const m = document.querySelector('meta[name="theme-color"]');
@@ -116,8 +110,7 @@ Array.prototype.slice
   .call(document.querySelectorAll('.rev'))
   .forEach((el: Element) => io.observe(el));
 
-// rail scroll-spy — #cs-nav only. The default rail's links are real routes, not
-// in-page hashes, so there is nothing to observe there.
+// rail scroll-spy — #cs-nav only. The default rail's links are real routes, not in-page hashes, so there is nothing to observe there.
 const csNav = document.getElementById('cs-nav');
 if (csNav) {
   const navLinks = Array.prototype.slice.call(

@@ -1,8 +1,7 @@
 ---
-# Richard Attias & Associates - content entry. Agency role; the events were the agency's
-# engagements, not Pratik's clients. Proof is production scope. Event-scale numbers are
-# CONTEXT only and their margin block is labelled to say so, because they otherwise read
-# as things he ran. Location omitted per masters (FII 2019 named, city not).
+# Richard Attias & Associates - content entry. Agency role; the events were the agency's engagements, not Pratik's clients. Proof is production scope.
+# Event-scale numbers are CONTEXT only and their margin block is labelled to say so, because they otherwise read as things he ran.
+# Location omitted per masters (FII 2019 named, city not).
 title: Richard Attias & Associates
 slug: raa
 type: agency
@@ -23,8 +22,7 @@ hero:
   - { k: Timeframe, v: "2019" }
   - { k: "My production scope", v: "~300", stat: true, unit: " assets" }
 
-# The distinction this block exists for: the event-scale numbers are context, the
-# production numbers are the contribution. An Associate Designer did not run FII.
+# The distinction this block exists for: the event-scale numbers are context, the production numbers are the contribution. An Associate Designer did not run FII.
 contribution:
   owned: "Production across the FII 2019 design platform: roughly 300 digital assets, nearly 60 environmental and signage pieces, over 50 print pages, built out of 5 asset families."
   team: "An agency design team. Associate Designer, contributing production rather than leading the platform."
@@ -36,8 +34,7 @@ problem:
       text: "FII 2019 ran at conference scale, hundreds of speakers, dozens of countries, thousands of senior attendees. It needed a visual system that held from a phone screen to a printed program to a physical room, produced under hard deadlines."
     - text: "The design problem was consistency at volume: keep the platform coherent across hundreds of assets and several international handoffs without it fragmenting."
   margin:
-    # Event scale is CONTEXT, not a claim of ownership. The label says so, because the
-    # numbers otherwise read as things Pratik ran rather than the scale he produced into.
+    # Event scale is CONTEXT, not a claim of ownership. The label says so, because the numbers otherwise read as things Pratik ran rather than the scale he produced into.
     - type: meta
       label: "Event context, not my scope"
       rows:

@@ -1,11 +1,7 @@
 /**
- * Media paths derived from a slug. Nothing is authored in content: templates call these,
- * so adding an entry means adding its files under the same convention and nothing else.
+ * Media paths derived from a slug. Nothing is authored in content: templates call these, so adding an entry means adding its files under the same convention and nothing else.
  *
- * These filenames are a contract. They are unhashed and `public/_headers` caches them
- * immutable for a year, so replacing one's bytes in place will not reach a returning
- * visitor: adding a slug is safe, changing an existing file means renaming it. Encode
- * recipes live in docs/.
+ * These filenames are a contract. They are unhashed and `public/_headers` caches them immutable for a year, so replacing one's bytes in place will not reach a returning visitor: adding a slug is safe, changing an existing file means renaming it. Encode recipes live in docs/.
  */
 
 /** Work-card hover clip + poster. `-light` is the light-theme sibling. */
@@ -14,8 +10,7 @@ export const cardPath = (slug: string, light = false) => {
   return { webm: `/wc/${slug}/card${s}.webm`, poster: `/wc/${slug}/poster${s}.webp` };
 };
 
-/** Case-study hero video. Its poster is NOT here — it goes through the image
- *  pipeline from src/assets/hero/<slug>/ because it is the LCP element. */
+/** Case-study hero video. Its poster is NOT here — it goes through the image pipeline from src/assets/hero/<slug>/ because it is the LCP element. */
 export const heroVideo = (slug: string) => `/hero/${slug}/hero_1080.webm`;
 
 /** In-gallery output video + its poster. */

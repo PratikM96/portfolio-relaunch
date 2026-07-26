@@ -1,12 +1,6 @@
-# Cloudflare _redirects — one rule per line: <from> <to> <status>. First match wins,
-# so specific rules go ABOVE their wildcards. 301 = permanent (passes link equity).
-# Sources: old-site Search Console + legacy WordPress URLs.
+# Cloudflare _redirects — one rule per line: <from> <to> <status>. First match wins, so specific rules go ABOVE their wildcards. 301 = permanent (passes link equity). Sources: old-site Search Console + legacy WordPress URLs.
 #
-# Trailing slashes: the Worker normalizes them for REAL pages (/work/ -> /work), but
-# NOT for redirect sources — a bare `/foo` rule does NOT match `/foo/`. Old WordPress
-# URLs were served WITH a trailing slash, so every vanity/project source below needs
-# an explicit `/foo/` twin or Google's crawled slash-form 404s. (Splat rules like
-# `/foo/*` already cover their own slash + subpaths, so they need no twin.)
+# Trailing slashes: the Worker normalizes them for REAL pages (/work/ -> /work), but NOT for redirect sources — a bare `/foo` rule does NOT match `/foo/`. Old WordPress URLs were served WITH a trailing slash, so every vanity/project source below needs an explicit `/foo/` twin or Google's crawled slash-form 404s. (Splat rules like `/foo/*` already cover their own slash + subpaths, so they need no twin.)
 
 # --- Legacy sitemap files -> current sitemap index ---
 # The new site's sitemap is /sitemap-index.xml (was /sitemap.xml on the old site).
@@ -42,12 +36,7 @@
 /work/photography/           /work                   301
 
 # --- Old blog posts -> current journal posts (the blog route was renamed /journal) ---
-# The current journal set is 3 posts; legacy slugs map to the closest one by topic,
-# and anything without a clear home falls back to the /journal index. Retarget these
-# lines when new posts land (or when a mapping should be tightened).
-# Each has a trailing-slash twin: WordPress served these WITH a slash, so without
-# the twin the crawled form fell through to the /blog/* catch-all and lost its
-# topic mapping. Add both lines when adding a rule here.
+# The current journal set is 3 posts; legacy slugs map to the closest one by topic, and anything without a clear home falls back to the /journal index. Retarget these lines when new posts land (or when a mapping should be tightened). Each has a trailing-slash twin: WordPress served these WITH a slash, so without the twin the crawled form fell through to the /blog/* catch-all and lost its topic mapping. Add both lines when adding a rule here.
 #   engineer-to-creative              = CS background / systems thinking / career
 #   most-creative-dies-in-the-handoff = creative-as-a-system / brand + performance
 #   where-ai-changes-creative-work    = AI in creative & marketing work
@@ -148,9 +137,7 @@
 /opt-out-preferences/ /privacy   301
 /privacy-policy       /privacy   301
 /privacy-policy/      /privacy   301
-# /concepts has no index page (the hubs live one level down at /concepts/<slug>/,
-# which are real pages and must NOT be redirected). The literal `/concepts/` twin
-# only matches /concepts/ exactly, never /concepts/level/, so the hubs are safe.
+# /concepts has no index page (the hubs live one level down at /concepts/<slug>/, which are real pages and must NOT be redirected). The literal `/concepts/` twin only matches /concepts/ exactly, never /concepts/level/, so the hubs are safe.
 /concepts             /work      301
 /concepts/            /work      301
 
@@ -181,16 +168,9 @@
 /jmta-campaigns/       /work/sportime-clubs     301
 
 # --- Canonical normalisation (bare path wins) ---
-# Cloudflare html_handling already maps /foo/ and /foo.html to /foo, but it
-# answers 307 TEMPORARY, which does not consolidate ranking signals: Search
-# Console reported 7 case studies as "Duplicate, Google chose different
-# canonical than user" for exactly this reason. _redirects is evaluated
-# first, so these answer 301 instead.
+# Cloudflare html_handling already maps /foo/ and /foo.html to /foo, but it answers 307 TEMPORARY, which does not consolidate ranking signals: Search Console reported 7 case studies as "Duplicate, Google chose different canonical than user" for exactly this reason. _redirects is evaluated first, so these answer 301 instead.
 #
-# Concept hubs are deliberately absent: they are folder-based and
-# slash-canonical (/concepts/<slug>/), so normalising them would break them.
-# The /work/:slug/ and /journal/:slug/ placeholders live in the WILDCARDS block
-# at the foot of this file.
+# Concept hubs are deliberately absent: they are folder-based and slash-canonical (/concepts/<slug>/), so normalising them would break them. The /work/:slug/ and /journal/:slug/ placeholders live in the WILDCARDS block at the foot of this file.
 
 # trailing slash -> bare
 /about/                           /about                            301
@@ -232,27 +212,17 @@
 # =============================================================================
 # WILDCARDS -- KEEP THIS BLOCK LAST
 # =============================================================================
-# Cloudflare matches static rules on a fast path and evaluates splat/placeholder
-# rules in order, so every static rule above must precede these. With a wildcard
-# sitting mid-file, Wrangler warns on all 71 static rules below it on every deploy,
-# which buries real warnings.
+# Cloudflare matches static rules on a fast path and evaluates splat/placeholder rules in order, so every static rule above must precede these. With a wildcard sitting mid-file, Wrangler warns on all 71 static rules below it on every deploy, which buries real warnings.
 #
-# Verified safe to demote: no static rule above is matched by any of these, so
-# none was ever shadowed and none changes behaviour by moving up.
+# Verified safe to demote: no static rule above is matched by any of these, so none was ever shadowed and none changes behaviour by moving up.
 #
-# Order within this block matters. The two :slug rules must stay after the splats
-# and after every explicit legacy rule (e.g. /work/photography/), or they swallow
-# them.
+# Order within this block matters. The two :slug rules must stay after the splats and after every explicit legacy rule (e.g. /work/photography/), or they swallow them.
 
 # Old WordPress project archives -> work index
 /project-type/*                   /work                             301
 /project-attributes/*             /work                             301
 
-# Blog catch-all. Destination is the /journal INDEX, never /journal/:splat --
-# journal slugs do NOT match old blog slugs (only 3 posts exist), so :splat
-# manufactured redirects to non-existent pages (a 301 -> 404, worse than a 404).
-# Catches what the specific /blog rules miss: .html forms, WordPress tag/category/
-# date archives, any unmapped slug.
+# Blog catch-all. Destination is the /journal INDEX, never /journal/:splat -- journal slugs do NOT match old blog slugs (only 3 posts exist), so :splat manufactured redirects to non-existent pages (a 301 -> 404, worse than a 404). Catches what the specific /blog rules miss: .html forms, WordPress tag/category/date archives, any unmapped slug.
 /blog/*                           /journal                          301
 
 # Trailing slash -> bare, for case studies and journal posts
