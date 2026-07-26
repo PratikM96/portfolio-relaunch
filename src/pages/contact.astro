@@ -10,15 +10,16 @@ const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
 
 <Base
   title="Contact | Pratik Mehta"
-  description="Get in touch with Pratik Mehta, Creative Marketing Lead based in New York. Open to creative or marketing leadership roles."
+  description="Get in touch with Pratik Mehta, Creative Marketing Lead based in New York. Open to creative or marketing roles."
   activeNav="contact"
 >
   <section class="chero">
     <div class="page-kicker rev">[ Contact ]</div>
-    <h1 class="rev page-h1">Let's talk about the role, team, or <span class="signal">problem.</span></h1>
-    {/* Availability and location stay on separate lines; joined by a separator they read
+    {/* The meta pair sits above the head, matching the home hero and the closing CTA.
+        Availability and location stay on separate lines; joined by a separator they read
         as a restriction on where the roles can be. */}
-    <div class="avail rev">Open to creative or marketing leadership roles<br />Based in New York</div>
+    <div class="avail rev">Based in New York<br />Open to creative or marketing roles</div>
+    <h1 class="rev page-h1">Let's talk about the role, team, or <span class="signal">problem.</span></h1>
 
     <div class="cgrid rev">
       <a class="ccell" href={`mailto:${EMAIL}`}><span class="k">Email</span><span class="v">{EMAIL}</span></a>
@@ -42,7 +43,9 @@ const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
 
   .chero { padding: var(--space-4xl) 0 var(--space-4xl); }
   .chero h1 { max-width: 22ch; }
-  .chero .avail { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); margin-top: var(--space-xl); line-height: 1.7; }
+  /* the kicker's own gap tightens: kicker and avail are now a stacked pair above the head */
+  .chero .page-kicker { margin-bottom: var(--space-sm); }
+  .chero .avail { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); margin-bottom: var(--space-lg); line-height: 1.7; }
 
   /* one row of four on desktop; 2-up on tablet, 1-up on mobile */
   .cgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-top: var(--space-2xl); max-width: 1040px; }

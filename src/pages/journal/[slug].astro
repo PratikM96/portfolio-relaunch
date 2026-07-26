@@ -35,7 +35,7 @@ const others = publishedJournal(await getCollection('journal'))
 
 // Shared author blurb — rendered in the desktop rail and the mobile post-foot.
 const bio =
-  'Pratik builds creative, social, and performance as one system, from the idea to what it does after it ships. Open to creative or marketing leadership roles.';
+  'Pratik builds creative, social, and performance as one system, from the idea to what it does after it ships. Open to creative or marketing roles.';
 
 // Structured data — BlogPosting + breadcrumb.
 const origin = siteOrigin(Astro.site);
@@ -64,7 +64,7 @@ const schema = [
 
 <Base
   variant="case-study"
-  image="/og/journal.png"
+  image="/og/journal.png"
   schema={schema}
   title={`${d.title} | Journal | Pratik Mehta`}
   description={d.excerpt}
@@ -106,12 +106,16 @@ const schema = [
     )}
   </Fragment>
 
+  {/* Both blocks are ABOVE the fold on a post, so both take `.rev-load` (CLAUDE.md §6).
+      `.rev` gates on opacity at threshold 0.1, which a 4000px+ article can only satisfy
+      once ~460px of it is in view — more than is visible under the header at load, so the
+      body copy stayed invisible until the reader scrolled. */}
   <article class="article">
-    <div class="amain rev">
+    <div class="amain rev-load">
       <Content />
     </div>
     {d.pullquote && (
-      <aside class="amargin rev">
+      <aside class="amargin rev-load">
         <div class="m-quote"><p>{d.pullquote}</p></div>
       </aside>
     )}
@@ -143,6 +147,7 @@ const schema = [
     font-family: var(--t-h2-font); font-weight: var(--t-h2-weight); letter-spacing: var(--t-h2-track);
   }
   .amain :global(h3),
+  .amain :global(p:first-child),
   .amain :global(blockquote),
   .m-quote p,
   .pf-more a {
@@ -155,8 +160,12 @@ const schema = [
   }
 
 
-  .ahead { padding: var(--space-4xl) 0 var(--space-3xl); max-width: 74ch; }
-  .ahead .cats { display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg); }
+  /* Deliberately shallower than the other page heads: this one is followed by body
+     copy rather than a section, and at 4xl/3xl the title and meta filled the first
+     screen on their own. */
+  .ahead { padding: var(--space-2xl) 0 var(--space-xl); max-width: 74ch; }
+  /* wrap: a category chip is `nowrap`, so the ROW has to be what gives */
+  .ahead .cats { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-lg); }
   .ahead .m { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-lg); }
 
   /* .tag / .tag.acc come from global.css */
@@ -166,7 +175,10 @@ const schema = [
   .amain { max-width: 70ch; }
   /* body copy comes from the post markdown — style the rendered elements globally */
   .amain :global(p) { font-size: var(--fs-xl); line-height: 1.7; color: var(--text-secondary); margin-bottom: var(--space-lg); }
-  .amain :global(p:first-child) { font-size: var(--fs-xl); line-height: 1.6; color: var(--text); }
+  /* The lede. h3 TIER at the 2xl step, so the weight is one the system already
+     defines (Grotesk 500) rather than a hand-set number: it outweighs the body
+     without borrowing the Display face the sub-heads own. */
+  .amain :global(p:first-child) { font-size: var(--fs-2xl); line-height: 1.4; color: var(--text); margin-bottom: var(--space-xl); }
   .amain :global(h2) { font-size: var(--fs-2xl); margin: var(--space-2xl) 0 var(--space-md); }
   .amain :global(h3) { font-size: var(--fs-xl); margin: var(--space-xl) 0 var(--space-sm); }
   .amain :global(strong) { color: var(--text); font-weight: 600; }
@@ -176,6 +188,9 @@ const schema = [
   .amain :global(blockquote) { border-left: 2px solid var(--accent-fill); padding-left: var(--space-lg); margin: 0 0 var(--space-lg); color: var(--text); }
 
   .amargin { display: flex; flex-direction: column; gap: var(--space-lg); position: sticky; top: 48px; }
+  /* Beside the body, the rule caps the quote. Stacked, it moves under it — see
+     the 1000px block, where the quote sits between the header and the body and
+     the rule has to divide it from the copy, not from the title it belongs to. */
   .m-quote { border-top: 1px solid var(--border-strong); padding-top: var(--space-md); }
   .m-quote p { font-size: var(--fs-xl); line-height: 1.25; color: var(--text); }
 
@@ -190,11 +205,16 @@ const schema = [
 
   @media (max-width: 1000px) {
     .article { grid-template-columns: 1fr; gap: var(--space-xl); }
-    .amargin { position: static; flex-direction: row; flex-wrap: wrap; }
+    /* Stacked, source order drops the pull quote past the whole article. It is the
+       post's thesis, so it leads instead: `order` moves it without a second copy
+       in the markup. Above 1000px the sticky column already puts it up top. */
+    .amargin { position: static; order: -1; flex-direction: row; flex-wrap: wrap; }
     .amargin > * { flex: 1; min-width: 220px; }
+    /* The quote now belongs to the header block above it, so the rule goes under. */
+    .m-quote { border-top: none; padding-top: 0; border-bottom: 1px solid var(--border-strong); padding-bottom: var(--space-lg); }
   }
   @media (max-width: 900px) {
-    .ahead { padding: var(--space-3xl) 0 var(--space-2xl); }
+    .ahead { padding: var(--space-xl) 0 var(--space-lg); }
     .article { padding-bottom: var(--space-2xl); }
     .post-foot {
       display: flex; flex-direction: column; gap: var(--space-xl);

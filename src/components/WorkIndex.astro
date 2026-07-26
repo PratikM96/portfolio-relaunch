@@ -4,6 +4,7 @@
  * home "Selected work" section and /work; the caller owns the chrome around it.
  *
  *   entries       the entries to render (the caller curates and sorts)
+ *   filters       render the filter bar at all (off for the home's short cut)
  *   disciplines   show the 6 discipline bucket filters (default: type only)
  *   stickyFilter  pin the filter bar on scroll
  */
@@ -13,10 +14,11 @@ import { firstYear, roleShort } from '../lib/content';
 
 interface Props {
   entries: CollectionEntry<'work'>[];
+  filters?: boolean;
   disciplines?: boolean;
   stickyFilter?: boolean;
 }
-const { entries, disciplines = false, stickyFilter = false } = Astro.props;
+const { entries, filters = true, disciplines = false, stickyFilter = false } = Astro.props;
 
 // Six discipline buckets; a project matches if any raw discipline is a member.
 const buckets = [
@@ -33,7 +35,8 @@ const projects = entries.map((e, i) => ({
   n: String(i + 1).padStart(2, '0'),
   name: e.data.title,
   type: e.data.type,
-  disc: e.data.disciplines.slice(0, 2).join(', '),
+  // ` / ` is the on-page separator for label and data rows (CLAUDE.md §4).
+  disc: e.data.disciplines.slice(0, 2).join(' / '),
   // "In-house" says the engagement; the role says what he was inside it. Shortened here:
   // the full role, with its employment type, renders on the case-study scoreboard.
   role: roleShort(e.data.role),
@@ -47,21 +50,26 @@ const projects = entries.map((e, i) => ({
 const first = projects[0]!;
 ---
 
-<div class:list={['filters', stickyFilter && 'sticky']} id="filters" role="group" aria-label="Filter work">
-  <span class="fl-k">Filter</span>
-  <span id="fstatus" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></span>
-  <button class="on" data-f="all" aria-pressed="true">All</button>
-  <span class="div"></span>
-  <button data-f="in-house" aria-pressed="false">In-house</button>
-  <button data-f="agency" aria-pressed="false">Agency</button>
-  <button data-f="concept" aria-pressed="false">Concept</button>
-  {disciplines && (
-    <Fragment>
-      <span class="div"></span>
-      {buckets.map((b) => <button data-f={b.token} aria-pressed="false">{b.label}</button>)}
-    </Fragment>
-  )}
-</div>
+{/* Filtering earns its keep on /work, which carries the whole collection. The home
+    cut is five curated entries, all of them labelled, so the bar there was chrome
+    for a set too small to filter. */}
+{filters && (
+  <div class:list={['filters', stickyFilter && 'sticky']} id="filters" role="group" aria-label="Filter work">
+    <span class="fl-k">Filter</span>
+    <span id="fstatus" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></span>
+    <button class="on" data-f="all" aria-pressed="true">All</button>
+    <span class="div"></span>
+    <button data-f="in-house" aria-pressed="false">In-house</button>
+    <button data-f="agency" aria-pressed="false">Agency</button>
+    <button data-f="concept" aria-pressed="false">Concept</button>
+    {disciplines && (
+      <Fragment>
+        <span class="div"></span>
+        {buckets.map((b) => <button data-f={b.token} aria-pressed="false">{b.label}</button>)}
+      </Fragment>
+    )}
+  </div>
+)}
 
 <div class:list={['index-wrap', stickyFilter && 'has-sticky-filter']}>
   <div class="idx" id="idx">
@@ -265,9 +273,35 @@ const first = projects[0]!;
   }
   @media (max-width: 560px) {
     .idx-head { display: none; }
-    /* One cell per line, and the year joins the stack rather than holding a column. */
-    .idx-row { grid-template-columns: 24px minmax(0, 1fr); gap: var(--space-2xs) var(--space-sm); }
-    .cells { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
-    .idx-row .yr { grid-column: 2; text-align: left; }
+    /* Facet order flips here: the two chips lead, then title, role, disciplines.
+       A flat one-per-line stack in table order read as a paragraph of labels.
+       `display: contents` on .cells promotes its four spans to grid items of the
+       row, which is what lets the year (a sibling of .cells) share a line with
+       the category chip inside it. */
+    .idx-row {
+      grid-template-columns: auto auto minmax(0, 1fr);
+      grid-template-areas:
+        "yr ty ."
+        "nm nm nm"
+        "role role role"
+        "disc disc disc";
+      gap: var(--space-xs);
+      align-items: center;
+    }
+    .cells { display: contents; }
+    .idx-row .ix { display: none; }
+    .idx-row .nm { grid-area: nm; }
+    .idx-row .role { grid-area: role; }
+    .idx-row .ty { grid-area: ty; }
+    .idx-row .disc { grid-area: disc; }
+    /* The year becomes a chip beside the category, sharing its geometry but
+       staying neutral: the accent is the engagement type's, not the date's. */
+    .idx-row .yr {
+      grid-area: yr; justify-self: start; text-align: left;
+      font-size: var(--fs-3xs); padding: 3px var(--space-xs);
+      border: 1px solid var(--border); color: var(--text-muted); white-space: nowrap;
+    }
+    /* the title carries the row on its own line, so it can grow */
+    .idx-row .nm b { font-size: var(--fs-2xl); }
   }
 </style>

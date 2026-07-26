@@ -61,9 +61,9 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   <section class="hero">
     <div class="hero-inner">
       <div>
-        {/* Availability and location are two lines, never joined by a separator: a `/`
-            between them reads as "roles in New York", which is not the scope. */}
-        <div class="kick rev-load">Open to creative or marketing leadership roles<br />Based in New York</div>
+        {/* Two lines, never joined by a separator: a `/` between them reads as "roles in
+            New York", which is not the scope. Location leads, availability follows. */}
+        <div class="kick rev-load">Based in New York<br />Open to creative or marketing roles</div>
         <h1 class="rev-load page-h1">I build creative, social, and performance as <span class="signal">one system.</span></h1>
         {/* Must not open with "I build" or repeat "system": the h1 does both, and its
             accent lands on "one system." */}
@@ -134,7 +134,8 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   {/* WORK INDEX */}
   <section class="block" id="work">
     <SectionLabel code="02" title="Selected work" more={{ href: '/work', label: 'View all →' }} />
-    <WorkIndex entries={selectedWork} />
+    {/* No filter bar: five curated, labelled entries. The full facet set is on /work. */}
+    <WorkIndex entries={selectedWork} filters={false} />
   </section>
 
 

@@ -219,8 +219,10 @@ img { display: block; max-width: 100%; }
 .pad { padding: 0 var(--space-3xl); }
 .block { padding: var(--space-4xl) 0; }
 .blabel { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xl); }
-/* the only label-tier rule not uppercased — its content is `[ 0N ]` */
-.blabel .c { font-size: var(--fs-2xs); color: var(--accent-text); text-transform: none; }
+/* The only label-tier rule not uppercased — its content is `[ 0N ]`. `nowrap`
+   because the spaces inside the brackets are break opportunities: without it a
+   tight measure wraps the closing bracket onto its own line. */
+.blabel .c { font-size: var(--fs-2xs); color: var(--accent-text); text-transform: none; white-space: nowrap; }
 .blabel .t { font-size: var(--fs-2xs); color: var(--text-muted); margin: 0; line-height: 1; }
 .blabel .rule { flex: 1; height: 1px; background: var(--border); }
 .blabel .grow { flex: 1; }
@@ -256,8 +258,11 @@ img { display: block; max-width: 100%; }
   background: var(--surface);
 }
 
-/* Category chip (journal). .acc = accent variant. */
-.tag { font-size: var(--fs-2xs); color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: var(--space-2xs) var(--space-xs); }
+/* Category chip (journal). .acc = accent variant. `nowrap` is load-bearing: a
+   two-word category wrapping inside its border leaves the single-line chips
+   beside it short, and in a non-wrapping row it overflows and clips. The row
+   wraps the whole chip instead. */
+.tag { font-size: var(--fs-2xs); color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: var(--space-2xs) var(--space-xs); white-space: nowrap; }
 .tag.acc { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 40%, transparent); }
 
 /* Engagement corner badge over card media; .badge-lg is the case-study-hero
@@ -399,6 +404,8 @@ img { display: block; max-width: 100%; }
 }
 @media (max-width: 560px) {
   .pad { padding: 0 var(--space-lg); }
+  /* see Base.astro — the tagline keeps its head, drops its tail */
+  .foot-tail { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto; }

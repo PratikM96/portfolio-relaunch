@@ -318,10 +318,12 @@ const ldGraph = {
         ))}
       </nav>
       <div class="m-readout">
+        {/* Availability leads, then the identity/location pair, then the control.
+            The status line split the two data lines when it sat between them. */}
+        <div class="status"><span class="dot" />Open to roles</div>
         {/* The market identity lives in the desktop rail, which is hidden below 900px, so
             without this line mobile carried no identity anywhere on the site. */}
         <div class="line"><span>Role</span><b>Creative Marketing Lead</b></div>
-        <div class="status"><span class="dot" />Open to roles</div>
         <div class="line"><span>Loc</span><b>New York</b></div>
         <div class="line theme-line">
           <span>Theme</span>
@@ -341,7 +343,9 @@ const ldGraph = {
         </main>
 
         <footer class="foot">
-          <span class="mono">© {year} Pratik Mehta / One system, end to end</span>
+          {/* The tagline's tail drops below 560px — at full length it wrapped to a
+              second line carrying only "end". */}
+          <span class="mono">© {year} Pratik Mehta / One system<span class="foot-tail">, end to end</span></span>
           <div class="fl">
             <a href="/work">Work</a>
             <a href="/about">About</a>

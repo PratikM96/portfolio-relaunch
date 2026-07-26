@@ -87,7 +87,8 @@ const SIZES = '(max-width: 900px) 100vw, (max-width: 1400px) 70vw, 1100px';
       loading="lazy"
       decoding="async"
     />
-    <div class="scrim"><span class="cap estage-cap">{active.cap}</span></div>
+    {/* `cap` is the still's ALT text only. It used to also print over the image;
+        overlaid on a screenshot it competed with the UI the still is there to show. */}
     <span class="estage-go">Open ↗</span>
   </a>
   <div class="efoot">{foot}</div>
@@ -98,7 +99,6 @@ const SIZES = '(max-width: 900px) 100vw, (max-width: 1400px) 70vw, 1100px';
   .embed .ehead .el,
   .embed .ehead .open,
   .embed .etabs .etab,
-  .embed .estage .scrim .cap,
   .embed .estage .estage-go,
   .embed .efoot {
     font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
@@ -110,15 +110,15 @@ const SIZES = '(max-width: 900px) 100vw, (max-width: 1400px) 70vw, 1100px';
   .embed .ehead .el { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); }
   .embed .ehead .open { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text); display: flex; align-items: center; gap: var(--space-xs); transition: color var(--dur-base) var(--ease-standard); }
   .embed .ehead .open:hover { color: var(--accent-text); }
-  .embed .etabs { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  /* Wrap, never scroll sideways: a scrolling strip hides views behind a gesture
+     with nothing on screen saying there are more. Whole tabs move to a second row. */
+  .embed .etabs { display: flex; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
   .embed .etabs .etab { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); background: none; border: none; border-bottom: 2px solid transparent; padding: var(--space-sm) var(--space-md); cursor: pointer; white-space: nowrap; transition: color var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard); }
   .embed .etabs .etab:hover { color: var(--text-secondary); }
   .embed .etabs .etab.on { color: var(--text); border-bottom-color: var(--accent-fill); }
   .embed .estage { position: relative; display: block; aspect-ratio: var(--ratio-wide); overflow: hidden; }
   .embed .estage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-deliberate) var(--ease-standard); }
   .embed .estage:hover img { transform: scale(1.02); }
-  .embed .estage .scrim { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: var(--space-md); background: linear-gradient(0deg, var(--scrim-strong), transparent 55%); pointer-events: none; }
-  .embed .estage .scrim .cap { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--n-0); max-width: 60ch; }
   .embed .estage .estage-go { position: absolute; top: 14px; right: 14px; font-size: var(--fs-2xs); text-transform: uppercase; color: var(--n-0); background: var(--scrim-chip); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); opacity: 0; transition: opacity var(--dur-base) var(--ease-standard); }
   .embed .estage:hover .estage-go, .embed .estage:focus-visible .estage-go { opacity: 1; }
   .embed .efoot { padding: var(--space-sm) var(--space-md); font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); border-top: 1px solid var(--border); }

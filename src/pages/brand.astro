@@ -420,8 +420,12 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .tile.dark :global(.brandmark) { color: var(--n-50); }
   .lockrow { display: flex; align-items: center; gap: var(--space-md); }
   .lockcol { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
+  /* Ink, because the tiles force their own paper background regardless of theme. */
   .wm { font-size: var(--fs-3xl); color: var(--n-950); }
   .tile.dark .wm { color: var(--n-50); }
+  /* A don't-card is a themed surface, not a forced-paper tile, so the wordmark
+     specimen inside it has to follow the theme or it vanishes in dark mode. */
+  .dcard .wm { color: var(--text); }
   .period { display: inline-block; width: .16em; height: .16em; border-radius: var(--radius-full); background: var(--accent-fill); vertical-align: baseline; margin-left: .04em; }
   .period.sq { border-radius: var(--radius-none); }
   .clearrow { display: flex; align-items: flex-end; gap: var(--space-2xl); flex-wrap: wrap; }
@@ -481,16 +485,32 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     .z-for { display: none; }
   }
 
-  /* narrow: drop `where` first */
+  /* Narrow: shed columns in order of what the table is for. `where` goes first,
+     then `track` — the tracking values are documented in the prose above and in
+     tokens.css, so the tier/face/sample triple is what has to survive. */
   @media (max-width: 1100px) { .tyt th:nth-child(5), .tyt td:nth-child(5) { display: none; } }
+  @media (max-width: 560px) {
+    .tyt th:nth-child(4), .tyt td:nth-child(4) { display: none; }
+    /* Every remaining nowrap has to go, or the table sets a min-content width
+       wider than the page: "Clash Display" and "data / nav" both stack instead. */
+    .tyt th:nth-child(2), .tyt td:nth-child(2) { white-space: normal; }
+    .tyt .tier { white-space: normal; }
+    .tyt th, .tyt td { padding-right: var(--space-sm); }
+    .tyt .s { width: auto; }
+  }
 
   /* color */
   .ramp { display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-bottom: var(--space-xs); }
   .chip { width: 62px; }
-  .sw { height: 46px; border-radius: var(--radius-sm); border: 1px solid var(--swatch-border); }
+  /* A swatch needs an edge of its own: the ramp ends match the page surfaces, so
+     --n-0 is invisible on light and --n-950 on dark without one. */
+  .sw { height: 46px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); }
   .hx { font-size: var(--fs-3xs); color: var(--text-muted); margin-top: var(--space-2xs); line-height: 1.4; }
   .panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-xs); }
-  .panel { border-radius: var(--radius-lg); padding: var(--space-lg); border: 1px solid var(--swatch-border); }
+  /* Both panels are fixed light/dark specimens, so their borders key to the RAMP,
+     not the theme: --n-200 for the paper panel, and the ink panel overrides to
+     --n-800 inline. Otherwise each blends into the page in its matching theme. */
+  .panel { border-radius: var(--radius-lg); padding: var(--space-lg); border: 1px solid var(--n-200); }
   .p-lab { font-size: var(--fs-3xs); text-transform: uppercase; margin-bottom: var(--space-sm); }
   .p-h { font-size: var(--fs-2xl); margin-bottom: var(--space-xs); }
   .p-b { font-size: var(--fs-sm); line-height: 1.55; margin-bottom: var(--space-md); }
