@@ -11,6 +11,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { TYPE_LABEL } from '../lib/work-type';
 import { firstYear, roleShort } from '../lib/content';
+import { cardPosters } from '../lib/media';
 
 interface Props {
   entries: CollectionEntry<'work'>[];
@@ -31,7 +32,7 @@ const buckets = [
 ];
 const bucketsFor = (disc: string[]) => buckets.filter((b) => disc.some((d) => b.members.includes(d)));
 
-const projects = entries.map((e, i) => ({
+const projects = await Promise.all(entries.map(async (e, i) => ({
   n: String(i + 1).padStart(2, '0'),
   name: e.data.title,
   type: e.data.type,
@@ -42,11 +43,12 @@ const projects = entries.map((e, i) => ({
   role: roleShort(e.data.role),
   year: firstYear(e.data.year),
   href: `/work/${e.data.slug}`,
-  // poster + sources derive from the slug alone (/wc/<slug>/)
+  // the clip still derives from the slug (/wc/<slug>/), but the poster is hashed, so both variants ride on the row: one <video> serves every row, so it cannot carry them itself
   slug: e.data.slug,
+  poster: await cardPosters(e.data.slug),
   lede: e.data.lede,
   tags: [e.data.type, ...bucketsFor(e.data.disciplines).map((b) => b.token)].join(' '),
-}));
+})));
 const first = projects[0]!;
 ---
 
@@ -91,6 +93,8 @@ const first = projects[0]!;
         href={p.href}
         data-tags={p.tags}
         data-slug={p.slug}
+        data-poster={p.poster.dark}
+        data-poster-light={p.poster.light}
         data-t={p.name}
         data-d={p.lede}
       >
@@ -138,11 +142,12 @@ const first = projects[0]!;
     rows.forEach((x) => x.classList.remove('active'));
     r.classList.add('active');
     const slug = r.dataset.slug;
+    // The row is the poster source: hashed URLs cannot be derived, and one <video> serves every row.
     if (pvVideo && slug) {
       if (!clip || !hover) {
-        applyCardPoster(pvVideo, slug);
+        applyCardPoster(pvVideo, r);
       } else {
-        applyCardSources(pvVideo, slug);
+        applyCardSources(pvVideo, slug, r);
         pvVideo.currentTime = 0;
         safePlay(pvVideo);
       }
@@ -163,9 +168,9 @@ const first = projects[0]!;
   onThemeChange(() => {
     const active = document.querySelector<HTMLAnchorElement>('.idx-row.active');
     if (pvVideo && active?.dataset.slug) {
-      if (!pvVideo.dataset.wired) { applyCardPoster(pvVideo, active.dataset.slug); return; }
+      if (!pvVideo.dataset.wired) { applyCardPoster(pvVideo, active); return; }
       const wasPlaying = !pvVideo.paused;
-      applyCardSources(pvVideo, active.dataset.slug);
+      applyCardSources(pvVideo, active.dataset.slug, active);
       if (wasPlaying) safePlay(pvVideo);
     }
   });

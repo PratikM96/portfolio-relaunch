@@ -10,6 +10,7 @@
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { conceptView } from '../lib/media';
+import { FULL, WIDTHS_FULL } from '../lib/layout';
 
 type Tab = {
   /** Tab label (e.g. "Clipper"). */
@@ -43,14 +44,13 @@ const resolved = await Promise.all(
     const key = `../assets/concepts/${project}/preview-${t.view}.webp`;
     const mod = stills[key];
     if (!mod) throw new Error(`EmbeddedDemo: missing ${key.replace('../', 'src/')} for tab "${t.label}"`);
-    const img = await getImage({ src: mod.default, widths: [480, 800, 1280, 1600], format: 'webp' });
+    const img = await getImage({ src: mod.default, widths: WIDTHS_FULL, sizes: FULL, format: 'webp' });
     return { ...t, href: conceptView(project, t.view), src: img.src, srcset: img.srcSet.attribute };
   }),
 );
 const featuredIndex = resolved.findIndex((t) => t.featured);
 const activeIndex = featuredIndex >= 0 ? featuredIndex : 0;
 const active = resolved[activeIndex] ?? resolved[0];
-const SIZES = '(max-width: 900px) 100vw, (max-width: 1400px) 70vw, 1100px';
 ---
 
 <div class="embed rev">
@@ -80,7 +80,7 @@ const SIZES = '(max-width: 900px) 100vw, (max-width: 1400px) 70vw, 1100px';
       class="estage-img"
       src={active.src}
       srcset={active.srcset}
-      sizes={SIZES}
+      sizes={FULL}
       alt={active.cap}
       width="1600"
       height="900"

@@ -8,7 +8,9 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import PlayButton from './PlayButton.astro';
-import { outputClip } from '../lib/media';
+import OutputVideo from './OutputVideo.astro';
+import { outputClip, outputPoster } from '../lib/media';
+import { sizesFor, ladderFor } from '../lib/layout';
 
 type Still = { img: ImageMetadata; imgDark?: ImageMetadata; alt?: string; caption?: string };
 type Block =
@@ -27,20 +29,6 @@ interface Props {
 const { slug, blocks, note } = Astro.props;
 
 /**
- * Responsive width ladders, in DEVICE pixels — not CSS px. Each tops out near
- * twice its widest CSS slot, so 2x displays get a sharp candidate. Astro never
- * upscales, so an over-wide ladder just emits fewer candidates.
- */
-const W = {
-  cols1: [640, 1000, 1400, 1800],
-  cols2: [480, 800, 1200, 1600],
-  cols3: [360, 600, 900, 1200],
-  cols4: [280, 460, 700, 940],
-};
-const ladderFor = (cols: number) =>
-  cols <= 1 ? W.cols1 : cols === 2 ? W.cols2 : cols === 3 ? W.cols3 : W.cols4;
-
-/**
  * Longpage gets a shorter ladder: its sources are whole scrolling pages (up to
  * 1400x9334), so each extra width multiplies against a 9000px height.
  */
@@ -50,22 +38,14 @@ const W_LONG: Record<number, number[]> = {
   3: [420, 600, 800],
 };
 
-/**
- * `sizes` must account for the fixed rail (--rail 264px, 0 below 900px) plus
- * .pad, or it lies to the browser. Below 560px every grid collapses to 2-up.
- */
-const GAP = 16;
-const cell = (inset: number, c: number) => `calc((100vw - ${inset + GAP * (c - 1)}px) / ${c})`;
-const sizesFor = (cols: number) => {
-  const c = Math.max(1, cols);
-  return [
-    `(max-width: 560px) ${cell(48, c > 1 ? 2 : 1)}`,
-    `(max-width: 900px) ${cell(64, c)}`,
-    cell(392, c),
-  ].join(', ');
-};
-
 const clipSrc = (clip: string) => outputClip(slug, clip);
+
+/* Posters are resolved up front because the template cannot await inside a .map(). `hasVideo` also tells the page whether the video controller is worth shipping at all. */
+const videoClips = (blocks ?? []).flatMap((b) => (b.kind === 'video' ? b.items.map((i) => i.clip) : []));
+const hasVideo = videoClips.length > 0;
+const posterFor: Record<string, string> = Object.fromEntries(
+  await Promise.all(videoClips.map(async (c) => [c, await outputPoster(slug, c)])),
+);
 ---
 
 {
@@ -183,13 +163,12 @@ const clipSrc = (clip: string) => outputClip(slug, clip);
         return (
           <div class="blk blk-video" style={`--cols:${vcols}`}>
             {b.items.map((it) => {
-              const s = clipSrc(it.clip);
               const withAudio = it.audio ?? b.audio; // per-item override of the block default
               return (
                 <figure class="vid" data-ov-video data-audio={withAudio ? 'true' : 'false'}>
                   <div class:list={['frame', 'im', vr]}>
                     <video
-                      data-poster={s.poster}
+                      data-poster={posterFor[it.clip]}
                       width="1920"
                       height="1080"
                       playsinline
@@ -198,7 +177,7 @@ const clipSrc = (clip: string) => outputClip(slug, clip);
                       loop={!withAudio}
                       aria-label={it.alt ?? it.caption ?? ''}
                     >
-                      <source src={s.webm} type="video/webm" />
+                      <source src={clipSrc(it.clip)} type="video/webm" />
                     </video>
                     {withAudio && <PlayButton label="Play video" hook="ov-play" />}
                   </div>
@@ -281,43 +260,5 @@ const clipSrc = (clip: string) => outputClip(slug, clip);
   .out-note { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-md); }
 </style>
 
-<script>
-  import { autoPlayInView, wireClickToPlay } from '../scripts/motion';
-
-  // Muted loops autoplay/pause in view; audio clips are click-to-play. The reduced-motion gate lives inside autoPlayInView (via safePlay), so the loops are observed either way and a mid-session flip is honored — filtering them out here would have made the preference a load-time decision.
-  const all: HTMLVideoElement[] = [];
-  const loops: HTMLVideoElement[] = [];
-  document.querySelectorAll<HTMLElement>('[data-ov-video]').forEach((fig) => {
-    const video = fig.querySelector('video');
-    if (!video) return;
-    all.push(video);
-
-    if (fig.dataset.audio === 'true') {
-      const btn = fig.querySelector('.ov-play');
-      if (btn) wireClickToPlay(fig, video, btn);
-      return;
-    }
-    loops.push(video);
-  });
-
-  // A <video poster> fetches eagerly even under preload="none", so these
-  // below-the-fold posters are deferred to ~300px before they scroll in.
-  if (all.length && 'IntersectionObserver' in window) {
-    const posterIO = new IntersectionObserver(
-      (entries, obs) => {
-        for (const e of entries) {
-          if (!e.isIntersecting) continue;
-          const v = e.target as HTMLVideoElement;
-          if (v.dataset.poster) { v.poster = v.dataset.poster; v.removeAttribute('data-poster'); }
-          obs.unobserve(v);
-        }
-      },
-      { rootMargin: '300px' },
-    );
-    all.forEach((v) => posterIO.observe(v));
-  } else {
-    all.forEach((v) => { if (v.dataset.poster) v.poster = v.dataset.poster; });
-  }
-
-  autoPlayInView(loops);
-</script>
+{/* Only shipped when there is a video to control. See OutputVideo.astro for why this is a component rather than a conditional around the <script>. */}
+{hasVideo && <OutputVideo />}

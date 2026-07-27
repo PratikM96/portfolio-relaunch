@@ -6,7 +6,7 @@
  */
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths, ImageMetadata } from 'astro';
-import { Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CaseSectionHead from '../../components/CaseSectionHead.astro';
 import Scoreboard from '../../components/Scoreboard.astro';
@@ -22,6 +22,7 @@ import PlayButton from '../../components/PlayButton.astro';
 import { TYPE_LABEL, TYPE_SCOREBOARD } from '../../lib/work-type';
 import { sortWork, firstYear, isYearRange } from '../../lib/content';
 import { heroVideo as heroVideoPath, ogCard, conceptView } from '../../lib/media';
+import { FULL, WIDTHS_FULL } from '../../lib/layout';
 import { siteOrigin, personRef, websiteRef, breadcrumb } from '../../lib/schema';
 
 export const getStaticPaths = (async () => {
@@ -57,6 +58,11 @@ const heroVideo = d.heroVideo ? { webm: heroVideoPath(d.slug) } : null;
 if (heroVideo && !heroPoster) {
   throw new Error(`heroVideo is set for "${d.slug}" but src/assets/hero/${d.slug}/poster.webp is missing`);
 }
+
+/* Built once and used twice: the <img> below and Base's preload. The poster is this page's LCP element but sits ~10KB into the body, behind the scoreboard, so without a preload the browser cannot discover it until it has parsed past all of that. Passing the same object to both is what stops the preload resolving to a different candidate than the <img> and fetching it twice. */
+const heroImg = heroPoster
+  ? await getImage({ src: heroPoster, widths: WIDTHS_FULL, sizes: FULL, format: 'webp' })
+  : null;
 
 // §Output appears for assets OR a demo; without either it drops and the spine
 // renumbers. OutputGrid itself renders only when assets exist.
@@ -121,6 +127,9 @@ const schema = [
   description={d.description}
   sections={sections}
   scoreboard={scoreboard}
+  preloadImage={heroImg?.src}
+  preloadImageSrcset={heroImg?.srcSet.attribute}
+  preloadImageSizes={heroImg ? FULL : undefined}
 >
   {/* SCOREBOARD HERO */}
   <header class="cs-hero">
@@ -134,14 +143,17 @@ const schema = [
       <div class="frame cs-wall rev-load" data-cs-video>
         {/* A real <img>, not the video's `poster` attribute, so it gets a
             responsive srcset. It is the LCP element, hence eager + high. */}
-        <Image
+        <img
           class="cs-poster"
-          src={heroPoster}
+          src={heroImg!.src}
+          srcset={heroImg!.srcSet.attribute}
+          sizes={FULL}
           alt={d.coverAlt ?? ''}
-          widths={[480, 800, 1280, 1920]}
-          sizes="(max-width: 900px) 100vw, (max-width: 1400px) 70vw, 1100px"
+          width="1920"
+          height="1080"
           loading="eager"
           fetchpriority="high"
+          decoding="async"
         />
         <video
           width="1920" height="1080"

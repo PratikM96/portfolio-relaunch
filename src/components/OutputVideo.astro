@@ -1,0 +1,48 @@
+---
+/**
+ * The output gallery's video controller, split out of OutputGrid so it only ships when a case study actually has a video block. Four entries render an Output section containing no video, and this script's querySelectorAll came back empty on every one of them.
+ *
+ * It is a component rather than an `if` because Astro hoists a component's script at build time: wrapping the <script> tag in a conditional would not have removed it from the bundle. Only a component that is never rendered drops its script.
+ */
+---
+
+<script>
+  import { autoPlayInView, wireClickToPlay } from '../scripts/motion';
+
+  // Muted loops autoplay/pause in view; audio clips are click-to-play. The reduced-motion gate lives inside autoPlayInView (via safePlay), so the loops are observed either way and a mid-session flip is honored — filtering them out here would have made the preference a load-time decision.
+  const all: HTMLVideoElement[] = [];
+  const loops: HTMLVideoElement[] = [];
+  document.querySelectorAll<HTMLElement>('[data-ov-video]').forEach((fig) => {
+    const video = fig.querySelector('video');
+    if (!video) return;
+    all.push(video);
+
+    if (fig.dataset.audio === 'true') {
+      const btn = fig.querySelector('.ov-play');
+      if (btn) wireClickToPlay(fig, video, btn);
+      return;
+    }
+    loops.push(video);
+  });
+
+  // A <video poster> fetches eagerly even under preload="none", so these
+  // below-the-fold posters are deferred to ~300px before they scroll in.
+  if (all.length && 'IntersectionObserver' in window) {
+    const posterIO = new IntersectionObserver(
+      (entries, obs) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const v = e.target as HTMLVideoElement;
+          if (v.dataset.poster) { v.poster = v.dataset.poster; v.removeAttribute('data-poster'); }
+          obs.unobserve(v);
+        }
+      },
+      { rootMargin: '300px' },
+    );
+    all.forEach((v) => posterIO.observe(v));
+  } else {
+    all.forEach((v) => { if (v.dataset.poster) v.poster = v.dataset.poster; });
+  }
+
+  autoPlayInView(loops);
+</script>

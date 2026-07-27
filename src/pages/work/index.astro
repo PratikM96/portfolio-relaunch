@@ -10,7 +10,7 @@ import WorkIndex from '../../components/WorkIndex.astro';
 import CloseCTA from '../../components/CloseCTA.astro';
 import { TYPE_LABEL } from '../../lib/work-type';
 import { sortWork, firstYear } from '../../lib/content';
-import { cardPath } from '../../lib/media';
+import { cardPosters } from '../../lib/media';
 
 const entries = sortWork(await getCollection('work'));
 
@@ -25,17 +25,21 @@ const yearRange =
 const count = entries.length;
 
 // Featured pair, shown above the shared index.
-const featured = entries
-  .filter((e) => e.data.featured)
-  .map((e) => ({
-    name: e.data.title,
-    type: e.data.type,
-    href: `/work/${e.data.slug}`,
-    slug: e.data.slug,
-    year: firstYear(e.data.year),
-    lede: e.data.lede,
-    discLines: e.data.disciplines.slice(0, 3),
-  }));
+const featured = await Promise.all(
+  entries
+    .filter((e) => e.data.featured)
+    .map(async (e) => ({
+      name: e.data.title,
+      type: e.data.type,
+      href: `/work/${e.data.slug}`,
+      slug: e.data.slug,
+      year: firstYear(e.data.year),
+      lede: e.data.lede,
+      discLines: e.data.disciplines.slice(0, 3),
+      // Both hashed poster URLs, because card-video.ts cannot derive a hashed path at runtime.
+      poster: await cardPosters(e.data.slug),
+    })),
+);
 
 /**
  * Hiring-problem router. Filters answer "what engagement was this"; this answers "which
@@ -83,7 +87,7 @@ const routes = ROUTES.map((r) => ({
 
 {/* The first featured poster is the LCP element, and a <video poster> is
     invisible to the preload scanner - hence the explicit preload. */}
-<Base title="Work | Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work" preloadImage={featured.length ? cardPath(featured[0].slug).poster : undefined}>
+<Base title="Work | Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work" preloadImage={featured[0]?.poster.dark}>
   <header class="phead">
     <div class="page-kicker">[ Work ] / {count} {count === 1 ? 'project' : 'projects'} / {yearRange}</div>
     <h1 class="rev-load page-h1">The work,<br />as <span class="signal">one index.</span></h1>
@@ -117,9 +121,8 @@ const routes = ROUTES.map((r) => ({
       <a class="card card--interactive fcard" href={p.href}>
         <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
         <div class="im">
-          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} poster={cardPath(p.slug).poster}>
-            <source src={cardPath(p.slug).webm} type="video/webm" />
-          </video>
+          {/* No <source>: card-video.ts adds one on first hover, so an untouched card costs nothing. */}
+          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} poster={p.poster.dark} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
         </div>
         <div class="meta">
           <div>

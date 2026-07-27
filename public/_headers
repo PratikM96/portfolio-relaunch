@@ -22,7 +22,7 @@
 /hero/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Work-card + output-gallery clips, also keyed by slug folder.
+# Work-card + output-gallery clips, also keyed by slug folder. VIDEO ONLY now: the poster stills that used to sit beside these went through the image pipeline into /_astro/*, so they are content-hashed and a re-export reaches returning visitors instead of being frozen here for a year.
 /wc/*
   Cache-Control: public, max-age=31536000, immutable
 /ov/*
@@ -57,3 +57,15 @@
   Cache-Control: public, max-age=2592000
 /og/*
   Cache-Control: public, max-age=2592000
+
+# Contract-named documents that get replaced in place. Same 30-day tier as the icons above, and for the same reason: unhashed, so a year would outlive the file, but per-navigation revalidation is waste.
+/pratik-mehta-resume.pdf
+  Cache-Control: public, max-age=2592000
+/llms.txt
+  Cache-Control: public, max-age=2592000
+
+# HTML revalidates on every navigation. Stated rather than inherited: without a rule these fell through to the platform default, so the policy was whatever Cloudflare happened to do rather than something this repo chose. `must-revalidate` with a zero lifetime is what lets a deploy reach a returning visitor immediately while still allowing a 304.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+/
+  Cache-Control: public, max-age=0, must-revalidate

@@ -176,7 +176,7 @@
   --baseline: 4px;
 
   /* --- Grid · desktop (tablet: 8 col/24/32 · mobile: 4 col/16/20) --- */
-  --grid-cols: 12; --grid-max-width: 1200px; --grid-gutter: 24px; --grid-margin: 64px;
+  /* No grid tokens. There is no 12-column grid, no max-width and no 24px gutter on this site: the shell is `--rail` plus `.pad`, and content takes the remainder. Four tokens used to describe that fictional grid and only /brand ever read them, so the page documented a system the CSS never enforced. The real geometry, and every `sizes` string derived from it, is src/lib/layout.ts. */
 
   /* --- Breakpoints · four, each with one job ---
      Declared here as documentation only: `@media` cannot read a custom

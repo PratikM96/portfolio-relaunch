@@ -8,13 +8,14 @@ import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import headshot from '../assets/headshot-4x5.jpg';
 import heroPosterSrc from '../assets/hero/home/poster.webp';
+import { sizesForSplit } from '../lib/layout';
 import SectionLabel from '../components/SectionLabel.astro';
 import DisciplineStrip from '../components/DisciplineStrip.astro';
 import WorkIndex from '../components/WorkIndex.astro';
 import StatFigure from '../components/StatFigure.astro';
 import CloseCTA from '../components/CloseCTA.astro';
 import { publishedJournal, formatDate } from '../lib/content';
-import { cardPath } from '../lib/media';
+import { cardPosters } from '../lib/media';
 import { TYPE_LABEL } from '../lib/work-type';
 
 const allWork = await getCollection('work');
@@ -43,10 +44,11 @@ const BENTO: { slug: string; blurb: string }[] = [
   { slug: 'portfolio-system', blurb: 'This site, built as one system and measured on itself: 100 desktop Lighthouse and zero layout shift on every page.' },
   { slug: 'the-ninth', blurb: 'A self-initiated esports membership concept, brand through product, with an AI moment-clipper prototype at the center.' },
 ];
-const bento = BENTO.map(({ slug, blurb }) => {
+const bento = await Promise.all(BENTO.map(async ({ slug, blurb }) => {
   const d = pick(slug);
-  return { slug, blurb, title: d.title, type: d.type, disciplines: d.disciplines };
-});
+  // Both hashed poster URLs, because card-video.ts cannot derive a hashed path at runtime.
+  return { slug, blurb, title: d.title, type: d.type, disciplines: d.disciplines, poster: await cardPosters(slug) };
+}));
 
 // Journal teaser — three most recent published posts.
 const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3);
@@ -54,9 +56,9 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
 /**
  * Hero poster. Unlike the eight case-study heroes this one is BOTH the LCP element and the still that reduced-motion / save-data visitors see instead of the animation, so it goes through the image pipeline (hashed, responsive) rather than shipping verbatim from public/. One getImage() call feeds the <img> and Base's preload so the two cannot resolve to different candidates and fetch it twice.
  *
- * The slot is measured, not guessed: nothing in the chain sets a max-width, so above 1100 the figure is 0.45 of the content column and keeps growing with the viewport (652px at 1920, ~950px at 2560). 456px is the rail plus the page padding plus the hero gap. Below 1100 it stacks and 100vw over-declares slightly, which costs a step at most and can never render soft.
+ * The slot is derived, not guessed: nothing in the chain sets a max-width, so above the rail breakpoint the figure is 0.45 of the content column and keeps growing with the viewport (652px at 1920, ~950px at 2560). Below it the row stacks and the figure is the full column, which sizesForSplit falls through to.
  */
-const HERO_POSTER_SIZES = '(min-width: 1101px) calc((100vw - 456px) * 0.45), 100vw';
+const HERO_POSTER_SIZES = sizesForSplit(0.45);
 /* The 1100 step is deliberate and load-bearing: Lighthouse's mobile emulation is 412px at DPR 2.625, which asks for 1081 device px, so a ladder that jumps 1080 -> 1440 there hands the LCP element ~16KB instead of ~10KB. 1440 exists for retina desktop, where the slot reaches 1300px+ and there is LCP headroom to spend. */
 const heroPoster = await getImage({
   src: heroPosterSrc,
@@ -132,9 +134,8 @@ const heroPoster = await getImage({
           <a class="card card--interactive t-feat rev" style={`--rev-i:${i}`} href={`/work/${p.slug}`}>
             <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
             <div class="img">
-              <video class="tile-video" muted loop playsinline preload="none" data-slug={p.slug} poster={cardPath(p.slug).poster}>
-                <source src={cardPath(p.slug).webm} type="video/webm" />
-              </video>
+              {/* No <source> in the markup: card-video.ts adds one on first hover, so nothing is fetched for a card the visitor never touches. */}
+              <video class="tile-video" muted loop playsinline preload="none" data-slug={p.slug} poster={p.poster.dark} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
             </div>
             <div class="meta">
               <div>
@@ -181,7 +182,8 @@ const heroPoster = await getImage({
         <span class="go">See the brand system →</span>
       </a>
       <a class="card card--interactive mod mod-about rev" id="about" href="/about">
-        <div class="face"><Image src={headshot} alt="Pratik Mehta" width={360} format="webp" /></div>
+        {/* A fixed 160px box (140 below BP.sm), so the slot is a literal rather than shell-derived: this is the one place a px `sizes` is honest. */}
+        <div class="face"><Image src={headshot} alt="Pratik Mehta" widths={[160, 320, 480]} sizes="(max-width: 560px) 140px, 160px" format="webp" /></div>
         <div class="about-body">
           <div class="k">About</div>
           <h3 class="h2">Engineer turned creative.</h3>

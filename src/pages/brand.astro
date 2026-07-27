@@ -9,6 +9,7 @@ import CloseCTA from '../components/CloseCTA.astro';
 import Brandmark from '../components/Brandmark.astro';
 // Read as a raw string (Vite ?raw), not node:fs — this has to bundle for the Worker.
 import tokensCss from '../styles/tokens.css?raw';
+import { SHELL, FULL } from '../lib/layout';
 
 // Strip comments BEFORE the lookup: a comment explaining a token writes its name followed by a colon, which would match ahead of the real declaration.
 const tokenSource = tokensCss.replace(/\/\*[\s\S]*?\*\//g, '');
@@ -283,14 +284,28 @@ const sec = (id: string) => {
   {/* 05 LAYOUT */}
   <section class="bsec" id={sec('layout').id}>
     <div class="blabel"><span class="c">[ {sec('layout').n} ]</span><h2 class="t">{sec('layout').t}</h2><span class="rule"></span></div>
-    <p class="intro">Everything measures from a 4px unit. Layout is a {px('--grid-cols')}-column grid, max-width {px('--grid-max-width')}, {px('--grid-gutter')} gutters, {px('--grid-margin')} margins. Radius base is {px('--radius-md')}px; the mono system layer uses sharp 0 corners.</p>
+    <p class="intro">Everything measures from a 4px unit. There is no fixed column grid and no max-width: the page is a rail plus padding, and content takes whatever is left. Radius base is {px('--radius-md')}px; the mono system layer uses sharp 0 corners.</p>
     <div class="scale">
       {spacing.map((s) => (
         <div class="s-row"><div class="s-lab">{s.name} / {tokenValue(s.token)}</div><div class="s-bar" style={`width: var(${s.token})`}></div></div>
       ))}
     </div>
-    <div class="card grid-demo" aria-hidden="true">{Array.from({ length: 12 }).map(() => (<div class="gcol"></div>))}</div>
-    <div class="mono muted gridnote">{px('--grid-cols')} columns / max {px('--grid-max-width')} / gutter {px('--grid-gutter')} / margin {px('--grid-margin')}</div>
+
+    <div class="subhead" style="margin-top:var(--space-xl)">Breakpoints / four, each with one job</div>
+    <div class="l-rows">
+      {SHELL.breakpoints.map((b) => (
+        <div class="l-row"><div class="l-k">{b.px}px</div><div class="l-v">{b.does}</div></div>
+      ))}
+    </div>
+
+    <div class="subhead" style="margin-top:var(--space-xl)">Shell inset / what the viewport loses before content</div>
+    <div class="l-rows">
+      {SHELL.insets.map((i) => (
+        <div class="l-row"><div class="l-k">{i.from}</div><div class="l-v">rail {i.rail} + padding {i.pad} x 2 = <b>{i.inset}px</b></div></div>
+      ))}
+    </div>
+    {/* Rendered from src/lib/layout.ts, the same module every image's `sizes` composes. Five hand-written strings drifted before it existed and the two worst sat on LCP elements, so this row is the proof the page and the code agree. */}
+    <div class="mono muted gridnote">a full-width image resolves to <code>{FULL}</code></div>
     <div class="subhead" style="margin-top:var(--space-xl)">Radius</div>
     <div class="r-row">
       {radii.map((r) => (
@@ -495,6 +510,8 @@ const sec = (id: string) => {
   .hx,
   .p-pill,
   .s-lab,
+  .l-k,
+  .l-v,
   .d-lab,
   td.r,
   .aa,
@@ -636,9 +653,15 @@ const sec = (id: string) => {
   .s-bar { height: 14px; background: var(--accent-fill); border-radius: var(--radius-sm); }
   /* 12-column grid demo (matches the brand guidelines Layout section) */
   /* surface comes from global .card */
-  .grid-demo { display: flex; gap: var(--space-xs); padding: 0 var(--space-lg); height: 96px; margin-top: var(--space-xl); }
-  .gcol { flex: 1; background: color-mix(in srgb, var(--accent-fill) 10%, transparent); border-left: 1px solid var(--accent-fill); border-right: 1px solid var(--accent-fill); }
-  .gridnote { font-size: var(--fs-2xs); margin-top: var(--space-sm); }
+  .gridnote { font-size: var(--fs-2xs); margin-top: var(--space-md); }
+  .gridnote code { font-size: var(--fs-3xs); color: var(--text-secondary); overflow-wrap: anywhere; }
+  /* the breakpoint + inset ladders, driven by src/lib/layout.ts */
+  .l-rows { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+  .l-row { display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: 1px solid var(--border); }
+  .l-k { font-size: var(--fs-2xs); color: var(--accent-text); }
+  .l-v { font-size: var(--fs-2xs); color: var(--text-secondary); }
+  .l-v b { color: var(--text); font-weight: 400; }
+  @media (max-width: 560px) { .l-row { grid-template-columns: 1fr; gap: var(--space-2xs); } }
   .r-row { display: flex; gap: var(--space-md); flex-wrap: wrap; }
   .r-box { width: 60px; height: 60px; background: var(--surface); border: 1.5px solid var(--text); }
 

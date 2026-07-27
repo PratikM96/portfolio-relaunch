@@ -7,6 +7,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import CloseCTA from '../components/CloseCTA.astro';
 import headshot from '../assets/headshot-4x5.jpg';
+import { sizesForSplit, BP } from '../lib/layout';
 ---
 
 <Base
@@ -23,9 +24,8 @@ import headshot from '../assets/headshot-4x5.jpg';
       <p class="lead rev-load">I started in computer science, then moved toward the part of the work people actually experience, first through design, then marketing. The systems habit stayed with me, now pointed at brand, content, products, and campaigns.</p>
       <div class="btn-row rev-load"><a class="btn btn-p" href="/resume">View resume →</a><a class="btn btn-g" href="/work">View work →</a></div>
     </div>
-    {/* The portrait is this page's LCP element, so it overrides Astro's lazy
-        default. Width 760 because it renders at most 592px CSS. */}
-    <figure class="frame portrait rev-load"><Image src={headshot} alt="Pratik Mehta" width={760} format="webp" loading="eager" fetchpriority="high" decoding="async" /></figure>
+    {/* The portrait is this page's LCP element, so it overrides Astro's lazy default. It is 0.4 of the content column beside the copy (586px at a 1920 viewport and growing, not the fixed 592px a single `width` assumed), and .ahero caps it at 340px once it stacks at BP.aside. A lone `width` under-served every 2x display. */}
+    <figure class="frame portrait rev-load"><Image src={headshot} alt="Pratik Mehta" widths={[340, 680, 900, 1200]} sizes={sizesForSplit(0.4, { at: BP.aside, stacked: '340px' })} format="webp" loading="eager" fetchpriority="high" decoding="async" /></figure>
   </section>
 
   {/* THE PATH */}
