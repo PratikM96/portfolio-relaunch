@@ -19,7 +19,7 @@ hero:
   - { k: Role, v: "Creative Technologist" }
   - { k: Disciplines, v: "Design Systems, Front-end, Brand" }
   - { k: Type, v: "Self-initiated / 2026" }
-  # No `accent: true` any more: figureRuns accents every numeral, so a unitless 100 colors itself. The flag was removed from the schema 2026-07-25.
+  # No `accent` flag: figureRuns accents every numeral, so a unitless 100 colors itself.
   - { k: "Desktop Lighthouse", v: "100", stat: true }
 
 problem:
@@ -101,15 +101,17 @@ perfTable: true
 
 proof:
   figures:
-    # The mobile score sits where the CLS figure used to. CLS went because a perfect Lighthouse score already entails a good one, so "0" was a second number saying the same thing, and it was the one that could rot: a 0.009 font-swap shift on /brand desktop put the figure in contradiction with the table printing it, on the same page.
+    # No CLS figure here: a perfect Lighthouse score already entails a good one, and PerfTable renders per-page CLS as measured detail, which is where a number that moves belongs.
     #
     # `from` means DERIVED, not authored: resolved by src/lib/perf-claim.ts out of the same portfolio-perf.json that PerfTable renders, so a re-run moves the figure and the table together or neither. These three were typed once and drifted within a day — mobile was authored as 98 and measured 99.4 the next run, which stops being a rounding and becomes a contradiction on a page whose claim is that the numbers are measured. Rounding is conservative and its direction flips by metric: a score rounds down, a duration rounds up. That rule lives in perf-claim.ts, not here.
     #
-    # The JS figure stays authored because it is not a Lighthouse number: it is the heaviest page's script weight transferred, measured from the built output. Nothing in the perf JSON carries it, so re-measure it by hand when the bundles change.
+    # The JS figure stays authored because it is not a Lighthouse number: nothing in the perf JSON carries it. Re-measure by hand when the bundles change, and carry the basis with it — raw and gzip differ by more than a rounding here.
+    #
+    # Basis, measured 2026-07-27 against the live site and a fresh build (byte-identical): home is the heaviest page at 7,403 bytes raw, 3,292 gzipped. That is the 3 external /_astro/ bundles plus the inline scripts, excluding the JSON-LD block. Publish the gzip number, floored, because lower is better and a script-weight claim must never undercut what was measured.
     - { from: "desktopLighthouse", label: "Lighthouse, desktop" }
     - { from: "mobileLighthouse", label: "Lighthouse, mobile" }
     - { from: "desktopLcp", label: "LCP, desktop" }
-    - { value: "4.5", unit: "KB", label: "JS, heaviest page" }
+    - { value: "3.2", unit: "KB", label: "JS, heaviest page" }
   note:
     label: "Why it exists / what it proves"
     # No page count and no commit count here. Both rotted within a day of shipping (the copy claimed 22 pages while the JSON beside it said 23, and 131 commits against an actual 143), which is exactly what CLAUDE.md §10 forbids. PerfTable renders the real page count from portfolio-perf.json, so stating it twice only creates a second number to keep true.
