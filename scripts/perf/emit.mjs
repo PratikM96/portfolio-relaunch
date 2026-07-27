@@ -55,9 +55,22 @@ const LABEL = {
   'work-portfolio-system': 'Case: Portfolio System',
 };
 
-function read(strat, slug) {
-  const f = path.join(OUT, `${strat}-${slug}.json`);
-  if (!fs.existsSync(f)) return null;
+/**
+ * Every sample file for one page and strategy, newest naming first. run.sh writes `<strat>-<slug>-<i>.json`; the unsuffixed form is a batch from before it sampled, and counts as a single sample.
+ */
+function sampleFiles(strat, slug) {
+  const legacy = path.join(OUT, `${strat}-${slug}.json`);
+  const numbered = fs.existsSync(OUT)
+    ? fs.readdirSync(OUT)
+        .filter((f) => new RegExp(`^${strat}-${slug}-\\d+\\.json$`).test(f))
+        .sort((a, b) => Number(a.match(/-(\d+)\.json$/)[1]) - Number(b.match(/-(\d+)\.json$/)[1]))
+        .map((f) => path.join(OUT, f))
+    : [];
+  if (numbered.length) return numbered;
+  return fs.existsSync(legacy) ? [legacy] : [];
+}
+
+function readOne(f) {
   const d = JSON.parse(fs.readFileSync(f, 'utf8'));
   const a = d.audits;
   const nv = (k) => (a[k] && typeof a[k].numericValue === 'number' ? a[k].numericValue : null);
@@ -77,17 +90,59 @@ function read(strat, slug) {
 }
 const avg = (a) => a.reduce((s, x) => s + x, 0) / a.length;
 
+/**
+ * The representative sample for a page: **the median one, not an average of all of them.**
+ *
+ * Averaging each metric independently would publish a row that never happened — an FCP from one load beside an LCP from another, and a score no real load produced. Metric distributions are also right-skewed, so one slow sample drags a mean while barely moving a median. Picking a single median sample keeps every number in the row mutually consistent and real, which is the same reason Lighthouse CI selects a median run rather than averaging.
+ *
+ * Ordered by performance score, then LCP as the tiebreak, since scores tie constantly. With an even count this takes the LOWER middle, so the published figure is never the flattering half of a coin flip.
+ */
+function median(samples) {
+  const sorted = [...samples].sort((a, b) => a.perf - b.perf || a.lcp - b.lcp);
+  return sorted[Math.floor((sorted.length - 1) / 2)];
+}
+
+const spread = (samples, key) => (samples.length > 1
+  ? Math.max(...samples.map((s) => s[key])) - Math.min(...samples.map((s) => s[key]))
+  : 0);
+
 let lhVersion = '', fetchTime = '';
 const runDays = new Set();
+/** Per-strategy sampling summary, so the history records how much confidence a run carries. */
+const sampling = {};
 const build = (strat) => {
+  const counts = [];
+  const lcpSpreads = [];
+  const perfSpreads = [];
   const rows = lines.map((l) => {
     const slug = l.split('|')[0];
-    const m = read(strat, slug);
-    if (!m) return null;
-    lhVersion = m.lhVersion; if (m.fetchTime > fetchTime) fetchTime = m.fetchTime;
-    runDays.add(m.fetchTime.slice(0, 10));
-    return { slug, label: LABEL[slug] || slug, perf: m.perf, a11y: m.a11y, bp: m.bp, seo: m.seo, lcp: m.lcp, cls: m.cls, tbt: m.tbt, fcp: m.fcp, kib: m.kib };
+    const samples = sampleFiles(strat, slug).map(readOne);
+    if (!samples.length) return null;
+    const m = median(samples);
+    counts.push(samples.length);
+    lcpSpreads.push(spread(samples, 'lcp'));
+    perfSpreads.push(spread(samples, 'perf'));
+    // stamped from the newest sample, since fetchTime is per load
+    for (const s of samples) {
+      lhVersion = s.lhVersion;
+      if (s.fetchTime > fetchTime) fetchTime = s.fetchTime;
+      runDays.add(s.fetchTime.slice(0, 10));
+    }
+    return {
+      slug, label: LABEL[slug] || slug,
+      perf: m.perf, a11y: m.a11y, bp: m.bp, seo: m.seo,
+      lcp: m.lcp, cls: m.cls, tbt: m.tbt, fcp: m.fcp, kib: m.kib,
+      // what the median hides: how far this page moved between samples of the same batch
+      samples: samples.length,
+      lcpSpread: spread(samples, 'lcp'),
+    };
   }).filter(Boolean);
+  sampling[strat] = {
+    samplesPerPage: counts.length ? Math.min(...counts) === Math.max(...counts) ? counts[0] : `${Math.min(...counts)}-${Math.max(...counts)}` : 0,
+    meanLcpSpread: lcpSpreads.length ? Math.round(avg(lcpSpreads)) : 0,
+    maxLcpSpread: lcpSpreads.length ? Math.max(...lcpSpreads) : 0,
+    maxPerfSpread: perfSpreads.length ? Math.max(...perfSpreads) : 0,
+  };
   const average = {
     perf: Number(avg(rows.map((r) => r.perf)).toFixed(1)),
     a11y: Number(avg(rows.map((r) => r.a11y)).toFixed(1)),
@@ -102,7 +157,7 @@ const build = (strat) => {
     zeroCls: rows.filter((r) => r.cls === 0).length,
     count: rows.length,
   };
-  return { rows, average };
+  return { rows, average, sampling: sampling[strat] };
 };
 
 const mobile = build('mobile');
@@ -119,8 +174,13 @@ const dest = path.join(ROOT, 'src/data/portfolio-perf.json');
 fs.mkdirSync(path.dirname(dest), { recursive: true });
 fs.writeFileSync(dest, JSON.stringify(data, null, 2) + '\n');
 console.log(`wrote src/data/portfolio-perf.json — ${data.pages} pages, LH ${lhVersion} on ${data.measuredOn}`);
+console.log('mobile  sampling:', JSON.stringify(mobile.sampling));
+console.log('desktop sampling:', JSON.stringify(desktop.sampling));
 console.log('mobile avg:', JSON.stringify(mobile.average));
 console.log('desktop avg:', JSON.stringify(desktop.average));
+if (mobile.sampling.samplesPerPage === 1) {
+  console.log('\nNOTE: one sample per page. A single mobile run is not evidence — pages near a scoring threshold land either side of it by chance. Use REPEATS=3 (or 5) so each row is a median.');
+}
 
 /* Keyed on runId and rewritten in place rather than blindly appended, so re-emitting a batch corrects its line instead of adding a duplicate. `fetchTime` rides along because runId comes from the clock when run.sh started while fetchTime is when Lighthouse actually loaded the page; they differ by however long the batch took. */
 const entry = { runId, fetchTime, ...data };

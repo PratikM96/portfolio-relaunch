@@ -43,14 +43,21 @@ if (slug) {
 }
 
 console.log(`=== averages across ${runs.length} run(s) ===`);
-console.log('run'.padEnd(16) + 'MOBILE perf   lcp   fcp  tbt' + '   DESKTOP perf  lcp  fcp' + '   pages  LH');
+console.log('run'.padEnd(16) + 'MOBILE perf   lcp   fcp  tbt' + '   DESKTOP perf  lcp  fcp' + '   n  within-run lcp');
 for (const r of runs) {
   const m = r.mobile.average;
   const d = r.desktop.average;
+  // n and the within-run spread say how far to trust the row. n=1 means the numbers are one coin flip.
+  const s = r.mobile.sampling;
+  const n = s ? s.samplesPerPage : 1;
+  const within = s && s.meanLcpSpread ? `±${s.meanLcpSpread}ms avg, ${s.maxLcpSpread}ms worst` : n === 1 ? 'unsampled' : '';
   console.log(
     r.runId.padEnd(16) + pad(m.perf, 11) + pad(m.lcp, 6) + pad(m.fcp, 6) + pad(m.tbt, 5) +
-    pad(d.perf, 14) + pad(d.lcp, 5) + pad(d.fcp, 5) + pad(r.pages, 8) + '  ' + r.lighthouseVersion,
+    pad(d.perf, 14) + pad(d.lcp, 5) + pad(d.fcp, 5) + pad(n, 4) + '  ' + within,
   );
+}
+if (runs.every((r) => !r.mobile.sampling || r.mobile.sampling.samplesPerPage === 1)) {
+  console.log('\nEvery run here is a single sample per page, so each page score is one coin flip. REPEATS=3 makes each row a median.');
 }
 
 if (runs.length < 2) {

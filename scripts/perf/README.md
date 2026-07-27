@@ -5,14 +5,15 @@ The `/work/portfolio-system` case study claims measured performance, so the numb
 ## Regenerate the perf table
 
 ```bash
-bash scripts/perf/run.sh          # Lighthouse (mobile + desktop) over every URL
-node scripts/perf/emit.mjs        # distill the newest run -> src/data/portfolio-perf.json (+ history)
+bash scripts/perf/run.sh          # 3 samples per page, mobile + desktop, every URL
+REPEATS=5 bash scripts/perf/run.sh
+node scripts/perf/emit.mjs        # median sample per page -> src/data/portfolio-perf.json (+ history)
 node scripts/perf/trend.mjs       # how the numbers have moved across runs
 ```
 
 - `urls.txt` — the pages measured (the live portfolio, one per line, `slug|url`). Add a line when a page ships, then re-run.
-- `run.sh` writes raw Lighthouse JSON into **`out/<YYYYMMDD-HHMM>/`**, one folder per run, gitignored. It names the folder itself from the clock at start, so the name cannot disagree with the `fetchTime` inside it. Runs used to land flat and overwrite each other, which is why the only history was whatever happened to be committed.
-- `emit.mjs` distills the **newest** folder by default, or a named one (`node scripts/perf/emit.mjs 20260727-1307`) to re-emit an older batch. It writes the committed JSON plus one line in `history.jsonl`, keyed on run id so re-emitting corrects that line instead of duplicating it. It still refuses to stamp a set whose pages span more than one day.
+- `run.sh` takes **`REPEATS` samples per page per strategy** (default 3) and writes raw Lighthouse JSON into **`out/<YYYYMMDD-HHMM>/`**, one folder per run, gitignored. It names the folder itself from the clock at start, so the name cannot disagree with the `fetchTime` inside it. Keep `REPEATS` odd so the median is one real sample rather than a choice between two. Cost: roughly 8 minutes and 30MB per repeat, so the default is ~25 minutes and ~90MB.
+- `emit.mjs` distills the **newest** folder by default, or a named one (`node scripts/perf/emit.mjs 20260727-1307`) to re-emit an older batch. Per page it publishes the **median sample, not an average of them** — averaging each metric independently would print a row that never happened, an FCP from one load beside an LCP from another, and a score no real load produced. Samples are ordered by score then LCP, and an even count takes the lower middle so the published figure is never the flattering half of a coin flip. Each row carries `samples` and `lcpSpread`; each strategy carries a `sampling` summary. It writes the committed JSON plus one line in `history.jsonl`, keyed on run id so re-emitting corrects that line instead of duplicating it, and still refuses to stamp a set whose pages span more than one day.
 - `history.jsonl` — **committed**, one distilled snapshot per line, a few KB each. The raw runs are ~30MB a batch and stay gitignored; this file is what makes the trend survive a machine. Lines suffixed `g` were recovered from git commits before the history existed, and carry `recoveredFrom` for audit.
 - `trend.mjs` — averages per run, then mobile score per page with an LCP spread column. `node scripts/perf/trend.mjs home` for one page across every run.
 
@@ -27,6 +28,7 @@ The pattern `trend.mjs` makes visible: pages that always score 100 have an LCP s
 - Compare **averages** between runs, never page scores.
 - Trust a **CPU metric** like TBT, which barely moves on network variance. TBT going 0 to 65 is what caught the hero's decode cost while every LCP number was too noisy to read.
 - Treat one page's one-run LCP as weather until two runs agree.
+- Read the **`n` and within-run spread columns** in `trend.mjs`. The four archived runs are all `n=1`, i.e. one coin flip per page; sampling is what fixed that going forward. Sampling shrinks the envelope, it does not remove it — a median of 3 is roughly half the spread of a single sample, so expect pages to still move a point or two.
 
 ## The Output screenshots
 

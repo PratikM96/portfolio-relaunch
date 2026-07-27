@@ -15,7 +15,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1725,
-        "kib": 1401
+        "kib": 1401,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "about",
@@ -28,7 +30,9 @@
         "cls": 0,
         "tbt": 4,
         "fcp": 833,
-        "kib": 217
+        "kib": 217,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "brand",
@@ -41,7 +45,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1331,
-        "kib": 194
+        "kib": 194,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "contact",
@@ -54,7 +60,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 812,
-        "kib": 181
+        "kib": 181,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "journal",
@@ -67,7 +75,9 @@
         "cls": 0,
         "tbt": 7,
         "fcp": 819,
-        "kib": 182
+        "kib": 182,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "privacy",
@@ -80,7 +90,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 816,
-        "kib": 181
+        "kib": 181,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "resume",
@@ -93,7 +105,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 989,
-        "kib": 186
+        "kib": 186,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work",
@@ -106,7 +120,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 992,
-        "kib": 206
+        "kib": 206,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "journal-engineer-to-creative",
@@ -119,7 +135,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 826,
-        "kib": 183
+        "kib": 183,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "journal-handoff",
@@ -132,7 +150,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 981,
-        "kib": 184
+        "kib": 184,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "journal-ai",
@@ -145,7 +165,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 982,
-        "kib": 184
+        "kib": 184,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-agency-fiveeighty",
@@ -158,7 +180,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1008,
-        "kib": 215
+        "kib": 215,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-dealnews",
@@ -171,7 +195,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1005,
-        "kib": 212
+        "kib": 212,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-frc",
@@ -184,7 +210,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1005,
-        "kib": 198
+        "kib": 198,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-jmtp",
@@ -197,7 +225,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1003,
-        "kib": 250
+        "kib": 250,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-level",
@@ -210,7 +240,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 995,
-        "kib": 192
+        "kib": 192,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-pipeline-medical",
@@ -223,7 +255,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1188,
-        "kib": 225
+        "kib": 225,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-raa",
@@ -236,7 +270,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1373,
-        "kib": 241
+        "kib": 241,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-sportime-clubs",
@@ -249,7 +285,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1384,
-        "kib": 233
+        "kib": 233,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-sr-love-and-care",
@@ -262,7 +300,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1453,
-        "kib": 194
+        "kib": 194,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-the-ninth",
@@ -275,7 +315,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1162,
-        "kib": 193
+        "kib": 193,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-wisp",
@@ -288,7 +330,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 987,
-        "kib": 190
+        "kib": 190,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-portfolio-system",
@@ -301,7 +345,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 1011,
-        "kib": 191
+        "kib": 191,
+        "samples": 1,
+        "lcpSpread": 0
       }
     ],
     "average": {
@@ -317,6 +363,12 @@
       "perfect": 5,
       "zeroCls": 23,
       "count": 23
+    },
+    "sampling": {
+      "samplesPerPage": 1,
+      "meanLcpSpread": 0,
+      "maxLcpSpread": 0,
+      "maxPerfSpread": 0
     }
   },
   "desktop": {
@@ -332,7 +384,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 291,
-        "kib": 1396
+        "kib": 1396,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "about",
@@ -345,7 +399,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 242,
-        "kib": 217
+        "kib": 217,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "brand",
@@ -358,7 +414,9 @@
         "cls": 0.009,
         "tbt": 0,
         "fcp": 358,
-        "kib": 192
+        "kib": 192,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "contact",
@@ -371,7 +429,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 235,
-        "kib": 181
+        "kib": 181,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "journal",
@@ -384,7 +444,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 242,
-        "kib": 183
+        "kib": 183,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "privacy",
@@ -397,7 +459,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 228,
-        "kib": 184
+        "kib": 184,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "resume",
@@ -410,7 +474,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 278,
-        "kib": 185
+        "kib": 185,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work",
@@ -423,7 +489,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 295,
-        "kib": 205
+        "kib": 205,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "journal-engineer-to-creative",
@@ -436,7 +504,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 244,
-        "kib": 184
+        "kib": 184,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "journal-handoff",
@@ -449,7 +519,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 280,
-        "kib": 186
+        "kib": 186,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "journal-ai",
@@ -462,7 +534,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 272,
-        "kib": 187
+        "kib": 187,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-agency-fiveeighty",
@@ -475,7 +549,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 410,
-        "kib": 296
+        "kib": 296,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-dealnews",
@@ -488,7 +564,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 291,
-        "kib": 268
+        "kib": 268,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-frc",
@@ -501,7 +579,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 368,
-        "kib": 201
+        "kib": 201,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-jmtp",
@@ -514,7 +594,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 288,
-        "kib": 380
+        "kib": 380,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-level",
@@ -527,7 +609,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 284,
-        "kib": 233
+        "kib": 233,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-pipeline-medical",
@@ -540,7 +624,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 292,
-        "kib": 276
+        "kib": 276,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-raa",
@@ -553,7 +639,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 303,
-        "kib": 301
+        "kib": 301,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-sportime-clubs",
@@ -566,7 +654,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 294,
-        "kib": 314
+        "kib": 314,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-sr-love-and-care",
@@ -579,7 +669,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 435,
-        "kib": 274
+        "kib": 274,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-the-ninth",
@@ -592,7 +684,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 287,
-        "kib": 224
+        "kib": 224,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-wisp",
@@ -605,7 +699,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 338,
-        "kib": 211
+        "kib": 211,
+        "samples": 1,
+        "lcpSpread": 0
       },
       {
         "slug": "work-portfolio-system",
@@ -618,7 +714,9 @@
         "cls": 0,
         "tbt": 0,
         "fcp": 291,
-        "kib": 249
+        "kib": 249,
+        "samples": 1,
+        "lcpSpread": 0
       }
     ],
     "average": {
@@ -634,6 +732,12 @@
       "perfect": 23,
       "zeroCls": 22,
       "count": 23
+    },
+    "sampling": {
+      "samplesPerPage": 1,
+      "meanLcpSpread": 0,
+      "maxLcpSpread": 0,
+      "maxPerfSpread": 0
     }
   }
 }
