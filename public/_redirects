@@ -167,10 +167,10 @@
 /jmta-campaigns        /work/sportime-clubs     301
 /jmta-campaigns/       /work/sportime-clubs     301
 
-# --- Canonical normalisation (bare path wins) ---
+# --- Canonical normalization (bare path wins) ---
 # Cloudflare html_handling already maps /foo/ and /foo.html to /foo, but it answers 307 TEMPORARY, which does not consolidate ranking signals: Search Console reported 7 case studies as "Duplicate, Google chose different canonical than user" for exactly this reason. _redirects is evaluated first, so these answer 301 instead.
 #
-# Concept hubs are deliberately absent: they are folder-based and slash-canonical (/concepts/<slug>/), so normalising them would break them. The /work/:slug/ and /journal/:slug/ placeholders live in the WILDCARDS block at the foot of this file.
+# Concept hubs are deliberately absent: they are folder-based and slash-canonical (/concepts/<slug>/), so normalizing them would break them. The /work/:slug/ and /journal/:slug/ placeholders live in the WILDCARDS block at the foot of this file.
 
 # trailing slash -> bare
 /about/                           /about                            301
@@ -214,7 +214,7 @@
 # =============================================================================
 # Cloudflare matches static rules on a fast path and evaluates splat/placeholder rules in order, so every static rule above must precede these. With a wildcard sitting mid-file, Wrangler warns on all 71 static rules below it on every deploy, which buries real warnings.
 #
-# Verified safe to demote: no static rule above is matched by any of these, so none was ever shadowed and none changes behaviour by moving up.
+# Verified safe to demote: no static rule above is matched by any of these, so none was ever shadowed and none changes behavior by moving up.
 #
 # Order within this block matters. The two :slug rules must stay after the splats and after every explicit legacy rule (e.g. /work/photography/), or they swallow them.
 

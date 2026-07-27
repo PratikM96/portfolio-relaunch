@@ -19,7 +19,7 @@ hero:
   - { k: Role, v: "Creative Technologist" }
   - { k: Disciplines, v: "Design Systems, Front-end, Brand" }
   - { k: Type, v: "Self-initiated / 2026" }
-  # No `accent: true` any more: figureRuns accents every numeral, so a unitless 100 colours itself. The flag was removed from the schema 2026-07-25.
+  # No `accent: true` any more: figureRuns accents every numeral, so a unitless 100 colors itself. The flag was removed from the schema 2026-07-25.
   - { k: "Desktop Lighthouse", v: "100", stat: true }
 
 problem:

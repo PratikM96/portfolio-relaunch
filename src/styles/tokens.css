@@ -10,7 +10,7 @@
 /* ===== Self-hosted fonts (same-origin, woff2, no CDN) =====
    One VARIABLE file per family, shipped whole, all three preloaded in
    Base.astro. The weight RANGE is the point: with static cuts a missing weight
-   failed silently. Neither family may be subset — Clash's Fontshare licence
+   failed silently. Neither family may be subset — Clash's Fontshare license
    grants no modification right, and JetBrains Mono ships whole by choice with
    /fonts/OFL.txt beside it (required by OFL §2). */
 @font-face {
@@ -217,9 +217,9 @@
   --ratio-portrait: 9 / 16;    /* vertical / reel */
 
   /* --- Motion · six durations, three curves, and nothing outside them ---
-     Every `transition` and `animation` composes one duration and one curve. The names say what the motion MEANS, not how fast it is, so a rule picks by intent: a colour swap is --dur-quick whatever it sits on, a slide is --dur-move whatever the distance. --dur-quick is the anchor and carries most of the site. --dur-enter is not a rounder --dur-move: `.rev-load` animates the whole hero, so its duration lands on Speed Index and 280ms is measured. Don't fold it into a neighbour. */
+     Every `transition` and `animation` composes one duration and one curve. The names say what the motion MEANS, not how fast it is, so a rule picks by intent: a color swap is --dur-quick whatever it sits on, a slide is --dur-move whatever the distance. --dur-quick is the anchor and carries most of the site. --dur-enter is not a rounder --dur-move: `.rev-load` animates the whole hero, so its duration lands on Speed Index and 280ms is measured. Don't fold it into a neighbour. */
   --dur-instant: 120ms;    /* the echo under a press — .btn:active */
-  --dur-quick: 200ms;      /* state changing in place: colour, border, background, opacity */
+  --dur-quick: 200ms;      /* state changing in place: color, border, background, opacity */
   --dur-enter: 280ms;      /* above-the-fold arrival — .rev-load, measured against Speed Index */
   --dur-move: 320ms;       /* something travels a distance: drawer, button lift, theme cross-fade */
   --dur-settle: 500ms;     /* below-the-fold arrival — .rev — and media scale on hover */

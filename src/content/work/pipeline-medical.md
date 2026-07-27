@@ -24,7 +24,7 @@ hero:
 contribution:
   owned: "Brand identity and the B2B marketplace design from zero: logo system, roughly 15 core screens, 4 procurement flows, 20 UI components, plus display ads, social, and buyer-education collateral."
   team: "A startup team, with a programming team building what he handed over. Designer, on an internship."
-  constraints: "No existing brand or product to work from, B2B buying behaviour rather than consumer checkout, and a design that had to be buildable by someone else."
+  constraints: "No existing brand or product to work from, B2B buying behavior rather than consumer checkout, and a design that had to be buildable by someone else."
 
 problem:
   prose:

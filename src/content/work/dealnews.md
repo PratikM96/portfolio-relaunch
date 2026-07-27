@@ -1,5 +1,5 @@
 ---
-# DealNews - content entry. In-house role, not a client engagement. Headline figure is the FACEBOOK following (110K), labelled as such; the combined audience is roughly 130K.
+# DealNews - content entry. In-house role, not a client engagement. Headline figure is the FACEBOOK following (110K), labeled as such; the combined audience is roughly 130K.
 # Numbers distributed: audience in problem, in-house breadth in system, landing-page conversion in reflection, performance results in ProofBox.
 title: DealNews
 slug: dealnews
@@ -20,7 +20,7 @@ hero:
   - { k: Role, v: "Social and Graphic Manager" }
   - { k: Disciplines, v: "Brand, Social, Design, Paid" }
   - { k: Timeframe, v: "2020-2022" }
-  # Labelled Facebook, not "Audience": 110K is the Facebook following alone, and the margin block beside it breaks out Instagram and LinkedIn separately.
+  # Labeled Facebook, not "Audience": 110K is the Facebook following alone, and the margin block beside it breaks out Instagram and LinkedIn separately.
   - { k: "Facebook audience", v: "110K", stat: true }
 
 # [NEEDS: Pratik] a verified `collaborators` line. Omitted rather than guessed.

@@ -24,14 +24,7 @@ That background gives me a real advantage in roles where creative, product, dist
 
 The industry is catching up to this. The roles that keep showing up, creative technologist, design engineer, the T-shaped creative with depth in one thing and range across many, all describe the same person: someone who can sit between the disciplines and make them talk to each other. That used to read as unfocused. It reads differently when the work in front of you needs brand and product and motion and distribution to be one coherent thing.
 
-I'm not the best pure designer in any room, and I haven't shipped production code in years. The advantage was never being the best at one layer. It's being able to see the whole machine and build it so the parts actually connect. I think in systems because I was trained to. It just turned out that creative work is a system too, and most people are treating it like a pile of separate parts.
+I'm not the best pure designer in any room, and I haven't shipped production code in years, but my advantage was never being the best at one layer. It's being able to see the whole machine and build it so the parts actually connect. I think in systems because I was trained to. It just turned out that creative work is a system too, and most people are treating it like a pile of separate parts.
 
 ---
 
-**Further reading**
-
-Practitioner writing rather than research, which is the right weight for a piece that is mostly my own argument.
-
-- On a systems mindset in marketing leadership, Forbes Communications Council (2023), a contributor column: [forbes.com](https://www.forbes.com/councils/forbescommunicationscouncil/2023/10/30/from-strategy-to-execution-the-role-of-a-systems-mindset-in-marketing-leadership/)
-- On the T-shaped creative: [cxl.com](https://cxl.com/blog/t-shaped-marketer/)
-- On the design engineer / creative technologist path: [Adobe Design](https://adobe.design/stories/leading-design/should-you-pursue-a-career-in-design-engineering)

@@ -74,7 +74,7 @@ Get-ChildItem $out | Select-Object Name, @{n='MiB';e={[math]::Round($_.Length/1M
 
 **Tuning knobs (only if needed):**
 - **CRF** is quality; lower = sharper/bigger. 30 is a good start, 28 for motion-heavy footage. If a file creeps toward ~20 MB, raise CRF by 2.
-- Keep the `-color_*` tags — they prevent the washed-out browser colour bug.
+- Keep the `-color_*` tags — they prevent the washed-out browser color bug.
 - `preload="none"` means nothing downloads until the click, so a 15 MB clip costs nothing on load.
 
 ## Step 3 - wire it in (one line)

@@ -37,7 +37,7 @@ const radii = [
 // The motion scale, read live like every other ladder on this page. Names say what the motion MEANS; the `for` column is the honest usage, so keep it true if a duration moves.
 const durations = [
   { token: '--dur-instant', name: 'instant', for: 'the echo under a press' },
-  { token: '--dur-quick', name: 'quick', for: 'colour, border, background, opacity', star: true },
+  { token: '--dur-quick', name: 'quick', for: 'color, border, background, opacity', star: true },
   { token: '--dur-enter', name: 'enter', for: 'above-the-fold arrival (.rev-load)' },
   { token: '--dur-move', name: 'move', for: 'drawer, button lift, theme flip' },
   { token: '--dur-settle', name: 'settle', for: 'below-the-fold arrival (.rev), media scale' },
@@ -101,7 +101,7 @@ const SECTIONS = [
   { id: 'color', n: '04', t: 'Color / warm monochrome, one accent' },
   { id: 'layout', n: '05', t: 'Layout / a 4px base' },
   { id: 'motion', n: '06', t: 'Motion / functional, not decorative' },
-  { id: 'contrast', n: '07', t: 'Colour contrast / checked against WCAG AA' },
+  { id: 'contrast', n: '07', t: 'Color contrast / checked against WCAG AA' },
   { id: 'formats', n: '08', t: 'Formats / the brand, in format' },
   { id: 'voice', n: '09', t: 'Voice / source: System Master' },
 ];
@@ -302,7 +302,7 @@ const sec = (id: string) => {
   {/* 06 MOTION — every demo below is driven by the token it documents, so a bar cannot claim one duration while animating another. Hover a row to replay it. */}
   <section class="bsec" id={sec('motion').id}>
     <div class="blabel"><span class="c">[ {sec('motion').n} ]</span><h2 class="t">{sec('motion').t}</h2><span class="rule"></span></div>
-    <p class="intro">Quick and confident. Short travel, no bounce. The names say what a motion <em>means</em>, not how fast it is, so a rule picks by intent: a colour swap is <code>quick</code> wherever it sits, a slide is <code>move</code> whatever the distance. Reels inherit this: cuts over fades, snap transitions.</p>
+    <p class="intro">Quick and confident. Short travel, no bounce. The names say what a motion <em>means</em>, not how fast it is, so a rule picks by intent: a color swap is <code>quick</code> wherever it sits, a slide is <code>move</code> whatever the distance. Reels inherit this: cuts over fades, snap transitions.</p>
 
     <div class="subhead">Duration / six steps</div>
     <p class="intro">Every <code>transition</code> and <code>animation</code> on the site composes one of these. <code>quick</code> is the anchor and carries most of it. Hover a row to play it at its real duration.</p>
@@ -356,7 +356,7 @@ const sec = (id: string) => {
     <div class="mono muted gridnote">plus <code>--stagger-step</code> ({tokenValue('--stagger-step')}), the per-item delay in a staggered list reveal.</div>
 
     <div class="subhead">Reduced motion</div>
-    <p class="intro">Here "reduce" means <em>remove</em>. Killing the tween alone still lets a hover end-state apply, so a card would jump 3% larger in a single frame, and a snap is still movement. Under <code>prefers-reduced-motion</code> every transition and animation is off, nothing translates or scales, page transitions are cancelled, and smooth scrolling reverts to instant. Hover stays legible on colour and border alone. Video is gated in JavaScript, since CSS cannot stop playback. The swatches in this section follow the same rule: they hold still, and the printed values carry it.</p>
+    <p class="intro">Here "reduce" means <em>remove</em>. Killing the tween alone still lets a hover end-state apply, so a card would jump 3% larger in a single frame, and a snap is still movement. Under <code>prefers-reduced-motion</code> every transition and animation is off, nothing translates or scales, page transitions are canceled, and smooth scrolling reverts to instant. Hover stays legible on color and border alone. Video is gated in JavaScript, since CSS cannot stop playback. The swatches in this section follow the same rule: they hold still, and the printed values carry it.</p>
   </section>
 
   {/* 07 ACCESSIBILITY */}
@@ -460,7 +460,7 @@ const sec = (id: string) => {
 </Base>
 
 <style>
-  /* type tiers — family/weight/tracking only; rules below set size + colour */
+  /* type tiers — family/weight/tracking only; rules below set size + color */
   .fsamp.tagline,
   .wm,
   .tyt .v.disp,
@@ -642,7 +642,7 @@ const sec = (id: string) => {
   .r-row { display: flex; gap: var(--space-md); flex-wrap: wrap; }
   .r-box { width: 60px; height: 60px; background: var(--surface); border: 1.5px solid var(--text); }
 
-  /* section index — the same [ 0N ] + uppercase-mono vocabulary as the headings it links to, so it reads as part of the system rather than as navigation bolted on. The 1px gap over a border-coloured background is the grid-line trick, not spacing, which is why it stays a literal. */
+  /* section index — the same [ 0N ] + uppercase-mono vocabulary as the headings it links to, so it reads as part of the system rather than as navigation bolted on. The 1px gap over a border-colored background is the grid-line trick, not spacing, which is why it stays a literal. */
   .btoc {
     display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1px; background: var(--border); border: 1px solid var(--border);
@@ -682,7 +682,7 @@ const sec = (id: string) => {
   .h-btn { width: 116px; height: 34px; border-radius: var(--radius-full); }
   .h-card { width: 184px; height: 104px; border-radius: var(--radius-md); }
   .h-dot { width: 44px; height: 44px; border-radius: var(--radius-full); }
-  /* The swatches obey the rule they document. Killing only the transition would still let each end-state snap into place, which is the exact behaviour §06 says is not good enough, so the demos hold still and the printed value carries the section instead. */
+  /* The swatches obey the rule they document. Killing only the transition would still let each end-state snap into place, which is the exact behavior §06 says is not good enough, so the demos hold still and the printed value carries the section instead. */
   @media (prefers-reduced-motion: reduce) {
     .d-row:hover .d-dot,
     .d-row:hover .d-host.lift,

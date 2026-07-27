@@ -43,7 +43,7 @@ export function onThemeChange(cb: () => void): () => void {
  * Wire hover-to-play work cards: play the muted loop on enter, snap back to the poster on leave, re-point at the matching variant on a theme flip. Used by the home bento tiles and the /work featured pair. Reduced motion or no hovering pointer → poster only (and no hover means the clip is never fetched).
  */
 export function wireHoverCards(cardSelector: string, videoSelector: string): void {
-  // `hover` is snapshotted because it decides whether to FETCH, and a fetch can't be taken back. Playback is not snapshotted: safePlay re-reads reduced motion each time, so a mid-session flip is honoured.
+  // `hover` is snapshotted because it decides whether to FETCH, and a fetch can't be taken back. Playback is not snapshotted: safePlay re-reads reduced motion each time, so a mid-session flip is honored.
   const hover = canHover();
   const vids: HTMLVideoElement[] = [];
   document.querySelectorAll<HTMLElement>(cardSelector).forEach((card) => {

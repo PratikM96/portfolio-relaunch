@@ -1,6 +1,6 @@
 ---
 # Richard Attias & Associates - content entry. Agency role; the events were the agency's engagements, not Pratik's clients. Proof is production scope.
-# Event-scale numbers are CONTEXT only and their margin block is labelled to say so, because they otherwise read as things he ran.
+# Event-scale numbers are CONTEXT only and their margin block is labeled to say so, because they otherwise read as things he ran.
 # Location omitted per masters (FII 2019 named, city not).
 title: Richard Attias & Associates
 slug: raa
@@ -26,7 +26,7 @@ hero:
 contribution:
   owned: "Production across the FII 2019 design platform: roughly 300 digital assets, nearly 60 environmental and signage pieces, over 50 print pages, built out of 5 asset families."
   team: "An agency design team. Associate Designer, contributing production rather than leading the platform."
-  constraints: "Hard event deadlines, 3 international handoffs, and a system that had to hold from a phone screen to a printed programme to a physical room."
+  constraints: "Hard event deadlines, 3 international handoffs, and a system that had to hold from a phone screen to a printed program to a physical room."
 
 problem:
   prose:

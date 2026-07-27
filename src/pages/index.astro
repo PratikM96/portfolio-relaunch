@@ -135,7 +135,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   {/* WORK INDEX */}
   <section class="block" id="work">
     <SectionLabel code="02" title="Selected work" more={{ href: '/work', label: 'View all →' }} />
-    {/* No filter bar: five curated, labelled entries. The full facet set is on /work. */}
+    {/* No filter bar: five curated, labeled entries. The full facet set is on /work. */}
     <WorkIndex entries={selectedWork} filters={false} />
   </section>
 
@@ -264,7 +264,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
 </script>
 
 <style>
-  /* type tiers — family/weight/tracking only; rules below set size + colour */
+  /* type tiers — family/weight/tracking only; rules below set size + color */
   .t-stat .fig {
     font-family: var(--t-display-font); font-weight: var(--t-display-weight); letter-spacing: var(--t-display-track);
   }
@@ -298,7 +298,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   .hero-figure .frame img { width: 100%; height: 100%; object-fit: cover; }
 
   /* video is wrapped in a button so the whole surface is a click-to-pause
-     target (keyboard-operable, labelled). The state chip fades in on hover
+     target (keyboard-operable, labeled). The state chip fades in on hover
      or while paused, so the pause gesture is discoverable, not hidden. */
   .hero-video { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; position: relative; }
   .hero-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -344,7 +344,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   /* .badge / .badge.in-house / .badge.concept come from global.css */
 
   /* Figures top-align and labels bottom-align, so a two-line label cannot shift its
-     figure out of line with the others. Centring the whole stack put cards 2 and 4 seven
+     figure out of line with the others. Centering the whole stack put cards 2 and 4 seven
      pixels above cards 1 and 3. The label reserves two lines for the same reason. */
   .t-stat { padding: var(--space-lg); display: flex; flex-direction: column; justify-content: space-between; gap: var(--space-sm); min-height: 132px; }
   .t-stat .fig { font-size: var(--fs-fluid-2xl); line-height: 1; color: var(--text); }

@@ -20,5 +20,5 @@ export const TYPE_SCOREBOARD: Record<WorkType, string> = {
 /** One item in the case-study rail's section-index nav (also drives scroll-spy). */
 export type RailSection = { ix: string; label: string; href: string };
 
-/** One line of the case-study rail scoreboard; `accent` marks the signal colour. */
+/** One line of the case-study rail scoreboard; `accent` marks the signal color. */
 export type ScoreLine = { k: string; v: string; accent?: boolean };

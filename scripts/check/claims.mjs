@@ -67,6 +67,11 @@ const BANNED = [
   // Absolute: date ranges use hyphens everywhere, matching the `year` fields they derive from.
   { re: /[—–]/, why: 'No em or en dashes in external-facing copy. Date ranges use hyphens here (CLAUDE.md §4).' },
   { re: /Start a conversation|See the work\b|Read the resume/i, why: 'Retired CTA wording. Use "Get in touch", "View work", "View resume".' },
+  // American spelling in copy: the audience is US hiring teams, and /brand once shipped "Color" in one heading and "Colour" in another. Only unambiguous pairs are listed. Words correct in both (advertising, raised, analysis, emphasis) are absent on purpose, and the -ise group requires a known stem so surprise/exercise/comprise can't trip it.
+  {
+    re: /\b(colour(s|ed|ing)?|behaviour(s|al)?|honour(ed|s|ing)?|favour(ed|s)?|labour|humour|flavour|centre[sd]?|metre|theatre|fibre|litre|calibre|licence|defence|offence|pretence|programme|labell(ed|ing)|cancell(ed|ing)|modelled|signalled|travelled|levelled|marvellous|grey(ed)?|whilst|amongst|learnt|spelt|storey|sceptical|instalment|skilful|judgement|(?:organi|recogni|reali|optimi|normali|prioriti|customi|minimi|maximi|summari|standardi|speciali|categori|initiali|visuali|utili|tokeni|capitali|neutrali|analy)s(e|es|ed|ing|ation))\b/i,
+    why: 'Use American spelling in copy (color, behavior, program, labeled, gray, organize). CLAUDE.md §4.',
+  },
   { re: /roles\s*\/\s*New York|roles\s*·\s*New York/i, why: 'Availability and location must be separate lines; joined they read as a geographic restriction.' },
 
   // --- rot ---

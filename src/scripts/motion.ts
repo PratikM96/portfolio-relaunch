@@ -7,7 +7,7 @@
 /** How much of a video must be on screen before it is worth playing. One value, not a per-caller opinion. */
 export const IN_VIEW = 0.25;
 
-/** True when the visitor asked the OS to minimise motion. Read at CALL time, never cached — a snapshot taken at module init ignores a mid-session flip. */
+/** True when the visitor asked the OS to minimize motion. Read at CALL time, never cached — a snapshot taken at module init ignores a mid-session flip. */
 export const prefersReducedMotion = (): boolean =>
   matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -31,7 +31,7 @@ export function safePlay(video: HTMLVideoElement): void {
 }
 
 /**
- * Report whether an element is in view, on the shared threshold. The shape behind every pause-off-screen controller. Without IntersectionObserver the element is treated as always in view, which degrades to the pre-observer behaviour rather than to silence.
+ * Report whether an element is in view, on the shared threshold. The shape behind every pause-off-screen controller. Without IntersectionObserver the element is treated as always in view, which degrades to the pre-observer behavior rather than to silence.
  */
 export function observeInView(el: Element, cb: (inView: boolean) => void): IntersectionObserver | null {
   if (!('IntersectionObserver' in window)) {

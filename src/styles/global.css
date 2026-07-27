@@ -7,7 +7,7 @@
    ============================================================= */
 
 /* ===== TYPE TIERS =====
-   The eight tiers from tokens.css, applied. A rule sets SIZE (plus colour /
+   The eight tiers from tokens.css, applied. A rule sets SIZE (plus color /
    line-height) only. Add your selector to a group below; never re-declare the
    family/weight/tracking triple inline. The bare .t-* classes work in markup. */
 
@@ -87,19 +87,19 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  /* the theme flip leaves one colour and arrives at another, which is what --ease-in-out is for; hovers elsewhere stay on --ease-standard */
+  /* the theme flip leaves one color and arrives at another, which is what --ease-in-out is for; hovers elsewhere stay on --ease-standard */
   transition: background-color var(--dur-move) var(--ease-in-out), color var(--dur-move) var(--ease-in-out);
 }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 ::selection { background: var(--accent-fill); color: var(--on-accent); }
-/* One focus ring for the whole site. Same width, colour and offset everywhere — a ring that changes shape between surfaces reads as two different systems. It does not animate: a moving focus indicator is harder to track, which is the opposite of its job. */
+/* One focus ring for the whole site. Same width, color and offset everywhere — a ring that changes shape between surfaces reads as two different systems. It does not animate: a moving focus indicator is harder to track, which is the opposite of its job. */
 :focus-visible { outline: 2px solid var(--accent-fill); outline-offset: 3px; }
 .mono { font-size: var(--fs-2xs); color: var(--text-muted); }
 
 /* ===== page transitions =====
    Native CROSS-DOCUMENT view transitions: one at-rule, zero JavaScript. Deliberately not Astro's <ClientRouter />, which is a client-side router and would spend the JS budget this site is measured on. Browsers without support navigate normally, so there is nothing to fall back to.
-   Only the timing is customised. The default root cross-fade is the right gesture; it just needs to run on the system's clock rather than the UA's 250ms, and the curve is --ease-in-out because a cross-fade leaves and arrives at once. Lighthouse never sees this: it measures a cold first load, which has no outgoing snapshot to transition from. */
+   Only the timing is customized. The default root cross-fade is the right gesture; it just needs to run on the system's clock rather than the UA's 250ms, and the curve is --ease-in-out because a cross-fade leaves and arrives at once. Lighthouse never sees this: it measures a cold first load, which has no outgoing snapshot to transition from. */
 @view-transition { navigation: auto; }
 ::view-transition-group(*) {
   animation-duration: var(--dur-quick);
@@ -437,7 +437,7 @@ img { display: block; max-width: 100%; }
   .foot-tail { display: none; }
 }
 /* ===== reduced motion =====
-   Here "reduce" means REMOVE, not "do it instantly". Killing the transition alone still lets every hover end-state apply, so a card would jump 3% larger and a button 4px up in a single frame — a snap is still movement to a vestibular-sensitive reader. So the tweens go, and then every positional end-state is neutralised too. Hover stays legible: colour, border and opacity are untouched. */
+   Here "reduce" means REMOVE, not "do it instantly". Killing the transition alone still lets every hover end-state apply, so a card would jump 3% larger and a button 4px up in a single frame — a snap is still movement to a vestibular-sensitive reader. So the tweens go, and then every positional end-state is neutralized too. Hover stays legible: color, border and opacity are untouched. */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
   /* scroll-behavior needs its own selector: `html` is (0,0,1) and beats `*` at (0,0,0), so the reset above never reached it and smooth scrolling survived the whole media query. */

@@ -215,7 +215,7 @@ const clipSrc = (clip: string) => outputClip(slug, clip);
 {note && <p class="out-note">{note}</p>}
 
 <style>
-  /* type tiers — family/weight/tracking only; rules below set size + colour */
+  /* type tiers — family/weight/tracking only; rules below set size + color */
   .blk-label,
   .out figcaption,
   .out-note {
@@ -284,7 +284,7 @@ const clipSrc = (clip: string) => outputClip(slug, clip);
 <script>
   import { autoPlayInView, wireClickToPlay } from '../scripts/motion';
 
-  // Muted loops autoplay/pause in view; audio clips are click-to-play. The reduced-motion gate lives inside autoPlayInView (via safePlay), so the loops are observed either way and a mid-session flip is honoured — filtering them out here would have made the preference a load-time decision.
+  // Muted loops autoplay/pause in view; audio clips are click-to-play. The reduced-motion gate lives inside autoPlayInView (via safePlay), so the loops are observed either way and a mid-session flip is honored — filtering them out here would have made the preference a load-time decision.
   const all: HTMLVideoElement[] = [];
   const loops: HTMLVideoElement[] = [];
   document.querySelectorAll<HTMLElement>('[data-ov-video]').forEach((fig) => {

@@ -50,7 +50,7 @@ Read-only dashboards, no toggles that affect delivery.
 
 ## 3. DNS
 
-- ✅ **Records** — there should be a **proxied (orange-cloud)** record for the apex (`mehtapratik.com`) pointing at the worker (auto-created by the Custom Domain binding in §14), plus a record for **`www`**. Confirm both exist and are **proxied**, not "DNS only" (grey cloud). Grey-cloud would bypass Cloudflare entirely and 404.
+- ✅ **Records** — there should be a **proxied (orange-cloud)** record for the apex (`mehtapratik.com`) pointing at the worker (auto-created by the Custom Domain binding in §14), plus a record for **`www`**. Confirm both exist and are **proxied**, not "DNS only" (gray cloud). Gray-cloud would bypass Cloudflare entirely and 404.
 - ✅ **`www` → apex** — make sure one canonical host wins (apex, matching `site: https://mehtapratik.com`). If `www` isn't already handled, add a **Redirect Rule** (§8) `www.mehtapratik.com/* → https://mehtapratik.com/$1`. This host-level redirect is the one redirect cleaner in the dashboard than in `_redirects` (which is path-level).
 - ✅ **Settings → DNSSEC → Enable.** Free, good hygiene; then add the DS record it shows you at your registrar. One-time.
 - ⬜ **Settings → CNAME Flattening** — default ("flatten at apex") is correct.
