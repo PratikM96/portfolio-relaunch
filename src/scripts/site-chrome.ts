@@ -94,7 +94,8 @@ if (clk) {
   setInterval(tick, 30000);
 }
 
-// reveal-on-scroll for any .rev element on the page
+// reveal-on-scroll for any .rev element on the page.
+// threshold stays 0: a ratio is a fraction of the ELEMENT, so any non-zero value reveals tall blocks late and short ones instantly. A block taller than the viewport caps out at root/height (resume's 2278px [02] reaches 0.40), so 0.1 there meant 228px of it on screen before it fired. The bottom rootMargin is what sets the trigger point, and it measures the viewport, so every .rev now reveals as its top edge crosses the same line whatever its height.
 const io = new IntersectionObserver(
   (es) => {
     es.forEach((e) => {
@@ -104,7 +105,7 @@ const io = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
+  { threshold: 0, rootMargin: '0px 0px -6% 0px' },
 );
 Array.prototype.slice
   .call(document.querySelectorAll('.rev'))
