@@ -10,7 +10,7 @@ role: Creative Technologist
 year: "2026"
 disciplines: [Design Systems, Front-end, Brand, Motion]
 featured: false
-description: "The portfolio you are reading, built as one system: brand, front-end, and performance in one artifact. Astro on Cloudflare Workers, self-hosted, measured on itself: 100 Lighthouse on desktop across every page and zero layout shift."
+description: "The portfolio you are reading, built as one system: brand, front-end, and performance in one artifact. Astro on Cloudflare Workers, self-hosted, measured on itself: 100 Lighthouse on desktop across every page."
 badge: "Concept / Self-initiated"
 lede: "The portfolio is the proof. One system from brand to front-end to performance, designed, written, and shipped solo, then measured on itself instead of described."
 disclosure: "Self-initiated. This is the site you are reading, designed, written, and built by Pratik Mehta. No client, no team, no template."
@@ -66,7 +66,7 @@ decisions:
     - { n: "01", title: "Built, not briefed", text: "The site is a working prototype, shipped and measured, not a deck describing one." }
     - { n: "02", title: "Same-origin, no CDN", text: "Self-host the fonts, media, and code. The only third party is consent-gated analytics." }
     - { n: "03", title: "One variable face per family", text: "Every weight the type scale names is a real weight, so nothing fails silently to a faux bold." }
-    - { n: "04", title: "Performance as a design constraint", text: "An LCP-safe hero, transform-only reveals, and zero layout shift on every page, checked on each change." }
+    - { n: "04", title: "Performance as a design constraint", text: "An LCP-safe hero, reveals and hovers limited to compositable properties, and every image sized from one derived scale rather than a guess, re-measured on each change." }
 
 output:
   blocks:
@@ -101,8 +101,8 @@ perfTable: true
 
 proof:
   figures:
+    # No CLS figure. A perfect Lighthouse score already entails a good CLS, so a separate "0" was a second number saying the same thing, and it was the one that could go stale: a font-swap shift of 0.009 on /brand desktop made the figure contradict the table printing it, on the same page. PerfTable carries per-page CLS as measured detail, which is where a number that moves belongs.
     - { value: "100", label: "Lighthouse, desktop" }
-    - { value: "0", label: "Layout shift (CLS)" }
     - { value: "0.5", unit: "s", label: "LCP, desktop" }
     - { value: "7", unit: "KB", label: "JS, heaviest page" }
   note:

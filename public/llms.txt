@@ -36,7 +36,7 @@ Each entry is labeled by engagement: the role Pratik held, not a client relation
 - [The Ninth](https://mehtapratik.com/work/the-ninth): Self-initiated esports membership concept, brand through product, with an AI moment-clipper prototype. Designed around a real global esports organization; unaffiliated, not commissioned, and not endorsed by it.
 - [Level](https://mehtapratik.com/work/level): Self-initiated prediction-market concept built around responsible use and product trust. Its own invented brand, not a real product.
 - [WISP](https://mehtapratik.com/work/wisp): Self-initiated concept for a faceless AI host presence. A scripted demonstration of an interaction model, not a live AI model.
-- [Portfolio System](https://mehtapratik.com/work/portfolio-system): This site, as its own case study. Design system, front-end, and infrastructure built solo, then measured on itself: 100 desktop Lighthouse and zero layout shift on every page.
+- [Portfolio System](https://mehtapratik.com/work/portfolio-system): This site, as its own case study. Design system, front-end, and infrastructure built solo, then measured on itself: 100 desktop Lighthouse on every page.
 
 ## Concept microsites (live demos, embedded as proof inside their case study)
 
