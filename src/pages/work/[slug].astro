@@ -206,9 +206,9 @@ const schema = [
     <CaseSectionHead no={no('reflection')} title="Reflection" />
     <ProseSection prose={d.reflection.prose} margin={d.reflection.margin} narrow />
     <div class="cs-next">
-      <a href={csNext.href}>
+      <a class="row-nudge" href={csNext.href}>
         <div><div class="k">{csNext.kicker}</div><div class="t">{csNext.title}</div></div>
-        <div class="arrow">→</div>
+        <div class="arrow nudge-fixed">→</div>
       </a>
     </div>
   </section>
@@ -239,20 +239,20 @@ const schema = [
   .cs-wall { margin-top: var(--space-2xl); aspect-ratio: var(--ratio-wide); }
   .cs-wall video { width: 100%; height: 100%; object-fit: cover; display: block; }
   /* the poster sits under the video and is removed once playback starts */
-  .cs-wall :global(.cs-poster) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .cs-wall.is-playing :global(.cs-poster) { display: none; }
-  .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-size: var(--fs-2xs); text-transform: uppercase; color: var(--n-0); background: var(--scrim-chip); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); }
-
-  /* click-to-play overlay; native controls take over after the first play */
-  .cs-wall.is-playing .cap { display: none; }
+  /* The poster and caption fade out together with the play button when native controls take over — one gesture, all three on --dur-quick. `visibility` rather than `display` so opacity has something to animate; both sit under the video, so nothing is left interactive. */
+  .cs-wall :global(.cs-poster) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; visibility: visible; transition: opacity var(--dur-quick) var(--ease-standard), visibility 0s; }
+  .cs-wall .cap { position: absolute; left: 16px; bottom: 14px; font-size: var(--fs-2xs); text-transform: uppercase; color: var(--n-0); background: var(--scrim-chip); backdrop-filter: blur(6px); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-none); opacity: 1; visibility: visible; transition: opacity var(--dur-quick) var(--ease-standard), visibility 0s; }
+  /* the delay sits on the HIDDEN state so both return instantly when `ended` clears the flag — same pairing as .m-drawer */
+  .cs-wall.is-playing :global(.cs-poster),
+  .cs-wall.is-playing .cap { opacity: 0; visibility: hidden; transition: opacity var(--dur-quick) var(--ease-exit), visibility 0s var(--dur-quick); }
 
   /* ===== SECTIONS / PROSE / BODY ===== */
   .cs-sec { padding: var(--space-4xl) 0; }
   /* .prose comes from global.css */
   /* ===== REFLECTION + NEXT ===== */
   .cs-next { border-top: 1px solid var(--border); margin-top: var(--space-3xl); }
-  .cs-next a { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2xl) 0; gap: var(--space-lg); transition: padding-left var(--dur-base) var(--ease-standard); }
-  .cs-next a:hover { padding-left: var(--space-sm); }
+  /* the hover nudge is .row-nudge in global.css — transform, not padding */
+  .cs-next a { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2xl) 0; gap: var(--space-lg); }
   .cs-next .k { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); }
   .cs-next .t { font-size: var(--fs-fluid-2xl); line-height: 1; margin-top: var(--space-sm); }
   /* Not a type tier: a single → glyph, so it takes the display family only. */

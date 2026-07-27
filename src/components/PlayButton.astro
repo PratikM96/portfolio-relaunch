@@ -24,7 +24,7 @@ const { label, size = 64, hook } = Astro.props;
     position: absolute; inset: 0; width: 100%; height: 100%;
     display: grid; place-items: center; border: 0; cursor: pointer;
     background: var(--scrim-base);
-    transition: background var(--dur-base) var(--ease-standard);
+    transition: background-color var(--dur-quick) var(--ease-standard);
   }
   .play-btn:hover { background: var(--scrim-hover); }
   .play-btn::before {
@@ -32,9 +32,9 @@ const { label, size = 64, hook } = Astro.props;
     width: var(--play-size); height: var(--play-size);
     border-radius: var(--radius-full); background: var(--n-0);
     box-shadow: var(--shadow-overlay);
-    transition: transform var(--dur-base) var(--ease-standard);
+    transition: transform var(--dur-quick) var(--ease-standard);
   }
-  .play-btn:hover::before { transform: scale(1.06); }
+  .play-btn:hover::before { transform: scale(var(--scale-control)); }
   /* A CSS triangle is a border trick, so its box is the full width but its
      visual mass sits at 1/3 from the left. `place-items: center` centres the
      box, so nudge right by w/6 to centre what the eye sees. Both sizes were
@@ -46,5 +46,8 @@ const { label, size = 64, hook } = Astro.props;
     border-color: transparent transparent transparent var(--n-950);
     margin-left: calc(var(--tri-w) / 6);
   }
-  :global(.is-playing) .play-btn { display: none; }
+  /* Handing over to native controls is the one state change on the site that used to hard-cut. It fades instead, and `visibility` (not `display`) is what removes it from the pointer and the tab order, so the opacity has something to animate. */
+  .play-btn { opacity: 1; visibility: visible; transition: background-color var(--dur-quick) var(--ease-standard), opacity var(--dur-quick) var(--ease-standard), visibility 0s; }
+  /* the delay sits on the HIDDEN state, so the button leaves after its fade but returns instantly when `ended` clears the flag — same pairing as .m-drawer */
+  :global(.is-playing) .play-btn { opacity: 0; visibility: hidden; transition: opacity var(--dur-quick) var(--ease-exit), visibility 0s var(--dur-quick); }
 </style>

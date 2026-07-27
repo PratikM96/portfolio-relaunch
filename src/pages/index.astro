@@ -95,10 +95,11 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   {/* BENTO — featured */}
   <section class="block" id="featured">
     <SectionLabel code="01" title="Featured" />
-    <div class="bento rev">
+    {/* The reveal moved from this wrapper onto the cards so the row builds left to right rather than arriving as one slab. --rev-i is the item's place in the stagger; global.css turns it into a delay. */}
+    <div class="bento">
       <div class="feat-row">
-        {bento.map((p) => (
-          <a class="card card--interactive t-feat" href={`/work/${p.slug}`}>
+        {bento.map((p, i) => (
+          <a class="card card--interactive t-feat rev" style={`--rev-i:${i}`} href={`/work/${p.slug}`}>
             <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
             <div class="img">
               <video class="tile-video" muted loop playsinline preload="none" data-slug={p.slug} poster={cardPath(p.slug).poster}>
@@ -123,10 +124,10 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
           Claim Registry's public wording verbatim, and /resume renders the same strings:
           "10K+" was a variant of "10,000+" and drifted from it. */}
       <div class="stat-row">
-        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="10+" /></div><div class="lab">years of cross-channel experience</div></div>
-        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="20+" /></div><div class="lab">brands, partners, and organizations</div></div>
-        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="75+" /></div><div class="lab">campaigns launched</div></div>
-        <div class="card card--interactive t-stat"><div class="fig"><StatFigure value="10,000+" /></div><div class="lab">design assets produced</div></div>
+        <div class="card card--interactive t-stat rev" style="--rev-i:0"><div class="fig"><StatFigure value="10+" /></div><div class="lab">years of cross-channel experience</div></div>
+        <div class="card card--interactive t-stat rev" style="--rev-i:1"><div class="fig"><StatFigure value="20+" /></div><div class="lab">brands, partners, and organizations</div></div>
+        <div class="card card--interactive t-stat rev" style="--rev-i:2"><div class="fig"><StatFigure value="75+" /></div><div class="lab">campaigns launched</div></div>
+        <div class="card card--interactive t-stat rev" style="--rev-i:3"><div class="fig"><StatFigure value="10,000+" /></div><div class="lab">design assets produced</div></div>
       </div>
     </div>
   </section>
@@ -175,14 +176,14 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
           <p>Notes on systems, brand, and AI. The first posts go up after launch.</p>
         </div>
       ) : (
-        <div class="jr-list rev">
-          {journalPosts.map((p) => (
-            <a class="jr-row" href={`/journal/${p.id}`}>
+        <div class="jr-list">
+          {journalPosts.map((p, i) => (
+            <a class="jr-row row-nudge rev" style={`--rev-i:${i}`} href={`/journal/${p.id}`}>
               <div class="jr-text">
                 <div class="jr-t">{p.data.title}</div>
                 <div class="jr-ex">{p.data.excerpt}</div>
               </div>
-              <div class="jr-m">
+              <div class="jr-m nudge-fixed">
                 {[p.data.topic, formatDate(p.data.date), p.data.readingTime].filter(Boolean).join(' / ')}
               </div>
             </a>
@@ -194,7 +195,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
 
   {/* Hero animation: loop + pause off-screen + click-to-toggle + reduced-motion */}
   <script>
-    import { prefersReducedMotion } from '../scripts/motion';
+    import { prefersReducedMotion, observeInView, onReducedMotionChange } from '../scripts/motion';
     (function () {
       const btn = document.querySelector('[data-hero-video]');
       if (!btn) return;
@@ -223,21 +224,21 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
       // Information API is Chromium-only, so every read is guarded.
       var conn = (navigator as any).connection;
       var frugal = !!conn && (conn.saveData === true || /^((slow-)?2g|3g)$/.test(conn.effectiveType || ''));
+      // The shim ignores the `{ timeout }` it is handed below, and that is correct rather than a dropped argument: it fires at a fixed 200ms, which already lands well inside the 2000ms deadline that option exists to enforce. Declaring the parameter just to discard it only buys an unused-variable warning.
       var idle = (window as any).requestIdleCallback || function (cb: () => void) { return setTimeout(cb, 200); };
       var start = function () { idle(function () { ready = true; autoPlay(); }, { timeout: 2000 }); };
       if (prefersReducedMotion() || frugal) { video.pause(); }
       else if (document.readyState === 'complete') start();
       else window.addEventListener('load', start, { once: true });
 
-      // pause off-screen, resume when back
-      if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (es) {
-          es.forEach(function (e) {
-            inView = e.isIntersecting;
-            if (inView) autoPlay(); else video.pause();
-          });
-        }, { threshold: 0.25 }).observe(btn);
-      }
+      // pause off-screen, resume when back — shared threshold, shared observer shape
+      observeInView(btn, function (visible) {
+        inView = visible;
+        if (inView) autoPlay(); else video.pause();
+      });
+
+      // a mid-session opt-in stops the hero without needing a reload
+      onReducedMotionChange(function (reduce) { if (reduce) video.pause(); });
 
       // click anywhere on the video toggles play/pause
       btn.addEventListener('click', function () {
@@ -311,7 +312,7 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
     color: var(--n-50); background: var(--scrim-chip);
     backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
     padding: 0 var(--space-xs); border-radius: var(--radius-none);
-    opacity: 0; transition: opacity var(--dur-base) var(--ease-standard); pointer-events: none;
+    opacity: 0; transition: opacity var(--dur-quick) var(--ease-standard); pointer-events: none;
   }
   .hero-video:hover .hero-video-state,
   .hero-video:focus-visible .hero-video-state,
@@ -331,11 +332,11 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
 
   .t-feat { display: flex; flex-direction: column; }
   .t-feat .img { aspect-ratio: var(--ratio-wide); overflow: hidden; position: relative; }
-  .t-feat .img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-deliberate) var(--ease-standard); }
-  .t-feat:hover .img img { transform: scale(1.03); }
+  .t-feat .img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-settle) var(--ease-standard); }
+  .t-feat:hover .img img { transform: scale(var(--scale-hover)); }
   /* hover-to-play clip over the tile cover; poster shows at rest */
-  .tile-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-deliberate) var(--ease-standard); }
-  .t-feat:hover .tile-video { transform: scale(1.03); }
+  .tile-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-settle) var(--ease-standard); }
+  .t-feat:hover .tile-video { transform: scale(var(--scale-hover)); }
   .t-feat .meta { padding: var(--space-lg); display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-md); }
   .t-feat .meta p { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--space-xs); max-width: var(--measure-md); }
   .t-feat .meta .disc { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
@@ -373,9 +374,9 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
   .jr-empty p { font-size: var(--fs-xl); color: var(--text-secondary); }
 
   .jr-list { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
-  .jr-row { display: grid; grid-template-columns: 1fr auto; gap: var(--space-xl); align-items: baseline; padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); transition: padding-left var(--dur-base) var(--ease-standard); }
-  .jr-row:hover { padding-left: var(--space-sm); }
-  .jr-t { font-size: var(--fs-fluid-md); color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard); }
+  /* the hover nudge is .row-nudge in global.css — transform, not padding */
+  .jr-row { display: grid; grid-template-columns: 1fr auto; gap: var(--space-xl); align-items: baseline; padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); }
+  .jr-t { font-size: var(--fs-fluid-md); color: var(--text-secondary); transition: color var(--dur-quick) var(--ease-standard); }
   .jr-row:hover .jr-t { color: var(--text); }
   .jr-ex { font-size: var(--fs-sm); color: var(--text-muted); margin-top: var(--space-xs); max-width: var(--measure-xl); }
   .jr-m { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }

@@ -1,7 +1,9 @@
 /**
  * Work-card hover clips. Every entry ships both variants at /wc/<slug>/: the dark set (card.webm / poster.webp) and a `-light` sibling.
  */
-import { prefersReducedMotion } from './motion';
+import { canHover, safePlay, onReducedMotionChange } from './motion';
+
+export { canHover };
 
 export type CardPaths = { webm: string; poster: string };
 
@@ -11,13 +13,6 @@ function cardPaths(slug: string): CardPaths {
     webm: `/wc/${slug}/card${suffix}.webm`,
     poster: `/wc/${slug}/poster${suffix}.webp`,
   };
-}
-
-/**
- * Gate hover clips on this, never on width. A touch device can't play them, and they aren't free: load() with a fresh <source> fetches despite preload="none".
- */
-export function canHover(): boolean {
-  return window.matchMedia('(hover: hover)').matches;
 }
 
 /** Theme-correct poster only — no <source>, no load(), so nothing is fetched. */
@@ -48,7 +43,7 @@ export function onThemeChange(cb: () => void): () => void {
  * Wire hover-to-play work cards: play the muted loop on enter, snap back to the poster on leave, re-point at the matching variant on a theme flip. Used by the home bento tiles and the /work featured pair. Reduced motion or no hovering pointer → poster only (and no hover means the clip is never fetched).
  */
 export function wireHoverCards(cardSelector: string, videoSelector: string): void {
-  const reduce = prefersReducedMotion();
+  // `hover` is snapshotted because it decides whether to FETCH, and a fetch can't be taken back. Playback is not snapshotted: safePlay re-reads reduced motion each time, so a mid-session flip is honoured.
   const hover = canHover();
   const vids: HTMLVideoElement[] = [];
   document.querySelectorAll<HTMLElement>(cardSelector).forEach((card) => {
@@ -57,13 +52,15 @@ export function wireHoverCards(cardSelector: string, videoSelector: string): voi
     vids.push(v);
     if (!hover) { applyCardPoster(v, v.dataset.slug!); return; }
     applyCardSources(v, v.dataset.slug!);
-    card.addEventListener('mouseenter', () => { if (!reduce) v.play().catch(() => {}); });
+    card.addEventListener('mouseenter', () => safePlay(v));
     card.addEventListener('mouseleave', () => { v.pause(); v.load(); });
   });
   onThemeChange(() => vids.forEach((v) => {
     if (!hover) { applyCardPoster(v, v.dataset.slug!); return; }
     const wasPlaying = !v.paused;
     applyCardSources(v, v.dataset.slug!);
-    if (wasPlaying && !reduce) v.play().catch(() => {});
+    if (wasPlaying) safePlay(v);
   }));
+  // opting into reduced motion mid-session stops the clip under the cursor
+  onReducedMotionChange((reduce) => { if (reduce) vids.forEach((v) => v.pause()); });
 }

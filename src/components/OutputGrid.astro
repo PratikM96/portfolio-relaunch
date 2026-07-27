@@ -282,11 +282,9 @@ const clipSrc = (clip: string) => outputClip(slug, clip);
 </style>
 
 <script>
-  import { prefersReducedMotion, autoPlayInView, wireClickToPlay } from '../scripts/motion';
+  import { autoPlayInView, wireClickToPlay } from '../scripts/motion';
 
-  // Muted loops autoplay/pause in view; audio clips are click-to-play.
-  const reduce = prefersReducedMotion();
-
+  // Muted loops autoplay/pause in view; audio clips are click-to-play. The reduced-motion gate lives inside autoPlayInView (via safePlay), so the loops are observed either way and a mid-session flip is honoured — filtering them out here would have made the preference a load-time decision.
   const all: HTMLVideoElement[] = [];
   const loops: HTMLVideoElement[] = [];
   document.querySelectorAll<HTMLElement>('[data-ov-video]').forEach((fig) => {
@@ -299,7 +297,7 @@ const clipSrc = (clip: string) => outputClip(slug, clip);
       if (btn) wireClickToPlay(fig, video, btn);
       return;
     }
-    if (!reduce) loops.push(video);
+    loops.push(video);
   });
 
   // A <video poster> fetches eagerly even under preload="none", so these
@@ -321,5 +319,5 @@ const clipSrc = (clip: string) => outputClip(slug, clip);
     all.forEach((v) => { if (v.dataset.poster) v.poster = v.dataset.poster; });
   }
 
-  autoPlayInView(loops, { threshold: 0.25 });
+  autoPlayInView(loops);
 </script>

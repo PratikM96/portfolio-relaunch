@@ -49,10 +49,10 @@ const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
 
   /* one row of four on desktop; 2-up on tablet, 1-up on mobile */
   .cgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-top: var(--space-2xl); max-width: 1040px; }
-  .ccell { background: var(--surface); padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-sm); transition: background var(--dur-base) var(--ease-standard); }
+  .ccell { background: var(--surface); padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-sm); transition: background-color var(--dur-quick) var(--ease-standard); }
   .ccell:hover { background: var(--surface-raised); }
   .ccell .k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); }
-  .ccell .v { font-size: var(--fs-md); color: var(--text); word-break: break-word; transition: color var(--dur-base) var(--ease-standard); }
+  .ccell .v { font-size: var(--fs-md); color: var(--text); word-break: break-word; transition: color var(--dur-quick) var(--ease-standard); }
   .ccell:hover .v { color: var(--accent-text); }
 
   @media (max-width: 900px) { .chero { padding: var(--space-3xl) 0 var(--space-3xl); } .cgrid { grid-template-columns: repeat(2, 1fr); max-width: 620px; } }

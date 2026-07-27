@@ -34,10 +34,30 @@ const radii = [
   { token: '--radius-md', name: 'md', star: true }, { token: '--radius-lg', name: 'lg' },
   { token: '--radius-xl', name: 'xl' }, { token: '--radius-full', name: 'full' },
 ];
+// The motion scale, read live like every other ladder on this page. Names say what the motion MEANS; the `for` column is the honest usage, so keep it true if a duration moves.
 const durations = [
-  { token: '--dur-fast', name: 'fast', w: 48 }, { token: '--dur-base', name: 'base', w: 80, star: true },
-  { token: '--dur-reveal', name: 'reveal', w: 112 },
-  { token: '--dur-slow', name: 'slow', w: 128 }, { token: '--dur-deliberate', name: 'deliberate', w: 200 },
+  { token: '--dur-instant', name: 'instant', for: 'the echo under a press' },
+  { token: '--dur-quick', name: 'quick', for: 'colour, border, background, opacity', star: true },
+  { token: '--dur-enter', name: 'enter', for: 'above-the-fold arrival (.rev-load)' },
+  { token: '--dur-move', name: 'move', for: 'drawer, button lift, theme flip' },
+  { token: '--dur-settle', name: 'settle', for: 'below-the-fold arrival (.rev), media scale' },
+  { token: '--dur-ambient', name: 'ambient', for: 'the status dot, looping forever' },
+];
+
+const easings = [
+  { token: '--ease-standard', name: 'standard', for: 'entrances and most moves', star: true },
+  { token: '--ease-exit', name: 'exit', for: 'dismissals: drawer close, consent' },
+  { token: '--ease-in-out', name: 'in-out', for: 'leaves AND arrives: theme, page transitions' },
+];
+
+// Distance and scale, rendered as real geometry so a swatch cannot disagree with its token.
+const travels = [
+  { token: '--travel-xs', name: 'travel-xs', for: 'the button lift' },
+  { token: '--travel-sm', name: 'travel-sm', for: 'reveal slide, row hover nudge' },
+];
+const scales = [
+  { token: '--scale-hover', name: 'scale-hover', for: 'media hover: cards, tiles, stills' },
+  { token: '--scale-control', name: 'scale-control', for: 'small controls: the play button' },
 ];
 
 // The size scale, read live like everything else on this page. A tier says which face; a step says how big.
@@ -248,19 +268,60 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     </div>
   </section>
 
-  {/* 06 MOTION */}
+  {/* 06 MOTION — every demo below is driven by the token it documents, so a bar cannot claim one duration while animating another. Hover a row to replay it. */}
   <section class="bsec">
     <div class="blabel"><span class="c">[ 06 ]</span><h2 class="t">Motion / functional, not decorative</h2><span class="rule"></span></div>
-    <p class="intro">Quick and confident. One ease-out curve, five durations, short travel, no bounce. Reels inherit this: cuts over fades, snap transitions.</p>
-    <div class="motion">
-      <div class="durs">
-        {durations.map((d) => (
-          <div class="d-row"><div class="d-lab">{d.name} / {tokenValue(d.token)}{d.star ? ' ★' : ''}</div><div class="d-bar" style={`width:${d.w}px`}></div></div>
-        ))}
-        <div class="mono muted" style="font-size:var(--fs-2xs);margin-top:var(--space-md)">ease / {tokenValue('--ease-standard')}</div>
-      </div>
-      <div class="hoverdemo"><a class="btn btn-p" href="/work">View work</a><div class="mono muted" style="font-size:var(--fs-2xs)">Hover</div></div>
+    <p class="intro">Quick and confident. Short travel, no bounce. The names say what a motion <em>means</em>, not how fast it is, so a rule picks by intent: a colour swap is <code>quick</code> wherever it sits, a slide is <code>move</code> whatever the distance. Reels inherit this: cuts over fades, snap transitions.</p>
+
+    <div class="subhead">Duration / six steps</div>
+    <p class="intro">Every <code>transition</code> and <code>animation</code> on the site composes one of these. <code>quick</code> is the anchor and carries most of it. Hover a row to play it at its real duration.</p>
+    <div class="durs">
+      {durations.map((d) => (
+        <div class="d-row">
+          <div class="z-lab">{d.name}{d.star ? ' ★' : ''} / {tokenValue(d.token)}</div>
+          <div class="d-track"><span class="d-dot" style={`transition-duration: var(${d.token})`}></span></div>
+          <div class="z-for">{d.for}</div>
+        </div>
+      ))}
     </div>
+
+    <div class="subhead">Easing / three curves</div>
+    <p class="intro">Same distance, same duration, different curve. Each one has a job: an entrance and a dismissal should not feel alike, and a move that leaves and arrives wants a curve that eases at both ends.</p>
+    <div class="durs">
+      {easings.map((e) => (
+        <div class="d-row">
+          <div class="z-lab">{e.name}{e.star ? ' ★' : ''}</div>
+          <div class="d-track"><span class="d-dot" style={`transition-duration: var(--dur-settle); transition-timing-function: var(${e.token})`}></span></div>
+          <div class="z-for">{e.for}</div>
+        </div>
+      ))}
+    </div>
+    <div class="mono muted gridnote">{easings.map((e) => `${e.name} ${tokenValue(e.token)}`).join('   /   ')}</div>
+
+    <div class="subhead">Distance and scale</div>
+    <p class="intro">A transform's magnitude is a token too, or three hover scales drift apart the way they had. The two scales are a pair, not a ladder: a small control needs more scale than a card to read as the same gesture.</p>
+    <div class="durs">
+      {travels.map((t) => (
+        <div class="d-row">
+          <div class="z-lab">{t.name} / {tokenValue(t.token)}</div>
+          <div class="d-track"><span class="d-bar-fixed" style={`height: var(${t.token})`}></span></div>
+          <div class="z-for">{t.for}</div>
+        </div>
+      ))}
+      {scales.map((s) => (
+        <div class="d-row">
+          <div class="z-lab">{s.name} / {tokenValue(s.token)}</div>
+          <div class="d-track"><span class="d-square" style={`--to: var(${s.token})`}></span></div>
+          <div class="z-for">{s.for}</div>
+        </div>
+      ))}
+    </div>
+    <div class="mono muted gridnote">plus <code>--stagger-step</code> ({tokenValue('--stagger-step')}), the per-item delay in a staggered list reveal.</div>
+
+    <div class="subhead">Reduced motion</div>
+    <p class="intro">Here "reduce" means <em>remove</em>. Killing the tween alone still lets a hover end-state apply, so a card would jump 3% larger in a single frame, and a snap is still movement. Under <code>prefers-reduced-motion</code> every transition and animation is off, nothing translates or scales, page transitions are cancelled, and smooth scrolling reverts to instant. Hover stays legible on colour and border alone. Video is gated in JavaScript, since CSS cannot stop playback.</p>
+
+    <div class="hoverdemo"><a class="btn btn-p" href="/work">View work</a><div class="mono muted" style="font-size:var(--fs-2xs)">Hover to lift on move / press for instant</div></div>
   </section>
 
   {/* 07 ACCESSIBILITY */}
@@ -544,14 +605,25 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .r-row { display: flex; gap: var(--space-md); flex-wrap: wrap; }
   .r-box { width: 60px; height: 60px; background: var(--surface); border: 1.5px solid var(--text); }
 
-  /* motion */
-  .motion { display: flex; gap: var(--space-xl); flex-wrap: wrap; align-items: flex-start; }
-  .durs { flex: 1; min-width: 240px; }
-  .d-row { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xs); }
-  .d-lab { font-size: var(--fs-2xs); color: var(--text-secondary); width: 160px; flex-shrink: 0; }
-  .d-bar { height: 8px; background: var(--accent-fill); border-radius: var(--radius-sm); }
+  /* motion — same three-column shape as the size and measure ladders above */
+  .durs { margin-top: var(--space-md); }
+  .d-row { display: grid; grid-template-columns: 200px minmax(0, 1fr) 240px; gap: var(--space-md); align-items: center; padding: var(--space-xs) 0; border-bottom: 1px solid var(--border); }
+  .d-row:last-child { border-bottom: none; }
+  /* The track is the demo. Its dot is driven ONLY by the token on the element, so the row cannot print one duration and animate another the way the old hardcoded-px bars could. */
+  /* container-type is what makes cqw resolve against the TRACK rather than the viewport — without it the dot would travel a fraction of the window instead of its own lane. */
+  .d-track { position: relative; container-type: inline-size; height: 18px; background: color-mix(in srgb, var(--accent-fill) 10%, transparent); border-radius: var(--radius-sm); overflow: hidden; }
+  /* duration and curve come from the row's inline style, i.e. straight off the token */
+  .d-dot { position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; border-radius: var(--radius-full); background: var(--accent-fill); transition-property: transform; transition-timing-function: var(--ease-standard); }
+  .d-row:hover .d-dot { transform: translateX(calc(100cqw - 18px)); }
+  /* distance + scale read as static geometry, sized by the token itself */
+  .d-bar-fixed { position: absolute; top: 50%; left: 3px; width: 64px; transform: translateY(-50%); background: var(--accent-fill); border-radius: var(--radius-sm); }
+  .d-square { position: absolute; top: 50%; left: 3px; width: 12px; height: 12px; transform: translateY(-50%); background: var(--accent-fill); border-radius: var(--radius-sm); transition: transform var(--dur-settle) var(--ease-standard); }
+  .d-row:hover .d-square { transform: translateY(-50%) scale(var(--to)); }
+  @media (max-width: 900px) {
+    .d-row { grid-template-columns: 1fr; gap: var(--space-2xs); }
+  }
   /* hover demo: label sits below the button, which lifts on hover */
-  .hoverdemo { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
+  .hoverdemo { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); margin-top: var(--space-2xl); }
 
   /* a11y */
   table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); margin-top: var(--space-xs); }

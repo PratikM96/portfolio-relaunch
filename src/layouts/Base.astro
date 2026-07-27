@@ -213,8 +213,8 @@ const ldGraph = {
   }
 
 
-      .skip-link { position: fixed; top: 10px; left: 10px; z-index: 99999; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); background: var(--surface-raised); color: var(--text); font-size: var(--fs-xs); text-transform: uppercase; text-decoration: none; transform: translateY(-160%); transition: transform var(--dur-base) var(--ease-standard); }
-      .skip-link:focus { transform: none; outline: 2px solid var(--accent-fill); outline-offset: 2px; }
+      .skip-link { position: fixed; top: 10px; left: 10px; z-index: 99999; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); background: var(--surface-raised); color: var(--text); font-size: var(--fs-xs); text-transform: uppercase; text-decoration: none; transform: translateY(-160%); transition: transform var(--dur-quick) var(--ease-standard); }
+      .skip-link:focus { transform: none; outline: 2px solid var(--accent-fill); outline-offset: 3px; }
     </style>
     {/* CONSOLE RAIL */}
     <aside class:list={['console', isCase && 'cs']}>
@@ -384,14 +384,23 @@ const ldGraph = {
 
 
       .consent { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9998; max-width: 700px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-lg); padding: var(--space-md) var(--space-lg); background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow-raised); }
-      .consent[hidden] { display: none; }
+      /* The banner is the last surface on the site that appeared and vanished with no motion at all. It slides up on arrival and drops away on dismiss, driven entirely by the `hidden` attribute the consent script already toggles — no JS timing, so nothing can drift from these durations. `display` is in the transition with allow-discrete so the hidden state still leaves the layout; @starting-style gives the first paint somewhere to animate FROM. Browsers without either land on the old instant show/hide. */
+      .consent {
+        transition: opacity var(--dur-move) var(--ease-standard), transform var(--dur-move) var(--ease-standard), display var(--dur-move) allow-discrete;
+      }
+      @starting-style { .consent { opacity: 0; transform: translateY(var(--travel-sm)); } }
+      .consent[hidden] {
+        display: none; opacity: 0; transform: translateY(var(--travel-sm));
+        transition: opacity var(--dur-move) var(--ease-exit), transform var(--dur-move) var(--ease-exit), display var(--dur-move) allow-discrete;
+      }
       .consent-txt { flex: 1; min-width: 260px; margin: 0; font-size: var(--fs-sm); line-height: 1.5; color: var(--text-secondary); text-wrap: balance; }
       .consent-txt a { color: var(--accent-text); text-decoration: underline; }
       .consent-btns { display: flex; gap: var(--space-sm); flex: none; }
-      .consent button { font-size: var(--fs-2xs); text-transform: uppercase; padding: var(--space-xs) var(--space-md); border-radius: var(--radius-full); cursor: pointer; border: 1px solid var(--border-strong); background: transparent; color: var(--text); transition: border-color var(--dur-base) var(--ease-standard), background var(--dur-base) var(--ease-standard); }
+      .consent button { font-size: var(--fs-2xs); text-transform: uppercase; padding: var(--space-xs) var(--space-md); border-radius: var(--radius-full); cursor: pointer; border: 1px solid var(--border-strong); background: transparent; color: var(--text); transition: border-color var(--dur-quick) var(--ease-standard), background-color var(--dur-quick) var(--ease-standard); }
       .consent button:hover { border-color: var(--text); }
       .consent button.primary { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent); }
-      .consent button:focus-visible { outline: 2px solid var(--accent-fill); outline-offset: 2px; }
+      /* offset matches the site ring in global.css — one focus gesture everywhere */
+      .consent button:focus-visible { outline: 2px solid var(--accent-fill); outline-offset: 3px; }
       /* type + colour come from `.foot .fl button` in global.css */
       .foot-cookies { background: none; border: 0; padding: 0; cursor: pointer; }
     </style>

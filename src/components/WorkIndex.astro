@@ -83,9 +83,11 @@ const first = projects[0]!;
       <span class="cells"><span>Project</span><span>Role</span></span>
       <span class="yr">Year</span>
     </div>
+    {/* The stagger index caps at 6: /work carries the whole collection, and an uncapped ladder would leave the last row waiting most of a second after it was already on screen. */}
     {projects.map((p, i) => (
       <a
-        class:list={['idx-row', i === 0 && 'active']}
+        class:list={['idx-row', 'row-nudge', 'rev', i === 0 && 'active']}
+        style={`--rev-i:${Math.min(i, 6)}`}
         href={p.href}
         data-tags={p.tags}
         data-slug={p.slug}
@@ -99,7 +101,7 @@ const first = projects[0]!;
           <span class:list={['ty', p.type]}>{TYPE_LABEL[p.type]}</span>
           <span class="disc">{p.disc}</span>
         </span>
-        <span class="yr">{p.year}</span>
+        <span class="yr nudge-fixed">{p.year}</span>
       </a>
     ))}
     <div class="idx-empty" hidden>No work matches that filter.</div>
@@ -115,7 +117,7 @@ const first = projects[0]!;
 
 <script>
   import { applyCardPoster, applyCardSources, onThemeChange } from '../scripts/card-video';
-  import { prefersReducedMotion } from '../scripts/motion';
+  import { canHover, safePlay, onReducedMotionChange } from '../scripts/motion';
 
   // Sticky preview + single-select filter (type or discipline token).
   const rows = [...document.querySelectorAll<HTMLAnchorElement>('.idx-row')];
@@ -125,7 +127,8 @@ const first = projects[0]!;
   const pvOpen = document.getElementById('pv-open');
   const pvVideo = document.getElementById('pv-video') as HTMLVideoElement | null;
   const empty = document.querySelector<HTMLElement>('.idx-empty');
-  const reduceMotion = prefersReducedMotion();
+  // Same rule as the hover cards: gate the clip on a hovering pointer, never on width. `focus` fires on touch too, so without this a phone fetched a clip into a pane that is display:none below 1100px.
+  const hover = canHover();
 
   // `clip: false` sets the poster only — no <source>, no load(), no bytes. The
   // initial selection uses it because the pane is display:none below 1100px,
@@ -136,14 +139,12 @@ const first = projects[0]!;
     r.classList.add('active');
     const slug = r.dataset.slug;
     if (pvVideo && slug) {
-      if (!clip) {
+      if (!clip || !hover) {
         applyCardPoster(pvVideo, slug);
       } else {
         applyCardSources(pvVideo, slug);
-        if (!reduceMotion) {
-          pvVideo.currentTime = 0;
-          pvVideo.play().catch(() => {});
-        }
+        pvVideo.currentTime = 0;
+        safePlay(pvVideo);
       }
     }
     pvT.textContent = r.dataset.t ?? '';
@@ -165,9 +166,12 @@ const first = projects[0]!;
       if (!pvVideo.dataset.wired) { applyCardPoster(pvVideo, active.dataset.slug); return; }
       const wasPlaying = !pvVideo.paused;
       applyCardSources(pvVideo, active.dataset.slug);
-      if (wasPlaying && !reduceMotion) pvVideo.play().catch(() => {});
+      if (wasPlaying) safePlay(pvVideo);
     }
   });
+
+  // a mid-session opt-in to reduced motion stops the pane
+  onReducedMotionChange((reduce) => { if (reduce) pvVideo?.pause(); });
 
   const fbtns = [...document.querySelectorAll<HTMLButtonElement>('#filters button')];
   fbtns.forEach((b) => {
@@ -222,7 +226,7 @@ const first = projects[0]!;
   .filters { display: flex; flex-wrap: wrap; gap: var(--space-xs); align-items: center; padding: var(--space-lg) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
   .filters.sticky { position: sticky; top: 0; background: var(--bg); z-index: 20; }
   .filters .fl-k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); margin-right: var(--space-xs); }
-  .filters button { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); background: none; border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: var(--space-xs) var(--space-sm); cursor: pointer; transition: color var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard), background var(--dur-base) var(--ease-standard); }
+  .filters button { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); background: none; border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: var(--space-xs) var(--space-sm); cursor: pointer; transition: color var(--dur-quick) var(--ease-standard), border-color var(--dur-quick) var(--ease-standard), background-color var(--dur-quick) var(--ease-standard); }
   .filters button:hover { color: var(--text); }
   .filters button.on { color: var(--on-accent); background: var(--accent-fill); border-color: var(--accent-fill); }
   .filters .div { width: 1px; height: 20px; background: var(--border-strong); margin: 0 var(--space-2xs); }
@@ -238,13 +242,13 @@ const first = projects[0]!;
   .idx-head { padding: var(--space-sm) 0; border-bottom: 1px solid var(--border); }
   .idx-head span { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); }
   .idx-head .yr { text-align: right; }
-  .idx-row { padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: padding-left var(--dur-base) var(--ease-standard); }
+  .idx-row { padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); cursor: pointer; }
   .idx-row.hidden { display: none; }
   .idx-row:last-of-type { border-bottom: none; }
-  .idx-row:hover, .idx-row.active { padding-left: var(--space-sm); }
+  /* the hover nudge is .row-nudge in global.css — transform, not padding */
   .idx-row .ix { font-size: var(--fs-xs); color: var(--text-muted); }
   .idx-row.active .ix { color: var(--accent-text); }
-  .idx-row .nm b { font-size: var(--fs-xl); color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard); }
+  .idx-row .nm b { font-size: var(--fs-xl); color: var(--text-secondary); transition: color var(--dur-quick) var(--ease-standard); }
   .idx-row:hover .nm b, .idx-row.active .nm b { color: var(--text); }
   /* the category chip sits on the second line, under the title it qualifies */
   .idx-row .ty { justify-self: start; font-size: var(--fs-3xs); text-transform: uppercase; padding: 3px var(--space-xs); border-radius: var(--radius-none); border: 1px solid var(--border-strong); color: var(--text-muted); white-space: nowrap; }

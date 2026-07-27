@@ -87,20 +87,32 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  transition: background var(--dur-slow) var(--ease-standard), color var(--dur-slow) var(--ease-standard);
+  /* the theme flip leaves one colour and arrives at another, which is what --ease-in-out is for; hovers elsewhere stay on --ease-standard */
+  transition: background-color var(--dur-move) var(--ease-in-out), color var(--dur-move) var(--ease-in-out);
 }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 ::selection { background: var(--accent-fill); color: var(--on-accent); }
+/* One focus ring for the whole site. Same width, colour and offset everywhere — a ring that changes shape between surfaces reads as two different systems. It does not animate: a moving focus indicator is harder to track, which is the opposite of its job. */
 :focus-visible { outline: 2px solid var(--accent-fill); outline-offset: 3px; }
 .mono { font-size: var(--fs-2xs); color: var(--text-muted); }
+
+/* ===== page transitions =====
+   Native CROSS-DOCUMENT view transitions: one at-rule, zero JavaScript. Deliberately not Astro's <ClientRouter />, which is a client-side router and would spend the JS budget this site is measured on. Browsers without support navigate normally, so there is nothing to fall back to.
+   Only the timing is customised. The default root cross-fade is the right gesture; it just needs to run on the system's clock rather than the UA's 250ms, and the curve is --ease-in-out because a cross-fade leaves and arrives at once. Lighthouse never sees this: it measures a cold first load, which has no outgoing snapshot to transition from. */
+@view-transition { navigation: auto; }
+::view-transition-group(*) {
+  animation-duration: var(--dur-quick);
+  animation-timing-function: var(--ease-in-out);
+}
 
 /* ===== CONSOLE RAIL ===== */
 .console {
   position: fixed; top: 0; left: 0; bottom: 0; width: var(--rail);
   border-right: 1px solid var(--border); background: var(--bg);
   display: flex; flex-direction: column; padding: var(--space-xl) var(--space-lg); z-index: 50;
-  transition: background var(--dur-slow) var(--ease-standard), border-color var(--dur-slow) var(--ease-standard);
+  /* same theme cross-fade as <body> above, so the rail and the page arrive together */
+  transition: background-color var(--dur-move) var(--ease-in-out), border-color var(--dur-move) var(--ease-in-out);
 }
 .console .brand {
   display: flex; flex-direction: row; align-items: center; gap: var(--space-sm);
@@ -113,7 +125,7 @@ img { display: block; max-width: 100%; }
 .console nav a {
   font-size: var(--fs-sm); color: var(--text-secondary); padding: var(--space-xs) 0;
   display: flex; align-items: baseline; gap: var(--space-sm);
-  transition: color var(--dur-base) var(--ease-standard);
+  transition: color var(--dur-quick) var(--ease-standard);
 }
 .console nav a .ix { font-size: var(--fs-3xs); color: var(--text-muted); width: 20px; }
 .console nav a:hover, .console nav a.active { color: var(--text); }
@@ -149,7 +161,7 @@ img { display: block; max-width: 100%; }
 .m-readout .status .dot::after {
   content: ""; position: absolute; inset: 0; border-radius: var(--radius-full);
   background: color-mix(in srgb, var(--accent-fill) 45%, transparent);
-  animation: pulse var(--dur-pulse) infinite var(--ease-standard);
+  animation: pulse var(--dur-ambient) infinite var(--ease-standard);
 }
 @keyframes pulse {
   0% { transform: scale(1); opacity: 1; }
@@ -161,7 +173,7 @@ img { display: block; max-width: 100%; }
 .tg { display: flex; align-items: center; gap: var(--space-xs); }
 .tg button {
   font-size: var(--fs-2xs); background: none; border: none; padding: 0; margin: 0;
-  cursor: pointer; color: var(--text-muted); transition: color var(--dur-base) var(--ease-standard);
+  cursor: pointer; color: var(--text-muted); transition: color var(--dur-quick) var(--ease-standard);
 }
 .tg button:hover { color: var(--text-secondary); }
 .tg button[aria-pressed="true"] {
@@ -174,13 +186,13 @@ img { display: block; max-width: 100%; }
 /* the lockup is the shared `.console .brand` — no override here */
 .console .back {
   font-size: var(--fs-2xs); color: var(--text-secondary); margin-top: var(--space-lg);
-  display: flex; align-items: center; gap: var(--space-xs); transition: color var(--dur-base) var(--ease-standard);
+  display: flex; align-items: center; gap: var(--space-xs); transition: color var(--dur-quick) var(--ease-standard);
 }
 .console .back:hover { color: var(--text); }
 .console .cs-nav { margin-top: var(--space-xl); display: flex; flex-direction: column; gap: 1px; }
 .console .cs-nav a {
   font-size: var(--fs-xs); color: var(--text-secondary); padding: var(--space-xs) 0;
-  display: flex; align-items: baseline; gap: var(--space-sm); transition: color var(--dur-base) var(--ease-standard);
+  display: flex; align-items: baseline; gap: var(--space-sm); transition: color var(--dur-quick) var(--ease-standard);
 }
 .console .cs-nav a .ix { font-size: var(--fs-3xs); color: var(--text-muted); width: 18px; }
 .console .cs-nav a:hover, .console .cs-nav a.active { color: var(--text); }
@@ -196,7 +208,7 @@ img { display: block; max-width: 100%; }
 /* margin-top: 0 overrides the global `.console nav` gap */
 .console .rail-more-nav { margin-top: 0; display: flex; flex-direction: column; gap: var(--space-sm); }
 .console .rail-more-nav a {
-  padding: 0; font-size: var(--fs-sm); line-height: var(--lh-h3); color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard);
+  padding: 0; font-size: var(--fs-sm); line-height: var(--lh-h3); color: var(--text-secondary); transition: color var(--dur-quick) var(--ease-standard);
 }
 .console .rail-more-nav a:hover { color: var(--text); }
 .console .scoreboard {
@@ -240,7 +252,7 @@ img { display: block; max-width: 100%; }
 
 /* Surface card. Add .card--interactive for the hover border-lift. */
 .card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
-.card--interactive { transition: border-color var(--dur-base) var(--ease-standard); }
+.card--interactive { transition: border-color var(--dur-quick) var(--ease-standard); }
 .card--interactive:hover { border-color: var(--border-strong); }
 
 /* Long-form body copy (about + case-study narrative). */
@@ -282,12 +294,18 @@ img { display: block; max-width: 100%; }
   /* inline-block: transforms are ignored on plain inline elements */
   display: inline-block;
   font-size: var(--fs-xs); padding: var(--space-sm) var(--space-lg); border-radius: var(--radius-full);
-  transition: transform var(--dur-slow) var(--ease-standard),
-    background-color var(--dur-base) var(--ease-standard),
-    border-color var(--dur-base) var(--ease-standard);
+  transition: transform var(--dur-move) var(--ease-standard),
+    background-color var(--dur-quick) var(--ease-standard),
+    border-color var(--dur-quick) var(--ease-standard);
 }
-.btn:hover { transform: translateY(-4px); }
-.btn:active { transform: translateY(-1px); transition-duration: var(--dur-fast); }
+.btn:hover { transform: translateY(calc(var(--travel-xs) * -1)); }
+/* The press collapses ALL THREE transitions above to --dur-instant, not just the transform — a bare `transition-duration` re-times every property in the shorthand. That is the intent (a press should echo at once), but it is invisible from the rule, so it is spelled out per property here. */
+.btn:active {
+  transform: translateY(-1px);
+  transition: transform var(--dur-instant) var(--ease-standard),
+    background-color var(--dur-instant) var(--ease-standard),
+    border-color var(--dur-instant) var(--ease-standard);
+}
 .btn-p { background: var(--accent-fill); color: var(--on-accent); }
 .btn-p:hover { background: var(--accent-400); }
 .btn-g { border: 1px solid var(--border-strong); color: var(--text); }
@@ -307,14 +325,27 @@ img { display: block; max-width: 100%; }
 .foot .fl button:hover { color: var(--text); }
 
 /* ===== reveal-on-scroll ===== */
-.rev { opacity: 0; transform: translateY(12px); transition: opacity var(--dur-deliberate) var(--ease-standard), transform var(--dur-deliberate) var(--ease-standard); }
+/* --rev-i staggers a list: set it per item in markup and each one waits that many --stagger-step units. It defaults to 0, so a lone .rev needs nothing. Stagger belongs to .rev ONLY — see the .rev-load note below. */
+.rev {
+  opacity: 0; transform: translateY(var(--travel-sm));
+  transition: opacity var(--dur-settle) var(--ease-standard), transform var(--dur-settle) var(--ease-standard);
+  transition-delay: calc(var(--rev-i, 0) * var(--stagger-step));
+}
 .rev.in { opacity: 1; transform: none; }
 
-/* Above-the-fold variant: TRANSFORM ONLY, never opacity — Chromium excludes an
-   element starting at opacity:0 from LCP. The .28s duration is a Speed Index
-   cost, not taste; .rev is below the fold and off that clock at .5s. */
-.rev-load { transform: translateY(12px); animation: rev-in var(--dur-reveal) var(--ease-standard) both; }
+/* Above-the-fold variant: TRANSFORM ONLY, never opacity — Chromium excludes an element starting at opacity:0 from LCP. The 280ms duration is a Speed Index cost, not taste; .rev is below the fold and off that clock at 500ms. For the same reason .rev-load never takes a stagger delay: holding above-the-fold content back pushes the pixels Speed Index is timing. */
+.rev-load { transform: translateY(var(--travel-sm)); animation: rev-in var(--dur-enter) var(--ease-standard) both; }
 @keyframes rev-in { to { transform: none; } }
+
+/* ===== row nudge =====
+   The shared hover gesture for every index/list row. It transitions TRANSFORM, never padding-left: padding is a layout property, so animating it reflowed the row on every hover frame and could re-wrap the title mid-gesture. The nudge sits on the row's CONTENTS, not the row, because these rows carry a border-bottom that must not slide with them — and because on a grid row the right-hand column stays anchored, which is what the padding version did too. */
+.row-nudge > * { transition: transform var(--dur-quick) var(--ease-standard); }
+.row-nudge:hover > *,
+.row-nudge.active > * { transform: translateX(var(--travel-sm)); }
+/* opt a trailing column out of the gesture so it keeps its right edge */
+.row-nudge > .nudge-fixed,
+.row-nudge:hover > .nudge-fixed,
+.row-nudge.active > .nudge-fixed { transform: none; }
 
 /* ===== responsive: chrome + scaffold ===== */
 @media (max-width: 900px) {
@@ -347,21 +378,19 @@ img { display: block; max-width: 100%; }
   }
   .menu-btn span {
     display: block; width: 6px; height: 6px; border-radius: var(--radius-full);
-    background: var(--text); transition: opacity var(--dur-base) var(--ease-standard);
+    background: var(--text); transition: opacity var(--dur-quick) var(--ease-standard);
   }
   .menu-btn:hover span { opacity: .6; }
 
-  /* Full-screen drawer. The `visibility` delay must equal the transform
-     duration, or the drawer stays clickable after it slides away - both now
-     read the same token, so they can't drift apart. */
+  /* Full-screen drawer. The `visibility` delay must equal the transform duration, or the drawer stays clickable after it slides away - both read the same token, so they can't drift apart. The base rule is the CLOSING state and takes --ease-exit; .open is the entrance and takes --ease-standard. That is the pair the two curves exist for. */
   .m-drawer {
     display: flex; flex-direction: column;
     position: fixed; inset: 0; z-index: 60;
     background: var(--bg); padding: var(--space-md) var(--space-lg) var(--space-xl); overflow-y: auto;
     visibility: hidden; transform: translateY(-100%);
-    transition: transform var(--dur-slow) var(--ease-standard), visibility 0s linear var(--dur-slow);
+    transition: transform var(--dur-move) var(--ease-exit), visibility 0s var(--dur-move);
   }
-  .m-drawer.open { visibility: visible; transform: none; transition: transform var(--dur-slow) var(--ease-standard), visibility 0s; }
+  .m-drawer.open { visibility: visible; transform: none; transition: transform var(--dur-move) var(--ease-standard), visibility 0s; }
   body.menu-open { overflow: hidden; }
   .m-drawer-head { display: flex; align-items: center; justify-content: space-between; }
   .m-drawer-head .brand {
@@ -371,13 +400,13 @@ img { display: block; max-width: 100%; }
   .menu-close {
     font-family: var(--font-mono); font-size: var(--fs-base); line-height: 1; color: var(--text-secondary);
     background: none; border: none; cursor: pointer; padding: var(--space-xs); margin: calc(var(--space-xs) * -1);
-    transition: color var(--dur-base) var(--ease-standard);
+    transition: color var(--dur-quick) var(--ease-standard);
   }
   .menu-close:hover { color: var(--text); }
   .m-nav { margin-top: var(--space-2xl); display: flex; flex-direction: column; gap: 2px; }
   .m-nav a {
     font-size: var(--fs-2xl); color: var(--text-secondary); padding: var(--space-sm) 0;
-    display: flex; align-items: baseline; gap: var(--space-md); transition: color var(--dur-base) var(--ease-standard);
+    display: flex; align-items: baseline; gap: var(--space-md); transition: color var(--dur-quick) var(--ease-standard);
   }
   .m-nav a .ix { font-size: var(--fs-xs); color: var(--text-muted); width: 26px; }
   .m-nav a:hover, .m-nav a.active { color: var(--text); }
@@ -407,7 +436,30 @@ img { display: block; max-width: 100%; }
   /* see Base.astro — the tagline keeps its head, drops its tail */
   .foot-tail { display: none; }
 }
+/* ===== reduced motion =====
+   Here "reduce" means REMOVE, not "do it instantly". Killing the transition alone still lets every hover end-state apply, so a card would jump 3% larger and a button 4px up in a single frame — a snap is still movement to a vestibular-sensitive reader. So the tweens go, and then every positional end-state is neutralised too. Hover stays legible: colour, border and opacity are untouched. */
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+  /* scroll-behavior needs its own selector: `html` is (0,0,1) and beats `*` at (0,0,0), so the reset above never reached it and smooth scrolling survived the whole media query. */
+  html { scroll-behavior: auto; }
   .rev, .rev-load { opacity: 1; transform: none; }
+  /* a stagger delay with no transition left to delay would still hold content back */
+  .rev { transition-delay: 0s; }
+
+  /* Nothing translates or scales. `!important` is load-bearing, not lazy: Astro scopes component styles with a bare [data-astro-cid-*] attribute rather than :where(), so a component's own `.fcard:hover .im img` outranks the same selector written here. Without it this block silently loses to every rule it is trying to cancel. */
+  .btn:hover,
+  .btn:active,
+  .row-nudge:hover > *,
+  .row-nudge.active > *,
+  .t-feat:hover .img img,
+  .t-feat:hover .tile-video,
+  .fcard:hover .im img,
+  .fcard:hover .fcard-video,
+  .embed .estage:hover img,
+  .play-btn:hover::before { transform: none !important; }
+
+  /* cross-document view transitions are animations the `*` rule above cannot reach */
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
 }

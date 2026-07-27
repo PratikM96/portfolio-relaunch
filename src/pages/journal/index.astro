@@ -53,14 +53,14 @@ const meta = (p: (typeof posts)[number]) =>
         )}
 
         {rest.length > 0 && (
-          <div class="plist rev">
-            {rest.map((p) => (
-              <a class="prow" href={`/journal/${p.id}`}>
+          <div class="plist">
+            {rest.map((p, i) => (
+              <a class="prow row-nudge rev" style={`--rev-i:${i}`} href={`/journal/${p.id}`}>
                 <div>
                   <div class="t">{p.data.title}</div>
                   <div class="ex">{p.data.excerpt}</div>
                 </div>
-                <div class="m">{meta(p)}</div>
+                <div class="m nudge-fixed">{meta(p)}</div>
               </a>
             ))}
           </div>
@@ -112,9 +112,9 @@ const meta = (p: (typeof posts)[number]) =>
 
   /* list */
   .plist { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
-  .prow { display: grid; grid-template-columns: 1fr auto; gap: var(--space-xl); align-items: baseline; padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); transition: padding-left var(--dur-base) var(--ease-standard); }
-  .prow:hover { padding-left: var(--space-sm); }
-  .prow .t { font-size: var(--fs-fluid-lg); color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard); }
+  /* the hover nudge is .row-nudge in global.css — transform, not padding */
+  .prow { display: grid; grid-template-columns: 1fr auto; gap: var(--space-xl); align-items: baseline; padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); }
+  .prow .t { font-size: var(--fs-fluid-lg); color: var(--text-secondary); transition: color var(--dur-quick) var(--ease-standard); }
   .prow:hover .t { color: var(--text); }
   .prow .ex { font-size: var(--fs-sm); color: var(--text-muted); margin-top: var(--space-xs); max-width: var(--measure-xl); }
   .prow .m { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); white-space: nowrap; text-align: right; }

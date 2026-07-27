@@ -106,10 +106,7 @@ const schema = [
     )}
   </Fragment>
 
-  {/* Both blocks are ABOVE the fold on a post, so both take `.rev-load` (CLAUDE.md §6).
-      `.rev` gates on opacity at threshold 0.1, which a 4000px+ article can only satisfy
-      once ~460px of it is in view — more than is visible under the header at load, so the
-      body copy stayed invisible until the reader scrolled. */}
+  {/* Both blocks are ABOVE the fold on a post, so both take `.rev-load` (CLAUDE.md §6): a faded hero hands LCP to a later element, and an above-the-fold `.rev` also carries the reveal's opacity cost on the Speed Index clock. */}
   <article class="article">
     <div class="amain rev-load">
       <Content />
@@ -200,7 +197,7 @@ const schema = [
   .pf-about p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: var(--measure-xl); }
   .pf-about a { display: inline-block; margin-top: var(--space-sm); font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); }
   .pf-more ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-md); }
-  .pf-more a { font-size: var(--fs-lg); line-height: 1.2; color: var(--text-secondary); transition: color var(--dur-base) var(--ease-standard); }
+  .pf-more a { font-size: var(--fs-lg); line-height: 1.2; color: var(--text-secondary); transition: color var(--dur-quick) var(--ease-standard); }
   .pf-more a:hover { color: var(--text); }
 
   @media (max-width: 1000px) {

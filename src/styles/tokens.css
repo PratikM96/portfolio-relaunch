@@ -216,17 +216,25 @@
   --ratio-tall-photo: 4 / 5;   /* portrait photography (the headshot) */
   --ratio-portrait: 9 / 16;    /* vertical / reel */
 
-  /* --- Motion ---
-     Every `transition` and `animation` duration on the site composes one of
-     these. --dur-reveal is not a rounder --dur-slow: `.rev-load` animates the
-     whole hero, so its duration lands on Speed Index and 280ms is measured.
-     Don't fold it into a neighbour. */
-  --dur-fast: 120ms; --dur-base: 200ms; --dur-reveal: 280ms;
-  --dur-slow: 320ms; --dur-deliberate: 500ms;
-  --dur-pulse: 2400ms; /* the status dot's ambient loop, not a UI transition */
-  --ease-standard: cubic-bezier(0.2, 0, 0, 1);  /* entrances / most */
-  --ease-exit: cubic-bezier(0.4, 0, 1, 1);      /* exits · faster out */
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);  /* moves that leave and arrive */
+  /* --- Motion · six durations, three curves, and nothing outside them ---
+     Every `transition` and `animation` composes one duration and one curve. The names say what the motion MEANS, not how fast it is, so a rule picks by intent: a colour swap is --dur-quick whatever it sits on, a slide is --dur-move whatever the distance. --dur-quick is the anchor and carries most of the site. --dur-enter is not a rounder --dur-move: `.rev-load` animates the whole hero, so its duration lands on Speed Index and 280ms is measured. Don't fold it into a neighbour. */
+  --dur-instant: 120ms;    /* the echo under a press — .btn:active */
+  --dur-quick: 200ms;      /* state changing in place: colour, border, background, opacity */
+  --dur-enter: 280ms;      /* above-the-fold arrival — .rev-load, measured against Speed Index */
+  --dur-move: 320ms;       /* something travels a distance: drawer, button lift, theme cross-fade */
+  --dur-settle: 500ms;     /* below-the-fold arrival — .rev — and media scale on hover */
+  --dur-ambient: 2400ms;   /* loops forever, never a response — the status dot */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);  /* entrances and most moves — the default */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);      /* dismissals: drawer close, consent dismiss */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);  /* moves that leave AND arrive: theme flip, view transitions */
+
+  /* --- Motion distance ---
+     A transform's magnitude is a token too, so the reveal slide and the row nudge can't drift apart the way three different hover scales already had. The two scales are a pair, not a ladder: a 44px circle needs more scale than a card to read as the same gesture. */
+  --stagger-step: 60ms;    /* per-item delay in a staggered reveal (--rev-i × this) */
+  --travel-xs: 4px;        /* the button lift */
+  --travel-sm: 12px;       /* reveal slide, row hover nudge */
+  --scale-hover: 1.03;     /* media hover: work cards, feature tiles, demo stills */
+  --scale-control: 1.06;   /* small controls: the play button */
 
   /* --- Site additions (not in the brand kit) --- */
   --rail: 264px;                          /* console rail width */
