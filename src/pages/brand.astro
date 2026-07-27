@@ -304,7 +304,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
       {travels.map((t) => (
         <div class="d-row">
           <div class="z-lab">{t.name} / {tokenValue(t.token)}</div>
-          <div class="d-track"><span class="d-bar-fixed" style={`height: var(${t.token})`}></span></div>
+          <div class="d-track"><span class="d-origin"></span><span class="d-travel" style={`--to: var(${t.token})`}></span></div>
           <div class="z-for">{t.for}</div>
         </div>
       ))}
@@ -320,8 +320,6 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
     <div class="subhead">Reduced motion</div>
     <p class="intro">Here "reduce" means <em>remove</em>. Killing the tween alone still lets a hover end-state apply, so a card would jump 3% larger in a single frame, and a snap is still movement. Under <code>prefers-reduced-motion</code> every transition and animation is off, nothing translates or scales, page transitions are cancelled, and smooth scrolling reverts to instant. Hover stays legible on colour and border alone. Video is gated in JavaScript, since CSS cannot stop playback.</p>
-
-    <div class="hoverdemo"><a class="btn btn-p" href="/work">View work</a><div class="mono muted" style="font-size:var(--fs-2xs)">Hover to lift on move / press for instant</div></div>
   </section>
 
   {/* 07 ACCESSIBILITY */}
@@ -616,14 +614,15 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .d-dot { position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; border-radius: var(--radius-full); background: var(--accent-fill); transition-property: transform; transition-timing-function: var(--ease-standard); }
   .d-row:hover .d-dot { transform: translateX(calc(100cqw - 18px)); }
   /* distance + scale read as static geometry, sized by the token itself */
-  .d-bar-fixed { position: absolute; top: 50%; left: 3px; width: 64px; transform: translateY(-50%); background: var(--accent-fill); border-radius: var(--radius-sm); }
+  /* Travel is a DISTANCE, so the demo shows displacement, not thickness. A bar whose height was the token made 4px read as a thin underline beside 12px rather than as a shorter move, and --radius-sm (4px) fully rounded the 4px one while barely touching the 12px one, so they weren't even the same shape. The marker rests on its ghost and moves exactly one token on hover: the gap that opens IS the value. */
+  .d-origin { position: absolute; top: 50%; left: 3px; width: 12px; height: 12px; transform: translateY(-50%); border: 1px solid var(--accent-fill); border-radius: var(--radius-sm); opacity: .45; }
+  .d-travel { position: absolute; top: 50%; left: 3px; width: 12px; height: 12px; transform: translateY(-50%); background: var(--accent-fill); border-radius: var(--radius-sm); transition: transform var(--dur-move) var(--ease-standard); }
+  .d-row:hover .d-travel { transform: translate(var(--to), -50%); }
   .d-square { position: absolute; top: 50%; left: 3px; width: 12px; height: 12px; transform: translateY(-50%); background: var(--accent-fill); border-radius: var(--radius-sm); transition: transform var(--dur-settle) var(--ease-standard); }
   .d-row:hover .d-square { transform: translateY(-50%) scale(var(--to)); }
   @media (max-width: 900px) {
     .d-row { grid-template-columns: 1fr; gap: var(--space-2xs); }
   }
-  /* hover demo: label sits below the button, which lifts on hover */
-  .hoverdemo { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); margin-top: var(--space-2xl); }
 
   /* a11y */
   table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); margin-top: var(--space-xs); }
