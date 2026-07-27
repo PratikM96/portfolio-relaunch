@@ -50,14 +50,15 @@ const easings = [
   { token: '--ease-in-out', name: 'in-out', for: 'leaves AND arrives: theme, page transitions' },
 ];
 
-// Distance and scale, rendered as real geometry so a swatch cannot disagree with its token.
+// Distance and scale. `host` is the element SIZE each token really runs on, because these values are deliberately small and only read at their true scale: 1.03 on a 12px swatch is a third of a pixel, on a real card it is 5px. The token stays 1:1; the host is what makes it visible.
 const travels = [
-  { token: '--travel-xs', name: 'travel-xs', for: 'the button lift' },
-  { token: '--travel-sm', name: 'travel-sm', for: 'reveal slide, row hover nudge' },
+  { token: '--travel-xs', name: 'travel-xs', host: 'h-btn', for: 'the button lift' },
+  { token: '--travel-sm', name: 'travel-sm', host: 'h-btn', for: 'reveal slide, row hover nudge' },
 ];
+// Deliberately different hosts: the pair exists BECAUSE a 44px control needs more scale than a card to read as the same gesture, so showing both at their real size is the argument.
 const scales = [
-  { token: '--scale-hover', name: 'scale-hover', for: 'media hover: cards, tiles, stills' },
-  { token: '--scale-control', name: 'scale-control', for: 'small controls: the play button' },
+  { token: '--scale-hover', name: 'scale-hover', host: 'h-card', for: 'media hover: cards, tiles, stills' },
+  { token: '--scale-control', name: 'scale-control', host: 'h-dot', for: 'small controls: the play button' },
 ];
 
 // The size scale, read live like everything else on this page. A tier says which face; a step says how big.
@@ -299,19 +300,25 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     <div class="mono muted gridnote">{easings.map((e) => `${e.name} ${tokenValue(e.token)}`).join('   /   ')}</div>
 
     <div class="subhead">Distance and scale</div>
-    <p class="intro">A transform's magnitude is a token too, or three hover scales drift apart the way they had. The two scales are a pair, not a ladder: a small control needs more scale than a card to read as the same gesture.</p>
+    <p class="intro">A transform's magnitude is a token too, or three hover scales drift apart the way they had. These values are small on purpose, so each one runs on the size of element it actually moves: the dashed outline is where the shape rests, and hovering separates it by exactly one token. The two scales are a pair rather than a ladder, which is why the card and the control are shown at their own sizes.</p>
     <div class="durs">
       {travels.map((t) => (
         <div class="d-row">
           <div class="z-lab">{t.name} / {tokenValue(t.token)}</div>
-          <div class="d-track"><span class="d-origin"></span><span class="d-travel" style={`--to: var(${t.token})`}></span></div>
+          <div class="d-stage">
+            <span class:list={['d-ghost', t.host]}></span>
+            <span class:list={['d-host', 'lift', t.host]} style={`--to: var(${t.token})`}></span>
+          </div>
           <div class="z-for">{t.for}</div>
         </div>
       ))}
       {scales.map((s) => (
         <div class="d-row">
           <div class="z-lab">{s.name} / {tokenValue(s.token)}</div>
-          <div class="d-track"><span class="d-square" style={`--to: var(${s.token})`}></span></div>
+          <div class="d-stage">
+            <span class:list={['d-ghost', s.host]}></span>
+            <span class:list={['d-host', 'grow', s.host]} style={`--to: var(${s.token})`}></span>
+          </div>
           <div class="z-for">{s.for}</div>
         </div>
       ))}
@@ -319,7 +326,7 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     <div class="mono muted gridnote">plus <code>--stagger-step</code> ({tokenValue('--stagger-step')}), the per-item delay in a staggered list reveal.</div>
 
     <div class="subhead">Reduced motion</div>
-    <p class="intro">Here "reduce" means <em>remove</em>. Killing the tween alone still lets a hover end-state apply, so a card would jump 3% larger in a single frame, and a snap is still movement. Under <code>prefers-reduced-motion</code> every transition and animation is off, nothing translates or scales, page transitions are cancelled, and smooth scrolling reverts to instant. Hover stays legible on colour and border alone. Video is gated in JavaScript, since CSS cannot stop playback.</p>
+    <p class="intro">Here "reduce" means <em>remove</em>. Killing the tween alone still lets a hover end-state apply, so a card would jump 3% larger in a single frame, and a snap is still movement. Under <code>prefers-reduced-motion</code> every transition and animation is off, nothing translates or scales, page transitions are cancelled, and smooth scrolling reverts to instant. Hover stays legible on colour and border alone. Video is gated in JavaScript, since CSS cannot stop playback. The swatches in this section follow the same rule: they hold still, and the printed values carry it.</p>
   </section>
 
   {/* 07 ACCESSIBILITY */}
@@ -614,12 +621,23 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .d-dot { position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; border-radius: var(--radius-full); background: var(--accent-fill); transition-property: transform; transition-timing-function: var(--ease-standard); }
   .d-row:hover .d-dot { transform: translateX(calc(100cqw - 18px)); }
   /* distance + scale read as static geometry, sized by the token itself */
-  /* Travel is a DISTANCE, so the demo shows displacement, not thickness. A bar whose height was the token made 4px read as a thin underline beside 12px rather than as a shorter move, and --radius-sm (4px) fully rounded the 4px one while barely touching the 12px one, so they weren't even the same shape. The marker rests on its ghost and moves exactly one token on hover: the gap that opens IS the value. */
-  .d-origin { position: absolute; top: 50%; left: 3px; width: 12px; height: 12px; transform: translateY(-50%); border: 1px solid var(--accent-fill); border-radius: var(--radius-sm); opacity: .45; }
-  .d-travel { position: absolute; top: 50%; left: 3px; width: 12px; height: 12px; transform: translateY(-50%); background: var(--accent-fill); border-radius: var(--radius-sm); transition: transform var(--dur-move) var(--ease-standard); }
-  .d-row:hover .d-travel { transform: translate(var(--to), -50%); }
-  .d-square { position: absolute; top: 50%; left: 3px; width: 12px; height: 12px; transform: translateY(-50%); background: var(--accent-fill); border-radius: var(--radius-sm); transition: transform var(--dur-settle) var(--ease-standard); }
-  .d-row:hover .d-square { transform: translateY(-50%) scale(var(--to)); }
+  /* Distance and scale run at 1:1 on a realistically SIZED host, because that is the only way values this small are legible: 4px on a 12px swatch is invisible, on a real button it is the lift you feel, and 1.03 is a third of a pixel on a swatch against 5px on a card. The ghost is the rest position; the host separates from it by exactly one token. Nothing here is amplified. */
+  .d-stage { display: grid; place-items: center; min-height: 92px; }
+  .d-ghost, .d-host { grid-area: 1 / 1; }
+  .d-ghost { border: 1px dashed var(--accent-fill); opacity: .55; }
+  .d-host { background: color-mix(in srgb, var(--accent-fill) 22%, transparent); border: 1px solid var(--accent-fill); transition: transform var(--dur-move) var(--ease-standard); }
+  .d-row:hover .d-host.lift { transform: translateY(calc(var(--to) * -1)); }
+  .d-row:hover .d-host.grow { transform: scale(var(--to)); }
+  /* the real sizes these tokens run on: a button, a work card, the play button */
+  .h-btn { width: 116px; height: 34px; border-radius: var(--radius-full); }
+  .h-card { width: 184px; height: 104px; border-radius: var(--radius-md); }
+  .h-dot { width: 44px; height: 44px; border-radius: var(--radius-full); }
+  /* The swatches obey the rule they document. Killing only the transition would still let each end-state snap into place, which is the exact behaviour §06 says is not good enough, so the demos hold still and the printed value carries the section instead. */
+  @media (prefers-reduced-motion: reduce) {
+    .d-row:hover .d-dot,
+    .d-row:hover .d-host.lift,
+    .d-row:hover .d-host.grow { transform: none; }
+  }
   @media (max-width: 900px) {
     .d-row { grid-template-columns: 1fr; gap: var(--space-2xs); }
   }
