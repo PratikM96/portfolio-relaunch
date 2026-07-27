@@ -101,10 +101,13 @@ perfTable: true
 
 proof:
   figures:
-    # No CLS figure. A perfect Lighthouse score already entails a good CLS, so a separate "0" was a second number saying the same thing, and it was the one that could go stale: a font-swap shift of 0.009 on /brand desktop made the figure contradict the table printing it, on the same page. PerfTable carries per-page CLS as measured detail, which is where a number that moves belongs.
+    # The mobile score sits where the CLS figure used to. CLS went because a perfect Lighthouse score already entails a good one, so "0" was a second number saying the same thing, and it was the one that could rot: a 0.009 font-swap shift on /brand desktop put the figure in contradiction with the table printing it, on the same page.
+    #
+    # Two of these are averages typed by hand while PerfTable renders the same averages from portfolio-perf.json, so they can drift apart on a re-run. Both are rounded DOWN for that reason, never up: mobile is 98.5 and LCP is 520ms. Re-check both against the JSON after every run, and if the gap ever reads as a contradiction rather than a rounding, move the figure into the generated table instead of retyping it.
     - { value: "100", label: "Lighthouse, desktop" }
+    - { value: "98", label: "Lighthouse, mobile avg" }
     - { value: "0.5", unit: "s", label: "LCP, desktop" }
-    - { value: "7", unit: "KB", label: "JS, heaviest page" }
+    - { value: "4.5", unit: "KB", label: "JS, heaviest page" }
   note:
     label: "Why it exists / what it proves"
     # No page count and no commit count here. Both rotted within a day of shipping (the copy claimed 22 pages while the JSON beside it said 23, and 131 commits against an actual 143), which is exactly what CLAUDE.md §10 forbids. PerfTable renders the real page count from portfolio-perf.json, so stating it twice only creates a second number to keep true.
