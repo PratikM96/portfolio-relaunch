@@ -1,7 +1,6 @@
 ---
 /**
- * WorkIndex.astro — filter bar, index table, sticky preview pane. Shared by the
- * home "Selected work" section and /work; the caller owns the chrome around it.
+ * WorkIndex.astro — filter bar, index table, sticky preview pane. Shared by the home "Selected work" section and /work; the caller owns the chrome around it.
  *
  *   entries       the entries to render (the caller curates and sorts)
  *   filters       render the filter bar at all (off for the home's short cut)
@@ -283,9 +282,7 @@ const first = projects[0]!;
   @media (max-width: 560px) {
     .idx-head { display: none; }
     /* Facet order flips here: the two chips lead, then title, role, disciplines.
-       A flat one-per-line stack in table order read as a paragraph of labels.
-       `display: contents` on .cells promotes its four spans to grid items of the
-       row, which is what lets the year (a sibling of .cells) share a line with
+       A flat one-per-line stack in table order read as a paragraph of labels. `display: contents` on .cells promotes its four spans to grid items of the row, which is what lets the year (a sibling of .cells) share a line with
        the category chip inside it. */
     .idx-row {
       grid-template-columns: auto auto minmax(0, 1fr);

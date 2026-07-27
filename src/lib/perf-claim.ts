@@ -1,7 +1,7 @@
 /**
  * Published performance figures, derived from the measured run instead of typed.
  *
- * `PerfTable` has always rendered `src/data/portfolio-perf.json` live while the proof-box figures beside it were hand-typed YAML, so the two could drift — and did. The mobile average was published as `98` and measured 99.4 the next run, which stops being a rounding and starts being a contradiction on a page whose whole claim is that the numbers are measured. These resolve from the same JSON the table reads, so a re-run moves both together or neither.
+ * These resolve from the same `portfolio-perf.json` that `PerfTable` renders, so a re-run moves the figure and the table together or neither. Typed figures drifted from the table within a day, which is a contradiction on a page whose claim is that the numbers are measured.
  *
  * **Rounding is conservative, and which way that is depends on the metric.** For a score, higher is better, so it rounds DOWN: 99.4 publishes as 99. For a duration, lower is better, so it rounds UP: 0.466s publishes as 0.5s. Rounding a duration down would claim the site is faster than it measured, which is the same flattering error in the opposite direction. Get this backwards and the figure lies while looking careful.
  *

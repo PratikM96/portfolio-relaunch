@@ -4,7 +4,7 @@
  *   node scripts/perf/emit.mjs                  # newest run folder
  *   node scripts/perf/emit.mjs 20260727-1307    # a specific one, to re-emit an older batch
  *
- * **Why the history exists.** A single mobile run is not evidence: across three consecutive runs the worst page changed completely, pages with no code change swung +/-750ms in both directions, and only the mean was readable. Without a history the only way to compare runs was to dig an older portfolio-perf.json out of a git commit, which worked by luck. `history.jsonl` is committed (unlike the raw runs, which are ~30MB a batch and gitignored) so the trend survives, and it is one JSON object per line so a new run is one added line in a diff.
+ * **Why the history exists.** A single mobile run is not evidence: across three consecutive runs the worst page changed identity, unchanged pages swung +/-750ms, and only the mean was readable. `history.jsonl` is committed (raw runs are ~30MB a batch and gitignored), one JSON object per line so a new run is one added line in a diff.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -93,7 +93,7 @@ const avg = (a) => a.reduce((s, x) => s + x, 0) / a.length;
 /**
  * The representative sample for a page: **the median one, not an average of all of them.**
  *
- * Averaging each metric independently would publish a row that never happened — an FCP from one load beside an LCP from another, and a score no real load produced. Metric distributions are also right-skewed, so one slow sample drags a mean while barely moving a median. Picking a single median sample keeps every number in the row mutually consistent and real, which is the same reason Lighthouse CI selects a median run rather than averaging.
+ * Averaging each metric independently would publish a row that never happened: an FCP from one load beside an LCP from another. Distributions are right-skewed too, so one slow sample drags a mean while barely moving a median. One median sample keeps the row mutually consistent and real, same as Lighthouse CI.
  *
  * Ordered by performance score, then LCP as the tiebreak, since scores tie constantly. With an even count this takes the LOWER middle, so the published figure is never the flattering half of a coin flip.
  */

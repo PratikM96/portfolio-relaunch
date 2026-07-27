@@ -1,9 +1,6 @@
 ---
 /**
- * OutputGrid.astro — the case-study output gallery. `blocks` is an ordered list
- * of typed blocks, one asset family per block. Long pages scroll inside a capped
- * frame; videos don't fetch until in view. Per-kind export caps and the video
- * contract: docs/output-assets.md.
+ * OutputGrid.astro — the case-study output gallery. `blocks` is an ordered list of typed blocks, one asset family per block. Long pages scroll inside a capped frame; videos don't fetch until in view. Per-kind export caps and the video contract: docs/output-assets.md.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -29,8 +26,7 @@ interface Props {
 const { slug, blocks, note } = Astro.props;
 
 /**
- * Longpage gets a shorter ladder: its sources are whole scrolling pages (up to
- * 1400x9334), so each extra width multiplies against a 9000px height.
+ * Longpage gets a shorter ladder: its sources are whole scrolling pages (up to 1400x9334), so each extra width multiplies against a 9000px height.
  */
 const W_LONG: Record<number, number[]> = {
   1: [700, 1000, 1400],

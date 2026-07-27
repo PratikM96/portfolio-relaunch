@@ -1,7 +1,6 @@
 ---
 /**
- * Home. Chrome (rail, footer, theme, fonts) lives in Base.astro; hero, bento,
- * modules, journal and close stay inline here.
+ * Home. Chrome (rail, footer, theme, fonts) lives in Base.astro; hero, bento, modules, journal and close stay inline here.
  */
 import { getCollection } from 'astro:content';
 import { Image, getImage } from 'astro:assets';
@@ -31,12 +30,9 @@ const SELECTED = ['raa', 'frc', 'agency-fiveeighty', 'level', 'wisp'];
 const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== undefined);
 
 /**
- * The four featured cards. Slug, type label and disciplines come from the entry; only the
- * blurb is home-page copy, deliberately shorter than the case-study lede.
+ * The four featured cards. Slug, type label and disciplines come from the entry; only the blurb is home-page copy, deliberately shorter than the case-study lede.
  *
- * Order carries the evidence hierarchy: the two paid roles first, then the self-initiated
- * work. The first two must match the `featured: true` entries, or / and /work disagree
- * about what the featured pair is.
+ * Order carries the evidence hierarchy: the two paid roles first, then the self-initiated work. The first two must match the `featured: true` entries, or / and /work disagree about what the featured pair is.
  */
 const BENTO: { slug: string; blurb: string }[] = [
   { slug: 'sportime-clubs', blurb: 'A video-first content engine across tennis, pickleball, and a $75M expansion. 11.7M cross-platform impressions in a year.' },
@@ -251,7 +247,7 @@ const heroPoster = await getImage({
 
       // Deferred in three stages, because the FETCH was never the expensive part.
       //
-      // `load` alone let the ~1.1MB fetch land inside the LCP/Speed Index window, which is what the idle callback was added for. The decode is the newer problem: this animation carries newspaper halftone, a photographic globe and film grain across 240 frames, so it costs far more main thread than the flat mark it replaced at the same byte weight. Starting it while the page is still settling put that cost inside the interactive window.
+      // `load` alone let the ~1.1MB fetch land inside the LCP/Speed Index window, hence the idle callback. Decode is the other half: halftone, a photographic globe and grain across 240 frames cost far more main thread than the flat mark they replaced at the same byte weight, so starting while the page settles puts that inside the interactive window.
       //
       // Nothing here is above-the-fold work. The poster is preloaded and already painted, and it is the resolved lockup rather than a mid-animation frame, so the hero looks finished before the loop ever runs. Holding the loop back costs the visitor nothing and costs the main thread everything it was spending.
       //

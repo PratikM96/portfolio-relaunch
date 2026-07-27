@@ -4,8 +4,7 @@
  *   node scripts/og/render-cards.mjs            # all
  *   node scripts/og/render-cards.mjs dealnews   # one, by output name
  *
- * Requires Chrome. Renders at exactly 1200x630 into public/og/.
- * Recipe + the brand-per-concept rules: docs/og-cards.md.
+ * Requires Chrome. Renders at exactly 1200x630 into public/og/. Recipe + the brand-per-concept rules: docs/og-cards.md.
  */
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';

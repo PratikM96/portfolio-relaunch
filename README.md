@@ -86,7 +86,7 @@ All three are preloaded, so every weight the type scale uses is already there. E
 
 Adding a face means dropping the variable woff2 in `public/fonts/` and pointing one `@font-face` at it. **Read its licence first** (`_reference/fonts/site/<family>/`): a face needs both web-embedding *and* modification rights, and they don't come together. Clash is Fontshare FFL — embed yes, modify no, so it can never be subset. JetBrains Mono is OFL-1.1, so `OFL.txt` ships beside it as required.
 
-Nothing is subset: the call was to ship the full system and optimize only if PageSpeed asks. Subsetting JetBrains Mono (89.3 → 37.3 KB, axis intact) is the first lever; git history has the retired `scripts/fonts/subset.mjs`.
+Both Clash faces ship whole. JetBrains Mono is subset by `npm run fonts:subset` (`scripts/fonts/subset-mono.mjs`), which reads the vendor original in `_reference/` and never the shipped file.
 
 ## Deploy
 

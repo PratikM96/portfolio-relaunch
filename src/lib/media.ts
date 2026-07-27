@@ -3,7 +3,7 @@
  *
  * **Two kinds live here.** Video filenames are a contract: unhashed, and `public/_headers` caches them immutable for a year, so replacing one's bytes in place will not reach a returning visitor. Adding a slug is safe; changing an existing file means renaming it. Encode recipes live in docs/.
  *
- * Poster stills are the opposite, and are resolved through the image pipeline below so they are content-hashed and a re-export reaches everyone. They used to sit beside the clips in `public/`, which broke §6's own rule and left 35 raster files under a year of immutable caching at fixed names.
+ * Poster stills are the opposite: resolved through the image pipeline below, so they are content-hashed and a re-export reaches everyone. They belong in `src/assets/`, never beside the clips in `public/`.
  */
 import type { ImageMetadata } from 'astro';
 import { getImage } from 'astro:assets';

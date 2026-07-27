@@ -40,9 +40,7 @@ const proseSection = z.object({
   margin: z.array(marginModule).default([]),
 });
 
-/**
- * Output gallery — an ordered list of typed blocks, one asset family per block. A factory, not a const, because `image()` only exists inside the schema function. See docs/output-assets.md.
- */
+/** Output gallery — ordered typed blocks, one asset family each. A factory because `image()` only exists inside the schema function. See docs/output-assets.md. */
 const outputBlocks = (image: SchemaContext['image']) => {
   const still = z.object({
     img: image(), // required — a missing asset fails the build
@@ -148,7 +146,7 @@ const work = defineCollection({
         }),
       ),
 
-      // What Pratik owned on a case study, rendered under the hero scoreboard by ContributionBox.astro. Every row optional: omit one rather than guessing, since collaborator names are usually not in the Resume Master.
+      // Rendered under the hero scoreboard by ContributionBox.astro. Every row optional: omit rather than guess.
       contribution: z
         .object({
           owned: z.string().optional(),
@@ -187,7 +185,7 @@ const work = defineCollection({
               .object({
                 // Authored figure. Every entry uses this; it is the normal case.
                 value: z.string().optional(),
-                // Derived figure: the name of a resolver in src/lib/perf-claim.ts, which reads the same measured JSON PerfTable renders. Only the portfolio-system entry has measured figures to derive. Use this instead of `value` for anything a re-run changes, so the figure and the table cannot drift apart.
+                // Derived: names a resolver in src/lib/perf-claim.ts, reading the same JSON PerfTable renders. Use instead of `value` for anything a re-run changes, so figure and table cannot drift.
                 from: z.string().optional(),
                 unit: z.string().optional(),
                 label: z.string(),
@@ -209,7 +207,7 @@ const work = defineCollection({
             z.object({
               label: z.string(),
               cap: z.string(),
-              // The microsite route segment. Both the link (/concepts/<project>/<view>) and the still (src/assets/concepts/<project>/preview-<view>.webp) derive from it. scripts/check/claims.mjs fails the build on a missing still; EmbeddedDemo's own throw does not, so don't rely on it.
+              // Microsite route segment. Both the link (/concepts/<project>/<view>) and the still (src/assets/concepts/<project>/preview-<view>.webp) derive from it. A missing still fails the build via claims.mjs, not via EmbeddedDemo's own throw.
               view: z.string(),
               featured: z.boolean().optional(), // the centerpiece view, shown by default
             }),

@@ -81,6 +81,17 @@ Get-ChildItem $out | Select-Object Name, @{n='MiB';e={[math]::Round($_.Length/1M
 - Keep the `-color_*` tags — they prevent the washed-out browser color bug.
 - `preload="none"` means nothing downloads until the click, so a 15 MB clip costs nothing on load.
 
+### Audio-only re-export: remux, don't re-encode
+
+When a master comes back with new audio and untouched picture, copy the video stream instead of running the recipe again. It takes seconds, and the shipped picture stays bit-identical rather than taking a second generation of VP9.
+
+```powershell
+ffmpeg -y -i "public/hero/$slug/hero_1080.webm" -i $master `
+  -map 0:v:0 -map 1:a:0 -c:v copy -c:a libopus -b:a 192k -shortest out.webm
+```
+
+**Prove the picture is really unchanged first**, or the copy silently pairs new audio with a stale cut: `ffprobe` both masters for matching `nb_frames`, duration and dimensions. Afterwards, `ffmpeg -map 0:v -c copy -f md5 -` on old and new should match, and the same over `-map 0:a` should differ.
+
 ## Step 3 - wire it in (one line)
 
 In `src/content/work/<slug>.md` frontmatter:

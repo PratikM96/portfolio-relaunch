@@ -1,8 +1,6 @@
 ---
 /**
- * /work - the full work index: page head, featured pair, then the shared
- * WorkIndex. Driven by the `work` collection, so the count and year range
- * derive from real entries rather than being authored.
+ * /work - the full work index: page head, featured pair, then the shared WorkIndex. Driven by the `work` collection, so the count and year range derive from real entries rather than being authored.
  */
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
@@ -42,9 +40,7 @@ const featured = await Promise.all(
 );
 
 /**
- * Hiring-problem router. Filters answer "what engagement was this"; this answers "which
- * two or three should I open". Routes mirror the Job Search Targeting proof router.
- * Titles read from the collection; an unknown slug throws at build time.
+ * Hiring-problem router. Filters answer "what engagement was this"; this answers "which two or three should I open". Routes mirror the Job Search Targeting proof router. Titles read from the collection; an unknown slug throws at build time.
  */
 const bySlug = new Map(entries.map((e) => [e.data.slug, e]));
 // Short labels so each route stays on one line. Full titles wrapped and broke the leader

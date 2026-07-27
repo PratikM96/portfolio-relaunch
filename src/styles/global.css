@@ -1,14 +1,11 @@
 /* =============================================================
    ONE SYSTEM — global base + chrome
 
-   Reset, base elements, type tiers, shared primitives, and the site
-   chrome (rail, mobile bar, footer). Tokens come from tokens.css;
-   page-section CSS lives with the page that owns it.
+   Reset, base elements, type tiers, shared primitives, and the site chrome (rail, mobile bar, footer). Tokens come from tokens.css; page-section CSS lives with the page that owns it.
    ============================================================= */
 
 /* ===== TYPE TIERS =====
-   The eight tiers from tokens.css, applied. A rule sets SIZE (plus color /
-   line-height) only. Add your selector to a group below; never re-declare the
+   The eight tiers from tokens.css, applied. A rule sets SIZE (plus color / line-height) only. Add your selector to a group below; never re-declare the
    family/weight/tracking triple inline. The bare .t-* classes work in markup. */
 
 .t-display,
@@ -271,8 +268,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* Category chip (journal). .acc = accent variant. `nowrap` is load-bearing: a
-   two-word category wrapping inside its border leaves the single-line chips
-   beside it short, and in a non-wrapping row it overflows and clips. The row
+   two-word category wrapping inside its border leaves the single-line chips beside it short, and in a non-wrapping row it overflows and clips. The row
    wraps the whole chip instead. */
 .tag { font-size: var(--fs-2xs); color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: var(--space-2xs) var(--space-xs); white-space: nowrap; }
 .tag.acc { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 40%, transparent); }

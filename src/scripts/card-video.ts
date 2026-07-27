@@ -1,7 +1,7 @@
 /**
  * Work-card hover clips. Every entry ships both theme variants: the clip at the contract path /wc/<slug>/card[-light].webm, and the poster through the image pipeline.
  *
- * **The clip path is derived, the poster path is handed over.** A contract filename can be rebuilt from a slug at runtime; a content-hashed one cannot, so whichever element carries the slug also carries both poster URLs as `data-poster` / `data-poster-light` (see `cardPosters` in src/lib/media.ts). `src` below is that element, which is the <video> itself for a hover card and the row for the /work preview pane, where one <video> is shared by every row.
+ * **The clip path is derived, the poster path is handed over.** A contract filename rebuilds from a slug at runtime; a content-hashed one cannot, so the slug-carrying element also carries both poster URLs as `data-poster` / `data-poster-light` (`cardPosters` in src/lib/media.ts). `src` below is that element: the <video> for a hover card, the row for the /work preview pane where one <video> is shared.
  */
 import { canHover, safePlay, onReducedMotionChange } from './motion';
 

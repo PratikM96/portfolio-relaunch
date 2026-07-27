@@ -4,7 +4,7 @@
  *   node scripts/perf/trend.mjs           # averages per run, then per-page mobile perf
  *   node scripts/perf/trend.mjs home      # one page across every run
  *
- * **This exists because a single mobile run is not evidence.** Across three consecutive runs the worst mobile page changed identity completely, pages with no code change swung +/-750ms in both directions, and the two pages a fix targeted improved before the fix shipped. The per-run mean was the only signal that held. So read the mean column, or read a CPU metric like TBT which barely moves on network variance, and treat a single page's single-run LCP as noise until two runs agree.
+ * **A single mobile run is not evidence.** Across three runs the worst page changed identity, unchanged pages swung +/-750ms, and two pages a fix targeted improved before the fix shipped. Read the mean column, or a CPU metric like TBT which barely moves on network variance. Treat one page's single-run LCP as noise until two runs agree.
  */
 import fs from 'node:fs';
 import path from 'node:path';

@@ -87,8 +87,7 @@ const active = resolved[activeIndex] ?? resolved[0];
       loading="lazy"
       decoding="async"
     />
-    {/* `cap` is the still's ALT text only. It used to also print over the image;
-        overlaid on a screenshot it competed with the UI the still is there to show. */}
+    {/* `cap` is the still's ALT text only. Don't print it over the image: on a screenshot it competes with the UI the still is there to show. */}
     <span class="estage-go">Open ↗</span>
   </a>
   <div class="efoot">{foot}</div>

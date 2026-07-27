@@ -1,7 +1,7 @@
 /**
  * The layout scale: the shell's geometry, and every `sizes` string derived from it.
  *
- * An image's `sizes` is a promise about how wide it will render. Get it wrong and the browser picks the wrong candidate, silently, in the direction you did not measure: too small renders soft, too large wastes the LCP budget. The arithmetic is always `viewport - rail - padding - gaps`, so it belongs in one place rather than being recomputed by hand at each call site. Before this file there were five distinct strings in the build and the two that were hand-written were the two that were wrong, one of them on the LCP element of every case study.
+ * An image's `sizes` is a promise about how wide it will render, and a wrong one fails silently in whichever direction you didn't measure: too small renders soft, too large wastes the LCP budget. The arithmetic is always `viewport - rail - padding - gaps`, so it lives here rather than being retyped per call site.
  *
  * Same contract as the other scales: compose a helper, never type a literal. If a value does not fit, change the shell or change this file. `@media` cannot read a custom property, so the numbers below mirror `tokens.css` and `global.css` by hand and are the ONLY place they are typed. Change one there, change it here.
  */
@@ -18,7 +18,7 @@ const PAD = { sm: 24, md: 32, lg: 64 } as const;
 /** `--space-md`, the gap between cells in every output grid. */
 const GRID_GAP = 16;
 
-/** Horizontal space the shell takes from the viewport before content gets any. Derived, so the 48 / 64 / 392 that used to be typed by hand can no longer disagree with the CSS. */
+/** Horizontal space the shell takes from the viewport before content gets any. Derived, so it cannot disagree with the CSS. */
 const INSET = {
   sm: PAD.sm * 2,
   md: PAD.md * 2,

@@ -3,9 +3,9 @@
  *
  *   node scripts/favicon/render-ico.mjs
  *
- * The .ico exists only for clients that ignore the SVG and PNG <link> tags, so it needs the three legacy sizes and nothing else. The previous file carried nine images, seven of them uncompressed BMP including a 256x256 at 270KB, for 424,139 bytes total: roughly a thousand times its own favicon-32x32.png sibling, shipped to every visitor whose browser asks for /favicon.ico by convention rather than reading the tags.
+ * The .ico exists only for clients that ignore the SVG and PNG <link> tags, so it carries the three legacy sizes and nothing else. Browsers request /favicon.ico by convention rather than reading the tags, so every byte here ships to everyone.
  *
- * Each entry here is a PNG rather than a BMP, which every target since Vista reads, and the directory records the byte length and offset the format requires. A 256px entry is deliberately absent: nothing that falls back to .ico ever renders one that large.
+ * Each entry is a PNG rather than a BMP, which every target since Vista reads, and the directory records the byte length and offset the format requires. A 256px entry is deliberately absent: nothing that falls back to .ico ever renders one that large.
  */
 import fs from 'node:fs';
 import path from 'node:path';
