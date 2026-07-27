@@ -182,7 +182,20 @@ const work = defineCollection({
       // --- proof (one uniform shape for every entry) ---
       proof: z.object({
         figures: z
-          .array(z.object({ value: z.string(), unit: z.string().optional(), label: z.string() }))
+          .array(
+            z
+              .object({
+                // Authored figure. Every entry uses this; it is the normal case.
+                value: z.string().optional(),
+                // Derived figure: the name of a resolver in src/lib/perf-claim.ts, which reads the same measured JSON PerfTable renders. Only the portfolio-system entry has measured figures to derive. Use this instead of `value` for anything a re-run changes, so the figure and the table cannot drift apart.
+                from: z.string().optional(),
+                unit: z.string().optional(),
+                label: z.string(),
+              })
+              .refine((f) => (f.value === undefined) !== (f.from === undefined), {
+                message: 'a proof figure needs exactly one of `value` (authored) or `from` (derived from the measured run)',
+              }),
+          )
           .min(1, 'every entry needs at least one proof value'),
         note: z.object({ label: z.string(), text: z.string() }).optional(),
       }),

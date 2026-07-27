@@ -24,6 +24,7 @@ import { TYPE_LABEL, TYPE_SCOREBOARD } from '../../lib/work-type';
 import { sortWork, firstYear, isYearRange } from '../../lib/content';
 import { heroVideo as heroVideoPath, ogCard, conceptView } from '../../lib/media';
 import { FULL, WIDTHS_FULL } from '../../lib/layout';
+import { perfFigure } from '../../lib/perf-claim';
 import { siteOrigin, personRef, websiteRef, breadcrumb } from '../../lib/schema';
 
 export const getStaticPaths = (async () => {
@@ -64,6 +65,13 @@ if (heroVideo && !heroPoster) {
 const heroImg = heroPoster
   ? await getImage({ src: heroPoster, widths: WIDTHS_FULL, sizes: FULL, format: 'webp' })
   : null;
+
+/* Proof figures, with the derived ones resolved before ProofBox sees them so the component stays a dumb renderer. A figure carrying `from` reads the same measured JSON PerfTable renders, which is what stops the two disagreeing: the mobile average was authored as 98 and measured 99.4 a run later. Authored figures pass straight through. `unit` on the figure wins over the resolver's, so a label can still override presentation. */
+const proofFigures = d.proof.figures.map((f) =>
+  f.from
+    ? (() => { const r = perfFigure(f.from!); return { value: r.value, unit: f.unit ?? r.unit, label: f.label }; })()
+    : { value: f.value!, unit: f.unit, label: f.label },
+);
 
 // §Output appears for assets OR a demo; without either it drops and the spine
 // renumbers. OutputGrid itself renders only when assets exist.
@@ -210,7 +218,7 @@ const schema = [
   {/* PROOF */}
   <section class="cs-sec" id="proof">
     <CaseSectionHead no={no('proof')} title="Proof" />
-    <ProofBox figures={d.proof.figures} note={d.proof.note} />
+    <ProofBox figures={proofFigures} note={d.proof.note} />
     {d.perfTable && <PerfTable />}
   </section>
 
