@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
-# Lighthouse batch for the Portfolio System case study. Runs every URL in
-# urls.txt through Lighthouse (mobile + desktop) and writes the raw JSON to
-# scripts/perf/out/ (gitignored). Then `node scripts/perf/emit.mjs` distills
-# those into the committed src/data/portfolio-perf.json the case study renders.
+# Lighthouse batch for the Portfolio System case study. Runs every URL in urls.txt through Lighthouse (mobile + desktop) and writes the raw JSON into a timestamped folder under scripts/perf/out/ (gitignored). Then `node scripts/perf/emit.mjs` distills the newest of those into the committed src/data/portfolio-perf.json the case study renders.
 #
 #   bash scripts/perf/run.sh && node scripts/perf/emit.mjs
 #
-# The numbers on /work/portfolio-system are measured, not asserted; this is how
-# they are regenerated (e.g. after a deploy adds a page). Needs Chrome + npx.
-# No `set -e`: Lighthouse can exit non-zero on a minor audit warning while still
-# writing valid JSON, so each run is independent and emit.mjs skips any misses.
+# The numbers on /work/portfolio-system are measured, not asserted; this is how they are regenerated (e.g. after a deploy adds a page). Needs Chrome + npx.
+#
+# **One folder per run, named here rather than by hand.** Runs used to land flat and overwrite each other, so the only history was whatever happened to be committed, and a half-finished batch left older files behind for emit.mjs to mix in. A folder per run fixes both, and the name is derived from the clock at start so it cannot disagree with the fetchTime inside it — the first hand-named folder was already a day out.
+#
+# No `set -e`: Lighthouse can exit non-zero on a minor audit warning while still writing valid JSON, so each run is independent and emit.mjs skips any misses.
 cd "$(dirname "$0")/../.."
-mkdir -p scripts/perf/out
+RUN_ID="$(date +%Y%m%d-%H%M)"
+OUT_DIR="scripts/perf/out/$RUN_ID"
+mkdir -p "$OUT_DIR"
+echo "=== run $RUN_ID -> $OUT_DIR"
 while IFS='|' read -r slug url; do
   [ -z "$slug" ] && continue
   for strat in mobile desktop; do
     preset=""; [ "$strat" = "desktop" ] && preset="--preset=desktop"
-    out="scripts/perf/out/${strat}-${slug}.json"
+    out="$OUT_DIR/${strat}-${slug}.json"
     echo ">>> $strat $slug"
     npx --yes lighthouse "$url" --only-categories=performance,accessibility,best-practices,seo $preset \
       --output=json --output-path="$out" \
@@ -24,4 +25,4 @@ while IFS='|' read -r slug url; do
     [ -f "$out" ] && echo "    ok" || echo "    FAILED"
   done
 done < scripts/perf/urls.txt
-echo "=== done. now: node scripts/perf/emit.mjs ==="
+echo "=== done ($RUN_ID). now: node scripts/perf/emit.mjs ==="

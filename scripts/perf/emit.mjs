@@ -1,14 +1,46 @@
 /**
- * Distill the raw Lighthouse runs in scripts/perf/out/ (see run.sh) into the committed src/data/portfolio-perf.json that PerfTable.astro renders. One row per page, plus mobile/desktop averages. Measured, never authored.
+ * Distill one raw Lighthouse batch from scripts/perf/out/ (see run.sh) into the committed src/data/portfolio-perf.json that PerfTable.astro renders, and append the same distilled snapshot to scripts/perf/history.jsonl. One row per page, plus mobile/desktop averages. Measured, never authored.
  *
- *   node scripts/perf/emit.mjs
+ *   node scripts/perf/emit.mjs                  # newest run folder
+ *   node scripts/perf/emit.mjs 20260727-1307    # a specific one, to re-emit an older batch
+ *
+ * **Why the history exists.** A single mobile run is not evidence: across three consecutive runs the worst page changed completely, pages with no code change swung +/-750ms in both directions, and only the mean was readable. Without a history the only way to compare runs was to dig an older portfolio-perf.json out of a git commit, which worked by luck. `history.jsonl` is committed (unlike the raw runs, which are ~30MB a batch and gitignored) so the trend survives, and it is one JSON object per line so a new run is one added line in a diff.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '../..');
-const OUT = path.join(ROOT, 'scripts/perf/out');
+const OUT_ROOT = path.join(ROOT, 'scripts/perf/out');
+const HISTORY = path.join(ROOT, 'scripts/perf/history.jsonl');
 const lines = fs.readFileSync(path.join(ROOT, 'scripts/perf/urls.txt'), 'utf8').trim().split('\n');
+
+/**
+ * Which batch to distill. An explicit argument wins, so an older run can be re-emitted; otherwise the newest folder by name, which sorts chronologically because run.sh names them YYYYMMDD-HHMM. Falls back to OUT_ROOT itself for a batch written before runs were foldered.
+ */
+function resolveRun() {
+  const arg = process.argv[2];
+  if (arg) {
+    const dir = path.isAbsolute(arg) ? arg : path.join(OUT_ROOT, arg);
+    if (!fs.existsSync(dir)) {
+      console.error(`No such run folder: ${dir}`);
+      process.exit(1);
+    }
+    return dir;
+  }
+  if (!fs.existsSync(OUT_ROOT)) {
+    console.error('scripts/perf/out/ does not exist. Run scripts/perf/run.sh first.');
+    process.exit(1);
+  }
+  const folders = fs.readdirSync(OUT_ROOT, { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map((e) => e.name)
+    .sort();
+  if (folders.length) return path.join(OUT_ROOT, folders[folders.length - 1]);
+  return OUT_ROOT;
+}
+
+const OUT = resolveRun();
+const runId = path.basename(OUT);
 
 const LABEL = {
   home: 'Home', about: 'About', brand: 'Brand', contact: 'Contact', journal: 'Journal',
@@ -75,7 +107,7 @@ const build = (strat) => {
 
 const mobile = build('mobile');
 const desktop = build('desktop');
-if (!mobile.rows.length) { console.error('No runs found in scripts/perf/out/. Run scripts/perf/run.sh first.'); process.exit(1); }
+if (!mobile.rows.length) { console.error(`No runs found in ${path.relative(ROOT, OUT)}. Run scripts/perf/run.sh first.`); process.exit(1); }
 // `measuredOn` is the newest fetchTime, so a half-finished batch would silently inherit today's date while carrying rows from an older run. out/ is gitignored and never cleared, so leftovers survive an interrupted run.sh. Refuse to stamp a mixed set.
 if (runDays.size > 1) {
   console.error(`Runs span ${runDays.size} days: ${[...runDays].sort().join(', ')}.`);
@@ -89,3 +121,13 @@ fs.writeFileSync(dest, JSON.stringify(data, null, 2) + '\n');
 console.log(`wrote src/data/portfolio-perf.json — ${data.pages} pages, LH ${lhVersion} on ${data.measuredOn}`);
 console.log('mobile avg:', JSON.stringify(mobile.average));
 console.log('desktop avg:', JSON.stringify(desktop.average));
+
+/* Keyed on runId and rewritten in place rather than blindly appended, so re-emitting a batch corrects its line instead of adding a duplicate. `fetchTime` rides along because runId comes from the clock when run.sh started while fetchTime is when Lighthouse actually loaded the page; they differ by however long the batch took. */
+const entry = { runId, fetchTime, ...data };
+const prior = fs.existsSync(HISTORY)
+  ? fs.readFileSync(HISTORY, 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l))
+  : [];
+const replaced = prior.some((e) => e.runId === runId);
+const merged = [...prior.filter((e) => e.runId !== runId), entry].sort((a, b) => a.runId.localeCompare(b.runId));
+fs.writeFileSync(HISTORY, merged.map((e) => JSON.stringify(e)).join('\n') + '\n');
+console.log(`history.jsonl — ${replaced ? 'replaced' : 'added'} ${runId}, ${merged.length} run(s) recorded`);
