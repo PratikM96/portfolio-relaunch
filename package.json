@@ -13,7 +13,9 @@
     "check:claims": "node scripts/check/claims.mjs",
     "deploy": "npm run build && node -e \"require('fs').rmSync('.wrangler/deploy/config.json',{force:true})\" && wrangler deploy",
     "og:cards": "node scripts/og/render-cards.mjs",
-    "shots": "node scripts/shots/capture.mjs"
+    "shots": "node scripts/shots/capture.mjs",
+    "fonts:subset": "node scripts/fonts/subset-mono.mjs",
+    "favicon": "node scripts/favicon/render-ico.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.0.1",

@@ -1,18 +1,12 @@
 /* =============================================================
    ONE SYSTEM — design tokens (single source of truth)
 
-   Mirrors the brand kit's one-system-tokens.css, which owns naming and values.
-   Added here only: the @font-face blocks and the site-specific tokens under
-   "Site additions". LIGHT is the :root default; DARK follows the OS until a manual
-   choice, then [data-theme]. Rationale: the CLAUDE.md decision log.
+   Mirrors the brand kit's one-system-tokens.css, which owns naming and values. Added here only: the @font-face blocks and "Site additions". LIGHT is the :root default; DARK follows the OS until a manual choice, then [data-theme].
    ============================================================= */
 
 /* ===== Self-hosted fonts (same-origin, woff2, no CDN) =====
-   One VARIABLE file per family, shipped whole, all three preloaded in
-   Base.astro. The weight RANGE is the point: with static cuts a missing weight
-   failed silently. Neither family may be subset — Clash's Fontshare license
-   grants no modification right, and JetBrains Mono ships whole by choice with
-   /fonts/OFL.txt beside it (required by OFL §2). */
+   One VARIABLE file per family, all three preloaded in Base.astro. The weight RANGE is the point: with static cuts a missing weight failed silently.
+   Subsetting is a licensing question, not a size one. Clash's Fontshare license grants embedding but NOT modification, so both Clash faces ship verbatim. JetBrains Mono is OFL-1.1 with no Reserved Font Name, so it may be subset and is (scripts/fonts/subset-mono.mjs); /fonts/OFL.txt ships beside it because OFL §2 requires it. */
 @font-face {
   font-family: 'JetBrains Mono';
   font-weight: 100 800;
@@ -40,16 +34,8 @@
 }
 
 /* ===== METRIC-MATCHED FALLBACKS =====
-   `swap` paints a fallback first, and a mismatched fallback reflows on swap
-   (this cost 0.185 CLS on the home hero). These wrap a system font in the real
-   face's metrics so the swap is invisible. NOT extra cuts — `src: local()`
-   only, zero bytes, nothing modified. The overrides are MEASURED; re-measure if
-   a face changes, since a stale one reflows toward the wrong box.
-
-   The numbers are measured, not guessed: canvas measureText on the shipped
-   woff2 against the fallback, at 1000px, over a representative Latin sample.
-   Re-measure if a face is ever replaced. Clash Display 700 runs 7.1% WIDER than
-   Arial Bold, which is what made the h1 under-wrap and then grow a line. */
+   `swap` paints a fallback first, and a mismatched one reflows on swap (0.185 CLS on the home hero, once). These hold each face's box until it loads. NOT extra cuts — `src: local()` only, zero bytes shipped.
+   The overrides are MEASURED, by canvas measureText on the shipped woff2 against the fallback at 1000px over a Latin sample. Re-measure if a face changes; a stale override reflows toward the wrong box. */
 @font-face {
   font-family: 'Clash Display Fallback';
   src: local('Arial Bold'), local('Arial');
@@ -88,11 +74,9 @@
   --accent-400: #FF7038; --accent-500: #FF5A1F; --accent-600: #E8480F; --accent-700: #C13A0A;
   --accent-800: #8F2B08; --accent-900: #5C1C06;
 
-  /* --- State · fills/indicators + accessible text variants --- */
-  --success: #2E9E5B; --success-text: #1C7B43;
-  --warning: #E8A317; --warning-text: #8A5E08;
-  --danger: #C8201C;  --danger-text: #C8201C;
-  /* info maps to neutral — use --text-secondary */
+  /* --- State · only the two the site actually renders. Info maps to neutral — use --text-secondary. --- */
+  --success-text: #1C7B43; /* the AA pass mark in /brand §07 */
+  --danger: #C8201C;       /* the ✕ on a "don't" example */
 
   /* --- Semantic surfaces · LIGHT (default) --- */
   --bg: var(--n-50);
@@ -107,18 +91,13 @@
   --accent-text: var(--accent-700); /* orange text on light · 4.8:1 · NEVER accent-500 as text */
   --on-accent: var(--n-950);        /* ink on orange fill · 6.3:1 · NEVER white for normal text */
 
-  /* --- Type families: one face, one job ---
-     Each *-Fallback is the metric-matched stand-in above. Keep it directly
-     after its face, ahead of system-ui. */
+  /* --- Type families: one face, one job. Each *-Fallback is the metric-matched stand-in above and stays directly after its face, ahead of system-ui. --- */
   --font-display: "Clash Display", "Clash Display Fallback", system-ui, sans-serif; /* the voice: display, h1, h2 */
   --font-sans: "Clash Grotesk", "Clash Grotesk Fallback", system-ui, sans-serif;    /* reading type: h3-h6, body */
   --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, monospace; /* the system layer */
 
   /* ===== TYPE SCALE =====
-     Eight tiers, and nothing outside them. Only SIZE is set at the point of
-     use; family, weight and tracking are the system, applied via the .t-*
-     groups in global.css. Tracking is optical — it tightens as type grows and
-     opens for uppercase mono, hence `display` and `label` at opposite ends. */
+     Eight tiers, and nothing outside them. A rule sets SIZE only; family, weight and tracking are the system, applied via the .t-* groups in global.css. Tracking is optical, tightening as type grows and opening for uppercase mono, hence `display` and `label` at opposite ends. */
 
   /* the voice — Clash Display */
   --t-display-font: var(--font-display); --t-display-weight: 700; --t-display-track: -0.02em;
@@ -130,22 +109,16 @@
   --t-body-font: var(--font-sans); --t-body-weight: 400; --t-body-track: 0;
   --t-strong-weight: 600; /* bold inside body copy; same family as body */
 
-  /* the system layer — JetBrains Mono. label + emphasis are ALWAYS uppercase;
-     `data` is the sentence-case tier, at +5%. */
+  /* the system layer — JetBrains Mono. label + emphasis are ALWAYS uppercase; `data` is the sentence-case tier, at +5%. */
   --t-label-font: var(--font-mono);    --t-label-weight: 400;    --t-label-track: 0.1em;
   --t-data-font: var(--font-mono);     --t-data-weight: 400;     --t-data-track: 0.05em;
   --t-emphasis-font: var(--font-mono); --t-emphasis-weight: 600; --t-emphasis-track: 0.1em;
 
   /* --- Line heights (paired with the tiers above) --- */
-  --lh-display: 0.98; --lh-h1: 1.05; --lh-h2: 1.1; --lh-h3: 1.25;
-  --lh-body: 1.65; --lh-label: 1.5;
+  --lh-display: 0.98; --lh-h1: 1.05; --lh-h2: 1.1; --lh-h3: 1.25; --lh-label: 1.5;
 
-  /* --- Size · the eleven steps, and nothing outside them ---
-     A tier says which face; a step says how big. Every `font-size` on the site
-     resolves to one of these. The steps are frequency-derived, not invented:
-     they sit where the design already clustered, so most rules kept their exact
-     value when the scale was adopted. --fs-base is the document base on <body>,
-     which is why 16px is its own step rather than folding into 15 or 17. */
+  /* --- Size · eleven steps, and nothing outside them ---
+     A tier says which face; a step says how big. Every `font-size` resolves to one of these. Frequency-derived, not invented: the steps sit where the design already clustered. --fs-base is the document base on <body>, which is why 16px is its own step. */
   --fs-3xs: 10px;    /* badges, rail keys, discipline lists */
   --fs-2xs: 11px;    /* kickers, captions, figcaptions, filter chips */
   --fs-xs: 12px;     /* rail nav, buttons, table meta */
@@ -158,9 +131,7 @@
   --fs-3xl: 30px;    /* large figures, wordmark specimens */
   --fs-4xl: 42px;    /* the largest fixed figure */
 
-  /* Fluid steps for type that scales with the viewport. Same rule: compose one,
-     never hand-write a clamp(). Container-query sizing (cqi) is NOT here — a
-     figure sized to its own cell is per-component and stays local. */
+  /* Fluid steps for type that scales with the viewport. Compose one, never hand-write a clamp(). Container-query sizing (cqi) is not here: a figure measured against its own cell stays per-component. */
   --fs-fluid-hero: clamp(44px, 6.5vw, 86px); /* case-study H1 */
   --fs-fluid-page: clamp(38px, 5vw, 68px);   /* page head, closing CTA */
   --fs-fluid-2xl: clamp(28px, 3.4vw, 44px);  /* stat figures, next-case link */
@@ -173,19 +144,15 @@
   --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
   --space-lg: 24px; --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px;
   --space-4xl: 96px; --space-5xl: 128px;
-  --baseline: 4px;
 
-  /* --- Grid · desktop (tablet: 8 col/24/32 · mobile: 4 col/16/20) --- */
-  /* No grid tokens. There is no 12-column grid, no max-width and no 24px gutter on this site: the shell is `--rail` plus `.pad`, and content takes the remainder. Four tokens used to describe that fictional grid and only /brand ever read them, so the page documented a system the CSS never enforced. The real geometry, and every `sizes` string derived from it, is src/lib/layout.ts. */
+  /* --- No grid tokens. There is no column grid, no max-width and no gutter: the shell is `--rail` plus `.pad`, content takes the remainder, and src/lib/layout.ts owns the geometry and every `sizes` string derived from it. --- */
 
-  /* --- Breakpoints · four, each with one job ---
-     Declared here as documentation only: `@media` cannot read a custom
-     property, so the queries themselves carry the number. Don't invent a
-     fifth - pick the one whose job matches.
+  /* --- Breakpoints · four, each with one job. Don't invent a fifth; pick the one whose job matches.
+     UNREFERENCED BY DESIGN — `@media` cannot read a custom property, so the queries carry the number and these are documentation. Don't delete them as dead.
        1100px  a two-up feature/hero row stacks; the work preview pane drops
        1000px  a content + sticky-aside layout collapses to one column
         900px  the console rail is replaced by the mobile bar + drawer
-        560px  the last multi-column grids go single-column */
+     560px  the last multi-column grids go single-column */
   --bp-lg: 1100px; --bp-md: 1000px; --bp-sm: 900px; --bp-xs: 560px;
 
   /* --- Radius --- */
@@ -193,19 +160,14 @@
   --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
 
   /* --- Scrims + shadows ---
-     Overlays that sit on media, so they are keyed to the ramp rather than the
-     semantic surfaces: a caption chip on a video has to stay dark in BOTH
-     themes. Built with color-mix on --n-950 so they follow the ramp instead of
-     freezing an rgba() copy of it. */
-  --scrim-strong: color-mix(in srgb, var(--n-950) 60%, transparent); /* demo stage */
+     Overlays sit on media, so they key to the ramp rather than the semantic surfaces: a caption chip on a video stays dark in BOTH themes. color-mix on --n-950 so they follow the ramp instead of freezing an rgba() copy of it. */
   --scrim-chip: color-mix(in srgb, var(--n-950) 55%, transparent);   /* caption chips */
   --scrim-base: color-mix(in srgb, var(--n-950) 26%, transparent);   /* play button, rest */
   --scrim-hover: color-mix(in srgb, var(--n-950) 15%, transparent);  /* play button, hover */
   --shadow-overlay: 0 8px 28px rgba(0, 0, 0, 0.32); /* the round play button */
   --shadow-raised: 0 24px 60px -24px rgba(0, 0, 0, 0.55); /* consent banner */
 
-  /* --- Image aspect ratios (the ONLY ratios any image slot may use) ---
-     A new slot means a new token, never a literal. */
+  /* --- Image aspect ratios · the ONLY ratios any image slot may use. A new slot means a new token, never a literal. --- */
   --ratio-wide: 16 / 9;        /* video / hero / feature */
   --ratio-landscape: 16 / 10;  /* gallery cards */
   --ratio-photo: 3 / 2;        /* photo galleries */
@@ -217,7 +179,7 @@
   --ratio-portrait: 9 / 16;    /* vertical / reel */
 
   /* --- Motion · six durations, three curves, and nothing outside them ---
-     Every `transition` and `animation` composes one duration and one curve. The names say what the motion MEANS, not how fast it is, so a rule picks by intent: a color swap is --dur-quick whatever it sits on, a slide is --dur-move whatever the distance. --dur-quick is the anchor and carries most of the site. --dur-enter is not a rounder --dur-move: `.rev-load` animates the whole hero, so its duration lands on Speed Index and 280ms is measured. Don't fold it into a neighbour. */
+     Every `transition` and `animation` composes one duration and one curve. The names say what the motion MEANS, not how fast it is, so a rule picks by intent: a color swap is --dur-quick wherever it sits, a slide is --dur-move whatever the distance. --dur-quick is the anchor. --dur-enter is not a rounder --dur-move: `.rev-load` animates the whole hero, so its duration lands on Speed Index and 280ms is measured. Don't fold it into a neighbour. */
   --dur-instant: 120ms;    /* the echo under a press — .btn:active */
   --dur-quick: 200ms;      /* state changing in place: color, border, background, opacity */
   --dur-enter: 280ms;      /* above-the-fold arrival — .rev-load, measured against Speed Index */
@@ -229,7 +191,7 @@
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);  /* moves that leave AND arrive: theme flip, view transitions */
 
   /* --- Motion distance ---
-     A transform's magnitude is a token too, so the reveal slide and the row nudge can't drift apart the way three different hover scales already had. The two scales are a pair, not a ladder: a 44px circle needs more scale than a card to read as the same gesture. */
+     A transform's magnitude is a token too, so the reveal slide and the row nudge can't drift apart the way three hover scales already had. The two scales are a pair, not a ladder: a 44px circle needs more scale than a card to read as the same gesture. */
   --stagger-step: 60ms;    /* per-item delay in a staggered reveal (--rev-i × this) */
   --travel-xs: 4px;        /* the button lift */
   --travel-sm: 12px;       /* reveal slide, row hover nudge */
@@ -237,19 +199,11 @@
   --scale-control: 1.06;   /* small controls: the play button */
 
   /* --- Site additions (not in the brand kit) --- */
-  --rail: 264px;                          /* console rail width */
-  --badge-concept-bg: rgba(244, 242, 235, .7);
-  --badge-concept-tx: var(--n-900);
+  --rail: 264px;         /* console rail width */
   --img-frame: var(--n-200);
 
   /* --- Measure · nine steps, and nothing outside them ---
-     Every prose `max-width` on the site resolves to one of these — never a
-     hand-written ch value. Frequency-derived like the Size scale: the steps
-     sit where the 24 existing max-width rules already clustered, so most
-     kept their exact value when the scale was adopted. --measure-lg and
-     --measure-2xl are the two anchors everything else was picked around —
-     they're `.lead` and `.prose` below, already the site's shared measure
-     primitives before this scale existed. */
+     Every prose `max-width` resolves to one of these, never a hand-written ch value. Frequency-derived like the Size scale. --measure-lg and --measure-2xl are the anchors everything else was picked around: they are `.lead` and `.prose` in global.css. */
   --measure-3xs: 16ch;  /* forced headline wrap: closing CTA */
   --measure-2xs: 22ch;  /* forced headline wrap: a page h1 */
   --measure-xs: 26ch;   /* short label / stat caption */
@@ -261,30 +215,23 @@
   --measure-3xl: 74ch;  /* full-width article column */
 }
 
-/* ===== Semantic surfaces · DARK ===== */
-/* Follows the OS until a manual choice is stored (no [data-theme]). */
+/* ===== Semantic surfaces · DARK =====
+   Follows the OS until a manual choice is stored, then [data-theme] (set by the no-flash script in Base.astro). The two blocks are identical and must stay in step. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: var(--n-950); --surface: var(--n-900); --surface-raised: var(--n-800);
     --border: var(--n-800); --border-strong: var(--n-700);
     --text: var(--n-50); --text-secondary: var(--n-400); --text-muted: var(--n-500);
     --accent-text: var(--accent-400);
-    --success-text: #4FD08A; --warning-text: #F5C24B; --danger-text: #F06A66;
-    /* site additions */
-    --badge-concept-bg: rgba(11, 11, 10, .6);
-    --badge-concept-tx: var(--n-200);
+    --success-text: #4FD08A;
     --img-frame: var(--border-strong);
   }
 }
-/* Manual override (set by the no-flash script in Base.astro). */
 [data-theme="dark"] {
   --bg: var(--n-950); --surface: var(--n-900); --surface-raised: var(--n-800);
   --border: var(--n-800); --border-strong: var(--n-700);
   --text: var(--n-50); --text-secondary: var(--n-400); --text-muted: var(--n-500);
   --accent-text: var(--accent-400);
-  --success-text: #4FD08A; --warning-text: #F5C24B; --danger-text: #F06A66;
-  /* site additions */
-  --badge-concept-bg: rgba(11, 11, 10, .6);
-  --badge-concept-tx: var(--n-200);
+  --success-text: #4FD08A;
   --img-frame: var(--border-strong);
 }
