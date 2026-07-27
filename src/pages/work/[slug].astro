@@ -16,6 +16,7 @@ import SysFlow from '../../components/SysFlow.astro';
 import Decisions from '../../components/Decisions.astro';
 import OutputGrid from '../../components/OutputGrid.astro';
 import ProofBox from '../../components/ProofBox.astro';
+/* Statically imported even though both render conditionally. Astro drops an unrendered component's SCRIPT (see OutputVideo.astro) but keeps its CSS, so PerfTable's ~1.5KB gzipped ships to all 12 case studies while rendering on 1, and EmbeddedDemo's ~0.9KB to all 12 while rendering on 3. A dynamic import would fix that, and was tried and reverted: `astro check` rejects a possibly-null component, and the whole prize is ~2.4KB gzipped out of 8.2KB of page CSS, about 10ms on a throttled connection. Not worth a type cast. */
 import PerfTable from '../../components/PerfTable.astro';
 import EmbeddedDemo from '../../components/EmbeddedDemo.astro';
 import PlayButton from '../../components/PlayButton.astro';

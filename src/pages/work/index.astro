@@ -117,12 +117,12 @@ const routes = ROUTES.map((r) => ({
   {/* featured pair */}
   <h2 class="sr-only">Featured projects</h2>
   <section class="feat rev-load">
-    {featured.map((p) => (
+    {featured.map((p, i) => (
       <a class="card card--interactive fcard" href={p.href}>
         <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
         <div class="im">
-          {/* No <source>: card-video.ts adds one on first hover, so an untouched card costs nothing. */}
-          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} poster={p.poster.dark} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
+          {/* No <source>: card-video.ts adds one on first hover, so an untouched card costs nothing. The FIRST card keeps its `poster` in the markup because it is this page's LCP element and is preloaded above — deferring it to script would delay the very paint the preload exists to hurry. Every later card gets its poster from the observer instead. */}
+          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} poster={i === 0 ? p.poster.dark : undefined} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
         </div>
         <div class="meta">
           <div>

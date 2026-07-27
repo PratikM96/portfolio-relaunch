@@ -60,11 +60,26 @@ export function wireHoverCards(cardSelector: string, videoSelector: string): voi
   // Snapshotted because it decides whether a fetch is possible at all, and a fetch can't be taken back. Playback is not snapshotted: safePlay re-reads reduced motion each time, so a mid-session flip is honored.
   const hover = canHover();
   const vids: HTMLVideoElement[] = [];
+  /**
+   * Posters are applied ~300px before the card scrolls in, not at wire time. A `<video poster>` fetches the moment the attribute exists, so setting it up front pulled every card's still on load: on home that is four images below the fold on a phone, none of which the visitor may reach. Same trap and same 300px margin as OutputGrid's video posters.
+   *
+   * A card that must paint immediately keeps `poster` in its markup instead, which is how /work's first featured card stays the preloaded LCP element: this only ever *adds* a poster, never replaces one.
+   */
+  const near = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries, obs) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const v = e.target as HTMLVideoElement;
+          if (!v.poster) applyCardPoster(v, v);
+          obs.unobserve(v);
+        }
+      }, { rootMargin: '300px' })
+    : null;
   document.querySelectorAll<HTMLElement>(cardSelector).forEach((card) => {
     const v = card.querySelector<HTMLVideoElement>(videoSelector);
     if (!v) return;
     vids.push(v);
-    applyCardPoster(v, v);
+    if (near) near.observe(v); else applyCardPoster(v, v);
     if (!hover) return;
     // applyCardSources no-ops once wired, so this costs one dataset read per re-enter
     card.addEventListener('mouseenter', () => {
@@ -74,7 +89,8 @@ export function wireHoverCards(cardSelector: string, videoSelector: string): voi
     card.addEventListener('mouseleave', () => { v.pause(); v.load(); });
   });
   onThemeChange(() => vids.forEach((v) => {
-    // Only re-point what was already fetched. Re-pointing an untouched card would fetch the other theme's clip for a card that never got the first one.
+    // Only re-point what was already fetched. Re-pointing an untouched card would fetch the other theme's clip for a card that never got the first one. A card whose poster has not been applied yet is skipped entirely: applying one here would defeat the deferral, and posterFor reads the live theme when the observer does fire.
+    if (!v.poster) return;
     if (!hover || !v.dataset.wired) { applyCardPoster(v, v); return; }
     const wasPlaying = !v.paused;
     applyCardSources(v, v.dataset.slug!, v);

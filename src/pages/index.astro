@@ -134,8 +134,8 @@ const heroPoster = await getImage({
           <a class="card card--interactive t-feat rev" style={`--rev-i:${i}`} href={`/work/${p.slug}`}>
             <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
             <div class="img">
-              {/* No <source> in the markup: card-video.ts adds one on first hover, so nothing is fetched for a card the visitor never touches. */}
-              <video class="tile-video" muted loop playsinline preload="none" data-slug={p.slug} poster={p.poster.dark} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
+              {/* Neither a <source> nor a `poster` in the markup. card-video.ts adds the source on first hover and the poster ~300px before the card scrolls in, so a card the visitor never reaches costs nothing: all four of these sit below the fold on a phone, and a `poster` attribute fetches the instant it exists. */}
+              <video class="tile-video" muted loop playsinline preload="none" data-slug={p.slug} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
             </div>
             <div class="meta">
               <div>
