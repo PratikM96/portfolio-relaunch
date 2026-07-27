@@ -249,19 +249,35 @@ const heroPoster = await getImage({
         if (p && p.catch) p.catch(function () {});
       };
 
-      // Defer until after load AND main-thread idle — `load` alone still let
-      // the ~1.1MB fetch land inside the LCP/Speed Index window. A metered or
-      // slow link never auto-starts (the preloaded poster is the whole
-      // experience there); a click always starts it, ungated. The Network
-      // Information API is Chromium-only, so every read is guarded.
+      // Deferred in three stages, because the FETCH was never the expensive part.
+      //
+      // `load` alone let the ~1.1MB fetch land inside the LCP/Speed Index window, which is what the idle callback was added for. The decode is the newer problem: this animation carries newspaper halftone, a photographic globe and film grain across 240 frames, so it costs far more main thread than the flat mark it replaced at the same byte weight. Starting it while the page is still settling put that cost inside the interactive window.
+      //
+      // Nothing here is above-the-fold work. The poster is preloaded and already painted, and it is the resolved lockup rather than a mid-animation frame, so the hero looks finished before the loop ever runs. Holding the loop back costs the visitor nothing and costs the main thread everything it was spending.
+      //
+      // A metered or slow link never auto-starts at all (the poster is the whole experience there); a click always starts it, ungated. The Network Information API is Chromium-only, so every read is guarded.
       var conn = (navigator as any).connection;
       var frugal = !!conn && (conn.saveData === true || /^((slow-)?2g|3g)$/.test(conn.effectiveType || ''));
-      // The shim ignores the `{ timeout }` it is handed below, and that is correct rather than a dropped argument: it fires at a fixed 200ms, which already lands well inside the 2000ms deadline that option exists to enforce. Declaring the parameter just to discard it only buys an unused-variable warning.
-      var idle = (window as any).requestIdleCallback || function (cb: () => void) { return setTimeout(cb, 200); };
-      var start = function () { idle(function () { ready = true; autoPlay(); }, { timeout: 2000 }); };
-      if (prefersReducedMotion() || frugal) { video.pause(); }
-      else if (document.readyState === 'complete') start();
-      else window.addEventListener('load', start, { once: true });
+      // The shim ignores the `{ timeout }` it is handed below, which is correct rather than a dropped argument: it fires at a fixed delay that already sits inside the deadline that option exists to enforce. Declaring the parameter just to discard it only buys an unused-variable warning.
+      var idle = (window as any).requestIdleCallback || function (cb: () => void) { return setTimeout(cb, 1200); };
+      // Stage 2: a beat after `load`, so the decode is not competing with whatever the page is still finishing. Stage 3: genuine main-thread idle, with a ceiling high enough that a busy thread is waited out rather than interrupted.
+      var HOLD_MS = 1200;
+      var begin = function () {
+        // A hidden tab decodes nothing. Someone who opens the site in a background tab keeps the poster until they actually look at it, and `visibilitychange` below is the resume.
+        if (document.visibilityState !== 'visible') return;
+        idle(function () { ready = true; autoPlay(); }, { timeout: 4000 });
+      };
+      var arm = function () { setTimeout(begin, HOLD_MS); };
+      if (prefersReducedMotion() || frugal) {
+        video.pause();
+      } else {
+        if (document.readyState === 'complete') arm();
+        else window.addEventListener('load', arm, { once: true });
+        // `!ready` keeps this a no-op once the loop has started, so it cannot double-start
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'visible' && !ready) begin();
+        });
+      }
 
       // pause off-screen, resume when back — shared threshold, shared observer shape
       observeInView(btn, function (visible) {
