@@ -2,7 +2,7 @@
 /**
  * Brand — the living brand reference. Rules transcribed from One-System-Brand-Guidelines v1.0 (Drive); voice comes from System Master.
  *
- * Token VALUES read live from tokens.css and `tokenValue` throws on a missing one. Everything else is hand maintained and can drift: prose, usage guidance, format mockups, and the §07 contrast ratios. Re-measure §07 when the ramp moves.
+ * Token VALUES read live from tokens.css and `tokenValue` throws on a missing one. Everything else is hand maintained and can drift: prose, usage guidance, format mockups, and the Color contrast ratios, which need re-measuring when the ramp moves. Refer to sections by name, not number — SECTIONS owns the numbering and it changes.
  */
 import Base from '../layouts/Base.astro';
 import CloseCTA from '../components/CloseCTA.astro';
@@ -93,18 +93,20 @@ const measures = [
 const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
 
 /**
- * The nine sections, in page order. The index at the top and every section heading below render from this, so a renamed section cannot leave the index pointing at a title that no longer exists. `id` is the anchor; `t` is the full compound heading; the index shows only the part before the ` / `, which is the noun.
+ * The nine sections, in page order, grouped identity → elements → system rules → application. The index at the top and every heading below render from this, so a renamed section cannot leave the index pointing at a title that no longer exists. `id` is the anchor; `t` is the compound heading; the index shows only the noun before the ` / `.
+ *
+ * Order is an argument, so keep these three together: Voice sits with Foundation because both specimen actual copy, Contrast sits under Color because it audits that ramp, and Formats closes because it is the only section that composes every other one at once. Moving a section here means moving its <section> block too — this array sets the numbering, not the DOM.
  */
 const SECTIONS = [
   { id: 'foundation', n: '01', t: 'Foundation / the spine' },
-  { id: 'logo', n: '02', t: 'Logo / the loop' },
-  { id: 'type', n: '03', t: 'Type / three faces, one system' },
-  { id: 'color', n: '04', t: 'Color / warm monochrome, one accent' },
-  { id: 'layout', n: '05', t: 'Layout / a 4px base' },
-  { id: 'motion', n: '06', t: 'Motion / functional, not decorative' },
-  { id: 'contrast', n: '07', t: 'Color contrast / checked against WCAG AA' },
-  { id: 'formats', n: '08', t: 'Formats / the brand, in format' },
-  { id: 'voice', n: '09', t: 'Voice / source: System Master' },
+  { id: 'voice', n: '02', t: 'Voice / source: System Master' },
+  { id: 'logo', n: '03', t: 'Logo / the loop' },
+  { id: 'type', n: '04', t: 'Type / three faces, one system' },
+  { id: 'color', n: '05', t: 'Color / warm monochrome, one accent' },
+  { id: 'contrast', n: '06', t: 'Color contrast / checked against WCAG AA' },
+  { id: 'layout', n: '07', t: 'Layout / a 4px base' },
+  { id: 'motion', n: '08', t: 'Motion / functional, not decorative' },
+  { id: 'formats', n: '09', t: 'Formats / the brand, in format' },
 ];
 // Throws rather than rendering a blank heading, same contract as tokenValue above.
 const sec = (id: string) => {
@@ -135,7 +137,7 @@ const sec = (id: string) => {
     </nav>
   </header>
 
-  {/* 01 FOUNDATION */}
+  {/* FOUNDATION */}
   <section class="bsec" id={sec('foundation').id}>
     <div class="blabel"><span class="c">[ {sec('foundation').n} ]</span><h2 class="t">{sec('foundation').t}</h2><span class="rule"></span></div>
     <p class="intro">Creative built like a system and accountable to what it does after it ships. The breadth is the proof of the idea, not a separate selling point.</p>
@@ -147,7 +149,17 @@ const sec = (id: string) => {
     <div class="frow"><div class="fspec">accent signal</div><div class="fsamp mono">Signal orange / #{hex('--accent-500')} / used once, to do one job</div></div>
   </section>
 
-  {/* 02 LOGO */}
+  {/* VOICE — beside Foundation because that section already specimens copy (the tagline, the reserve line) rather than a visual element. */}
+  <section class="bsec" id={sec('voice').id}>
+    <div class="blabel"><span class="c">[ {sec('voice').n} ]</span><h2 class="t">{sec('voice').t}</h2><span class="rule"></span></div>
+    <p class="intro">Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. No inflated claims, no buzzwords, no unsupported proof. No em or en dashes.</p>
+    <div class="voice rev">
+      <div class="card vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
+      <div class="card vcol dont-col"><div class="h">Don't</div><ul><li>Inflate or overclaim</li><li>Reach for buzzwords</li><li>Over-polish into AI-speak</li><li>Imply concepts are client work</li></ul></div>
+    </div>
+  </section>
+
+  {/* LOGO */}
   <section class="bsec" id={sec('logo').id}>
     <div class="blabel"><span class="c">[ {sec('logo').n} ]</span><h2 class="t">{sec('logo').t}</h2><span class="rule"></span></div>
     <p class="intro">One continuous stroke that closes on the orange node: the system, end to end, as a mark. Default to the primary lockup. The wordmark carries the circular period; the lockups don't.</p>
@@ -178,7 +190,7 @@ const sec = (id: string) => {
     </div>
   </section>
 
-  {/* 03 TYPE */}
+  {/* TYPE */}
   <section class="bsec" id={sec('type').id}>
     <div class="blabel"><span class="c">[ {sec('type').n} ]</span><h2 class="t">{sec('type').t}</h2><span class="rule"></span></div>
     <p class="intro">Each face has one job. Clash Display is the voice: display, h1, h2. Clash Grotesk is reading type: sub-headings and body. JetBrains Mono is the system layer: labels, data, and code. All three ship as one variable file per family, so every weight below is real rather than the nearest available one.</p>
@@ -222,7 +234,8 @@ const sec = (id: string) => {
         <tr>
           <td class="tier">data / nav</td><td class="meta">JetBrains Mono</td><td class="meta">400</td><td class="meta">+5%</td>
           <td class="meta">rail nav, scoreboard values, the clock / sentence case</td>
-          <td class="s"><span class="v t-data" style="font-size:var(--fs-sm);color:var(--text-secondary)">Home &nbsp;/&nbsp; 2023-2024 &nbsp;/&nbsp; 12:53 PM</span></td>
+          {/* One specimen, not three: a ` / ` run wrapped mid-cell at phone widths. The rail clock is the truest single example of the tier. */}
+          <td class="s"><span class="v t-data" style="font-size:var(--fs-sm);color:var(--text-secondary)">12:53 PM</span></td>
         </tr>
         <tr>
           <td class="tier">emphasis</td><td class="meta">JetBrains Mono</td><td class="meta">600</td><td class="meta">+10%</td>
@@ -258,7 +271,7 @@ const sec = (id: string) => {
     </div>
   </section>
 
-  {/* 04 COLOR */}
+  {/* COLOR */}
   <section class="bsec" id={sec('color').id}>
     <div class="blabel"><span class="c">[ {sec('color').n} ]</span><h2 class="t">{sec('color').t}</h2><span class="rule"></span></div>
     <p class="intro">A warm neutral ramp from paper to ink, a single signal-orange accent, and a restrained state set. Both light and dark are first-class.</p>
@@ -281,7 +294,29 @@ const sec = (id: string) => {
     </div>
   </section>
 
-  {/* 05 LAYOUT */}
+  {/* COLOR CONTRAST — directly under the ramp it audits. */}
+  <section class="bsec" id={sec('contrast').id}>
+    {/* Contrast pairs only, not WCAG AA conformance. Ratios are hand-measured: re-measure when a ramp step moves. */}
+    <div class="blabel"><span class="c">[ {sec('contrast').n} ]</span><h2 class="t">{sec('contrast').t}</h2><span class="rule"></span></div>
+    <p class="intro">The single orange signal can't sit on top of itself. Three rules carry most of it.</p>
+    <div class="rules rev">
+      <div class="rule-card"><div class="rule-k">Orange text</div><div class="rule-b">On light, orange text is accent-700 (#{hex('--accent-700')}), never 500. On dark, accent-400.</div></div>
+      <div class="rule-card"><div class="rule-k">On orange fills</div><div class="rule-b">Text and the logo on an orange surface are ink, never white. The mark goes monochrome so the node doesn't blend.</div></div>
+      <div class="rule-card"><div class="rule-k">State colors</div><div class="rule-b">Two, because two is all the site renders: a pass mark and a "don't" mark. Info is neutral, not a color.</div></div>
+    </div>
+    <table>
+      <thead><tr><th>Pair</th><th>Ratio</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Ink on paper</td><td class="r">17.6:1</td><td class="aa">AAA</td></tr>
+        <tr><td>Secondary #{hex('--n-600')} on paper</td><td class="r">5.9:1</td><td class="aa">AA</td></tr>
+        <tr><td>Accent-700 text on paper</td><td class="r">4.8:1</td><td class="aa">AA</td></tr>
+        <tr><td>Ink on orange fill</td><td class="r">6.3:1</td><td class="aa">AA</td></tr>
+        <tr><td>Paper on ink (dark)</td><td class="r">17.6:1</td><td class="aa">AAA</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  {/* LAYOUT */}
   <section class="bsec" id={sec('layout').id}>
     <div class="blabel"><span class="c">[ {sec('layout').n} ]</span><h2 class="t">{sec('layout').t}</h2><span class="rule"></span></div>
     <p class="intro">Everything measures from a 4px unit. There is no fixed column grid and no max-width: the page is a rail plus padding, and content takes whatever is left. Radius base is {px('--radius-md')}px; the mono system layer uses sharp 0 corners.</p>
@@ -314,7 +349,7 @@ const sec = (id: string) => {
     </div>
   </section>
 
-  {/* 06 MOTION — every demo below is driven by the token it documents, so a bar cannot claim one duration while animating another. Hover a row to replay it. */}
+  {/* MOTION — every demo below is driven by the token it documents, so a bar cannot claim one duration while animating another. Hover a row to replay it. */}
   <section class="bsec" id={sec('motion').id}>
     <div class="blabel"><span class="c">[ {sec('motion').n} ]</span><h2 class="t">{sec('motion').t}</h2><span class="rule"></span></div>
     <p class="intro">Quick and confident. Short travel, no bounce. The names say what a motion <em>means</em>, not how fast it is, so a rule picks by intent: a color swap is <code>quick</code> wherever it sits, a slide is <code>move</code> whatever the distance. Reels inherit this: cuts over fades, snap transitions.</p>
@@ -374,29 +409,7 @@ const sec = (id: string) => {
     <p class="intro">Here "reduce" means <em>remove</em>. Killing the tween alone still lets a hover end-state apply, so a card would jump 3% larger in a single frame, and a snap is still movement. Under <code>prefers-reduced-motion</code> every transition and animation is off, nothing translates or scales, page transitions are canceled, and smooth scrolling reverts to instant. Hover stays legible on color and border alone. Video is gated in JavaScript, since CSS cannot stop playback. The swatches in this section follow the same rule: they hold still, and the printed values carry it.</p>
   </section>
 
-  {/* 07 ACCESSIBILITY */}
-  <section class="bsec" id={sec('contrast').id}>
-    {/* Contrast pairs only, not WCAG AA conformance. Ratios below are hand-measured: re-measure when a ramp step moves. */}
-    <div class="blabel"><span class="c">[ {sec('contrast').n} ]</span><h2 class="t">{sec('contrast').t}</h2><span class="rule"></span></div>
-    <p class="intro">The single orange signal can't sit on top of itself. Three rules carry most of it.</p>
-    <div class="rules rev">
-      <div class="rule-card"><div class="rule-k">Orange text</div><div class="rule-b">On light, orange text is accent-700 (#{hex('--accent-700')}), never 500. On dark, accent-400.</div></div>
-      <div class="rule-card"><div class="rule-k">On orange fills</div><div class="rule-b">Text and the logo on an orange surface are ink, never white. The mark goes monochrome so the node doesn't blend.</div></div>
-      <div class="rule-card"><div class="rule-k">State colors</div><div class="rule-b">State fills for indicators; the darker -text variants when used as text.</div></div>
-    </div>
-    <table>
-      <thead><tr><th>Pair</th><th>Ratio</th><th>Verdict</th></tr></thead>
-      <tbody>
-        <tr><td>Ink on paper</td><td class="r">17.6:1</td><td class="aa">AAA</td></tr>
-        <tr><td>Secondary #{hex('--n-600')} on paper</td><td class="r">5.9:1</td><td class="aa">AA</td></tr>
-        <tr><td>Accent-700 text on paper</td><td class="r">4.8:1</td><td class="aa">AA</td></tr>
-        <tr><td>Ink on orange fill</td><td class="r">6.3:1</td><td class="aa">AA</td></tr>
-        <tr><td>Paper on ink (dark)</td><td class="r">17.6:1</td><td class="aa">AAA</td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  {/* 08 FORMATS — every font-size in this section is a literal on purpose. These are 1080x1080 / 1080x1920 / 1920x1080 export canvases shrunk by a fixed transform, so their type is measured in export pixels. A --fs-* token here would claim a relationship to UI type that doesn't exist. */}
+  {/* FORMATS — every font-size in this section is a literal on purpose. These are 1080x1080 / 1080x1920 / 1920x1080 export canvases shrunk by a fixed transform, so their type is measured in export pixels. A --fs-* token here would claim a relationship to UI type that doesn't exist. */}
   <section class="bsec" id={sec('formats').id}>
     <div class="blabel"><span class="c">[ {sec('formats').n} ]</span><h2 class="t">{sec('formats').t}</h2><span class="rule"></span></div>
     <p class="intro">How the system shows up as social posts, reel frames, and a lower-third. Placeholder content at true export dimensions, rendered live so the mockups re-theme with the page.</p>
@@ -458,16 +471,6 @@ const sec = (id: string) => {
         </div></div>
         <div class="spec"><b>caption</b> / over video</div>
       </div>
-    </div>
-  </section>
-
-  {/* 09 VOICE */}
-  <section class="bsec" id={sec('voice').id}>
-    <div class="blabel"><span class="c">[ {sec('voice').n} ]</span><h2 class="t">{sec('voice').t}</h2><span class="rule"></span></div>
-    <p class="intro">Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. No inflated claims, no buzzwords, no unsupported proof. No em or en dashes.</p>
-    <div class="voice rev">
-      <div class="card vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
-      <div class="card vcol dont-col"><div class="h">Don't</div><ul><li>Inflate or overclaim</li><li>Reach for buzzwords</li><li>Over-polish into AI-speak</li><li>Imply concepts are client work</li></ul></div>
     </div>
   </section>
 
@@ -687,7 +690,7 @@ const sec = (id: string) => {
   .durs { margin-top: var(--space-md); }
   .d-row { display: grid; grid-template-columns: 200px minmax(0, 1fr) 240px; gap: var(--space-md); align-items: center; padding: var(--space-xs) 0; border-bottom: 1px solid var(--border); }
   .d-row:last-child { border-bottom: none; }
-  /* The track is the demo. Its dot is driven ONLY by the token on the element, so the row cannot print one duration and animate another the way the old hardcoded-px bars could. */
+  /* The track is the demo. Its dot is driven ONLY by the token on the element, so a row cannot print one duration and animate another. */
   /* container-type is what makes cqw resolve against the TRACK rather than the viewport — without it the dot would travel a fraction of the window instead of its own lane. */
   .d-track { position: relative; container-type: inline-size; height: 18px; background: color-mix(in srgb, var(--accent-fill) 10%, transparent); border-radius: var(--radius-sm); overflow: hidden; }
   /* duration and curve come from the row's inline style, i.e. straight off the token */
@@ -705,7 +708,7 @@ const sec = (id: string) => {
   .h-btn { width: 116px; height: 34px; border-radius: var(--radius-full); }
   .h-card { width: 184px; height: 104px; border-radius: var(--radius-md); }
   .h-dot { width: 44px; height: 44px; border-radius: var(--radius-full); }
-  /* The swatches obey the rule they document. Killing only the transition would still let each end-state snap into place, which is the exact behavior §06 says is not good enough, so the demos hold still and the printed value carries the section instead. */
+  /* The swatches obey the rule they document. Killing only the transition would still let each end-state snap into place, which is the exact behavior the Motion section says is not good enough, so the demos hold still and the printed value carries the section instead. */
   @media (prefers-reduced-motion: reduce) {
     .d-row:hover .d-dot,
     .d-row:hover .d-host.lift,
@@ -737,7 +740,7 @@ const sec = (id: string) => {
   .vcol li { font-size: var(--fs-sm); color: var(--text-secondary); padding-left: var(--space-md); position: relative; }
   .vcol li::before { content: "·"; position: absolute; left: 2px; color: var(--accent-text); }
 
-  /* formats — live mockups at true export dimensions (scaled previews). Sizes here are export pixels, not the --fs-* scale. See §08 above. */
+  /* formats — live mockups at true export dimensions (scaled previews). Sizes here are export pixels, not the --fs-* scale. */
   .fmt-stage { display: flex; gap: var(--space-xl); flex-wrap: wrap; align-items: flex-start; }
   .unit { display: flex; flex-direction: column; gap: var(--space-sm); }
   .spec { font-size: var(--fs-2xs); color: var(--text-muted); }
