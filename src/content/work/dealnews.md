@@ -61,7 +61,7 @@ system:
 
 decisions:
   prose:
-    - text: "Four choices held it together solo."
+    - text: "Four choices held it together solo. With social, design, and paid in one pair of hands the risk was never coordination, it was consistency, so each choice bought a shorter loop between making something and knowing whether it worked. One owner is a hard limit on capacity and an advantage on coherence, and these leaned on the second."
   margin:
     - type: quote
       quote: "Make the deal legible."

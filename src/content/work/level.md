@@ -49,7 +49,7 @@ system:
 
 decisions:
   prose:
-    - text: "Four choices kept it honest."
+    - text: "Four choices kept it honest. Each one removes a lever this category normally pulls, and each one costs something: a limit that ships on is friction, a gate before staking is a slower funnel, a resolution without celebration is a weaker hook. Level takes all four trades on purpose."
   margin:
     - type: quote
       quote: "Comprehension before commitment."

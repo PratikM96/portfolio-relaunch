@@ -58,7 +58,7 @@ system:
 
 decisions:
   prose:
-    - text: "Four choices made social accountable."
+    - text: "Four choices made social accountable. Each one attached a number to a creative decision, so the channel could be argued for in the same terms as any other line in the budget. That meant building the tracking before the campaigns ran, and writing the reporting for the people who had to read it rather than the team that made the work."
   margin:
     - type: quote
       quote: "Social, answerable to a forecast."

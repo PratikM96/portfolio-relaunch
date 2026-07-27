@@ -60,7 +60,7 @@ system:
 
 decisions:
   prose:
-    - text: "Four choices shaped the system."
+    - text: "Four choices shaped the system. Each one puts the effort somewhere reusable, a template, a motion language, a weekly read of the numbers, rather than into the next post on the calendar. Individually they look like housekeeping. Together they are the reason the output held."
   margin:
     - type: quote
       quote: "Build the engine, not the post."

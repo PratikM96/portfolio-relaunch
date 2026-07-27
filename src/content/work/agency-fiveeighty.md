@@ -58,7 +58,7 @@ system:
 
 decisions:
   prose:
-    - text: "Four habits made it broadcast-ready."
+    - text: "Four habits made it broadcast-ready. Broadcast sets the bar before any client does, so each habit was about holding one idea through every cutdown, ratio, and revision round instead of designing a hero spot and adapting downward from it. The formats multiply. The idea is not allowed to."
   margin:
     - type: quote
       quote: "One idea, every cutdown."

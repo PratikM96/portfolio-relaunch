@@ -50,7 +50,7 @@ system:
 
 decisions:
   prose:
-    - text: "A few choices kept five surfaces from drifting."
+    - text: "A few choices kept five surfaces from drifting. Brand, app, clipper, broadcast, and social pull in different directions the moment they get built separately, so each decision pushed shared logic downward: one detection engine feeding every product surface, one design language across all five. The concept only holds because none of them were designed alone."
   margin:
     - type: quote
       quote: "One product a member never wants to leave."

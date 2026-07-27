@@ -49,7 +49,7 @@ system:
 
 decisions:
   prose:
-    - text: "A few choices keep it honest and present."
+    - text: "A few choices keep it honest and present. Presence usually gets built out of likeness, a face, a name, a voice; here it is built out of light, motion, warmth, and a deliberately small vocabulary of states. Each of those reads faster at a glance than a face would, and none of them ask the viewer to believe it is a person."
   margin:
     - type: quote
       quote: "Not a person. Not pretending."

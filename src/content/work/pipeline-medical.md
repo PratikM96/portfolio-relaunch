@@ -56,7 +56,7 @@ system:
 
 decisions:
   prose:
-    - text: "Four choices for a product from scratch."
+    - text: "Four choices for a product from scratch. With nothing to inherit there was also nothing to contradict, so the work was less about resolving tension and more about picking one buyer to design for and holding to it. That buyer reorders the same supplies every month, which is why the flows look nothing like a consumer checkout."
   margin:
     - type: quote
       quote: "Design how B2B actually buys."

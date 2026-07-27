@@ -61,7 +61,7 @@ system:
 
 decisions:
   prose:
-    - text: "Four choices kept it coherent at volume."
+    - text: "Four choices kept it coherent at volume. At this scale the failure mode is not a bad asset, it is a thousand slightly different ones, so each decision favored a system another team could pick up over a piece only its maker could finish. All four had to be made before the volume arrived, which is the only point at which they are cheap to make."
   margin:
     - type: quote
       quote: "One system, screen to print to room."

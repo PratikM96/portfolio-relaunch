@@ -56,7 +56,7 @@ system:
 
 decisions:
   prose:
-    - text: "Three principles shaped it."
+    - text: "Three principles shaped it. The fundraisers were treated as brand work rather than a favor, so the standard, the ownership, and the shooting method all matched what the parent brand got. It was not the cheaper way to run them. It was the only way they read as part of the same brand."
   margin:
     - type: quote
       quote: "Treat the nonprofit like the brand."

@@ -54,7 +54,7 @@ system:
 
 decisions:
   prose:
-    - text: "Three choices made it last."
+    - text: "Three choices made it last. Each one spent time on structure instead of output, which is the wrong trade against a close deadline and the right one across four years. The design team is the clearest case: it was founded once the demand for it was already there, not at the point where it would have sounded good on a chart."
   margin:
     - type: quote
       quote: "Build a team that runs without me."
