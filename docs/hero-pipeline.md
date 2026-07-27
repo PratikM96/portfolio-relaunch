@@ -15,7 +15,7 @@ src/assets/hero/<slug>/poster.webp      still shown before play
 
 **The poster lives in `src/assets/`, not beside the video.** It is the LCP element, so it goes through Astro's image pipeline — export it at full size and let the pipeline downscale. It renders as a real `<img>` (`.cs-poster`), not the video's `poster` attribute, which can't be responsive. The build throws if `heroVideo` is set and the poster is missing.
 
-The home page uses the same shape at `public/hero/home/`, but autoplays muted and loops since it has no audio.
+**The home hero is NOT this system** — it only borrows the folder. It is square, silent, autoplaying, and wired by hand in `src/pages/index.astro`, not derived from a slug. Running the recipe below against it would scale a square master to 16:9 and mux an audio track into a clip that has none. Its own recipe is at the bottom of this file.
 
 **Masters — local, gitignored, never committed:**
 
@@ -54,8 +54,12 @@ $out    = "public/hero/$slug"
 New-Item -ItemType Directory -Force $out | Out-Null
 
 
-# VP9 webm (two-pass; pass 1 analyzes, pass 2 writes)
-ffmpeg -i $master -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 1 -an -f null NUL
+# VP9 webm (two-pass; pass 1 analyzes, pass 2 writes).
+# BOTH passes take the SAME -vf and -pix_fmt. Pass 1 gathers its stats at whatever resolution it is fed, so scaling only in pass 2 hands pass 2 a stats file for a different frame size and the rate control is wrong.
+ffmpeg -i $master -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 1 -an -row-mt 1 `
+  -vf "scale=1920:1080:flags=lanczos" -pix_fmt yuv420p `
+  -color_primaries bt709 -color_trc bt709 -colorspace bt709 `
+  -f null NUL
 ffmpeg -i $master -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 2 -row-mt 1 `
   -vf "scale=1920:1080:flags=lanczos" -pix_fmt yuv420p `
   -color_primaries bt709 -color_trc bt709 -colorspace bt709 `
@@ -87,6 +91,37 @@ heroVideo: true
 
 That is the whole wiring — the template derives both paths from the slug. Set the caption via `coverCaption` (the schema requires it, plus `coverAlt`, whenever `heroVideo` is on). Leave the flag off and the entry renders no wall at all.
 
+## The home hero (different rules, read this before touching it)
+
+Square, silent, autoplaying, and hand-wired in `src/pages/index.astro`. Four things differ from the per-slug system above:
+
+**1. The filename is versioned, and that is the point.** `/hero/*` is `immutable` for a year in `public/_headers`, so re-encoding a fixed name reaches new visitors only. Home is the one hero whose bytes actually get replaced, so each re-cut ships under a new URL (`hero_900-v2.webm` → `-v3` → …) and the old file is deleted in the same change. Home hardcodes its own paths, so this never touches `src/lib/media.ts` or the eight case studies.
+
+**2. The poster goes through the image pipeline**, at `src/assets/hero/home/poster.webp`, exported full size from the master. It is both the LCP element and the entire hero for reduced-motion and save-data visitors, so it renders as a real `<img>` with a srcset rather than the video's `poster` attribute. `getImage()` builds it once and feeds both the `<img>` and `Base.astro`'s preload — **pass `preloadImageSrcset` + `preloadImageSizes` together with `preloadImage`,** because a bare `href` preload against a srcset resolves to a different candidate and downloads the LCP image twice.
+
+**3. Pick a resting frame for the poster,** not frame 0. The loop ends on a held lockup; that is the still. Frame 0 is black.
+
+**4. Size is chosen by measurement, not by CRF default.** Grain and texture dominate the bitrate here, so CRF barely moves the file and resolution does. Encode a spread, compare at the size the figure actually renders (652px at a 1920 viewport, growing with it, full width once stacked below 1100), and take the smallest one that is indistinguishable. The current cut is 900x900 at CRF 36.
+
+```powershell
+$master = "_reference/media/case-study-animations/home/home-hero-N/hero_2160.mov"
+$ver    = "v2"   # <-- BUMP THIS. Reusing the old name will not reach returning visitors.
+
+# Square, silent. Both passes carry identical filters.
+foreach ($pass in 1, 2) {
+  $sink = if ($pass -eq 1) { "-f null NUL" } else { "public/hero/home/hero_900-$ver.webm" }
+  ffmpeg -y -i $master -c:v libvpx-vp9 -b:v 0 -crf 36 -pass $pass -an -row-mt 1 `
+    -vf "scale=900:900:flags=lanczos" -pix_fmt yuv420p `
+    -color_primaries bt709 -color_trc bt709 -colorspace bt709 $sink.Split(" ")
+}
+
+# Poster: the held final frame, full size. Astro downscales it into the srcset.
+ffmpeg -y -ss 7.9 -i $master -frames:v 1 `
+  -c:v libwebp -quality 82 -compression_level 6 "src/assets/hero/home/poster.webp"
+```
+
+Then update the `<source>` and delete the superseded webm. The animation carries a year in the lockup, so it needs a re-cut each January.
+
 ## Which studies have one
 
 The repo answers this; a list here would just rot:
@@ -96,4 +131,4 @@ ls public/hero/                          # slugs with shipped files
 grep -l "^heroVideo: true" src/content/work/*.md   # slugs with the flag on
 ```
 
-The two should always agree. Files without the flag render nothing; the flag without files is a silent 404. An entry without a hero renders no wall.
+The two should agree on every slug **except `home`**, which has files but no content entry because it is not a case study. Files without the flag render nothing; the flag without files is a silent 404. An entry without a hero renders no wall.

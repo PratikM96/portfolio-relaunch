@@ -4,9 +4,10 @@
  * modules, journal and close stay inline here.
  */
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import headshot from '../assets/headshot-4x5.jpg';
+import heroPosterSrc from '../assets/hero/home/poster.webp';
 import SectionLabel from '../components/SectionLabel.astro';
 import DisciplineStrip from '../components/DisciplineStrip.astro';
 import WorkIndex from '../components/WorkIndex.astro';
@@ -50,12 +51,29 @@ const bento = BENTO.map(({ slug, blurb }) => {
 // Journal teaser — three most recent published posts.
 const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3);
 
+/**
+ * Hero poster. Unlike the eight case-study heroes this one is BOTH the LCP element and the still that reduced-motion / save-data visitors see instead of the animation, so it goes through the image pipeline (hashed, responsive) rather than shipping verbatim from public/. One getImage() call feeds the <img> and Base's preload so the two cannot resolve to different candidates and fetch it twice.
+ *
+ * The slot is measured, not guessed: nothing in the chain sets a max-width, so above 1100 the figure is 0.45 of the content column and keeps growing with the viewport (652px at 1920, ~950px at 2560). 456px is the rail plus the page padding plus the hero gap. Below 1100 it stacks and 100vw over-declares slightly, which costs a step at most and can never render soft.
+ */
+const HERO_POSTER_SIZES = '(min-width: 1101px) calc((100vw - 456px) * 0.45), 100vw';
+/* The 1100 step is deliberate and load-bearing: Lighthouse's mobile emulation is 412px at DPR 2.625, which asks for 1081 device px, so a ladder that jumps 1080 -> 1440 there hands the LCP element ~16KB instead of ~10KB. 1440 exists for retina desktop, where the slot reaches 1300px+ and there is LCP headroom to spend. */
+const heroPoster = await getImage({
+  src: heroPosterSrc,
+  widths: [480, 800, 1100, 1440],
+  width: 1440,
+  sizes: HERO_POSTER_SIZES,
+  format: 'webp',
+});
+
 ---
 
 <Base
   title="Pratik Mehta | Creative Marketing Lead"
   description="I build creative, social, and performance as one system. Creative Marketing Lead in New York, with an AI-forward workflow."
-  preloadImage="/hero/home/poster.webp"
+  preloadImage={heroPoster.src}
+  preloadImageSrcset={heroPoster.srcSet.attribute}
+  preloadImageSizes={HERO_POSTER_SIZES}
 >
   {/* SPLIT HERO */}
   <section class="hero">
@@ -75,12 +93,24 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
         <div class="frame">
           <button class="hero-video" type="button" data-hero-video
             aria-label="Play or pause the intro animation" aria-pressed="true">
+            {/* A real <img>, not the video's `poster` attribute, so it gets a responsive srcset. It sits OVER the video and is dropped on the first `playing` event: if the script never runs the video never plays either, so the still staying put is the right failure, which is not true of hiding it behind a <video> that has not decoded a frame. alt="" because the button above already names this control. */}
+            <img
+              class="hero-poster"
+              src={heroPoster.src}
+              srcset={heroPoster.srcSet.attribute}
+              sizes={HERO_POSTER_SIZES}
+              width="900" height="900"
+              alt=""
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
             <video
-              poster="/hero/home/poster.webp"
-              width="1080" height="1080"
+              width="900" height="900"
               muted loop playsinline preload="none"
             >
-              <source src="/hero/home/hero_1080.webm" type="video/webm" />
+              {/* Versioned filename, NOT bytes swapped in place: /hero/* is immutable for a year in public/_headers, so a re-cut only reaches returning visitors under a new URL. Bump to -v3 on the next one. */}
+              <source src="/hero/home/hero_900-v2.webm" type="video/webm" />
             </video>
             <span class="hero-video-state" aria-hidden="true">❚❚ Pause</span>
           </button>
@@ -246,6 +276,9 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
         else { userPaused = true; video.pause(); }
       });
 
+      // retire the poster the moment real frames exist, and only then
+      video.addEventListener('playing', function () { btn.classList.add('is-playing'); }, { once: true });
+
       video.addEventListener('play', sync);
       video.addEventListener('pause', sync);
       sync();
@@ -302,6 +335,9 @@ const journalPosts = publishedJournal(await getCollection('journal')).slice(0, 3
      or while paused, so the pause gesture is discoverable, not hidden. */
   .hero-video { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; position: relative; }
   .hero-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* Positioned, so it paints over the static <video> regardless of DOM order. Fades out once the clip is actually rendering frames, never on `play` alone — that fires before the first frame is decoded and would flash the empty video box. */
+  .hero-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity var(--dur-quick) var(--ease-standard); }
+  .hero-video.is-playing .hero-poster { opacity: 0; }
   .hero-video-state {
     position: absolute; bottom: 12px; right: 12px;
     /* fixed box + centered label so Play/Pause swap doesn't resize/shift it */
