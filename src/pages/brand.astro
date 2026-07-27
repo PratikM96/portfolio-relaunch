@@ -90,6 +90,27 @@ const measures = [
 ];
 
 const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
+
+/**
+ * The nine sections, in page order. The index at the top and every section heading below render from this, so a renamed section cannot leave the index pointing at a title that no longer exists. `id` is the anchor; `t` is the full compound heading; the index shows only the part before the ` / `, which is the noun.
+ */
+const SECTIONS = [
+  { id: 'foundation', n: '01', t: 'Foundation / the spine' },
+  { id: 'logo', n: '02', t: 'Logo / the loop' },
+  { id: 'type', n: '03', t: 'Type / three faces, one system' },
+  { id: 'color', n: '04', t: 'Color / warm monochrome, one accent' },
+  { id: 'layout', n: '05', t: 'Layout / a 4px base' },
+  { id: 'motion', n: '06', t: 'Motion / functional, not decorative' },
+  { id: 'contrast', n: '07', t: 'Colour contrast / checked against WCAG AA' },
+  { id: 'formats', n: '08', t: 'Formats / the brand, in format' },
+  { id: 'voice', n: '09', t: 'Voice / source: System Master' },
+];
+// Throws rather than rendering a blank heading, same contract as tokenValue above.
+const sec = (id: string) => {
+  const s = SECTIONS.find((x) => x.id === id);
+  if (!s) throw new Error(`/brand references section "${id}", which is not in SECTIONS`);
+  return s;
+};
 ---
 
 <Base
@@ -102,11 +123,20 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
     <div class="page-kicker rev">[ Brand ] / One System / v1.0</div>
     <h1 class="rev page-h1">The brand,<br />built like a <span class="signal">product.</span></h1>
     <p class="lead rev">One System is the identity this site runs on: foundation, logo, type, color, layout, motion, and access, in one place. It is a working reference and a case study of the thinking behind it. Core token values render from the live CSS, so the numbers below are the real ones; the usage guidance and examples are maintained alongside them.</p>
+    {/* The index and the headings below share one source, so a renamed section can't leave a dead label here. Only the noun shows: the gloss after the ` / ` is context for the section, not a name to scan. */}
+    <nav class="btoc rev" aria-label="Sections">
+      {SECTIONS.map((s) => (
+        <a class="btoc-i" href={`#${s.id}`}>
+          <span class="n">[ {s.n} ]</span>
+          <span class="t">{s.t.split(' / ')[0]}</span>
+        </a>
+      ))}
+    </nav>
   </header>
 
   {/* 01 FOUNDATION */}
-  <section class="bsec">
-    <div class="blabel"><span class="c">[ 01 ]</span><h2 class="t">Foundation / the spine</h2><span class="rule"></span></div>
+  <section class="bsec" id={sec('foundation').id}>
+    <div class="blabel"><span class="c">[ {sec('foundation').n} ]</span><h2 class="t">{sec('foundation').t}</h2><span class="rule"></span></div>
     <p class="intro">Creative built like a system and accountable to what it does after it ships. The breadth is the proof of the idea, not a separate selling point.</p>
     <div class="frow" style="border-top:none">
       <div class="fspec">tagline</div>
@@ -117,8 +147,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   </section>
 
   {/* 02 LOGO */}
-  <section class="bsec">
-    <div class="blabel"><span class="c">[ 02 ]</span><h2 class="t">Logo / the loop</h2><span class="rule"></span></div>
+  <section class="bsec" id={sec('logo').id}>
+    <div class="blabel"><span class="c">[ {sec('logo').n} ]</span><h2 class="t">{sec('logo').t}</h2><span class="rule"></span></div>
     <p class="intro">One continuous stroke that closes on the orange node: the system, end to end, as a mark. Default to the primary lockup. The wordmark carries the circular period; the lockups don't.</p>
     {/* Specimen sizes below are literal on purpose: these show the mark and wordmark at chosen physical sizes, the way `Brandmark size={52}` does. They are not UI type, so they don't compose the --fs-* scale. */}
     <div class="logoset rev">
@@ -148,8 +178,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   </section>
 
   {/* 03 TYPE */}
-  <section class="bsec">
-    <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Type / three faces, one system</h2><span class="rule"></span></div>
+  <section class="bsec" id={sec('type').id}>
+    <div class="blabel"><span class="c">[ {sec('type').n} ]</span><h2 class="t">{sec('type').t}</h2><span class="rule"></span></div>
     <p class="intro">Each face has one job. Clash Display is the voice: display, h1, h2. Clash Grotesk is reading type: sub-headings and body. JetBrains Mono is the system layer: labels, data, and code. All three ship as one variable file per family, so every weight below is real rather than the nearest available one.</p>
     <p class="intro">Tracking is optical, not decorative. It tightens as type gets bigger, sits at zero for reading, and opens up for uppercase mono. Mono labels and emphasis are always uppercase, because heavy tracking is an uppercase device and breaks apart on lowercase; sentence-case mono is the data tier at +5% instead.</p>
     {/* One column per datum so nothing wraps mid-font-name. Every sample is a REAL use of that tier on this site — the samples are the proof. Keep the `where` column honest if a tier moves. */}
@@ -228,8 +258,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   </section>
 
   {/* 04 COLOR */}
-  <section class="bsec">
-    <div class="blabel"><span class="c">[ 04 ]</span><h2 class="t">Color / warm monochrome, one accent</h2><span class="rule"></span></div>
+  <section class="bsec" id={sec('color').id}>
+    <div class="blabel"><span class="c">[ {sec('color').n} ]</span><h2 class="t">{sec('color').t}</h2><span class="rule"></span></div>
     <p class="intro">A warm neutral ramp from paper to ink, a single signal-orange accent, and a restrained state set. Both light and dark are first-class.</p>
     <div class="subhead">Neutral / warm ramp</div>
     <div class="ramp">
@@ -251,8 +281,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   </section>
 
   {/* 05 LAYOUT */}
-  <section class="bsec">
-    <div class="blabel"><span class="c">[ 05 ]</span><h2 class="t">Layout / a 4px base</h2><span class="rule"></span></div>
+  <section class="bsec" id={sec('layout').id}>
+    <div class="blabel"><span class="c">[ {sec('layout').n} ]</span><h2 class="t">{sec('layout').t}</h2><span class="rule"></span></div>
     <p class="intro">Everything measures from a 4px unit. Layout is a {px('--grid-cols')}-column grid, max-width {px('--grid-max-width')}, {px('--grid-gutter')} gutters, {px('--grid-margin')} margins. Radius base is {px('--radius-md')}px; the mono system layer uses sharp 0 corners.</p>
     <div class="scale">
       {spacing.map((s) => (
@@ -270,8 +300,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   </section>
 
   {/* 06 MOTION — every demo below is driven by the token it documents, so a bar cannot claim one duration while animating another. Hover a row to replay it. */}
-  <section class="bsec">
-    <div class="blabel"><span class="c">[ 06 ]</span><h2 class="t">Motion / functional, not decorative</h2><span class="rule"></span></div>
+  <section class="bsec" id={sec('motion').id}>
+    <div class="blabel"><span class="c">[ {sec('motion').n} ]</span><h2 class="t">{sec('motion').t}</h2><span class="rule"></span></div>
     <p class="intro">Quick and confident. Short travel, no bounce. The names say what a motion <em>means</em>, not how fast it is, so a rule picks by intent: a colour swap is <code>quick</code> wherever it sits, a slide is <code>move</code> whatever the distance. Reels inherit this: cuts over fades, snap transitions.</p>
 
     <div class="subhead">Duration / six steps</div>
@@ -330,9 +360,9 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   </section>
 
   {/* 07 ACCESSIBILITY */}
-  <section class="bsec">
+  <section class="bsec" id={sec('contrast').id}>
     {/* Contrast pairs only, not WCAG AA conformance. Ratios below are hand-measured: re-measure when a ramp step moves. */}
-    <div class="blabel"><span class="c">[ 07 ]</span><h2 class="t">Colour contrast / checked against WCAG AA</h2><span class="rule"></span></div>
+    <div class="blabel"><span class="c">[ {sec('contrast').n} ]</span><h2 class="t">{sec('contrast').t}</h2><span class="rule"></span></div>
     <p class="intro">The single orange signal can't sit on top of itself. Three rules carry most of it.</p>
     <div class="rules rev">
       <div class="rule-card"><div class="rule-k">Orange text</div><div class="rule-b">On light, orange text is accent-700 (#{hex('--accent-700')}), never 500. On dark, accent-400.</div></div>
@@ -352,8 +382,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   </section>
 
   {/* 08 FORMATS — every font-size in this section is a literal on purpose. These are 1080x1080 / 1080x1920 / 1920x1080 export canvases shrunk by a fixed transform, so their type is measured in export pixels. A --fs-* token here would claim a relationship to UI type that doesn't exist. */}
-  <section class="bsec">
-    <div class="blabel"><span class="c">[ 08 ]</span><h2 class="t">Formats / the brand, in format</h2><span class="rule"></span></div>
+  <section class="bsec" id={sec('formats').id}>
+    <div class="blabel"><span class="c">[ {sec('formats').n} ]</span><h2 class="t">{sec('formats').t}</h2><span class="rule"></span></div>
     <p class="intro">How the system shows up as social posts, reel frames, and a lower-third. Placeholder content at true export dimensions, rendered live so the mockups re-theme with the page.</p>
 
     <div class="subhead">Social / 1080 × 1080</div>
@@ -417,8 +447,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   </section>
 
   {/* 09 VOICE */}
-  <section class="bsec">
-    <div class="blabel"><span class="c">[ 09 ]</span><h2 class="t">Voice / source: System Master</h2><span class="rule"></span></div>
+  <section class="bsec" id={sec('voice').id}>
+    <div class="blabel"><span class="c">[ {sec('voice').n} ]</span><h2 class="t">{sec('voice').t}</h2><span class="rule"></span></div>
     <p class="intro">Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. No inflated claims, no buzzwords, no unsupported proof. No em or en dashes.</p>
     <div class="voice rev">
       <div class="card vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
@@ -450,6 +480,8 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   th,
   .rule-k,
   .vcol .h,
+  .btoc-i .n,
+  .btoc-i .t,
   .kick {
     font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
   }
@@ -609,6 +641,24 @@ const stepOf = (t: string) => t.replace(/--(n|accent)-/, '');
   .gridnote { font-size: var(--fs-2xs); margin-top: var(--space-sm); }
   .r-row { display: flex; gap: var(--space-md); flex-wrap: wrap; }
   .r-box { width: 60px; height: 60px; background: var(--surface); border: 1.5px solid var(--text); }
+
+  /* section index — the same [ 0N ] + uppercase-mono vocabulary as the headings it links to, so it reads as part of the system rather than as navigation bolted on. The 1px gap over a border-coloured background is the grid-line trick, not spacing, which is why it stays a literal. */
+  .btoc {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px; background: var(--border); border: 1px solid var(--border);
+    margin-top: var(--space-2xl);
+  }
+  .btoc-i {
+    display: flex; align-items: baseline; gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg); background: var(--bg);
+    transition: background-color var(--dur-quick) var(--ease-standard);
+  }
+  .btoc-i .n { font-size: var(--fs-3xs); color: var(--accent-text); flex: none; }
+  .btoc-i .t { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); transition: color var(--dur-quick) var(--ease-standard); }
+  .btoc-i:hover { background: var(--surface); }
+  .btoc-i:hover .t { color: var(--text); }
+  @media (max-width: 900px) { .btoc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .btoc { grid-template-columns: minmax(0, 1fr); } }
 
   /* motion — same three-column shape as the size and measure ladders above */
   .durs { margin-top: var(--space-md); }
