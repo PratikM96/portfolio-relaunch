@@ -25,6 +25,7 @@ const TARGETS = [
   'src/pages/work/index.astro',
   'src/components/CloseCTA.astro',
   'src/layouts/Base.astro',
+  'src/lib/brands.ts',
   'public/llms.txt',
 ];
 

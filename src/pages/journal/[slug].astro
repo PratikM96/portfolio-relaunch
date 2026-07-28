@@ -26,10 +26,16 @@ const scoreboard = [
 
 const metaLine = [formatDate(d.date), d.readingTime].filter(Boolean).join(' / ');
 
-// Other published posts for the "More writing" lists.
-const others = publishedJournal(await getCollection('journal'))
-  .filter((p) => p.id !== post.id)
-  .slice(0, 4);
+/**
+ * The "More writing" lists: the posts that FOLLOW this one in date order, wrapping around the end. Cycling is what makes each post's list its own, where "every other post, newest first" showed a near-identical set on all of them.
+ *
+ * Not tag-ranked on purpose. `tags` has no controlled vocabulary, so real siblings miss each other on near-synonyms ("AI" against "AI search") and the ranking would collapse back to date order while looking like relevance.
+ *
+ * Capped BELOW the post count so a cut actually happens. Raise the cap as the archive grows and every list becomes "all of them" again.
+ */
+const ordered = publishedJournal(await getCollection('journal'));
+const here = ordered.findIndex((p) => p.id === post.id);
+const others = Array.from({ length: Math.min(3, ordered.length - 1) }, (_, i) => ordered[(here + 1 + i) % ordered.length]);
 
 // Shared author blurb — rendered in the desktop rail and the mobile post-foot.
 const bio =

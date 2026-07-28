@@ -36,10 +36,12 @@
 /work/photography/           /work                   301
 
 # --- Old blog posts -> current journal posts (the blog route was renamed /journal) ---
-# The current journal set is 3 posts; legacy slugs map to the closest one by topic, and anything without a clear home falls back to the /journal index. Retarget these lines when new posts land (or when a mapping should be tightened). Each has a trailing-slash twin: WordPress served these WITH a slash, so without the twin the crawled form fell through to the /blog/* catch-all and lost its topic mapping. Add both lines when adding a rule here.
+# Legacy slugs map to the closest current post by topic, and anything without a clear home falls back to the /journal index. Retarget these lines when new posts land (or when a mapping should be tightened). Each has a trailing-slash twin: WordPress served these WITH a slash, so without the twin the crawled form fell through to the /blog/* catch-all and lost its topic mapping. Add both lines when adding a rule here.
 #   engineer-to-creative              = CS background / systems thinking / career
 #   most-creative-dies-in-the-handoff = creative-as-a-system / brand + performance
 #   where-ai-changes-creative-work    = AI in creative & marketing work
+#   sub-brands-without-chaos          = brand architecture / sub-brands / naming
+#   the-machine-readable-brand        = AI search / GEO / structured data
 #
 # CS-background / systems-thinking theme
 /blog/creative-science                           /journal/engineer-to-creative                301
@@ -64,8 +66,8 @@
 /blog/brand-and-revenue-move-together            /journal/most-creative-dies-in-the-handoff   301
 /blog/brand-and-revenue-move-together/           /journal/most-creative-dies-in-the-handoff   301
 # AI theme
-/blog/geo-is-the-new-seo                         /journal/where-ai-changes-creative-work      301
-/blog/geo-is-the-new-seo/                        /journal/where-ai-changes-creative-work      301
+/blog/geo-is-the-new-seo                         /journal/the-machine-readable-brand          301
+/blog/geo-is-the-new-seo/                        /journal/the-machine-readable-brand          301
 /blog/faster-without-the-shortcuts-showing       /journal/where-ai-changes-creative-work      301
 /blog/faster-without-the-shortcuts-showing/      /journal/where-ai-changes-creative-work      301
 /blog/taste-is-the-bottleneck-now                /journal/where-ai-changes-creative-work      301
@@ -89,8 +91,17 @@
 /blog/content-that-compounds/                    /journal/most-creative-dies-in-the-handoff   301
 /blog/distinctiveness-is-the-only-moat           /journal/most-creative-dies-in-the-handoff   301
 /blog/distinctiveness-is-the-only-moat/          /journal/most-creative-dies-in-the-handoff   301
-/blog/the-machine-readable-brand                 /journal/where-ai-changes-creative-work      301
-/blog/the-machine-readable-brand/                /journal/where-ai-changes-creative-work      301
+/blog/the-machine-readable-brand                 /journal/the-machine-readable-brand          301
+/blog/the-machine-readable-brand/                /journal/the-machine-readable-brand          301
+# Brand-architecture theme
+/blog/how-to-subbrand                            /journal/sub-brands-without-chaos            301
+/blog/how-to-subbrand/                           /journal/sub-brands-without-chaos            301
+/blog/sub-brands-without-chaos                   /journal/sub-brands-without-chaos            301
+/blog/sub-brands-without-chaos/                  /journal/sub-brands-without-chaos            301
+/blog/pickleball-brand                           /journal/sub-brands-without-chaos            301
+/blog/pickleball-brand/                          /journal/sub-brands-without-chaos            301
+/blog/pickleball-brand-from-zero                 /journal/sub-brands-without-chaos            301
+/blog/pickleball-brand-from-zero/                /journal/sub-brands-without-chaos            301
 # No clear match -> journal index
 /blog/speculative-is-the-new-portfolio           /journal   301
 /blog/speculative-is-the-new-portfolio/          /journal   301
@@ -104,20 +115,12 @@
 /blog/wireframe-to-live/                         /journal   301
 /blog/video-first-trending                       /journal   301
 /blog/video-first-trending/                      /journal   301
-/blog/how-to-subbrand                            /journal   301
-/blog/how-to-subbrand/                           /journal   301
 /blog/complex-to-simple                          /journal   301
 /blog/complex-to-simple/                         /journal   301
-/blog/pickleball-brand                           /journal   301
-/blog/pickleball-brand/                          /journal   301
-/blog/pickleball-brand-from-zero                 /journal   301
-/blog/pickleball-brand-from-zero/                /journal   301
 /blog/dealnews-app-redesign                      /journal   301
 /blog/dealnews-app-redesign/                     /journal   301
 /blog/motion-graphics-strategic-asset            /journal   301
 /blog/motion-graphics-strategic-asset/           /journal   301
-/blog/sub-brands-without-chaos                   /journal   301
-/blog/sub-brands-without-chaos/                  /journal   301
 
 # --- Blog index -> journal ---
 # The /blog/* catch-all lives in the WILDCARDS block at the foot of this file.
@@ -204,6 +207,8 @@
 /journal/engineer-to-creative.html               /journal/engineer-to-creative                301
 /journal/most-creative-dies-in-the-handoff.html  /journal/most-creative-dies-in-the-handoff   301
 /journal/where-ai-changes-creative-work.html     /journal/where-ai-changes-creative-work      301
+/journal/the-machine-readable-brand.html         /journal/the-machine-readable-brand          301
+/journal/sub-brands-without-chaos.html           /journal/sub-brands-without-chaos            301
 
 # the old blog index also existed as .html; /blog/* does not match it
 /blog.html                        /journal                          301

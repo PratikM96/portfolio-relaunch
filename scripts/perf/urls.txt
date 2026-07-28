@@ -9,6 +9,8 @@ work|https://mehtapratik.com/work
 journal-engineer-to-creative|https://mehtapratik.com/journal/engineer-to-creative
 journal-handoff|https://mehtapratik.com/journal/most-creative-dies-in-the-handoff
 journal-ai|https://mehtapratik.com/journal/where-ai-changes-creative-work
+journal-machine-readable-brand|https://mehtapratik.com/journal/the-machine-readable-brand
+journal-sub-brands|https://mehtapratik.com/journal/sub-brands-without-chaos
 work-agency-fiveeighty|https://mehtapratik.com/work/agency-fiveeighty
 work-dealnews|https://mehtapratik.com/work/dealnews
 work-frc|https://mehtapratik.com/work/frc

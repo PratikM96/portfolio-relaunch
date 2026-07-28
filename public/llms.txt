@@ -6,7 +6,7 @@
 
 - [Home](https://mehtapratik.com/): The practice, featured work, and how the pieces connect.
 - [Work](https://mehtapratik.com/work): Full case-study index, filterable by engagement (in-house, agency, concept) and discipline.
-- [About](https://mehtapratik.com/about): Background, approach, and the One System practice.
+- [About](https://mehtapratik.com/about): Career path from computer science through design into marketing, how Pratik works, the AI workflow, collaboration preferences, and influences.
 - [Resume](https://mehtapratik.com/resume): Full work history, self-initiated systems, education, and tools.
 - [Brand](https://mehtapratik.com/brand): The One System brand reference (tokens, type, logo, formats).
 - [Journal](https://mehtapratik.com/journal): Notes on systems, brand, and AI.
@@ -16,6 +16,8 @@
 ## Work (case studies)
 
 Each entry is labeled by engagement: the role Pratik held, not a client relationship.
+
+- [Brands and organizations](https://mehtapratik.com/work#brands): the 30+ brands, partners, and organizations the work ran for or through, grouped by the role it ran through rather than listed flat.
 
 ### In-house (a role held inside the organization)
 
@@ -49,10 +51,13 @@ Each entry is labeled by engagement: the role Pratik held, not a client relation
 - [Most creative dies in the handoff](https://mehtapratik.com/journal/most-creative-dies-in-the-handoff)
 - [Engineer to creative: why I think in systems](https://mehtapratik.com/journal/engineer-to-creative)
 - [Where AI actually changes creative work (and where it's just noise)](https://mehtapratik.com/journal/where-ai-changes-creative-work)
+- [Sub-brands without chaos](https://mehtapratik.com/journal/sub-brands-without-chaos)
+- [The machine-readable brand](https://mehtapratik.com/journal/the-machine-readable-brand)
 
 ## Notes
 
 - "In-house" and "agency" describe the role Pratik held. None of this work was a client engagement, and the agency entries were roles at the agency: those clients were the agency's, not his.
+- The brands list is grouped for that same reason. Naming an organization records that the work ran for or through it, never that Pratik held the client relationship. The independent practice group is the only set of direct engagements, and it is a practice, not an agency or a freelance shop.
 - Self-initiated systems (The Ninth, Level, WISP, Portfolio System) are not professional work and were never commissioned. Each carries a visible non-affiliation disclosure.
 - Every case study uses one proof shape: a verified metric where one was measured, scope and rationale where none exists. This is not decided by engagement type. The three design-only concepts carry scope; Portfolio System shipped and runs, so it carries measured results.
 - Figures described as scope are counts of what was designed, never claims about audience, engagement, adoption, or revenue.

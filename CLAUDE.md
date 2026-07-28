@@ -67,6 +67,7 @@ Full rules — the declarative-reversal lead, the proof sentence, the honesty re
 | Every design token | `src/styles/tokens.css` |
 | Design law in prose | the live `/brand` page |
 | The engagement facet + its labels | `src/lib/work-type.ts` |
+| Brands, partners and organizations + the home subset | `src/lib/brands.ts` — the roster guards the published "30+" |
 | Collection order, dates, year parsing | `src/lib/content.ts` |
 | Every media path derived from a slug | `src/lib/media.ts` — video paths are derived; **poster stills go through the image pipeline**, so their hashed URLs resolve there and are handed to the client on the element |
 | Breakpoints, shell inset, every `sizes` string | `src/lib/layout.ts` — the layout scale, rendered live on `/brand` |
@@ -157,6 +158,8 @@ Full rules — the declarative-reversal lead, the proof sentence, the honesty re
 
 One case-study design for every entry. Spine: Scoreboard → Problem → System → Decisions → Output → Proof → Reflection. Optional modules render only when data exists. `src/content.config.ts` is the guardrail — every entry needs at least one proof figure or the build fails.
 
+**The brands roster is `src/lib/brands.ts`, grouped by the role the work ran through and never a "client list."** At RAA and FiveEighty they were the agency's clients, and the grouping is the only thing carrying that, so it is never flattened and the honesty sentence stays in /work's section lead. The practice group holds the only direct engagements and is never called freelance; a group with no brands keeps its row and says nothing after the leader.
+
 **Engagement (`type`) is a typed, filterable facet, never a separate section.** Three values (`src/lib/work-type.ts`): `in-house`, `agency`, `concept`. **Do not label these "client".** Every non-concept entry is a position held, and at RAA / Agency FiveEighty the clients belonged to the agency. Employment type (Internship, Volunteer) goes in the scoreboard `role` field, never the badge, which carries engagement + discipline. Proof is one shape for every type — a verified metric where one was measured, scope + rationale where none exists. Never invent one to fill the box. **`collaborators` stays blank on every entry**, because the master does not carry it.
 
 **Concept microsites** are embedded proof inside their case study, not a parallel front door. Each is its own world with its own brand, CSS, and fonts, served as static passthrough HTML from `public/concepts/<slug>/`. Their launcher stills are NOT there: they are case-study assets, so they sit in `src/assets/concepts/<slug>/preview-<view>.webp` and go through the image pipeline. A demo tab authors only its `view`; the link and the still both derive from it.
@@ -178,6 +181,8 @@ One case-study design for every entry. Spine: Scoreboard → Problem → System 
 
 **One to two sentences per entry: what was decided, and any trap it left.** The rationale lives in the commit; a rule that is still load-bearing lives in §3-§8 or in the code it governs, not down here. If an entry needs a paragraph, it is in the wrong place.
 
+- **2026-07-28 (b)** — /about expanded in place rather than rebuilt: the path became six dated steps, the AI section three paragraphs, plus Working with me and Influences from System Master §6. The §6 wrong-fit bullet ships reframed toward what Pratik looks for, since published verbatim it reads as prickly to the audience it is written for.
+- **2026-07-28** — The brands roster shipped (`src/lib/brands.ts`, §8), grouped by role and never labeled a client list, which moved the registry aggregate from 20+ to 30+. **A `+` figure on a curated list needs a guard, not a comment**: the module throws if the roster drops under 30, because the published wording outlives whoever edits the array.
 - **2026-07-27 (h)** — Published proof figures now derive from the measured run via `src/lib/perf-claim.ts` instead of being typed, after a run measured 99.4 mobile against a proof box asserting 98. The JS figure stays authored because it is not a Lighthouse number, and it is the one that can still rot.
 - **2026-07-27 (g)** — A perf run is a sample set and the published row is the **median** sample, because averaging metrics independently would publish a row that never happened. Sampling halves the ±600ms envelope, it does not remove it.
 - **2026-07-27 (f)** — Perf runs are archived per run with a distilled history in `scripts/perf/history.jsonl`. It settled that there is no page-specific mobile problem: **compare averages, never page scores** (`scripts/perf/README.md`).

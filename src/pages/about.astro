@@ -7,6 +7,24 @@ import Base from '../layouts/Base.astro';
 import CloseCTA from '../components/CloseCTA.astro';
 import headshot from '../assets/headshot-4x5.jpg';
 import { sizesForSplit, BP } from '../lib/layout';
+import { siteOrigin, personRef, breadcrumb } from '../lib/schema';
+
+const origin = siteOrigin(Astro.site);
+
+/* ProfilePage rather than a second Person node: the Person is already emitted site-wide by Base.astro, so this references it by @id instead of restating it and splitting the entity in two. */
+const schema = [
+  {
+    '@type': 'ProfilePage',
+    '@id': `${origin}/about#profile`,
+    name: 'About Pratik Mehta',
+    mainEntity: personRef(origin),
+  },
+  {
+    ...personRef(origin),
+    knowsAbout: ['Brand strategy', 'Creative direction', 'Social media strategy', 'Content systems', 'Motion design', 'UI/UX design', 'Performance marketing', 'Design systems', 'AI-assisted production'],
+  },
+  breadcrumb(origin, [{ name: 'Home', path: '/' }, { name: 'About' }]),
+];
 ---
 
 <Base
@@ -14,6 +32,7 @@ import { sizesForSplit, BP } from '../lib/layout';
   title="About | Pratik Mehta"
   description="Creative Marketing Lead in New York. I started in computer science and build creative, social, and performance as one system."
   activeNav="about"
+  schema={schema}
 >
   {/* HERO */}
   <section class="ahero">
@@ -30,11 +49,14 @@ import { sizesForSplit, BP } from '../lib/layout';
   {/* THE PATH */}
   <section class="block">
     <div class="blabel"><span class="c">[ 01 ]</span><h2 class="t">The path</h2><span class="rule"></span></div>
+    {/* Overlapping ranges are correct, not a bug: SR Love and Care ran alongside school and the early roles. Dates track the Resume Master, so reconcile there first. */}
     <div class="path rev">
-      <div class="step"><div class="yr">Foundation</div><div><h3>Engineer</h3><p>I started in computer science at NYU. Before any design or marketing, I learned to think in systems: how the parts connect, and where they break.</p></div></div>
-      <div class="step"><div class="yr">The turn</div><div><h3>Design</h3><p>Leading the volunteer marketing and design team at SR Love and Care is where it clicked that I cared more about the people the work was for than the code behind it. I moved toward design.</p></div></div>
-      <div class="step"><div class="yr">The anchor</div><div><h3>Marketing</h3><p>Design pulled me into marketing, because work that looks right still has to perform. I started tying the making of the creative to what it actually returned.</p></div></div>
-      <div class="step"><div class="yr">Apr 2024 to present</div><div><h3>Independent practice</h3><p>Now I run an independent creative systems practice: brand, social, and performance built as one system, plus self-initiated concepts like The Ninth, Level, and WISP to push the idea further.</p></div></div>
+      <div class="step"><div class="yr">Before 2014</div><div><h3>Where it started</h3><p>I learned to code from my dad before I learned to design anything. Tech camps, small programs, and the habit of taking something apart to see why it worked. That part never left.</p></div></div>
+      <div class="step"><div class="yr">2014 to 2017</div><div><h3>Engineer</h3><p>I studied computer science at NYU. Before any design or marketing, I learned to think in systems: how the parts connect, and where they break.</p></div></div>
+      <div class="step"><div class="yr">2016 to 2020</div><div><h3>Design</h3><p>Leading the volunteer marketing and design team at SR Love and Care is where it clicked that I cared more about the people the work was for than the code behind it. I grew that team from 5 to over 15, founded a 5 person design team inside it, and handed the function off still running.</p></div></div>
+      <div class="step"><div class="yr">2017 to 2019</div><div><h3>Production</h3><p>Pipeline Medical, Agency FiveEighty, and Richard Attias and Associates, back to back. A brand and a B2B marketplace from zero, broadcast motion for agency campaigns, then high volume production for a global forum. Three different definitions of finished, learned the hard way.</p></div></div>
+      <div class="step"><div class="yr">2020 to 2024</div><div><h3>Marketing at scale</h3><p>DealNews, then The Forest Road Company, then SPORTIME. Design pulled me into marketing, because work that looks right still has to perform. By SPORTIME I owned marketing across 13+ clubs and 25+ social accounts, and the reporting loop that decided what got made next.</p></div></div>
+      <div class="step"><div class="yr">Apr 2024 to present</div><div><h3>Independent practice</h3><p>SPORTIME proved the scale side, and it had also pulled far into operations and reporting. So I reset toward the making: an independent creative systems practice, rebuilt around AI-assisted production, plus self-initiated systems like The Ninth, Level, WISP, and this site to push the idea further.</p></div></div>
     </div>
   </section>
 
@@ -56,11 +78,38 @@ import { sizesForSplit, BP } from '../lib/layout';
     <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Capabilities &amp; workflow</h2><span class="rule"></span></div>
     <div class="prose rev">
       <p><strong>AI-forward across the workflow.</strong> I use AI across research, production, and iteration, to move faster and cover more of the system. It speeds the work; it does not do the thinking.</p>
+      <p>In practice that means research and positioning routes, concept development, copy iteration, UI systems, motion, and quality control. It widens how many directions I can test before committing to one, and it takes the mechanical passes off the critical path. The parts that used to eat a week now cost an afternoon, so the week goes into the decisions instead.</p>
+      <p>What it does not do is pick the direction, or know when something is nearly right. Taste and judgment are still the whole job, and the last stretch is still hand work. This site is the working example: every claim on it is checked against a source by a script that fails the build if the wording drifts.</p>
     </div>
     {/* Capabilities, not tools. The tool inventory belongs to /resume and is not repeated
         here: a second list drifts, and the hero already links to the resume. */}
     <div class="tools rev">
       <span>Brand systems</span><span>Social &amp; content</span><span>UI/UX</span><span>Motion</span><span>Performance</span><span>Design tokens</span><span>Front-end</span><span>AI workflow</span>
+    </div>
+  </section>
+
+  {/* WORKING WITH ME */}
+  {/* Reuses .princ / .pcard from How I work, so the two read as a pair and this costs no new surface. */}
+  <section class="block">
+    <div class="blabel"><span class="c">[ 04 ]</span><h2 class="t">Working with me</h2><span class="rule"></span></div>
+    <div class="princ rev">
+      <div class="card pcard"><div class="n">01</div><h3>Where the work goes best</h3><p>A clear strategic problem, a defined audience, and enough trust to build the system rather than decorate it. I am most useful close to the making, not two handoffs away from it.</p></div>
+      <div class="card pcard"><div class="n">02</div><h3>How feedback lands best</h3><p>Direct and specific, tied to the goal. Tell me what is not working and why. I would rather hear it in the first round than polish the wrong idea to a finish.</p></div>
+      <div class="card pcard"><div class="n">03</div><h3>What I look for</h3><p>Teams that treat creative as part of the performance story rather than decoration applied at the end, and social as a system rather than a posting schedule.</p></div>
+    </div>
+  </section>
+
+  {/* INFLUENCES */}
+  <section class="block">
+    <div class="blabel"><span class="c">[ 05 ]</span><h2 class="t">Influences</h2><span class="rule"></span></div>
+    <div class="prose rev"><p>The reference points behind the taste. Not a mood board, a set of standards I measure work against.</p></div>
+    <div class="infl rev">
+      <div><span class="n">Riot Games</span><p>Deep brand ecosystems and esports structure. Audience first, built to hold for a decade.</p></div>
+      <div><span class="n">Porsche</span><p>Restrained design and performance logic. Heritage without being stuck in it.</p></div>
+      <div><span class="n">Apple</span><p>Product clarity and interface discipline. System level taste, held over decades.</p></div>
+      <div><span class="n">Nike</span><p>Campaign rhythm and sports culture. Confidence carried as a brand asset.</p></div>
+      <div><span class="n">Formula 1</span><p>Speed, engineering, precision, spectacle. A system you can watch working.</p></div>
+      <div><span class="n">Anime and games</span><p>Worlds and character systems. Fan logic, and engagement measured in years.</p></div>
     </div>
   </section>
 
@@ -75,7 +124,8 @@ import { sizesForSplit, BP } from '../lib/layout';
     font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
   }
   .path .step .yr,
-  .tools span {
+  .tools span,
+  .infl .n {
     font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
   }
   .pcard .n {
@@ -109,6 +159,12 @@ import { sizesForSplit, BP } from '../lib/layout';
   .pcard h3 { font-size: var(--fs-xl); margin: auto 0 var(--space-sm); }
   .pcard p { font-size: var(--fs-sm); line-height: 1.55; color: var(--text-secondary); }
 
+  /* influences */
+  .infl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space-2xl); margin-top: var(--space-xl); }
+  .infl > div { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); align-items: baseline; }
+  .infl .n { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); }
+  .infl p { font-size: var(--fs-sm); line-height: 1.6; color: var(--text-secondary); }
+
   /* tools */
   .tools { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-lg); }
   .tools span { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-sm); }
@@ -120,6 +176,10 @@ import { sizesForSplit, BP } from '../lib/layout';
     .ahero .portrait { max-width: 340px; }
     .princ { grid-template-columns: 1fr; }
     .path .step { grid-template-columns: 1fr; gap: var(--space-xs); }
+    .infl { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .infl > div { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
   }
   @media (max-width: 900px) {
     .ahero { padding: var(--space-3xl) 0 0; }

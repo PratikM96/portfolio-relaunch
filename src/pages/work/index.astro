@@ -7,6 +7,7 @@ import Base from '../../layouts/Base.astro';
 import WorkIndex from '../../components/WorkIndex.astro';
 import CloseCTA from '../../components/CloseCTA.astro';
 import { TYPE_LABEL } from '../../lib/work-type';
+import { BRAND_GROUPS } from '../../lib/brands';
 import { sortWork, firstYear } from '../../lib/content';
 import { cardPosters } from '../../lib/media';
 
@@ -140,6 +141,26 @@ const routes = ROUTES.map((r) => ({
   <h2 class="sr-only">All projects</h2>
   <WorkIndex entries={entries} disciplines stickyFilter />
 
+  {/* Sits BELOW the index because the page's job is opening the right case study, and 30+ names above the featured pair bury them. The lead sentence is what keeps the section inside the never-Pratik's-clients rule, so it never becomes a footnote. */}
+  <section class="brands rev" id="brands">
+    <h2 class="brands-h">Brands and organizations</h2>
+    <p class="brands-lead">Grouped by the role the work ran through. At the agencies these were the agency's clients, not mine.</p>
+    {/* A group with no separate brands keeps its row and its leader and says nothing after it. The empty <dd> is deliberate: filler copy there would mean nothing. */}
+    <dl class="brands-list">
+      {BRAND_GROUPS.map((g) => (
+        <div class="brand-row">
+          <dt>{g.href ? <a href={g.href}>{g.label}</a> : g.label}</dt>
+          <span class="lead-rule" aria-hidden="true"></span>
+          <dd>
+            {g.brands.map((b, i) => (
+              <Fragment>{i > 0 && <span class="sep" aria-hidden="true">/</span>}{b}</Fragment>
+            ))}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
   <CloseCTA />
 </Base>
 
@@ -163,8 +184,13 @@ const routes = ROUTES.map((r) => ({
   }
   /* label tier: the router head and its project lists are uppercase mono */
   .router-h,
-  .router-row dd {
+  .router-row dd,
+  .brands-h,
+  .brand-row dd {
     font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
+  }
+  .brand-row dt {
+    font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
   }
 
 
@@ -215,8 +241,30 @@ const routes = ROUTES.map((r) => ({
   .fcard .disc { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
   /* .badge / .badge.in-house / .badge.agency / .badge.concept come from global.css */
 
+  /* ===== brands and organizations ===== */
+  /* Same band treatment as the router, so the two read as a matched pair bracketing the index. */
+  .brands { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: var(--space-xl) 0; margin-top: var(--space-3xl); }
+  .brands-h { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-sm); }
+  .brands-lead { font-size: var(--fs-sm); color: var(--text-secondary); max-width: var(--measure-lg); margin-bottom: var(--space-lg); }
+  /* Dotted leader, matching .router-row: group on the left, names right-aligned, the rule spanning whatever is left. `nowrap` on the group name is what keeps the leader on one line. */
+  .brand-row { display: flex; align-items: baseline; gap: var(--space-sm); padding: var(--space-sm) 0; }
+  .brand-row dt { font-size: var(--fs-sm); color: var(--text); white-space: nowrap; }
+  .brand-row dt a { color: var(--text); transition: color var(--dur-quick) var(--ease-standard); }
+  .brand-row dt a:hover { color: var(--accent-text); }
+  .brand-row .lead-rule { flex: 1; min-width: var(--space-lg); border-bottom: 1px dotted var(--border-strong); transform: translateY(-3px); }
+  /* max-width so a nine-name run wraps to a right-aligned block instead of squeezing the group name. */
+  .brand-row dd { margin: 0; font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; max-width: 62%; line-height: 1.9; }
+  .brand-row dd .sep { padding: 0 var(--space-2xs); opacity: 0.5; }
+
   @media (max-width: 1100px) {
     .feat { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    /* Same treatment as .router-row: the leader has nowhere to go at this width, so stack and drop it. */
+    .brand-row { flex-direction: column; align-items: flex-start; gap: var(--space-2xs); }
+    .brand-row dt { white-space: normal; }
+    .brand-row .lead-rule { display: none; }
+    .brand-row dd { text-align: left; max-width: none; }
   }
   @media (max-width: 900px) {
     .phead { padding: var(--space-3xl) 0 var(--space-2xl); }
