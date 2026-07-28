@@ -54,6 +54,8 @@ const first = projects[0]!;
 {/* Filtering earns its keep on /work, which carries the whole collection. The home
     cut is five curated entries, all of them labeled, so the bar there was chrome
     for a set too small to filter. */}
+{/* This wrapper is what BOUNDS the sticky filter bar. A sticky element is constrained by its containing block, so with the bar as a sibling of the list its block was the page and it kept following past the index into whatever came next. Wrapping both means it releases exactly where the list ends. */}
+<div class="idx-scope">
 {filters && (
   <div class:list={['filters', stickyFilter && 'sticky']} id="filters" role="group" aria-label="Filter work">
     <span class="fl-k">Filter</span>
@@ -116,6 +118,7 @@ const first = projects[0]!;
     <div class="pv-meta"><div class="pv-t" id="pv-t">{first.name}</div><div class="pv-d" id="pv-d">{first.lede}</div></div>
     <a class="pv-open" id="pv-open" href={first.href}>Open case study →</a>
   </div>
+</div>
 </div>
 
 <script>
@@ -229,6 +232,11 @@ const first = projects[0]!;
   /* ===== filter bar (sticky only when the caller asks, e.g. /work) ===== */
   .filters { display: flex; flex-wrap: wrap; gap: var(--space-xs); align-items: center; padding: var(--space-lg) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
   .filters.sticky { position: sticky; top: 0; background: var(--bg); z-index: 20; }
+
+  @media (max-width: 900px) {
+    /* Not sticky once the rail becomes the mobile bar. That bar is itself sticky at `top: 0` and carries a higher z-index, so a filter bar pinned to the same offset slides underneath it and only its bottom row stays readable. Offsetting instead would mean hardcoding the bar's height, and a pinned filter bar costs more vertical room than it earns on a list this short. */
+    .filters.sticky { position: static; }
+  }
   .filters .fl-k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); margin-right: var(--space-xs); }
   .filters button { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); background: none; border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: var(--space-xs) var(--space-sm); cursor: pointer; transition: color var(--dur-quick) var(--ease-standard), border-color var(--dur-quick) var(--ease-standard), background-color var(--dur-quick) var(--ease-standard); }
   .filters button:hover { color: var(--text); }
