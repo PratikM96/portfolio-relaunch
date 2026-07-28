@@ -15,7 +15,8 @@
     "og:cards": "node scripts/og/render-cards.mjs",
     "shots": "node scripts/shots/capture.mjs",
     "fonts:subset": "node scripts/fonts/subset-mono.mjs",
-    "favicon": "node scripts/favicon/render-ico.mjs"
+    "favicon": "node scripts/favicon/render-ico.mjs",
+    "perf:js": "node scripts/perf/js-weight.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.0.1",

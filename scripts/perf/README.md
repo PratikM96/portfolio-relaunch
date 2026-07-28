@@ -2,14 +2,29 @@
 
 The `/work/portfolio-system` case study claims measured performance, so the numbers have to be regenerable, not typed. This directory is how the committed `src/data/portfolio-perf.json` (rendered by `PerfTable.astro`) is produced, and how runs are compared over time.
 
-## Regenerate the perf table
+## The whole loop
+
+Measure, publish, and sync are three different things, and skipping the last two is how a figure drifts. In order:
 
 ```bash
-bash scripts/perf/run.sh          # 3 samples per page, mobile + desktop, every URL
-REPEATS=5 bash scripts/perf/run.sh
-node scripts/perf/emit.mjs        # median sample per page -> src/data/portfolio-perf.json (+ history)
-node scripts/perf/trend.mjs       # how the numbers have moved across runs
+npm run deploy                    # 1. nothing can be measured until it is live
+bash scripts/perf/run.sh          # 2. 3 samples per page, mobile + desktop, every URL (~25 min)
+node scripts/perf/emit.mjs        # 3. median sample per page -> src/data/portfolio-perf.json (+ history)
+node scripts/perf/trend.mjs       # 4. how the numbers moved. Read averages, never page scores
+npm run build && npm run perf:js  # 5. re-measure the ONE figure nothing derives
+                                  # 6. sync _reference/masters/resume-master.md by hand (Drive, not git)
+npm run deploy                    # 7. the table is baked at build time, so publishing needs a second deploy
 ```
+
+**Steps 1 and 7 are both required and are not the same deploy.** The first makes the code measurable; the second makes the measurement public.
+
+**Step 5 exists because one figure is not derived.** Desktop Lighthouse, mobile Lighthouse and desktop LCP resolve at build from the JSON via `src/lib/perf-claim.ts`, so a re-run moves them and the table together. The JavaScript figure is script weight measured from the built output, so nothing recalculates it. `npm run perf:js` prints the heaviest page, the value to publish, and whether the entry already agrees; it exits non-zero when it doesn't. Basis, fixed: heaviest page, external `/_astro/` bundles plus inline scripts, JSON-LD excluded, gzipped, floored.
+
+**Step 6 is the only place the site and the resume can silently disagree.** The Resume Master is prose on Drive, outside git, so no build touches it. If a figure moved, update the Portfolio System bullet and the Claim Registry rows.
+
+Running the batch: `REPEATS=5` for a tighter median, and keep it odd. Needs Chrome, `npx`, and network access to the live site. **Don't use the machine while it runs** - Lighthouse measures CPU-bound metrics like TBT on the host, so background work lands in the numbers. A few `FAILED` lines are survivable; `emit.mjs` uses whatever samples exist.
+
+*If pasting a `node -e` one-liner into interactive bash, `set +H` first: `!` inside a regex triggers history expansion and silently mangles the line. That is why step 5 is a committed script rather than a snippet.*
 
 - `urls.txt` — the pages measured (the live portfolio, one per line, `slug|url`). Add a line when a page ships, then re-run.
 - `run.sh` takes **`REPEATS` samples per page per strategy** (default 3) and writes raw Lighthouse JSON into **`out/<YYYYMMDD-HHMM>/`**, one folder per run, gitignored. It names the folder itself from the clock at start, so the name cannot disagree with the `fetchTime` inside it. Keep `REPEATS` odd so the median is one real sample rather than a choice between two. Cost: roughly 8 minutes and 30MB per repeat, so the default is ~25 minutes and ~90MB.
