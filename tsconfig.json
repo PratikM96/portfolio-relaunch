@@ -1,5 +1,7 @@
 {
-  // astro/tsconfigs/strict already sets strict, strictNullChecks, verbatimModuleSyntax, the .astro/types.d.ts include and the dist exclude. Only _reference is additive — it is a gitignored junction to Drive that astro check would otherwise walk.
+  // astro/tsconfigs/strict already sets strict, strictNullChecks, verbatimModuleSyntax and the .astro/types.d.ts include.
+  //
+  // **`exclude` REPLACES the inherited array, it does not merge**, so `dist` has to be re-stated here. Leaving it out does not fail loudly: with `allowJs` on, `astro check` walks the previous build's minified bundles, and because the scripts in src/scripts/ have no imports or exports TypeScript treats them as global scripts sharing one scope with that output. The build then breaks on whatever single letter the minifier happened to reuse, in a file nobody edited, on the second run rather than the first. `_reference` is a gitignored junction to Drive that check would otherwise walk.
   "extends": "astro/tsconfigs/strict",
-  "exclude": ["_reference"]
+  "exclude": ["dist", "_reference"]
 }
