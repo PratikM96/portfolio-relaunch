@@ -111,7 +111,7 @@ proof:
     - { from: "desktopLighthouse", label: "Lighthouse, desktop" }
     - { from: "mobileLighthouse", label: "Lighthouse, mobile" }
     - { from: "desktopLcp", label: "LCP, desktop" }
-    - { value: "3.2", unit: "KB", label: "JS, heaviest page" }
+    - { value: "3.9", unit: "KB", label: "JS, heaviest page" }
   note:
     label: "Why it exists / what it proves"
     # No page count and no commit count here. Both rotted within a day of shipping (the copy claimed 22 pages while the JSON beside it said 23, and 131 commits against an actual 143), which is exactly what CLAUDE.md §10 forbids. PerfTable renders the real page count from portfolio-perf.json, so stating it twice only creates a second number to keep true.

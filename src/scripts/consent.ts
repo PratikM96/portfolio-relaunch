@@ -7,6 +7,8 @@
  *
  * The choice persists in localStorage and the footer "Cookies" button reopens the banner, always in ask mode, so the notice region still gets a real Decline. Consent Mode is granted explicitly (see CONSENT) to override the property's container-scoped defaults, which would otherwise withhold every hit including page_view. Those defaults live in GA4 Admin -> Data streams -> Configure tag settings -> Consent settings.
  *
+ * **Loading on arrival is not the same as loading immediately.** Where GA4 loads without a click (the notice region, and any returning visitor carrying a stored grant) the queue is primed on arrival but the library is fetched at idle, because 168KB of third-party script parsed inside the LCP window is what the perf claims are measured against. A click to Accept loads it inline instead: the page is long past LCP by then, and delaying a gesture only makes the button feel broken.
+ *
  * Custom events cover only what Enhanced Measurement does not:
  *   generate_lead   -> mailto: clicks (the primary conversion; mark it a Key event)
  *   select_content  -> case-study opens (/work/<slug>)
@@ -26,6 +28,8 @@ const w = window as unknown as {
   dataLayer?: unknown[];
   gtag?: (...args: unknown[]) => void;
   __ga?: boolean;
+  __gaSrc?: boolean;
+  __gaOff?: boolean;
 };
 
 // Analytics granted, ads denied. Sent both before and after config.
@@ -36,7 +40,8 @@ const CONSENT = {
   analytics_storage: 'granted',
 } as const;
 
-function loadGA(): void {
+/** The queue only: no network, no third-party code. Cheap enough to run on arrival, which is what keeps `track()` working before the library lands. */
+function primeGA(): void {
   if (w.__ga) return;
   w.__ga = true;
 
@@ -52,6 +57,12 @@ function loadGA(): void {
   gtag('js', new Date());
   gtag('config', GA);
   gtag('consent', 'update', CONSENT);
+}
+
+/** The 168KB. Separate from the queue so it can be moved off the critical path, and skipped entirely if the visitor opts out before it fires. */
+function injectGA(): void {
+  if (w.__gaSrc || w.__gaOff) return;
+  w.__gaSrc = true;
 
   const s = document.createElement('script');
   s.async = true;
@@ -59,10 +70,30 @@ function loadGA(): void {
   document.head.appendChild(s);
 }
 
+function loadGA(): void {
+  primeGA();
+  injectGA();
+}
+
+/**
+ * The load-on-arrival path: queue now, fetch the library once the main thread is free.
+ *
+ * gtag.js is 168KB of third-party script whose parse is main-thread work, so injecting it inline put it inside the LCP window on every page. It cost /brand roughly 300ms of TBT and pushed its mobile LCP past 4s. Priming first is what makes the delay safe: `track()` checks gtag at click time, so without the queue in place a mailto click in the first seconds would drop `generate_lead`, the primary conversion.
+ *
+ * **The timeout is the floor, not a hint.** `requestIdleCallback` never fires on a page that never goes idle, and Safari has only shipped it recently, so the `setTimeout` fallback is the guarantee that the tag loads at all.
+ */
+function loadGADeferred(): void {
+  primeGA();
+  if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(injectGA, { timeout: 3000 });
+  else setTimeout(injectGA, 1500);
+}
+
 /**
  * Opting out after gtag has already loaded, which is the normal path in notice mode. Consent Mode stops further storage, and the cookies already written are expired here so nothing survives the choice — the privacy page promises exactly this. GA writes `_ga` and `_ga_<id>` on the registrable domain, so every host form is expired: a cookie set with a leading-dot domain is NOT removed by a delete that omits the domain.
  */
 function revokeGA(): void {
+  // Cancels a deferred injection that has not fired yet, so opting out inside the idle window costs nothing rather than downloading the tag anyway.
+  w.__gaOff = true;
   if (typeof w.gtag === 'function') w.gtag('consent', 'update', { ...CONSENT, analytics_storage: 'denied' });
 
   const host = location.hostname;
@@ -119,7 +150,7 @@ async function decide(): Promise<void> {
   }
   // Notice region. The grant is stored now rather than on dismiss, so a visitor who reads the notice and never clicks is not asked again on the next page.
   store('granted');
-  loadGA();
+  loadGADeferred();
   show('tell');
 }
 
@@ -128,7 +159,8 @@ try {
   choice = localStorage.getItem(KEY);
 } catch {}
 
-if (choice === 'granted') loadGA();
+// The returning-visitor path, and the common one: deferred for the same reason as the notice branch.
+if (choice === 'granted') loadGADeferred();
 else if (choice !== 'denied') void decide();
 
 if (banner) {
