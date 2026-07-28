@@ -82,9 +82,8 @@ const routes = ROUTES.map((r) => ({
 }));
 ---
 
-{/* The first featured poster is the LCP element, and a <video poster> is
-    invisible to the preload scanner - hence the explicit preload. */}
-<Base title="Work | Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work" preloadImage={featured[0]?.poster.dark}>
+{/* No preload for the first featured poster, even though it is the LCP element: `rel=preload` cannot be theme-conditional, so it fetched the dark still for light-theme visitors too and then went unused. The inline script below sets the poster during parse, which is nearly as early as the preload was and is right for both themes. */}
+<Base title="Work | Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work">
   <header class="phead">
     <div class="page-kicker">[ Work ] / {count} {count === 1 ? 'project' : 'projects'} / {yearRange}</div>
     <h1 class="rev-load page-h1">The work,<br />as <span class="signal">one index.</span></h1>
@@ -114,12 +113,12 @@ const routes = ROUTES.map((r) => ({
   {/* featured pair */}
   <h2 class="sr-only">Featured projects</h2>
   <section class="feat rev-load">
-    {featured.map((p, i) => (
+    {featured.map((p) => (
       <a class="card card--interactive fcard" href={p.href}>
         <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
         <div class="im">
-          {/* No <source>: card-video.ts adds one on first hover, so an untouched card costs nothing. The FIRST card keeps its `poster` in the markup because it is this page's LCP element and is preloaded above — deferring it to script would delay the very paint the preload exists to hurry. Every later card gets its poster from the observer instead. */}
-          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} poster={i === 0 ? p.poster.dark : undefined} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
+          {/* No <source>: card-video.ts adds one on first hover, so an untouched card costs nothing. No `poster` attribute either, on any card: the still inverts with the theme, and a static attribute cannot know the theme, so the first card is set by the inline script below and every later one by the observer. */}
+          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
         </div>
         <div class="meta">
           <div>
@@ -136,6 +135,16 @@ const routes = ROUTES.map((r) => ({
       </a>
     ))}
   </section>
+
+  {/* The first card is this page's LCP element, so its poster is set here rather than by the observer that serves the rest. `is:inline` keeps it un-hoisted and parser-blocking, which puts it after the pre-paint theme script in Base.astro and before first paint, so the theme-correct still is the only one ever fetched. card-video.ts leaves it alone afterwards because it only ever adds a poster, never replaces one. */}
+  <script is:inline>
+    (function () {
+      var v = document.querySelector('.fcard-video');
+      if (!v) return;
+      var light = document.documentElement.getAttribute('data-theme') === 'light';
+      v.poster = (light ? v.dataset.posterLight : v.dataset.poster) || v.dataset.poster || '';
+    })();
+  </script>
 
   {/* shared filterable index + sticky preview (also used on the home) */}
   <h2 class="sr-only">All projects</h2>
