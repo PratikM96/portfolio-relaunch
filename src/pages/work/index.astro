@@ -7,7 +7,7 @@ import Base from '../../layouts/Base.astro';
 import WorkIndex from '../../components/WorkIndex.astro';
 import CloseCTA from '../../components/CloseCTA.astro';
 import { TYPE_LABEL } from '../../lib/work-type';
-import { BRAND_GROUPS } from '../../lib/brands';
+import { BRAND_GROUPS, BRAND_BANDS } from '../../lib/brands';
 import { sortWork, firstYear } from '../../lib/content';
 import { cardPosters } from '../../lib/media';
 
@@ -153,23 +153,29 @@ const routes = ROUTES.map((r) => ({
   {/* Sits BELOW the index because the page's job is opening the right case study, and 30+ names above the featured pair bury them. The lead sentence is what keeps the section inside the never-Pratik's-clients rule, so it never becomes a footnote. */}
   <section class="brands rev" id="brands">
     <h2 class="brands-h">Brands and organizations</h2>
-    {/* "How the work came in" rather than "the role it ran through", because Direct engagements is not a role. The second sentence is the load-bearing one and does not change. */}
-    <p class="brands-lead">Grouped by how the work came in. At the agencies these were the agency's clients, not mine.</p>
-    {/* A group with no separate brands keeps its row and its leader and says nothing after it. The empty <dd> is deliberate: filler copy there would mean nothing. */}
+    {/* Echoes the Resume Master's roster framing. Not "clients" flatly and not the old "not mine" disclaimer either: these are brands worked on during a tenure, which is what the grouping shows. */}
+    <p class="brands-lead">Brands, partners, and organizations I worked with during my time at each, grouped by engagement type.</p>
+    {/* Banded by engagement type rather than one row per employer, so a group with no brands under it cannot strand a half-empty row. Full contrast is the org that engaged him, secondary is a brand that ran through it, and in the direct band there is no employer above them so they lead. */}
     <dl class="brands-list">
-      {BRAND_GROUPS.map((g) => (
-        <div class="brand-row">
-          <dt>{g.href ? <a href={g.href}>{g.label}</a> : g.label}</dt>
-          <span class="lead-rule" aria-hidden="true"></span>
-          {g.brands.length > 0 && (
-            <dd>
-              {g.brands.map((b, i) => (
-                <Fragment>{i > 0 && <span class="sep" aria-hidden="true">/</span>}{b}</Fragment>
+      {BRAND_BANDS.map(({ type, label }) => {
+        const groups = BRAND_GROUPS.filter((g) => g.type === type);
+        if (groups.length === 0) return null;
+        return (
+          <div class="band">
+            <dt class="band-l">{label}</dt>
+            <dd class="band-run">
+              {groups.map((g) => (
+                <Fragment>
+                  {type !== 'direct' && (g.href
+                    ? <a class="org org-lead" href={g.href}>{g.label}</a>
+                    : <span class="org org-lead">{g.label}</span>)}
+                  {g.brands.map((b) => <span class={type === 'direct' ? 'org org-lead' : 'org'}>{b}</span>)}
+                </Fragment>
               ))}
             </dd>
-          )}
-        </div>
-      ))}
+          </div>
+        );
+      })}
     </dl>
   </section>
 
@@ -198,11 +204,12 @@ const routes = ROUTES.map((r) => ({
   .router-h,
   .router-row dd,
   .brands-h,
-  .brand-row dd {
+  .band-l {
     font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track);
   }
-  .brand-row dt {
-    font-family: var(--t-h3-font); font-weight: var(--t-h3-weight); letter-spacing: var(--t-h3-track);
+  /* data tier: the roster reads as names, not as a UI label run, so it is sentence-case mono */
+  .band-run {
+    font-family: var(--t-data-font); font-weight: var(--t-data-weight); letter-spacing: var(--t-data-track);
   }
 
 
@@ -258,24 +265,23 @@ const routes = ROUTES.map((r) => ({
   .brands { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: var(--space-xl) 0; margin-top: var(--space-3xl); }
   .brands-h { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-sm); }
   .brands-lead { font-size: var(--fs-sm); color: var(--text-secondary); max-width: var(--measure-lg); margin-bottom: var(--space-lg); }
-  /* Leader row from .router-row, but the names take their OWN full-width line beneath it rather than sharing the row. Sharing it never fit: the shell spends 264px on the rail plus padding, so the longest groups wrapped to two right-aligned lines even at 1440 and three at 1100. Full width fits every group on one line at desktop and degrades to two, left aligned, instead of a ragged right-aligned block. */
-  .brand-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2xs) var(--space-sm); padding: var(--space-md) 0; }
-  .brand-row dt { font-size: var(--fs-sm); color: var(--text); white-space: nowrap; }
-  .brand-row dt a { color: var(--text); transition: color var(--dur-quick) var(--ease-standard); }
-  .brand-row dt a:hover { color: var(--accent-text); }
-  .brand-row .lead-rule { flex: 1; min-width: var(--space-lg); border-bottom: 1px dotted var(--border-strong); transform: translateY(-3px); }
-  /* flex-basis 100% is what forces the second line. A group with no brands renders no <dd> at all, so it keeps its leader row and adds no empty gap. */
-  .brand-row dd { flex: 0 0 100%; margin: 0; font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); line-height: 1.9; }
-  .brand-row dd .sep { padding: 0 var(--space-2xs); opacity: 0.5; }
+  /* One wrapping run per band, so nothing is sized to a row that has to hold every group. There is no leader rule: it existed to bridge a name to its brands across a gap, and there is no gap here. */
+  .brands-list { margin: 0; }
+  .band { padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); }
+  .band:first-child { padding-top: 0; }
+  .band:last-child { border-bottom: none; padding-bottom: 0; }
+  .band-l { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-md); }
+  .band-run { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); margin: 0; font-size: var(--fs-md); }
+  /* Contrast carries the hierarchy the band flattened: full is the org that engaged him, secondary is a brand that ran through it. */
+  .org { color: var(--text-secondary); }
+  .org-lead { color: var(--text); }
+  a.org-lead { transition: color var(--dur-quick) var(--ease-standard); }
+  a.org-lead:hover { color: var(--accent-text); }
 
   @media (max-width: 1100px) {
     .feat { grid-template-columns: 1fr; }
   }
-  @media (max-width: 560px) {
-    /* Same treatment as .router-row: the leader has nowhere to go at this width, so drop it and let the group name wrap. */
-    .brand-row dt { white-space: normal; }
-    .brand-row .lead-rule { display: none; }
-  }
+  /* The roster needs no width rule of its own: a wrapping run reflows at every width, which is the point of banding it. */
   @media (max-width: 900px) {
     .phead { padding: var(--space-3xl) 0 var(--space-2xl); }
   }

@@ -1,9 +1,9 @@
 /**
  * Brands and organizations the work ran for or through. One source of truth for the grouped list on /work and the chip cluster on home.
  *
- * NEVER label these "clients" and never flatten the grouping: at the agencies they were the AGENCY's clients, and the grouping is the only thing carrying that. Names only, no years or outcomes. Years live in the Resume Master's roster table, which is the narrative source for this file. See CLAUDE.md §8.
+ * Never headed or introduced as a "client list". /work bands these by engagement type and carries the rest in contrast: full is the org that engaged him, secondary is a brand that ran through it. Names only, no years or outcomes. Years live in the Resume Master's roster table, which is the narrative source for this file. See CLAUDE.md §8.
  */
-import type { WorkType } from './work-type';
+import { TYPE_LABEL, type WorkType } from './work-type';
 
 /** `direct` is work commissioned straight by the org rather than held through a role, so it is not a work-collection engagement type. Never "freelance": the masters bar that frame. */
 export type BrandGroupType = WorkType | 'direct';
@@ -48,14 +48,23 @@ export const BRAND_GROUPS: BrandGroup[] = [
     label: 'Agency FiveEighty',
     type: 'agency',
     href: '/work/agency-fiveeighty',
-    // Coca-Cola is deliberately here. It is absent from the source list Pratik supplied but named in the Resume Master and already published in `agency-fiveeighty.md` and /resume, so dropping it would put the site out of step with the master.
     brands: ['Spectrum', 'New York Jets', 'Coca-Cola', 'FISLL', 'Corona Extra', "Sticky's Finger Joint", 'HFactor Water', 'Solv Wellness'],
   },
   { key: 'pipeline-medical', label: 'Pipeline Medical', type: 'in-house', href: '/work/pipeline-medical', brands: [] },
   { key: 'sr-love-and-care', label: 'SR Love and Care', type: 'in-house', href: '/work/sr-love-and-care', brands: [] },
   { key: 'kumon', label: 'Kumon', type: 'in-house', brands: [] },
-  // Commissioned directly, never "freelance". Deliberately NOT named after the Apr 2024 practice: these predate it (Ventura 2015, SQUIP 2016), and borrowing the role's name would date the role to 2014. SR Mission Dharampur is SR Love and Care's sister organization, engaged directly rather than through that role.
-  { key: 'direct', label: 'Direct engagements', type: 'direct', brands: ['Ventura Air Services', 'SQUIP', 'SR Mission Dharampur'] },
+  { key: 'direct', label: 'Direct Engagements', type: 'direct', brands: ['Ventura Air Services', 'SQUIP', 'SR Mission Dharampur'] },
+];
+
+/**
+ * The bands /work groups the roster into, in render order. `direct` has no `TYPE_LABEL` because it is not a work-collection type.
+ *
+ * A band with no groups renders nothing rather than an empty label, so emptying one drops the band instead of stranding it.
+ */
+export const BRAND_BANDS: { type: BrandGroupType; label: string }[] = [
+  { type: 'in-house', label: TYPE_LABEL['in-house'] },
+  { type: 'agency', label: TYPE_LABEL.agency },
+  { type: 'direct', label: 'Direct' },
 ];
 
 /**
