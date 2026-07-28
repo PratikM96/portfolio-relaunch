@@ -373,12 +373,15 @@ const ldGraph = {
       </div>
     </div>
 
-    {/* Cookie consent + gated Google Analytics (GA4). gtag loads only after Accept. */}
-    <div class="consent" id="consent" hidden>
-      <p class="consent-txt">Google Analytics measures site traffic. No ads, no cross-site tracking. <a href="/privacy">Privacy</a></p>
+    {/* Cookie consent + Google Analytics (GA4). One element, two surfaces: `ask` is the opt-in gate served to the EEA, the UK and Switzerland, where nothing loads until Accept; `tell` is the notice served everywhere else, where GA4 is already running and the choice on offer is opting out. consent.ts picks by region and fails closed to `ask`. */}
+    <div class="consent" id="consent" data-mode="ask" hidden>
+      <p class="consent-txt" data-when="ask">Google Analytics measures site traffic. No ads, no cross-site tracking. <a href="/privacy">Privacy</a></p>
+      <p class="consent-txt" data-when="tell">Analytics are on. Google Analytics measures site traffic, no ads, no cross-site tracking. <a href="/privacy">Privacy</a></p>
       <div class="consent-btns">
-        <button type="button" data-consent="deny">Decline</button>
-        <button type="button" class="primary" data-consent="grant">Accept</button>
+        <button type="button" data-when="ask" data-consent="deny">Decline</button>
+        <button type="button" data-when="ask" class="primary" data-consent="grant">Accept</button>
+        <button type="button" data-when="tell" data-consent="deny">Opt out</button>
+        <button type="button" data-when="tell" class="primary" data-consent="ack">Got it</button>
       </div>
     </div>
     <style>
@@ -398,6 +401,9 @@ const ldGraph = {
         display: none; opacity: 0; transform: translateY(var(--travel-sm));
         transition: opacity var(--dur-move) var(--ease-exit), transform var(--dur-move) var(--ease-exit), display var(--dur-move) allow-discrete;
       }
+      /* Mode switch. `display: none` rather than `hidden` on the elements, because the mode flips at runtime and the attribute is the script's to own on the container only. */
+      .consent[data-mode='ask'] [data-when='tell'],
+      .consent[data-mode='tell'] [data-when='ask'] { display: none; }
       .consent-txt { flex: 1; min-width: 260px; margin: 0; font-size: var(--fs-sm); line-height: 1.5; color: var(--text-secondary); text-wrap: balance; }
       .consent-txt a { color: var(--accent-text); text-decoration: underline; }
       .consent-btns { display: flex; gap: var(--space-sm); flex: none; }

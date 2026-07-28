@@ -79,7 +79,7 @@ The canvas is three columns: **Variables** (import via `+`), **Settings** (drag 
 2. **Application Tracker** — *which specific application drove a visit or reply.* Rows: `Session campaign` (your `<company>-application` tags). Values: `Sessions`, `Engaged sessions`, `Key events`. Filter out `not set` / `direct` on Session campaign.
 3. **Case Study Interest** — *which work gets opened, and from where.* Rows: `Page path and screen class` (then `Session source / medium` nested below). Values: `Views`, `Sessions`, `Key events`. Filter: Page path **begins with** `/work/`. (Upgrade: register `content_id` as an event-scoped custom dimension to slice by the `select_content` event directly instead of by page path.)
 
-Realtime / DebugView confirm UTMs immediately; standard reports lag 24–48h. Visitors who decline the cookie banner never fire GA4, so every count here undercounts — read trends.
+Realtime / DebugView confirm UTMs immediately; standard reports lag 24–48h. Every count here still undercounts, so read trends: anyone who opts out never fires GA4, and visitors in the EEA, the UK and Switzerland fire nothing at all until they accept, because consent there is an opt-in gate rather than a notice (`src/scripts/consent.ts`). **That split is also why traffic looks different by region** — a European drop-off is a consent artifact, not an interest signal, so never read the two cohorts against each other.
 
 ---
 

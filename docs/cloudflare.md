@@ -157,6 +157,10 @@ Your redirects and headers live in the repo (🔒). Use dashboard rules only for
 
 - 🚫 **Zaraz / "Google tag gateway" = OFF.** ⚠️ One of the three. GA4 is loaded by `consent.ts` behind the consent gate; the gateway bypassed consent and double-loaded GA. Permanent "leave off," not a one-time fix. Don't manage GA through Cloudflare.
 
+### `/cdn-cgi/trace` is load-bearing
+
+`consent.ts` fetches it on first visit and reads `loc=` to decide whether this visitor gets the opt-in gate or the notice. It is served by the edge ahead of the Worker, on any proxied zone, so nothing in the repo or in `wrangler.jsonc` can serve it and nothing here needs enabling — but it is a real dependency, not a stray request. Same-origin, so `connect-src 'self'` already covers it and no CSP entry exists to delete by mistake. If it ever stops answering, every visitor falls through to the opt-in gate, which is the safe direction but costs the US analytics the split exists to capture.
+
 ## 13. Web Analytics (account-level RUM)
 
 - 🚫 **Cloudflare Web Analytics = OFF.** The auto-injected `static.cloudflareinsights.com` beacon slowed page load / LCP, so it's off — and its origins were removed from the `_headers` CSP allowlist (they were dead once the beacon stopped shipping). **GA4, via `consent.ts`, is the sole analytics.** Do not re-enable on a reflex; if you ever do, re-add `static.cloudflareinsights.com` (script-src) and `cloudflareinsights.com` (connect-src) to the CSP or the beacon fails silently. Trade-off to know: with RUM off, Speed Brain (§4) still works but you lose the dashboard view of its impact.
