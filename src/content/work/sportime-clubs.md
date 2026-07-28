@@ -22,7 +22,6 @@ hero:
   - { k: "Headline result", v: "11.7", stat: true, unit: "M" }
 
 # Rows omitted where the fact is not in the Resume Master. `collaborators` in particular is left out on purpose across these entries: naming who else was in the room is exactly the kind of plausible detail the claim rules forbid inventing.
-# [NEEDS: Pratik] a verified `collaborators` line, if you want one here.
 contribution:
   owned: "Marketing across 13+ clubs and 25+ social accounts: the brand foundation, the video-first content engine, the per-club distribution structure, and the weekly reporting loop that steered the calendar."
   team: "3+ social and design reports, including club-level creative leads producing to one central strategy."

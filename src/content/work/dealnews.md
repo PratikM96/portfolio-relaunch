@@ -23,7 +23,6 @@ hero:
   # Labeled Facebook, not "Audience": 110K is the Facebook following alone, and the margin block beside it breaks out Instagram and LinkedIn separately.
   - { k: "Facebook audience", v: "110K", stat: true }
 
-# [NEEDS: Pratik] a verified `collaborators` line. Omitted rather than guessed.
 contribution:
   owned: "Social, paid, and in-house design as one function: social content, paid campaigns, email, landing pages, app updates, infographics, logos, and sales materials."
   team: "No reports. Sole owner of the function inside a much larger company."
