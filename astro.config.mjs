@@ -69,4 +69,17 @@ export default defineConfig({
   // Consequence worth knowing before promoting a rule to global.css: every page carries the whole of it, including pages that never use the rule. Measure a real build rather than guessing:
   //   perl -0777 -ne 'while(/<style[^>]*>(.*?)<\/style>/gs){$n+=length($1)} print $n' dist/client/contact.html
   build: { inlineStylesheets: 'always', format: 'file' },
+  /**
+   * The support floor, pinned rather than left to the bundler's default.
+   *
+   * `color-mix()` is the real floor and it is a design decision: the scrim, shadow and accent-border tokens are computed on the ramp rather than frozen copies, so Safari 16.2 is where this site starts. Everything else it uses degrades quietly. `@view-transition` and `text-wrap` simply do not happen, and an unsupported `backdrop-filter` loses a blur.
+   *
+   * Pinning exists for one failure that does NOT degrade quietly. Left to its own devices the minifier rewrites `max-width: 900px` into range syntax, `(width<=900px)`, which needs Safari 16.4. **An unsupported media condition drops the entire block, not one declaration**, so on 16.0 to 16.3 every responsive rule would vanish at once and a phone would be served the desktop layout. An unsupported `color-mix()` costs a border; an unsupported range query costs the layout.
+   */
+  vite: {
+    build: {
+      target: ['safari16.2', 'chrome111', 'firefox113'],
+      cssTarget: ['safari16.2', 'chrome111', 'firefox113'],
+    },
+  },
 });
