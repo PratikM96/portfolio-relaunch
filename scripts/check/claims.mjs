@@ -118,6 +118,37 @@ for (const f of readdirSync(join(ROOT, 'src/content/work')).filter((x) => x.ends
   }
 }
 
+/**
+ * The roster guards in `src/lib/brands.ts` throw at module load, which kills only the pages that import it: verified by pointing a chip at a missing name and watching the build exit 0 with a ZERO-BYTE index.html and work.html. Same trap as the demo stills above, so the same fix. Parsed as text because brands.ts is TypeScript and this is plain node.
+ */
+{
+  const rel = 'src/lib/brands.ts';
+  const src = readFileSync(join(ROOT, rel), 'utf8');
+  const strings = (block) => [...block.matchAll(/'((?:[^'\\]|\\.)*)'/g)].map((m) => m[1].replace(/\\'/g, "'"));
+  const groupsBlock = src.match(/BRAND_GROUPS[^=]*=\s*\[([\s\S]*?)\n\];/)?.[1] ?? '';
+  const chipsBlock = src.match(/HOME_CHIPS[^=]*=\s*\[([\s\S]*?)\n\];/)?.[1] ?? '';
+
+  const labels = [...groupsBlock.matchAll(/label:\s*'((?:[^'\\]|\\.)*)'/g)].map((m) => m[1]);
+  const brands = [...groupsBlock.matchAll(/brands:\s*\[([^\]]*)\]/g)].flatMap((m) => strings(m[1]));
+  // A chip may name a group as well as a brand: SPORTIME Clubs is a roster name too, and the guard's job is catching typos and stale names, not policing which tier a chip comes from.
+  const known = new Set([...labels, ...brands]);
+
+  for (const chip of strings(chipsBlock)) {
+    if (known.has(chip)) continue;
+    failures++;
+    console.error(`\n  ${rel}`);
+    console.error(`    HOME_CHIPS names "${chip}", which is not a brand or group in BRAND_GROUPS`);
+  }
+
+  // Excludes the `direct` group: a category header, not an organization. Mirrors the ORG_COUNT guard in brands.ts.
+  const orgCount = labels.length - 1 + brands.length;
+  if (orgCount < 30) {
+    failures++;
+    console.error(`\n  ${rel}`);
+    console.error(`    roster carries ${orgCount} organizations, which no longer supports the published "30+"`);
+  }
+}
+
 for (const rel of TARGETS) {
   const abs = join(ROOT, rel);
   if (!existsSync(abs)) continue;
