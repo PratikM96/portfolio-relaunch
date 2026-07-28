@@ -52,6 +52,9 @@ const BANNED = [
   { re: /29\.81|1\.74\s*%|6\.6\s*%|7\.5\s*%|\$70\.11/, why: 'Retired exact-value metric variant. Use the approved value.' },
 
   // --- claim boundaries ---
+  // The Claim Registry names both of these as retired and says this file enforces them. It did not, so the only thing stopping either from returning was memory.
+  { re: /zero layout shift|\bzero\s+CLS\b|\b0\s+CLS\b/i, why: 'Retired: a perfect Lighthouse score already entails a good CLS, so this was a second number saying the same thing and the only one that could rot. PerfTable renders per-page CLS as measured detail instead.' },
+  { re: /\b\d+\+?\s*(brand|identity)\s+systems?\b/i, why: 'The brand-systems / identity-systems count is retired and needs an approved count method before it returns.' },
   { re: /live AI moment-clipper/i, why: 'The clipper is a working PROTOTYPE, never "live".' },
   { re: /a live AI host\b/i, why: 'WISP is a scripted demonstration; its own disclosure says "not a live AI model".' },
   { re: /Cloud9|\bC9\b/, why: 'The Ninth does not name the organization on portfolio surfaces (CLAUDE.md §3). The microsite under public/concepts/ is the deliberate exception and is not checked here.' },

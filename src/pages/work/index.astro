@@ -151,11 +151,13 @@ const routes = ROUTES.map((r) => ({
         <div class="brand-row">
           <dt>{g.href ? <a href={g.href}>{g.label}</a> : g.label}</dt>
           <span class="lead-rule" aria-hidden="true"></span>
-          <dd>
-            {g.brands.map((b, i) => (
-              <Fragment>{i > 0 && <span class="sep" aria-hidden="true">/</span>}{b}</Fragment>
-            ))}
-          </dd>
+          {g.brands.length > 0 && (
+            <dd>
+              {g.brands.map((b, i) => (
+                <Fragment>{i > 0 && <span class="sep" aria-hidden="true">/</span>}{b}</Fragment>
+              ))}
+            </dd>
+          )}
         </div>
       ))}
     </dl>
@@ -246,25 +248,23 @@ const routes = ROUTES.map((r) => ({
   .brands { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: var(--space-xl) 0; margin-top: var(--space-3xl); }
   .brands-h { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-sm); }
   .brands-lead { font-size: var(--fs-sm); color: var(--text-secondary); max-width: var(--measure-lg); margin-bottom: var(--space-lg); }
-  /* Dotted leader, matching .router-row: group on the left, names right-aligned, the rule spanning whatever is left. `nowrap` on the group name is what keeps the leader on one line. */
-  .brand-row { display: flex; align-items: baseline; gap: var(--space-sm); padding: var(--space-sm) 0; }
+  /* Leader row from .router-row, but the names take their OWN full-width line beneath it rather than sharing the row. Sharing it never fit: the shell spends 264px on the rail plus padding, so the longest groups wrapped to two right-aligned lines even at 1440 and three at 1100. Full width fits every group on one line at desktop and degrades to two, left aligned, instead of a ragged right-aligned block. */
+  .brand-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2xs) var(--space-sm); padding: var(--space-md) 0; }
   .brand-row dt { font-size: var(--fs-sm); color: var(--text); white-space: nowrap; }
   .brand-row dt a { color: var(--text); transition: color var(--dur-quick) var(--ease-standard); }
   .brand-row dt a:hover { color: var(--accent-text); }
   .brand-row .lead-rule { flex: 1; min-width: var(--space-lg); border-bottom: 1px dotted var(--border-strong); transform: translateY(-3px); }
-  /* max-width so a nine-name run wraps to a right-aligned block instead of squeezing the group name. */
-  .brand-row dd { margin: 0; font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; max-width: 62%; line-height: 1.9; }
+  /* flex-basis 100% is what forces the second line. A group with no brands renders no <dd> at all, so it keeps its leader row and adds no empty gap. */
+  .brand-row dd { flex: 0 0 100%; margin: 0; font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); line-height: 1.9; }
   .brand-row dd .sep { padding: 0 var(--space-2xs); opacity: 0.5; }
 
   @media (max-width: 1100px) {
     .feat { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
-    /* Same treatment as .router-row: the leader has nowhere to go at this width, so stack and drop it. */
-    .brand-row { flex-direction: column; align-items: flex-start; gap: var(--space-2xs); }
+    /* Same treatment as .router-row: the leader has nowhere to go at this width, so drop it and let the group name wrap. */
     .brand-row dt { white-space: normal; }
     .brand-row .lead-rule { display: none; }
-    .brand-row dd { text-align: left; max-width: none; }
   }
   @media (max-width: 900px) {
     .phead { padding: var(--space-3xl) 0 var(--space-2xl); }

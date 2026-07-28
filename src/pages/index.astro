@@ -391,7 +391,8 @@ const heroPoster = await getImage({
   /* Brand chip cluster. Same sharp, filled treatment as /resume's tool chips, and wrapping rather than gridded so a long name does not set a column width for every short one. */
   .hchips { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
   .chip { font-size: var(--fs-2xs); color: var(--text-secondary); background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-none); padding: var(--space-xs) var(--space-sm); line-height: 1.3; }
-  .chip-more { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 40%, transparent); transition: background-color var(--dur-quick) var(--ease-standard); }
+  /* `flex: 1` is what squares the block off against the stat cards above it: a wrapped row ends wherever its last chip ends, so the link absorbs the remainder and the right edge lands flush instead of ragged. It also means a link that wraps alone reads as a closing bar rather than a stray chip. */
+  .chip-more { flex: 1; text-align: center; color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-fill) 40%, transparent); transition: background-color var(--dur-quick) var(--ease-standard); }
   .chip-more:hover { background: var(--surface-raised); }
   /* surface + hover come from global .card / .card--interactive */
   .card.t-feat, .card.t-stat { overflow: hidden; position: relative; }
@@ -459,10 +460,13 @@ const heroPoster = await getImage({
     .duo { grid-template-columns: 1fr; }
     .feat-row { grid-template-columns: 1fr; }
     .stat-row { grid-template-columns: repeat(2, 1fr); }
+    /* Fewer chips per row here, so the full set would stack four rows deep and swamp the stat cards. Trimming by rule rather than by a second authored list keeps brands.ts the only place the names live. */
+    .hchips .chip:nth-of-type(n + 9) { display: none; }
     /* same row meta, same breakpoint as the /journal index */
     .jr-m { display: none; }
   }
   @media (max-width: 560px) {
     .stat-row { grid-template-columns: 1fr; }
+    .hchips .chip:nth-of-type(n + 6) { display: none; }
   }
 </style>

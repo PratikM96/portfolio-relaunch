@@ -104,12 +104,11 @@ const schema = [
     <div class="blabel"><span class="c">[ 05 ]</span><h2 class="t">Influences</h2><span class="rule"></span></div>
     <div class="prose rev"><p>The reference points behind the taste. Not a mood board, a set of standards I measure work against.</p></div>
     <div class="infl rev">
-      <div><span class="n">Riot Games</span><p>Deep brand ecosystems and esports structure. Audience first, built to hold for a decade.</p></div>
-      <div><span class="n">Porsche</span><p>Restrained design and performance logic. Heritage without being stuck in it.</p></div>
-      <div><span class="n">Apple</span><p>Product clarity and interface discipline. System level taste, held over decades.</p></div>
-      <div><span class="n">Nike</span><p>Campaign rhythm and sports culture. Confidence carried as a brand asset.</p></div>
-      <div><span class="n">Formula 1</span><p>Speed, engineering, precision, spectacle. A system you can watch working.</p></div>
-      <div><span class="n">Anime and games</span><p>Worlds and character systems. Fan logic, and engagement measured in years.</p></div>
+      <div><span class="n">Riot Games</span><p>Deep brand ecosystems and esports structure, built so a world holds together across products and years rather than one campaign.</p></div>
+      <div><span class="n">Porsche</span><p>Restrained design and performance logic. Heritage carried forward without being stuck in it, which is the harder half.</p></div>
+      <div><span class="n">Apple</span><p>Product clarity and interface discipline. System level taste, held consistently long enough to become the recognizable thing.</p></div>
+      <div><span class="n">Nike</span><p>Campaign rhythm and sports culture, and confidence treated as a brand asset rather than a tone of voice.</p></div>
+      <div><span class="n">Formula 1</span><p>Engineering, precision, and spectacle in the same object. A system where the performance is the story.</p></div>
     </div>
   </section>
 
@@ -159,11 +158,11 @@ const schema = [
   .pcard h3 { font-size: var(--fs-xl); margin: auto 0 var(--space-sm); }
   .pcard p { font-size: var(--fs-sm); line-height: 1.55; color: var(--text-secondary); }
 
-  /* influences */
-  .infl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space-2xl); margin-top: var(--space-xl); }
-  .infl > div { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); align-items: baseline; }
-  .infl .n { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); }
-  .infl p { font-size: var(--fs-sm); line-height: 1.6; color: var(--text-secondary); }
+  /* Influences. One column, not two: an odd count leaves a lone cell in the second column, and there is no honest sixth reference to pad it with. Full-width rows also give each line room to sit on one line. */
+  .infl { display: flex; flex-direction: column; margin-top: var(--space-xl); border-top: 1px solid var(--border); }
+  .infl > div { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: var(--space-xl); padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); align-items: baseline; }
+  .infl .n { font-size: var(--fs-xs); text-transform: uppercase; color: var(--accent-text); }
+  .infl p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: var(--measure-xl); }
 
   /* tools */
   .tools { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-lg); }
@@ -176,9 +175,9 @@ const schema = [
     .ahero .portrait { max-width: 340px; }
     .princ { grid-template-columns: 1fr; }
     .path .step { grid-template-columns: 1fr; gap: var(--space-xs); }
-    .infl { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 560px) {
+    /* Same stack as .path .step: the label column has nowhere left to go. */
     .infl > div { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
   }
   @media (max-width: 900px) {
