@@ -76,7 +76,7 @@ Full rules — the declarative-reversal lead, the proof sentence, the honesty re
 
 ## 6. Build rules code can't enforce
 
-**Assets.** Everything is same-origin, served by the Worker. No external CDN. Images go in `src/assets/` (Astro's pipeline: responsive widths, hashing, CLS-safe dims); anything the pipeline can't process — video, fonts, favicons — goes in `public/` and ships verbatim. Only web-optimized deliverables get committed; raw masters stay in gitignored `_reference/`. **Cloudflare caps Worker static assets at 25 MiB per file.** Build-time image optimization needs the adapter's `imageService: 'compile'`.
+**Assets.** Everything is same-origin, served by the Worker. No external CDN. Images go in `src/assets/` (Astro's pipeline: responsive widths, hashing, CLS-safe dims); anything the pipeline can't process — video, fonts, favicons — goes in `public/` and ships verbatim. Only web-optimized deliverables get committed; raw masters stay in gitignored `_reference/`. **Never re-compress a `src/assets/` file to save bytes**: the pipeline re-encodes it at build, so a lossy pass there buys nothing and softens the master it re-encodes from. **Cloudflare caps Worker static assets at 25 MiB per file.** Build-time image optimization needs the adapter's `imageService: 'compile'`.
 
 **Fonts.** Self-hosted, same-origin, woff2 only. No font CDN: it costs a second-origin handshake plus a CSS→font waterfall, defeats preloading, and the cross-site cache benefit died when browsers partitioned cache by top-level site. Files live flat in `public/fonts/`; OTF masters and licenses stay in `_reference/fonts/site/`.
 
