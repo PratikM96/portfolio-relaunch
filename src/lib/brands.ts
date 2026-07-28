@@ -59,9 +59,9 @@ export const BRAND_GROUPS: BrandGroup[] = [
 ];
 
 /**
- * The home chip cluster: the most externally recognizable names only, since home is curating rather than listing. The full roster is on /work.
+ * The home chip strip: the most recognizable names only, since home curates and /work lists. **Sized to sit on ONE row**, so long names are out on width alone rather than merit, and the CSS trims the tail further at each breakpoint. Adding one without removing one wraps the strip and strands the link on a second row.
  *
- * Hand-ordered so no two adjacent chips come from the same group, which is what stops the cluster reading as a sequence of employers. Deliberately NOT shuffled at build: a random order would rewrite the markup on every build and make the output nondeterministic. Re-interleave by hand when adding one.
+ * Hand-ordered so no two adjacent chips come from the same group, which is what stops the strip reading as a sequence of employers. Deliberately NOT shuffled at build: a random order would rewrite the markup every build and make the output nondeterministic. Re-interleave by hand, and keep the order trim-safe, since the CSS always cuts from the end.
  */
 export const HOME_CHIPS: string[] = [
   'Coca-Cola',
@@ -71,10 +71,7 @@ export const HOME_CHIPS: string[] = [
   'FII Institute',
   'Candle Media',
   'Spectrum',
-  'John McEnroe Tennis Academy',
   'Dame Products',
-  'Corona Extra',
-  'Ventura Air Services',
 ];
 
 const ALL_BRAND_NAMES = BRAND_GROUPS.flatMap((g) => g.brands);
