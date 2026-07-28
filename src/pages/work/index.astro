@@ -153,7 +153,8 @@ const routes = ROUTES.map((r) => ({
   {/* Sits BELOW the index because the page's job is opening the right case study, and 30+ names above the featured pair bury them. The lead sentence is what keeps the section inside the never-Pratik's-clients rule, so it never becomes a footnote. */}
   <section class="brands rev" id="brands">
     <h2 class="brands-h">Brands and organizations</h2>
-    <p class="brands-lead">Grouped by the role the work ran through. At the agencies these were the agency's clients, not mine.</p>
+    {/* "How the work came in" rather than "the role it ran through", because Direct engagements is not a role. The second sentence is the load-bearing one and does not change. */}
+    <p class="brands-lead">Grouped by how the work came in. At the agencies these were the agency's clients, not mine.</p>
     {/* A group with no separate brands keeps its row and its leader and says nothing after it. The empty <dd> is deliberate: filler copy there would mean nothing. */}
     <dl class="brands-list">
       {BRAND_GROUPS.map((g) => (
