@@ -227,7 +227,7 @@
 /project-type/*                   /work                             301
 /project-attributes/*             /work                             301
 
-# Blog catch-all. Destination is the /journal INDEX, never /journal/:splat -- journal slugs do NOT match old blog slugs (only 3 posts exist), so :splat manufactured redirects to non-existent pages (a 301 -> 404, worse than a 404). Catches what the specific /blog rules miss: .html forms, WordPress tag/category/date archives, any unmapped slug.
+# Blog catch-all. Destination is the /journal INDEX, never /journal/:splat -- journal slugs do NOT match old blog slugs, so :splat manufactured redirects to non-existent pages (a 301 -> 404, worse than a 404). Catches what the specific /blog rules miss: .html forms, WordPress tag/category/date archives, any unmapped slug.
 /blog/*                           /journal                          301
 
 # Trailing slash -> bare, for case studies and journal posts

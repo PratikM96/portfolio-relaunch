@@ -47,6 +47,8 @@ const LABEL = {
   privacy: 'Privacy', resume: 'Resume', work: 'Work index',
   'journal-engineer-to-creative': 'Journal: engineer to creative',
   'journal-handoff': 'Journal: the handoff', 'journal-ai': 'Journal: AI + creative',
+  'journal-machine-readable-brand': 'Journal: machine-readable brand',
+  'journal-sub-brands': 'Journal: sub-brands',
   'work-agency-fiveeighty': 'Case: Agency FiveEighty', 'work-dealnews': 'Case: DealNews',
   'work-frc': 'Case: Forest Road', 'work-jmtp': 'Case: JMTP', 'work-level': 'Case: Level',
   'work-pipeline-medical': 'Case: Pipeline Medical', 'work-raa': 'Case: RAA',
