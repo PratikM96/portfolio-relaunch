@@ -1,7 +1,7 @@
 # CLAUDE.md — mehtapratik.com (One System portfolio)
 
 ```
-updated:  2026-07-27
+updated:  2026-07-28
 owns:     build rules for this repo that code cannot enforce
 wins:     how to change this repo
 defers:   facts -> Resume Master · copy -> the live site · positioning + voice -> System Master · design -> /brand + tokens.css · behavior -> AI Behavior
@@ -48,7 +48,7 @@ Direct, specific, natural, not over-polished, not obviously AI-written. Lead wit
 
 **No em or en dashes in external-facing copy.** Date ranges use hyphens. A style rule, not a claim rule (System Master §7), so it is arguable for a specific sentence.
 
-**American spelling, everywhere.** color, behavior, program, labeled, gray, organize, license, center. The audience is US hiring teams, so a British variant reads as an inconsistency rather than a voice. Enforced by `scripts/check/claims.mjs` over visible copy; comments and docs were swept to match, so no second dialect hides behind a `/* */`. Words correct in both (advertising, analysis, emphasis) are deliberately absent from the list, and `public/fonts/OFL.txt` is third-party license text that ships verbatim.
+**American spelling, everywhere.** color, behavior, program, labeled, gray, organize, license, center. The audience is US hiring teams, so a British variant reads as an inconsistency rather than a voice. Enforced by `scripts/check/claims.mjs` over visible copy; comments and docs were swept to match, so no second dialect hides behind a `/* */`. **Machine-readable surfaces get the same copy sweep as pages** — `llms.txt`, meta descriptions, JSON-LD and the sitemap carry claims too, and a sweep that only looks at what renders leaves the wrong figure sitting in the file an LLM reads. Words correct in both (advertising, analysis, emphasis) are deliberately absent from the list, and `public/fonts/OFL.txt` is third-party license text that ships verbatim.
 
 **Separators are contextual.** `|` in `<title>`, none in meta descriptions (write sentences), ` / ` in on-page label and data rows. No middle dot in copy; the ones left are structural and commented where they sit.
 
@@ -95,11 +95,13 @@ Full rules — the declarative-reversal lead, the proof sentence, the honesty re
 
 **Reveal — pick by position.** `.rev` = below-the-fold scroll reveal (opacity + slide). `.rev-load` = above-the-fold, **transform only, no opacity**, because Chromium excludes `opacity:0` elements from LCP and a faded hero hands LCP to a late-painting element. Both respect reduced-motion. `.rev`'s trigger point is the observer's bottom `rootMargin` alone; its `threshold` is 0 and stays 0. **A ratio threshold on a variable-height set is the bug** — a tall block would need a fraction of *itself* in view and reveal late. To make a reveal wait longer, change `rootMargin`.
 
+**Verifying a reveal needs a foreground tab.** An unfocused or occluded Chrome tab is throttled to the point that rendering stops, so `IntersectionObserver` never fires and every `.rev` element reads as un-revealed in the DOM. Screenshot first, then read the DOM; a DOM read alone will report a bug that isn't there.
+
 **Reveal the item, not the container**, wherever the container is taller than the viewport: a wrapper `.rev` around a long list fades everything at once, most of it still far below the fold. Stagger a *short* list with `--rev-i` per item and **cap the index** so a long list's last row isn't still waiting after it is on screen. A scroll-triggered list wants no stagger — the scroll already sequences it. **Never stagger `.rev-load`**: holding above-the-fold content back pushes the pixels Speed Index is timing.
 
 **Type: eight tiers, and nothing outside them** (`--t-*` in `tokens.css`). A rule sets **size only** (plus color / line-height) and composes a tier; family, weight and tracking are the system.
 
-**Size: eleven steps, and nothing outside them.** A tier says which face, a `--fs-*` step says how big; `--fs-fluid-*` covers type that scales with the viewport. Never a px value or a hand-rolled `clamp()`. Two exemptions, both commented where they sit: container-query sizing (`cqi`), measured against a cell rather than the page, and `/brand`'s format mockups and logo specimens, which are export-pixel canvases.
+**Size: eleven steps, and nothing outside them.** A tier says which face, a `--fs-*` step says how big; `--fs-fluid-*` covers type that scales with the viewport. Never a px value or a hand-rolled `clamp()`. Two exemptions, both commented where they sit: container-query sizing (`cqi`), measured against a cell rather than the page, and `/brand`'s format mockups and logo specimens, which are export-pixel canvases. **`cqi` with no `container-type` ancestor silently resolves against the viewport**, which makes it a worse `vw`, not a container query — the exemption is currently wired up nowhere, so it is a carve-out, not a precedent to copy.
 
 **How a tier is applied.** Each tier is one grouped rule listing every selector that needs it — the `.t-*` block at the top of `global.css`, and a matching block at the top of each component's `<style>`. Add your selector to that group; never re-declare the `font-family` + `font-weight` + `letter-spacing` triple inline. The bare `.t-*` classes also work in markup. A group inside a media query stays inside it — hoisting it leaks the tier to widths where that element doesn't render.
 
@@ -123,6 +125,8 @@ Full rules — the declarative-reversal lead, the proof sentence, the honesty re
 **Measure: nine steps, and nothing outside them.** Every prose `max-width` resolves to a `--measure-*` token, never a hand-written `ch`. `--measure-lg` (56ch) and `--measure-2xl` (68ch) are the anchors everything else was picked around — `.lead` and `.prose` in `global.css`.
 
 **Motion: six durations, three curves, and nothing outside them** (`--dur-*` / `--ease-*`). **The names are semantic, not numeric** — a rule picks by what the motion *means*, so a color swap is `--dur-quick` wherever it sits and a slide is `--dur-move` whatever the distance. `--dur-quick` is the anchor. Transform magnitudes are tokens too (`--travel-*`, `--scale-*`, `--stagger-step`), so a hand-written hover scale can't drift from its neighbours.
+
+**Page transitions are the native CSS `@view-transition`, never Astro's `<ClientRouter />`.** The router ships a client-side navigation runtime and takes over routing to buy the same effect; the CSS at-rule is declarative, costs no JS, and degrades to a normal navigation where it isn't supported.
 
 **Animate `transform` and `opacity`, nothing else.** They are the only compositable properties; everything else repaints, and Lighthouse audits it on a site whose desktop perf claim has no headroom. Hence the status dot's halo as a pseudo-element rather than a `box-shadow`, and the row hover nudge as `.row-nudge`, a transform on the row's *contents*. Never nudge with `padding-left`: padding is layout, so it reflows every hover frame and can re-wrap a title mid-gesture.
 
@@ -163,6 +167,8 @@ Full rules — the declarative-reversal lead, the proof sentence, the honesty re
 
 One case-study design for every entry. Spine: Scoreboard → Problem → System → Decisions → Output → Proof → Reflection. Optional modules render only when data exists. `src/content.config.ts` is the guardrail — every entry needs at least one proof figure or the build fails.
 
+**The site ships as its own case study (`portfolio-system`), and its extras are one-offs.** `perfTable: true` and the device x theme Output matrix exist because the subject *is* this site; they are not a richer template for other entries and must not be generalized to one.
+
 **The brands roster is `src/lib/brands.ts`, and the section is never headed or introduced as a "client list."** /work bands it by engagement type (`BRAND_BANDS`) and carries the employer-vs-brand hierarchy in **contrast, not structure**: full contrast is the organization that engaged Pratik, secondary is a brand that ran through it. Keep both, since the band alone would say a brand was an agency's without saying whose. **`Direct Engagements` is deliberately not named after the Apr 2024 practice**, which it predates, and is never called freelance. The Resume Master's roster table is the narrative source and the only place years live; the site renders bare names, except where a year is part of the event's own name.
 
 **Engagement (`type`) is a typed, filterable facet, never a separate section.** Three values (`src/lib/work-type.ts`): `in-house`, `agency`, `concept`. **Do not label these "client".** Every non-concept entry is a position held, and at RAA / Agency FiveEighty the clients belonged to the agency. Employment type (Internship, Volunteer) goes in the scoreboard `role` field, never the badge, which carries engagement + discipline. Proof is one shape for every type — a verified metric where one was measured, scope + rationale where none exists. Never invent one to fill the box. **`collaborators` stays blank on every entry**, because the master does not carry it.
@@ -184,42 +190,22 @@ One case-study design for every entry. Spine: Scoreboard → Problem → System 
 
 ## 9. Decision log
 
-**Only the newest entry may run to two or three sentences. Every older one is a single sentence, two only when a second trap would otherwise be lost.** Adding an entry means compressing the one it displaces, in the same commit. The rationale lives in the commit; a rule that is still load-bearing gets moved up into §3-§8 or into the code it governs before the entry is cut, never deleted with it.
+**A fixed-size recency window, not a history. Eight entries, newest first, one per DAY.** Same-day changes are merged into that day's entry by rewriting it, never appended as (a) / (b) / (c). That suffixing is what turns a log into a changelog, and git already is one.
 
-- **2026-07-28 (k)** — Consent is **geo-split**: inside the EEA, UK and Switzerland the banner stays the opt-in gate it has always been, and everywhere else GA4 loads on arrival behind a notice carrying a one-click opt out. ePrivacy requires prior consent there and continued browsing has never satisfied it (*Planet49*), while US law is opt-out for first-party analytics with ad signals denied, and the audience is US hiring teams. Region comes from a same-origin `/cdn-cgi/trace` fetch that `connect-src 'self'` already allows and that needs no SSR route, and **anything short of a confirmed two-letter non-European code falls through to the gate**, so a timeout, a block or Cloudflare's `XX` fails closed.
-- **2026-07-28 (j)** — /work's roster is banded by engagement type, because one row per employer sized every row to the longest group while **four of the nine have no brands at all**, so the employer-vs-brand hierarchy moved into contrast instead (§8) and the lead's "the agency's clients, not mine" disclaimer went with it.
-- **2026-07-28 (i)** — The roster's last group is **Direct Engagements**, not the practice's name, since Ventura (2015) and SQUIP (2016) predate Apr 2024 and the shared name would have dated the role to 2014. It folded into the Resume Master's Claim Registry and `client-list.txt` was deleted, after **`brands.ts`'s throws turned out never to fail the build** and were shipping a zero-byte home page (§5).
-- **2026-07-28 (h)** — The /work filter bar is bounded by a wrapper around the list and unsticks below 900, because **a sticky element is constrained by its containing block**, so as a sibling of the list its block was the page and it followed into the brands section.
-- **2026-07-28 (g)** — Build targets pinned to Safari 16.2 / Chrome 111 / Firefox 113, the floor `color-mix()` already sets, because the minifier otherwise rewrote `@media` into range syntax needing 16.4 and **an unsupported media condition drops the whole block**, which would have served 16.0 to 16.3 the desktop layout on a phone.
-- **2026-07-28 (f)** — The mobile drawer sizes to `100dvh`, since a fixed `inset: 0` resolves against the large viewport and left the bottom-pinned readout under the toolbar; the `max-height` query compressing its nav is a height axis, not a fifth breakpoint.
-- **2026-07-28 (e)** — /work's LCP card sets its poster from an `is:inline` script, since a static attribute cannot know the theme (§6) and the preload it replaced was wrong for half of visitors, leaving /work's LCP to be re-measured.
-- **2026-07-28 (d)** — The Claim Registry said `claims.mjs` enforced the retired "zero layout shift" and the brand-systems count; neither rule existed, so both are now real.
-- **2026-07-28 (c)** — The /work brands row puts names on their own full-width line, after **a preview harness without the shell inset overstated the column** and the shared row wrapped even at 1440.
-- **2026-07-28 (b)** — /about expanded in place with six dated path steps, a fuller AI section, and Working with me plus Influences from System Master §6, whose wrong-fit bullet ships reframed toward what Pratik looks for.
-- **2026-07-28** — The brands roster shipped grouped by role and never as a client list (§8), moving the registry aggregate to 30+ behind a build-time guard, because a published `+` outlives whoever next edits the array.
-- **2026-07-27 (h)** — Published proof figures derive from the measured run via `src/lib/perf-claim.ts`, after a run measured 99.4 mobile against a proof box asserting 98; the JS figure stays authored and is the one that can still rot.
-- **2026-07-27 (g)** — A perf run is a sample set and the published row is the **median** sample, because averaging metrics independently would publish a row that never happened.
-- **2026-07-27 (f)** — Perf runs are archived per run with a distilled history in `scripts/perf/history.jsonl`, which settled that there is no page-specific mobile problem: **compare averages, never page scores**.
-- **2026-07-27 (e)** — JetBrains Mono subset (89KB → 35KB) after 165KB of High-priority woff2 gated mobile FCP/LCP. Measured and deliberately **not** done, so don't re-propose: splitting `PerfTable`/`EmbeddedDemo` CSS out of the case-study bundle, and dropping home's 1.15MB hero video on mobile.
-- **2026-07-27 (d)** — The "zero layout shift" claim retired as a second number saying what the Lighthouse score already says; `PerfTable` keeps per-page CLS as measured detail.
-- **2026-07-27 (c)** — Layout became a scale (`src/lib/layout.ts`) after five hand-maintained `sizes` strings drifted; **`frc` is a 720p source, not a bad export**, so leave its hero alone.
-- **2026-07-27 (b)** — Home's hero re-cut and split from the per-slug system: square, silent, autoplaying, and **versioned**, because it is the one hero whose bytes get replaced under a year of `immutable` (`docs/hero-pipeline.md`).
-- **2026-07-27** — American spelling adopted and enforced (§4), after `/brand` shipped "Color" in one heading and "Colour" in another.
-- **2026-07-26 (d)** — Motion rebuilt as a semantic system, six durations renamed for intent plus `--travel-*` / `--scale-*` / `--stagger-step`; page transitions are the native CSS `@view-transition`, **never Astro's `<ClientRouter />`**.
-- **2026-07-26 (c)** — The reveal observer's `threshold` is 0 (§6), and **an unfocused or occluded Chrome tab throttles rendering so IntersectionObserver stops firing**: screenshot first, then read the DOM.
-- **2026-07-26 (b)** — Prose `max-width` tokenized into the nine-step `--measure-*` scale.
-- **2026-07-26** — Repo-wide hard-wrap cleanup; the §6 rule is what stops it recurring.
-- **2026-07-25 (c)** — Small-screen pass below 1100, whose traps are now in §6 and §2, plus one that lives only here: **`cqi` with no `container-type` ancestor resolves against the viewport**, so §6's container-query exemption is not wired up anywhere and is not precedent.
-- **2026-07-25 (b)** — Audit sweep after 13 metric figures were found inflated against the Resume Master, every one upward; **machine-readable surfaces need the same copy sweep as pages**.
-- **2026-07-25** — The remaining axes got scales (`--fs-*`, `--fs-fluid-*`, duration / radius / scrim / shadow); a `.meta-label` primitive was deliberately not added, since those rules already resolve to the same tokens.
+**Adding a ninth entry evicts the oldest, in the same commit.** Eviction is a fork, never a plain delete: a rule that is still load-bearing gets promoted into §3-§8, or into the code or doc it governs, and only then is the entry cut. Nothing load-bearing ever leaves with its entry.
+
+**Admission test, applied before writing: would someone about to make a change be MISLED without this?** Uninformed does not qualify. Rationale belongs in the commit and only traps earn a line, so "we added a guard" is a commit message: once the guard exists it is its own record.
+
+**Only the newest entry may run to two or three sentences.** Every older one is a single sentence, two only when a second trap would otherwise be lost.
+
+- **2026-07-28** — Consent is **geo-split**: inside the EEA, UK and Switzerland the banner stays the opt-in gate it has always been, and everywhere else GA4 loads on arrival behind a notice carrying a one-click opt out, because ePrivacy requires prior consent there (*Planet49*) while US law is opt-out for first-party analytics with ad signals denied. Region comes from a same-origin `/cdn-cgi/trace` fetch that `connect-src 'self'` already allows and that needs no SSR route, and **anything short of a confirmed two-letter non-European code falls through to the gate**, so a timeout, a block or Cloudflare's `XX` fails closed. Also today: **a tsconfig `exclude` REPLACES the inherited array rather than merging**, which had been feeding `dist`'s minified bundles to `astro check`; the /work filter bar is bounded by a wrapper around the list, since **a sticky element is constrained by its containing block** and as a bare sibling it followed into the brands section; and the mobile drawer sizes to `100dvh`, a fixed `inset: 0` resolving against the large viewport and leaving the bottom-pinned readout under the toolbar.
+- **2026-07-27** — Perf became a measured system rather than an authored one: published figures derive from the run (`src/lib/perf-claim.ts`), a published row is a **median sample** and never an average of metrics, and JetBrains Mono was subset after 165KB of high-priority woff2 gated mobile FCP/LCP. Home's hero also split from the per-slug system and is **versioned**, being the one hero whose bytes get replaced under a year of `immutable`.
+- **2026-07-26** — Motion rebuilt as a semantic system, six durations named for intent plus `--travel-*` / `--scale-*` / `--stagger-step`, alongside the `--measure-*` tokenization and the repo-wide hard-wrap cleanup that §6's rule exists to stop recurring.
+- **2026-07-25** — Audit sweep after 13 metric figures were found inflated against the Resume Master, every one upward, plus the small-screen pass below 1100 and scales for the remaining axes (`--fs-*`, duration / radius / scrim / shadow).
 - **2026-07-24** — The concept "scope, never results" carve-out retired: a shipped concept follows the same case-study rules, with disclosure still required.
-- **2026-07-24 (c)** — Output width ladders are device pixels and Astro never upscales (§8).
-- **2026-07-24 (b)** — The site ships as its own case study (`portfolio-system`), whose `perfTable: true` and device x theme Output matrix are one-offs and must not be generalized.
-- **2026-07-23** — Mobile weight pass + metric-matched font fallbacks, which proved **CLS was 0 only because the page was slow**: check CLS on every perf change, not just the metric being optimized.
+- **2026-07-23** — Mobile weight pass plus metric-matched font fallbacks, whose CLS trap now lives in `scripts/perf/README.md`.
 - **2026-07-22** — System audit sweep: removed `cover`, the placeholder subsystem, the mp4 fallback and the `cardVideo` flags, and adopted the type and spacing scales.
-- **2026-07-15** — Type scale adopted (§6), fonts became variable one file per family, and JetBrains Mono replaced Berkeley Mono (no web license, repo is public) layout-neutrally. **Wordmark = `h1` tier** and its only consumer: display weight and tracking are optical compensations for large type, never for UI-scale text.
-- **2026-07-14** — Masters split into hub + Job Search Targeting + AI Behavior; the live site became the case-study copy source and the Resume Master the metrics master.
-- **Earlier** — Domain cutover to this repo; R2 / `cdn.mehtapratik.com` dropped, all assets same-origin.
+- **2026-07-15** — Type scale adopted (§6), fonts became variable one file per family, and JetBrains Mono replaced Berkeley Mono (no web license, repo is public) layout-neutrally.
 
 ## 10. This file's own rules
 
@@ -229,4 +215,4 @@ One case-study design for every entry. Spine: Scoreboard → Problem → System 
 
 **Anything verifiable gets verified, not asserted.** If you catch yourself writing a number, run the command instead.
 
-**Cut, don't relocate.** Compressing an entry means deleting what is already stated elsewhere, not moving it into a new section here.
+**Cut first; promote only what would otherwise be lost.** Compressing or evicting a §9 entry means deleting whatever is already stated elsewhere, which is most of it. A rule that is load-bearing *and* written down nowhere else moves into the existing §3-§8 section that owns its subject, or into the code or doc that governs it. Never into a new section invented to hold it, and never back into a fresh log entry.

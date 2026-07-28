@@ -15,6 +15,8 @@ src/assets/hero/<slug>/poster.webp      still shown before play
 
 **The poster lives in `src/assets/`, not beside the video.** It is the LCP element, so it goes through Astro's image pipeline — export it at full size and let the pipeline downscale. It renders as a real `<img>` (`.cs-poster`), not the video's `poster` attribute, which can't be responsive. The build throws if `heroVideo` is set and the poster is missing.
 
+**`frc`'s hero is soft because its master is 720p, not because the export is bad.** Leave it alone: re-exporting cannot add detail the source never had, and the 1080 ladder above would upscale it. Check the master's resolution before treating a soft hero as an export defect.
+
 **The home hero is NOT this system** — it only borrows the folder. It is square, silent, autoplaying, and wired by hand in `src/pages/index.astro`, not derived from a slug. Running the recipe below against it would scale a square master to 16:9 and mux an audio track into a clip that has none. Its own recipe is at the bottom of this file.
 
 **Masters — local, gitignored, never committed:**

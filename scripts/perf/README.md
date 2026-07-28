@@ -44,6 +44,14 @@ The pattern `trend.mjs` makes visible: pages that always score 100 have an LCP s
 - Trust a **CPU metric** like TBT, which barely moves on network variance. TBT going 0 to 65 is what caught the hero's decode cost while every LCP number was too noisy to read.
 - Treat one page's one-run LCP as weather until two runs agree.
 - Read the **`n` and within-run spread columns** in `trend.mjs`. The four archived runs are all `n=1`, i.e. one coin flip per page; sampling is what fixed that going forward. Sampling shrinks the envelope, it does not remove it — a median of 3 is roughly half the spread of a single sample, so expect pages to still move a point or two.
+- **Check CLS on every perf change, not only the metric being optimized.** The mobile weight pass found CLS had been 0 only because the page was slow enough for every image to land before first paint; speeding the page up is what exposed the shift. A perf win that moves CLS off 0 is not a win.
+
+## Measured, and deliberately not done
+
+Do not re-propose these. Each was tried or costed against a real run and rejected on the numbers, so proposing one again spends the same afternoon twice.
+
+- **Splitting `PerfTable` / `EmbeddedDemo` CSS out of the case-study bundle.** The pages carrying them are not the ones with a budget problem, and `inlineStylesheets: 'always'` means the split would trade one inlined block for a second request.
+- **Dropping home's hero video on mobile.** It is 1.15MB and it is not what gates the mobile score; the poster is already the LCP element and the video loads after it.
 
 ## The Output screenshots
 
