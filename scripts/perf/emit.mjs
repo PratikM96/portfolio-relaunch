@@ -42,6 +42,7 @@ function resolveRun() {
 const OUT = resolveRun();
 const runId = path.basename(OUT);
 
+/** Display name per urls.txt slug. A slug with no entry here falls back to the raw slug, which PerfTable then renders publicly on /work/portfolio-system, so adding a URL to urls.txt means adding its label in the same change. */
 const LABEL = {
   home: 'Home', about: 'About', brand: 'Brand', contact: 'Contact', journal: 'Journal',
   privacy: 'Privacy', resume: 'Resume', work: 'Work index',
