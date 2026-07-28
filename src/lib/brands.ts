@@ -59,9 +59,9 @@ export const BRAND_GROUPS: BrandGroup[] = [
 ];
 
 /**
- * The home chip strip: the most recognizable names only, since home curates and /work lists. **Sized to sit on ONE row**, so long names are out on width alone rather than merit, and the CSS trims the tail further at each breakpoint. Adding one without removing one wraps the strip and strands the link on a second row.
+ * The home chip strip: the most recognizable names only, since home curates and /work lists. Long names are out on width alone rather than merit, because one that dominates a row costs two others.
  *
- * Hand-ordered so no two adjacent chips come from the same group, which is what stops the strip reading as a sequence of employers. Deliberately NOT shuffled at build: a random order would rewrite the markup every build and make the output nondeterministic. Re-interleave by hand, and keep the order trim-safe, since the CSS always cuts from the end.
+ * Hand-ordered so no two adjacent chips share a group, which stops the strip reading as a run of employers. Never shuffled at build, which would rewrite the markup every time, and the CSS trims from the end, so keep the order trim-safe.
  */
 export const HOME_CHIPS: string[] = [
   'Coca-Cola',

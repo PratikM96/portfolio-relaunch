@@ -379,10 +379,14 @@ img { display: block; max-width: 100%; }
   .menu-btn:hover span { opacity: .6; }
 
   /* Full-screen drawer. The `visibility` delay must equal the transform duration, or the drawer stays clickable after it slides away - both read the same token, so they can't drift apart. The base rule is the CLOSING state and takes --ease-exit; .open is the entrance and takes --ease-standard. That is the pair the two curves exist for. */
+  /* `height: 100dvh` is load-bearing, not a tidy-up. A fixed `inset: 0` sizes to the LARGE viewport, the one with the mobile toolbar hidden, so on a browser with a dynamic toolbar the last ~140px of the drawer sat under the chrome. The readout is pinned to the bottom by `margin-top: auto`, so it landed out of view and the drawer scrolled for no reason a visitor could see. `dvh` tracks the CURRENTLY visible height instead. The `100vh` line before it is the fallback for anything without dvh, and must stay first. */
   .m-drawer {
     display: flex; flex-direction: column;
     position: fixed; inset: 0; z-index: 60;
-    background: var(--bg); padding: var(--space-md) var(--space-lg) var(--space-xl); overflow-y: auto;
+    height: 100vh;
+    height: 100dvh;
+    /* env() is a device inset rather than rhythm, hence the literal: the home indicator overlaps the readout without it. */
+    background: var(--bg); padding: var(--space-md) var(--space-lg) max(var(--space-xl), env(safe-area-inset-bottom)); overflow-y: auto;
     visibility: hidden; transform: translateY(-100%);
     transition: transform var(--dur-move) var(--ease-exit), visibility 0s var(--dur-move);
   }
@@ -427,6 +431,13 @@ img { display: block; max-width: 100%; }
 
   .pad { padding: 0 var(--space-xl); }
 }
+
+/* A HEIGHT query, not a fifth breakpoint: the four in tokens.css are widths, and no width tells you the drawer will not fit. Seven nav items at display scale overflow a landscape phone or a short window whatever the width is, so the rhythm compresses on the axis that is actually short. Both sizes are steps on the scale. */
+@media (max-width: 900px) and (max-height: 720px) {
+  .m-nav { margin-top: var(--space-lg); }
+  .m-nav a { font-size: var(--fs-xl); padding: var(--space-xs) 0; }
+}
+
 @media (max-width: 560px) {
   .pad { padding: 0 var(--space-lg); }
   /* see Base.astro — the tagline keeps its head, drops its tail */
