@@ -44,9 +44,9 @@ system:
   margin:
     - type: stat
       label: "JavaScript per page"
-      value: "7"
+      value: "3.9"
       unit: "KB"
-      desc: "Worst case, the home page. Most pages ship 4 to 5 KB, bundles plus inline, hashed and cached."
+      desc: "Worst case, the home page. Most pages ship 2 to 3 KB, bundles plus inline, hashed and cached."
     - type: note
       label: "Same-origin"
       text: "No CDN. Fonts and media served by the Worker. Analytics is the one third party, opt-in in Europe, opt-out elsewhere."

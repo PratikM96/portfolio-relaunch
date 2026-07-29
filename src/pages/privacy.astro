@@ -3,6 +3,7 @@
  * Privacy. Must keep describing the real posture: region-split GA4 (opt-in gate in the EEA/UK/CH, notice plus opt-out elsewhere, per src/scripts/consent.ts), same-origin assets, mailto contact, Cloudflare Worker hosting. A change to the consent flow that does not reach this page publishes a false statement about what the site does.
  */
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 const EMAIL = 'mehtadpratik@gmail.com';
 ---
 
@@ -12,9 +13,11 @@ const EMAIL = 'mehtadpratik@gmail.com';
   activeNav=""
 >
   <section class="legal">
-    <div class="page-kicker rev">[ Privacy ]</div>
-    <h1 class="rev page-h1">Privacy Policy.</h1>
-    <div class="updated rev">Last updated 28 July 2026</div>
+    <PageHero>
+      <div class="page-kicker">[ Privacy ]</div>
+      <h1 class="page-h1">Privacy Policy.</h1>
+      <div class="updated">Last updated 28 July 2026</div>
+    </PageHero>
 
     <div class="prose rev">
       <p>This is the personal portfolio of Pratik Mehta. It collects very little, and this page explains what and why.</p>

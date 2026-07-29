@@ -5,6 +5,7 @@
 import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
 import { publishedJournal, formatDate } from '../../lib/content';
 import { siteOrigin, personRef, websiteRef, breadcrumb } from '../../lib/schema';
 import { ogCard } from '../../lib/media';
@@ -76,7 +77,7 @@ const schema = [
   scoreboard={scoreboard}
   back={{ href: '/journal', label: '← Journal / all writing' }}
 >
-  <header class="ahead">
+  <PageHero class="ahead">
     {d.tags.length > 0 && (
       <div class="cats">
         {d.tags.map((t, i) => (
@@ -84,9 +85,9 @@ const schema = [
         ))}
       </div>
     )}
-    <h1 class="rev page-h1">{d.title}</h1>
+    <h1 class="page-h1">{d.title}</h1>
     <div class="m">{metaLine}</div>
-  </header>
+  </PageHero>
 
 
   {/* Left console rail extras (journal only): author bio + other posts. Fills the

@@ -5,6 +5,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import CloseCTA from '../../components/CloseCTA.astro';
+import PageHero from '../../components/PageHero.astro';
 import { publishedJournal, formatDate } from '../../lib/content';
 
 const posts = publishedJournal(await getCollection('journal'));
@@ -21,11 +22,11 @@ const meta = (p: (typeof posts)[number]) =>
   description="Working notes on building creative as a system, what makes work distinctive, and where AI actually changes the job."
   activeNav="journal"
 >
-  <header class="phead">
+  <PageHero class="phead">
     <div class="page-kicker">[ Journal ] / on systems, brand, and AI</div>
-    <h1 class="rev page-h1">Working notes,<br />not <span class="signal">hot takes.</span></h1>
-    <p class="lead rev">Short pieces on building creative as a system, what makes work distinctive, and where AI actually changes the job, not where it's just hype.</p>
-  </header>
+    <h1 class="page-h1">Working notes,<br />not <span class="signal">hot takes.</span></h1>
+    <p class="lead">Short pieces on building creative as a system, what makes work distinctive, and where AI actually changes the job, not where it's just hype.</p>
+  </PageHero>
 
   <div class="jr-body">
   {

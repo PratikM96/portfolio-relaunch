@@ -4,6 +4,7 @@
  */
 import Base from '../layouts/Base.astro';
 import StatFigure from '../components/StatFigure.astro';
+import PageHero from '../components/PageHero.astro';
 
 const PDF = '/pratik-mehta-resume.pdf'; // exported from the Resume Master, lives in public/
 const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
@@ -186,15 +187,15 @@ const toolsMarketing = [
   description="Pratik Mehta, creative marketing lead with 10+ years across brand, social, content, motion, UI/UX, and performance, built as one connected system."
   activeNav="resume"
 >
-  <header class="rhead">
-    <div class="page-kicker rev">[ Resume ]</div>
-    <div class="rhead-row rev">
+  <PageHero class="rhead">
+    <div class="page-kicker">[ Resume ]</div>
+    <div class="rhead-row">
       <h1 class="page-h1">Pratik Mehta</h1>
       <span class="rhead-loc">New York</span>
       <div class="sub">Creative Marketing Lead, Brand, Social, Content, UI/UX, Motion, Performance</div>
       <div class="rhead-links"><a href="mailto:mehtadpratik@gmail.com">mehtadpratik@gmail.com</a> / <a href={LINKEDIN} target="_blank" rel="noopener">LinkedIn</a></div>
     </div>
-  </header>
+  </PageHero>
 
   {/* BY THE NUMBERS - practice totals + resume download */}
   <section class="rnumbers rev">

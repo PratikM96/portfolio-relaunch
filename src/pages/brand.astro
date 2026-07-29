@@ -7,6 +7,7 @@
 import Base from '../layouts/Base.astro';
 import CloseCTA from '../components/CloseCTA.astro';
 import Brandmark from '../components/Brandmark.astro';
+import PageHero from '../components/PageHero.astro';
 // Read as a raw string (Vite ?raw), not node:fs — this has to bundle for the Worker.
 import tokensCss from '../styles/tokens.css?raw';
 import { SHELL, FULL } from '../lib/layout';
@@ -122,12 +123,12 @@ const sec = (id: string) => {
   description="One System is the design system this site runs on: foundation, logo, type, color, layout, motion, and access. Core token values render from the live CSS."
   activeNav="brand"
 >
-  <header class="bhero">
-    <div class="page-kicker rev">[ Brand ] / One System / v1.0</div>
-    <h1 class="rev page-h1">The brand,<br />built like a <span class="signal">product.</span></h1>
-    <p class="lead rev">One System is the identity this site runs on: foundation, logo, type, color, layout, motion, and access, in one place. It is a working reference and a case study of the thinking behind it. Core token values render from the live CSS, so the numbers below are the real ones; the usage guidance and examples are maintained alongside them.</p>
+  <PageHero class="bhero">
+    <div class="page-kicker">[ Brand ] / One System / v1.0</div>
+    <h1 class="page-h1">The brand,<br />built like a <span class="signal">product.</span></h1>
+    <p class="lead">One System is the identity this site runs on: foundation, logo, type, color, layout, motion, and access, in one place. It is a working reference and a case study of the thinking behind it. Core token values render from the live CSS, so the numbers below are the real ones; the usage guidance and examples are maintained alongside them.</p>
     {/* The index and the headings below share one source, so a renamed section can't leave a dead label here. Only the noun shows: the gloss after the ` / ` is context for the section, not a name to scan. */}
-    <nav class="btoc rev" aria-label="Sections">
+    <nav class="btoc" aria-label="Sections">
       {SECTIONS.map((s) => (
         <a class="btoc-i" href={`#${s.id}`}>
           <span class="n">[ {s.n} ]</span>
@@ -135,7 +136,7 @@ const sec = (id: string) => {
         </a>
       ))}
     </nav>
-  </header>
+  </PageHero>
 
   {/* FOUNDATION */}
   <section class="bsec" id={sec('foundation').id}>

@@ -3,6 +3,7 @@
  * 404. Astro emits this as /404.html; Cloudflare serves it on any unmatched route (which needs `not_found_handling` set, or it never reaches this page).
  */
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 
 // No nav item is "active" on a 404.
 ---
@@ -14,7 +15,7 @@ import Base from '../layouts/Base.astro';
   activeNav=""
 >
   <section class="nf">
-    <div class="nf-inner rev">
+    <PageHero class="nf-inner">
       <div class="page-kicker">[ 404 ]</div>
       <h1 class="page-h1">This page is off the system.</h1>
       <p class="nf-copy">The page you were after does not exist, or it moved. Everything still connects from here.</p>
@@ -23,7 +24,7 @@ import Base from '../layouts/Base.astro';
         <a class="btn btn-g" href="/work">View work →</a>
         <a class="btn btn-g" href="/contact">Get in touch →</a>
       </div>
-    </div>
+    </PageHero>
   </section>
 </Base>
 
