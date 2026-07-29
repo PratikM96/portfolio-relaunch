@@ -376,7 +376,8 @@ const ldGraph = {
     {/* Cookie consent + Google Analytics (GA4). One element, two surfaces: `ask` is the opt-in gate served to the EEA, the UK and Switzerland, where nothing loads until Accept; `tell` is the notice served everywhere else, where GA4 is already running and the choice on offer is opting out. consent.ts picks by region and fails closed to `ask`. */}
     <div class="consent" id="consent" data-mode="ask" hidden>
       <p class="consent-txt" data-when="ask">Google Analytics measures site traffic. No ads, no cross-site tracking. <a href="/privacy">Privacy</a></p>
-      <p class="consent-txt" data-when="tell">Analytics are on. Google Analytics measures site traffic, no ads, no cross-site tracking. <a href="/privacy">Privacy</a></p>
+      {/* Both surfaces have to fit the text column on one line: it is ~447px at the 700px max-width, and the buttons take the rest. Measured, not guessed — `ask` is 436px and this is 398px. The earlier notice copy named Google Analytics a second time, ran to 531px and wrapped. */}
+      <p class="consent-txt" data-when="tell">Analytics are on. Site traffic only, no ads, no cross-site tracking. <a href="/privacy">Privacy</a></p>
       <div class="consent-btns">
         <button type="button" data-when="ask" data-consent="deny">Decline</button>
         <button type="button" data-when="ask" class="primary" data-consent="grant">Accept</button>

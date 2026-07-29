@@ -34,7 +34,7 @@ src/
   components/         # shared pieces (WorkIndex, Scoreboard, ProofBox, OutputGrid, ...)
   layouts/Base.astro  # site chrome: rail, footer, no-flash theme set, font preloads
   scripts/            # bundled client modules: site-chrome (theme/drawer/clock/
-                      # reveal/spy), consent (GA gate), card-video + motion (video),
+                      # reveal/spy), consent + ga-core (analytics), card-video + motion (video),
                       # embedded-demo (concept launcher tabs)
   styles/
     tokens.css        # design tokens (mirrors the brand kit) + all @font-face blocks

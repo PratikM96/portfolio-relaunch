@@ -23,6 +23,8 @@ const EMAIL = 'mehtadpratik@gmail.com';
       <p>The site uses Google Analytics 4 to understand general traffic: which pages are viewed, rough location, device and browser, and how visitors arrive. How it loads depends on where you are.</p>
       <p>In the EEA, the UK, and Switzerland it is <strong>off until you accept</strong> the cookie notice. If you decline, no analytics run and no analytics cookies are set. Everywhere else it runs when the page loads, and the notice says so and gives you a one-click opt out. Either way the choice is yours to change at any time, and declining or opting out is remembered on your device.</p>
       <p>I read these analytics as aggregate reports. The data is never sold, and it is never used for advertising.</p>
+      {/* [NEEDS: the property's actual Data Retention value, GA4 Admin -> Data settings -> Data retention. It is 2 or 14 months; state the real one here rather than describing retention in the abstract.] */}
+      <p>Google processes this data on my behalf as a service provider, and may store and process it outside your country, including in the United States. Rough location is derived from your IP address by Google; I never see or store the address itself. Event-level data expires on the retention period set for the property, after which only aggregate reporting remains.</p>
 
       <h2>Cookies</h2>
       <p>The only cookies this site sets are Google Analytics cookies. There are no advertising or cross-site tracking cookies, and ad personalization is switched off in the tag itself rather than left to a setting. If you opt out after analytics have loaded, the cookies already set are expired immediately. Fonts are self-hosted and served from this domain, so no third-party font service receives your data.</p>
@@ -35,7 +37,7 @@ const EMAIL = 'mehtadpratik@gmail.com';
       <p>Cloudflare also reports which country a request came from, which is how the notice above knows which version to show you. That check happens at the edge, before any analytics load, and the answer is used for nothing else.</p>
 
       <h2>Your choices</h2>
-      <p>You can accept or decline analytics at any time with the <strong>Cookies</strong> control in the footer, and you can clear cookies through your browser. Questions? Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.</p>
+      <p>You can accept or decline analytics at any time with the <strong>Cookies</strong> control in the footer. The concept demos have no footer, so when analytics are running there they carry their own one-click control at the foot of the page instead. Either one applies everywhere on this domain, and you can clear cookies through your browser. Questions? Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.</p>
     </div>
   </section>
 </Base>

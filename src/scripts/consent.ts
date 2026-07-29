@@ -1,21 +1,17 @@
 /**
- * Cookie consent + GA4 + custom conversion events.
+ * Cookie consent for the main site: which surface a visitor gets, and the two custom conversion events.
+ *
+ * The measurement ID, the Consent Mode values, the storage key and the whole load strategy live in `./ga-core.js`, shared with the concept microsites. This file owns the region decision and the banner.
  *
  * Two regions, one banner element. Inside the EEA, the UK and Switzerland the banner is an opt-in GATE and nothing loads until Accept, because ePrivacy requires prior consent and continued browsing does not count as giving it. Everywhere else GA4 loads on arrival and the banner is a NOTICE with a one-click opt out, which is the opt-out posture US law actually asks for on first-party analytics with ad signals denied.
  *
  * Region comes from `/cdn-cgi/trace`, Cloudflare's edge echo. It is same-origin, so the enforced CSP already allows it under `connect-src 'self'`, and it needs no SSR route, which matters on a fully static build. **Anything that is not a confirmed two-letter non-European code falls through to the gate**: a timeout, an offline load, a blocked fetch, Tor's `T1` and the unknown `XX` all fail CLOSED to opt-in.
  *
- * The choice persists in localStorage and the footer "Cookies" button reopens the banner, always in ask mode, so the notice region still gets a real Decline. Consent Mode is granted explicitly (see CONSENT) to override the property's container-scoped defaults, which would otherwise withhold every hit including page_view. Those defaults live in GA4 Admin -> Data streams -> Configure tag settings -> Consent settings.
- *
- * **Loading on arrival is not the same as loading immediately.** Where GA4 loads without a click (the notice region, and any returning visitor carrying a stored grant) the queue is primed on arrival but the library is fetched at idle, because 168KB of third-party script parsed inside the LCP window is what the perf claims are measured against. A click to Accept loads it inline instead: the page is long past LCP by then, and delaying a gesture only makes the button feel broken.
- *
  * Custom events cover only what Enhanced Measurement does not:
  *   generate_lead   -> mailto: clicks (the primary conversion; mark it a Key event)
  *   select_content  -> case-study opens (/work/<slug>)
- * Handlers check gtag at click time, so they no-op until consent is granted.
  */
-const KEY = 'pm-consent';
-const GA = 'G-G5ZSN5RXX0';
+import { loadGA, loadGADeferred, readChoice, revokeGA, store, track } from './ga-core.js';
 
 // The territories where prior opt-in is required: EU 27 + Iceland, Liechtenstein and Norway (the EEA), plus the UK and Switzerland. Adding a country here is always safe, since it only moves that country to the stricter surface. Removing one is a legal change, not a cleanup.
 const OPT_IN_REGIONS = new Set([
@@ -23,97 +19,6 @@ const OPT_IN_REGIONS = new Set([
   'IS', 'LI', 'NO',
   'GB', 'CH',
 ]);
-
-const w = window as unknown as {
-  dataLayer?: unknown[];
-  gtag?: (...args: unknown[]) => void;
-  __ga?: boolean;
-  __gaSrc?: boolean;
-  __gaOff?: boolean;
-};
-
-// Analytics granted, ads denied. Sent both before and after config.
-const CONSENT = {
-  ad_storage: 'denied',
-  ad_user_data: 'denied',
-  ad_personalization: 'denied',
-  analytics_storage: 'granted',
-} as const;
-
-/** The queue only: no network, no third-party code. Cheap enough to run on arrival, which is what keeps `track()` working before the library lands. */
-function primeGA(): void {
-  if (w.__ga) return;
-  w.__ga = true;
-
-  w.dataLayer = w.dataLayer || [];
-  // Must push the `arguments` object itself. gtag.js silently ignores a real array, so a spread arrow function sends nothing at all — hence the plain function here, typed variadic only so the calls below type-check.
-  const gtag: (...args: unknown[]) => void = function () {
-    w.dataLayer!.push(arguments);
-  };
-  w.gtag = gtag;
-
-  // Queue before injecting the library, so gtag.js drains a fully-formed queue.
-  gtag('consent', 'default', CONSENT);
-  gtag('js', new Date());
-  gtag('config', GA);
-  gtag('consent', 'update', CONSENT);
-}
-
-/** The 168KB. Separate from the queue so it can be moved off the critical path, and skipped entirely if the visitor opts out before it fires. */
-function injectGA(): void {
-  if (w.__gaSrc || w.__gaOff) return;
-  w.__gaSrc = true;
-
-  const s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA;
-  document.head.appendChild(s);
-}
-
-function loadGA(): void {
-  primeGA();
-  injectGA();
-}
-
-/**
- * The load-on-arrival path: queue now, fetch the library once the main thread is free.
- *
- * gtag.js is 168KB of third-party script whose parse is main-thread work, so injecting it inline put it inside the LCP window on every page. It cost /brand roughly 300ms of TBT and pushed its mobile LCP past 4s. Priming first is what makes the delay safe: `track()` checks gtag at click time, so without the queue in place a mailto click in the first seconds would drop `generate_lead`, the primary conversion.
- *
- * **The timeout is the floor, not a hint.** `requestIdleCallback` never fires on a page that never goes idle, and Safari has only shipped it recently, so the `setTimeout` fallback is the guarantee that the tag loads at all.
- */
-function loadGADeferred(): void {
-  primeGA();
-  if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(injectGA, { timeout: 3000 });
-  else setTimeout(injectGA, 1500);
-}
-
-/**
- * Opting out after gtag has already loaded, which is the normal path in notice mode. Consent Mode stops further storage, and the cookies already written are expired here so nothing survives the choice — the privacy page promises exactly this. GA writes `_ga` and `_ga_<id>` on the registrable domain, so every host form is expired: a cookie set with a leading-dot domain is NOT removed by a delete that omits the domain.
- */
-function revokeGA(): void {
-  // Cancels a deferred injection that has not fired yet, so opting out inside the idle window costs nothing rather than downloading the tag anyway.
-  w.__gaOff = true;
-  if (typeof w.gtag === 'function') w.gtag('consent', 'update', { ...CONSENT, analytics_storage: 'denied' });
-
-  const host = location.hostname;
-  const domains = ['', host, '.' + host, '.' + host.split('.').slice(-2).join('.')];
-  for (const pair of document.cookie.split(';')) {
-    const name = pair.split('=')[0].trim();
-    if (!name.startsWith('_ga')) continue;
-    for (const d of domains) document.cookie = `${name}=; max-age=0; path=/${d ? '; domain=' + d : ''}`;
-  }
-}
-
-function store(value: 'granted' | 'denied'): void {
-  try {
-    localStorage.setItem(KEY, value);
-  } catch {}
-}
-
-function track(event: string, params: Record<string, unknown>): void {
-  if (typeof w.gtag === 'function') w.gtag('event', event, params);
-}
 
 /* ── Region ─────────────────────────────────────────────────────────────── */
 
@@ -154,10 +59,7 @@ async function decide(): Promise<void> {
   show('tell');
 }
 
-let choice: string | null = null;
-try {
-  choice = localStorage.getItem(KEY);
-} catch {}
+const choice = readChoice();
 
 // The returning-visitor path, and the common one: deferred for the same reason as the notice branch.
 if (choice === 'granted') loadGADeferred();
@@ -171,6 +73,7 @@ if (banner) {
 
     if (action === 'grant') {
       store('granted');
+      // Inline rather than deferred: this is a gesture on a page long past LCP, and delaying it only makes the button feel broken.
       loadGA();
     } else if (action === 'deny') {
       store('denied');
@@ -187,7 +90,11 @@ document.addEventListener('click', (e) => {
   const target = e.target as Element | null;
   if (!target) return;
 
-  // Footer "Cookies" button reopens the banner. Always in ask mode, so a notice-region visitor gets a real Decline rather than the informational copy again.
+  /*
+   * Footer "Cookies" button. **Always reopens in ask mode, deliberately** — do not "fix" this to match the visitor's region. A notice-region visitor who clicks it has gone looking for the control, and ask mode is the only surface carrying a real Decline; reopening the notice would just show them the informational copy again. The banner legitimately looking different from the one they saw on arrival is the point, not a bug.
+   *
+   * Related sighting with the same non-cause: under `astro dev` there is no `/cdn-cgi/trace`, so `country()` returns null and every dev load fails closed to this same ask surface. That is the fail-closed rule working.
+   */
   if (target.closest('[data-consent-reopen]')) {
     e.preventDefault();
     show('ask');

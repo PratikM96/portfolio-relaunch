@@ -155,7 +155,13 @@ Your redirects and headers live in the repo (🔒). Use dashboard rules only for
 
 ## 12. Zaraz
 
-- 🚫 **Zaraz / "Google tag gateway" = OFF.** ⚠️ One of the three. GA4 is loaded by `consent.ts` behind the consent gate; the gateway bypassed consent and double-loaded GA. Permanent "leave off," not a one-time fix. Don't manage GA through Cloudflare.
+- 🚫 **Zaraz / "Google tag gateway" = OFF.** ⚠️ One of the three. GA4 is loaded by `consent.ts` on the visitor's terms, an opt-in gate in the EEA/UK/CH and an opt-out notice elsewhere; the gateway bypassed that decision entirely and double-loaded GA. Permanent "leave off," not a one-time fix. Don't manage GA through Cloudflare.
+
+### A blocked request is silent, and there is no report endpoint
+
+The CSP in `public/_headers` is enforced with no `report-to`, so a violation produces no log anywhere you would normally look: the request simply does not happen. Two ways to find one, both after the fact. DevTools -> **Issues** on the live page names the directive. A Lighthouse run fails the `inspector-issues` audit, which is a 4-point best-practices drop and the only automated signal there is.
+
+A live example to calibrate on: gtag fires an image beacon to `googletagmanager.com/td` a couple of times in every hundred loads, `img-src` does not allow it, and that intermittently drops best-practices to 96 on whichever page caught it. That is the policy working as intended. Before "fixing" a best-practices dip, check whether the CSP is the reason and whether the blocked thing is something the site wants.
 
 ### `/cdn-cgi/trace` is load-bearing
 

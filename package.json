@@ -16,7 +16,8 @@
     "shots": "node scripts/shots/capture.mjs",
     "fonts:subset": "node scripts/fonts/subset-mono.mjs",
     "favicon": "node scripts/favicon/render-ico.mjs",
-    "perf:js": "node scripts/perf/js-weight.mjs"
+    "perf:js": "node scripts/perf/js-weight.mjs",
+    "concepts:ga": "node scripts/concepts/build-ga-core.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.0.1",

@@ -1,15 +1,25 @@
 # Cloudflare _headers — security + caching.
 # The @astrojs/cloudflare adapter appends its own immutable rule for /_astro/* at build; everything below covers the rest.
-# The CSP is ENFORCED, so a new external origin fails silently until it is allowlisted here. 'unsafe-inline' covers the inline theme/consent/demo scripts and style attributes, acceptable on a static site with no user input. Dropping it means hashing the inline scripts, which needs a build-time generator: Vite inlines bundles under assetsInlineLimit, so the hash set changes shape between builds.
+# The CSP is ENFORCED, so a new external origin fails silently until it is allowlisted here. There is no reporting endpoint, so a violation is invisible in production: to find one, read DevTools -> Issues, or the `inspector-issues` audit in a Lighthouse run.
+# 'unsafe-inline' covers the inline theme/consent/demo scripts and style attributes, acceptable on a static site with no user input. Hashing them instead was considered and declined: Vite inlines bundles under assetsInlineLimit, so a bundle crossing that line changes the hash SET, not just a hash, and the CSP would have to be generated per build to keep up.
 # Cloudflare Web Analytics is off (its beacon slowed LCP), which is why static.cloudflareinsights.com is absent from script-src/connect-src.
+#
+# img-src deliberately does NOT carry googletagmanager.com. gtag occasionally fires an image beacon to /td (twice across 150 measured page loads), the CSP blocks it, and Chrome logs a CSP issue that fails Lighthouse's `inspector-issues` audit for a 4-point best-practices drop on whichever page caught it. That is the policy working: the beacon is an ad-tech ping this site denies everywhere else. Do not allowlist it to buy the score back.
+# connect-src keeps region1.google-analytics.com even though US-run measurement never touches it — that is the endpoint EEA visitors hit, i.e. exactly the ones who had to opt in.
+#
+# X-Frame-Options is deliberately redundant with frame-ancestors 'none', for browsers predating CSP frame-ancestors. Not dead weight; do not delete it as a duplicate.
+# Permissions-Policy names every feature this site does not use. interest-cohort was removed rather than kept: FLoC was abandoned in 2022 and browsing-topics, its live successor, is already denied.
+# Comments live here at column 0, never indented inside a rule block — only a leading # is documented as a comment, and an indented one risks being read as a header name.
 
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
-  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()
-  Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; upgrade-insecure-requests
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), midi=(), serial=(), hid=(), bluetooth=(), idle-detection=(), local-fonts=(), browsing-topics=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; upgrade-insecure-requests
 
 # ===== A year, immutable =====
 # These URLs are contract-named and unhashed (@font-face, preloads and the per-slug video conventions all hardcode them), so replacing a file's BYTES without changing its NAME will not reach a returning visitor for up to a year. To reach everyone, rename the file or drop `immutable` first. Adding a new slug or face is always safe.
@@ -70,4 +80,9 @@
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
 /
+  Cache-Control: public, max-age=0, must-revalidate
+# The concept microsites' analytics pair. Unhashed and contract-named like the immutable sets above, but they carry the consent posture, so a change to what loads and when has to reach returning visitors on the next navigation. Neither matched an immutable rule before this was written; stated now so it stays that way.
+/concepts/analytics.js
+  Cache-Control: public, max-age=0, must-revalidate
+/concepts/ga-core.js
   Cache-Control: public, max-age=0, must-revalidate

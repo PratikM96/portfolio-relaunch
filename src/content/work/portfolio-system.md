@@ -39,7 +39,7 @@ system:
   prose:
     - lead: "One system, brand to tokens to build."
       text: "A single design system feeds everything: a token layer, an eight-tier type scale, one variable typeface per family so every weight the scale names is real. Structure and copy are typed content that fails the build when a field is missing or the wrong shape, so the site cannot ship half-built."
-    - text: "It runs same-origin on Cloudflare Workers. Fonts, media, and code are self-hosted, no CDN, so there is no second-origin handshake and nothing to leak. The only third party is analytics, and it sits behind a consent gate. The pages are built to be read by machines too, with a structured-data graph and semantic markup for search and answer engines."
+    - text: "It runs same-origin on Cloudflare Workers. Fonts, media, and code are self-hosted, no CDN, so there is no second-origin handshake and nothing to leak. The only third party is analytics, opt-in in Europe and opt-out everywhere else, loaded at idle so it never competes with the page. The pages are built to be read by machines too, with a structured-data graph and semantic markup for search and answer engines."
   margin:
     - type: stat
       label: "JavaScript per page"
@@ -48,7 +48,7 @@ system:
       desc: "Worst case, the home page. Most pages ship 4 to 5 KB, bundles plus inline, hashed and cached."
     - type: note
       label: "Same-origin"
-      text: "No CDN. Fonts and media served by the Worker. Analytics is the one third party, consent-gated."
+      text: "No CDN. Fonts and media served by the Worker. Analytics is the one third party, opt-in in Europe, opt-out elsewhere."
   steps:
     - { ix: "01", title: "Design system", text: "Tokens, eight type tiers, one variable face per family." }
     - { ix: "02", title: "Content as data", text: "A typed schema that fails the build on a missing field." }
@@ -64,7 +64,7 @@ decisions:
       who: "Design principle"
   items:
     - { n: "01", title: "Built, not briefed", text: "The site is a working prototype, shipped and measured, not a deck describing one." }
-    - { n: "02", title: "Same-origin, no CDN", text: "Self-host the fonts, media, and code. The only third party is consent-gated analytics." }
+    - { n: "02", title: "Same-origin, no CDN", text: "Self-host the fonts, media, and code. The only third party is analytics, and it waits for idle." }
     - { n: "03", title: "One variable face per family", text: "Every weight the type scale names is a real weight, so nothing fails silently to a faux bold." }
     - { n: "04", title: "Performance as a design constraint", text: "An LCP-safe hero, reveals and hovers limited to compositable properties, and every image sized from one derived scale rather than a guess, re-measured on each change." }
 

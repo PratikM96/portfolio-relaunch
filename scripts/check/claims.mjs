@@ -55,6 +55,7 @@ const BANNED = [
   // The Claim Registry names both of these as retired and says this file enforces them. It did not, so the only thing stopping either from returning was memory.
   { re: /zero layout shift|\bzero\s+CLS\b|\b0\s+CLS\b/i, why: 'Retired: a perfect Lighthouse score already entails a good CLS, so this was a second number saying the same thing and the only one that could rot. PerfTable renders per-page CLS as measured detail instead.' },
   { re: /\b\d+\+?\s*(brand|identity)\s+systems?\b/i, why: 'The brand-systems / identity-systems count is retired and needs an approved count method before it returns.' },
+  { re: /consent[- ]gated|behind a consent gate/i, why: 'Retired with the geo-split: analytics are gated only in the EEA, the UK and Switzerland, and load on arrival behind an opt-out notice everywhere else. "Consent-gated" describes the old global gate and is false for most visitors. Say opt-in in Europe, opt-out elsewhere.' },
   { re: /live AI moment-clipper/i, why: 'The clipper is a working PROTOTYPE, never "live".' },
   { re: /a live AI host\b/i, why: 'WISP is a scripted demonstration; its own disclosure says "not a live AI model".' },
   { re: /Cloud9|\bC9\b/, why: 'The Ninth does not name the organization on portfolio surfaces (CLAUDE.md §3). The microsite under public/concepts/ is the deliberate exception and is not checked here.' },
@@ -146,6 +147,65 @@ for (const f of readdirSync(join(ROOT, 'src/content/work')).filter((x) => x.ends
     failures++;
     console.error(`\n  ${rel}`);
     console.error(`    roster carries ${orgCount} organizations, which no longer supports the published "30+"`);
+  }
+}
+
+/**
+ * The GA4 install. Three ways it has drifted or could drift again, all invisible at runtime and none caught by anything else.
+ *
+ * The concept microsites are static passthrough HTML, so they cannot import from `src/`. They load a GENERATED copy of `src/scripts/ga-core.js`, produced by `npm run concepts:ga`. The generator is deliberately not wired into `prebuild`: regenerating automatically would silently overwrite a hand edit to the copy, which is exactly the failure this checks for.
+ */
+{
+  const CORE_SRC = 'src/scripts/ga-core.js';
+  const CORE_GEN = 'public/concepts/ga-core.js';
+  /** Lines of "generated, do not edit" banner the generator prepends. Changing it in scripts/concepts/build-ga-core.mjs means changing this. */
+  const BANNER_LINES = 4;
+
+  // 1. One measurement ID, one home. Re-hardcoding it elsewhere is the drift that already happened: the old concepts file carried its own copy and never got the deferred load.
+  const scan = (dir) => {
+    const out = [];
+    for (const e of readdirSync(join(ROOT, dir), { withFileTypes: true })) {
+      const rel = `${dir}/${e.name}`;
+      if (e.isDirectory()) {
+        if (rel === 'scripts/perf/out' || e.name === 'node_modules') continue;
+        out.push(...scan(rel));
+      } else if (/\.(js|mjs|ts|astro|md|txt|json|html)$/.test(e.name)) out.push(rel);
+    }
+    return out;
+  };
+  for (const rel of [...scan('src'), ...scan('public'), ...scan('scripts'), ...scan('docs')]) {
+    if (rel === CORE_SRC || rel === CORE_GEN) continue;
+    const hit = readFileSync(join(ROOT, rel), 'utf8').match(/G-[A-Z0-9]{8,}/);
+    if (!hit) continue;
+    failures++;
+    console.error(`\n  ${rel}`);
+    console.error(`    hardcodes the measurement ID ${hit[0]}. It belongs only in ${CORE_SRC}; import GA from there.`);
+  }
+
+  // 2. The generated copy must still be its source. Catches both directions: a hand edit to the copy, and a source edit that never regenerated.
+  if (existsSync(join(ROOT, CORE_GEN))) {
+    const source = readFileSync(join(ROOT, CORE_SRC), 'utf8');
+    const generated = readFileSync(join(ROOT, CORE_GEN), 'utf8').split('\n').slice(BANNER_LINES).join('\n');
+    if (generated !== source) {
+      failures++;
+      console.error(`\n  ${CORE_GEN}`);
+      console.error(`    no longer matches ${CORE_SRC}. Edit the source, then run: npm run concepts:ga`);
+    }
+  } else {
+    failures++;
+    console.error(`\n  ${CORE_GEN}`);
+    console.error(`    missing. Run: npm run concepts:ga`);
+  }
+
+  // 3. A concept page shipping without the module is a page with no analytics and, worse, no opt-out control while /privacy promises one.
+  for (const slug of readdirSync(join(ROOT, 'public/concepts'), { withFileTypes: true }).filter((e) => e.isDirectory())) {
+    for (const f of readdirSync(join(ROOT, 'public/concepts', slug.name)).filter((x) => x.endsWith('.html'))) {
+      const rel = `public/concepts/${slug.name}/${f}`;
+      if (readFileSync(join(ROOT, rel), 'utf8').includes('type="module" src="/concepts/analytics.js"')) continue;
+      failures++;
+      console.error(`\n  ${rel}`);
+      console.error(`    does not load <script type="module" src="/concepts/analytics.js">, so it runs with no analytics and no opt-out control`);
+    }
   }
 }
 
