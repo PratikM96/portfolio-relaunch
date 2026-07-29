@@ -172,6 +172,28 @@ if (runDays.size > 1) {
   console.error('A snapshot must come from one batch. Re-run scripts/perf/run.sh to completion, then retry.');
   process.exit(1);
 }
+/**
+ * Was the machine busy while this ran?
+ *
+ * Lighthouse records `environment.benchmarkIndex`, a CPU score taken at measurement time, in every sample. It is the only objective record of how fast the host actually was, and it matters more than it looks: `run.sh` passes no throttling flags, so Lighthouse SIMULATES throttling — it observes real task durations and multiplies them by `cpuSlowdownMultiplier`, which is **4x on mobile and 1x on desktop**. A main-thread task stretched by background load is therefore amplified fourfold into the mobile TBT and score, and barely at all into desktop. That asymmetry is the tell: mobile sagging while desktop holds is host load, not the site.
+ *
+ * The floor below is this machine's own idle baseline, from the 150-sample 20260728-1651 batch (min 2822, median 3060, 1.10x spread end to end). It is a property of that laptop, not a universal number: re-derive it from a known-quiet run if the hardware changes.
+ */
+const BENCH_FLOOR = 2800;
+const BENCH_SPREAD_MAX = 1.25;
+const benches = fs.readdirSync(OUT).filter((f) => f.endsWith('.json'))
+  .map((f) => { try { return JSON.parse(fs.readFileSync(path.join(OUT, f), 'utf8')).environment?.benchmarkIndex; } catch { return null; } })
+  .filter((b) => typeof b === 'number').sort((a, b) => a - b);
+const host = benches.length
+  ? {
+      samples: benches.length,
+      min: Math.round(benches[0]),
+      median: Math.round(benches[Math.floor(benches.length / 2)]),
+      max: Math.round(benches[benches.length - 1]),
+      spread: Number((benches[benches.length - 1] / benches[0]).toFixed(2)),
+    }
+  : null;
+
 const data = { measuredOn: fetchTime.slice(0, 10), lighthouseVersion: lhVersion, pages: mobile.rows.length, mobile, desktop };
 const dest = path.join(ROOT, 'src/data/portfolio-perf.json');
 fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -185,8 +207,23 @@ if (mobile.sampling.samplesPerPage === 1) {
   console.log('\nNOTE: one sample per page. A single mobile run is not evidence — pages near a scoring threshold land either side of it by chance. Use REPEATS=3 (or 5) so each row is a median.');
 }
 
+if (host) {
+  console.log('host CPU:', JSON.stringify(host));
+  const slow = host.median < BENCH_FLOOR;
+  const unstable = host.spread > BENCH_SPREAD_MAX;
+  if (slow || unstable) {
+    console.log('\n' + '='.repeat(72));
+    console.log('SUSPECT RUN — the machine was not idle.');
+    if (slow) console.log(`  median benchmarkIndex ${host.median} is below the ${BENCH_FLOOR} idle baseline: sustained load, or the laptop was on battery / not in a performance power mode.`);
+    if (unstable) console.log(`  benchmarkIndex swung ${host.spread}x within the batch (min ${host.min}, max ${host.max}): something started or stopped mid-run, so early and late pages were not measured on the same machine.`);
+    console.log('  Mobile scores take a 4x CPU multiplier under simulated throttling, so this lands in TBT and LCP.');
+    console.log('  Do not publish this batch. Re-run idle, then compare AVERAGES against history.jsonl.');
+    console.log('='.repeat(72));
+  }
+}
+
 /* Keyed on runId and rewritten in place rather than blindly appended, so re-emitting a batch corrects its line instead of adding a duplicate. `fetchTime` rides along because runId comes from the clock when run.sh started while fetchTime is when Lighthouse actually loaded the page; they differ by however long the batch took. */
-const entry = { runId, fetchTime, ...data };
+const entry = { runId, fetchTime, host, ...data };
 const prior = fs.existsSync(HISTORY)
   ? fs.readFileSync(HISTORY, 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l))
   : [];
