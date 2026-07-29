@@ -120,6 +120,29 @@ for (const f of readdirSync(join(ROOT, 'src/content/work')).filter((x) => x.ends
 }
 
 /**
+ * Above-the-fold reveals. `.rev` is opacity-based and Chromium excludes an element starting at `opacity: 0` from LCP entirely, so a hero built with it hands LCP to whatever paints next. Six of eleven page templates had this wrong before `PageHero.astro` existed, each with its own hand-rolled wrapper, and the cost was invisible on desktop: /brand measured 4238ms mobile LCP against 973ms FCP while its pixels were on screen by 1144ms, and scored 100 on desktop the whole time.
+ *
+ * Nothing else catches it. It is not a type error, not a schema violation, and the page renders correctly — only the metric moves. So the rule is enforced structurally: a page's first reveal-bearing element must be the PageHero wrapper, never a bare `.rev`.
+ *
+ * Scans source rather than the build, since this runs before `astro build`. Comments are stripped first so the rule's own prose cannot trip it.
+ */
+for (const rel of readdirSync(join(ROOT, 'src/pages'), { recursive: true })
+  .map((f) => `src/pages/${String(f).replace(/\\/g, '/')}`)
+  .filter((f) => f.endsWith('.astro'))) {
+  const body = visibleCopy(readFileSync(join(ROOT, rel), 'utf8'), rel);
+  // A page that renders <PageHero> has already delegated the contract: the wrapper's `rev-load` lives in the component, so the page's own first `.rev` is a below-the-fold block and correct.
+  if (/<PageHero[\s/>]/.test(body)) continue;
+  // Otherwise the page hand-rolls its hero, and its first reveal-bearing element IS the hero.
+  const first = body.match(/class(?::list)?=(?:"|\{?\[)[^"}]*\brev(-load)?\b/);
+  if (first && !first[1]) {
+    failures++;
+    console.error(`\n  ${rel}`);
+    console.error(`    the first reveal above the fold is \`.rev\`, which is opacity:0 and therefore excluded from LCP`);
+    console.error(`    use <PageHero> (src/components/PageHero.astro), which carries .rev-load; keep .rev for below-the-fold blocks`);
+  }
+}
+
+/**
  * The roster guards in `src/lib/brands.ts` throw at module load, which kills only the pages that import it: verified by pointing a chip at a missing name and watching the build exit 0 with a ZERO-BYTE index.html and work.html. Same trap as the demo stills above, so the same fix. Parsed as text because brands.ts is TypeScript and this is plain node.
  */
 {
