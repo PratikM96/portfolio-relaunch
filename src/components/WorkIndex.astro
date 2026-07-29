@@ -231,7 +231,7 @@ const first = projects[0]!;
 
   /* ===== filter bar (sticky only when the caller asks, e.g. /work) ===== */
   .filters { display: flex; flex-wrap: wrap; gap: var(--space-xs); align-items: center; padding: var(--space-lg) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .filters.sticky { position: sticky; top: 0; background: var(--bg); z-index: 20; }
+  .filters.sticky { position: sticky; top: 0; background: var(--bg); z-index: var(--z-sticky); }
 
   @media (max-width: 900px) {
     /* Not sticky once the rail becomes the mobile bar. That bar is itself sticky at `top: 0` and carries a higher z-index, so a filter bar pinned to the same offset slides underneath it and only its bottom row stays readable. Offsetting instead would mean hardcoding the bar's height, and a pinned filter bar costs more vertical room than it earns on a list this short. */

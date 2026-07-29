@@ -17,7 +17,7 @@ interface Props {
   as?: 'header' | 'section';
 }
 
-const { class: className, as: Tag = 'header' } = Astro.props;
+const { class: className, as: Tag = 'header' }: Props = Astro.props;
 ---
 
 <Tag class:list={['page-hero', 'rev-load', className]}>

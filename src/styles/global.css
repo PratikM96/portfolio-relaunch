@@ -107,7 +107,7 @@ img { display: block; max-width: 100%; }
 .console {
   position: fixed; top: 0; left: 0; bottom: 0; width: var(--rail);
   border-right: 1px solid var(--border); background: var(--bg);
-  display: flex; flex-direction: column; padding: var(--space-xl) var(--space-lg); z-index: 50;
+  display: flex; flex-direction: column; padding: var(--space-xl) var(--space-lg); z-index: var(--z-chrome);
   /* same theme cross-fade as <body> above, so the rail and the page arrive together */
   transition: background-color var(--dur-move) var(--ease-in-out), border-color var(--dur-move) var(--ease-in-out);
 }
@@ -275,7 +275,7 @@ img { display: block; max-width: 100%; }
 
 /* Engagement corner badge over card media; .badge-lg is the case-study-hero
    variant. Every type accents — the accent is not gated on type (CLAUDE.md §3). */
-.badge { position: absolute; top: var(--space-md); left: var(--space-md); z-index: 2; font-size: var(--fs-3xs); padding: var(--space-2xs) var(--space-xs); border-radius: var(--radius-none); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.badge { position: absolute; top: var(--space-md); left: var(--space-md); z-index: var(--z-overlay); font-size: var(--fs-3xs); padding: var(--space-2xs) var(--space-xs); border-radius: var(--radius-none); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .badge.in-house, .badge.agency, .badge.concept { background: color-mix(in srgb, var(--accent-fill) 16%, transparent); color: var(--accent-text); border: 1px solid color-mix(in srgb, var(--accent-fill) 40%, transparent); }
 .badge-lg { position: static; top: auto; left: auto; display: inline-block; font-size: var(--fs-2xs); padding: var(--space-2xs) var(--space-sm); backdrop-filter: none; -webkit-backdrop-filter: none; }
 
@@ -358,7 +358,7 @@ img { display: block; max-width: 100%; }
   .m-readout .line { font-family: var(--t-label-font); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-track); text-transform: uppercase; }
 
   .console-mobile {
-    display: flex; position: sticky; top: 0; z-index: 50;
+    display: flex; position: sticky; top: 0; z-index: var(--z-chrome);
     background: color-mix(in srgb, var(--bg) 85%, transparent);
     backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
     padding: var(--space-md) var(--space-lg); justify-content: space-between; align-items: center; gap: var(--space-sm);
@@ -382,7 +382,7 @@ img { display: block; max-width: 100%; }
   /* `height: 100dvh` is load-bearing, not a tidy-up. A fixed `inset: 0` sizes to the LARGE viewport, the one with the mobile toolbar hidden, so on a browser with a dynamic toolbar the last ~140px of the drawer sat under the chrome. The readout is pinned to the bottom by `margin-top: auto`, so it landed out of view and the drawer scrolled for no reason a visitor could see. `dvh` tracks the CURRENTLY visible height instead. The `100vh` line before it is the fallback for anything without dvh, and must stay first. */
   .m-drawer {
     display: flex; flex-direction: column;
-    position: fixed; inset: 0; z-index: 60;
+    position: fixed; inset: 0; z-index: var(--z-drawer);
     height: 100vh;
     height: 100dvh;
     /* env() is a device inset rather than rhythm, hence the literal: the home indicator overlaps the readout without it. */

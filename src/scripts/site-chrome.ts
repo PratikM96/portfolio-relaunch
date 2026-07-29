@@ -1,17 +1,17 @@
 /**
  * Site chrome: theme toggle, OS-theme follow, mobile drawer, NY clock, reveal-on-scroll, rail scroll-spy. All deferred — the no-flash theme set in Base.astro's <head> is the only pre-paint script.
  */
+import { themeColorFor } from '../lib/theme';
+
 const root = document.documentElement;
 const themeBtns = Array.prototype.slice.call(
   document.querySelectorAll('[data-set]'),
 ) as HTMLElement[];
 
-/**
- * Browser UI tint follows the resolved theme, not the OS preference. The hexes are --bg's two ends, --n-50 light and --n-950 dark, hardcoded because this also runs pre-paint in Base.astro where no CSS variable is readable yet. Base.astro holds the other copy and site.webmanifest the third; all three move together.
- */
+/** Browser UI tint follows the resolved theme, not the OS preference. The hexes live in src/lib/theme.ts, which Base.astro's pre-paint script also reads. */
 function setThemeColor(t: string) {
   const m = document.querySelector('meta[name="theme-color"]');
-  if (m) m.setAttribute('content', t === 'light' ? '#F4F2EB' : '#0B0B0A');
+  if (m) m.setAttribute('content', themeColorFor(t));
 }
 
 function applyTheme(t: string) {

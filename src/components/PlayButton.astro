@@ -38,7 +38,7 @@ const { label, size = 64, hook } = Astro.props;
      nudged by hand before and neither landed on it. */
   .play-btn .tri {
     --tri-w: calc(var(--play-size) * 0.28);
-    position: relative; z-index: 1; width: 0; height: 0; border-style: solid;
+    position: relative; z-index: var(--z-raised); width: 0; height: 0; border-style: solid;
     border-width: calc(var(--play-size) * 0.172) 0 calc(var(--play-size) * 0.172) var(--tri-w);
     border-color: transparent transparent transparent var(--n-950);
     margin-left: calc(var(--tri-w) / 6);

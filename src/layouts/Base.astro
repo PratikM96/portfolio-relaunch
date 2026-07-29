@@ -10,6 +10,7 @@ import Brandmark from '../components/Brandmark.astro';
 import { getImage } from 'astro:assets';
 import { siteOrigin, personRef } from '../lib/schema';
 import { ogCard } from '../lib/media';
+import { THEME_COLOR } from '../lib/theme';
 import headshot from '../assets/headshot-4x5.jpg';
 
 import type { RailSection, ScoreLine } from '../lib/work-type';
@@ -157,10 +158,8 @@ const ldGraph = {
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={ogImage} />
 
-    {/* Browser UI tint. No `media` — the theme is [data-theme], not the OS
-        preference; the no-flash script below rewrites `content` to match. The tint has to equal --bg, which is --n-950 dark and **--n-50** light. Light was --n-0 (#FBFAF6), the SURFACE step, so the browser chrome sat a shade off the page it framed and disagreed with site.webmanifest's background_color. These are the only place those two steps are written out: a <meta> attribute and a pre-paint script can't read a CSS variable. Third copy in scripts/site-chrome.ts — move all three, and
-        keep the manifest in step. */}
-    <meta name="theme-color" content="#0B0B0A" />
+    {/* Browser UI tint. No `media` — the theme is [data-theme], not the OS preference, so the no-flash script below rewrites `content` to match. Both hexes come from src/lib/theme.ts; keep site.webmanifest's background_color equal to the dark one by hand. */}
+    <meta name="theme-color" content={THEME_COLOR.dark} />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(ldGraph)} />
 
@@ -176,20 +175,8 @@ const ldGraph = {
     <meta name="apple-mobile-web-app-title" content="Pratik" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    {/* no-flash: set theme before paint */}
-    <script is:inline>
-      (function () {
-        try {
-          var t = localStorage.getItem('pm-theme');
-          if (!t) {
-            t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-          }
-          document.documentElement.setAttribute('data-theme', t);
-          var m = document.querySelector('meta[name="theme-color"]');
-          if (m) m.setAttribute('content', t === 'light' ? '#F4F2EB' : '#0B0B0A');
-        } catch (e) {}
-      })();
-    </script>
+    {/* no-flash: set theme before paint. Built with set:html so the two tints interpolate from src/lib/theme.ts — an `is:inline` script's body is raw text, so a bare {expression} inside it would ship literally. */}
+    <script is:inline set:html={`(function(){try{var t=localStorage.getItem('pm-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='light'?'${THEME_COLOR.light}':'${THEME_COLOR.dark}');}catch(e){}})();`} />
 
     {/* Self-hosted, same-origin (@font-face in tokens.css). No font CDN. */}
     <link rel="preload" href="/fonts/ClashDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin />
@@ -218,7 +205,7 @@ const ldGraph = {
   }
 
 
-      .skip-link { position: fixed; top: 10px; left: 10px; z-index: 99999; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); background: var(--surface-raised); color: var(--text); font-size: var(--fs-xs); text-transform: uppercase; text-decoration: none; transform: translateY(-160%); transition: transform var(--dur-quick) var(--ease-standard); }
+      .skip-link { position: fixed; top: 10px; left: 10px; z-index: var(--z-skip); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); background: var(--surface-raised); color: var(--text); font-size: var(--fs-xs); text-transform: uppercase; text-decoration: none; transform: translateY(-160%); transition: transform var(--dur-quick) var(--ease-standard); }
       .skip-link:focus { transform: none; outline: 2px solid var(--accent-fill); outline-offset: 3px; }
     </style>
     {/* CONSOLE RAIL */}
@@ -392,7 +379,7 @@ const ldGraph = {
   }
 
 
-      .consent { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9998; max-width: 700px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-lg); padding: var(--space-md) var(--space-lg); background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow-raised); }
+      .consent { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: var(--z-consent); max-width: 700px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-lg); padding: var(--space-md) var(--space-lg); background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: var(--radius-xl); box-shadow: var(--shadow-raised); }
       /* Slides up on arrival, drops away on dismiss, driven entirely by the `hidden` attribute the consent script already toggles, so no JS timing can drift from these durations. `display` is in the transition with allow-discrete so the hidden state still leaves the layout; @starting-style gives the first paint somewhere to animate FROM. Browsers without either get the old instant show/hide. */
       .consent {
         transition: opacity var(--dur-move) var(--ease-standard), transform var(--dur-move) var(--ease-standard), display var(--dur-move) allow-discrete;

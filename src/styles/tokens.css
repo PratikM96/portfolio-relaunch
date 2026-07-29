@@ -198,6 +198,16 @@
   --scale-hover: 1.03;     /* media hover: work cards, feature tiles, demo stills */
   --scale-control: 1.06;   /* small controls: the play button */
 
+  /* --- Stacking · seven layers, and nothing outside them ---
+     Named for what sits there, not for a number, so a rule picks by role the way it picks a duration. The values are ordinal and deliberately small: what matters is which layer beats which, and the gaps leave room to insert one without renumbering. Before this scale the site ran nine hand-picked values ending 60, 9998, 99999 — the jump was someone guessing high enough to win, which works until two things guess. Anything positioned that needs to sit above a sibling and is NOT one of these layers belongs at --z-raised. */
+  --z-raised: 1;    /* lift within a component: the play triangle over its button */
+  --z-overlay: 2;   /* over media inside a card: engagement badge, flow arrow */
+  --z-sticky: 20;   /* in-page sticky: the /work filter bar */
+  --z-chrome: 50;   /* site chrome: console rail, mobile bar */
+  --z-drawer: 60;   /* mobile drawer, over the chrome that opens it */
+  --z-consent: 70;  /* consent banner, over everything except the skip link */
+  --z-skip: 80;     /* skip-to-content, must beat every layer above or it cannot be reached */
+
   /* --- Site additions (not in the brand kit) --- */
   --rail: 264px;         /* console rail width */
   --img-frame: var(--n-200);
