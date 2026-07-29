@@ -73,6 +73,13 @@ const proofFigures = d.proof.figures.map((f) =>
     : { value: f.value!, unit: f.unit, label: f.label },
 );
 
+/* Scoreboard cells resolve the same way, for the same reason: a measured number typed here and derived below is two values for one metric. */
+const heroCells = d.hero.map((c) =>
+  c.from
+    ? (() => { const r = perfFigure(c.from!); return { k: c.k, v: r.value, stat: c.stat, unit: c.unit ?? r.unit }; })()
+    : { k: c.k, v: c.v!, stat: c.stat, unit: c.unit },
+);
+
 // §Output appears for assets OR a demo; without either it drops and the spine
 // renumbers. OutputGrid itself renders only when assets exist.
 const outputBlocks = d.output?.blocks;
@@ -146,7 +153,7 @@ const schema = [
     <h1 class="rev-load">{d.title}</h1>
     <p class="descr rev-load">{d.lede}</p>
     {d.disclosure && <p class="cs-disclosure rev-load">{d.disclosure}</p>}
-    <Scoreboard cells={d.hero} />
+    <Scoreboard cells={heroCells} />
     {d.contribution && <ContributionBox contribution={d.contribution} />}
     {heroVideo && heroPoster && (
       <div class="frame cs-wall rev-load" data-cs-video>

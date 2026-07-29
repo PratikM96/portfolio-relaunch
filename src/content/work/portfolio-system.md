@@ -10,7 +10,7 @@ role: Creative Technologist
 year: "2026"
 disciplines: [Design Systems, Front-end, Brand, Motion]
 featured: false
-description: "The portfolio you are reading, built as one system: brand, front-end, and performance in one artifact. Astro on Cloudflare Workers, self-hosted, measured on itself: 100 Lighthouse on desktop across every page."
+description: "The portfolio you are reading, built as one system: brand, front-end, and performance in one artifact. Astro on Cloudflare Workers, self-hosted, measured on itself: 98 or better on desktop Lighthouse, every page."
 badge: "Concept / Self-initiated"
 lede: "The portfolio is the proof. One system from brand to front-end to performance, designed, written, and shipped solo, then measured on itself instead of described."
 disclosure: "Self-initiated. This is the site you are reading, designed, written, and built by Pratik Mehta. No client, no team, no template."
@@ -19,8 +19,9 @@ hero:
   - { k: Role, v: "Creative Technologist" }
   - { k: Disciplines, v: "Design Systems, Front-end, Brand" }
   - { k: Type, v: "Self-initiated / 2026" }
-  # No `accent` flag: figureRuns accents every numeral, so a unitless 100 colors itself.
-  - { k: "Desktop Lighthouse", v: "100", stat: true }
+  # No `accent` flag: figureRuns accents every numeral, so a unitless score colors itself.
+  # The key says "lowest" because the figure is the MINIMUM across every page, not an average and not one page's score. Without that word a reader takes it for a single measurement, which understates 22 pages at 100.
+  - { k: "Desktop Lighthouse, lowest page", from: "desktopLighthouse", stat: true }
 
 problem:
   prose:
@@ -101,16 +102,17 @@ perfTable: true
 
 proof:
   figures:
-    # No CLS figure here: a perfect Lighthouse score already entails a good one, and PerfTable renders per-page CLS as measured detail, which is where a number that moves belongs.
+    # No CLS figure here: CLS is measured at 0 on every page and a Lighthouse score in the high nineties already entails it, so a separate figure would be a second number saying the same thing and the only one that could rot. PerfTable renders per-page CLS as measured detail, which is where a number that moves belongs.
     #
     # `from` means DERIVED, not authored: resolved by src/lib/perf-claim.ts out of the same portfolio-perf.json that PerfTable renders, so a re-run moves the figure and the table together or neither. These three were typed once and drifted within a day — mobile was authored as 98 and measured 99.4 the next run, which stops being a rounding and becomes a contradiction on a page whose claim is that the numbers are measured. Rounding is conservative and its direction flips by metric: a score rounds down, a duration rounds up. That rule lives in perf-claim.ts, not here.
     #
     # The JS figure stays authored because it is not a Lighthouse number: nothing in the perf JSON carries it. Re-measure by hand when the bundles change, and carry the basis with it — raw and gzip differ by more than a rounding here.
     #
-    # Basis, measured 2026-07-27 against the live site and a fresh build (byte-identical): home is the heaviest page at 7,403 bytes raw, 3,292 gzipped. That is the 3 external /_astro/ bundles plus the inline scripts, excluding the JSON-LD block. Publish the gzip number, floored, because lower is better and a script-weight claim must never undercut what was measured.
-    - { from: "desktopLighthouse", label: "Lighthouse, desktop" }
-    - { from: "mobileLighthouse", label: "Lighthouse, mobile" }
-    - { from: "desktopLcp", label: "LCP, desktop" }
+    # Basis, fixed: the heaviest page's external /_astro/ bundles plus its inline scripts, JSON-LD excluded, gzipped, floored, because lower is better and a script-weight claim must never undercut what was measured. No byte counts or dates in this comment — they rotted here once already. `npm run perf:js` prints the current ones, and `npm run build` fails when this value disagrees with them.
+    # Each label states WHICH statistic it is, because the three are not the same shape: desktop is the floor across pages, mobile is the mean of them, LCP is the mean duration. Unlabeled, "98" and "98" sitting side by side read as one fact measured twice.
+    - { from: "desktopLighthouse", label: "Lighthouse, desktop / lowest page" }
+    - { from: "mobileLighthouse", label: "Lighthouse, mobile / average" }
+    - { from: "desktopLcp", label: "LCP, desktop / average" }
     - { value: "3.9", unit: "KB", label: "JS, heaviest page" }
   note:
     label: "Why it exists / what it proves"

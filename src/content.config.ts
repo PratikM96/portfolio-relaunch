@@ -137,13 +137,19 @@ const work = defineCollection({
       // Opts into the click-to-play hero wall, located by slug at /hero/<slug>/. See docs/hero-pipeline.md.
       heroVideo: z.boolean().default(false),
       hero: z.array(
-        z.object({
-          k: z.string(),
-          v: z.string(),
-          stat: z.boolean().optional(), // render v as a large proof figure
-          unit: z.string().optional(),
-          // No `accent` flag: figureRuns accents every numeral, including a unitless "100". Don't reintroduce it.
-        }),
+        z
+          .object({
+            k: z.string(),
+            v: z.string().optional(),
+            // Derived, exactly as a proof figure is: names a resolver in src/lib/perf-claim.ts. The scoreboard carried a typed "100" for desktop Lighthouse four lines above a proof figure deriving the same metric, so the page could publish two different values for one number.
+            from: z.string().optional(),
+            stat: z.boolean().optional(), // render v as a large proof figure
+            unit: z.string().optional(),
+            // No `accent` flag: figureRuns accents every numeral, including a unitless "100". Don't reintroduce it.
+          })
+          .refine((c) => (c.v === undefined) !== (c.from === undefined), {
+            message: 'a scoreboard cell needs exactly one of `v` (authored) or `from` (derived from the measured run)',
+          }),
       ),
 
       // Rendered under the hero scoreboard by ContributionBox.astro. Every row optional: omit rather than guess.

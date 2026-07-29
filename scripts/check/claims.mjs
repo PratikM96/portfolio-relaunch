@@ -209,6 +209,50 @@ for (const f of readdirSync(join(ROOT, 'src/content/work')).filter((x) => x.ends
   }
 }
 
+/**
+ * Perf prose, checked against the measured run.
+ *
+ * Structured figures derive: a scoreboard cell or proof figure carrying `from` resolves through `src/lib/perf-claim.ts` out of `portfolio-perf.json`, so a re-run moves them and nothing can drift. **Sentences cannot derive**, and the reason is not laziness. When the desktop score stopped being 100 the honest rewrite was "98 or better, every page", not "98 on every page" — the number changed shape, not just value, and a template swapping the digit would have published a claim that understated 22 pages at 100 while sounding more precise than the truth.
+ *
+ * So prose is GUARDED instead. Every sentence that names a perf figure is listed here with the resolver it must agree with. Change the measurement and the build stops, naming the file and the value, and a human writes the sentence.
+ */
+{
+  const perf = JSON.parse(readFileSync(join(ROOT, 'src/data/portfolio-perf.json'), 'utf8'));
+  const measured = {
+    desktopLighthouse: String(Math.floor(Math.min(...perf.desktop.rows.map((r) => r.perf)))),
+    mobileLighthouse: String(Math.floor(perf.mobile.average.perf)),
+    desktopLcp: (Math.ceil((perf.desktop.average.lcp / 1000) * 10) / 10).toFixed(1),
+  };
+
+  // Each entry: the file, the figure it quotes, and a regex capturing the number as written. The capture group is what must equal the measured value.
+  const PROSE = [
+    { file: 'src/content/work/portfolio-system.md', source: 'desktopLighthouse', re: /(\d+) or better on desktop Lighthouse/ },
+    { file: 'src/pages/index.astro', source: 'desktopLighthouse', re: /scores (\d+) or better on desktop Lighthouse/ },
+    { file: 'src/pages/resume.astro', source: 'desktopLighthouse', re: /scoring (\d+) or better on desktop Lighthouse/ },
+    { file: 'public/llms.txt', source: 'desktopLighthouse', re: /scores (\d+) or better on desktop Lighthouse/ },
+  ];
+
+  for (const p of PROSE) {
+    const abs = join(ROOT, p.file);
+    if (!existsSync(abs)) continue;
+    const src = readFileSync(abs, 'utf8');
+    const hits = [...src.matchAll(new RegExp(p.re, 'g'))];
+    if (!hits.length) {
+      failures++;
+      console.error(`\n  ${p.file}`);
+      console.error(`    expected a sentence quoting the ${p.source} figure and found none. If the claim moved or was cut, update the PROSE list in scripts/check/claims.mjs.`);
+      continue;
+    }
+    for (const h of hits) {
+      if (h[1] === measured[p.source]) continue;
+      failures++;
+      console.error(`\n  ${p.file}`);
+      console.error(`    says ${JSON.stringify(h[0])}, but the measured run gives ${p.source} = ${measured[p.source]}.`);
+      console.error(`    Rewrite the sentence; do not just swap the digit if the claim's shape changed.`);
+    }
+  }
+}
+
 for (const rel of TARGETS) {
   const abs = join(ROOT, rel);
   if (!existsSync(abs)) continue;

@@ -208,6 +208,22 @@ if (mobile.sampling.samplesPerPage === 1) {
   console.log('\nNOTE: one sample per page. A single mobile run is not evidence — pages near a scoring threshold land either side of it by chance. Use REPEATS=3 (or 5) so each row is a median.');
 }
 
+/* The Resume Master is prose on Drive, outside git, so no build can reach it and nothing here can write it. Printing the exact rows is the closest thing to a sync: the values are already derived above, so the only step left is a paste. Everything IN the repo is either derived from this JSON or guarded against it by scripts/check/claims.mjs. */
+{
+  const floor = (n) => String(Math.floor(n));
+  const ceilS = (ms) => (Math.ceil((ms / 1000) * 10) / 10).toFixed(1);
+  const dMin = floor(Math.min(...desktop.rows.map((r) => r.perf)));
+  const mAvg = floor(mobile.average.perf);
+  const lcp = ceilS(desktop.average.lcp);
+  console.log('\n--- paste into _reference/masters/resume-master.md (Drive, not git) ---');
+  console.log(`  Portfolio System bullet:  every page scores ${dMin} or better on desktop Lighthouse, ${mAvg} average on mobile, mean desktop LCP ${lcp}s`);
+  console.log(`  | Portfolio System | Desktop Lighthouse | ${dMin} or better, every page |`);
+  console.log(`  | Portfolio System | Desktop LCP | ${lcp}s mean |`);
+  console.log(`  | Portfolio System | Mobile Lighthouse | ${mAvg} average |`);
+  console.log('  (the JS figure is not a Lighthouse number: npm run build reports it if it moved)');
+  console.log('-----------------------------------------------------------------------\n');
+}
+
 if (host) {
   console.log('host CPU:', JSON.stringify(host));
   const slow = host.median < BENCH_FLOOR;

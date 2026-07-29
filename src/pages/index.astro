@@ -38,7 +38,7 @@ const selectedWork = SELECTED.map((s) => bySlug.get(s)).filter((e) => e !== unde
 const BENTO: { slug: string; blurb: string }[] = [
   { slug: 'sportime-clubs', blurb: 'A video-first content engine across tennis, pickleball, and a $75M expansion. 11.7M cross-platform impressions in a year.' },
   { slug: 'dealnews', blurb: 'Social, paid, and in-house design run as one function, so creative decisions and performance feedback stayed in the same hands.' },
-  { slug: 'portfolio-system', blurb: 'This site, built as one system and measured on itself: 100 desktop Lighthouse on every page, re-run on every change.' },
+  { slug: 'portfolio-system', blurb: 'This site, built as one system and measured on itself: every page scores 98 or better on desktop Lighthouse, re-run on every change.' },
   { slug: 'the-ninth', blurb: 'A self-initiated esports membership concept, brand through product, with an AI moment-clipper prototype at the center.' },
 ];
 const bento = await Promise.all(BENTO.map(async ({ slug, blurb }) => {
