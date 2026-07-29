@@ -126,9 +126,11 @@ for (const f of readdirSync(join(ROOT, 'src/content/work')).filter((x) => x.ends
 }
 
 /**
- * Above-the-fold reveals. `.rev` is opacity-based and Chromium excludes an element starting at `opacity: 0` from LCP entirely, so a hero built with it hands LCP to whatever paints next. Six of eleven page templates had this wrong before `PageHero.astro` existed, each with its own hand-rolled wrapper, and the cost was invisible on desktop: /brand measured 4238ms mobile LCP against 973ms FCP while its pixels were on screen by 1144ms, and scored 100 on desktop the whole time.
+ * Above-the-fold reveals. `.rev` is opacity-based and Chromium excludes an element starting at `opacity: 0` from LCP entirely, so a hero built with it hands LCP to whatever paints next. Six of eleven page templates had this wrong, and the cost was invisible on desktop: /brand measured 4238ms mobile LCP against 973ms FCP while its pixels were on screen by 1144ms, and scored 100 on desktop the whole time.
  *
- * Nothing else catches it. It is not a type error, not a schema violation, and the page renders correctly — only the metric moves. So the rule is enforced structurally: a page's first reveal-bearing element must be the PageHero wrapper, never a bare `.rev`.
+ * Nothing else catches it. It is not a type error, not a schema violation, and the page renders correctly — only the metric moves.
+ *
+ * A shared `PageHero` component was tried and reverted: passing a page's layout class into a component moves that element into the COMPONENT's style scope, so every page rule targeting the wrapper (`.bhero`, `.bhero p`, and their media-query overrides) silently stopped matching and seven pages lost their hero padding in production. `:global()` was not an escape either, since `.phead` is shared by two pages with different padding. So pages own their hero element, and this check is what holds the line.
  *
  * Scans source rather than the build, since this runs before `astro build`. Comments are stripped first so the rule's own prose cannot trip it.
  */
@@ -136,15 +138,13 @@ for (const rel of readdirSync(join(ROOT, 'src/pages'), { recursive: true })
   .map((f) => `src/pages/${String(f).replace(/\\/g, '/')}`)
   .filter((f) => f.endsWith('.astro'))) {
   const body = visibleCopy(readFileSync(join(ROOT, rel), 'utf8'), rel);
-  // A page that renders <PageHero> has already delegated the contract: the wrapper's `rev-load` lives in the component, so the page's own first `.rev` is a below-the-fold block and correct.
-  if (/<PageHero[\s/>]/.test(body)) continue;
-  // Otherwise the page hand-rolls its hero, and its first reveal-bearing element IS the hero.
+  // The first reveal-bearing element a page declares IS its hero, so it must be the transform-only variant.
   const first = body.match(/class(?::list)?=(?:"|\{?\[)[^"}]*\brev(-load)?\b/);
   if (first && !first[1]) {
     failures++;
     console.error(`\n  ${rel}`);
     console.error(`    the first reveal above the fold is \`.rev\`, which is opacity:0 and therefore excluded from LCP`);
-    console.error(`    use <PageHero> (src/components/PageHero.astro), which carries .rev-load; keep .rev for below-the-fold blocks`);
+    console.error(`    put \`rev-load\` on the hero wrapper instead; keep \`.rev\` for below-the-fold blocks`);
   }
 }
 

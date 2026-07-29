@@ -7,7 +7,6 @@
 import Base from '../layouts/Base.astro';
 import CloseCTA from '../components/CloseCTA.astro';
 import Brandmark from '../components/Brandmark.astro';
-import PageHero from '../components/PageHero.astro';
 // Read as a raw string (Vite ?raw), not node:fs — this has to bundle for the Worker.
 import tokensCss from '../styles/tokens.css?raw';
 import { SHELL, FULL } from '../lib/layout';
@@ -123,7 +122,7 @@ const sec = (id: string) => {
   description="One System is the design system this site runs on: foundation, logo, type, color, layout, motion, and access. Core token values render from the live CSS."
   activeNav="brand"
 >
-  <PageHero class="bhero">
+  <header class="bhero rev-load">
     <div class="page-kicker">[ Brand ] / One System / v1.0</div>
     <h1 class="page-h1">The brand,<br />built like a <span class="signal">product.</span></h1>
     <p class="lead">One System is the identity this site runs on: foundation, logo, type, color, layout, motion, and access, in one place. It is a working reference and a case study of the thinking behind it. Core token values render from the live CSS, so the numbers below are the real ones; the usage guidance and examples are maintained alongside them.</p>
@@ -136,7 +135,7 @@ const sec = (id: string) => {
         </a>
       ))}
     </nav>
-  </PageHero>
+  </header>
 
   {/* FOUNDATION */}
   <section class="bsec" id={sec('foundation').id}>

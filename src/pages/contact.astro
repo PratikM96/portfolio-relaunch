@@ -3,7 +3,6 @@
  * Contact. No availability dot here — the one pulsing dot lives in the rail.
  */
 import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
 
 const EMAIL = 'mehtadpratik@gmail.com';
 const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
@@ -14,7 +13,7 @@ const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
   description="Get in touch with Pratik Mehta, Creative Marketing Lead based in New York. Open to creative or marketing roles."
   activeNav="contact"
 >
-  <PageHero as="section" class="chero">
+  <section class="chero rev-load">
     <div class="page-kicker">[ Contact ]</div>
     {/* The meta pair sits above the head, matching the home hero and the closing CTA.
         Availability and location stay on separate lines; joined by a separator they read
@@ -28,7 +27,7 @@ const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
       <a class="ccell" href="/resume"><span class="k">Resume</span><span class="v">View resume →</span></a>
       <a class="ccell" href="/work"><span class="k">Work</span><span class="v">View work →</span></a>
     </div>
-  </PageHero>
+  </section>
 </Base>
 
 <style>
