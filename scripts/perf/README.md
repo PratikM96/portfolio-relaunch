@@ -4,30 +4,31 @@ The `/work/portfolio-system` case study claims measured performance, so the numb
 
 ## The whole loop
 
-Measure, publish, and sync are three different things, and skipping the last two is how a figure drifts. In order:
+Three steps, and the two deploys are not the same deploy:
 
 ```bash
-npm run deploy                    # 1. nothing can be measured until it is live
-bash scripts/perf/run.sh          # 2. 3 samples per page, mobile + desktop, every URL (~25 min)
-node scripts/perf/emit.mjs        # 3. median sample per page -> src/data/portfolio-perf.json (+ history)
-node scripts/perf/trend.mjs       # 4. how the numbers moved. Read averages, never page scores
-npm run build && npm run perf:js  # 5. re-measure the ONE figure nothing derives
-                                  # 6. sync _reference/masters/resume-master.md by hand (Drive, not git)
-npm run deploy                    # 7. the table is baked at build time, so publishing needs a second deploy
+npm run deploy   # 1. nothing can be measured until it is live
+npm run perf     # 2. batch, distill, trend  (~17 min)
+                 # 3. sync _reference/masters/resume-master.md by hand if a figure moved (Drive, not git)
+npm run deploy   # 4. the table is baked at build time, so publishing needs a second deploy
 ```
 
-**Steps 1 and 7 are both required and are not the same deploy.** The first makes the code measurable; the second makes the measurement public.
+**Iterating on a change does not cost seventeen minutes.** `npm run perf:quick home brand` runs only the pages you name, mobile only, in about a minute. It writes to a `quick-` folder that `emit.mjs` refuses to pick up, so it can answer "did that help" without ever reaching the published table. Read the raw scores yourself, and remember a three-sample mobile read on one page is a hint, not a result.
 
-**Step 5 exists because one figure is not derived.** Desktop Lighthouse, mobile Lighthouse and desktop LCP resolve at build from the JSON via `src/lib/perf-claim.ts`, so a re-run moves them and the table together. The JavaScript figure is script weight measured from the built output, so nothing recalculates it. `npm run perf:js` prints the heaviest page, the value to publish, and whether the entry already agrees; it exits non-zero when it doesn't. Basis, fixed: heaviest page, external `/_astro/` bundles plus inline scripts, JSON-LD excluded, gzipped, floored.
+**The JS figure is checked by the build now**, so there is no step for it. `npm run build` ends in `js-weight.mjs --check`, which is silent when the entry agrees and exits non-zero with the value to set when it does not. This is the figure nothing derives, and it is exactly the one that sat published at 3.2KB against a 3.8KB build because a manual step was skippable. Run `npm run perf:js` bare to see the full table. Basis, fixed: heaviest page, external `/_astro/` bundles plus inline scripts, JSON-LD excluded, gzipped, floored.
 
-**Step 6 is the only place the site and the resume can silently disagree.** The Resume Master is prose on Drive, outside git, so no build touches it. If a figure moved, update the Portfolio System bullet and the Claim Registry rows.
+**The master sync is the only place the site and the resume can silently disagree.** The Resume Master is prose on Drive, outside git, so no build touches it. If a figure moved, update the Portfolio System bullet and the Claim Registry rows.
 
-Running the batch: `REPEATS=5` for a tighter median, and keep it odd. Needs Chrome, `npx`, and network access to the live site. **Don't use the machine while it runs** - Lighthouse measures CPU-bound metrics like TBT on the host, so background work lands in the numbers. A few `FAILED` lines are survivable; `emit.mjs` uses whatever samples exist.
+**Sampling is asymmetric, and the asymmetry is measured.** Across one 150-sample batch, 72% of pages moved their mobile score between repeats (mean spread 4.1 points, worst 15) against 24% on desktop (mean 0.40, worst 2). So mobile defaults to 3 repeats and desktop to 1, which is where a third of the old wall clock went. `MOBILE_REPEATS=5 npm run perf` for tighter medians at roughly the old cost; keep counts odd so a median is one real sample.
 
-*If pasting a `node -e` one-liner into interactive bash, `set +H` first: `!` inside a regex triggers history expansion and silently mangles the line. That is why step 5 is a committed script rather than a snippet.*
+**Lighthouse is a pinned devDependency.** It used to run through `npx --yes`, which re-resolved the package every invocation: 4.2s x 150 runs, about ten minutes of a twenty-five minute batch. It also pulled whatever version was current, so a release could shift every score mid-history and quietly break the trend. Bumping the pin deserves its own run.
+
+Needs Chrome and network access to the live site. A few `FAILED` lines are survivable; `emit.mjs` uses whatever samples exist.
+
+*If pasting a `node -e` one-liner into interactive bash, `set +H` first: `!` inside a regex triggers history expansion and silently mangles the line.*
 
 - `urls.txt` — the pages measured (the live portfolio, one per line, `slug|url`). Add a line when a page ships, then re-run.
-- `run.sh` takes **`REPEATS` samples per page per strategy** (default 3) and writes raw Lighthouse JSON into **`out/<YYYYMMDD-HHMM>/`**, one folder per run, gitignored. It names the folder itself from the clock at start, so the name cannot disagree with the `fetchTime` inside it. Keep `REPEATS` odd so the median is one real sample rather than a choice between two. Cost: roughly 8 minutes and 30MB per repeat, so the default is ~25 minutes and ~90MB.
+- `run.sh` takes **`MOBILE_REPEATS` (default 3) and `DESKTOP_REPEATS` (default 1)** and writes raw Lighthouse JSON into **`out/<YYYYMMDD-HHMM>/`**, one folder per run, gitignored. It names the folder itself from the clock at start, so the name cannot disagree with the `fetchTime` inside it. Given slugs as arguments it switches to quick mode: those pages only, mobile only, into a `quick-` folder. Cost: ~10s per run, so the default 100 runs is about 17 minutes and ~60MB. **Never parallelize it** — mobile applies a 4x CPU multiplier under simulated throttling, so two concurrent runs inflate each other's TBT fourfold.
 - `emit.mjs` distills the **newest** folder by default, or a named one (`node scripts/perf/emit.mjs 20260727-1307`) to re-emit an older batch. Per page it publishes the **median sample, not an average of them** — averaging each metric independently would print a row that never happened, an FCP from one load beside an LCP from another, and a score no real load produced. Samples are ordered by score then LCP, and an even count takes the lower middle so the published figure is never the flattering half of a coin flip. Each row carries `samples` and `lcpSpread`; each strategy carries a `sampling` summary. It writes the committed JSON plus one line in `history.jsonl`, keyed on run id so re-emitting corrects that line instead of duplicating it, and still refuses to stamp a set whose pages span more than one day.
 - `history.jsonl` — **committed**, one distilled snapshot per line, a few KB each. The raw runs are ~30MB a batch and stay gitignored; this file is what makes the trend survive a machine. Lines suffixed `g` were recovered from git commits before the history existed, and carry `recoveredFrom` for audit.
 - `trend.mjs` — averages per run, then mobile score per page with an LCP spread column. `node scripts/perf/trend.mjs home` for one page across every run.

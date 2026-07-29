@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "npm run check:claims && astro check && astro build",
+    "build": "npm run check:claims && astro check && astro build && node scripts/perf/js-weight.mjs --check",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
@@ -16,8 +16,11 @@
     "shots": "node scripts/shots/capture.mjs",
     "fonts:subset": "node scripts/fonts/subset-mono.mjs",
     "favicon": "node scripts/favicon/render-ico.mjs",
-    "perf:js": "node scripts/perf/js-weight.mjs",
-    "concepts:ga": "node scripts/concepts/build-ga-core.mjs"
+    "concepts:ga": "node scripts/concepts/build-ga-core.mjs",
+    "perf": "bash scripts/perf/run.sh && node scripts/perf/emit.mjs && node scripts/perf/trend.mjs",
+    "perf:quick": "bash scripts/perf/run.sh",
+    "perf:trend": "node scripts/perf/trend.mjs",
+    "perf:js": "node scripts/perf/js-weight.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.0.1",
@@ -28,6 +31,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@types/node": "^26.0.1",
+    "lighthouse": "13.4.1",
     "puppeteer-core": "^25.3.0",
     "subset-font": "^2.5.0",
     "typescript": "^6.0.3",

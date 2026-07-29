@@ -56,13 +56,17 @@ const rows = pages(DIST).map(weigh).sort((a, b) => b.gz - a.gz);
 const worst = rows[0];
 const published = (Math.floor((worst.gz / 1024) * 10) / 10).toFixed(1);
 
-console.log('Heaviest pages by transferred script weight\n');
-console.log('  page'.padEnd(34) + 'raw'.padStart(8) + 'gzip'.padStart(9) + '  bundles');
-for (const r of rows.slice(0, 5)) {
-  console.log('  ' + r.page.padEnd(32) + String(r.raw).padStart(8) + String(r.gz).padStart(9) + String(r.files).padStart(9));
-}
+if (!process.argv.includes('--check')) console.log('Heaviest pages by transferred script weight\n');
+// `--check` is the build's mode: say nothing unless the figure has drifted. Run it bare to see the table.
+const CHECK = process.argv.includes('--check');
 
-console.log(`\nPublish: ${published}KB   (${worst.page}, ${worst.gz} bytes gzipped, floored)`);
+if (!CHECK) {
+  console.log('  page'.padEnd(34) + 'raw'.padStart(8) + 'gzip'.padStart(9) + '  bundles');
+  for (const r of rows.slice(0, 5)) {
+    console.log('  ' + r.page.padEnd(32) + String(r.raw).padStart(8) + String(r.gz).padStart(9) + String(r.files).padStart(9));
+  }
+  console.log(`\nPublish: ${published}KB   (${worst.page}, ${worst.gz} bytes gzipped, floored)`);
+}
 
 // Compare against what the entry currently claims, so the check is an answer rather than a number to eyeball.
 const entry = fs.readFileSync(ENTRY, 'utf8');
@@ -70,7 +74,7 @@ const claim = entry.match(/value:\s*"([\d.]+)",\s*unit:\s*"KB",\s*label:\s*"JS, 
 if (!claim) {
   console.log(`\nCould not find the JS figure in ${ENTRY}. Check it by hand.`);
 } else if (claim[1] === published) {
-  console.log(`\nOK - the entry already publishes ${claim[1]}KB. Nothing to change.`);
+  if (!CHECK) console.log(`\nOK - the entry already publishes ${claim[1]}KB. Nothing to change.`);
 } else {
   console.log(`\nDRIFTED - the entry publishes ${claim[1]}KB, the build measures ${published}KB.`);
   console.log(`  1. ${ENTRY}: set value: "${published}"`);

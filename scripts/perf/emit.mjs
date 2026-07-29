@@ -31,8 +31,9 @@ function resolveRun() {
     console.error('scripts/perf/out/ does not exist. Run scripts/perf/run.sh first.');
     process.exit(1);
   }
+  // `quick-` batches are mobile-only subsets for iteration and must never be published. They also sort AFTER a bare timestamp, so without this filter the next emit would silently distill a three-page quick run into the committed table. Name one explicitly to inspect it.
   const folders = fs.readdirSync(OUT_ROOT, { withFileTypes: true })
-    .filter((e) => e.isDirectory())
+    .filter((e) => e.isDirectory() && !e.name.startsWith('quick-'))
     .map((e) => e.name)
     .sort();
   if (folders.length) return path.join(OUT_ROOT, folders[folders.length - 1]);
