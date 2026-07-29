@@ -148,7 +148,7 @@ const schema = [
   .path .step:last-child { border-bottom: none; }
   .path .step .yr { font-size: var(--fs-xs); text-transform: uppercase; color: var(--accent-text); }
   .path .step h3 { font-size: var(--fs-2xl); margin-bottom: var(--space-xs); }
-  .path .step p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: var(--measure-xl); }
+  .path .step p { font-size: var(--fs-md); line-height: var(--lh-relaxed); color: var(--text-secondary); max-width: var(--measure-xl); }
 
   /* principles */
   .princ { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
@@ -156,13 +156,13 @@ const schema = [
   .pcard { padding: var(--space-xl); min-height: 200px; display: flex; flex-direction: column; }
   .pcard .n { font-size: var(--fs-2xs); color: var(--text-muted); }
   .pcard h3 { font-size: var(--fs-xl); margin: auto 0 var(--space-sm); }
-  .pcard p { font-size: var(--fs-sm); line-height: 1.55; color: var(--text-secondary); }
+  .pcard p { font-size: var(--fs-sm); line-height: var(--lh-copy); color: var(--text-secondary); }
 
   /* Influences. One column, not two: an odd count leaves a lone cell in the second column, and there is no honest sixth reference to pad it with. Full-width rows also give each line room to sit on one line. */
   .infl { display: flex; flex-direction: column; margin-top: var(--space-xl); border-top: 1px solid var(--border); }
   .infl > div { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: var(--space-xl); padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); align-items: baseline; }
   .infl .n { font-size: var(--fs-xs); text-transform: uppercase; color: var(--accent-text); }
-  .infl p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: var(--measure-xl); }
+  .infl p { font-size: var(--fs-md); line-height: var(--lh-relaxed); color: var(--text-secondary); max-width: var(--measure-xl); }
 
   /* tools */
   .tools { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-lg); }

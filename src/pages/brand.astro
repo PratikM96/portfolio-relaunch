@@ -530,9 +530,9 @@ const sec = (id: string) => {
   /* type + measure come from the shared .lead primitive in global.css */
   .bhero p { margin-top: var(--space-lg); }
   .bsec { padding: var(--space-4xl) 0; }
-  .bsec .intro { font-size: var(--fs-base); line-height: 1.6; color: var(--text-secondary); max-width: var(--measure-xl); margin-bottom: var(--space-xl); }
+  .bsec .intro { font-size: var(--fs-base); line-height: var(--lh-relaxed); color: var(--text-secondary); max-width: var(--measure-xl); margin-bottom: var(--space-xl); }
   .subhead { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin: var(--space-2xl) 0 var(--space-md); }
-  .cap { font-size: var(--fs-2xs); color: var(--text-muted); margin-top: var(--space-sm); line-height: 1.5; }
+  .cap { font-size: var(--fs-2xs); color: var(--text-muted); margin-top: var(--space-sm); line-height: var(--lh-copy); }
   /* version + review stamp under the page lead */
   .muted { color: var(--text-muted); }
 
@@ -568,9 +568,10 @@ const sec = (id: string) => {
   /* surface comes from global .card */
   .dcard { padding: var(--space-lg); position: relative; min-height: 124px; display: flex; align-items: center; justify-content: center; }
   .dcard :global(.brandmark) { color: var(--text); }
+  /* line-height: 20px is outside the --lh-* scale on purpose: it equals the height above and is doing vertical centering in a fixed circle, not setting leading. It moves only if that 20px does. */
   .x { position: absolute; top: 12px; left: 12px; width: 20px; height: 20px; border-radius: var(--radius-full); background: var(--danger); color: var(--n-0); font-size: var(--fs-xs); line-height: 20px; text-align: center; }
   .dwrap { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
-  .dlab { font-size: var(--fs-2xs); color: var(--text-secondary); text-align: center; line-height: 1.5; }
+  .dlab { font-size: var(--fs-2xs); color: var(--text-secondary); text-align: center; line-height: var(--lh-copy); }
   /* The four "don't" demos below are deliberately off-system: an off-brand blue and a raw drop-shadow are the violation being shown. Tokens here would defeat the point. */
   .d-stretch :global(.brandmark) { transform: scaleX(1.7); }
   .d-recolor :global(.node) { fill: #2A4DFF; }
@@ -590,14 +591,14 @@ const sec = (id: string) => {
   }
   /* face / wt / track never wrap */
   .tyt .meta {
-    font-size: var(--fs-2xs); color: var(--text-muted); line-height: 1.5;
+    font-size: var(--fs-2xs); color: var(--text-muted); line-height: var(--lh-copy);
   }
   .tyt th:nth-child(2), .tyt td:nth-child(2),
   .tyt th:nth-child(3), .tyt td:nth-child(3),
   .tyt th:nth-child(4), .tyt td:nth-child(4) { white-space: nowrap; }
   .tyt .s { width: 42%; }
   .tyt .v { min-width: 0; color: var(--text); display: inline-block; }
-  .tyt .v.disp { line-height: 1; }
+  .tyt .v.disp { line-height: var(--lh-solid); }
 
   /* size scale — one row per step, sample set at the real token */
   .sizes { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
@@ -606,7 +607,7 @@ const sec = (id: string) => {
     align-items: baseline; padding: var(--space-sm) 0; border-bottom: 1px solid var(--border);
   }
   .z-lab { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--accent-text); white-space: nowrap; }
-  .z-samp { color: var(--text); line-height: 1.3; min-width: 0; }
+  .z-samp { color: var(--text); line-height: var(--lh-tight); min-width: 0; }
   .z-for { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; }
   @media (max-width: 900px) {
     .z-row { grid-template-columns: 96px 1fr; }
@@ -619,7 +620,7 @@ const sec = (id: string) => {
     display: grid; grid-template-columns: 132px 1fr 200px; gap: var(--space-md);
     align-items: start; padding: var(--space-md) 0; border-bottom: 1px solid var(--border);
   }
-  .m-samp { font-size: var(--fs-sm); line-height: 1.5; color: var(--text-secondary); border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); padding: var(--space-sm); }
+  .m-samp { font-size: var(--fs-sm); line-height: var(--lh-copy); color: var(--text-secondary); border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); padding: var(--space-sm); }
   @media (max-width: 900px) {
     .m-row { grid-template-columns: 96px 1fr; }
     .m-row .z-for { display: none; }
@@ -642,13 +643,13 @@ const sec = (id: string) => {
   .chip { width: 62px; }
   /* A swatch needs an edge of its own: the ramp ends match the page surfaces, so --n-0 is invisible on light and --n-950 on dark without one. */
   .sw { height: 46px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); }
-  .hx { font-size: var(--fs-3xs); color: var(--text-muted); margin-top: var(--space-2xs); line-height: 1.4; }
+  .hx { font-size: var(--fs-3xs); color: var(--text-muted); margin-top: var(--space-2xs); line-height: var(--lh-snug); }
   .panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-xs); }
   /* Both panels are fixed light/dark specimens, so their borders key to the RAMP, not the theme: --n-200 for the paper panel, and the ink panel overrides to --n-800 inline. Otherwise each blends into the page in its matching theme. */
   .panel { border-radius: var(--radius-lg); padding: var(--space-lg); border: 1px solid var(--n-200); }
   .p-lab { font-size: var(--fs-3xs); text-transform: uppercase; margin-bottom: var(--space-sm); }
   .p-h { font-size: var(--fs-2xl); margin-bottom: var(--space-xs); }
-  .p-b { font-size: var(--fs-sm); line-height: 1.55; margin-bottom: var(--space-md); }
+  .p-b { font-size: var(--fs-sm); line-height: var(--lh-copy); margin-bottom: var(--space-md); }
   .p-pill { display: inline-block; font-size: var(--fs-3xs); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); }
 
   /* layout */
@@ -728,7 +729,7 @@ const sec = (id: string) => {
   .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin: var(--space-xs) 0 var(--space-xl); }
   .rule-card { border: 1px solid var(--border); border-left: 2px solid var(--accent-fill); border-radius: var(--radius-md); padding: var(--space-md); }
   .rule-k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-xs); }
-  .rule-b { font-size: var(--fs-sm); color: var(--text-secondary); line-height: 1.55; }
+  .rule-b { font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-copy); }
 
   /* voice */
   .voice { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
@@ -776,7 +777,7 @@ const sec = (id: string) => {
   .lt-bar { position: absolute; left: 90px; bottom: 120px; display: flex; align-items: stretch; }
   .lt-edge { width: 10px; background: var(--accent-fill); }
   .lt-box { background: rgba(11, 11, 10, .82); padding: var(--space-xl) var(--space-2xl) var(--space-xl) var(--space-2xl); }
-  .lt-name { font-size: 62px; color: var(--n-50); line-height: 1; }
+  .lt-name { font-size: 62px; color: var(--n-50); line-height: var(--lh-solid); }
   .lt-title { font-size: 28px; color: #C6C2B5; margin-top: var(--space-md); }
   /* mockup mark color variants (override Brandmark's default ink/accent) */
   :global(.fmt-mk-ink) { color: var(--n-950) !important; }

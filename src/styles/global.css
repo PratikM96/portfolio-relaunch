@@ -81,7 +81,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-size: var(--fs-base);
-  line-height: 1.6;
+  line-height: var(--lh-relaxed);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   /* the theme flip leaves one color and arrives at another, which is what --ease-in-out is for; hovers elsewhere stay on --ease-standard */
@@ -113,7 +113,7 @@ img { display: block; max-width: 100%; }
 }
 .console .brand {
   display: flex; flex-direction: row; align-items: center; gap: var(--space-sm);
-  font-size: var(--fs-xl); line-height: 1.2;
+  font-size: var(--fs-xl); line-height: var(--lh-h3);
 }
 .console .role {
   font-size: var(--fs-2xs); color: var(--text-secondary); margin-top: var(--space-md); line-height: var(--lh-label);
@@ -131,7 +131,7 @@ img { display: block; max-width: 100%; }
 .console .bio-k {
   font-size: var(--fs-3xs); color: var(--text-muted); display: block; margin-bottom: var(--space-xs);
 }
-.console .rail-bio p { font-size: var(--fs-xs); line-height: 1.55; color: var(--text-secondary); max-width: var(--measure-sm); }
+.console .rail-bio p { font-size: var(--fs-xs); line-height: var(--lh-copy); color: var(--text-secondary); max-width: var(--measure-sm); }
 .console .spacer { flex: 1; }
 .console .readout {
   border-top: 1px solid var(--border); padding-top: var(--space-md);
@@ -232,7 +232,7 @@ img { display: block; max-width: 100%; }
    because the spaces inside the brackets are break opportunities: without it a
    tight measure wraps the closing bracket onto its own line. */
 .blabel .c { font-size: var(--fs-2xs); color: var(--accent-text); text-transform: none; white-space: nowrap; }
-.blabel .t { font-size: var(--fs-2xs); color: var(--text-muted); margin: 0; line-height: 1; }
+.blabel .t { font-size: var(--fs-2xs); color: var(--text-muted); margin: 0; line-height: var(--lh-solid); }
 .blabel .rule { flex: 1; height: 1px; background: var(--border); }
 .blabel .grow { flex: 1; }
 .blabel a.more { font-size: var(--fs-2xs); color: var(--text-secondary); }
@@ -242,7 +242,7 @@ img { display: block; max-width: 100%; }
 
 .h2 { font-size: var(--fs-fluid-xl); line-height: var(--lh-h2); }
 .h3 { font-size: var(--fs-xl); line-height: var(--lh-h3); }
-.lead { font-size: var(--fs-xl); line-height: 1.5; color: var(--text-secondary); max-width: var(--measure-lg); }
+.lead { font-size: var(--fs-xl); line-height: var(--lh-copy); color: var(--text-secondary); max-width: var(--measure-lg); }
 
 /* ===== shared content primitives =====
    Consumers keep only their own delta (padding, grid, size). */
@@ -254,7 +254,7 @@ img { display: block; max-width: 100%; }
 
 /* Long-form body copy (about + case-study narrative). */
 .prose { max-width: var(--measure-2xl); }
-.prose p { font-size: var(--fs-lg); line-height: 1.66; color: var(--text-secondary); margin-bottom: var(--space-md); }
+.prose p { font-size: var(--fs-lg); line-height: var(--lh-relaxed); color: var(--text-secondary); margin-bottom: var(--space-md); }
 /* the only Grotesk 600 on the site; everything else in that family is 400 or h3 500 */
 .prose p strong { color: var(--text); font-weight: var(--t-strong-weight); }
 
@@ -398,7 +398,7 @@ img { display: block; max-width: 100%; }
   }
   /* Not a type tier: a single ✕ glyph, so it takes the mono family only. */
   .menu-close {
-    font-family: var(--font-mono); font-size: var(--fs-base); line-height: 1; color: var(--text-secondary);
+    font-family: var(--font-mono); font-size: var(--fs-base); line-height: var(--lh-solid); color: var(--text-secondary);
     background: none; border: none; cursor: pointer; padding: var(--space-xs); margin: calc(var(--space-xs) * -1);
     transition: color var(--dur-quick) var(--ease-standard);
   }

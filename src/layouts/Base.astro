@@ -392,7 +392,7 @@ const ldGraph = {
       /* Mode switch. `display: none` rather than `hidden` on the elements, because the mode flips at runtime and the attribute is the script's to own on the container only. */
       .consent[data-mode='ask'] [data-when='tell'],
       .consent[data-mode='tell'] [data-when='ask'] { display: none; }
-      .consent-txt { flex: 1; min-width: 260px; margin: 0; font-size: var(--fs-sm); line-height: 1.5; color: var(--text-secondary); text-wrap: balance; }
+      .consent-txt { flex: 1; min-width: 260px; margin: 0; font-size: var(--fs-sm); line-height: var(--lh-copy); color: var(--text-secondary); text-wrap: balance; }
       .consent-txt a { color: var(--accent-text); text-decoration: underline; }
       .consent-btns { display: flex; gap: var(--space-sm); flex: none; }
       .consent button { font-size: var(--fs-2xs); text-transform: uppercase; padding: var(--space-xs) var(--space-md); border-radius: var(--radius-full); cursor: pointer; border: 1px solid var(--border-strong); background: transparent; color: var(--text); transition: border-color var(--dur-quick) var(--ease-standard), background-color var(--dur-quick) var(--ease-standard); }

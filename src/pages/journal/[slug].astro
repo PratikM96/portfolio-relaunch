@@ -176,17 +176,17 @@ const schema = [
   .article { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: var(--space-3xl); align-items: start; padding-bottom: var(--space-4xl); }
   .amain { max-width: var(--measure-3xl); }
   /* body copy comes from the post markdown — style the rendered elements globally */
-  .amain :global(p) { font-size: var(--fs-xl); line-height: 1.7; color: var(--text-secondary); margin-bottom: var(--space-lg); }
+  .amain :global(p) { font-size: var(--fs-xl); line-height: var(--lh-relaxed); color: var(--text-secondary); margin-bottom: var(--space-lg); }
   /* The lede. h3 TIER at the 2xl step, so the weight is one the system already
      defines (Grotesk 500) rather than a hand-set number: it outweighs the body
      without borrowing the Display face the sub-heads own. */
-  .amain :global(p:first-child) { font-size: var(--fs-2xl); line-height: 1.4; color: var(--text); margin-bottom: var(--space-xl); }
+  .amain :global(p:first-child) { font-size: var(--fs-2xl); line-height: var(--lh-snug); color: var(--text); margin-bottom: var(--space-xl); }
   .amain :global(h2) { font-size: var(--fs-2xl); margin: var(--space-2xl) 0 var(--space-md); }
   .amain :global(h3) { font-size: var(--fs-xl); margin: var(--space-xl) 0 var(--space-sm); }
   .amain :global(strong) { color: var(--text); font-weight: 600; }
   .amain :global(a) { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
   .amain :global(ul), .amain :global(ol) { margin: 0 0 var(--space-lg) var(--space-lg); color: var(--text-secondary); }
-  .amain :global(li) { margin-bottom: var(--space-xs); line-height: 1.6; }
+  .amain :global(li) { margin-bottom: var(--space-xs); line-height: var(--lh-relaxed); }
   .amain :global(blockquote) { border-left: 2px solid var(--accent-fill); padding-left: var(--space-lg); margin: 0 0 var(--space-lg); color: var(--text); }
 
   .amargin { display: flex; flex-direction: column; gap: var(--space-lg); position: sticky; top: 48px; }
@@ -194,15 +194,15 @@ const schema = [
      the 1000px block, where the quote sits between the header and the body and
      the rule has to divide it from the copy, not from the title it belongs to. */
   .m-quote { border-top: 1px solid var(--border-strong); padding-top: var(--space-md); }
-  .m-quote p { font-size: var(--fs-xl); line-height: 1.25; color: var(--text); }
+  .m-quote p { font-size: var(--fs-xl); line-height: var(--lh-h3); color: var(--text); }
 
   /* mobile post-foot: author + more writing, shown only where the rail is hidden */
   .post-foot { display: none; }
   .pf-k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: var(--space-md); }
-  .pf-about p { font-size: var(--fs-md); line-height: 1.6; color: var(--text-secondary); max-width: var(--measure-xl); }
+  .pf-about p { font-size: var(--fs-md); line-height: var(--lh-relaxed); color: var(--text-secondary); max-width: var(--measure-xl); }
   .pf-about a { display: inline-block; margin-top: var(--space-sm); font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); }
   .pf-more ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-md); }
-  .pf-more a { font-size: var(--fs-lg); line-height: 1.2; color: var(--text-secondary); transition: color var(--dur-quick) var(--ease-standard); }
+  .pf-more a { font-size: var(--fs-lg); line-height: var(--lh-h3); color: var(--text-secondary); transition: color var(--dur-quick) var(--ease-standard); }
   .pf-more a:hover { color: var(--text); }
 
   @media (max-width: 1000px) {

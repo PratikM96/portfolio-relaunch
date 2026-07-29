@@ -114,8 +114,16 @@
   --t-data-font: var(--font-mono);     --t-data-weight: 400;     --t-data-track: 0.05em;
   --t-emphasis-font: var(--font-mono); --t-emphasis-weight: 600; --t-emphasis-track: 0.1em;
 
-  /* --- Line heights (paired with the tiers above) --- */
+  /* --- Line heights · paired with the tiers above, then six reading steps ---
+     The tier half of this existed from the start; the reading half did not, and 78 hand-written values across 23 distinct numbers grew in the gap. Half a system is worse than none: 1.5 / 1.55 / 1.6 / 1.66 / 1.7 is five indistinguishable decisions made independently about twenty times, and nothing said which one a new rule should pick.
+     Frequency-derived like --fs-*: each step sits on the value the design already used most, so adopting the scale moved no rule by more than 0.05. --lh-copy and --lh-label share 1.5 deliberately — a label and a line of body copy genuinely want the same leading, and collapsing them into one name would lose which decision a rule is making. */
   --lh-display: 0.98; --lh-h1: 1.05; --lh-h2: 1.1; --lh-h3: 1.25; --lh-label: 1.5;
+  --lh-solid: 1;      /* set solid: stat figures, big numerals, anything measured as a block */
+  --lh-tight: 1.3;    /* compact multi-line UI: table cells, sample rows */
+  --lh-snug: 1.45;    /* dense meta and value rows */
+  --lh-copy: 1.5;     /* default UI copy: captions, card text, small asides */
+  --lh-relaxed: 1.65; /* long-form reading: .prose, decisions, reflections */
+  --lh-loose: 1.8;    /* the airiest step, for short centered blocks */
 
   /* --- Size · eleven steps, and nothing outside them ---
      A tier says which face; a step says how big. Every `font-size` resolves to one of these. Frequency-derived, not invented: the steps sit where the design already clustered. --fs-base is the document base on <body>, which is why 16px is its own step. */

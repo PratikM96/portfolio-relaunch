@@ -47,7 +47,7 @@ const { cells } = Astro.props;
   }
   .sb-cell { background: var(--surface); padding: var(--space-lg) var(--space-lg); container-type: inline-size; }
   .sb-cell .k { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-sm); }
-  .sb-cell .v { font-size: var(--fs-base); color: var(--text); line-height: 1.35; }
+  .sb-cell .v { font-size: var(--fs-base); color: var(--text); line-height: var(--lh-tight); }
   /* No accent override here: figureRuns accents every numeral, including a unitless
      one like "100", so the old `.acc` flag had nothing left to do. */
   /* container query so the figure scales to its cell and stays on one line */

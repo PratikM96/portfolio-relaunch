@@ -114,7 +114,7 @@ const avg = mobile.average;
   .pt-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)); gap: var(--space-md) var(--space-sm); }
   /* container-type is what makes cqi below resolve against the CELL. Without it a cqi has no container to measure and silently falls back to the viewport, which made this a worse vw: it pinned to 38px on desktop and 26px on mobile and never once sized to the figure's own cell. 30cqi spans the clamp across the real track (26px at the 88px floor, 38px by ~127px), where 5cqi would have needed a 760px cell to reach the top of its own range. */
   .cat { display: flex; flex-direction: column; gap: 2px; container-type: inline-size; }
-  .cat .cv { font-size: clamp(26px, 30cqi, 38px); line-height: 1; color: var(--accent-text); }
+  .cat .cv { font-size: clamp(26px, 30cqi, 38px); line-height: var(--lh-solid); color: var(--accent-text); }
   .cat .cl { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); }
   .pt-avg-sub { display: flex; gap: var(--space-md); flex-wrap: wrap; margin-top: var(--space-lg); font-size: var(--fs-xs); color: var(--text-secondary); }
   .pt-avg-sub b { color: var(--text); font-weight: 400; }

@@ -235,7 +235,7 @@ const routes = ROUTES.map((r) => ({
     .router-row { flex-direction: column; align-items: flex-start; gap: var(--space-2xs); }
     .router-row dt { white-space: normal; }
     .router-row .lead-rule { display: none; }
-    .router-row dd { white-space: normal; line-height: 1.7; }
+    .router-row dd { white-space: normal; line-height: var(--lh-relaxed); }
   }
 
   /* page head */
@@ -257,7 +257,7 @@ const routes = ROUTES.map((r) => ({
   .fcard h3 { font-size: var(--fs-2xl); }
   .fcard .yr { font-size: var(--fs-xs); color: var(--accent-text); margin-top: var(--space-xs); display: block; }
   .fcard p { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--space-sm); max-width: var(--measure-md); }
-  .fcard .disc { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: 1.8; }
+  .fcard .disc { font-size: var(--fs-3xs); text-transform: uppercase; color: var(--text-muted); text-align: right; white-space: nowrap; line-height: var(--lh-loose); }
   /* .badge / .badge.in-house / .badge.agency / .badge.concept come from global.css */
 
   /* ===== brands and organizations ===== */
