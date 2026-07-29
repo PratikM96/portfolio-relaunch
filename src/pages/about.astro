@@ -20,6 +20,8 @@ const schema = [
     mainEntity: personRef(origin),
   },
   {
+    // '@type' repeated deliberately: JSON-LD merges nodes sharing an @id, so this augments the site-wide Person rather than duplicating it. Without the type it merges as a TYPELESS node, which is valid but which Google's validator flags.
+    '@type': 'Person',
     ...personRef(origin),
     knowsAbout: ['Brand strategy', 'Creative direction', 'Social media strategy', 'Content systems', 'Motion design', 'UI/UX design', 'Performance marketing', 'Design systems', 'AI-assisted production'],
   },

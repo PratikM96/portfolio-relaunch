@@ -114,9 +114,16 @@ const sec = (id: string) => {
   if (!s) throw new Error(`/brand references section "${id}", which is not in SECTIONS`);
   return s;
 };
+import { siteOrigin, breadcrumb } from '../lib/schema';
+
+// Depth-1 breadcrumb, matching /about. The child pages under /work and /journal already emit trails that point here, so the parents should exist as crumbs too.
+const bcOrigin = siteOrigin(Astro.site);
+const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Brand' }])];
+
 ---
 
 <Base
+  schema={schema}
   image="/og/brand.png"
   title="Brand | One System | Pratik Mehta"
   description="One System is the design system this site runs on: foundation, logo, type, color, layout, motion, and access. Core token values render from the live CSS."

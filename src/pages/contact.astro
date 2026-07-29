@@ -6,9 +6,16 @@ import Base from '../layouts/Base.astro';
 
 const EMAIL = 'mehtadpratik@gmail.com';
 const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
+import { siteOrigin, breadcrumb } from '../lib/schema';
+
+// Depth-1 breadcrumb, matching /about. The child pages under /work and /journal already emit trails that point here, so the parents should exist as crumbs too.
+const bcOrigin = siteOrigin(Astro.site);
+const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Contact' }])];
+
 ---
 
 <Base
+  schema={schema}
   title="Contact | Pratik Mehta"
   description="Get in touch with Pratik Mehta, Creative Marketing Lead based in New York. Open to creative or marketing roles."
   activeNav="contact"

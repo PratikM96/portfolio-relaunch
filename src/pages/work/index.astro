@@ -80,10 +80,17 @@ const routes = ROUTES.map((r) => ({
   need: r.need,
   items: r.slugs.map((s) => ({ slug: s, name: label(s), href: `/work/${s}` })),
 }));
+import { siteOrigin, breadcrumb } from '../../lib/schema';
+
+// Depth-1 breadcrumb, matching /about. The child pages under /work and /journal already emit trails that point here, so the parents should exist as crumbs too.
+const bcOrigin = siteOrigin(Astro.site);
+const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Work' }])];
+
 ---
 
 {/* No preload for the first featured poster, even though it is the LCP element: `rel=preload` cannot be theme-conditional, so it fetched the dark still for light-theme visitors too and then went unused. The inline script below sets the poster during parse, which is nearly as early as the preload was and is right for both themes. */}
-<Base title="Work | Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work">
+<Base
+  schema={schema} title="Work | Pratik Mehta" image="/og/work.png" description="In-house, agency, and concept, filterable by type and discipline. Each one opens to a full case study." activeNav="work">
   <header class="phead">
     <div class="page-kicker">[ Work ] / {count} {count === 1 ? 'project' : 'projects'} / {yearRange}</div>
     <h1 class="rev-load page-h1">The work,<br />as <span class="signal">one index.</span></h1>

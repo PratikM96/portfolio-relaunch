@@ -54,6 +54,11 @@ Each entry is labeled by engagement: the role Pratik held, not a client relation
 - [Sub-brands without chaos](https://mehtapratik.com/journal/sub-brands-without-chaos)
 - [The machine-readable brand](https://mehtapratik.com/journal/the-machine-readable-brand)
 
+## Machine-readable
+
+- Full URL set: https://mehtapratik.com/sitemap-index.xml
+- Journal feed: https://mehtapratik.com/rss.xml
+
 ## Notes
 
 - "In-house" and "agency" describe the role Pratik held. None of this work was a client engagement, and the agency entries were roles at the agency: those clients were the agency's, not his.

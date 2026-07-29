@@ -13,9 +13,16 @@ const lead = posts.find((p) => p.data.featured) ?? posts[0];
 const rest = posts.filter((p) => p.id !== lead?.id);
 const meta = (p: (typeof posts)[number]) =>
   [p.data.topic, formatDate(p.data.date), p.data.readingTime].filter(Boolean).join(' / ');
+import { siteOrigin, breadcrumb } from '../../lib/schema';
+
+// Depth-1 breadcrumb, matching /about. The child pages under /work and /journal already emit trails that point here, so the parents should exist as crumbs too.
+const bcOrigin = siteOrigin(Astro.site);
+const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Journal' }])];
+
 ---
 
 <Base
+  schema={schema}
   image="/og/journal.png"
   title="Journal | Pratik Mehta"
   description="Working notes on building creative as a system, what makes work distinctive, and where AI actually changes the job."

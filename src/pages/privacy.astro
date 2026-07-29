@@ -4,9 +4,16 @@
  */
 import Base from '../layouts/Base.astro';
 const EMAIL = 'mehtadpratik@gmail.com';
+import { siteOrigin, breadcrumb } from '../lib/schema';
+
+// Depth-1 breadcrumb, matching /about. The child pages under /work and /journal already emit trails that point here, so the parents should exist as crumbs too.
+const bcOrigin = siteOrigin(Astro.site);
+const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Privacy' }])];
+
 ---
 
 <Base
+  schema={schema}
   title="Privacy Policy | Pratik Mehta"
   description="What limited data mehtapratik.com collects, and how it is used. Analytics are opt-in in Europe and opt-out everywhere else, and every asset is self-hosted."
   activeNav=""
