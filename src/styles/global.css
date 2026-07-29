@@ -234,6 +234,10 @@ img { display: block; max-width: 100%; }
 .blabel .c { font-size: var(--fs-2xs); color: var(--accent-text); text-transform: none; white-space: nowrap; }
 .blabel .t { font-size: var(--fs-2xs); color: var(--text-muted); margin: 0; line-height: var(--lh-solid); }
 .blabel .rule { flex: 1; height: 1px; background: var(--border); }
+/* The case-study treatment, formerly CaseSectionHead: same structure and the same label tier, only larger and at full contrast. It is a variant rather than a second component because the two differ in nothing but the size step and color. Kept here with the base so a page rule targeting .blabel cannot be scoped out from under it. */
+.blabel.is-case { align-items: baseline; margin-bottom: var(--space-2xl); }
+.blabel.is-case .c { font-size: var(--fs-xs); }
+.blabel.is-case .t { font-size: var(--fs-fluid-sm); color: var(--text); text-transform: uppercase; }
 .blabel .grow { flex: 1; }
 .blabel a.more { font-size: var(--fs-2xs); color: var(--text-secondary); }
 .blabel a.more:hover { color: var(--text); }

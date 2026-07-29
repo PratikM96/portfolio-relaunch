@@ -8,6 +8,7 @@ import CloseCTA from '../components/CloseCTA.astro';
 import headshot from '../assets/headshot-4x5.jpg';
 import { sizesForSplit, BP } from '../lib/layout';
 import { siteOrigin, personRef, breadcrumb } from '../lib/schema';
+import SectionLabel from '../components/SectionLabel.astro';
 
 const origin = siteOrigin(Astro.site);
 
@@ -27,6 +28,7 @@ const schema = [
   },
   breadcrumb(origin, [{ name: 'Home', path: '/' }, { name: 'About' }]),
 ];
+
 ---
 
 <Base
@@ -50,7 +52,7 @@ const schema = [
 
   {/* THE PATH */}
   <section class="block">
-    <div class="blabel"><span class="c">[ 01 ]</span><h2 class="t">The path</h2><span class="rule"></span></div>
+    <SectionLabel code="01" title="The path" />
     {/* Overlapping ranges are correct, not a bug: SR Love and Care ran alongside school and the early roles. Dates track the Resume Master, so reconcile there first. */}
     <div class="path rev">
       <div class="step"><div class="yr">Before 2014</div><div><h3>Where it started</h3><p>I learned to code from my dad before I learned to design anything. Tech camps, small programs, and the habit of taking something apart to see why it worked. That part never left.</p></div></div>
@@ -64,7 +66,7 @@ const schema = [
 
   {/* HOW I WORK */}
   <section class="block">
-    <div class="blabel"><span class="c">[ 02 ]</span><h2 class="t">How I work</h2><span class="rule"></span></div>
+    <SectionLabel code="02" title="How I work" />
     <div class="princ rev">
       <div class="card pcard"><div class="n">01</div><h3>One system, end to end</h3><p>I connect the creative to the marketing that makes it perform, and hold the whole arc so nothing gets lost in handoff.</p></div>
       <div class="card pcard"><div class="n">02</div><h3>Built, not briefed</h3><p>I react to built things, working prototypes and real output, not decks describing them.</p></div>
@@ -77,7 +79,7 @@ const schema = [
     {/* "AI-forward" is deliberate here and approved: this section's declared subject IS
         the AI workflow, so leading with it is accurate rather than inflated. The "AI is never the identity" rule is scoped to HEADLINE identity (System Master §2,
         AI Behavior §4). Don't hedge it back. */}
-    <div class="blabel"><span class="c">[ 03 ]</span><h2 class="t">Capabilities &amp; workflow</h2><span class="rule"></span></div>
+    <SectionLabel code="03" title="Capabilities & workflow" />
     <div class="prose rev">
       <p><strong>AI-forward across the workflow.</strong> I use AI across research, production, and iteration, to move faster and cover more of the system. It speeds the work; it does not do the thinking.</p>
       <p>In practice that means research and positioning routes, concept development, copy iteration, UI systems, motion, and quality control. It widens how many directions I can test before committing to one, and it takes the mechanical passes off the critical path. The parts that used to eat a week now cost an afternoon, so the week goes into the decisions instead.</p>
@@ -93,7 +95,7 @@ const schema = [
   {/* WORKING WITH ME */}
   {/* Reuses .princ / .pcard from How I work, so the two read as a pair and this costs no new surface. */}
   <section class="block">
-    <div class="blabel"><span class="c">[ 04 ]</span><h2 class="t">Working with me</h2><span class="rule"></span></div>
+    <SectionLabel code="04" title="Working with me" />
     <div class="princ rev">
       <div class="card pcard"><div class="n">01</div><h3>Where the work goes best</h3><p>A clear strategic problem, a defined audience, and enough trust to build the system rather than decorate it. I am most useful close to the making, not two handoffs away from it.</p></div>
       <div class="card pcard"><div class="n">02</div><h3>How feedback lands best</h3><p>Direct and specific, tied to the goal. Tell me what is not working and why. I would rather hear it in the first round than polish the wrong idea to a finish.</p></div>
@@ -103,7 +105,7 @@ const schema = [
 
   {/* INFLUENCES */}
   <section class="block">
-    <div class="blabel"><span class="c">[ 05 ]</span><h2 class="t">Influences</h2><span class="rule"></span></div>
+    <SectionLabel code="05" title="Influences" />
     <div class="prose rev"><p>The reference points behind the taste. Not a mood board, a set of standards I measure work against.</p></div>
     <div class="infl rev">
       <div><span class="n">Riot Games</span><p>Deep brand ecosystems and esports structure, built so a world holds together across products and years rather than one campaign.</p></div>

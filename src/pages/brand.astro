@@ -115,10 +115,12 @@ const sec = (id: string) => {
   return s;
 };
 import { siteOrigin, breadcrumb } from '../lib/schema';
+import SectionLabel from '../components/SectionLabel.astro';
 
 // Depth-1 breadcrumb, matching /about. The child pages under /work and /journal already emit trails that point here, so the parents should exist as crumbs too.
 const bcOrigin = siteOrigin(Astro.site);
 const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Brand' }])];
+
 
 ---
 
@@ -145,8 +147,8 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   </header>
 
   {/* FOUNDATION */}
-  <section class="bsec" id={sec('foundation').id}>
-    <div class="blabel"><span class="c">[ {sec('foundation').n} ]</span><h2 class="t">{sec('foundation').t}</h2><span class="rule"></span></div>
+  <section class="block bsec" id={sec('foundation').id}>
+    <SectionLabel code={sec('foundation').n} title={sec('foundation').t} />
     <p class="intro">Creative built like a system and accountable to what it does after it ships. The breadth is the proof of the idea, not a separate selling point.</p>
     <div class="frow" style="border-top:none">
       <div class="fspec">tagline</div>
@@ -157,8 +159,8 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   </section>
 
   {/* VOICE — beside Foundation because that section already specimens copy (the tagline, the reserve line) rather than a visual element. */}
-  <section class="bsec" id={sec('voice').id}>
-    <div class="blabel"><span class="c">[ {sec('voice').n} ]</span><h2 class="t">{sec('voice').t}</h2><span class="rule"></span></div>
+  <section class="block bsec" id={sec('voice').id}>
+    <SectionLabel code={sec('voice').n} title={sec('voice').t} />
     <p class="intro">Direct, specific, natural, not over-polished, not obviously AI-written. Lead with the answer. No inflated claims, no buzzwords, no unsupported proof. No em or en dashes.</p>
     <div class="voice rev">
       <div class="card vcol do"><div class="h">Do</div><ul><li>Lead with the answer</li><li>Name real numbers, verified</li><li>Plain, confident sentences</li><li>Label concept work clearly</li></ul></div>
@@ -167,8 +169,8 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   </section>
 
   {/* LOGO */}
-  <section class="bsec" id={sec('logo').id}>
-    <div class="blabel"><span class="c">[ {sec('logo').n} ]</span><h2 class="t">{sec('logo').t}</h2><span class="rule"></span></div>
+  <section class="block bsec" id={sec('logo').id}>
+    <SectionLabel code={sec('logo').n} title={sec('logo').t} />
     <p class="intro">One continuous stroke that closes on the orange node: the system, end to end, as a mark. Default to the primary lockup. The wordmark carries the circular period; the lockups don't.</p>
     {/* Specimen sizes below are literal on purpose: these show the mark and wordmark at chosen physical sizes, the way `Brandmark size={52}` does. They are not UI type, so they don't compose the --fs-* scale. */}
     <div class="logoset rev">
@@ -198,8 +200,8 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   </section>
 
   {/* TYPE */}
-  <section class="bsec" id={sec('type').id}>
-    <div class="blabel"><span class="c">[ {sec('type').n} ]</span><h2 class="t">{sec('type').t}</h2><span class="rule"></span></div>
+  <section class="block bsec" id={sec('type').id}>
+    <SectionLabel code={sec('type').n} title={sec('type').t} />
     <p class="intro">Each face has one job. Clash Display is the voice: display, h1, h2. Clash Grotesk is reading type: sub-headings and body. JetBrains Mono is the system layer: labels, data, and code. All three ship as one variable file per family, so every weight below is real rather than the nearest available one.</p>
     <p class="intro">Tracking is optical, not decorative. It tightens as type gets bigger, sits at zero for reading, and opens up for uppercase mono. Mono labels and emphasis are always uppercase, because heavy tracking is an uppercase device and breaks apart on lowercase; sentence-case mono is the data tier at +5% instead.</p>
     {/* One column per datum so nothing wraps mid-font-name. Every sample is a REAL use of that tier on this site — the samples are the proof. Keep the `where` column honest if a tier moves. */}
@@ -279,8 +281,8 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   </section>
 
   {/* COLOR */}
-  <section class="bsec" id={sec('color').id}>
-    <div class="blabel"><span class="c">[ {sec('color').n} ]</span><h2 class="t">{sec('color').t}</h2><span class="rule"></span></div>
+  <section class="block bsec" id={sec('color').id}>
+    <SectionLabel code={sec('color').n} title={sec('color').t} />
     <p class="intro">A warm neutral ramp from paper to ink, a single signal-orange accent, and a restrained state set. Both light and dark are first-class.</p>
     <div class="subhead">Neutral / warm ramp</div>
     <div class="ramp">
@@ -302,9 +304,9 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   </section>
 
   {/* COLOR CONTRAST — directly under the ramp it audits. */}
-  <section class="bsec" id={sec('contrast').id}>
+  <section class="block bsec" id={sec('contrast').id}>
     {/* Contrast pairs only, not WCAG AA conformance. Ratios are hand-measured: re-measure when a ramp step moves. */}
-    <div class="blabel"><span class="c">[ {sec('contrast').n} ]</span><h2 class="t">{sec('contrast').t}</h2><span class="rule"></span></div>
+    <SectionLabel code={sec('contrast').n} title={sec('contrast').t} />
     <p class="intro">The single orange signal can't sit on top of itself. Three rules carry most of it.</p>
     <div class="rules rev">
       <div class="rule-card"><div class="rule-k">Orange text</div><div class="rule-b">On light, orange text is accent-700 (#{hex('--accent-700')}), never 500. On dark, accent-400.</div></div>
@@ -324,8 +326,8 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   </section>
 
   {/* LAYOUT */}
-  <section class="bsec" id={sec('layout').id}>
-    <div class="blabel"><span class="c">[ {sec('layout').n} ]</span><h2 class="t">{sec('layout').t}</h2><span class="rule"></span></div>
+  <section class="block bsec" id={sec('layout').id}>
+    <SectionLabel code={sec('layout').n} title={sec('layout').t} />
     <p class="intro">Everything measures from a 4px unit. There is no fixed column grid and no max-width: the page is a rail plus padding, and content takes whatever is left. Radius base is {px('--radius-md')}px; the mono system layer uses sharp 0 corners.</p>
     <div class="scale">
       {spacing.map((s) => (
@@ -357,8 +359,8 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   </section>
 
   {/* MOTION — every demo below is driven by the token it documents, so a bar cannot claim one duration while animating another. Hover a row to replay it. */}
-  <section class="bsec" id={sec('motion').id}>
-    <div class="blabel"><span class="c">[ {sec('motion').n} ]</span><h2 class="t">{sec('motion').t}</h2><span class="rule"></span></div>
+  <section class="block bsec" id={sec('motion').id}>
+    <SectionLabel code={sec('motion').n} title={sec('motion').t} />
     <p class="intro">Quick and confident. Short travel, no bounce. The names say what a motion <em>means</em>, not how fast it is, so a rule picks by intent: a color swap is <code>quick</code> wherever it sits, a slide is <code>move</code> whatever the distance. Reels inherit this: cuts over fades, snap transitions.</p>
 
     <div class="subhead">Duration / six steps</div>
@@ -417,8 +419,8 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   </section>
 
   {/* FORMATS — every font-size in this section is a literal on purpose. These are 1080x1080 / 1080x1920 / 1920x1080 export canvases shrunk by a fixed transform, so their type is measured in export pixels. A --fs-* token here would claim a relationship to UI type that doesn't exist. */}
-  <section class="bsec" id={sec('formats').id}>
-    <div class="blabel"><span class="c">[ {sec('formats').n} ]</span><h2 class="t">{sec('formats').t}</h2><span class="rule"></span></div>
+  <section class="block bsec" id={sec('formats').id}>
+    <SectionLabel code={sec('formats').n} title={sec('formats').t} />
     <p class="intro">How the system shows up as social posts, reel frames, and a lower-third. Placeholder content at true export dimensions, rendered live so the mockups re-theme with the page.</p>
 
     <div class="subhead">Social / 1080 × 1080</div>
@@ -535,7 +537,7 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Bran
   .bhero { padding: var(--space-4xl) 0 var(--space-3xl); }
   /* type + measure come from the shared .lead primitive in global.css */
   .bhero p { margin-top: var(--space-lg); }
-  .bsec { padding: var(--space-4xl) 0; }
+  /* .block in global.css owns the section rhythm; .bsec stays only so .bsec .intro below has something to hang on. */
   .bsec .intro { font-size: var(--fs-base); line-height: var(--lh-relaxed); color: var(--text-secondary); max-width: var(--measure-xl); margin-bottom: var(--space-xl); }
   .subhead { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--text-muted); margin: var(--space-2xl) 0 var(--space-md); }
   .cap { font-size: var(--fs-2xs); color: var(--text-muted); margin-top: var(--space-sm); line-height: var(--lh-copy); }

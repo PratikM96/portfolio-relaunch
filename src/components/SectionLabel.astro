@@ -1,6 +1,10 @@
 ---
 /**
- * SectionLabel.astro — the canonical section header. `[ 0N ]` (accent mono) + uppercase mono title + either a flex rule line or a right-aligned "more" link. Used once per home section.
+ * The numbered section head, everywhere: `[ 0N ]` + title + a flex rule line, or a right-aligned "more" link instead of the rule.
+ *
+ * It already existed and 20 call sites retyped its markup by hand anyway, which is what CLAUDE.md §6 forbids ("Add the class; don't rewrite the surface"). `CaseSectionHead` was a 21st copy at different sizes, folded in here as `variant="case"`.
+ *
+ * **Every style stays in `global.css`, never in a scoped block here, and that is load-bearing.** Astro scopes a component's styles to that component, so a page rule naming the same class stops matching once the element is rendered by the component — which is exactly how the `PageHero` regression silently killed seven pages' hero padding. Keeping `.blabel` global is what lets `resume.astro`'s `.raside .blabel` keep working no matter who renders the div.
  */
 interface Props {
   /** Two-digit section index, e.g. "01". Rendered as `[ 01 ]`. */
@@ -8,12 +12,16 @@ interface Props {
   title: string;
   /** When set, renders a right-aligned link instead of the rule line. */
   more?: { href: string; label: string };
+  /** Extra classes from the caller, e.g. a `rev` reveal. */
+  class?: string;
+  /** `case` is the larger case-study treatment (the former CaseSectionHead). Both looks ship until the unified one is picked. */
+  variant?: 'section' | 'case';
 }
 
-const { code, title, more } = Astro.props;
+const { code, title, more, class: className, variant = 'section' }: Props = Astro.props;
 ---
 
-<div class="blabel">
+<div class:list={['blabel', variant === 'case' && 'is-case', className]}>
   <span class="c">[ {code} ]</span>
   <h2 class="t">{title}</h2>
   {

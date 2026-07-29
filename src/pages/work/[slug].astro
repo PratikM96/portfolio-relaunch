@@ -8,7 +8,7 @@ import { getCollection } from 'astro:content';
 import type { GetStaticPaths, ImageMetadata } from 'astro';
 import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import CaseSectionHead from '../../components/CaseSectionHead.astro';
+import SectionLabel from '../../components/SectionLabel.astro';
 import Scoreboard from '../../components/Scoreboard.astro';
 import ContributionBox from '../../components/ContributionBox.astro';
 import ProseSection from '../../components/ProseSection.astro';
@@ -184,29 +184,29 @@ const schema = [
   </header>
 
   {/* PROBLEM */}
-  <section class="cs-sec" id="problem">
-    <CaseSectionHead no={no('problem')} title="Problem" />
+  <section class="block" id="problem">
+    <SectionLabel code={no('problem')} title="Problem" variant="case" />
     <ProseSection prose={d.problem.prose} margin={d.problem.margin} />
   </section>
 
   {/* SYSTEM */}
-  <section class="cs-sec" id="system">
-    <CaseSectionHead no={no('system')} title="System" />
+  <section class="block" id="system">
+    <SectionLabel code={no('system')} title="System" variant="case" />
     <ProseSection prose={d.system.prose} margin={d.system.margin} gap />
     <SysFlow steps={d.system.steps} />
   </section>
 
   {/* DECISIONS */}
-  <section class="cs-sec" id="decisions">
-    <CaseSectionHead no={no('decisions')} title="Decisions" />
+  <section class="block" id="decisions">
+    <SectionLabel code={no('decisions')} title="Decisions" variant="case" />
     <ProseSection prose={d.decisions.prose} margin={d.decisions.margin} gap />
     <Decisions decisions={d.decisions.items} />
   </section>
 
   {/* OUTPUT (optional) */}
   {hasOutputSection && (
-    <section class="cs-sec" id="output">
-      <CaseSectionHead no={no('output')} title="Output" />
+    <section class="block" id="output">
+      <SectionLabel code={no('output')} title="Output" variant="case" />
       {hasOutput && (
         <OutputGrid slug={d.slug} blocks={outputBlocks} note={d.output?.note} />
       )}
@@ -223,15 +223,15 @@ const schema = [
   )}
 
   {/* PROOF */}
-  <section class="cs-sec" id="proof">
-    <CaseSectionHead no={no('proof')} title="Proof" />
+  <section class="block" id="proof">
+    <SectionLabel code={no('proof')} title="Proof" variant="case" />
     <ProofBox figures={proofFigures} note={d.proof.note} />
     {d.perfTable && <PerfTable />}
   </section>
 
   {/* REFLECTION + NEXT */}
-  <section class="cs-sec">
-    <CaseSectionHead no={no('reflection')} title="Reflection" />
+  <section class="block">
+    <SectionLabel code={no('reflection')} title="Reflection" variant="case" />
     <ProseSection prose={d.reflection.prose} margin={d.reflection.margin} narrow />
     <div class="cs-next">
       <a class="row-nudge" href={csNext.href}>
@@ -275,7 +275,6 @@ const schema = [
   .cs-wall.is-playing .cap { opacity: 0; visibility: hidden; transition: opacity var(--dur-quick) var(--ease-exit), visibility 0s var(--dur-quick); }
 
   /* ===== SECTIONS / PROSE / BODY ===== */
-  .cs-sec { padding: var(--space-4xl) 0; }
   /* .prose comes from global.css */
   /* ===== REFLECTION + NEXT ===== */
   .cs-next { border-top: 1px solid var(--border); margin-top: var(--space-3xl); }

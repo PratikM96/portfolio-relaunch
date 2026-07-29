@@ -178,10 +178,12 @@ const toolsMarketing = [
   'Firefly', 'Midjourney', 'Runway', 'Sora', 'ElevenLabs',
 ];
 import { siteOrigin, breadcrumb } from '../lib/schema';
+import SectionLabel from '../components/SectionLabel.astro';
 
 // Depth-1 breadcrumb, matching /about. The child pages under /work and /journal already emit trails that point here, so the parents should exist as crumbs too.
 const bcOrigin = siteOrigin(Astro.site);
 const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Resume' }])];
+
 
 ---
 
@@ -218,14 +220,14 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Resu
     <div class="rmain">
       {/* SUMMARY */}
       <section class="rsec rev">
-        <div class="blabel"><span class="c">[ 01 ]</span><h2 class="t">Summary</h2><span class="rule"></span></div>
+        <SectionLabel code="01" title="Summary" />
         <p class="summary"><strong>Creative marketing lead with 10+ years connecting brand, social, content, UI/UX, motion, and performance as one system.</strong> I build the creative and the system that makes it perform: concept, production, channel logic, and the reporting loop after launch. My career spans in-house, agency, nonprofit, and independent work across 30+ brands and organizations, including a video-first social program that drove 11.7M impressions in a single year. Since 2024, I've run an independent creative systems practice built around AI-assisted production.</p>
       </section>
 
       {/* EXPERIENCE - full history */}
       {/* The reveal is per ROLE, not per section. A 2278px section revealing as one block is the tall-block problem from the other side: even triggered correctly it fades 9 roles at once, most of them still far below the fold. Each role now arrives as it scrolls in, and no stagger index is set — these are scroll-triggered individually, so a delay on top would just make each one late. */}
       <section class="rsec">
-        <div class="blabel rev"><span class="c">[ 02 ]</span><h2 class="t">Experience</h2><span class="rule"></span></div>
+        <SectionLabel code="02" title="Experience" class="rev" />
         {
           experience.map((x) => (
             <div class="exp rev">
@@ -243,7 +245,7 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Resu
 
       {/* SELF-INITIATED SYSTEMS */}
       <section class="rsec">
-        <div class="blabel rev"><span class="c">[ 03 ]</span><h2 class="t">Self-initiated systems / concepts</h2><span class="rule"></span></div>
+        <SectionLabel code="03" title="Self-initiated systems / concepts" class="rev" />
         {
           concepts.map((c) => (
             <div class="exp rev">
@@ -263,15 +265,15 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Resu
 
     <aside class="raside rev" aria-label="Resume sidebar">
       <div class="rblock">
-        <div class="blabel"><span class="c">[ 04 ]</span><h2 class="t">Education</h2><span class="rule"></span></div>
+        <SectionLabel code="04" title="Education" />
         <div class="edu"><div class="d">B.S. Computer Science</div><div class="s">New York University / 2014 - 2017</div></div>
       </div>
       <div class="rblock">
-        <div class="blabel"><span class="c">[ 05 ]</span><h2 class="t">Expertise</h2><span class="rule"></span></div>
+        <SectionLabel code="05" title="Expertise" />
         <div class="chips">{expertise.map((x) => <span>{x}</span>)}</div>
       </div>
       <div class="rblock">
-        <div class="blabel"><span class="c">[ 06 ]</span><h2 class="t">Selected tools</h2><span class="rule"></span></div>
+        <SectionLabel code="06" title="Selected tools" />
         <div class="skills">
           <div class="skg"><div class="kk">Design, Video &amp; Product</div><div class="chips">{toolsCreative.map((x) => <span>{x}</span>)}</div></div>
           <div class="skg"><div class="kk">Marketing, Analytics &amp; AI</div><div class="chips">{toolsMarketing.map((x) => <span>{x}</span>)}</div></div>
@@ -349,7 +351,8 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Resu
 
   /* aside: sticky beside the main column, headers match the section labels */
   .raside { position: sticky; top: 40px; align-self: start; display: flex; flex-direction: column; gap: var(--space-xl); }
-  .raside .blabel { margin-bottom: var(--space-md); }
+  /* :global on the .blabel half only. SectionLabel renders it and carries no scoped styles, so the div ships with no data-astro-cid at all and a scoped `.blabel` selector here would match nothing. `.raside` keeps its own scope, and it is resume-only, so nothing leaks. */
+  .raside :global(.blabel) { margin-bottom: var(--space-md); }
   .rblock .edu .d { font-size: var(--fs-base); }
   .rblock .edu .s { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: var(--space-2xs); }
   .skills { display: flex; flex-direction: column; gap: var(--space-md); }
