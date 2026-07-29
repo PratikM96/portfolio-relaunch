@@ -113,7 +113,7 @@ const first = projects[0]!;
   </div>
   <div class="card preview">
     <div class="pv-img" id="pv-img">
-      <video id="pv-video" class="pv-video" muted loop playsinline preload="none"></video>
+      <video id="pv-video" class="pv-video" aria-hidden="true" muted loop playsinline preload="none"></video>
     </div>
     <div class="pv-meta"><div class="pv-t" id="pv-t">{first.name}</div><div class="pv-d" id="pv-d">{first.lede}</div></div>
     <a class="pv-open" id="pv-open" href={first.href}>Open case study →</a>

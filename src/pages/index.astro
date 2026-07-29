@@ -104,8 +104,10 @@ const heroPoster = await getImage({
               fetchpriority="high"
               decoding="async"
             />
+            {/* aria-hidden because the <button> wrapping this already carries the accessible name and the pressed state. Without it a screen reader announces an unnamed "video" immediately after the control that operates it. */}
             <video
               width="900" height="900"
+              aria-hidden="true"
               muted loop playsinline preload="none"
             >
               {/* Versioned filename, NOT bytes swapped in place: /hero/* is immutable for a year in public/_headers, so a re-cut only reaches returning visitors under a new URL. Bump to -v3 on the next one. */}
@@ -132,7 +134,7 @@ const heroPoster = await getImage({
             <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
             <div class="img">
               {/* Neither a <source> nor a `poster` in the markup. card-video.ts adds the source on first hover and the poster ~300px before the card scrolls in, so a card the visitor never reaches costs nothing: all four of these sit below the fold on a phone, and a `poster` attribute fetches the instant it exists. */}
-              <video class="tile-video" muted loop playsinline preload="none" data-slug={p.slug} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
+              <video class="tile-video" aria-hidden="true" muted loop playsinline preload="none" data-slug={p.slug} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
             </div>
             <div class="meta">
               <div>

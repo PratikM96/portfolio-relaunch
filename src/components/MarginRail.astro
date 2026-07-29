@@ -14,7 +14,7 @@ interface Props {
 const { modules } = Astro.props;
 ---
 
-<aside class="cs-margin">
+<aside class="cs-margin" aria-label="Section notes">
   {
     modules.map((m) => {
       if (m.type === 'meta') {

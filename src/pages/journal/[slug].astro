@@ -101,7 +101,7 @@ const schema = [
     {others.length > 0 && (
       <div class="rail-more">
         <span class="bio-k">More writing</span>
-        <nav class="rail-more-nav">
+        <nav class="rail-more-nav" aria-label="More writing">
           {others.map((p) => (
             <a href={`/journal/${p.id}`}>{p.data.title}</a>
           ))}
@@ -116,7 +116,7 @@ const schema = [
       <Content />
     </div>
     {d.pullquote && (
-      <aside class="amargin rev-load">
+      <aside class="amargin rev-load" aria-label="Pull quote">
         <div class="m-quote"><p>{d.pullquote}</p></div>
       </aside>
     )}

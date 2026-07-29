@@ -118,7 +118,7 @@ const routes = ROUTES.map((r) => ({
         <span class:list={['badge', p.type]}>{TYPE_LABEL[p.type]}</span>
         <div class="im">
           {/* No <source>: card-video.ts adds one on first hover, so an untouched card costs nothing. No `poster` attribute either, on any card: the still inverts with the theme, and a static attribute cannot know the theme, so the first card is set by the inline script below and every later one by the observer. */}
-          <video class="fcard-video" muted loop playsinline preload="none" data-slug={p.slug} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
+          <video class="fcard-video" aria-hidden="true" muted loop playsinline preload="none" data-slug={p.slug} data-poster={p.poster.dark} data-poster-light={p.poster.light}></video>
         </div>
         <div class="meta">
           <div>

@@ -209,7 +209,7 @@ const ldGraph = {
       .skip-link:focus { transform: none; outline: 2px solid var(--accent-fill); outline-offset: 3px; }
     </style>
     {/* CONSOLE RAIL */}
-    <aside class:list={['console', isCase && 'cs']}>
+    <aside class:list={['console', isCase && 'cs']} aria-label="Site console">
       {
         isCase ? (
           <Fragment>
@@ -218,7 +218,7 @@ const ldGraph = {
               <span class="wm">Pratik Mehta</span>
             </a>
             <a class="back" href={back.href}>{back.label}</a>
-            <nav class="cs-nav" id="cs-nav">
+            <nav class="cs-nav" id="cs-nav" aria-label="Case study sections">
               {sections.map((s, i) => (
                 <a href={s.href} class:list={[i === 0 && 'active']}>
                   <span class="ix">{s.ix}</span>
@@ -250,7 +250,7 @@ const ldGraph = {
               <span class="wm">Pratik Mehta</span>
             </a>
             <div class="role">Creative Marketing<br />Lead</div>
-            <nav id="rail-nav">
+            <nav id="rail-nav" aria-label="Primary">
               {nav.map((n) => (
                 <a href={n.href} class={n.id === activeNav ? 'active' : undefined}>
                   <span class="ix">{n.ix}</span>
@@ -309,7 +309,7 @@ const ldGraph = {
         </a>
         <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
       </div>
-      <nav class="m-nav">
+      <nav class="m-nav" aria-label="Primary">
         {nav.map((n) => (
           <a href={n.href} class={n.id === drawerActive ? 'active' : undefined}>
             <span class="ix">{n.ix}</span>
