@@ -81,6 +81,7 @@
   /* --- Semantic surfaces · LIGHT (default) --- */
   --bg: var(--n-50);
   --surface: var(--n-0);
+  /* The one literal white in the system, and the only step not drawn from the ramp. --n-0 is the ramp's top and is already --surface, so a surface that must read as RAISED above it in light theme has nowhere else to go: anything warmer is the same tone as the page it floats over, which is exactly what the consent banner and skip link cannot be. Dark theme has room and uses --n-800. Not a slip; do not "fix" it back to --n-0. */
   --surface-raised: #FFFFFF;
   --border: var(--n-200);
   --border-strong: var(--n-300);
