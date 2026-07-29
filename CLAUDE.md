@@ -156,6 +156,8 @@ Full rules — the declarative-reversal lead, the proof sentence, the honesty re
 
 **Theme.** Dark and light are both first-class. No-flash inline script, `localStorage` with try/catch, follows OS until manual override, respects reduced-motion.
 
+**There is no ESLint, Prettier, husky or CI, and that is a decision rather than an omission.** `npm run build` is the only gate: `astro check` covers types, `claims.mjs` covers the values that actually break, and CI cannot deploy because deploys are manual and Pratik runs them. A second config would be a second thing to keep true for a solo static site. Considered and declined 2026-07-29; don't re-propose it without a failure it would have caught.
+
 **Prose and comments are never hard-wrapped.** One paragraph, list item, or comment thought is one continuous line, however long; the viewer's soft-wrap handles display width. Never break mid-sentence to hit a column target. Applies to docs, code comments, JSDoc, YAML and HTML comments, and commit message bodies. Markdown/JSON/YAML *structural* breaks are unaffected.
 
 **Comments say what the code is for and what breaks if you get it wrong.** Not how the problem was found — that belongs in the commit. Same length discipline as §9.
