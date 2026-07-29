@@ -5,7 +5,7 @@
  *
  * JetBrains Mono was the largest face on the site and carries the least text: only the three mono tiers (`label` / `data` / `emphasis`). All three woff2 files preload at High priority, so its weight sat on every page's critical path and the three fonts together were most of mobile FCP.
  *
- * **Only this face may be subset.** Subsetting is modification, and the Fontshare licence covering Clash Display and Clash Grotesk grants embedding without it, so those two ship whole, always. JetBrains Mono is OFL-1.1 with no Reserved Font Name, which grants both. CLAUDE.md §6 carries the licensing rule and §9 (2026-07-15) named this as the first lever to pull.
+ * **Only this face may be subset.** Subsetting is modification, and the Fontshare license covering Clash Display and Clash Grotesk grants embedding without it, so those two ship whole, always. JetBrains Mono is OFL-1.1 with no Reserved Font Name, which grants both. CLAUDE.md §6 carries the licensing rule and §9 (2026-07-15) named this as the first lever to pull.
  *
  * **The vendor original is the input, never the shipped file.** Re-running against an already-subset file would work once and then quietly narrow the set every time after. `_reference/fonts/site/` holds the untouched original; if it is missing (the junction is gitignored) this refuses rather than guessing.
  *

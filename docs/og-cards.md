@@ -11,7 +11,7 @@ Branded 1200x630 Open Graph / Twitter images, one per route, served same-origin 
 
 ## Brand
 - **One System** (warm near-black, Clash Display, JetBrains Mono, one orange accent) for the site + all non-concept case studies. Follows the site type scale: title = `display`, wordmark = `h2`, badge/kick/meta = `label`.
-- **Own brand** for the 3 concept cards, matching each microsite. The concept overrides the display face only: the wordmark stays Clash Display (it is Pratik's mark, constant across every card) and the system layer stays JetBrains Mono: `the-ninth` = Cloud9 blue on cloud-white + Array; `level` = ink + amber + Zodiak; `wisp` = warm dark + Sentient. Driven by the template's `brand` param.
+- **Own brand** for the 3 concept cards, matching each microsite. The concept overrides the display face only: the wordmark stays Clash Display (it is Pratik's mark, constant across every card) and the system layer stays JetBrains Mono: `the-ninth` = its concept blue on cloud-white + Array; `level` = ink + amber + Zodiak; `wisp` = warm dark + Sentient. Driven by the template's `brand` param. The exact values live in `og-template.html`'s `brand` block, which is where to read them rather than naming the organization the concept is built around (CLAUDE.md §3).
 
 Rendering is not wired into the build — run `npm run og:cards` after adding a route or renaming a case study, or its card silently stays stale.
 
@@ -24,7 +24,7 @@ Fonts are the repo's self-hosted woff2, referenced by paths **relative to the te
 `scripts/og/render-cards.mjs` **is** the record of what every card is made of. Case-study params derive from `src/content/work/*.md` (title, type, disciplines), so they can't drift from the site; only the six fixed site pages are listed by hand, in that file's `SITE` array.
 
 ```bash
-node scripts/og/render-cards.mjs            # all 17
+node scripts/og/render-cards.mjs            # every card
 node scripts/og/render-cards.mjs dealnews   # one, by output name
 ```
 

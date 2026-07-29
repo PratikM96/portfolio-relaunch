@@ -25,7 +25,7 @@ Authorize in the browser tab that opens; the terminal prints `Successfully logge
 Because the next step is public, prove the build locally first:
 
 ```powershell
-npm run build      # runs astro check && astro build
+npm run build      # check:claims, then astro check, then astro build, then the JS-weight check
 npm run preview    # serve the built output
 ```
 
@@ -41,7 +41,7 @@ Check on the preview build:
 npm run deploy
 ```
 
-This runs `astro check && astro build`, deletes the adapter's generated redirect file (`.wrangler/deploy/config.json`) so wrangler reads the clean `wrangler.jsonc`, then runs `wrangler deploy`. On success the site is live at `mehtapratik.com`.
+This runs the full `npm run build` chain above, which fails on a claim violation before it ever builds, deletes the adapter's generated redirect file (`.wrangler/deploy/config.json`) so wrangler reads the clean `wrangler.jsonc`, then runs `wrangler deploy`. On success the site is live at `mehtapratik.com`.
 
 The redirect deletion is the load-bearing part: skip it and wrangler deploys the adapter's generated config, which carries the wrong worker name and a stray SESSION KV binding.
 

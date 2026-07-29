@@ -27,9 +27,15 @@ const TARGETS = [
   'src/layouts/Base.astro',
   'src/lib/brands.ts',
   'public/llms.txt',
+  // docs/ is git-tracked and this repo is public, so a doc leaks a claim exactly as far as a page does. It was outside this list while the Cloud9 rule below already existed, which is how `docs/og-cards.md` came to name the organization the rule forbids: the guard was written and simply never pointed at the file.
+  ...readdirSync(join(ROOT, 'docs')).filter((f) => f.endsWith('.md')).map((f) => `docs/${f}`),
 ];
 
-/** A banned pattern and why. `allow` exempts specific files. `pre` transforms the line first. */
+/**
+ * A banned pattern and why. `allow` exempts specific files.
+ *
+ * `copyOnly` marks a rule that governs EXTERNAL-FACING COPY rather than truth: dashes, separators, CTA wording. Those are reader-facing style (CLAUDE.md §4) and do not apply to `docs/`, which is build documentation the public never reads as prose. Claim rules, spelling and the rot bans carry no flag and apply everywhere, because a doc leaks a wrong metric exactly as far as a page does and §4 puts spelling in docs explicitly.
+ */
 const BANNED = [
   // --- counts the registry carries exactly: no "+" ---
   { re: /\b40\+\s*(UI )?screens?/i, why: 'The Ninth is 40 screens exactly, not "40+".' },
@@ -60,24 +66,24 @@ const BANNED = [
   { re: /a live AI host\b/i, why: 'WISP is a scripted demonstration; its own disclosure says "not a live AI model".' },
   { re: /Cloud9|\bC9\b/, why: 'The Ninth does not name the organization on portfolio surfaces (CLAUDE.md §3). The microsite under public/concepts/ is the deliberate exception and is not checked here.' },
   { re: /volunteer-grade/i, why: 'Disparages volunteer work, which is also SR Love and Care’s proof.' },
-  { re: /never trains a dopamine loop/i, why: 'Unsupported behavioural outcome. Describe the visual treatment instead.' },
+  { re: /never trains a dopamine loop/i, why: 'Unsupported behavioral outcome. Describe the visual treatment instead.' },
   { re: /never falls into the uncanny valley/i, why: 'Absolute claim. Say it does not depend on human likeness.' },
   { re: /for a real launch/i, why: 'Pipeline Medical’s launch is not verified. Say "developer handoff and a planned launch".' },
-  { re: /survived the founder leaving/i, why: 'Reads as the organisation’s founder. Say the team continued after the handoff.' },
+  { re: /survived the founder leaving/i, why: 'Reads as the organization’s founder. Say the team continued after the handoff.' },
   { re: /can’t drift from the real|can't drift from the real/i, why: '/brand only renders TOKEN VALUES live. Prose, examples and the contrast ratios can all drift.' },
   { re: /concept case studies carry scope only|scope and rationale, never performance results/i, why: 'A shipped concept follows the same rules as real work.' },
 
   // --- style defaults ---
-  { re: /·/, why: 'The middle dot is retired from copy. Use | in titles, nothing in meta descriptions, / in label rows.', allow: ['src/layouts/Base.astro', 'src/pages/brand.astro'] },
+  { re: /·/, copyOnly: true, why: 'The middle dot is retired from copy. Use | in titles, nothing in meta descriptions, / in label rows.', allow: ['src/layouts/Base.astro', 'src/pages/brand.astro'] },
   // Absolute: date ranges use hyphens everywhere, matching the `year` fields they derive from.
-  { re: /[—–]/, why: 'No em or en dashes in external-facing copy. Date ranges use hyphens here (CLAUDE.md §4).' },
-  { re: /Start a conversation|See the work\b|Read the resume/i, why: 'Retired CTA wording. Use "Get in touch", "View work", "View resume".' },
+  { re: /[—–]/, copyOnly: true, why: 'No em or en dashes in external-facing copy. Date ranges use hyphens here (CLAUDE.md §4).' },
+  { re: /Start a conversation|See the work\b|Read the resume/i, copyOnly: true, why: 'Retired CTA wording. Use "Get in touch", "View work", "View resume".' },
   // American spelling in copy: the audience is US hiring teams, and /brand once shipped "Color" in one heading and "Colour" in another. Only unambiguous pairs are listed. Words correct in both (advertising, raised, analysis, emphasis) are absent on purpose, and the -ise group requires a known stem so surprise/exercise/comprise can't trip it.
   {
     re: /\b(colour(s|ed|ing)?|behaviour(s|al)?|honour(ed|s|ing)?|favour(ed|s)?|labour|humour|flavour|centre[sd]?|metre|theatre|fibre|litre|calibre|licence|defence|offence|pretence|programme|labell(ed|ing)|cancell(ed|ing)|modelled|signalled|travelled|levelled|marvellous|grey(ed)?|whilst|amongst|learnt|spelt|storey|sceptical|instalment|skilful|judgement|(?:organi|recogni|reali|optimi|normali|prioriti|customi|minimi|maximi|summari|standardi|speciali|categori|initiali|visuali|utili|tokeni|capitali|neutrali|analy)s(e|es|ed|ing|ation))\b/i,
     why: 'Use American spelling in copy (color, behavior, program, labeled, gray, organize). CLAUDE.md §4.',
   },
-  { re: /roles\s*\/\s*New York|roles\s*·\s*New York/i, why: 'Availability and location must be separate lines; joined they read as a geographic restriction.' },
+  { re: /roles\s*\/\s*New York|roles\s*·\s*New York/i, copyOnly: true, why: 'Availability and location must be separate lines; joined they read as a geographic restriction.' },
 
   // --- rot ---
   { re: /\b1[0-9]{2}\s+commits\b/i, why: 'Never publish a commit count; it rots immediately (CLAUDE.md §10).' },
@@ -281,10 +287,11 @@ for (const rel of TARGETS) {
   if (!existsSync(abs)) continue;
   const copy = visibleCopy(readFileSync(abs, 'utf8'), rel);
   const lines = copy.split('\n');
+  const isDoc = rel.replace(/\\/g, '/').startsWith('docs/');
   for (const rule of BANNED) {
     if (rule.allow?.some((a) => rel.replace(/\\/g, '/').endsWith(a))) continue;
-    lines.forEach((rawLine, i) => {
-      const line = rule.pre ? rule.pre(rawLine) : rawLine;
+    if (isDoc && rule.copyOnly) continue;
+    lines.forEach((line, i) => {
       const m = line.match(rule.re);
       if (!m) return;
       failures++;

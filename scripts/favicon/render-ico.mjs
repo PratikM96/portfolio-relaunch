@@ -9,6 +9,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+// sharp is a direct devDependency because THIS script is its only first-party caller. It also arrives transitively through Astro's image service, which is how it resolved here for a while with no entry in package.json: the import worked by luck and would have broken silently the day Astro changed image backends.
 import sharp from 'sharp';
 
 const ROOT = path.resolve(import.meta.dirname, '../..');

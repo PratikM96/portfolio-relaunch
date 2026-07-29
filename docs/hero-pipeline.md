@@ -108,7 +108,7 @@ That is the whole wiring — the template derives both paths from the slug. Set 
 
 Square, silent, autoplaying, and hand-wired in `src/pages/index.astro`. Four things differ from the per-slug system above:
 
-**1. The filename is versioned, and that is the point.** `/hero/*` is `immutable` for a year in `public/_headers`, so re-encoding a fixed name reaches new visitors only. Home is the one hero whose bytes actually get replaced, so each re-cut ships under a new URL (`hero_900-v2.webm` → `-v3` → …) and the old file is deleted in the same change. Home hardcodes its own paths, so this never touches `src/lib/media.ts` or the eight case studies.
+**1. The filename is versioned, and that is the point.** `/hero/*` is `immutable` for a year in `public/_headers`, so re-encoding a fixed name reaches new visitors only. Home is the one hero whose bytes actually get replaced, so each re-cut ships under a new URL (`hero_900-v2.webm` → `-v3` → …) and the old file is deleted in the same change. Home hardcodes its own paths, so this never touches `src/lib/media.ts` or any case-study hero.
 
 **2. The poster goes through the image pipeline**, at `src/assets/hero/home/poster.webp`, exported full size from the master. It is both the LCP element and the entire hero for reduced-motion and save-data visitors, so it renders as a real `<img>` with a srcset rather than the video's `poster` attribute. `getImage()` builds it once and feeds both the `<img>` and `Base.astro`'s preload — **pass `preloadImageSrcset` + `preloadImageSizes` together with `preloadImage`,** because a bare `href` preload against a srcset resolves to a different candidate and downloads the LCP image twice.
 

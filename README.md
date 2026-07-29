@@ -48,9 +48,17 @@ public/
   concepts/           # concept microsites: static passthrough HTML, own brand/CSS/JS per slug
   _headers            # security headers incl. the enforced CSP
   _redirects          # old-URL 301s from the pre-cutover site
-scripts/              # build-time tooling (repo root): og/ share-card template
+scripts/              # build-time tooling, one dir per job:
+  check/              #   claims.mjs — the build's hard gate (values, not shape)
+  concepts/           #   generates the microsites' copy of ga-core.js
+  favicon/            #   rebuilds favicon.ico from the SVG
+  fonts/              #   subsets JetBrains Mono from the vendor original
+  og/                 #   share-card template + headless renderer
+  perf/               #   Lighthouse loop: run, distill, trend, JS weight (see its README)
+  shots/              #   device x theme capture matrix
 docs/
-  deploy.md           # deploy procedure
+  deploy.md           # deploy procedure + rollback
+  cloudflare.md       # dashboard settings the repo can't enforce
   hero-pipeline.md    # hero video encode recipe + per-study checklist
   work-card-video.md  # work-card hover animation recipe + slug map
   output-assets.md    # output-gallery block kinds + export caps
@@ -58,7 +66,7 @@ docs/
   utm-tagging.md      # UTM conventions + GA4 notes
 ```
 
-Client behaviour lives in `src/scripts/`, never re-typed per page; the only hand-written inline script is the pre-paint no-flash theme set in `Base.astro`. Whether a bundle ships inline or as a hashed `/_astro/` file is Vite's call (4 KB `assetsInlineLimit`), so check a real build rather than assuming.
+Client behavior lives in `src/scripts/`, never re-typed per page; the only hand-written inline script is the pre-paint no-flash theme set in `Base.astro`. Whether a bundle ships inline or as a hashed `/_astro/` file is Vite's call (4 KB `assetsInlineLimit`), so check a real build rather than assuming.
 
 ## Adding a case study
 
@@ -74,17 +82,19 @@ Tokens live in `src/styles/tokens.css` and mirror the brand kit (warm neutral ra
 
 ### Fonts
 
-Three files, **one variable face per family**, shipped whole:
+Three files, **one variable face per family**:
 
-| file | KB | axis |
+| file | axis | subset? |
 |---|---|---|
-| `ClashDisplay-Variable.woff2` | 28.7 | wght 200–700 |
-| `ClashGrotesk-Variable.woff2` | 46.1 | wght 200–700 |
-| `JetBrainsMono-Variable.woff2` | 89.3 | wght 100–800 |
+| `ClashDisplay-Variable.woff2` | wght 200-700 | no, never |
+| `ClashGrotesk-Variable.woff2` | wght 200-700 | no, never |
+| `JetBrainsMono-Variable.woff2` | wght 100-800 | yes, the only one that may be |
+
+No byte counts here: they change whenever a face is re-subset, and `ls public/fonts/` answers it without going stale. The Clash pair ships whole because the Fontshare license forbids modification; JetBrains Mono is subset under OFL-1.1.
 
 All three are preloaded, so every weight the type scale uses is already there. Each `@font-face` declares a weight **range** — that is what makes the axis work, and a static cut alongside would shadow it.
 
-Adding a face means dropping the variable woff2 in `public/fonts/` and pointing one `@font-face` at it. **Read its licence first** (`_reference/fonts/site/<family>/`): a face needs both web-embedding *and* modification rights, and they don't come together. Clash is Fontshare FFL — embed yes, modify no, so it can never be subset. JetBrains Mono is OFL-1.1, so `OFL.txt` ships beside it as required.
+Adding a face means dropping the variable woff2 in `public/fonts/` and pointing one `@font-face` at it. **Read its license first** (`_reference/fonts/site/<family>/`): a face needs both web-embedding *and* modification rights, and they don't come together. Clash is Fontshare FFL — embed yes, modify no, so it can never be subset. JetBrains Mono is OFL-1.1, so `OFL.txt` ships beside it as required.
 
 Both Clash faces ship whole. JetBrains Mono is subset by `npm run fonts:subset` (`scripts/fonts/subset-mono.mjs`), which reads the vendor original in `_reference/` and never the shipped file.
 
@@ -106,4 +116,4 @@ The rule holding it together: **docs own rules and decisions, the repo owns stat
 
 © 2026 Pratik Mehta. All rights reserved. This repository, including its code, copy, and design, is not licensed for reuse.
 
-**Bundled fonts are excepted** — they carry their own licences and are not covered by the line above. JetBrains Mono (`public/fonts/JetBrainsMono-*.woff2`) is SIL Open Font License 1.1; see `public/fonts/OFL.txt`. Clash Display and Clash Grotesk (and the concept-microsite faces under `public/concepts/*/fonts/`) are Indian Type Foundry fonts under the Fontshare Font License, which grants no redistribution right: they are present here to serve this site only. Get them from [fontshare.com](https://www.fontshare.com) under your own licence rather than copying them from this repo.
+**Bundled fonts are excepted** — they carry their own licenses and are not covered by the line above. JetBrains Mono (`public/fonts/JetBrainsMono-*.woff2`) is SIL Open Font License 1.1; see `public/fonts/OFL.txt`. Clash Display and Clash Grotesk (and the concept-microsite faces under `public/concepts/*/fonts/`) are Indian Type Foundry fonts under the Fontshare Font License, which grants no redistribution right: they are present here to serve this site only. Get them from [fontshare.com](https://www.fontshare.com) under your own license rather than copying them from this repo.

@@ -85,4 +85,4 @@ Realtime / DebugView confirm UTMs immediately; standard reports lag 24–48h. Ev
 
 ## Related
 
-- GA4 install + custom events (`generate_lead`, `select_content`) live in `src/scripts/consent.ts`; concept-demo events in `public/concepts/analytics.js`.
+- The GA4 install itself is `src/scripts/ga-core.js`, shared with the microsites via a generated copy at `public/concepts/ga-core.js` (`npm run concepts:ga`). `src/scripts/consent.ts` owns the region decision, the banner and `generate_lead`; `public/concepts/analytics.js` wires the demo events on top of `ga-core`.
