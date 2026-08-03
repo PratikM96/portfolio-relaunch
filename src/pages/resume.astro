@@ -1,6 +1,7 @@
 ---
 /**
- * Resume. Every fact here tracks the Resume Master (Drive) - roles, titles, dates, employment types, metrics, education, tools. Reconcile there first, then mirror here.
+ * Resume. Every fact here tracks the Resume Master (Drive) - roles, titles, dates, locations, employment types, metrics, education, tools. Reconcile there first, then mirror here.
+ * `meta` is the Master's employment type and location joined as "type / location", dropping the country the Master carries. Order matches the Master's Experience section.
  */
 import Base from '../layouts/Base.astro';
 import StatFigure from '../components/StatFigure.astro';
@@ -26,7 +27,7 @@ const experience = [
   {
     title: 'Creative Technologist',
     org: 'Independent Creative Systems Practice',
-    meta: 'New York',
+    meta: 'Melville, NY',
     when: 'Apr 2024 - Aug 2026',
     bullets: [
       'Ran an independent creative systems practice, rebuilding my workflow around AI-assisted production across research, positioning, concept development, UI, motion, and quality control.',
@@ -37,7 +38,7 @@ const experience = [
   {
     title: 'Marketing Manager',
     org: 'SPORTIME Clubs',
-    meta: 'Full-Time / New York',
+    meta: 'Full-Time / New York (Multiple Locations)',
     when: 'Jan 2023 - Mar 2024',
     bullets: [
       'Owned marketing across 13+ clubs and 25+ social accounts during a major growth period, leading 3+ social and design reports plus club-level creative leads.',
@@ -49,7 +50,7 @@ const experience = [
   {
     title: 'Social Media Director',
     org: 'The Forest Road Company',
-    meta: 'Full-Time / Remote',
+    meta: 'Full-Time / Melville, NY (Remote)',
     when: 'May 2022 - Dec 2022',
     bullets: [
       'Led brand social and paid content for a media-finance firm, pairing daily creative execution with campaign tracking and executive reporting.',
@@ -60,7 +61,7 @@ const experience = [
   {
     title: 'Social and Graphic Manager',
     org: 'DealNews',
-    meta: 'Full-Time / Remote',
+    meta: 'Full-Time / Melville, NY (Remote)',
     when: 'Jul 2020 - May 2022',
     bullets: [
       'Ran social, paid, and in-house design as one function for a major deals platform, closing the loop between creative decisions and channel performance.',
@@ -72,7 +73,7 @@ const experience = [
   {
     title: 'Associate Designer',
     org: 'Richard Attias and Associates',
-    meta: 'Full-Time / New York',
+    meta: 'Full-Time / New York City, NY',
     when: 'Apr 2019 - Dec 2019',
     bullets: [
       'Produced environmental, print, digital, social, web, and app prototype assets for large-scale global conferences and high-profile events.',
@@ -83,7 +84,7 @@ const experience = [
   {
     title: 'Graphic and Motion Designer',
     org: 'Agency FiveEighty',
-    meta: 'Internship / New York',
+    meta: 'Internship / New York City, NY',
     when: 'Sep 2018 - Feb 2019',
     bullets: [
       'Produced motion graphics, title sequences, and broadcast-ready marketing collateral from concept to final delivery for Spectrum, the New York Jets, Coca-Cola, and FISLL.',
@@ -93,7 +94,7 @@ const experience = [
   {
     title: 'Designer',
     org: 'Pipeline Medical',
-    meta: 'Internship / Remote',
+    meta: 'Internship / Melville, NY (Remote)',
     when: 'Jun 2017 - Aug 2017',
     bullets: [
       "Built Pipeline Medical's brand identity and B2B supplier marketplace from zero, from logo system through core procurement screens.",
@@ -103,7 +104,7 @@ const experience = [
   {
     title: 'Marketing and Design Team Lead',
     org: 'SR Love and Care',
-    meta: 'Volunteer / New York',
+    meta: 'Volunteer / New York City, NY',
     when: 'Feb 2016 - May 2020',
     bullets: [
       'Built and led a volunteer marketing team for a global humanitarian nonprofit, growing it from 5 to over 15 members across four years.',
@@ -113,7 +114,7 @@ const experience = [
   {
     title: 'Marketing Coordinator',
     org: 'Kumon',
-    meta: 'Part-Time / New York',
+    meta: 'Part-Time / Melville, NY',
     when: 'Mar 2014 - Aug 2019',
     bullets: [
       'Produced print and digital marketing collateral, ran paid campaigns, and managed social media for one Kumon center, building an early model for connecting creative production to local lead generation.',
