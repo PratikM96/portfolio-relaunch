@@ -74,7 +74,8 @@ const BANNED = [
   { re: /survived the founder leaving/i, why: 'Reads as the organization’s founder. Say the team continued after the handoff.' },
   { re: /can’t drift from the real|can't drift from the real/i, why: '/brand only renders TOKEN VALUES live. Prose, examples and the contrast ratios can all drift.' },
   { re: /concept case studies carry scope only|scope and rationale, never performance results/i, why: 'A shipped concept follows the same rules as real work.' },
-  { re: /open to (creative or marketing )?roles?\b/i, why: 'Retired: the search ended with the Director of Marketing role at International Student Exchange. The meta pair states location and role instead, and the rail status reads "Open to conversations".' },
+  { re: /open to (creative or marketing )?roles?\b/i, why: 'Retired: the search ended. The meta pair states location and role instead, and the rail status reads "Open to conversations".' },
+  { re: /International Student Exchange|\bISE\b/, why: 'The employer is named on /resume and in the JSON-LD only. Everywhere else say "an international nonprofit" in prose, "International Nonprofit" in a label row.', allow: ['src/pages/resume.astro', 'src/layouts/Base.astro'] },
 
   // --- style defaults ---
   { re: /·/, copyOnly: true, why: 'The middle dot is retired from copy. Use | in titles, nothing in meta descriptions, / in label rows.', allow: ['src/layouts/Base.astro', 'src/pages/brand.astro'] },
