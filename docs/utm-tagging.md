@@ -34,7 +34,8 @@ Only `source` + `medium` are needed for everyday links. Add `campaign` to isolat
 | A case-study link inside the resume PDF | that case study | `?utm_source=resume-pdf&utm_medium=pdf` |
 | Behance / Dribbble bio | home | `?utm_source=behance&utm_medium=bio` |
 | GitHub profile | home | `?utm_source=github&utm_medium=bio` |
-| Instagram / X bio link | home | `?utm_source=instagram&utm_medium=bio` |
+| Instagram bio link | home | `?utm_source=instagram&utm_medium=bio` |
+| X bio link | home | `?utm_source=x&utm_medium=bio` |
 | Launch / announcement post | home | `?utm_source=<platform>&utm_medium=post&utm_campaign=launch-announce` |
 
 Fully assembled:
