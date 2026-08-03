@@ -10,10 +10,9 @@ const { id } = Astro.props;
 ---
 
 <section class:list={['close-cta', 'rev']} id={id}>
-  {/* The meta pair leads, matching the home hero: it sets the terms the heading then
-      closes on. Two lines, not one joined by a separator: "roles / New York" reads as
-      a geographic restriction on the roles, which is not the scope. */}
-  <div class="cta-avail">Based in New York<br />Open to creative or marketing roles</div>
+  {/* The meta pair leads, matching the home hero. Two lines, never joined: the `/`
+      separates title from organization, not location from role. */}
+  <div class="cta-avail">Based in New York<br />Director of Marketing / International Student Exchange</div>
   <h2 class="close-h cta-h">Let's build it as one system.</h2>
   <div class="btn-row">
     <a class="btn btn-p" href="/contact">Get in touch →</a>

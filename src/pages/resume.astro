@@ -11,12 +11,25 @@ const LINKEDIN = 'https://www.linkedin.com/in/pratikm96';
 // Chronological work history (Resume Master). Each role is its own entry.
 const experience = [
   {
+    title: 'Director of Marketing',
+    org: 'International Student Exchange',
+    meta: 'Full-Time / New York',
+    when: 'Aug 2026 - Present',
+    // Scope only. No traffic, ranking, or conversion figure belongs here until it is measured.
+    bullets: [
+      'Lead digital marketing for a nonprofit running high school exchange programs, owning website strategy, search, content, and lead generation into host family inquiries.',
+      "Own the strategy, performance, and ongoing optimization of the organization's WordPress site, including landing pages, conversion, and marketing automation.",
+      'Direct SEO and AI search optimization alongside long-form content, recruitment resources, and email campaigns that grow qualified organic traffic and educate prospective host families.',
+      'Supervise the social media and marketing assistant role, setting direction and priorities while partnering on consistent messaging across digital channels.',
+    ],
+  },
+  {
     title: 'Creative Technologist',
     org: 'Independent Creative Systems Practice',
     meta: 'New York',
-    when: 'Apr 2024 - Present',
+    when: 'Apr 2024 - Aug 2026',
     bullets: [
-      'Run an independent creative systems practice, rebuilding my workflow around AI-assisted production across research, positioning, concept development, UI, motion, and quality control.',
+      'Ran an independent creative systems practice, rebuilding my workflow around AI-assisted production across research, positioning, concept development, UI, motion, and quality control.',
       'Developed four self-initiated systems (The Ninth, Level, WISP, and Portfolio System) spanning brand identity, product UI, AI interaction models, motion, front-end, and launch thinking across gaming, tech, and live-media use cases.',
       'Designed, wrote, and shipped this site as a measured artifact of that workflow: design system, front-end, and infrastructure held by one person, with every page scoring 98 or better on desktop Lighthouse.',
     ],
@@ -192,7 +205,7 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Resu
   image="/og/resume.png"
   ogType="profile"
   title="Resume | Pratik Mehta"
-  description="Pratik Mehta, creative marketing lead with 10+ years across brand, social, content, motion, UI/UX, and performance, built as one connected system."
+  description="Pratik Mehta, director of marketing with 10+ years across brand, social, content, motion, UI/UX, and performance, built as one connected system."
   activeNav="resume"
 >
   <header class="rhead rev-load">
@@ -200,7 +213,7 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Resu
     <div class="rhead-row">
       <h1 class="page-h1">Pratik Mehta</h1>
       <span class="rhead-loc">New York</span>
-      <div class="sub">Creative Marketing Lead, Brand, Social, Content, UI/UX, Motion, Performance</div>
+      <div class="sub">Director of Marketing / Brand, Social, Content, UI/UX, Motion, Performance</div>
       <div class="rhead-links"><a href="mailto:mehtadpratik@gmail.com">mehtadpratik@gmail.com</a> / <a href={LINKEDIN} target="_blank" rel="noopener">LinkedIn</a></div>
     </div>
   </header>
@@ -221,7 +234,7 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Resu
       {/* SUMMARY */}
       <section class="rsec rev">
         <SectionLabel code="01" title="Summary" />
-        <p class="summary"><strong>Creative marketing lead with 10+ years connecting brand, social, content, UI/UX, motion, and performance as one system.</strong> I build the creative and the system that makes it perform: concept, production, channel logic, and the reporting loop after launch. My career spans in-house, agency, nonprofit, and independent work across 30+ brands and organizations, including a video-first social program that drove 11.7M impressions in a single year. Since 2024, I've run an independent creative systems practice built around AI-assisted production.</p>
+        <p class="summary"><strong>Director of marketing with 10+ years connecting brand, social, content, UI/UX, motion, and performance as one system.</strong> I build the creative and the system that makes it perform: concept, production, channel logic, and the reporting loop after launch. My career spans in-house, agency, nonprofit, and independent work across 30+ brands and organizations, including a video-first social program that drove 11.7M impressions in a single year. From 2024 to 2026 I ran an independent creative systems practice built around AI-assisted production, and I now lead digital marketing at International Student Exchange.</p>
       </section>
 
       {/* EXPERIENCE - full history */}

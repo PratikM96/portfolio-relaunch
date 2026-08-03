@@ -41,7 +41,7 @@ const featured = await Promise.all(
 );
 
 /**
- * Hiring-problem router. Filters answer "what engagement was this"; this answers "which two or three should I open". Routes mirror the Job Search Targeting proof router. Titles read from the collection; an unknown slug throws at build time.
+ * Problem router. Filters answer "what engagement was this"; this answers "which two or three should I open". Titles read from the collection; an unknown slug throws at build time.
  */
 const bySlug = new Map(entries.map((e) => [e.data.slug, e]));
 // Short labels so each route stays on one line. Full titles wrapped and broke the leader
@@ -94,14 +94,14 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Work
   <header class="phead">
     <div class="page-kicker">[ Work ] / {count} {count === 1 ? 'project' : 'projects'} / {yearRange}</div>
     <h1 class="rev-load page-h1">The work,<br />as <span class="signal">one index.</span></h1>
-    <p class="lead rev-load">Start with the project closest to the role you are hiring for. The index below covers in-house, agency, volunteer, and self-initiated work, filterable by engagement and discipline, and each one opens to a full case study.</p>
+    <p class="lead rev-load">Start with the project closest to the problem you are solving. The index below covers in-house, agency, volunteer, and self-initiated work, filterable by engagement and discipline, and each one opens to a full case study.</p>
   </header>
 
-  {/* HIRING ROUTER — answers "which two or three", which the lead invites.
+  {/* PROBLEM ROUTER — answers "which two or three", which the lead invites.
       rev-load because it lands above the fold on desktop; see CLAUDE.md §6 on why
       opacity-based reveals do not belong up here. */}
   <section class="router rev-load">
-    <h2 class="router-h">Start with the hiring problem</h2>
+    <h2 class="router-h">Start with the problem</h2>
     <dl class="router-grid">
       {routes.map((r) => (
         <div class="router-row">
@@ -220,7 +220,7 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Work
   }
 
 
-  /* ===== hiring router ===== */
+  /* ===== problem router ===== */
   .router { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: var(--space-xl) 0; margin-bottom: var(--space-3xl); }
   .router-h { font-size: var(--fs-2xs); text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-lg); }
   /* auto-fit, not a fixed 2 columns: the project lists are `nowrap`, so a column narrower

@@ -47,7 +47,7 @@ interface Props {
 }
 
 const {
-  title = 'Pratik Mehta | Creative Marketing Lead',
+  title = 'Pratik Mehta | Director of Marketing',
   description,
   variant = 'default',
   activeNav = 'home',
@@ -104,7 +104,8 @@ const ldGraph = {
       '@id': `${origin}/#pratik`,
       name: 'Pratik Mehta',
       url: `${origin}/`,
-      jobTitle: 'Creative Marketing Lead',
+      jobTitle: 'Director of Marketing',
+  worksFor: { '@type': 'Organization', name: 'International Student Exchange' },
       email: 'mailto:mehtadpratik@gmail.com',
       image: `${origin}${personImage.src}`,
       address: { '@type': 'PostalAddress', addressLocality: 'New York', addressRegion: 'NY', addressCountry: 'US' },
@@ -249,7 +250,7 @@ const ldGraph = {
               <Brandmark size={26} title={undefined} />
               <span class="wm">Pratik Mehta</span>
             </a>
-            <div class="role">Creative Marketing<br />Lead</div>
+            <div class="role">Director of<br />Marketing</div>
             <nav id="rail-nav" aria-label="Primary">
               {nav.map((n) => (
                 <a href={n.href} class={n.id === activeNav ? 'active' : undefined}>
@@ -265,7 +266,7 @@ const ldGraph = {
             </div>
             <div class="spacer" />
             <div class="readout">
-              <div class="status"><span class="dot" />Open to roles</div>
+              <div class="status"><span class="dot" />Open to conversations</div>
               <div class="line"><span>Loc</span><b>New York</b></div>
               <div class="line"><span>Local</span><b id="clock">//</b></div>
               <div class="line theme-line">
@@ -318,12 +319,12 @@ const ldGraph = {
         ))}
       </nav>
       <div class="m-readout">
-        {/* Availability leads, then the identity/location pair, then the control.
-            The status line split the two data lines when it sat between them. */}
-        <div class="status"><span class="dot" />Open to roles</div>
+        {/* Status leads, then the identity/location pair, then the control. The status
+            line splits the two data lines if it sits between them. */}
+        <div class="status"><span class="dot" />Open to conversations</div>
         {/* The market identity lives in the desktop rail, which is hidden below 900px, so
             without this line mobile carried no identity anywhere on the site. */}
-        <div class="line"><span>Role</span><b>Creative Marketing Lead</b></div>
+        <div class="line"><span>Role</span><b>Director of Marketing</b></div>
         <div class="line"><span>Loc</span><b>New York</b></div>
         <div class="line theme-line">
           <span>Theme</span>

@@ -1,6 +1,6 @@
 ---
 /**
- * Contact. No availability dot here — the one pulsing dot lives in the rail.
+ * Contact. No status dot here: the one pulsing dot lives in the rail.
  */
 import Base from '../layouts/Base.astro';
 
@@ -17,16 +17,15 @@ const schema = [breadcrumb(bcOrigin, [{ name: 'Home', path: '/' }, { name: 'Cont
 <Base
   schema={schema}
   title="Contact | Pratik Mehta"
-  description="Get in touch with Pratik Mehta, Creative Marketing Lead based in New York. Open to creative or marketing roles."
+  description="Get in touch with Pratik Mehta, Director of Marketing at International Student Exchange, based in New York."
   activeNav="contact"
 >
   <section class="chero rev-load">
     <div class="page-kicker">[ Contact ]</div>
     {/* The meta pair sits above the head, matching the home hero and the closing CTA.
-        Availability and location stay on separate lines; joined by a separator they read
-        as a restriction on where the roles can be. */}
-    <div class="avail">Based in New York<br />Open to creative or marketing roles</div>
-    <h1 class="page-h1">Let's talk about the role, team, or <span class="signal">problem.</span></h1>
+        Two lines, never joined: the `/` separates title from organization. */}
+    <div class="avail">Based in New York<br />Director of Marketing / International Student Exchange</div>
+    <h1 class="page-h1">Let's talk about the work, or the <span class="signal">problem behind it.</span></h1>
 
     <div class="cgrid">
       <a class="ccell" href={`mailto:${EMAIL}`}><span class="k">Email</span><span class="v">{EMAIL}</span></a>

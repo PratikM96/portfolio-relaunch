@@ -68,8 +68,8 @@ const heroPoster = await getImage({
 ---
 
 <Base
-  title="Pratik Mehta | Creative Marketing Lead"
-  description="I build creative, social, and performance as one system. Creative Marketing Lead in New York, with an AI-forward workflow."
+  title="Pratik Mehta | Director of Marketing"
+  description="I build creative, social, and performance as one system. Director of Marketing in New York, with an AI-forward workflow."
   preloadImage={heroPoster.src}
   preloadImageSrcset={heroPoster.srcSet.attribute}
   preloadImageSizes={HERO_POSTER_SIZES}
@@ -78,9 +78,9 @@ const heroPoster = await getImage({
   <section class="hero">
     <div class="hero-inner">
       <div>
-        {/* Two lines, never joined by a separator: a `/` between them reads as "roles in
-            New York", which is not the scope. Location leads, availability follows. */}
-        <div class="kick rev-load">Based in New York<br />Open to creative or marketing roles</div>
+        {/* Two lines, never joined: the `/` separates title from organization, and joining
+            the lines would make New York read as a qualifier on the role. */}
+        <div class="kick rev-load">Based in New York<br />Director of Marketing / International Student Exchange</div>
         <h1 class="rev-load page-h1">I build creative, social, and performance as <span class="signal">one system.</span></h1>
         {/* Must not open with "I build" or repeat "system": the h1 does both, and its
             accent lands on "one system." */}

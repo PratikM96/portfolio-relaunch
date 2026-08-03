@@ -14,11 +14,11 @@ Pick one casing and never vary it, or `LinkedIn` and `linkedin` become two sourc
 |---|---|---|---|
 | `utm_source` | yes | Where the click came from | `linkedin`, `resume-pdf`, `email-sig`, `behance`, `github` |
 | `utm_medium` | yes | The kind of link | `profile`, `post`, `pdf`, `signature`, `bio`, `dm` |
-| `utm_campaign` | when it applies | The specific push/application | `job-search-2026`, `acme-application`, `launch-announce` |
+| `utm_campaign` | when it applies | The specific push | `launch-announce`, `case-study-push` |
 | `utm_content` | optional | A/B or which link when several point the same place | `header-cta`, `footer-link` |
 | `utm_term` | skip | Paid-search keywords only. Not used here. | — |
 
-Only `source` + `medium` are needed for everyday links. Add `campaign` to isolate one effort (a launch post, a specific application) from the steady drip.
+Only `source` + `medium` are needed for everyday links. Add `campaign` to isolate one effort (a launch post, one case-study push) from the steady drip.
 
 ---
 
@@ -28,14 +28,13 @@ Only `source` + `medium` are needed for everyday links. Add `campaign` to isolat
 |---|---|---|
 | LinkedIn profile "website" field | home | `?utm_source=linkedin&utm_medium=profile` |
 | LinkedIn post / comment | home or a case study | `?utm_source=linkedin&utm_medium=post` |
-| LinkedIn DM to a recruiter | home | `?utm_source=linkedin&utm_medium=dm` |
+| LinkedIn DM | home | `?utm_source=linkedin&utm_medium=dm` |
 | Email signature | home | `?utm_source=email-sig&utm_medium=signature` |
 | URL printed inside the resume PDF | home | `?utm_source=resume-pdf&utm_medium=pdf` |
 | A case-study link inside the resume PDF | that case study | `?utm_source=resume-pdf&utm_medium=pdf` |
 | Behance / Dribbble bio | home | `?utm_source=behance&utm_medium=bio` |
 | GitHub profile | home | `?utm_source=github&utm_medium=bio` |
 | Instagram / X bio link | home | `?utm_source=instagram&utm_medium=bio` |
-| A specific job application | home or best-fit case study | `?utm_source=application&utm_medium=direct&utm_campaign=<company>-application` |
 | Launch / announcement post | home | `?utm_source=<platform>&utm_medium=post&utm_campaign=launch-announce` |
 
 Fully assembled:
@@ -43,7 +42,7 @@ Fully assembled:
 ```
 https://mehtapratik.com/?utm_source=linkedin&utm_medium=profile
 https://mehtapratik.com/work/dealnews?utm_source=resume-pdf&utm_medium=pdf
-https://mehtapratik.com/?utm_source=application&utm_medium=direct&utm_campaign=acme-application
+https://mehtapratik.com/?utm_source=linkedin&utm_medium=post&utm_campaign=launch-announce
 ```
 
 ---
@@ -53,7 +52,7 @@ https://mehtapratik.com/?utm_source=application&utm_medium=direct&utm_campaign=a
 - **Only tag inbound links you control from OFF the site.** Never put `utm_*` on an internal link (one mehtapratik.com page to another) — GA4 treats a tagged internal click as a brand-new session from that source, wrecking attribution and inflating sessions.
 - **Tag the canonical host + path**: bare `mehtapratik.com`, no `www`, no trailing slash (matches the site's canonical + redirects, so no extra redirect hop).
 - **Casing is load-bearing.** `resume-pdf` forever, never `Resume-PDF` or `resume_pdf`.
-- **`utm_campaign` is for a thing with a start and end** (a job hunt, one application, a launch). Always-on links (LinkedIn profile, email sig) don't need a campaign.
+- **`utm_campaign` is for a thing with a start and end** (a launch, a talk, one case-study push). Always-on links (LinkedIn profile, email sig) don't need a campaign.
 - A shortener is fine for the printed resume so the query string isn't ugly in print — the redirect preserves the params. Not required.
 
 ---
@@ -66,7 +65,7 @@ At portfolio volume, read a **28-day rolling window** — any single week is ane
 
 ---
 
-## GA4 setup: one required step + three saved Explorations
+## GA4 setup: one required step + two saved Explorations
 
 ### Required: mark `generate_lead` as a Key event
 `consent.ts` fires it on mailto clicks, but a custom event does nothing until it's flagged as a conversion: **Admin → Events (Key events)** → toggle **`generate_lead`** on. It only appears in that list after firing once, so if it's missing, click a mailto on the live site with consent granted, wait a few minutes, then toggle.
@@ -76,8 +75,7 @@ At portfolio volume, read a **28-day rolling window** — any single week is ane
 The canvas is three columns: **Variables** (import via `+`), **Settings** (drag into Rows / Values / Filters), and the table.
 
 1. **Channel Scoreboard** — *which channel sends people who email you.* Rows: `Session source / medium`. Values: `Sessions`, `Engaged sessions`, `Key events`, `Session key event rate`. Sort by Key events. (`Key events` == `generate_lead` while it's the only Key event; if you add another, swap to `Event count` filtered to `generate_lead`.)
-2. **Application Tracker** — *which specific application drove a visit or reply.* Rows: `Session campaign` (your `<company>-application` tags). Values: `Sessions`, `Engaged sessions`, `Key events`. Filter out `not set` / `direct` on Session campaign.
-3. **Case Study Interest** — *which work gets opened, and from where.* Rows: `Page path and screen class` (then `Session source / medium` nested below). Values: `Views`, `Sessions`, `Key events`. Filter: Page path **begins with** `/work/`. (Upgrade: register `content_id` as an event-scoped custom dimension to slice by the `select_content` event directly instead of by page path.)
+2. **Case Study Interest** — *which work gets opened, and from where.* Rows: `Page path and screen class` (then `Session source / medium` nested below). Values: `Views`, `Sessions`, `Key events`. Filter: Page path **begins with** `/work/`. (Upgrade: register `content_id` as an event-scoped custom dimension to slice by the `select_content` event directly instead of by page path.)
 
 Realtime / DebugView confirm UTMs immediately; standard reports lag 24–48h. Every count here still undercounts, so read trends: anyone who opts out never fires GA4, and visitors in the EEA, the UK and Switzerland fire nothing at all until they accept, because consent there is an opt-in gate rather than a notice (`src/scripts/consent.ts`). **That split is also why traffic looks different by region** — a European drop-off is a consent artifact, not an interest signal, so never read the two cohorts against each other.
 
