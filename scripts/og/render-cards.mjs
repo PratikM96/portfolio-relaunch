@@ -9,11 +9,12 @@
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { tmpdir } from 'node:os';
 
 const ROOT = resolve(import.meta.dirname, '../..');
-// Keep the hand-built URL. On POSIX this yields a technically-wrong `file:////Users/...` (four slashes), but Chrome accepts it and it is what every committed card was rendered against: switching to pathToFileURL() re-renders the type measurably differently, so changing it means re-rendering and reviewing the whole set.
-const TPL = 'file:///' + join(ROOT, 'scripts/og/og-template.html').replace(/\\/g, '/').replace(/ /g, '%20');
+// The template's @font-face paths are relative, so this URL is the base they resolve against: get it wrong and the brand faces fall back silently. pathToFileURL emits the right slash count on every platform and percent-escapes spaces; hand-building `file:///` + a POSIX path yields four slashes.
+const TPL = pathToFileURL(join(ROOT, 'scripts/og/og-template.html')).href;
 const OUT = join(ROOT, 'public/og');
 
 const CHROME = [
