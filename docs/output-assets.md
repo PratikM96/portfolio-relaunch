@@ -77,12 +77,17 @@ Export caps (source webp, before Astro re-optimizes per width):
 ffmpeg -y -i in.png -vf scale=1600:-2 -c:v libwebp -quality 82 out.webp
 ```
 
-**Video** is convention-located by slug — no paths in content. Files: `public/ov/<case-slug>/<clip>.webm` + `<clip>-poster.webp`. `OutputGrid` derives the paths from the entry slug + the block item's `clip`. 720p, under Cloudflare's 25 MiB per-file cap; muted loops carry no audio track.
+**Video** is convention-located by slug — no paths in content. The clip ships from `public/ov/<case-slug>/<clip>.webm`; its poster is hashed by the image pipeline and lives at `src/assets/ov/<case-slug>/<clip>-poster.webp`. `OutputGrid` derives both from the entry slug + the block item's `clip`. 720p, under Cloudflare's 25 MiB per-file cap; muted loops carry no audio track. A poster left in `public/ov/` is read by nothing and fails the build.
 
 ```bash
-IN=master.mp4; OUT=public/ov/<slug>
-ffmpeg -y -i "$IN" -vf scale=1280:-2 -an -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 "$OUT/<clip>.webm"
-ffmpeg -y -ss 0 -i "$IN" -vf scale=1280:-2 -frames:v 1 -c:v libwebp -quality 82 "$OUT/<clip>-poster.webp"
+slug=agency-fiveeighty   # <-- the case-study slug
+clip=glitch              # <-- the block item's `clip` value
+IN=master.mp4
+OUT="public/ov/$slug"        # clip: served verbatim, contract-named
+POST="src/assets/ov/$slug"   # poster: hashed by the image pipeline
+mkdir -p "$OUT" "$POST"
+ffmpeg -y -i "$IN" -vf scale=1280:-2 -an -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 "$OUT/$clip.webm"
+ffmpeg -y -ss 0 -i "$IN" -vf scale=1280:-2 -frames:v 1 -c:v libwebp -quality 82 "$POST/$clip-poster.webp"
 ```
 
 ## Performance
@@ -93,4 +98,4 @@ Theme-aware mockups render both variants and toggle in CSS. Tradeoff: both can d
 
 ## Filenames are a contract
 
-Video: exactly `<clip>.webm`, `<clip>-poster.webp` under `public/ov/<slug>/`. A typo is a silent 404 — don't improvise names.
+Video: exactly `<clip>.webm` under `public/ov/<slug>/`, and `<clip>-poster.webp` under `src/assets/ov/<slug>/`. A typo is a silent 404 — don't improvise names.

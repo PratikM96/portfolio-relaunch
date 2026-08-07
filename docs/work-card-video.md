@@ -4,9 +4,18 @@ Short logo animations that play on hover in the work index. Distinct from the ca
 
 ## Contract (convention-located by slug)
 
-- **Served files (committed):** `public/wc/<slug>/`.
-- **Not opt-in:** every work entry carries a card clip, derived from the slug — no paths in content, no frontmatter flag. A new entry needs its own set.
-- **Filenames are a contract:** exactly `card.webm`, `poster.webp`, `card-light.webm`, `poster-light.webp`. All four required; a typo is a silent 404.
+- **Clips and posters ship from different trees**, and a new entry needs all four:
+
+```
+public/wc/<slug>/card.webm              dark clip
+public/wc/<slug>/card-light.webm        light clip
+src/assets/wc/<slug>/poster.webp        dark still
+src/assets/wc/<slug>/poster-light.webp  light still
+```
+
+- **The posters live in `src/assets/`, not beside the clips.** They go through Astro's image pipeline, so they are content-hashed and a re-export reaches everyone; the clips are contract-named and unhashed, cached `immutable` for a year. `src/lib/media.ts` resolves the pair and the template writes them onto the element as `data-poster` / `data-poster-light`. Put a poster in `public/wc/` and nothing reads it: the build fails with `Missing src/assets/wc/<slug>/poster.webp`.
+- **Not opt-in:** every work entry carries a card clip, derived from the slug — no paths in content, no frontmatter flag.
+- **Filenames are a contract:** exactly the four above. A typo is a silent 404.
 - **webm only.** No H.264 fallback; don't add one.
 - **Masters (NOT in repo):** gitignored `_reference/media/wc-animations/`.
 
@@ -32,15 +41,18 @@ The home **bento** "Featured" tiles (`index.astro`) are hardcoded markup, NOT co
 720p is oversampled for the render sizes, so files land at 50-250 KB. The poster is the **last** frame (the resolved logo). From the repo root, per master:
 
 ```bash
-SRC=_reference/media/wc-animations/<stem>_2160.mov
-DST=public/wc/<slug>
-mkdir -p "$DST"
+slug=dealnews   # <-- change per entry
+stem=dealnews   # master filename stem; two differ from the slug, see the map below
+SRC="_reference/media/wc-animations/${stem}_2160.mov"
+DST="public/wc/$slug"        # clips: served verbatim, contract-named
+POST="src/assets/wc/$slug"   # posters: hashed by the image pipeline
+mkdir -p "$DST" "$POST"
 # webm (VP9) — primary, modern browsers
 ffmpeg -y -i "$SRC" -vf "scale=1280:720:flags=lanczos" -c:v libvpx-vp9 -b:v 0 \
   -crf 34 -an -pix_fmt yuv420p -deadline good -cpu-used 2 "$DST/card.webm"
 # poster — last frame
 ffmpeg -y -sseof -0.1 -i "$SRC" -vf "scale=1280:720:flags=lanczos" \
-  -frames:v 1 -c:v libwebp -quality 82 "$DST/poster.webp"
+  -frames:v 1 -c:v libwebp -quality 82 "$POST/poster.webp"
 ```
 
 
