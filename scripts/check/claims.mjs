@@ -31,12 +31,14 @@ const TARGETS = [
   'public/llms.txt',
   // docs/ is git-tracked and this repo is public, so a doc leaks a claim exactly as far as a page does. It was outside this list while the Cloud9 rule below already existed, which is how `docs/og-cards.md` came to name the organization the rule forbids: the guard was written and simply never pointed at the file.
   ...readdirSync(join(ROOT, 'docs')).filter((f) => f.endsWith('.md')).map((f) => `docs/${f}`),
+  // The concept microsites are shipped pages that state claims about the concepts, so they carry the same rules as a case study. Same blind spot as docs/ above: while they sat outside this list, /work/the-ninth said "moment-clipper prototype" and the microsite still said "live AI moment-clipper", and WISP's lede contradicted its own disclosure. The organization-name rule is exempted for them below; nothing else is.
+  ...readdirSync(join(ROOT, 'public/concepts'), { recursive: true }).filter((f) => String(f).endsWith('.html')).map((f) => `public/concepts/${String(f).replace(/\\/g, '/')}`),
 ];
 
 /**
- * A banned pattern and why. `allow` exempts specific files.
+ * A banned pattern and why. `allow` exempts specific files, or a whole directory when the entry ends in `/`.
  *
- * `copyOnly` marks a rule that governs EXTERNAL-FACING COPY rather than truth: dashes, separators, CTA wording. Those are reader-facing style (CLAUDE.md §4) and do not apply to `docs/`, which is build documentation the public never reads as prose. Claim rules, spelling and the rot bans carry no flag and apply everywhere, because a doc leaks a wrong metric exactly as far as a page does and §4 puts spelling in docs explicitly.
+ * `copyOnly` marks a rule that governs ONE SYSTEM'S EXTERNAL-FACING COPY rather than truth: dashes, separators, CTA wording. Those are reader-facing style (CLAUDE.md §4) and are skipped for two surfaces that are not that copy: `docs/`, which is build documentation the public never reads as prose, and `public/concepts/`, where each microsite is its own brand with its own voice. Claim rules, spelling and the rot bans carry no flag and apply everywhere, because a doc or a concept leaks a wrong metric exactly as far as a page does and §4 puts spelling in docs explicitly.
  */
 const BANNED = [
   // --- counts the registry carries exactly: no "+" ---
@@ -66,7 +68,7 @@ const BANNED = [
   { re: /consent[- ]gated|behind a consent gate/i, why: 'Retired with the geo-split: analytics are gated only in the EEA, the UK and Switzerland, and load on arrival behind an opt-out notice everywhere else. "Consent-gated" describes the old global gate and is false for most visitors. Say opt-in in Europe, opt-out elsewhere.' },
   { re: /live AI moment-clipper/i, why: 'The clipper is a working PROTOTYPE, never "live".' },
   { re: /a live AI host\b/i, why: 'WISP is a scripted demonstration; its own disclosure says "not a live AI model".' },
-  { re: /Cloud9|\bC9\b/, why: 'The Ninth does not name the organization on portfolio surfaces (CLAUDE.md §3). The microsite under public/concepts/ is the deliberate exception and is not checked here.' },
+  { re: /Cloud9|\bC9\b/, why: 'The Ninth does not name the organization on portfolio surfaces (CLAUDE.md §3). Its microsite is the deliberate exception, since the sub-brand is built on that identity and every page carries its own non-affiliation footer.', allow: ['public/concepts/the-ninth/'] },
   { re: /volunteer-grade/i, why: 'Disparages volunteer work, which is also SR Love and Care’s proof.' },
   { re: /never trains a dopamine loop/i, why: 'Unsupported behavioral outcome. Describe the visual treatment instead.' },
   { re: /never falls into the uncanny valley/i, why: 'Absolute claim. Say it does not depend on human likeness.' },
@@ -291,10 +293,13 @@ for (const rel of TARGETS) {
   if (!existsSync(abs)) continue;
   const copy = visibleCopy(readFileSync(abs, 'utf8'), rel);
   const lines = copy.split('\n');
-  const isDoc = rel.replace(/\\/g, '/').startsWith('docs/');
+  const posix = rel.replace(/\\/g, '/');
+  // Each concept microsite is its own brand with its own voice, so One System's copy conventions (separators, dashes, CTA wording) do not govern it. Its claims and spelling still do: a concept can state something untrue exactly as far as a case study can.
+  const styleExempt = posix.startsWith('docs/') || posix.startsWith('public/concepts/');
   for (const rule of BANNED) {
-    if (rule.allow?.some((a) => rel.replace(/\\/g, '/').endsWith(a))) continue;
-    if (isDoc && rule.copyOnly) continue;
+    // An `allow` entry ending in `/` exempts the whole directory, so a microsite's pages do not have to be listed one by one and a new page inherits the exemption instead of failing the build on its first commit.
+    if (rule.allow?.some((a) => (a.endsWith('/') ? posix.startsWith(a) : posix.endsWith(a)))) continue;
+    if (styleExempt && rule.copyOnly) continue;
     lines.forEach((line, i) => {
       const m = line.match(rule.re);
       if (!m) return;
