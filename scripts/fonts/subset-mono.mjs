@@ -7,9 +7,9 @@
  *
  * **Only this face may be subset.** Subsetting is modification, and the Fontshare license covering Clash Display and Clash Grotesk grants embedding without it, so those two ship whole, always. JetBrains Mono is OFL-1.1 with no Reserved Font Name, which grants both. CLAUDE.md §6 carries the licensing rule and §9 (2026-07-15) named this as the first lever to pull.
  *
- * **The vendor original is the input, never the shipped file.** Re-running against an already-subset file would work once and then quietly narrow the set every time after. `_reference/fonts/site/` holds the untouched original; if it is missing (the junction is gitignored) this refuses rather than guessing.
+ * **The vendor original is the input, never the shipped file.** Re-running against an already-subset file would work once and then quietly narrow the set every time after. `_reference/fonts/site/` holds the untouched original; if it is missing (the link is gitignored) this refuses rather than guessing.
  *
- * **The character set is a fixed floor, not a scan of the build.** A scan looks safe and isn't: `▶` exists only inside a JS string, so a set derived from rendered HTML would drop it and the glyph would silently fall back to Courier New. The floor is printable ASCII plus Latin-1 letters plus the symbols below, more than the site uses, leaving room for copy to change.
+ * **The character set is a fixed floor, not a scan of the build.** A scan looks safe and isn't: `▶` exists only inside a JS string, so a set derived from rendered HTML would drop it and the glyph would silently fall back to the system mono face. The floor is printable ASCII plus Latin-1 letters plus the symbols below, more than the site uses, leaving room for copy to change.
  *
  * If a genuinely new symbol does get used in a mono tier, nothing errors: the glyph renders in the metric-matched fallback and looks subtly wrong. Add it to EXTRA and re-run.
  */
@@ -40,7 +40,7 @@ const TEXT = ASCII + LATIN1 + EXTRA;
 
 if (!fs.existsSync(SRC)) {
   console.error(`Vendor original not found: ${SRC}`);
-  console.error('_reference/ is a gitignored junction to Drive. Restore it before subsetting; do NOT subset public/fonts/ in place, which would narrow the set on every run.');
+  console.error('_reference/ is a gitignored link to Drive. Restore it before subsetting; do NOT subset public/fonts/ in place, which would narrow the set on every run.');
   process.exit(1);
 }
 

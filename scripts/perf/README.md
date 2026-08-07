@@ -21,7 +21,7 @@ npm run deploy   # 4. the table is baked at build time, so publishing needs a se
 
 **Sampling is asymmetric, and the asymmetry is measured.** Across one 150-sample batch, 72% of pages moved their mobile score between repeats (mean spread 4.1 points, worst 15) against 24% on desktop (mean 0.40, worst 2). So mobile defaults to 3 repeats and desktop to 1, which is where a third of the old wall clock went. `MOBILE_REPEATS=5 npm run perf` for tighter medians at roughly the old cost; keep counts odd so a median is one real sample.
 
-**Lighthouse is a pinned devDependency.** It used to run through `npx --yes`, which re-resolved the package every invocation: 4.2s x 150 runs, about ten minutes of a twenty-five minute batch. It also pulled whatever version was current, so a release could shift every score mid-history and quietly break the trend. Bumping the pin deserves its own run.
+**Lighthouse is a pinned devDependency, never `npx --yes`.** npx re-resolves the package every invocation, which costs 4.2s x 150 runs, about ten minutes of a twenty-five minute batch. Worse, it pulls whatever version is current, so a release shifts every score mid-history and quietly breaks the trend. Bumping the pin deserves its own run.
 
 Needs Chrome and network access to the live site. A few `FAILED` lines are survivable; `emit.mjs` uses whatever samples exist.
 

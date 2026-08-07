@@ -1,0 +1,14 @@
+# Normalize to LF in the repo and on checkout, on every machine. This is not a style preference: scripts/check/claims.mjs compares the generated public/concepts/ga-core.js against src/scripts/ga-core.js byte for byte, so an EOL difference between the two fails the build.
+* text=auto eol=lf
+
+# Third-party license text ships verbatim; never let a tool rewrap or re-encode it.
+public/fonts/OFL.txt -text
+
+# Binary assets: no EOL translation, no diff attempts.
+*.woff2 binary
+*.webm  binary
+*.webp  binary
+*.png   binary
+*.jpg   binary
+*.ico   binary
+*.pdf   binary

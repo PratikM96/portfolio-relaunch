@@ -47,35 +47,35 @@ Export a visually-lossless master, do no scaling here (that happens in Step 2):
 
 ## Step 2 - transcode the web deliverables (FFmpeg)
 
-Set `$slug`, point `$master` at your local copy of the Drive master, and run. Outputs land straight in the served folders.
+Set `slug`, point `master` at your local copy of the Drive master, and run. Outputs land straight in the served folders.
 
-```powershell
-$slug   = "dealnews"   # <-- change per case study
-$master = "_reference/media/case-study-animations/$slug/hero_2160.mov"
-$out    = "public/hero/$slug"
-New-Item -ItemType Directory -Force $out | Out-Null
-
+```bash
+slug=dealnews   # <-- change per case study
+master="_reference/media/case-study-animations/$slug/hero_2160.mov"
+out="public/hero/$slug"
+post="src/assets/hero/$slug"
+mkdir -p "$out" "$post"
 
 # VP9 webm (two-pass; pass 1 analyzes, pass 2 writes).
 # BOTH passes take the SAME -vf and -pix_fmt. Pass 1 gathers its stats at whatever resolution it is fed, so scaling only in pass 2 hands pass 2 a stats file for a different frame size and the rate control is wrong.
-ffmpeg -i $master -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 1 -an -row-mt 1 `
-  -vf "scale=1920:1080:flags=lanczos" -pix_fmt yuv420p `
-  -color_primaries bt709 -color_trc bt709 -colorspace bt709 `
-  -f null NUL
-ffmpeg -i $master -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 2 -row-mt 1 `
-  -vf "scale=1920:1080:flags=lanczos" -pix_fmt yuv420p `
-  -color_primaries bt709 -color_trc bt709 -colorspace bt709 `
+ffmpeg -i "$master" -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 1 -an -row-mt 1 \
+  -vf "scale=1920:1080:flags=lanczos" -pix_fmt yuv420p \
+  -color_primaries bt709 -color_trc bt709 -colorspace bt709 \
+  -f null /dev/null
+ffmpeg -i "$master" -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 2 -row-mt 1 \
+  -vf "scale=1920:1080:flags=lanczos" -pix_fmt yuv420p \
+  -color_primaries bt709 -color_trc bt709 -colorspace bt709 \
   -c:a libopus -b:a 192k "$out/hero_1080.webm"
 
 # Poster still (pick a strong frame; adjust -ss). Goes to src/assets/hero/<slug>/,
 # NOT beside the video — Astro's pipeline downscales it into a responsive srcset,
 # so export at full size and don't hand-optimize it.
-ffmpeg -ss 00:00:03 -i $master -frames:v 1 -vf "scale=1920:1080" `
-  -c:v libwebp -quality 82 -compression_level 6 "src/assets/hero/<slug>/poster.webp"
+ffmpeg -ss 00:00:03 -i "$master" -frames:v 1 -vf "scale=1920:1080" \
+  -c:v libwebp -quality 82 -compression_level 6 "$post/poster.webp"
 
 # cleanup + size check
-Remove-Item ffmpeg2pass-0.log* -ErrorAction SilentlyContinue
-Get-ChildItem $out | Select-Object Name, @{n='MiB';e={[math]::Round($_.Length/1MB,2)}}
+rm -f ffmpeg2pass-0.log*
+ls -lh "$out"
 ```
 
 **Tuning knobs (only if needed):**
@@ -87,8 +87,8 @@ Get-ChildItem $out | Select-Object Name, @{n='MiB';e={[math]::Round($_.Length/1M
 
 When a master comes back with new audio and untouched picture, copy the video stream instead of running the recipe again. It takes seconds, and the shipped picture stays bit-identical rather than taking a second generation of VP9.
 
-```powershell
-ffmpeg -y -i "public/hero/$slug/hero_1080.webm" -i $master `
+```bash
+ffmpeg -y -i "public/hero/$slug/hero_1080.webm" -i "$master" \
   -map 0:v:0 -map 1:a:0 -c:v copy -c:a libopus -b:a 192k -shortest out.webm
 ```
 
@@ -116,20 +116,21 @@ Square, silent, autoplaying, and hand-wired in `src/pages/index.astro`. Four thi
 
 **4. Size is chosen by measurement, not by CRF default.** Grain and texture dominate the bitrate here, so CRF barely moves the file and resolution does. Encode a spread, compare at the size the figure actually renders (652px at a 1920 viewport, growing with it, full width once stacked below 1100), and take the smallest one that is indistinguishable. The current cut is 900x900 at CRF 36.
 
-```powershell
-$master = "_reference/media/case-study-animations/home/home-hero-N/hero_2160.mov"
-$ver    = "v2"   # <-- BUMP THIS. Reusing the old name will not reach returning visitors.
+```bash
+master="_reference/media/case-study-animations/home/home-hero-N/hero_2160.mov"
+ver=v2   # <-- BUMP THIS. Reusing the old name will not reach returning visitors.
+mkdir -p public/hero/home src/assets/hero/home
 
-# Square, silent. Both passes carry identical filters.
-foreach ($pass in 1, 2) {
-  $sink = if ($pass -eq 1) { "-f null NUL" } else { "public/hero/home/hero_900-$ver.webm" }
-  ffmpeg -y -i $master -c:v libvpx-vp9 -b:v 0 -crf 36 -pass $pass -an -row-mt 1 `
-    -vf "scale=900:900:flags=lanczos" -pix_fmt yuv420p `
-    -color_primaries bt709 -color_trc bt709 -colorspace bt709 $sink.Split(" ")
-}
+# Square, silent. The loop is what keeps both passes on identical filters.
+for pass in 1 2; do
+  if [ "$pass" = 1 ]; then sink=(-f null /dev/null); else sink=("public/hero/home/hero_900-$ver.webm"); fi
+  ffmpeg -y -i "$master" -c:v libvpx-vp9 -b:v 0 -crf 36 -pass "$pass" -an -row-mt 1 \
+    -vf "scale=900:900:flags=lanczos" -pix_fmt yuv420p \
+    -color_primaries bt709 -color_trc bt709 -colorspace bt709 "${sink[@]}"
+done
 
 # Poster: the held final frame, full size. Astro downscales it into the srcset.
-ffmpeg -y -ss 7.9 -i $master -frames:v 1 `
+ffmpeg -y -ss 7.9 -i "$master" -frames:v 1 \
   -c:v libwebp -quality 82 -compression_level 6 "src/assets/hero/home/poster.webp"
 ```
 

@@ -10,6 +10,8 @@ Pratik Mehta's personal portfolio, built on the **One System** brand. Brand, soc
 
 ## Getting started
 
+New machine first: `docs/local-setup.md` covers the toolchain, the `_reference` link to Drive, and the ffmpeg build the encode recipes need.
+
 ```bash
 npm install
 npm run dev          # local dev server at http://localhost:4321
@@ -57,6 +59,7 @@ scripts/              # build-time tooling, one dir per job:
   perf/               #   Lighthouse loop: run, distill, trend, JS weight (see its README)
   shots/              #   device x theme capture matrix
 docs/
+  local-setup.md      # machine prerequisites + the traps that fail quietly
   deploy.md           # deploy procedure + rollback
   cloudflare.md       # dashboard settings the repo can't enforce
   hero-pipeline.md    # hero video encode recipe + per-study checklist

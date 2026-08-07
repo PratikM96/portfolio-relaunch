@@ -4,7 +4,7 @@ How to publish this site to Cloudflare.
 
 ## Read this first
 
-**`npm run deploy` ships to the live domain.** The `portfolio-relaunch` worker serves `mehtapratik.com` and there is no staging URL in the loop, so a deploy is immediately public. (Pre-cutover this doc claimed otherwise; ignore that.)
+**`npm run deploy` ships to the live domain.** The `portfolio-relaunch` worker serves `mehtapratik.com` and there is no staging URL in the loop, so a deploy is immediately public.
 
 Deploys are manual. A push to `main` is **not** an auto-deploy.
 
@@ -14,7 +14,7 @@ Deploys are manual. A push to `main` is **not** an auto-deploy.
 - `wrangler` is a dev dependency (`npm install` pulls it in).
 - Logged in once per machine:
 
-```powershell
+```bash
 npx wrangler login
 ```
 
@@ -24,7 +24,7 @@ Authorize in the browser tab that opens; the terminal prints `Successfully logge
 
 Because the next step is public, prove the build locally first:
 
-```powershell
+```bash
 npm run build      # check:claims, then astro check, then astro build, then the JS-weight check
 npm run preview    # serve the built output
 ```
@@ -37,7 +37,7 @@ Check on the preview build:
 
 ## Deploy
 
-```powershell
+```bash
 npm run deploy
 ```
 
@@ -47,9 +47,9 @@ The redirect deletion is the load-bearing part: skip it and wrangler deploys the
 
 ## Manual deploy (bypassing the npm script)
 
-```powershell
+```bash
 npm run build
-Remove-Item .wrangler/deploy/config.json   # bash: rm .wrangler/deploy/config.json
+rm .wrangler/deploy/config.json
 npx wrangler deploy
 ```
 

@@ -37,5 +37,12 @@
     "subset-font": "^2.5.0",
     "typescript": "^6.0.3",
     "wrangler": "^4.118.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true,
+    "sharp@0.34.5": true,
+    "workerd@1.20260625.1": true,
+    "workerd@1.20260730.1": true
   }
 }

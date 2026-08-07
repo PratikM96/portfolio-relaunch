@@ -5,7 +5,7 @@
  *
  * The content schema validates an entry's SHAPE; this validates its VALUES.
  *
- * Approved wordings are embedded here rather than read from the Resume Master's Claim Registry: that lives in gitignored `_reference/`, so a check reading it would pass silently wherever the Drive junction is missing. Change both in the same commit.
+ * Approved wordings are embedded here rather than read from the Resume Master's Claim Registry: that lives in gitignored `_reference/`, so a check reading it would pass silently wherever the Drive link is missing. Change both in the same commit.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';

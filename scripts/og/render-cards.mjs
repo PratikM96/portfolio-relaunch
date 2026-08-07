@@ -12,10 +12,12 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 
 const ROOT = resolve(import.meta.dirname, '../..');
+// Keep the hand-built URL. On POSIX this yields a technically-wrong `file:////Users/...` (four slashes), but Chrome accepts it and it is what every committed card was rendered against: switching to pathToFileURL() re-renders the type measurably differently, so changing it means re-rendering and reviewing the whole set.
 const TPL = 'file:///' + join(ROOT, 'scripts/og/og-template.html').replace(/\\/g, '/').replace(/ /g, '%20');
 const OUT = join(ROOT, 'public/og');
 
 const CHROME = [
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
   'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
   '/usr/bin/google-chrome',

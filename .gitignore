@@ -1,5 +1,5 @@
-# reference mockups (visual source, not shipped)
-_reference/
+# reference mockups (visual source, not shipped). No trailing slash: `_reference` is a link to Drive, and a trailing-slash pattern matches directories only, so `_reference/` stops ignoring it and offers the private masters up for commit in a public repo.
+_reference
 
 # dependencies
 node_modules/

@@ -18,6 +18,7 @@ const OUT = join(ROOT, 'src/assets/work/portfolio-system');
 const SITE = 'https://mehtapratik.com';
 
 const CHROME = [
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
   'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
   '/usr/bin/google-chrome',
