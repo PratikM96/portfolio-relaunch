@@ -47,7 +47,7 @@ const CONCEPT_BRAND = { 'the-ninth': 'the-ninth', level: 'level', wisp: 'wisp' }
 
 // --- fixed site pages (no collection to derive from)
 const SITE = [
-  { name: 'default', badge: 'Portfolio', kick: 'Director of Marketing', title: 'One system, end to end.', meta: 'mehtapratik.com', tag: 'One System' },
+  { name: 'default', badge: 'Portfolio', kick: 'International Marketing Director', title: 'One system, end to end.', meta: 'mehtapratik.com', tag: 'One System' },
   { name: 'about', badge: 'About', kick: 'The full creative stack', title: 'Pratik Mehta', meta: 'mehtapratik.com', tag: 'One System' },
   { name: 'work', badge: 'Work', kick: 'In-house / Agency / Concept', title: 'The work, as one index.', meta: 'mehtapratik.com', tag: 'One System' },
   { name: 'resume', badge: 'Resume', kick: 'Ten years, one system', title: 'Pratik Mehta', meta: 'mehtapratik.com', tag: 'One System' },

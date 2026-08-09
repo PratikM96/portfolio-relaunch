@@ -47,7 +47,7 @@ interface Props {
 }
 
 const {
-  title = 'Pratik Mehta | Director of Marketing',
+  title = 'Pratik Mehta | International Marketing Director',
   description,
   variant = 'default',
   activeNav = 'home',
@@ -104,7 +104,7 @@ const ldGraph = {
       '@id': `${origin}/#pratik`,
       name: 'Pratik Mehta',
       url: `${origin}/`,
-      jobTitle: 'Director of Marketing',
+      jobTitle: 'International Marketing Director',
   worksFor: { '@type': 'Organization', name: 'International Student Exchange' },
       email: 'mailto:mehtadpratik@gmail.com',
       image: `${origin}${personImage.src}`,
@@ -250,7 +250,7 @@ const ldGraph = {
               <Brandmark size={26} title={undefined} />
               <span class="wm">Pratik Mehta</span>
             </a>
-            <div class="role">Director of<br />Marketing</div>
+            <div class="role">International<br />Marketing Director</div>
             <nav id="rail-nav" aria-label="Primary">
               {nav.map((n) => (
                 <a href={n.href} class={n.id === activeNav ? 'active' : undefined}>
@@ -322,9 +322,8 @@ const ldGraph = {
         {/* Status leads, then the identity/location pair, then the control. The status
             line splits the two data lines if it sits between them. */}
         <div class="status"><span class="dot" />Open to conversations</div>
-        {/* The market identity lives in the desktop rail, which is hidden below 900px, so
-            without this line mobile carried no identity anywhere on the site. */}
-        <div class="line"><span>Role</span><b>Director of Marketing</b></div>
+        {/* The market identity lives in the desktop rail, which is hidden below 900px, so this line is the only identity mobile carries. */}
+        <div class="line"><span>Role</span><b>International Marketing Director</b></div>
         <div class="line"><span>Loc</span><b>New York</b></div>
         <div class="line theme-line">
           <span>Theme</span>
